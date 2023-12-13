@@ -20,10 +20,10 @@ void GameEngineFBXRenderer::SetFBXMesh(std::string_view _Name, std::string_view 
 
 	FindFBXMesh->Initialize();
 
-	//for (int UnitCount = 0; UnitCount < FindFBXMesh->GetRenderUnitCount(); UnitCount++)
-	//{
-	//	SetFBXMesh(_Name, _Material, UnitCount);
-	//}
+	for (int UnitCount = 0; UnitCount < FindFBXMesh->GetRenderUnitCount(); UnitCount++)
+	{
+		SetFBXMesh(_Name, _Material, UnitCount);
+	}
 
 }
 
