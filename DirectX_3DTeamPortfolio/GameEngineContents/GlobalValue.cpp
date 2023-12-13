@@ -1,5 +1,5 @@
-﻿#include "GlobalValue.h"
-
+﻿#include "PreCompile.h"
+#include "GlobalValue.h"
 
 GlobalValue::GlobalValue()
 {
