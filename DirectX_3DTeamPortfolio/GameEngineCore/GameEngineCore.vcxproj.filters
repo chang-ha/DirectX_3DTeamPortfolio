@@ -539,13 +539,27 @@
     <CopyFileToFolders Include="ThirdParty\Fbx\lib\release\zlib-mt.lib">
       <Filter>ThirdParty\Release</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="ThirdParty\Fbx\lib\debug\libfbxsdk-md.lib" />
-    <CopyFileToFolders Include="ThirdParty\Fbx\lib\debug\libfbxsdk-mt.lib" />
-    <CopyFileToFolders Include="ThirdParty\Fbx\lib\debug\libfbxsdk.lib" />
-    <CopyFileToFolders Include="ThirdParty\Fbx\lib\debug\libxml2-md.lib" />
-    <CopyFileToFolders Include="ThirdParty\Fbx\lib\debug\libxml2-mt.lib" />
-    <CopyFileToFolders Include="ThirdParty\Fbx\lib\debug\zlib-md.lib" />
-    <CopyFileToFolders Include="ThirdParty\Fbx\lib\debug\libfbxsdk.dll" />
+    <CopyFileToFolders Include="ThirdParty\Fbx\lib\debug\libfbxsdk.dll">
+      <Filter>ThirdParty\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\Fbx\lib\debug\libfbxsdk.lib">
+      <Filter>ThirdParty\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\Fbx\lib\debug\libfbxsdk-md.lib">
+      <Filter>ThirdParty\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\Fbx\lib\debug\libfbxsdk-mt.lib">
+      <Filter>ThirdParty\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\Fbx\lib\debug\libxml2-md.lib">
+      <Filter>ThirdParty\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\Fbx\lib\debug\libxml2-mt.lib">
+      <Filter>ThirdParty\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\Fbx\lib\debug\zlib-md.lib">
+      <Filter>ThirdParty\Debug</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
     <Text Include="FBX설명.txt">
