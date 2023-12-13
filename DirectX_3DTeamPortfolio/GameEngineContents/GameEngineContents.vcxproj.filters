@@ -19,6 +19,9 @@
     <ClCompile Include="ContentResources.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="GlobalValue.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -41,6 +44,9 @@
     </ClInclude>
     <ClInclude Include="ContentResources.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalValue.h">
+      <Filter>Global</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
