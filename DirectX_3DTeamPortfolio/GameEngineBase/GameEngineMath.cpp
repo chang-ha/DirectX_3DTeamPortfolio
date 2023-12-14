@@ -71,3 +71,69 @@ float4 float4::VectorRotationToRadZ(const float4& _Value, const float _Rad)
 	Rot.RotationZRad(_Rad);
 	return _Value * Rot;
 }
+
+
+float4 float4::MatrixToQuaternion(const class float4x4& M)
+{
+	float4 Return;
+
+	if (M.ArrVector[0].IsNearlyZero() || M.ArrVector[1].IsNearlyZero() || M.ArrVector[2].IsNearlyZero())
+	{
+		Return.X = 0.0f;
+		Return.Y = 0.0f;
+		Return.Z = 0.0f;
+		Return.W = 1.0f;
+		return Return;
+	}
+
+	float	s;
+
+	// Check diagonal (trace)
+	const float tr = M.Arr2D[0][0] + M.Arr2D[1][1] + M.Arr2D[2][2];
+
+	if (tr > 0.0f)
+	{
+		float InvS = InvSqrt(tr + 1.f);
+		Return.W = 0.5f * (1.f / InvS);
+		s = 0.5f * InvS;
+
+		Return.X = (M.Arr2D[1][2] - M.Arr2D[2][1]) * s;
+		Return.Y = (M.Arr2D[2][0] - M.Arr2D[0][2]) * s;
+		Return.Z = (M.Arr2D[0][1] - M.Arr2D[1][0]) * s;
+	}
+	else
+	{
+		// diagonal is negative
+		int i = 0;
+
+		if (M.Arr2D[1][1] > M.Arr2D[0][0])
+			i = 1;
+
+		if (M.Arr2D[2][2] > M.Arr2D[i][i])
+			i = 2;
+
+		static const int nxt[3] = { 1, 2, 0 };
+		const int j = nxt[i];
+		const int k = nxt[j];
+
+		s = M.Arr2D[i][i] - M.Arr2D[j][j] - M.Arr2D[k][k] + 1.0f;
+
+		float InvS = InvSqrt(s);
+
+		float qt[4];
+		qt[i] = 0.5f * (1.f / InvS);
+
+		s = 0.5f * InvS;
+
+		qt[3] = (M.Arr2D[j][k] - M.Arr2D[k][j]) * s;
+		qt[j] = (M.Arr2D[i][j] + M.Arr2D[j][i]) * s;
+		qt[k] = (M.Arr2D[i][k] + M.Arr2D[k][i]) * s;
+
+		Return.X = qt[0];
+		Return.Y = qt[1];
+		Return.Z = qt[2];
+		Return.W = qt[3];
+	}
+
+	return Return;
+}

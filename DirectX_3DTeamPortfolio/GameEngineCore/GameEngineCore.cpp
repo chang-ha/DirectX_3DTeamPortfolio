@@ -95,7 +95,13 @@ void GameEngineCore::Update()
 
 void GameEngineCore::Release() 
 {
-	CoreObject->Release();
+	if (nullptr != CoreObject)
+	{
+		CoreObject->Release();
+		CoreObject = nullptr;
+	}
+	CurLevel = nullptr;
+	AllLevel.clear();
 	Resources_Release();
 	GameEngineGUI::Release();
 	GameEngineSound::Release();
