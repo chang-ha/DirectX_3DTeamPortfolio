@@ -17,6 +17,8 @@ public:
 // Ό³Έν :
 class GameEngineFBX
 {
+	friend class GameEngineFBXAnimation;
+
 public:
 	// constrcuter destructer
 	GameEngineFBX();

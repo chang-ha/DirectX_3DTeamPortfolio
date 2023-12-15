@@ -590,6 +590,7 @@ public:
 // 설명 :
 class GameEngineFBXMesh : public GameEngineFBX, public GameEngineResources<GameEngineFBXMesh>
 {
+
 public:
 	// constrcuter destructer
 	GameEngineFBXMesh();
@@ -624,6 +625,11 @@ public:
 	//                                                버텍스버퍼        인덱스버퍼
 	std::shared_ptr<class GameEngineMesh> GetGameEngineMesh(int _MeshIndex, int _SubSetIndex);
 
+	size_t GetBoneCount()
+	{
+		return AllBones.size();
+	}
+
 protected:
 
 private:
@@ -632,6 +638,7 @@ private:
 	std::vector<Bone> AllBones;
 	std::map<std::string, Bone*> AllFindMap;
 	std::vector<std::vector<FbxClusterData>> ClusterData;
+	std::shared_ptr<GameEngineStructuredBuffer> AllBoneStructuredBuffers;
 
 	Bone* FindBone(std::string _Name);
 
@@ -640,6 +647,7 @@ private:
 	void MeshNodeCheck();
 	bool ImportBone();
 	void VertexBufferCheck();
+	void CreateBoneStructuredBuffer();
 
 	void LoadSkinAndCluster();
 	void ImportCluster();

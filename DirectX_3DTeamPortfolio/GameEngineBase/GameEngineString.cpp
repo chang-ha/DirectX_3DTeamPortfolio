@@ -106,3 +106,49 @@ std::string GameEngineString::AnsiToUTF8(std::string_view _Text)
 	return UnicodeToUTF8(UniCode);
 }
 
+
+std::wstring GameEngineString::UTF8ToUnicode(const std::string_view& _Text)
+{
+	std::wstring UniCode;
+
+	int32_t Len = MultiByteToWideChar(
+		CP_UTF8,
+		0,
+		_Text.data(),
+		static_cast<int32_t>(_Text.size()),
+		nullptr, // 이부분을 nullptr로 넣어주면 변환 함수로 동작하는게 아니고. 변환길이를 체크하는 함수로 동작한다.
+		0
+	);
+
+	if (0 >= Len)
+	{
+		GameEngineDebug::GetWindowLastErrorPrint();
+		return L"";
+	}
+
+	UniCode.resize(Len);
+
+	Len = MultiByteToWideChar(
+		CP_UTF8,
+		0,
+		_Text.data(),
+		static_cast<int32_t>(_Text.size()),
+		&UniCode[0],
+		Len
+	);
+
+	if (0 >= Len)
+	{
+		GameEngineDebug::GetWindowLastErrorPrint();
+		return L"";
+	}
+
+	return UniCode;
+}
+
+std::string GameEngineString::UTF8ToAnsi(std::string_view _Text)
+{
+	std::wstring UniCode = UTF8ToUnicode(_Text);
+	std::string Return = UnicodeToAnsi(UniCode);
+	return Return;
+}

@@ -35,8 +35,14 @@ void GameEngineFBXMesh::Initialize()
 
 	FBXInit(GetPath());
 	MeshLoad();
-
+	CreateBoneStructuredBuffer();
 	
+}
+
+void GameEngineFBXMesh::CreateBoneStructuredBuffer()
+{
+	AllBoneStructuredBuffers = std::make_shared<GameEngineStructuredBuffer>();
+	AllBoneStructuredBuffers->CreateResize(sizeof(float4x4), static_cast<int>(AllBones.size()), StructuredBufferType::SRV_ONLY, nullptr);
 }
 
 std::shared_ptr<GameEngineMesh> GameEngineFBXMesh::GetGameEngineMesh(int _MeshIndex, int _SubSetIndex)
@@ -1217,6 +1223,11 @@ bool GameEngineFBXMesh::ImportBone()
 			BonePosData.SetGlobalScale(GlobalLinkS);
 			BonePosData.BuildMatrix();
 		}
+
+
+
+
+
 	}
 
 	for (size_t i = 0; i < AllBones.size(); i++)

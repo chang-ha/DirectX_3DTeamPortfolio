@@ -126,10 +126,15 @@ void GameEngineStructuredBuffer::CreateResize(int _Byte, int _Count, StructuredB
 		MsgBoxAssert("크기가 0인 스트럭처드 버퍼를 만들 수는 없습니다.");
 	}
 
-	if (DataSize != _Byte)
+	if (0 == DataSize)
+	{
+		DataSize = _Byte;
+	}
+	else if (DataSize != _Byte)
 	{
 		MsgBoxAssert("if (DataSize != _Byte) 스트럭처드 버퍼 세팅 크기가 다릅니다.");
 	}
+
 
 	DataCount = _Count;
 

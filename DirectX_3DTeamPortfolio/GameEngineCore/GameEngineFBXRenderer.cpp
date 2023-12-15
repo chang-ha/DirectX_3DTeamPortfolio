@@ -1,6 +1,27 @@
 #include "PreCompile.h"
 #include "GameEngineFBXRenderer.h"
 
+
+void GameEngineFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index)
+{
+	// GameENgineFBXAnimation의 행렬 정보가 완전해지는것은 
+	// CalFbxExBoneFrameTransMatrix가 호출되고 난 후입니다.
+	// 애니메이션의 행렬이 계산되는겁니다.
+
+	_Animation->AnimationMatrixLoad(_Mesh, _Name, _Index);
+	Aniamtion = _Animation;
+	FBXAnimationData = Aniamtion->GetAnimationData(_Index);
+	Start = static_cast<UINT>(FBXAnimationData->TimeStartCount);
+	End = static_cast<UINT>(FBXAnimationData->TimeEndCount);
+	Mesh = _Mesh;
+	Aniamtion = _Animation;
+
+
+	Start = 0;
+	End = static_cast<unsigned int>(FBXAnimationData->TimeEndCount);
+}
+
+
 GameEngineFBXRenderer::GameEngineFBXRenderer() 
 {
 }
@@ -98,4 +119,47 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(std::str
 	Unit->SetMaterial(_Material);
 
 	return Unit;
+}
+
+std::shared_ptr<GameEngineFBXAnimationInfo> GameEngineFBXRenderer::FindAnimation(std::string_view _AnimationName)
+{
+	if (true == Animations.contains(std::string(_AnimationName)))
+	{
+		return nullptr;
+	}
+
+	return Animations[std::string(_AnimationName)];
+}
+
+void GameEngineFBXRenderer::CreateFBXAnimation(const std::string_view _AnimationName, const std::string_view _AnimationFBX, int _Index)
+{
+	if (nullptr == FBXMesh)
+	{
+		MsgBoxAssert("골격 FBX가 세팅되어 있지 않습니다");
+		return;
+	}
+
+	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
+
+	if (nullptr != FindAnimation(UpperName))
+	{
+		MsgBoxAssert("이미 존재하는 애니메이션 입니다");
+		return;
+	}
+
+	std::string AniUpperName = GameEngineString::ToUpperReturn(_AnimationFBX);
+
+	std::shared_ptr<GameEngineFBXAnimation> AnimationFBX = GameEngineFBXAnimation::Find(AniUpperName);
+
+	if (nullptr == AnimationFBX)
+	{
+		MsgBoxAssert("존재하지 않는 애니메이션 FBX로 애니메이션을 만들려고 했습니다");
+		return;
+	}
+
+	std::shared_ptr<GameEngineFBXAnimationInfo> NewAnimation = std::make_shared<GameEngineFBXAnimationInfo>();
+	// 이때 애니메이션을 진짜 로드 한다.
+	NewAnimation->Init(FBXMesh, AnimationFBX, _AnimationName, _Index);
+
+
 }

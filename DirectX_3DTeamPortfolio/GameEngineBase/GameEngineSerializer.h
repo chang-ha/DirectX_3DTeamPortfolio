@@ -35,6 +35,11 @@ public:
 	void operator<<(const float4& _Value);
 	void operator<<(const float4x4& _Value);
 
+	template<typename Type>
+	void operator<<(const Type& _Data)
+	{
+		Write(reinterpret_cast<const void*>(&_Data), sizeof(Type));
+	}
 
 
 	template<typename Value>
@@ -108,6 +113,12 @@ public:
 	void operator>>(bool& _Value);
 	void operator>>(float4& _Value);
 	void operator>>(float4x4& _Value);
+
+	template<typename Type>
+	void operator>>(Type& _Data)
+	{
+		Read(reinterpret_cast<void*>(&_Data), sizeof(Type));
+	}
 
 
 	template<typename Value>

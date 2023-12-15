@@ -6,6 +6,7 @@
 namespace GameEngineDebug
 {
 	void LeakCheck();
+	void GetWindowLastErrorPrint();
 };
 
 #define MsgBoxAssert(Text) \

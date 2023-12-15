@@ -45,4 +45,19 @@ void ContentResources::ContentResourcesInit()
 			}
 		}
 	}
+
+	{
+		// 엔진용 쉐이더를 전부다 전부다 로드하는 코드를 친다.
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources");
+		Dir.MoveChild("Mesh");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".fbx" }, true);
+
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			std::shared_ptr<GameEngineFBXAnimation> Mesh = GameEngineFBXAnimation::Load(Files[i].GetStringPath());
+			// auto Value = Mesh->CheckAllNode();
+		}
+	}
 }
