@@ -13,6 +13,8 @@ Player::~Player()
 
 void Player::Start()
 {
+	int b = 0;
+
 	{
 		FBXRenderer = CreateComponent<GameEngineFBXRenderer>();
 		FBXRenderer->SetFBXMesh("AnimMan.FBX", "FBXColor");
