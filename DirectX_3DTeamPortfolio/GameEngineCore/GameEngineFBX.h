@@ -43,8 +43,11 @@ public:
 	std::vector<FBXNodeInfo> CheckAllNode();
 	void RecursiveAllNode(fbxsdk::FbxNode* _Node, std::function<void(fbxsdk::FbxNode*)> _Function /*= nullptr*/);
 
-
+	float4x4 FbxMatTofloat4x4(const fbxsdk::FbxAMatrix& _BaseTrans);
 	float4 FbxVecToTransform(const fbxsdk::FbxVector4& _BaseVector);
+	fbxsdk::FbxAMatrix float4x4ToFbxAMatrix(const float4x4& _MATRIX);
+	float4 FbxVecTofloat4(const fbxsdk::FbxVector4& _BaseVector);
+	float4 FbxQuaternionTofloat4(const fbxsdk::FbxQuaternion& _BaseQ);
 
 protected:
 	fbxsdk::FbxManager* Manager = nullptr;

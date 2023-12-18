@@ -4,5 +4,6 @@
 
 void GameEngineCore::Resources_Release()
 {
+	GameEngineFBXAnimation::AllResourcesRelease();
 	GameEngineFBXMesh::AllResourcesRelease();
 }

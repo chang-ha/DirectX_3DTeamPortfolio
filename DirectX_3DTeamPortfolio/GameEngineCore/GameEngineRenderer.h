@@ -13,7 +13,7 @@ struct RenderBaseInfo
 	int IsMask = 0;
 	int BaseColorOnly = 0;
 	int MaskMode = 0;
-	int BaseTemp2 = 0;
+	int IsAnimation = 0;
 	float4 RendererScreenPos;
 	float4 RenderScreenScale;
 	float4 MaskScreeneScale;

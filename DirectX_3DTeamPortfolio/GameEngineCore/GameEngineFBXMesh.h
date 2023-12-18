@@ -590,6 +590,7 @@ public:
 // Ό³Έν :
 class GameEngineFBXMesh : public GameEngineFBX, public GameEngineResources<GameEngineFBXMesh>
 {
+	friend class GameEngineFBXAnimation;
 
 public:
 	// constrcuter destructer
@@ -630,6 +631,8 @@ public:
 		return AllBones.size();
 	}
 
+	Bone* FindBone(std::string _Name);
+
 protected:
 
 private:
@@ -640,7 +643,6 @@ private:
 	std::vector<std::vector<FbxClusterData>> ClusterData;
 	std::shared_ptr<GameEngineStructuredBuffer> AllBoneStructuredBuffers;
 
-	Bone* FindBone(std::string _Name);
 
 	void LoadMesh(std::string_view& _Path, std::string_view _Name);
 	void MeshLoad();
