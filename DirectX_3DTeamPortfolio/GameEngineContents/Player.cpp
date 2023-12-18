@@ -13,11 +13,6 @@ Player::~Player()
 
 void Player::Start()
 {
-	int a = 0;
-
-	int b = 0;
-
-	{
 		FBXRenderer = CreateComponent<GameEngineFBXRenderer>();
 		FBXRenderer->SetFBXMesh("AnimMan.FBX", "FBXColor");
 
@@ -27,7 +22,7 @@ void Player::Start()
 	}
 
 	{
-		Col = CreateComponent<GameEngineCollision>(CollisionOrder::Player);
+		Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player);
 		Col->SetCollisionType(ColType::SPHERE2D);
 		Col->Transform.SetLocalScale({ 100.0f, 100.0f, 1.0f });
 	}
