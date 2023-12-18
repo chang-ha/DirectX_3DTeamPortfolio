@@ -1,7 +1,12 @@
 #pragma once
 #include "GameEngineRenderer.h"
 
-
+class AnimationCreateParams
+{
+public:
+	float Inter = 0.0f;
+	bool Loop = true;
+};
 
 class FbxExAniData;
 class GameEngineFBXMesh;
@@ -79,7 +84,7 @@ public:
 
 	std::shared_ptr<GameEngineFBXAnimationInfo> FindAnimation(const std::string_view _AnimationName);
 
-	void CreateFBXAnimation(const std::string_view _AnimationName, const std::string_view _AnimationFBX, int _Index = 0);
+	void CreateFBXAnimation(const std::string_view _AnimationName, const std::string_view _AnimationFBX, const AnimationCreateParams& _Param, int _Index = 0);
 
 protected:
 	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> RenderUnits;

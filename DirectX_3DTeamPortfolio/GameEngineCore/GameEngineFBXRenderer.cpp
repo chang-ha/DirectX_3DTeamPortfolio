@@ -2,6 +2,15 @@
 #include "GameEngineFBXRenderer.h"
 
 
+
+void GameEngineFBXAnimationInfo::Reset()
+{
+	CurFrameTime = 0.0f;
+	CurFrame = 0;
+	PlayTime = 0.0f;
+	// Start = 0;
+}
+
 void GameEngineFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index)
 {
 	// GameENgineFBXAnimation의 행렬 정보가 완전해지는것은 
@@ -15,7 +24,6 @@ void GameEngineFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, 
 	End = static_cast<UINT>(FBXAnimationData->TimeEndCount);
 	Mesh = _Mesh;
 	Aniamtion = _Animation;
-
 
 	Start = 0;
 	End = static_cast<unsigned int>(FBXAnimationData->TimeEndCount);
@@ -131,7 +139,7 @@ std::shared_ptr<GameEngineFBXAnimationInfo> GameEngineFBXRenderer::FindAnimation
 	return Animations[std::string(_AnimationName)];
 }
 
-void GameEngineFBXRenderer::CreateFBXAnimation(const std::string_view _AnimationName, const std::string_view _AnimationFBX, int _Index)
+void GameEngineFBXRenderer::CreateFBXAnimation(const std::string_view _AnimationName, const std::string_view _AnimationFBX, const AnimationCreateParams& _Params, int _Index)
 {
 	if (nullptr == FBXMesh)
 	{
@@ -160,6 +168,15 @@ void GameEngineFBXRenderer::CreateFBXAnimation(const std::string_view _Animation
 	std::shared_ptr<GameEngineFBXAnimationInfo> NewAnimation = std::make_shared<GameEngineFBXAnimationInfo>();
 	// 이때 애니메이션을 진짜 로드 한다.
 	NewAnimation->Init(FBXMesh, AnimationFBX, _AnimationName, _Index);
+	NewAnimation->ParentRenderer = this;
+	NewAnimation->Inter = _Params.Inter;
+	NewAnimation->Loop = _Params.Loop;
+	NewAnimation->Reset();
 
+	RenderBaseInfoValue.IsAnimation = 1;
+
+	Animations.insert(std::make_pair(UpperName, NewAnimation));
+
+	// BaseValue
 
 }
