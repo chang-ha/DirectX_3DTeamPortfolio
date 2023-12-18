@@ -1,16 +1,21 @@
 #pragma once
 
-enum class UpdateOrder
+enum class Enum_UpdateOrder
 {
 	Player,
 };
 
-enum class RenderOrder
+enum class Enum_RenderOrder
 {
 	Play,
 };
 
-enum class CollisionOrder
+enum class Enum_CollisionOrder
+{
+	Player,
+};
+
+enum class Enum_RenderDepth
 {
 	Player,
 };
