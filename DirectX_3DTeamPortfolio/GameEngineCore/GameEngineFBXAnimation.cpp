@@ -166,8 +166,8 @@ bool GameEngineFBXAnimation::AnimationLoad(std::shared_ptr <GameEngineFBXMesh> _
 
 
 	fbxsdk::FbxTakeInfo* takeInfo = Scene->GetTakeInfo(AnimationDatas[AnimationIndex].AniName.c_str());
-	fbxsdk::FbxTime start = takeInfo->mLocalTimeSpan.GetStart();
-	fbxsdk::FbxTime end = takeInfo->mLocalTimeSpan.GetStop();
+	fbxsdk::FbxTime start = takeInfo->mReferenceTimeSpan.GetStart();
+	fbxsdk::FbxTime end = takeInfo->mReferenceTimeSpan.GetStop();
 	fbxsdk::FbxTime::EMode timeMode = Scene->GetGlobalSettings().GetTimeMode();
 
 	fbxsdk::FbxAMatrix currentTransformOffset;
@@ -377,8 +377,8 @@ bool GameEngineFBXAnimation::CheckAnimation()
 		AnimationDatas[i].AniName = GameEngineString::UTF8ToAnsi(AniNameArray[i]->Buffer());
 
 		FbxTakeInfo* TakeInfo = Scene->GetTakeInfo(AnimationDatas[i].AniName.c_str());
-		AnimationDatas[i].StartTime = TakeInfo->mLocalTimeSpan.GetStart();
-		AnimationDatas[i].EndTime = TakeInfo->mLocalTimeSpan.GetStop();
+		AnimationDatas[i].StartTime = TakeInfo->mReferenceTimeSpan.GetStart();
+		AnimationDatas[i].EndTime = TakeInfo->mReferenceTimeSpan.GetStop();
 		AnimationDatas[i].TimeMode = Scene->GetGlobalSettings().GetTimeMode();
 		AnimationDatas[i].TimeStartCount = AnimationDatas[i].StartTime.GetFrameCount(AnimationDatas[i].TimeMode);
 

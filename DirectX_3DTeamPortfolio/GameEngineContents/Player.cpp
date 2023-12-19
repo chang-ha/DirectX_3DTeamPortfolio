@@ -15,10 +15,10 @@ void Player::Start()
 {
 	{
 		FBXRenderer = CreateComponent<GameEngineFBXRenderer>();
-		FBXRenderer->SetFBXMesh("AnimMan.FBX", "FBXColor");	
-		// FBXRenderer->Transform.SetLocalScale({10.0f, 10.0f, 10.0f});
+		FBXRenderer->SetFBXMesh("c2240.FBX", "FBXColor");	
+		FBXRenderer->Transform.SetLocalScale({50.0f, 50.0f, 50.0f});
 
-		FBXRenderer->CreateFBXAnimation("Run", "ALS_N_Run_F.FBX", { 0.1f, true });
+		FBXRenderer->CreateFBXAnimation("Run", "Ani_002.FBX", { 0.1f, true });
 		FBXRenderer->ChangeAnimation("Run");
 
 		FBXRenderer->RenderBaseInfoValue.BaseColor = float4::WHITE;
