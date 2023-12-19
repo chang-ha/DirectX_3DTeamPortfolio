@@ -1299,6 +1299,16 @@ void GameEngineFBXMesh::ImportCluster()
 	}
 }
 
+Bone* GameEngineFBXMesh::FindBoneToIndex(int _Index)
+{
+	if (0 == AllBones.size())
+	{
+		ImportBone();
+	}
+
+	return &AllBones[_Index];
+}
+
 Bone* GameEngineFBXMesh::FindBone(std::string _Name)
 {
 	if (0 == AllBones.size())

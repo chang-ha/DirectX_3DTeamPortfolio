@@ -633,6 +633,8 @@ public:
 
 	Bone* FindBone(std::string _Name);
 
+	Bone* FindBoneToIndex(int _Index);
+
 protected:
 
 private:

@@ -7,7 +7,7 @@
 #include "GameEngineCollisionGroup.h"
 #include "GAMEENGINERENDERTARGET.H"
 
-bool GameEngineLevel::IsDebug = true;
+bool GameEngineLevel::IsDebug = false;
 
 GameEngineLevel::GameEngineLevel() 
 {

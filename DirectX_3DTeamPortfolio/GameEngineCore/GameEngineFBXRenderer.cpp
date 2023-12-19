@@ -29,6 +29,90 @@ void GameEngineFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, 
 	End = static_cast<unsigned int>(FBXAnimationData->TimeEndCount);
 }
 
+void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
+{
+	if (false == ParentRenderer->Pause)
+	{
+		// 0.1초짜리 
+		CurFrameTime += _DeltaTime;
+		PlayTime += _DeltaTime;
+
+		while (CurFrameTime >= Inter)
+		{
+			//   2.0         0.1
+			CurFrameTime -= Inter;
+			++CurFrame;
+
+			if (false == bOnceStart && CurFrame == 0)
+			{
+				bOnceStart = true;
+				bOnceEnd = false;
+			}
+
+			if (CurFrame >= End)
+			{
+				if (true == Loop)
+				{
+					CurFrame = Start;
+				}
+				else 
+				{
+					--CurFrame;
+				}
+			}
+		}
+	}
+
+	unsigned int NextFrame = CurFrame;
+	++NextFrame;
+
+	if (NextFrame >= End)
+	{
+		NextFrame = 0;
+	}
+
+	if (CurFrame >= End)
+	{
+		CurFrame = 0;
+	}
+
+	std::vector<float4x4>& AnimationBoneMatrix = ParentRenderer->AnimationBoneMatrixs;
+	std::vector<float4x4>& AnimationBoneNotOffSet = ParentRenderer->AnimationBoneNotOffset;
+	std::vector<AnimationBoneData>& AnimationBoneData = ParentRenderer->AnimationBoneDatas;
+
+	for (int i = 0; i < AnimationBoneMatrix.size(); i++)
+	{
+		if (true == FBXAnimationData->AniFrameData.empty())
+		{
+			MsgBoxAssert("로드가 안된 애니메이션을 행렬계산 하려고 했습니다.");
+			continue;
+		}
+
+		Bone* BoneData = ParentRenderer->FBXMesh->FindBoneToIndex(i);
+
+		if (true == FBXAnimationData->AniFrameData[i].BoneMatData.empty())
+		{
+			AnimationBoneMatrix[i] = float4x4::Affine(BoneData->BonePos.GlobalScale, BoneData->BonePos.GlobalRotation, BoneData->BonePos.GlobalRotation);
+			continue;
+		}
+
+		FbxExBoneFrameData& CurData = FBXAnimationData->AniFrameData[i].BoneMatData[CurFrame];
+		FbxExBoneFrameData& NextData = FBXAnimationData->AniFrameData[i].BoneMatData[NextFrame];
+
+		// CurFrameTime 분명히 잘못되었다.
+		AnimationBoneData[i].Scale = float4::LerpClamp(CurData.S, NextData.S, CurFrameTime);
+		AnimationBoneData[i].RotQuaternion = float4::SLerpQuaternionClamp(CurData.Q, NextData.Q, CurFrameTime);
+		AnimationBoneData[i].Pos = float4::LerpClamp(CurData.T, NextData.T, CurFrameTime);
+
+		float4x4 Mat = float4x4::Affine(AnimationBoneData[i].Scale, AnimationBoneData[i].RotQuaternion, AnimationBoneData[i].Pos);
+
+		AnimationBoneNotOffSet[i] = Mat;
+		AnimationBoneMatrix[i] = BoneData->BonePos.Offset * Mat;
+	}
+
+}
+
+
 
 GameEngineFBXRenderer::GameEngineFBXRenderer() 
 {
@@ -90,20 +174,6 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(std::str
 
 	FindFBXMesh->Initialize();
 
-	// []
-	// []
-	// []
-	// []
-	// []
-	// []
-	// []
-	// []
-	// []
-	// []
-	// []
-
-	// FBXmesh의 랜더 유니트 구조
-	// 
 
 	if (true == RenderUnits.empty())
 	{
@@ -126,12 +196,31 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(std::str
 	Unit->SetMesh(Mesh);
 	Unit->SetMaterial(_Material);
 
+	if (0 >= AnimationBoneMatrixs.size())
+	{
+		size_t Size = FBXMesh->GetBoneCount();
+		AnimationBoneMatrixs.resize(Size);
+		AnimationBoneNotOffset.resize(Size);
+		AnimationBoneDatas.resize(Size);
+	}
+
+	if (Unit->ShaderResHelper.IsStructedBuffer("ArrAniMationMatrix"))
+	{
+		std::shared_ptr<GameEngineStructuredBuffer> Buffer 
+			= Unit->ShaderResHelper.GetStructedBuffer("ArrAniMationMatrix", ShaderType::Vertex);
+
+		int Size = static_cast<int>(FBXMesh->GetBoneCount());
+		Buffer->CreateResize(sizeof(float4x4), Size, StructuredBufferType::SRV_ONLY);
+
+		Unit->ShaderResHelper.SetStructedBufferLink("ArrAniMationMatrix", AnimationBoneMatrixs);
+	}
+
 	return Unit;
 }
 
 std::shared_ptr<GameEngineFBXAnimationInfo> GameEngineFBXRenderer::FindAnimation(std::string_view _AnimationName)
 {
-	if (true == Animations.contains(std::string(_AnimationName)))
+	if (false == Animations.contains(std::string(_AnimationName)))
 	{
 		return nullptr;
 	}
@@ -176,7 +265,32 @@ void GameEngineFBXRenderer::CreateFBXAnimation(const std::string_view _Animation
 	RenderBaseInfoValue.IsAnimation = 1;
 
 	Animations.insert(std::make_pair(UpperName, NewAnimation));
+}
 
-	// BaseValue
+void GameEngineFBXRenderer::ChangeAnimation(const std::string_view _AnimationName, bool _Force)
+{
+	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
 
+	if (false == Animations.contains(UpperName))
+	{
+		MsgBoxAssert("존재하지 않는 애니메이션을 재생하려고 했습니다.");
+		return;
+	}
+
+	std::shared_ptr<GameEngineFBXAnimationInfo> Ptr = Animations[UpperName];
+
+	if (false == _Force && CurAnimation == Ptr)
+	{
+		return;
+	}
+
+	CurAnimation = Ptr;
+}
+
+void GameEngineFBXRenderer::Update(float _DeltaTime)
+{
+	if (nullptr != CurAnimation)
+	{
+		CurAnimation->Update(_DeltaTime);
+	}
 }

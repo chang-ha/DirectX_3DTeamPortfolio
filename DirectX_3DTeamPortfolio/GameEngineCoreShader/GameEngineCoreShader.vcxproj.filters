@@ -44,6 +44,12 @@
     <FxCompile Include="FBXColorShader.fx">
       <Filter>3D</Filter>
     </FxCompile>
+    <FxCompile Include="FBXAnimationColorShader.fx">
+      <Filter>3D</Filter>
+    </FxCompile>
+    <FxCompile Include="FBXAnimation.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

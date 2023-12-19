@@ -543,6 +543,16 @@ public:
 		return Result;
 	}
 
+	static float4 SLerpQuaternionClamp(const float4& Start, const float4& _End, float _Ratio)
+	{
+		if (1.0f <= _Ratio)
+		{
+			_Ratio = 1.0f;
+		}
+
+		return DirectX::XMQuaternionSlerp(Start.DirectXVector, _End.DirectXVector, _Ratio);
+	}
+
 	inline float4 RoundUpReturn() const
 	{
 		float4 Result = *this;
@@ -858,6 +868,12 @@ public:
 		float4 Rot = _RotQuaternion;
 		Rot.QuaternionToEulerDeg();
 		DirectXMatrix = DirectX::XMMatrixAffineTransformation(_Scale.DirectXVector, Rot.DirectXVector, _RotQuaternion.DirectXVector, _Pos.DirectXVector);
+	}
+
+	static float4x4 Affine(float4 _Scale, float4 _Rot, float4 _Pos)
+	{
+		// _Rot.DirectVector 쿼터니온 입니다.
+		return DirectX::XMMatrixAffineTransformation(_Scale.DirectXVector, float4::ZERO.DirectXVector, _Rot.DirectXVector, _Pos.DirectXVector);
 	}
 
 	void Decompose(float4& _Scale, float4& _RotQuaternion, float4& _Pos) const

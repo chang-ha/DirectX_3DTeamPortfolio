@@ -1,6 +1,16 @@
 #pragma once
 #include "GameEngineRenderer.h"
 
+struct AnimationBoneData
+{
+public:
+	int Index = -1;
+	float4 Scale;
+	float4 RotQuaternion;
+	float4 Pos;
+	float4 RotEuler;
+};
+
 class AnimationCreateParams
 {
 public:
@@ -65,6 +75,8 @@ public:
 // 설명 :
 class GameEngineFBXRenderer : public GameEngineRenderer
 {
+	friend GameEngineFBXAnimationInfo;
+
 public:
 	// constrcuter destructer
 	GameEngineFBXRenderer();
@@ -76,6 +88,8 @@ public:
 	GameEngineFBXRenderer& operator=(const GameEngineFBXRenderer& _Other) = delete;
 	GameEngineFBXRenderer& operator=(GameEngineFBXRenderer&& _Other) noexcept = delete;
 
+	void Update(float _DeltaTime) override;
+
 	// Sprite랜더러는 부담이 되지가 않아서 
 	void SetFBXMesh(std::string_view _Name, std::string_view _Material);
 	void SetFBXMesh(std::string_view _Name, std::string_view _Material, int _RenderUnitInfoIndex);
@@ -86,15 +100,25 @@ public:
 
 	void CreateFBXAnimation(const std::string_view _AnimationName, const std::string_view _AnimationFBX, const AnimationCreateParams& _Param, int _Index = 0);
 
+	void ChangeAnimation(const std::string_view _AnimationName, bool _Force = false);
+
+	inline void SwitchPause()
+	{
+		Pause = !Pause;
+	}
+
 protected:
 	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> RenderUnits;
 
 private:
+	bool Pause = false;
 	std::shared_ptr<GameEngineFBXMesh> FBXMesh;
-
 	std::map<std::string, std::shared_ptr<GameEngineFBXAnimationInfo>> Animations;
 	std::shared_ptr<GameEngineFBXAnimationInfo> CurAnimation;
 
+	std::vector<float4x4> AnimationBoneMatrixs;
+	std::vector<float4x4> AnimationBoneNotOffset;
+	std::vector<AnimationBoneData> AnimationBoneDatas;
 
 };
 

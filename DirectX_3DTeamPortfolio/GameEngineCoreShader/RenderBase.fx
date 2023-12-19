@@ -16,7 +16,7 @@ cbuffer RenderBaseInfo : register(b11)
     int IsMask;
     int BaseColorOnly;
     int MaskMode;
-    int BaseTemp2;
+    int IsAnimation;
     float4 RendererScreenPos;
     float4 RenderScreenScale;
     float4 MaskScreenScale;
