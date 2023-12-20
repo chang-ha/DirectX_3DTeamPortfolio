@@ -31,6 +31,7 @@
     <FxCompile Include="FadePostEffect.fx" />
     <FxCompile Include="FBXAnimation.fx" />
     <FxCompile Include="FBXAnimationColorShader.fx" />
+    <FxCompile Include="FBXAnimationTextureShader.fx" />
     <FxCompile Include="FBXColorShader.fx" />
     <FxCompile Include="Function.fx" />
     <FxCompile Include="ParticleHeader.fx" />

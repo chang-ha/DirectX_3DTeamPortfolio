@@ -62,7 +62,7 @@ public:
 	{
 		GameEnginePath Path = _Path;
 
-		return Load(Path.GetStringPath(), Path.GetFileName());
+		return Load(Path.GetStringPath(), Path.GetFileName(), _Filter, _Address);
 	}
 
 	static std::shared_ptr<GameEngineTexture> Load(std::string_view _Path, std::string_view _Name,

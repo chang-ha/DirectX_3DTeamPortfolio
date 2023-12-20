@@ -28,9 +28,25 @@ std::string GameEnginePath::GetExtension()
 	return Path.extension().string();
 }
 
+std::string GameEnginePath::GetFolderPath()
+{
+	if (true == Path.has_filename())
+	{
+		std::filesystem::path Folder = Path.parent_path();
+		return Folder.string();
+	}
+
+	return Path.string();
+}
+
 std::string GameEnginePath::GetFileName()
 {
 	return Path.filename().string();
+}
+
+void GameEnginePath::ChangeExtension(std::string_view _NewExtension)
+{
+	Path.replace_extension(_NewExtension);
 }
 
 void GameEnginePath::SetCurrentPath() 

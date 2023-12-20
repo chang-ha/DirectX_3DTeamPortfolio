@@ -635,9 +635,13 @@ public:
 
 	Bone* FindBoneToIndex(int _Index);
 
+	const FbxExMaterialSettingData& GetMaterialSettingData(size_t _MeshIndex, size_t _SubIndex);
+
 protected:
 
 private:
+	std::string FBXMeshName;
+
 	std::vector<FbxExMeshInfo> MeshInfos;
 	std::vector<FbxRenderUnitInfo> RenderUnitInfos;
 	std::vector<Bone> AllBones;

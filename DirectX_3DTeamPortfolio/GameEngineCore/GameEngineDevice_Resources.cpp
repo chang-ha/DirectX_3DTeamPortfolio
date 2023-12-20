@@ -616,6 +616,12 @@ void GameEngineDevice::ResourcesInit()
 	}
 
 
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBXTexture");
+		Mat->SetVertexShader("FBXTextureShader_VS");
+		Mat->SetPixelShader("FBXTextureShader_PS");
+	}
+
 
 	GameEngineRenderTarget::MergeRenderUnitInit();
 }

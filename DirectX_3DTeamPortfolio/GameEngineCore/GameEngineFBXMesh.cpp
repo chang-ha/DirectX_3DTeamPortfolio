@@ -12,6 +12,23 @@ GameEngineFBXMesh::~GameEngineFBXMesh()
 
 }
 
+const FbxExMaterialSettingData& GameEngineFBXMesh::GetMaterialSettingData(size_t _MeshIndex, size_t _SubIndex)
+{
+	if (RenderUnitInfos.size() <= _MeshIndex)
+	{
+		MsgBoxAssert("존재하지 않는 랜더 유니트를 사용하려고 했습니다.");
+	}
+
+	FbxRenderUnitInfo& Unit = RenderUnitInfos[_MeshIndex];
+
+	if (Unit.MaterialData.size() <= _SubIndex)
+	{
+		MsgBoxAssert("존재하지 않는 재질정보를 얻어오려고 했습니다.");
+	}
+
+	return Unit.MaterialData[_SubIndex];
+}
+
 std::shared_ptr<GameEngineFBXMesh> GameEngineFBXMesh::Load(std::string_view& _Path, std::string_view _Name)
 {
 	std::shared_ptr<GameEngineFBXMesh> Res = CreateRes(_Name);
@@ -33,10 +50,43 @@ void GameEngineFBXMesh::Initialize()
 		return;
 	}
 
+	GameEngineFile File = GameEngineFile(GetPath());
+
+	FBXMeshName = File.GetFileName();
+
+	File.ChangeExtension("MeshFBX");
+
+	if (true == File.IsExits())
+	{
+		File.Open(FileOpenType::Read, FileDataType::Binary);
+		GameEngineSerializer Ser;
+		File.DataAllRead(Ser);
+		Ser >> FBXMeshName;
+		Ser >> MeshInfos;
+		Ser >> RenderUnitInfos;
+		Ser >> AllBones;
+
+		for (int i = 0; i < AllBones.size(); i++)
+		{
+			AllFindMap[AllBones[i].Name] = &AllBones[i];
+		}
+		return;
+	}
+
+
 	FBXInit(GetPath());
 	MeshLoad();
-	CreateBoneStructuredBuffer();
-	
+	// CreateBoneStructuredBuffer();
+
+
+	GameEngineSerializer Ser;
+	Ser << FBXMeshName;
+	Ser << MeshInfos;
+	Ser << RenderUnitInfos;
+	Ser << AllBones;
+
+	File.Open(FileOpenType::Write, FileDataType::Binary);
+	File.Write(Ser);
 }
 
 void GameEngineFBXMesh::CreateBoneStructuredBuffer()

@@ -20,6 +20,23 @@ std::shared_ptr<GameEngineFBXAnimation> GameEngineFBXAnimation::Load(std::string
 
 void GameEngineFBXAnimation::AnimationMatrixLoad(std::shared_ptr <GameEngineFBXMesh> _Mesh, const std::string_view& _Name, int _AnimationIndex)
 {
+	if (0 != AnimationDatas.size())
+	{
+		return;
+	}
+
+	GameEngineFile File = GameEngineFile(GetPath());
+	File.ChangeExtension("AnimationFBX");
+
+	if (true == File.IsExits())
+	{
+		File.Open(FileOpenType::Read, FileDataType::Binary);
+		GameEngineSerializer Ser;
+		File.DataAllRead(Ser);
+		Ser >> AnimationDatas;
+		return;
+	}
+
 	Initialize();
 
 	if (0 == AnimationDatas.size())
@@ -51,7 +68,12 @@ void GameEngineFBXAnimation::AnimationMatrixLoad(std::shared_ptr <GameEngineFBXM
 	ProcessAnimationCheckState(_Mesh, _AnimationIndex);
 
 	// 이게 졸라 느리다.
-	AnimationDatas;
+	GameEngineSerializer Ser;
+	Ser << AnimationDatas;
+
+	File.Open(FileOpenType::Write, FileDataType::Binary);
+	File.Write(Ser);
+
 }
 
 

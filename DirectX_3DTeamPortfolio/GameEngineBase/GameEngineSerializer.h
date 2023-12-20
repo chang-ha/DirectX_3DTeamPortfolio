@@ -57,7 +57,7 @@ public:
 		{
 			if (false == std::is_base_of<GameEngineSerializObject, Value>::value)
 			{
-				Write(&_Data[i], sizeof(Value));
+				operator<<(_Data[i]);
 			}
 			else
 			{
@@ -138,7 +138,7 @@ public:
 		{
 			if (false == std::is_base_of<GameEngineSerializObject, Value>::value)
 			{
-				Read(&_Data[i], sizeof(Value));
+				operator>>(_Data[i]);
 			}
 			else
 			{

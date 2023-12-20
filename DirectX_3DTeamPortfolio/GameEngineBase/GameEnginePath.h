@@ -36,9 +36,13 @@ public:
 		return Path.string();
 	}
 
+	std::string GetFolderPath();
+
 	bool IsDirectory();
 
 	static std::string GetParentString(const std::string& _ChildPath);
+
+	void ChangeExtension(std::string_view _NewExtension);
 
 protected:
 	std::filesystem::path Path;
