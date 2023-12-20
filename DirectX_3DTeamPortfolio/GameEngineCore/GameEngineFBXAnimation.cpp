@@ -228,6 +228,11 @@ bool GameEngineFBXAnimation::AnimationLoad(std::shared_ptr <GameEngineFBXMesh> _
 			linkName = pCurrCluster->GetLink()->GetName();
 			fbxsdk::FbxNode* pLinkNode = Scene->FindNodeByName(linkName.c_str());
 
+			if (nullptr == pLinkNode)
+			{
+				continue;
+			}
+
 			FbxExBoneFrame& Frame = CurAniData.AniFrameData[pBone->Index];
 			Frame.BoneMatData.resize(endTime - startTime + 1);
 			Frame.BoneIndex = pBone->Index;
