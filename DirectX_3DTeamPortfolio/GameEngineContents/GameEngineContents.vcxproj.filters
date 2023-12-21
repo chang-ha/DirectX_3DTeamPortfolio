@@ -22,6 +22,7 @@
     <ClCompile Include="GlobalValue.cpp">
       <Filter>Global</Filter>
     </ClCompile>
+    <ClCompile Include="ContentsControlWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -48,6 +49,7 @@
     <ClInclude Include="GlobalValue.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="ContentsControlWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
