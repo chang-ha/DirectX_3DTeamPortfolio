@@ -1361,6 +1361,8 @@ Bone* GameEngineFBXMesh::FindBoneToIndex(int _Index)
 
 Bone* GameEngineFBXMesh::FindBone(std::string _Name)
 {
+	std::string UpperName = GameEngineString::ToUpperReturn(_Name);
+
 	if (0 == AllBones.size())
 	{
 		ImportBone();
@@ -1371,12 +1373,12 @@ Bone* GameEngineFBXMesh::FindBone(std::string _Name)
 		MsgBoxAssert("본을 찾는 작업을 하지 않은 매쉬입니다");
 	}
 
-	if (AllFindMap.end() == AllFindMap.find(_Name))
+	if (AllFindMap.end() == AllFindMap.find(UpperName))
 	{
 		return nullptr;
 	}
 
-	return AllFindMap[_Name];
+	return AllFindMap[UpperName];
 
 }
 

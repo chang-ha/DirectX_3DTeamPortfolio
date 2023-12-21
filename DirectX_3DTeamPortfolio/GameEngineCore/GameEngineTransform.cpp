@@ -276,3 +276,8 @@ bool GameEngineTransform::Collision(const CollisionParameter& _Data)
 {
 	return ArrColFunction[_Data.GetLeftTypeToInt()][_Data.GetRightTypeToInt()](_Data);
 }
+
+bool GameEngineTransform::TriToRay(const float4& _Origin, const float4& _Dir, const float4& _TriV0, const float4& _TriV1, const float4& _TriV2, float& _Dis)
+{
+	return DirectX::TriangleTests::Intersects(_Origin.DirectXVector, _Dir.DirectXVector, _TriV0.DirectXVector, _TriV1.DirectXVector, _TriV2.DirectXVector, _Dis);
+}

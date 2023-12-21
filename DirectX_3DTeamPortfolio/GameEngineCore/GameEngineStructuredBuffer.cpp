@@ -121,6 +121,11 @@ void GameEngineStructuredBuffer::CreateResize(int _Byte, int _Count, StructuredB
 		Release();
 	}
 
+	if (DataCount >= _Count)
+	{
+		return;
+	}
+
 	if (0 >= _Byte)
 	{
 		MsgBoxAssert("크기가 0인 스트럭처드 버퍼를 만들 수는 없습니다.");
@@ -257,6 +262,10 @@ void GameEngineStructuredBuffer::ChangeData(const void* _Data, size_t _Size)
 		GameEngineCore::GetContext()->Unmap(Buffer, 0);
 		return;
 	}
+
+	DataSize;
+	DataCount;
+
 	memcpy_s(SettingResources.pData, BufferInfo.ByteWidth, _Data, _Size);
 	GameEngineCore::GetContext()->Unmap(Buffer, 0);
 }

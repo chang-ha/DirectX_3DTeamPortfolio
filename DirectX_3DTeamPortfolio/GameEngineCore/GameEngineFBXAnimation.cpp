@@ -59,8 +59,10 @@ void GameEngineFBXAnimation::AnimationMatrixLoad(std::shared_ptr <GameEngineFBXM
 	{
 		// ???이게 
 		// 나중에 해야할거 같다. 
-		MsgBoxAssert("FBX 본매쉬가 로드가 안된 상태입니다.");
-		// GameEngineFile File = _Mesh->GetPath();
+		// MsgBoxAssert("FBX 본매쉬가 로드가 안된 상태입니다.");
+		GameEngineFile File = _Mesh->GetPath();
+		std::string FolderPath = File.GetFolderPath();
+		_Mesh->FBXInit(FolderPath + "\\" + _Mesh->FBXMeshName);
 	}
 
 	ProcessAnimationLoad(_Mesh, _Mesh->RootNode, _AnimationIndex);

@@ -85,6 +85,9 @@
     <Filter Include="Rendering\Compute">
       <UniqueIdentifier>{a6ca3faa-84da-45c5-954b-fddefe155b51}</UniqueIdentifier>
     </Filter>
+    <Filter Include="NaviMesh">
+      <UniqueIdentifier>{592ac065-5459-4e66-a6b5-bb28d9095a55}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineActor.h">
@@ -283,6 +286,9 @@
     <ClInclude Include="GameEngineFBXRenderer.h">
       <Filter>Rendering\Contents</Filter>
     </ClInclude>
+    <ClInclude Include="NaviMesh.h">
+      <Filter>NaviMesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -467,6 +473,9 @@
       <Filter>Rendering\Contents</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineCore_ResourcesRelease.cpp" />
+    <ClCompile Include="NaviMesh.cpp">
+      <Filter>NaviMesh</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ThirdParty\DirectXTex\inc\DirectXTex.inl">
