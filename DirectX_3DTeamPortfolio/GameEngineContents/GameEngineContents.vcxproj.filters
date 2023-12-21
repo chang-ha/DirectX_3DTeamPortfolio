@@ -22,6 +22,12 @@
     <ClCompile Include="GlobalValue.cpp">
       <Filter>Global</Filter>
     </ClCompile>
+    <ClCompile Include="Boss_Vordt.cpp">
+      <Filter>Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="TestLevel_Boss.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -48,6 +54,12 @@
     <ClInclude Include="GlobalValue.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="Boss_Vordt.h">
+      <Filter>Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="TestLevel_Boss.h">
+      <Filter>Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -67,6 +79,9 @@
     </Filter>
     <Filter Include="Level\Core">
       <UniqueIdentifier>{89ae2814-cbee-4e6f-a4dd-2977bb6c643a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Boss">
+      <UniqueIdentifier>{d31c8efa-c6aa-4bf2-ae36-cb2f4cdf288c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

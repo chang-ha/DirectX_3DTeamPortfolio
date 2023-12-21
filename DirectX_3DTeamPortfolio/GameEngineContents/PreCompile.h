@@ -1,5 +1,7 @@
 #pragma once
 
+#include <GameEngineBase/GameEngineRandom.h>
+
 #include <GameEngineCore/PreCompile.h>
 
 #include <GameEngineCore/GameEngineCore.h>
@@ -24,5 +26,7 @@
 
 // Contents
 #include <GameEngineCore/GameEngineTileMap.h>
+#include <GameEngineCore/GameEngineState.h>
 
 #include "ContentsEnum.h"
+#include "GlobalValue.h"

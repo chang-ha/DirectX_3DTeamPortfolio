@@ -16,9 +16,6 @@ void PlayLevel::Start()
 	GameEngineInput::AddInputObject(this);
 
 	GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, -1000.0f });
-	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
-
-	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({0, 0, 0, 1});
 
 	CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 

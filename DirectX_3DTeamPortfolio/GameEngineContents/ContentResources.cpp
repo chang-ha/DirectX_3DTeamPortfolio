@@ -57,7 +57,6 @@ void ContentResources::ContentResourcesInit()
 		for (size_t i = 0; i < Files.size(); i++)
 		{
 			std::shared_ptr<GameEngineFBXAnimation> Mesh = GameEngineFBXAnimation::Load(Files[i].GetStringPath());
-			// auto Value = Mesh->CheckAllNode();
 		}
 	}
 }
