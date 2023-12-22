@@ -39,6 +39,11 @@ protected:
 		{
 			ObjectPointer->Death();
 		}
+
+		if (bool OutputMsg = true)
+		{
+			OutputDebugStringA((std::string(typeid(ObjectType).name()) + " is Death. \n").c_str());
+		}
 	}
 
 private:

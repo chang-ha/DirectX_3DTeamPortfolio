@@ -12,10 +12,16 @@ void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		return;
 	}
 
-	if (bool TestCode = false)
+	if (bool MonsterCountTestCode = true)
 	{
-		int MonsterCount = static_cast<int>(_Level->GetObjectGroupConvert<Monster_LothricKn>(Enum_UpdateOrder::Monster).size());
-		ImGui::Text(std::string("MonsterCount : " + std::to_string(MonsterCount)).c_str());
+		std::vector<std::shared_ptr<Monster_LothricKn>> Monsters = _Level->GetObjectGroupConvert<Monster_LothricKn>(Enum_UpdateOrder::Monster);
+		if (true == Monsters.empty())
+		{
+			return;
+		}
+
+		int MonsterCount = static_cast<int>(Monsters.size());
+		ImGui::Text(std::string("ObjectCount : " + std::to_string(MonsterCount)).c_str());
 	}
 }
 

@@ -4,6 +4,14 @@
 
 Monster_LothricKn::Monster_LothricKn() 
 {
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExistsChild("ContentsResources");
+	Dir.MoveChild("ContentsResources\\Mesh\\Monster\\HighWall_LothricKnight");
+	std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".fbx" });
+	for (GameEngineFile& pFile: Files)
+	{
+		GameEngineFBXMesh::Load(pFile.GetStringPath());
+	}
 }
 
 Monster_LothricKn::~Monster_LothricKn() 
