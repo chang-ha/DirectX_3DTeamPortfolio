@@ -42,7 +42,7 @@ protected:
 
 		if (bool OutputMsg = true)
 		{
-			OutputDebugStringA((std::string(typeid(ObjectType).name()) + " is Death. \n").c_str());
+			OutputDebugStringA((std::to_string(Objects.size()) + "\t" + std::string(typeid(ObjectType).name()) + " have been released. \n").c_str());
 		}
 	}
 
