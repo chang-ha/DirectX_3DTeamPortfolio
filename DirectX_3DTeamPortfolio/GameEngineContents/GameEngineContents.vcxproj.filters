@@ -34,6 +34,7 @@
     <ClCompile Include="TestLevel_Monster.cpp">
       <Filter>Level</Filter>
     </ClCompile>
+    <ClCompile Include="ContentsControlWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -72,6 +73,7 @@
     <ClInclude Include="TestLevel_Monster.h">
       <Filter>Level</Filter>
     </ClInclude>
+    <ClInclude Include="ContentsControlWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">

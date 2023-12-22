@@ -112,6 +112,10 @@ public:
 	{
 		Near = _Near;
 	}
+	std::map<int, std::list<std::shared_ptr<class GameEngineRenderer>>> GetRenderers()
+	{
+		return Renderers;
+	}
 
 protected:
 	void Start() override;

@@ -2,7 +2,8 @@
 #include "ContentsCore.h"
 
 #include <GameEngineCore/GameEngineCoreWindow.h>
-
+#include "ContentsControlWindow.h"
+#include "PlayLevel.h"
 #include "ContentResources.h"
 #include "PlayLevel.h"
 #include "TestLevel_Boss.h"
@@ -19,6 +20,8 @@ ContentsCore::~ContentsCore()
 void ContentsCore::Start()
 {
 	ContentResources::ContentResourcesInit();
+
+	GameEngineGUI::CreateGUIWindow<ContentsControlWindow>("ContentsControlWindow");
 
 	GameEngineGUI::CreateGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");

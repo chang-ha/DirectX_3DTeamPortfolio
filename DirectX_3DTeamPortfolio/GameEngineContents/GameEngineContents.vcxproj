@@ -175,6 +175,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ContentsControlWindow.cpp" />
     <ClCompile Include="ContentsCore.cpp">
       <SubType>
       </SubType>
@@ -223,6 +224,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ContentsControlWindow.h" />
     <ClInclude Include="ContentsCore.h">
       <SubType>
       </SubType>

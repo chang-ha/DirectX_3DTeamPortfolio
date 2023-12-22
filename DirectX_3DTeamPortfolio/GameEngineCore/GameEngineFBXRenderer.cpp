@@ -124,6 +124,9 @@ GameEngineFBXRenderer::~GameEngineFBXRenderer()
 
 void GameEngineFBXRenderer::SetFBXMesh(std::string_view _Name, std::string_view _Material)
 {
+	Name = _Name;
+
+
 	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
 
 	if (nullptr == FindFBXMesh)
