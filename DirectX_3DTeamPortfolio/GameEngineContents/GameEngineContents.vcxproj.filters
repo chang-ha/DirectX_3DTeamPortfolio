@@ -26,7 +26,7 @@
       <Filter>Boss</Filter>
     </ClCompile>
     <ClCompile Include="TestLevel_Boss.cpp">
-      <Filter>Level</Filter>
+      <Filter>Level\TestLevel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -58,7 +58,7 @@
       <Filter>Boss</Filter>
     </ClInclude>
     <ClInclude Include="TestLevel_Boss.h">
-      <Filter>Level</Filter>
+      <Filter>Level\TestLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -82,6 +82,9 @@
     </Filter>
     <Filter Include="Boss">
       <UniqueIdentifier>{d31c8efa-c6aa-4bf2-ae36-cb2f4cdf288c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\TestLevel">
+      <UniqueIdentifier>{328ee959-35b8-43d9-bd5f-ffc249383c5b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

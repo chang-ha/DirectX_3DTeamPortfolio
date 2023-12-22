@@ -14,16 +14,6 @@ Boss_Vordt::~Boss_Vordt()
 
 void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 {
-
-}
-
-void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
-{
-
-}
-
-void Boss_Vordt::Start()
-{
 	// Boss Mesh
 	{
 		if (nullptr == GameEngineFBXMesh::Find("Mesh_Vordt.fbx"))
@@ -31,7 +21,7 @@ void Boss_Vordt::Start()
 			GameEngineFile File;
 			File.MoveParentToExistsChild("ContentsResources");
 			File.MoveChild("ContentsResources\\Mesh\\Boss\\Mesh_Vordt.fbx");
-			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(File.GetStringPath());
+			GameEngineFBXMesh::Load(File.GetStringPath());
 		}
 
 		if (nullptr == BossFBXRenderer)
@@ -53,7 +43,7 @@ void Boss_Vordt::Start()
 
 		for (size_t i = 0; i < Files.size(); i++)
 		{
-			std::shared_ptr<GameEngineFBXAnimation> Mesh = GameEngineFBXAnimation::Load(Files[i].GetStringPath());
+			GameEngineFBXAnimation::Load(Files[i].GetStringPath());
 		}
 
 		BossFBXRenderer->CreateFBXAnimation("Run", "Ani_002.FBX", { 0.1f, true });
@@ -61,10 +51,23 @@ void Boss_Vordt::Start()
 	}
 
 	{
-		BossCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::MonsterAttack);
+		if (nullptr == BossCollision)
+		{
+			BossCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::MonsterAttack);
+		}
 		BossCollision->SetCollisionType(ColType::SPHERE2D);
 		BossCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 1.0f });
 	}
+}
+
+void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
+{
+	Death();
+}
+
+void Boss_Vordt::Start()
+{
+
 }
 
 void Boss_Vordt::Update(float _Delta)
@@ -74,5 +77,15 @@ void Boss_Vordt::Update(float _Delta)
 
 void Boss_Vordt::Release()
 {
+	if (nullptr != BossFBXRenderer)
+	{
+		BossFBXRenderer->Death();
+		BossFBXRenderer = nullptr;
+	}
 
+	if (nullptr != BossCollision)
+	{
+		BossCollision->Death();
+		BossCollision = nullptr;
+	}
 }
