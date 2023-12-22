@@ -23,7 +23,7 @@
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="Boss_Vordt.cpp">
-      <Filter>Boss</Filter>
+      <Filter>Monster\Boss</Filter>
     </ClCompile>
     <ClCompile Include="TestLevel_Boss.cpp">
       <Filter>Level\TestLevel</Filter>
@@ -32,9 +32,11 @@
       <Filter>Monster</Filter>
     </ClCompile>
     <ClCompile Include="TestLevel_Monster.cpp">
-      <Filter>Level</Filter>
+      <Filter>Level\TestLevel</Filter>
     </ClCompile>
-    <ClCompile Include="ContentsControlWindow.cpp" />
+    <ClCompile Include="ContentsControlWindow.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -62,7 +64,7 @@
       <Filter>Global</Filter>
     </ClInclude>
     <ClInclude Include="Boss_Vordt.h">
-      <Filter>Boss</Filter>
+      <Filter>Monster\Boss</Filter>
     </ClInclude>
     <ClInclude Include="TestLevel_Boss.h">
       <Filter>Level\TestLevel</Filter>
@@ -71,9 +73,11 @@
       <Filter>Monster</Filter>
     </ClInclude>
     <ClInclude Include="TestLevel_Monster.h">
-      <Filter>Level</Filter>
+      <Filter>Level\TestLevel</Filter>
     </ClInclude>
-    <ClInclude Include="ContentsControlWindow.h" />
+    <ClInclude Include="ContentsControlWindow.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -94,14 +98,17 @@
     <Filter Include="Level\Core">
       <UniqueIdentifier>{89ae2814-cbee-4e6f-a4dd-2977bb6c643a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Boss">
-      <UniqueIdentifier>{d31c8efa-c6aa-4bf2-ae36-cb2f4cdf288c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Level\TestLevel">
       <UniqueIdentifier>{328ee959-35b8-43d9-bd5f-ffc249383c5b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Monster">
       <UniqueIdentifier>{7a950f5c-8494-425d-9a23-cc3249540e78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Monster\Boss">
+      <UniqueIdentifier>{d31c8efa-c6aa-4bf2-ae36-cb2f4cdf288c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui">
+      <UniqueIdentifier>{0ed2a347-3e0b-4fcf-a885-513c3ec4b169}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
