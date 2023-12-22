@@ -32,10 +32,6 @@ void PlayLevel::Start()
 
 void PlayLevel::Update(float _Delta)
 {
-	if (true == GameEngineInput::IsDown(VK_F7, this))
-	{
-		CoreWindow->OnOffSwitch();
-	}
 }
 
 void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)

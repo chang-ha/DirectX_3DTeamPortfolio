@@ -11,6 +11,7 @@
 
 ContentsCore::ContentsCore() 
 {
+	GameEngineInput::AddInputObject(this);
 }
 
 ContentsCore::~ContentsCore() 
@@ -21,22 +22,35 @@ void ContentsCore::Start()
 {
 	ContentResources::ContentResourcesInit();
 
-	GameEngineGUI::CreateGUIWindow<ContentsControlWindow>("ContentsControlWindow");
+	ContentsGUIWindow = GameEngineGUI::CreateGUIWindow<ContentsControlWindow>("ContentsControlWindow");
+	ContentsGUIWindow->On();
 
-	GameEngineGUI::CreateGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+	CoreGUIWindow = GameEngineGUI::CreateGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+	CoreGUIWindow->On();
+
+
 	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
 	GameEngineCore::CreateLevel<TestLevel_Boss>("TestLevel_Boss");
 	GameEngineCore::CreateLevel<TestLevel_Monster>("TestLevel_Monster");
 
-	GameEngineCore::ChangeLevel("TestLevel_Monster");
+	GameEngineCore::ChangeLevel("PlayLevel");
 }
 
 void ContentsCore::Update(float _Delta)
 {
+	if (nullptr != CoreGUIWindow && true == GameEngineInput::IsDown(VK_F7, this))
+	{
+		CoreGUIWindow->OnOffSwitch();
+	}
+
+	// 나중에 GUI 제작하신 분이 원하시는 가상키로 바꾸세요. 
+	if (nullptr != ContentsGUIWindow && true == GameEngineInput::IsDown(VK_F8, this))
+	{
+		ContentsGUIWindow->OnOffSwitch();
+	}
 
 }
 
 void ContentsCore::Release()
 {
-
 }
