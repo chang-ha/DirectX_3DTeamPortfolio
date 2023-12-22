@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "Monster_LothricKn.h"
 
+
 Monster_LothricKn::Monster_LothricKn() 
 {
 }
@@ -19,8 +20,12 @@ void Monster_LothricKn::Start()
 
 	BodyRenderer->CreateFBXAnimation("Idle", "Ani002.fbx", {0.1f, true}, 0);
 	BodyRenderer->ChangeAnimation("Idle");
-
 }
+
+void Monster_LothricKn::Update(float _Delta)
+{
+}
+
 
 void Monster_LothricKn::Release()
 {
