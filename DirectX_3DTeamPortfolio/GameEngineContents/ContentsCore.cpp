@@ -6,6 +6,7 @@
 #include "ContentResources.h"
 #include "PlayLevel.h"
 #include "TestLevel_Boss.h"
+#include "TestLevel_Monster.h"
 
 ContentsCore::ContentsCore() 
 {
@@ -22,8 +23,9 @@ void ContentsCore::Start()
 	GameEngineGUI::CreateGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
 	GameEngineCore::CreateLevel<TestLevel_Boss>("TestLevel_Boss");
+	GameEngineCore::CreateLevel<TestLevel_Monster>("TestLevel_Monster");
 
-	GameEngineCore::ChangeLevel("PlayLevel");
+	GameEngineCore::ChangeLevel("TestLevel_Monster");
 }
 
 void ContentsCore::Update(float _Delta)
