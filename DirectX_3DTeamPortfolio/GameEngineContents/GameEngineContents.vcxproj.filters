@@ -28,6 +28,12 @@
     <ClCompile Include="TestLevel_Boss.cpp">
       <Filter>Level</Filter>
     </ClCompile>
+    <ClCompile Include="Monster_LothricKn.cpp">
+      <Filter>Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="TestLevel_Monster.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -60,6 +66,12 @@
     <ClInclude Include="TestLevel_Boss.h">
       <Filter>Level</Filter>
     </ClInclude>
+    <ClInclude Include="Monster_LothricKn.h">
+      <Filter>Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="TestLevel_Monster.h">
+      <Filter>Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -82,6 +94,9 @@
     </Filter>
     <Filter Include="Boss">
       <UniqueIdentifier>{d31c8efa-c6aa-4bf2-ae36-cb2f4cdf288c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Monster">
+      <UniqueIdentifier>{7a950f5c-8494-425d-9a23-cc3249540e78}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
