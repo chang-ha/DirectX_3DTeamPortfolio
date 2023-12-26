@@ -1,6 +1,7 @@
 #pragma once
 #include "GameEngineGUI.h"
 #include "GAMEENGINERENDERTARGET.H"
+#include <GameEngineBase/GameEngineThreadJobQueue.h>
 
 class GameEngineImageShotWindow : public GameEngineGUIWindow
 {
@@ -48,5 +49,6 @@ protected:
 
 private:
 	static std::map<int, NameRenderTarget> DebugRenderTarget;
+	GameEngineThreadJobQueue Queue;
 };
 

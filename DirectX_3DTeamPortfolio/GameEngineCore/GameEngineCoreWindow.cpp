@@ -30,11 +30,24 @@ GameEngineCoreWindow::~GameEngineCoreWindow()
 
 void GameEngineCoreWindow::Start()
 {
-
+	Queue.Initialize("TestThreadJobQueue");
 }
 
 void GameEngineCoreWindow::OnGUI(class GameEngineLevel* _Level, float _DeltaTime)
 {
+	if (ImGui::Button("Work"))
+	{
+		// std::string _Name
+		// 보통은 = 해가지고 복사체를 만들어서 보내야 합니다.
+		Queue.Work([=]() 
+			{
+				// FBX
+				OutputDebugStringA("쓰레드 일한다");
+				// 그매쉬가 다 로드 됐다는것.
+			});
+	}
+	
+
 	for (std::pair<int, NameRenderTarget> RenderTargetPair : DebugRenderTarget)
 	{
 		std::string Name = RenderTargetPair.second.Name;

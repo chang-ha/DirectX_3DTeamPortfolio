@@ -13,6 +13,12 @@
       <Filter>PreCompile</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineSerializer.cpp" />
+    <ClCompile Include="GameEngineThreadJobQueue.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineThread.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineDebug.h" />
@@ -27,10 +33,19 @@
       <Filter>PreCompile</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineSerializer.h" />
+    <ClInclude Include="GameEngineThreadJobQueue.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineThread.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
       <UniqueIdentifier>{ddb4fe43-a346-43ef-84f6-27740125d03c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Thread">
+      <UniqueIdentifier>{96c80d02-6e5d-410e-aacc-7539e77b28e8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
