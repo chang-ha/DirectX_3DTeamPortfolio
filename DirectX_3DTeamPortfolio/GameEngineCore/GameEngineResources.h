@@ -22,7 +22,7 @@ public:
 	{
 		std::string UpperName = GameEngineString::ToUpperReturn(_Name);
 
-		NameMutex.lock();
+		std::lock_guard<std::mutex> Lock(NameMutex);
 		// 템플릿으로 다른 템플릿을 사용할때도 꼬일때가 있다.
 		// 꼬인거 풀려면 템플릿 안에서 다른 템플릿 사용할때 typename을 앞에 붙여주면 된다.
 		typename std::map<std::string, std::shared_ptr<ResourcesType>>::iterator FindIter = NameRes.find(UpperName);
@@ -31,7 +31,6 @@ public:
 		{
 			return nullptr;
 		}
-		NameMutex.unlock();
 		return FindIter->second;
 	}
 
@@ -42,7 +41,7 @@ public:
 
 		// 템플릿으로 다른 템플릿을 사용할때도 꼬일때가 있다.
 		// 꼬인거 풀려면 템플릿 안에서 다른 템플릿 사용할때 typename을 앞에 붙여주면 된다.
-		NameMutex.lock();
+		std::lock_guard<std::mutex> Lock(NameMutex);
 		typename std::map<std::string, std::shared_ptr<ResourcesType>>::iterator FindIter = NameRes.find(UpperName);
 
 		if (FindIter == NameRes.end())
@@ -51,7 +50,6 @@ public:
 			return;
 		}
 		NameRes.erase(FindIter);
-		NameMutex.unlock();
 	}
 
 	void SetName(std::string_view _Name)
@@ -66,13 +64,15 @@ public:
 
 	static void AllResourcesRelease()
 	{
-		NameMutex.lock();
-		NameRes.clear();
-		NameMutex.unlock();
+		{
+			std::lock_guard<std::mutex> Lock(NameMutex);
+			NameRes.clear();
+		}
 
-		UnNameMutex.lock();
-		UnNameRes.clear();
-		UnNameMutex.unlock();
+		{
+			std::lock_guard<std::mutex> Lock(UnNameMutex);
+			UnNameRes.clear();
+		}
 	}
 
 
@@ -83,9 +83,8 @@ protected:
 	{
 		std::shared_ptr<ResourcesType> NewRes = std::make_shared<ResourcesType>();
 
-		UnNameMutex.lock();
+		std::lock_guard<std::mutex> Lock(UnNameMutex);
 		UnNameRes.push_back(NewRes);
-		UnNameMutex.unlock();
 		return NewRes;
 	}
 
@@ -94,10 +93,9 @@ protected:
 	{
 		std::string UpperName = GameEngineString::ToUpperReturn(_Name);
 		std::shared_ptr<ResourcesType> NewRes = std::make_shared<ResourcesType>();
+		std::lock_guard<std::mutex> Lock(NameMutex);
 		NewRes->Name = UpperName;
-		NameMutex.lock();
 		NameRes.insert(std::pair<std::string, std::shared_ptr<ResourcesType>>(UpperName, NewRes));
-		NameMutex.unlock();
 		return NewRes;
 	}
 
@@ -108,9 +106,8 @@ protected:
 		NewRes->Name = UpperName;
 		NewRes->Path = _Path.data();
 
-		NameMutex.lock();
+		std::lock_guard<std::mutex> Lock(NameMutex);
 		NameRes.insert(UpperName, NewRes);
-		NameMutex.unlock();
 	}
 
 private:
