@@ -22,6 +22,7 @@ public:
 	{
 		std::string UpperName = GameEngineString::ToUpperReturn(_Name);
 
+		std::lock_guard<std::mutex> Lock(NameMutex);
 		// 템플릿으로 다른 템플릿을 사용할때도 꼬일때가 있다.
 		// 꼬인거 풀려면 템플릿 안에서 다른 템플릿 사용할때 typename을 앞에 붙여주면 된다.
 		typename std::map<std::string, std::shared_ptr<ResourcesType>>::iterator FindIter = NameRes.find(UpperName);
@@ -30,7 +31,6 @@ public:
 		{
 			return nullptr;
 		}
-
 		return FindIter->second;
 	}
 
@@ -41,6 +41,7 @@ public:
 
 		// 템플릿으로 다른 템플릿을 사용할때도 꼬일때가 있다.
 		// 꼬인거 풀려면 템플릿 안에서 다른 템플릿 사용할때 typename을 앞에 붙여주면 된다.
+		std::lock_guard<std::mutex> Lock(NameMutex);
 		typename std::map<std::string, std::shared_ptr<ResourcesType>>::iterator FindIter = NameRes.find(UpperName);
 
 		if (FindIter == NameRes.end())
@@ -48,7 +49,6 @@ public:
 			MsgBoxAssert("존재하지도 않는 리소스를 지우려고 했습니다.");
 			return;
 		}
-
 		NameRes.erase(FindIter);
 	}
 
@@ -64,8 +64,15 @@ public:
 
 	static void AllResourcesRelease()
 	{
-		NameRes.clear();
-		UnNameRes.clear();
+		{
+			std::lock_guard<std::mutex> Lock(NameMutex);
+			NameRes.clear();
+		}
+
+		{
+			std::lock_guard<std::mutex> Lock(UnNameMutex);
+			UnNameRes.clear();
+		}
 	}
 
 
@@ -75,6 +82,8 @@ protected:
 	static std::shared_ptr<ResourcesType> CreateRes()
 	{
 		std::shared_ptr<ResourcesType> NewRes = std::make_shared<ResourcesType>();
+
+		std::lock_guard<std::mutex> Lock(UnNameMutex);
 		UnNameRes.push_back(NewRes);
 		return NewRes;
 	}
@@ -84,6 +93,7 @@ protected:
 	{
 		std::string UpperName = GameEngineString::ToUpperReturn(_Name);
 		std::shared_ptr<ResourcesType> NewRes = std::make_shared<ResourcesType>();
+		std::lock_guard<std::mutex> Lock(NameMutex);
 		NewRes->Name = UpperName;
 		NameRes.insert(std::pair<std::string, std::shared_ptr<ResourcesType>>(UpperName, NewRes));
 		return NewRes;
@@ -95,11 +105,16 @@ protected:
 		std::shared_ptr<ResourcesType> NewRes = std::make_shared<ResourcesType>(ResourcesType);
 		NewRes->Name = UpperName;
 		NewRes->Path = _Path.data();
+
+		std::lock_guard<std::mutex> Lock(NameMutex);
 		NameRes.insert(UpperName, NewRes);
 	}
 
 private:
+	static std::mutex NameMutex;
 	static std::map<std::string, std::shared_ptr<ResourcesType>> NameRes;
+
+	static std::mutex UnNameMutex;
 	static std::list<std::shared_ptr<ResourcesType>> UnNameRes;
 
 	std::string Name;
@@ -111,5 +126,11 @@ template<typename ResourcesType>
 std::map<std::string, std::shared_ptr<ResourcesType>> GameEngineResources<ResourcesType>::NameRes;
 
 template<typename ResourcesType>
+std::mutex GameEngineResources<ResourcesType>::NameMutex;
+
+template<typename ResourcesType>
 std::list<std::shared_ptr<ResourcesType>> GameEngineResources<ResourcesType>::UnNameRes;
+
+template<typename ResourcesType>
+std::mutex GameEngineResources<ResourcesType>::UnNameMutex;
 
