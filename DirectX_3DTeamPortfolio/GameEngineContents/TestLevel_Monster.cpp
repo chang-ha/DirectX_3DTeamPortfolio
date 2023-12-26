@@ -55,7 +55,7 @@ void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 
 void TestLevel_Monster::LevelEnd(GameEngineLevel* _NextLevel)
 {
-	AllDeathChildObjects<Monster_LothricKn>(Enum_UpdateOrder::Monster);
+	AllDeathObjectGroupConvert<Monster_LothricKn>(Enum_UpdateOrder::Monster);
 
 	if (nullptr != MonsterWindow)
 	{

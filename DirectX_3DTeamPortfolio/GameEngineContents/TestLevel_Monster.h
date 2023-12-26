@@ -1,4 +1,6 @@
 #pragma once
+#include "ContentLevel.h"
+
 
 
 class MonsterGUI : public GameEngineGUIWindow
@@ -11,7 +13,7 @@ private:
 
 
 // Ό³Έν :
-class TestLevel_Monster : public GameEngineLevel
+class TestLevel_Monster : public ContentLevel
 {
 public:
 	// constrcuter destructer
@@ -32,7 +34,7 @@ protected:
 
 
 	template<typename ObjectType, typename OrderType>
-	void AllDeathChildObjects(OrderType _Order)
+	void AllDeathObjectGroupConvert(OrderType _Order)
 	{
 		std::vector<std::shared_ptr<ObjectType>> Objects = GetObjectGroupConvert<ObjectType>(_Order);
 		for (const std::shared_ptr<ObjectType>& ObjectPointer : Objects)
