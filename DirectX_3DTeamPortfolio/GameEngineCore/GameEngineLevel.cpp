@@ -7,7 +7,7 @@
 #include "GameEngineCollisionGroup.h"
 #include "GAMEENGINERENDERTARGET.H"
 
-bool GameEngineLevel::IsDebug = false;
+bool GameEngineLevel::IsDebug = true;
 
 GameEngineLevel::GameEngineLevel() 
 {
@@ -40,6 +40,11 @@ GameEngineLevel::~GameEngineLevel()
 
 void GameEngineLevel::Start() 
 {
+}
+
+void GameEngineLevel::PushLight(std::shared_ptr<GameEngineLight> _Light)
+{
+	AllLight.push_back(_Light);
 }
 
 void GameEngineLevel::AllUpdate(float _Delta)

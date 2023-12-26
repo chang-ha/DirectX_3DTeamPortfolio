@@ -260,6 +260,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineLight.h" />
     <ClInclude Include="GameEngineMaterial.h">
       <SubType>
       </SubType>
@@ -459,6 +460,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineLight.cpp" />
     <ClCompile Include="GameEngineMaterial.cpp">
       <SubType>
       </SubType>

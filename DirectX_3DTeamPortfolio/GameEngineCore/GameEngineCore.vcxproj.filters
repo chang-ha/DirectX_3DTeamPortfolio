@@ -88,6 +88,9 @@
     <Filter Include="NaviMesh">
       <UniqueIdentifier>{592ac065-5459-4e66-a6b5-bb28d9095a55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rendering\Light">
+      <UniqueIdentifier>{2cc84acd-88db-4f98-af6b-241632fbe373}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineActor.h">
@@ -289,6 +292,9 @@
     <ClInclude Include="NaviMesh.h">
       <Filter>NaviMesh</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineLight.h">
+      <Filter>Rendering\Light</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -475,6 +481,9 @@
     <ClCompile Include="GameEngineCore_ResourcesRelease.cpp" />
     <ClCompile Include="NaviMesh.cpp">
       <Filter>NaviMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineLight.cpp">
+      <Filter>Rendering\Light</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
