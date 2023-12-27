@@ -150,7 +150,7 @@ public:
 	float4x4 ViewMatrix;
 	float4x4 ProjectionMatrix;
 	float4x4 ViewPort;
-
+	float4x4 WorldViewMatrix;
 	// 로컬 => 월드 => 뷰 => 프로젝션 
 	float4x4 WorldViewProjectionMatrix;
 
@@ -166,6 +166,7 @@ public:
 
 	void WorldViewProjectionCalculation()
 	{
+		WorldViewMatrix = WorldMatrix * ViewMatrix;
 		WorldViewProjectionMatrix = WorldMatrix * ViewMatrix * ProjectionMatrix;
 	}
 

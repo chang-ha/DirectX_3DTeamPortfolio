@@ -3,6 +3,8 @@
 #include "PlayLevel.h"
 #include "Player.h"
 
+#include <GameEngineCore/GameEngineLight.h>
+
 PlayLevel::PlayLevel() 
 {
 }
@@ -27,6 +29,10 @@ void PlayLevel::Start()
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
 		PlayerObject = Object;
+	}
+
+	{
+		std::shared_ptr<GameEngineLight> Object = CreateActor<GameEngineLight>(0);
 	}
 }
 

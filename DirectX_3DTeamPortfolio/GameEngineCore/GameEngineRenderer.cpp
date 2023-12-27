@@ -138,6 +138,12 @@ void GameEngineRenderer::SetMaterial(std::string_view _Name, int _Index /*= 0*/)
 		Unit->ShaderResHelper.SetConstantBufferLink("RenderBaseInfo", RenderBaseInfoValue);
 	}
 
+	if (Unit->ShaderResHelper.IsConstantBuffer("LightDatas"))
+	{
+		Unit->ShaderResHelper.SetConstantBufferLink("LightDatas", GetLevel()->LightDataObject);
+	}
+
+
 	SetMaterialEvent(_Name, _Index);
 }
 

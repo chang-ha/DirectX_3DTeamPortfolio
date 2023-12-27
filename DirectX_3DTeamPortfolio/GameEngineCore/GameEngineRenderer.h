@@ -30,6 +30,10 @@ struct RenderBaseInfo
 	int Target5 = 0;
 	int Target6 = 0;
 	int Target7 = 0;
+	int IsLight = 1;
+	int Temp0 = 0;
+	int Temp1 = 0;
+	int Temp2 = 0;
 };
 
 // 설명 : GameEngineRenderer에게 Order는 랜더링 되는 순서를 의미합니다.

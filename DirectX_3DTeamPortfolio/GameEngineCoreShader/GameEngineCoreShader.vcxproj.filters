@@ -41,9 +41,6 @@
     <FxCompile Include="ParticleHeader.fx">
       <Filter>Particle</Filter>
     </FxCompile>
-    <FxCompile Include="FBXColorShader.fx">
-      <Filter>3D</Filter>
-    </FxCompile>
     <FxCompile Include="FBXAnimationColorShader.fx">
       <Filter>3D</Filter>
     </FxCompile>
@@ -52,6 +49,9 @@
     </FxCompile>
     <FxCompile Include="FBXAnimationTextureShader.fx">
       <Filter>3D</Filter>
+    </FxCompile>
+    <FxCompile Include="Light.fx">
+      <Filter>Header</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

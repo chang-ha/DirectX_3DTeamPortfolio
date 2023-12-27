@@ -35,12 +35,12 @@ cbuffer TransformData : register(b0)
     float4x4 LocalWorldMatrix;
 	// 월드 공간
     float4x4 WorldMatrix;
-
-
+    
     float4x4 ViewMatrix;
     float4x4 ProjectionMatrix;
     float4x4 ViewPort;
-
+    
+    float4x4 WorldViewMatrix;
 	// 로컬 => 월드 => 뷰 => 프로젝션 
     float4x4 WorldViewProjectionMatrix;
 };

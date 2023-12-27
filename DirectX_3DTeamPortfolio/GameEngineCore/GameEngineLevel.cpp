@@ -3,6 +3,7 @@
 #include "GameEngineCore.h"
 #include "GameEngineActor.h"
 #include "GameEngineCamera.h"
+#include "GameEngineLight.h"
 #include "GameEngineCollision.h"
 #include "GameEngineCollisionGroup.h"
 #include "GAMEENGINERENDERTARGET.H"
@@ -86,8 +87,22 @@ void GameEngineLevel::Render(float _Delta)
 			continue;
 		}
 
-		// 레퍼런스로 받는다.
 		std::shared_ptr<GameEngineCamera>& Camera = CameraPair.second;
+		// 카메라 행렬 계산하고
+		Camera->CameraUpdate(_Delta);
+
+		// 빛한테 나눠주고
+		LightDataObject.LightCount = 0;
+		for (std::shared_ptr<GameEngineLight> Light : AllLight)
+		{
+			Light->LightUpdate(Camera.get(), _Delta);
+			LightDataObject.AllLight[LightDataObject.LightCount] = Light->GetLightData();
+			++LightDataObject.LightCount;
+		}
+
+		// 라이트 데이터는 미리 계산되어 있어야 한다.
+
+		// 
 		Camera->Render(_Delta);
 	}
 
