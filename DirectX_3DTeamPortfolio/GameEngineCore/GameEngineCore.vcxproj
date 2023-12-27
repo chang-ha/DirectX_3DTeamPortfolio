@@ -504,6 +504,7 @@
     <ClInclude Include="ThirdParty\PhysX\inc\PxBatchQueryDesc.h" />
     <ClInclude Include="ThirdParty\PhysX\inc\PxBroadPhase.h" />
     <ClInclude Include="ThirdParty\PhysX\inc\PxClient.h" />
+    <ClInclude Include="ThirdParty\PhysX\inc\PxConfig.h" />
     <ClInclude Include="ThirdParty\PhysX\inc\PxConstraint.h" />
     <ClInclude Include="ThirdParty\PhysX\inc\PxConstraintDesc.h" />
     <ClInclude Include="ThirdParty\PhysX\inc\PxContact.h" />

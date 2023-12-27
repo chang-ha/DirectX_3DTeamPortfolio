@@ -928,6 +928,9 @@
     <ClInclude Include="ThirdParty\PhysX\inc\PxVisualizationParameter.h">
       <Filter>ThirdParty\PhysX\inc</Filter>
     </ClInclude>
+    <ClInclude Include="ThirdParty\PhysX\inc\PxConfig.h">
+      <Filter>ThirdParty\PhysX\inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -1214,6 +1217,9 @@
     <CopyFileToFolders Include="ThirdParty\Fbx\lib\debug\zlib-md.lib">
       <Filter>ThirdParty\Debug</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Debug\PhysXVehicle_static_64.lib">
+      <Filter>ThirdParty\PhysX\lib\Debug</Filter>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="ThirdParty\PhysX\lib\Debug\PhysX_static_64.lib">
       <Filter>ThirdParty\PhysX\lib\Debug</Filter>
     </CopyFileToFolders>
@@ -1233,9 +1239,6 @@
       <Filter>ThirdParty\PhysX\lib\Debug</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="ThirdParty\PhysX\lib\Debug\PhysXPvdSDK_static_64.lib">
-      <Filter>ThirdParty\PhysX\lib\Debug</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Debug\PhysXVehicle_static_64.lib">
       <Filter>ThirdParty\PhysX\lib\Debug</Filter>
     </CopyFileToFolders>
   </ItemGroup>
