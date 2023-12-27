@@ -15,6 +15,8 @@ private:
 // Ό³Έν :
 class TestLevel_Monster : public ContentLevel
 {
+	friend class MonsterGUI;
+
 public:
 	// constrcuter destructer
 	TestLevel_Monster();
@@ -50,6 +52,7 @@ protected:
 
 private:
 	std::shared_ptr<MonsterGUI> MonsterWindow;
+	// std::shared_ptr<class MonsterEditorActor> EditorActor;
 
 };
 

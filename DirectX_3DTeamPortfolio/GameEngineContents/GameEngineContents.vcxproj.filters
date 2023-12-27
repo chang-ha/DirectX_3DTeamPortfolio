@@ -28,14 +28,17 @@
     <ClCompile Include="TestLevel_Boss.cpp">
       <Filter>Level\TestLevel</Filter>
     </ClCompile>
-    <ClCompile Include="Monster_LothricKn.cpp">
-      <Filter>Monster</Filter>
-    </ClCompile>
     <ClCompile Include="TestLevel_Monster.cpp">
       <Filter>Level\TestLevel</Filter>
     </ClCompile>
     <ClCompile Include="ContentsControlWindow.cpp">
       <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_LothricKn.cpp">
+      <Filter>Monster\LothricKnight</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterEditorActor.cpp">
+      <Filter>Monster\LothricKnight</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -69,14 +72,17 @@
     <ClInclude Include="TestLevel_Boss.h">
       <Filter>Level\TestLevel</Filter>
     </ClInclude>
-    <ClInclude Include="Monster_LothricKn.h">
-      <Filter>Monster</Filter>
-    </ClInclude>
     <ClInclude Include="TestLevel_Monster.h">
       <Filter>Level\TestLevel</Filter>
     </ClInclude>
     <ClInclude Include="ContentsControlWindow.h">
       <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_LothricKn.h">
+      <Filter>Monster\LothricKnight</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterEditorActor.h">
+      <Filter>Monster\LothricKnight</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +115,9 @@
     </Filter>
     <Filter Include="ImGui">
       <UniqueIdentifier>{0ed2a347-3e0b-4fcf-a885-513c3ec4b169}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Monster\LothricKnight">
+      <UniqueIdentifier>{cd9c89d7-8afc-44e4-ab5c-adcca32c36d0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
