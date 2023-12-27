@@ -24,6 +24,7 @@ protected:
 
 private:
 	std::shared_ptr<GameEngineFBXRenderer> BodyRenderer;
+	GameEngineState MainState;
 
 };
 
