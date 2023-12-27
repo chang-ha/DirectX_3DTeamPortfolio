@@ -37,6 +37,9 @@
     <ClCompile Include="ContentsControlWindow.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="Monster_HollowSoldier.cpp">
+      <Filter>Monster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -77,6 +80,9 @@
     </ClInclude>
     <ClInclude Include="ContentsControlWindow.h">
       <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_HollowSoldier.h">
+      <Filter>Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
