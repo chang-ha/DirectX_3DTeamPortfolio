@@ -9,6 +9,8 @@
 #include "TestLevel_Boss.h"
 #include "TestLevel_Monster.h"
 
+#include <GameEngineCore\GameEnginePhysX.h>
+
 ContentsCore::ContentsCore() 
 {
 	GameEngineInput::AddInputObject(this);
@@ -21,6 +23,7 @@ ContentsCore::~ContentsCore()
 void ContentsCore::Start()
 {
 	ContentResources::ContentResourcesInit();
+	GameEnginePhysX::PhysXInit();
 
 	ContentsGUIWindow = GameEngineGUI::CreateGUIWindow<ContentsControlWindow>("ContentsControlWindow");
 	ContentsGUIWindow->On();

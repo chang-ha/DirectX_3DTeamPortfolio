@@ -4,6 +4,7 @@
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineBase/GameEngineTime.h>
 #include "GameEngineGUI.h"
+#include "GameEnginePhysX.h"
 
 std::shared_ptr<GameEngineObject> GameEngineCore::CoreObject;
 GameEngineTime GameEngineCore::MainTime;
@@ -105,6 +106,7 @@ void GameEngineCore::Release()
 	Resources_Release();
 	GameEngineGUI::Release();
 	GameEngineSound::Release();
+	GameEnginePhysX::PhysXRelease();
 }
 
 void GameEngineCore::EngineProcess(HINSTANCE _Inst, const std::string& _WindowName, float4 _Pos, float4 _Size)
