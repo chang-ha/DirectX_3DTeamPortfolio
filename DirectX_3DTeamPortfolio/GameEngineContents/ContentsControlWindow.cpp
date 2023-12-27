@@ -109,7 +109,7 @@ void TestTabA::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	std::vector<std::string> Names;
 
 	std::vector<const char*> CNames;
-	int a = _Level->GetObjectGroupInt(0).size();
+	size_t a = _Level->GetObjectGroupInt(0).size();
 
 	for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderer>>>& RendererPair : _Level->GetMainCamera()->GetRenderers())
 	{

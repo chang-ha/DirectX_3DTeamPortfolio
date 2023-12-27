@@ -5,6 +5,7 @@
 // class GameEngineActor; 이래도되고
 class GameEngineLevel : public GameEngineObject
 {
+	friend class GameEngineLight;
 	friend class GameEngineCore;
 	friend class GameEngineCamera;
 	friend class GameEngineCollision;
@@ -70,6 +71,8 @@ public:
 		return LevelRenderTarget;
 	}
 
+	
+
 protected:
 
 private:
@@ -96,6 +99,7 @@ private:
 
 	void PushCollision(std::shared_ptr<class GameEngineCollision> _Collision);
 
+
 	// 이미 액터가 child로 관리하고 있지만
 	// 따로 카메라도 들고 있을 겁니다.
 	std::map<int, std::shared_ptr<class GameEngineCamera>> Cameras;
@@ -103,6 +107,11 @@ private:
 	std::map<int, std::shared_ptr<class GameEngineCollisionGroup>> Collisions;
 
 	std::shared_ptr<class GameEngineRenderTarget> LevelRenderTarget;
+
+
+	// 빛 관리
+	std::list<std::shared_ptr<class GameEngineLight>> AllLight;
+	void PushLight(std::shared_ptr<GameEngineLight> _Light);
 
 };
 
