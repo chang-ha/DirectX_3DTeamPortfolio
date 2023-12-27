@@ -323,3 +323,8 @@ void GameEngineFBXRenderer::Update(float _DeltaTime)
 		CurAnimation->Update(_DeltaTime);
 	}
 }
+
+std::map<std::string, std::shared_ptr<GameEngineFBXAnimationInfo>>& GameEngineFBXRenderer::GetAnimationInfos()
+{
+	return Animations;
+}
