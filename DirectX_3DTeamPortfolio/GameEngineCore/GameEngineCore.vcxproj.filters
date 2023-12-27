@@ -1161,6 +1161,27 @@
     <Library Include="ThirdParty\FW1FontWrapper\lib\Release\FW1FontWrapper.lib">
       <Filter>ThirdParty\Release</Filter>
     </Library>
+    <Library Include="ThirdParty\PhysX\lib\Release\PhysXPvdSDK_static_64.lib">
+      <Filter>ThirdParty\PhysX\lib\Release</Filter>
+    </Library>
+    <Library Include="ThirdParty\PhysX\lib\Release\PhysXFoundation_static_64.lib">
+      <Filter>ThirdParty\PhysX\lib\Release</Filter>
+    </Library>
+    <Library Include="ThirdParty\PhysX\lib\Release\PhysXExtensions_static_64.lib">
+      <Filter>ThirdParty\PhysX\lib\Release</Filter>
+    </Library>
+    <Library Include="ThirdParty\PhysX\lib\Release\PhysXCooking_static_64.lib">
+      <Filter>ThirdParty\PhysX\lib\Release</Filter>
+    </Library>
+    <Library Include="ThirdParty\PhysX\lib\Release\PhysXCommon_static_64.lib">
+      <Filter>ThirdParty\PhysX\lib\Release</Filter>
+    </Library>
+    <Library Include="ThirdParty\PhysX\lib\Release\PhysXCharacterKinematic_static_64.lib">
+      <Filter>ThirdParty\PhysX\lib\Release</Filter>
+    </Library>
+    <Library Include="ThirdParty\PhysX\lib\Release\PhysXVehicle_static_64.lib">
+      <Filter>ThirdParty\PhysX\lib\Release</Filter>
+    </Library>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="ThirdParty\FW1FontWrapper\lib\Debug\FW1FontWrapper.dll">
@@ -1217,9 +1238,6 @@
     <CopyFileToFolders Include="ThirdParty\Fbx\lib\debug\zlib-md.lib">
       <Filter>ThirdParty\Debug</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Debug\PhysXVehicle_static_64.lib">
-      <Filter>ThirdParty\PhysX\lib\Debug</Filter>
-    </CopyFileToFolders>
     <CopyFileToFolders Include="ThirdParty\PhysX\lib\Debug\PhysX_static_64.lib">
       <Filter>ThirdParty\PhysX\lib\Debug</Filter>
     </CopyFileToFolders>
@@ -1240,6 +1258,12 @@
     </CopyFileToFolders>
     <CopyFileToFolders Include="ThirdParty\PhysX\lib\Debug\PhysXPvdSDK_static_64.lib">
       <Filter>ThirdParty\PhysX\lib\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Debug\PhysXVehicle_static_64.lib">
+      <Filter>ThirdParty\PhysX\lib\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysX_static_64.lib">
+      <Filter>ThirdParty\PhysX\lib\Release</Filter>
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
