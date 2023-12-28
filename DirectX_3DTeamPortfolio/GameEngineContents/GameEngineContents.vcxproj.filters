@@ -20,7 +20,7 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="GlobalValue.cpp">
-      <Filter>Global</Filter>
+      <Filter>Core\Global</Filter>
     </ClCompile>
     <ClCompile Include="Boss_Vordt.cpp">
       <Filter>Monster\Boss</Filter>
@@ -46,7 +46,7 @@
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="ContentsEnum.h">
-      <Filter>Global</Filter>
+      <Filter>Core\Global</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Player</Filter>
@@ -64,7 +64,7 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="GlobalValue.h">
-      <Filter>Global</Filter>
+      <Filter>Core\Global</Filter>
     </ClInclude>
     <ClInclude Include="Boss_Vordt.h">
       <Filter>Monster\Boss</Filter>
@@ -88,9 +88,6 @@
   <ItemGroup>
     <Filter Include="Level">
       <UniqueIdentifier>{c9a2e832-8d6b-49de-ac34-3e11f6f95c4b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Global">
-      <UniqueIdentifier>{ca09bba4-fac2-48d7-bd82-8680ddecfb32}</UniqueIdentifier>
     </Filter>
     <Filter Include="Player">
       <UniqueIdentifier>{a161891d-57fb-4a2c-96bf-522529e04c95}</UniqueIdentifier>
@@ -118,6 +115,9 @@
     </Filter>
     <Filter Include="Monster\LothricKnight">
       <UniqueIdentifier>{cd9c89d7-8afc-44e4-ab5c-adcca32c36d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Global">
+      <UniqueIdentifier>{ca09bba4-fac2-48d7-bd82-8680ddecfb32}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

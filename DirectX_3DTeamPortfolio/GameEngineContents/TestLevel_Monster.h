@@ -2,13 +2,23 @@
 #include "ContentLevel.h"
 
 
-
+// TestLevel_Monster에서만 쓰이는 GUI입니다.
 class MonsterGUI : public GameEngineGUIWindow
 {
+	friend class TestLevel_Monster;
 private:
 	void Start() override {}
 
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
+	void Release();
+
+	void CopyAnimationName(class TestLevel_Monster* _Level);
+
+private:
+	std::vector<std::string> AnimationNames; // Store Value
+	std::vector<const char*> CAnimationNames; // Use 'AnimationNames' Pointer
+	int SelectItem = -1;
+
 };
 
 
@@ -52,7 +62,7 @@ protected:
 
 private:
 	std::shared_ptr<MonsterGUI> MonsterWindow;
-	// std::shared_ptr<class MonsterEditorActor> EditorActor;
+	std::shared_ptr<class MonsterEditorActor> EditorActor;
 
 };
 

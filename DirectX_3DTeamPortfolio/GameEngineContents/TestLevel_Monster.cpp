@@ -6,7 +6,7 @@
 #include "MonsterEditorActor.h"
 
 
-// _Level == TestLevel_Monster
+// _Level == TestLevel_Monster 
 void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
 	if (nullptr == _Level)
@@ -32,32 +32,80 @@ void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		return;
 	}
 
-
-	if (ImGui::TreeNode("Mesh Editor"))
+	if (nullptr == TestLevel->EditorActor)
 	{
-		if (ImGui::TreeNode("Animation Tree"))
+		return;
+	}
+
+	if (true == AnimationNames.empty())
+	{
+		CopyAnimationName(TestLevel);
+	}
+
+	if (ImGui::ListBox("Aniamtion Name", &SelectItem, &CAnimationNames[0], static_cast<int>(CAnimationNames.size()), 8))
+	{
+		const char* SelectAnimationName = CAnimationNames.at(SelectItem);
+		TestLevel->EditorActor->GetRenderer()->ChangeAnimation(SelectAnimationName);
+	}
+
+	if (-1 != SelectItem)
+	{
+		const std::shared_ptr<GameEngineFBXAnimationInfo>& AnimationInfo 
+			= TestLevel->EditorActor->GetRenderer()->GetAnimationInfos()[AnimationNames.at(SelectItem)];
+	}
+
+	if (bool TestCode = false)
+	{
+		if (ImGui::TreeNode("Mesh Editor"))
 		{
+			if (ImGui::TreeNode("Animation Tree"))
+			{
+
+				ImGui::TreePop();
+			}
+
 			ImGui::TreePop();
 		}
 
+		if (ImGui::BeginTabBar("Eidtor"))
+		{
+			if (ImGui::BeginTabItem("Setting"))
+			{
+				ImGui::EndTabItem();
+			}
 
-		ImGui::TreePop();
+			if (ImGui::BeginTabItem("Help"))
+			{
+				ImGui::EndTabItem();
+			}
+		}
+		ImGui::EndTabBar();
 	}
+}
 
-	if (ImGui::BeginTabBar("Eidtor"))
+void MonsterGUI::CopyAnimationName(class TestLevel_Monster* _Level)
+{
+	std::map<std::string, std::shared_ptr<GameEngineFBXAnimationInfo>>& Animations = _Level->EditorActor->GetRenderer()->GetAnimationInfos();
+	AnimationNames.reserve(Animations.size());
+	CAnimationNames.reserve(Animations.size());
+
+	int CurIndex = 0;
+	for (std::pair<const std::string, std::shared_ptr<GameEngineFBXAnimationInfo>>& _Pair : Animations)
 	{
-		if (ImGui::BeginTabItem("Setting"))
-		{
-			ImGui::EndTabItem();
-		}
-
-		if (ImGui::BeginTabItem("Help"))
-		{
-			ImGui::EndTabItem();
-		}
+		AnimationNames.push_back(_Pair.first);
+		CAnimationNames.push_back(AnimationNames[CurIndex].c_str());
+		CurIndex++;
 	}
-	ImGui::EndTabBar();
-	
+}
+
+
+
+
+
+void MonsterGUI::Release()
+{
+	AnimationNames.clear();
+	CAnimationNames.clear();
 }
 
 
@@ -74,8 +122,6 @@ void TestLevel_Monster::Start()
 {
 	MonsterWindow = GameEngineGUI::CreateGUIWindow<MonsterGUI>("MonsterGUI");
 	MonsterWindow->Off();
-
-	// EditorActor = CreateActor<MonsterEditorActor>(Enum_UpdateOrder::Monster);
 }
 
 void TestLevel_Monster::Update(float _Delta)
@@ -89,14 +135,22 @@ void TestLevel_Monster::Update(float _Delta)
 void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster);
+	EditorActor = CreateActor<MonsterEditorActor>(Enum_UpdateOrder::Monster);
 }
 
 void TestLevel_Monster::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	AllDeathObjectGroupConvert<Monster_LothricKn>(Enum_UpdateOrder::Monster);
 
+	if (nullptr != EditorActor)
+	{
+		EditorActor->Death();
+		EditorActor = nullptr;
+	}
+
 	if (nullptr != MonsterWindow)
 	{
+		MonsterWindow->Release();
 		MonsterWindow->Off();
 	}
 }
