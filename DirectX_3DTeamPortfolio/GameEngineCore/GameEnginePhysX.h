@@ -79,6 +79,7 @@ private:
 	static physx::PxPvd* mPvd;
 	static physx::PxPhysics* mPhysics;
 	static physx::PxCooking* mCooking;
+	static physx::PxDefaultCpuDispatcher* CpuDispatcher;
 
 	static std::map<std::string, physx::PxScene*> AllLevelScene;
 };

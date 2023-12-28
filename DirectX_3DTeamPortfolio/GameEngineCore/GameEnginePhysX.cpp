@@ -7,6 +7,8 @@ physx::PxFoundation* GameEnginePhysX::mFoundation = nullptr;
 physx::PxPvd* GameEnginePhysX::mPvd = nullptr;
 physx::PxPhysics* GameEnginePhysX::mPhysics = nullptr;
 physx::PxCooking* GameEnginePhysX::mCooking = nullptr;
+physx::PxDefaultCpuDispatcher* GameEnginePhysX::CpuDispatcher = nullptr;
+
 std::map<std::string, physx::PxScene*> GameEnginePhysX::AllLevelScene;
 
 GameEnginePhysX::GameEnginePhysX()
@@ -74,7 +76,7 @@ physx::PxScene* GameEnginePhysX::CreateLevelScene()
 	physx::PxSceneDesc SceneDesc = physx::PxSceneDesc(mPhysics->getTolerancesScale());
 
 	SceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
-
+	
 	// Set Scenes Limit Datas
 	physx::PxSceneLimits SceneLimitsData = physx::PxSceneLimits();
 	SceneLimitsData.maxNbActors = 512/*UINT32_MAX - 1*/;
@@ -89,8 +91,8 @@ physx::PxScene* GameEnginePhysX::CreateLevelScene()
 	SceneDesc.limits = SceneLimitsData;
 
 	// Cpu Dispatcher
-	physx::PxDefaultCpuDispatcher* Dispatcher = physx::PxDefaultCpuDispatcherCreate(0);
-	SceneDesc.cpuDispatcher = Dispatcher;
+	CpuDispatcher = physx::PxDefaultCpuDispatcherCreate(0);
+	SceneDesc.cpuDispatcher = CpuDispatcher;
 
 	physx::PxScene* Scene = mPhysics->createScene(SceneDesc);
 
@@ -117,6 +119,12 @@ void GameEnginePhysX::PhysXRelease()
 	{
 		mPvd->release();
 		mPvd = nullptr;
+	}
+
+	if (nullptr != CpuDispatcher)
+	{
+		CpuDispatcher->release();
+		CpuDispatcher = nullptr;
 	}
 
 	if (nullptr != mFoundation)
