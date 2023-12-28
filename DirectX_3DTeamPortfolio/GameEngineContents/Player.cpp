@@ -13,16 +13,6 @@ Player::~Player()
 
 void Player::Start()
 {
-	{
-		std::shared_ptr<GameEngineRenderer> NewRenderer = CreateComponent<GameEngineRenderer>();
-
-		NewRenderer->SetMesh("Sphere");
-		NewRenderer->SetMaterial("FBXColor");
-		NewRenderer->Transform.SetLocalScale({ 500.0f, 500.0f, 500.0f });
-		NewRenderer->RenderBaseInfoValue.BaseColor = float4::RED;
-
-	}
-
 	//{
 	//	FBXRenderer = CreateComponent<GameEngineFBXRenderer>();
 	//	FBXRenderer->SetFBXMesh("c0000.FBX", "FBXColor"); // Bone 136

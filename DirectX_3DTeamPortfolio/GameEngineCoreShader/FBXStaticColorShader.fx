@@ -1,5 +1,4 @@
 #include "Transform.fx"
-#include "FBXAnimation.fx"
 #include "RenderBase.fx"
 #include "Light.fx"
 
@@ -21,7 +20,7 @@ struct PixelOutPut
     // float4 LightColor;
 };
 
-PixelOutPut FBXColorShader_VS(GameEngineVertex2D _Input)
+PixelOutPut FBXStaticColorShader_VS(GameEngineVertex2D _Input)
 {
     // _Input 0.5 0.5
     
@@ -29,18 +28,8 @@ PixelOutPut FBXColorShader_VS(GameEngineVertex2D _Input)
     PixelOutPut Result = (PixelOutPut)0;
     _Input.POSITION.w = 1.0f;
     
-    if (0 != IsAnimation)
-    {
-        Skinning(_Input.POSITION, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
-    }
-    
-    // 버텍스 쉐이더에서 계산하면
-    // 고로쉐이딩.
-    
-    // float4x4 ViewMat = WorldMatrix * ViewMatrix;
-    
     _Input.POSITION.w = 1.0f;
-    Result.VIEWPOSITION = mul(_Input.POSITION, WorldMatrix);
+    Result.VIEWPOSITION = mul(_Input.POSITION, WorldViewMatrix);
     // Result.VIEWPOSITION = _Input.POSITION;
     Result.VIEWPOSITION.w = 1.0f;
     
@@ -82,23 +71,26 @@ struct PixelOut
 // SV_Target3
 // SV_Target4
 
-PixelOut FBXColorShader_PS(PixelOutPut _Input) : SV_Target0
+PixelOut FBXStaticColorShader_PS(PixelOutPut _Input) : SV_Target0
 {
     PixelOut Result = (PixelOut)0.0f;
     float4 Color = BaseColor;
     Color.a = 1;
     
     float4 DiffuseRatio = (float4) 0.0f;
-    
+    float4 AmbientRatio = (float4) 0.0f;
+
     if (1 == IsLight)
     {
         for (int i = 0; i < LightCount; ++i)
         {
             DiffuseRatio += CalDiffuseLight(_Input.VIEWNORMAL, AllLight[i]);
+            AmbientRatio += CalSpacularLight(_Input.VIEWPOSITION, _Input.VIEWNORMAL, AllLight[i]);
+            AmbientRatio += CalAmbientLight(AllLight[i]);
         }
         
         float A = Color.w;
-        Color.xyz = Color.xyz * (DiffuseRatio.xyz);
+        Color.xyz = Color.xyz * (DiffuseRatio.xyz + AmbientRatio.xyz);
         Color.a = A;
     }
     

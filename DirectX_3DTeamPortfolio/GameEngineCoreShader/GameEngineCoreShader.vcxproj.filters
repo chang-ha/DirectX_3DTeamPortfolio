@@ -53,6 +53,9 @@
     <FxCompile Include="Light.fx">
       <Filter>Header</Filter>
     </FxCompile>
+    <FxCompile Include="FBXStaticColorShader.fx">
+      <Filter>3D</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

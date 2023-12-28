@@ -36,7 +36,7 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<TestLevel_Boss>("TestLevel_Boss");
 	GameEngineCore::CreateLevel<TestLevel_Monster>("TestLevel_Monster");
 
-	GameEngineCore::ChangeLevel("TestLevel_Boss");
+	GameEngineCore::ChangeLevel("PlayLevel");
 }
 
 void ContentsCore::Update(float _Delta)

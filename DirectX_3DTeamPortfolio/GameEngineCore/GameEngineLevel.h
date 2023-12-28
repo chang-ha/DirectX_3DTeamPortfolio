@@ -11,6 +11,7 @@ class GameEngineLevel : public GameEngineObject
 	friend class GameEngineCamera;
 	friend class GameEngineCollision;
 	friend class GameEngineRenderer;
+	friend class GameEngineRenderUnit;
 
 public:
 	static bool IsDebug;

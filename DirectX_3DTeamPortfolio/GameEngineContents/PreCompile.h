@@ -27,6 +27,7 @@
 // Contents
 #include <GameEngineCore/GameEngineTileMap.h>
 #include <GameEngineCore/GameEngineState.h>
+#include <GameEngineCore\GameEngineLight.h>
 
 #include "ContentsEnum.h"
 #include "GlobalValue.h"

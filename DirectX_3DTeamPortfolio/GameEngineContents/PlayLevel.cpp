@@ -3,8 +3,6 @@
 #include "PlayLevel.h"
 #include "Player.h"
 
-#include <GameEngineCore/GameEngineLight.h>
-
 PlayLevel::PlayLevel() 
 {
 }

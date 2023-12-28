@@ -32,6 +32,7 @@
     <FxCompile Include="FBXAnimation.fx" />
     <FxCompile Include="FBXAnimationColorShader.fx" />
     <FxCompile Include="FBXAnimationTextureShader.fx" />
+    <FxCompile Include="FBXStaticColorShader.fx" />
     <FxCompile Include="Function.fx" />
     <FxCompile Include="Light.fx" />
     <FxCompile Include="ParticleHeader.fx" />
