@@ -7,7 +7,7 @@ class PhysXErrorCallback : public physx::PxErrorCallback
 private:
 	void reportError(physx::PxErrorCode::Enum code, const char* message, const char* file, int line) override
 	{
-		std::string ErrorResult = "";
+		std::string ErrorResult = "Error : ";
 		switch (code)
 		{
 		case physx::PxErrorCode::eNO_ERROR:
@@ -45,9 +45,9 @@ private:
 			break;
 		}
 
-		ErrorResult += "\n" + std::string(message);
-		ErrorResult += "\n" + std::string(file);
-		ErrorResult += "\n" + std::to_string(line);
+		ErrorResult += "\nMessage : " + std::string(message);
+		ErrorResult += "\nPath : " + std::string(file);
+		ErrorResult += "\nLine : " + std::to_string(line);
 
 		MsgBoxAssert(ErrorResult);
 	}
@@ -68,6 +68,8 @@ public:
 
 	static void PhysXInit();
 	static void PhysXRelease();
+	static physx::PxScene* CreateLevelScene();
+
 protected:
 
 private:
@@ -78,4 +80,5 @@ private:
 	static physx::PxPhysics* mPhysics;
 	static physx::PxCooking* mCooking;
 
+	static std::map<std::string, physx::PxScene*> AllLevelScene;
 };

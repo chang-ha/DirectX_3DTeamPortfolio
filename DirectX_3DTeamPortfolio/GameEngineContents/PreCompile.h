@@ -30,3 +30,5 @@
 
 #include "ContentsEnum.h"
 #include "GlobalValue.h"
+
+#include "GameEngineCore\GameEnginePhysX.h"

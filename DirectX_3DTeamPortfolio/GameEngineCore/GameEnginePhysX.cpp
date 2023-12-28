@@ -7,6 +7,7 @@ physx::PxFoundation* GameEnginePhysX::mFoundation = nullptr;
 physx::PxPvd* GameEnginePhysX::mPvd = nullptr;
 physx::PxPhysics* GameEnginePhysX::mPhysics = nullptr;
 physx::PxCooking* GameEnginePhysX::mCooking = nullptr;
+std::map<std::string, physx::PxScene*> GameEnginePhysX::AllLevelScene;
 
 GameEnginePhysX::GameEnginePhysX()
 {
@@ -52,13 +53,51 @@ void GameEnginePhysX::PhysXInit()
 		MsgBoxAssert("Physics 생성에 실패했습니다.");
 	}
 
-	mCooking = PxCreateCooking(PX_PHYSICS_VERSION, *mFoundation, physx::PxCookingParams(Scale));
+
+	mCooking = PxCreateCooking(PX_PHYSICS_VERSION, *mFoundation, physx::PxCookingParams(mPhysics->getTolerancesScale()));
 
 	if (nullptr == mCooking)
 	{
 		MsgBoxAssert("Cooking 생성에 실패했습니다.");
 	}
 }
+
+physx::PxScene* GameEnginePhysX::CreateLevelScene()
+{
+	std::string UpperName = GameEngineString::ToUpperReturn(GameEngineCore::GetCurLevel()->GetName());
+
+	if (true == AllLevelScene.contains(UpperName))
+	{
+		return AllLevelScene[UpperName];
+	}
+
+	physx::PxSceneDesc SceneDesc = physx::PxSceneDesc(mPhysics->getTolerancesScale());
+
+	SceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
+
+	// Set Scenes Limit Datas
+	physx::PxSceneLimits SceneLimitsData = physx::PxSceneLimits();
+	SceneLimitsData.maxNbActors = 512/*UINT32_MAX - 1*/;
+	SceneLimitsData.maxNbBodies = 512/*UINT32_MAX - 1*/;
+	SceneLimitsData.maxNbStaticShapes = 0;
+	SceneLimitsData.maxNbDynamicShapes = 0;
+	SceneLimitsData.maxNbAggregates = 0;
+	SceneLimitsData.maxNbConstraints = 0;
+	SceneLimitsData.maxNbRegions = 255; // Maxmum 256
+	SceneLimitsData.maxNbBroadPhaseOverlaps = 0;
+	
+	SceneDesc.limits = SceneLimitsData;
+
+	// Cpu Dispatcher
+	physx::PxDefaultCpuDispatcher* Dispatcher = physx::PxDefaultCpuDispatcherCreate(0);
+	SceneDesc.cpuDispatcher = Dispatcher;
+
+	physx::PxScene* Scene = mPhysics->createScene(SceneDesc);
+
+	AllLevelScene[UpperName] = Scene;
+	return Scene;
+}
+
 
 void GameEnginePhysX::PhysXRelease()
 {
