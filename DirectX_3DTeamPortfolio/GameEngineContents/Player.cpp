@@ -13,34 +13,34 @@ Player::~Player()
 
 void Player::Start()
 {
-	{
-		FBXRenderer = CreateComponent<GameEngineFBXRenderer>();
-		FBXRenderer->SetFBXMesh("c0000.FBX", "FBXColor"); // Bone 136
-		FBXRenderer->Transform.SetLocalScale({50.0f, 50.0f, 50.0f});
-		FBXRenderer->Transform.SetLocalRotation({0.0f, 0.0f, -90.0f });
+	//{
+	//	FBXRenderer = CreateComponent<GameEngineFBXRenderer>();
+	//	FBXRenderer->SetFBXMesh("c0000.FBX", "FBXColor"); // Bone 136
+	//	FBXRenderer->Transform.SetLocalScale({50.0f, 50.0f, 50.0f});
+	//	FBXRenderer->Transform.SetLocalRotation({0.0f, 0.0f, -90.0f });
 
-		FBXRenderer->CreateFBXAnimation("Run", "Ani001.FBX", { 0.1f, true });
-		FBXRenderer->ChangeAnimation("Run");
+	//	FBXRenderer->CreateFBXAnimation("Run", "Ani001.FBX", { 0.1f, true });
+	//	FBXRenderer->ChangeAnimation("Run");
 
-		FBXRenderer->RenderBaseInfoValue.BaseColor = float4::WHITE;
-	}
+	//	FBXRenderer->RenderBaseInfoValue.BaseColor = float4::WHITE;
+	//}
 
-	{
-		FBXRenderer = CreateComponent<GameEngineFBXRenderer>();
-		FBXRenderer->SetFBXMesh("AnimMan.FBX", "FBXColor"); // Bone 68
-		FBXRenderer->Transform.SetLocalPosition({ 200.0f,  });
+	//{
+	//	FBXRenderer = CreateComponent<GameEngineFBXRenderer>();
+	//	FBXRenderer->SetFBXMesh("AnimMan.FBX", "FBXColor"); // Bone 68
+	//	FBXRenderer->Transform.SetLocalPosition({ 200.0f,  });
 
-		FBXRenderer->CreateFBXAnimation("Run", "ALS_N_Run_F.FBX", { 0.1f, true });
-		FBXRenderer->ChangeAnimation("Run");
+	//	FBXRenderer->CreateFBXAnimation("Run", "ALS_N_Run_F.FBX", { 0.1f, true });
+	//	FBXRenderer->ChangeAnimation("Run");
 
-		FBXRenderer->RenderBaseInfoValue.BaseColor = float4::WHITE;
-	}
+	//	FBXRenderer->RenderBaseInfoValue.BaseColor = float4::WHITE;
+	//}
 
-	{
-		Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player);
-		Col->SetCollisionType(ColType::SPHERE2D);
-		Col->Transform.SetLocalScale({ 100.0f, 100.0f, 1.0f });
-	}
+	//{
+	//	Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player);
+	//	Col->SetCollisionType(ColType::SPHERE2D);
+	//	Col->Transform.SetLocalScale({ 100.0f, 100.0f, 1.0f });
+	//}
 
 	GameEngineInput::AddInputObject(this);
 }

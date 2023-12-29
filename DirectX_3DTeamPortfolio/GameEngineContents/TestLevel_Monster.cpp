@@ -84,6 +84,7 @@ void MonsterGUI::CopyAnimationName(class TestLevel_Monster* _Level)
 	std::map<std::string, std::shared_ptr<GameEngineFBXAnimationInfo>>& Animations = _Level->EditorActor->GetRenderer()->GetAnimationInfos();
 	AnimationNames.reserve(Animations.size());
 	CAnimationNames.reserve(Animations.size());
+#include "Monster_HollowSoldier.h"
 
 	int CurIndex = 0;
 	for (std::pair<const std::string, std::shared_ptr<GameEngineFBXAnimationInfo>>& _Pair : Animations)
@@ -149,4 +150,5 @@ void TestLevel_Monster::LevelEnd(GameEngineLevel* _NextLevel)
 		MonsterWindow->Release();
 		MonsterWindow->Off();
 	}
+	CreateActor<Monster_HollowSoldier>(Enum_UpdateOrder::Monster);
 }

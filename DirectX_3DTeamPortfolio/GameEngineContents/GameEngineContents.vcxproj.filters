@@ -34,11 +34,11 @@
     <ClCompile Include="ContentsControlWindow.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Monster_LothricKn.cpp">
-      <Filter>Monster\LothricKnight</Filter>
+    <ClCompile Include="Monster_HollowSoldier.cpp">
+      <Filter>Monster</Filter>
     </ClCompile>
-    <ClCompile Include="MonsterEditorActor.cpp">
-      <Filter>Monster\LothricKnight</Filter>
+    <ClCompile Include="TestLevel_Shader.cpp">
+      <Filter>Level\TestLevel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -78,11 +78,11 @@
     <ClInclude Include="ContentsControlWindow.h">
       <Filter>ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="Monster_LothricKn.h">
-      <Filter>Monster\LothricKnight</Filter>
+    <ClInclude Include="Monster_HollowSoldier.h">
+      <Filter>Monster</Filter>
     </ClInclude>
-    <ClInclude Include="MonsterEditorActor.h">
-      <Filter>Monster\LothricKnight</Filter>
+    <ClInclude Include="TestLevel_Shader.h">
+      <Filter>Level\TestLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

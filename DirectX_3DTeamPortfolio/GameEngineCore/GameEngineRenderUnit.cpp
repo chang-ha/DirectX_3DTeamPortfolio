@@ -9,6 +9,7 @@
 #include "GameEnginePixelShader.h"
 #include "GameEngineGeometryShader.h"
 #include "GameEngineRenderer.H"
+#include "GameEngineLevel.h"
 
 
 GameEngineRenderUnit::GameEngineRenderUnit() 
@@ -243,6 +244,13 @@ void GameEngineRenderUnit::SetMaterial(std::shared_ptr<GameEngineMaterial> _Mate
 	{
 		ShaderResHelper.SetConstantBufferLink("RenderBaseInfo", ParentRenderer->RenderBaseInfoValue);
 	}
+
+	if (nullptr != ParentRenderer
+		&& ShaderResHelper.IsConstantBuffer("LightDatas"))
+	{
+		ShaderResHelper.SetConstantBufferLink("LightDatas", ParentRenderer->GetLevel()->LightDataObject);
+	}
+
 
 }
 

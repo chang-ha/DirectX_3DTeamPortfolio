@@ -153,7 +153,7 @@ void GameEngineCamera::SetCameraOrder(int _Order)
 
 void GameEngineCamera::Render(float _DeltaTime)
 {
-	CameraUpdate(_DeltaTime);
+	// CameraUpdate(_DeltaTime);
 
 	//  랜더러가 없으면 continue;
 	if (true == Renderers.empty())

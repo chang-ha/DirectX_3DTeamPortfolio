@@ -28,6 +28,10 @@ void PlayLevel::Start()
 		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
 		PlayerObject = Object;
 	}
+
+	{
+		std::shared_ptr<GameEngineLight> Object = CreateActor<GameEngineLight>(0);
+	}
 }
 
 void PlayLevel::Update(float _Delta)

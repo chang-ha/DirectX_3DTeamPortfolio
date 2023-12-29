@@ -199,16 +199,17 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(std::str
 	Unit->SetMesh(Mesh);
 	Unit->SetMaterial(_Material);
 
-	if (0 >= AnimationBoneMatrixs.size())
-	{
-		size_t Size = FBXMesh->GetBoneCount();
-		AnimationBoneMatrixs.resize(Size);
-		AnimationBoneNotOffset.resize(Size);
-		AnimationBoneDatas.resize(Size);
-	}
 
 	if (Unit->ShaderResHelper.IsStructedBuffer("ArrAniMationMatrix"))
 	{
+		if (0 >= AnimationBoneMatrixs.size())
+		{
+			size_t Size = FBXMesh->GetBoneCount();
+			AnimationBoneMatrixs.resize(Size);
+			AnimationBoneNotOffset.resize(Size);
+			AnimationBoneDatas.resize(Size);
+		}
+
 		std::shared_ptr<GameEngineStructuredBuffer> Buffer 
 			= Unit->ShaderResHelper.GetStructedBuffer("ArrAniMationMatrix", ShaderType::Vertex);
 
@@ -216,6 +217,7 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(std::str
 		Buffer->CreateResize(sizeof(float4x4), Size, StructuredBufferType::SRV_ONLY);
 
 		Unit->ShaderResHelper.SetStructedBufferLink("ArrAniMationMatrix", AnimationBoneMatrixs);
+
 	}
 
 	if (Unit->ShaderResHelper.IsTexture("DiffuseTexture"))

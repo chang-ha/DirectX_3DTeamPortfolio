@@ -25,6 +25,11 @@ void TestLevel_Boss::LevelEnd(GameEngineLevel* _NextLevel)
 void TestLevel_Boss::Start()
 {
 	Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
+	GameEnginePhysX::CreateLevelScene();
+
+	{
+		std::shared_ptr<GameEngineLight> Object = CreateActor<GameEngineLight>(0);
+	}
 }
 
 void TestLevel_Boss::Update(float _Delta)
