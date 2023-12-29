@@ -48,7 +48,6 @@ void ContentsCore::Update(float _Delta)
 		CoreGUIWindow->OnOffSwitch();
 	}
 
-	// 나중에 GUI 제작하신 분이 원하시는 가상키로 바꾸세요. 
 	if (nullptr != ContentsGUIWindow && true == GameEngineInput::IsDown(VK_F8, this))
 	{
 		ContentsGUIWindow->OnOffSwitch();

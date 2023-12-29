@@ -184,6 +184,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MonsterEditorActor.cpp" />
     <ClCompile Include="Monster_HollowSoldier.cpp">
       <SubType>
       </SubType>
@@ -242,6 +243,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="MonsterEditorActor.h" />
     <ClInclude Include="Monster_HollowSoldier.h">
       <SubType>
       </SubType>
