@@ -12,12 +12,14 @@ private:
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 	void Release();
 
+	void ShowLothricKnCount(class GameEngineLevel* _Level);
 	void CopyAnimationName(class TestLevel_Monster* _Level);
 
 private:
 	std::vector<std::string> AnimationNames; // Store Value
 	std::vector<const char*> CAnimationNames; // Use 'AnimationNames' Pointer
-	int SelectItem = -1;
+	std::shared_ptr<GameEngineFBXAnimationInfo> CurAnimationInfo;
+	int SelectAnimationIndex = -1;
 
 };
 

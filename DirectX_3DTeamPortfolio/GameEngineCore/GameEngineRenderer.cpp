@@ -82,6 +82,10 @@ void GameEngineRenderer::Render(GameEngineCamera* _Camera, float _Delta)
 
 	for (size_t i = 0; i < Units.size(); i++)
 	{
+		if (false == Units[i]->IsUpdate())
+		{
+			continue;
+		}
 		Units[i]->ResSetting();
 		Units[i]->Draw();
 		Units[i]->ResReset();

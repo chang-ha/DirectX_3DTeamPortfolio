@@ -9,22 +9,11 @@
 // _Level == TestLevel_Monster 
 void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
-	if (nullptr == _Level)
-	{
-		return;
-	}
-
 	if (bool MonsterCountTestCode = true)
 	{
-		std::vector<std::shared_ptr<Monster_LothricKn>> Monsters = _Level->GetObjectGroupConvert<Monster_LothricKn>(Enum_UpdateOrder::Monster);
-		if (true == Monsters.empty())
-		{
-			return;
-		}
-
-		int MonsterCount = static_cast<int>(Monsters.size());
-		ImGui::Text(std::string("ObjectCount : " + std::to_string(MonsterCount)).c_str());
+		ShowLothricKnCount(_Level);
 	}
+
 
 	TestLevel_Monster* TestLevel = static_cast<TestLevel_Monster*>(_Level);
 	if (nullptr == TestLevel)
@@ -42,16 +31,11 @@ void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		CopyAnimationName(TestLevel);
 	}
 
-	if (ImGui::ListBox("Aniamtion Name", &SelectItem, &CAnimationNames[0], static_cast<int>(CAnimationNames.size()), 8))
+	if (ImGui::ListBox("Aniamtion Name", &SelectAnimationIndex, &CAnimationNames[0], static_cast<int>(CAnimationNames.size()), 8))
 	{
-		const char* SelectAnimationName = CAnimationNames.at(SelectItem);
+		const char* SelectAnimationName = CAnimationNames.at(SelectAnimationIndex);
 		TestLevel->EditorActor->GetRenderer()->ChangeAnimation(SelectAnimationName);
-	}
-
-	if (-1 != SelectItem)
-	{
-		const std::shared_ptr<GameEngineFBXAnimationInfo>& AnimationInfo 
-			= TestLevel->EditorActor->GetRenderer()->GetAnimationInfos()[AnimationNames.at(SelectItem)];
+		CurAnimationInfo = TestLevel->EditorActor->GetRenderer()->GetAnimationInfos()[AnimationNames.at(SelectAnimationIndex)];
 	}
 
 	if (bool TestCode = false)
@@ -83,6 +67,18 @@ void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	}
 }
 
+void MonsterGUI::ShowLothricKnCount(GameEngineLevel* _Level)
+{
+	std::vector<std::shared_ptr<Monster_LothricKn>> Monsters = _Level->GetObjectGroupConvert<Monster_LothricKn>(Enum_UpdateOrder::Monster);
+	if (true == Monsters.empty())
+	{
+		return;
+	}
+
+	int MonsterCount = static_cast<int>(Monsters.size());
+	ImGui::Text(std::string("ObjectCount : " + std::to_string(MonsterCount)).c_str());
+}
+
 void MonsterGUI::CopyAnimationName(class TestLevel_Monster* _Level)
 {
 	std::map<std::string, std::shared_ptr<GameEngineFBXAnimationInfo>>& Animations = _Level->EditorActor->GetRenderer()->GetAnimationInfos();
@@ -101,9 +97,9 @@ void MonsterGUI::CopyAnimationName(class TestLevel_Monster* _Level)
 
 
 
-
 void MonsterGUI::Release()
 {
+	CurAnimationInfo = nullptr;
 	AnimationNames.clear();
 	CAnimationNames.clear();
 }

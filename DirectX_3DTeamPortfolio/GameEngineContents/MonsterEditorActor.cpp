@@ -23,8 +23,6 @@ void MonsterEditorActor::Start()
 	Renderer->CreateFBXAnimation("Idle_Sit", "c1280_Idle_Sit.fbx", { AnimationInter , true });
 	Renderer->CreateFBXAnimation("Idle_Standing", "c1280_Idle_Standing.fbx", { AnimationInter , true });
 	Renderer->CreateFBXAnimation("Idle_Standing2", "c1280_Idle_Standing2.fbx", {AnimationInter , true});
-
-
 }
 
 void MonsterEditorActor::Update(float _Delta)
