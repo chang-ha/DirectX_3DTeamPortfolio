@@ -14,7 +14,7 @@ Monster_LothricKn::~Monster_LothricKn()
 void Monster_LothricKn::Start()
 {
 	BodyRenderer = CreateComponent<GameEngineFBXRenderer>(Enum_RenderOrder::Monster);
-	BodyRenderer->SetFBXMesh("c1280.fbx", "FBXTexture");
+	BodyRenderer->SetFBXMesh("c1280.fbx", "FBXAnimationTexture");
 	BodyRenderer->Transform.SetLocalScale(float4(50.0f, 50.0f, 50.0f));
 	BodyRenderer->Transform.SetLocalRotation(float4(0.0f, 0.0f, -90.0f));
 

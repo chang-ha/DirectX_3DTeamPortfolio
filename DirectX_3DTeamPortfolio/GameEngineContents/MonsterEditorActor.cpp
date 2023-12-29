@@ -13,7 +13,7 @@ MonsterEditorActor::~MonsterEditorActor()
 void MonsterEditorActor::Start()
 {
 	Renderer = CreateComponent<GameEngineFBXRenderer>(Enum_RenderOrder::Monster);
-	Renderer->SetFBXMesh("c1280.fbx", "FBXTexture");
+	Renderer->SetFBXMesh("c1280.fbx", "FBXAnimationTexture");
 	Renderer->Transform.SetLocalPosition(float4(100.0f, 0.0f, 0.0f ));
 	Renderer->Transform.SetLocalScale(float4(50.0f, 50.0f, 50.0f));
 	Renderer->Transform.SetLocalRotation(float4(0.0f, 0.0f, -90.0f));

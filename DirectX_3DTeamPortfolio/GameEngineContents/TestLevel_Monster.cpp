@@ -3,6 +3,7 @@
 #include <GameEngineCore/GameEngineGUI.h>
 
 #include "Monster_LothricKn.h"
+#include "Monster_HollowSoldier.h"
 #include "MonsterEditorActor.h"
 
 
@@ -84,7 +85,6 @@ void MonsterGUI::CopyAnimationName(class TestLevel_Monster* _Level)
 	std::map<std::string, std::shared_ptr<GameEngineFBXAnimationInfo>>& Animations = _Level->EditorActor->GetRenderer()->GetAnimationInfos();
 	AnimationNames.reserve(Animations.size());
 	CAnimationNames.reserve(Animations.size());
-#include "Monster_HollowSoldier.h"
 
 	int CurIndex = 0;
 	for (std::pair<const std::string, std::shared_ptr<GameEngineFBXAnimationInfo>>& _Pair : Animations)
