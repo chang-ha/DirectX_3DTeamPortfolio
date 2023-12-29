@@ -3,11 +3,16 @@
 
 GameEnginePhysXLevel::GameEnginePhysXLevel()
 {
-	Scene = GameEnginePhysX::CreateLevelScene();
 }
 
 GameEnginePhysXLevel::~GameEnginePhysXLevel()
 {
+
+}
+
+void GameEnginePhysXLevel::PhysXLevelInit()
+{
+	Scene = GameEnginePhysX::CreateLevelScene();
 
 }
 

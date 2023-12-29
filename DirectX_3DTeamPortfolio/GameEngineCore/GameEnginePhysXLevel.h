@@ -14,6 +14,7 @@ public:
 	GameEnginePhysXLevel& operator=(GameEnginePhysXLevel&& _Other) noexcept = delete;
 
 protected:
+	void PhysXLevelInit();
 	void RunSimulation(float _Delta);
 
 	physx::PxScene* Scene = nullptr;
