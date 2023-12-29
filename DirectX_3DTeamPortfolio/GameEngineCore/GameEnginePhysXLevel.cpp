@@ -17,7 +17,7 @@ void GameEnginePhysXLevel::PhysXLevelInit()
 
 void GameEnginePhysXLevel::RunSimulation(float _Delta)
 {
-	if (0.0f <= _Delta)
+	if (0.0f >= _Delta)
 	{
 		return;
 	}
