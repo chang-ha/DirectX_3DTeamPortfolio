@@ -32,7 +32,7 @@
 
 #include <stddef.h>
 #if !defined(PX_GENERATE_META_DATA)
-#include <ciso646>  
+//#include <ciso646>  
 #endif
 /** \addtogroup foundation
   @{

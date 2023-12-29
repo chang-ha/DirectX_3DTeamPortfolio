@@ -1,8 +1,34 @@
 #pragma once
+#include "ContentLevel.h"
+
+
+// TestLevel_Monster에서만 쓰이는 GUI입니다.
+class MonsterGUI : public GameEngineGUIWindow
+{
+	friend class TestLevel_Monster;
+private:
+	void Start() override {}
+
+	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
+	void Release();
+
+	void ShowLothricKnCount(class GameEngineLevel* _Level);
+	void CopyAnimationName(class TestLevel_Monster* _Level);
+
+private:
+	std::vector<std::string> AnimationNames; // Store Value
+	std::vector<const char*> CAnimationNames; // Use 'AnimationNames' Pointer
+	std::shared_ptr<GameEngineFBXAnimationInfo> CurAnimationInfo;
+	int SelectAnimationIndex = -1;
+
+};
+
 
 // 설명 :
-class TestLevel_Monster : public GameEngineLevel
+class TestLevel_Monster : public ContentLevel
 {
+	friend class MonsterGUI;
+
 public:
 	// constrcuter destructer
 	TestLevel_Monster();
@@ -16,12 +42,29 @@ public:
 
 protected:
 	void Start() override;
-	void Update(float _Delta) override {}
+	void Update(float _Delta) override;
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
-	void LevelEnd(GameEngineLevel* _NextLevel) override {}
+	void LevelEnd(GameEngineLevel* _NextLevel) override;
+
+
+	template<typename ObjectType, typename OrderType>
+	void AllDeathObjectGroupConvert(OrderType _Order)
+	{
+		std::vector<std::shared_ptr<ObjectType>> Objects = GetObjectGroupConvert<ObjectType>(_Order);
+		for (const std::shared_ptr<ObjectType>& ObjectPointer : Objects)
+		{
+			ObjectPointer->Death();
+		}
+
+		if (bool OutputMsg = true)
+		{
+			OutputDebugStringA((std::to_string(Objects.size()) + "\t" + std::string(typeid(ObjectType).name()) + " have been released. \n").c_str());
+		}
+	}
 
 private:
-
+	std::shared_ptr<MonsterGUI> MonsterWindow;
+	std::shared_ptr<class MonsterEditorActor> EditorActor;
 
 };
 

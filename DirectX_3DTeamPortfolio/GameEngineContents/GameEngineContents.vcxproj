@@ -184,6 +184,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MonsterEditorActor.cpp" />
     <ClCompile Include="Monster_HollowSoldier.cpp">
       <SubType>
       </SubType>
@@ -218,6 +219,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TestLevel_Shader.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ContentLevel.h">
@@ -238,6 +243,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="MonsterEditorActor.h" />
     <ClInclude Include="Monster_HollowSoldier.h">
       <SubType>
       </SubType>
@@ -264,6 +270,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TestLevel_Monster.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TestLevel_Shader.h">
       <SubType>
       </SubType>
     </ClInclude>
