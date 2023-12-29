@@ -13,7 +13,7 @@ void Monster_HollowSoldier::Start()
 {
 	{
 		FBXRenderer = CreateComponent<GameEngineFBXRenderer>();
-		FBXRenderer->SetFBXMesh("c1100.FBX", "FBX_Animation"); // Bone 136
+		FBXRenderer->SetFBXMesh("c1100.FBX", "FBXTexture"); // Bone 136
 		FBXRenderer->Transform.SetLocalScale({ 50.0f, 50.0f, 50.0f });
 		FBXRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
 		FBXRenderer->Transform.SetLocalPosition({ 200.0f });

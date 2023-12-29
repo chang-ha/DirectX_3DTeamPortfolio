@@ -30,7 +30,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 			BossFBXRenderer = CreateComponent<GameEngineFBXRenderer>(Enum_RenderOrder::Monster);
 		}
 
-		BossFBXRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBX_Animation"); // Bone 136
+		BossFBXRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBXAnimationTexture"); // Bone 136
 		// BossFBXRenderer->Transform.SetLocalScale({ 50.0f, 50.0f, 50.0f });
 		BossFBXRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
 	}
