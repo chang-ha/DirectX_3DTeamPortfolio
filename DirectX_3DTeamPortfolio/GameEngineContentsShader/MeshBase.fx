@@ -51,7 +51,12 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout PixelOut _Result)
 {
     
     float4 Color = DiffuseTexture.Sample(DiffuseTextureSampler, _Input.TEXCOORD.xy);
-    Color.a = 1;
+    
+    if (0.0f >= Color.a)
+    {
+        clip(-1);
+    }
+   // Color.a = 1;
     
     if (0 < Target0)
     {
