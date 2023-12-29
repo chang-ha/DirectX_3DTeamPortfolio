@@ -23,7 +23,7 @@ void TestLevel_Shader::Start()
 {
 
 	CreateActor<Monster_HollowSoldier>(Enum_UpdateOrder::Monster);
-	//Boss_Object = CreateActor<Monster_HollowSoldier>(0, "Boss_Vordt");
+	Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
 }
 
 void TestLevel_Shader::Update(float _Delta)

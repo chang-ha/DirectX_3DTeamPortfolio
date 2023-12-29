@@ -69,8 +69,8 @@ void ContentResources::ContentResourcesInit()
 
 	{
 		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBX_Animation");
-		Mat->SetVertexShader("FBXTextureShader_VS");
-		Mat->SetPixelShader("FBXTextureShader_PS");
+		Mat->SetVertexShader("ContentsAnimationMesh_VS");
+		Mat->SetPixelShader("ContentsAnimationMesh_PS");
 	}
 
 	{

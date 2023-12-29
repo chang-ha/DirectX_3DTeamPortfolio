@@ -23,7 +23,7 @@ protected:
 	void Release() override;
 
 private:
-	//std::shared_ptr<class Boss_Vordt> Boss_Object;
+	std::shared_ptr<class Boss_Vordt> Boss_Object;
 	//std::shared_ptr<class Boss_Vordt> Boss_Object;
 };
 

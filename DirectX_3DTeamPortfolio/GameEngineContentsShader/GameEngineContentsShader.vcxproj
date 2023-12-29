@@ -18,6 +18,16 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="ContentsAnimationMesh.fx" />
+    <FxCompile Include="FBXAnimation.fx" />
+    <FxCompile Include="Function.fx" />
+    <FxCompile Include="Light.fx" />
+    <FxCompile Include="MeshBase.fx" />
+    <FxCompile Include="Random.fx" />
+    <FxCompile Include="RenderBase.fx" />
+    <FxCompile Include="Transform.fx" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
