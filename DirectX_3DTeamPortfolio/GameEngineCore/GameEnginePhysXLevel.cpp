@@ -13,7 +13,6 @@ GameEnginePhysXLevel::~GameEnginePhysXLevel()
 void GameEnginePhysXLevel::PhysXLevelInit()
 {
 	Scene = GameEnginePhysX::CreateLevelScene();
-
 }
 
 void GameEnginePhysXLevel::RunSimulation(float _Delta)

@@ -42,8 +42,8 @@ void GameEnginePhysX::PhysXInit()
 
 	// If Use PhysX Visual Debugger use this (NetWork)
 	// Default listening port is 5425 
-	// physx::PxPvdTransport* transport = physx::PxDefaultPvdSocketTransportCreate(PVD_HOST, 5425, 10);
-	//mPvd->connect(*transport, PxPvdInstrumentationFlag::eALL);
+	physx::PxPvdTransport* transport = physx::PxDefaultPvdSocketTransportCreate(PVD_HOST, 5425, 10);
+	mPvd->connect(*transport, physx::PxPvdInstrumentationFlag::eALL);
 
 #endif
 
@@ -107,6 +107,17 @@ physx::PxScene* GameEnginePhysX::CreateLevelScene()
 	SceneDesc.cpuDispatcher = CpuDispatcher;
 
 	physx::PxScene* Scene = mPhysics->createScene(SceneDesc);
+
+#ifdef _DEBUG
+	physx::PxPvdSceneClient* PvdClient = Scene->getScenePvdClient();
+	if (nullptr != PvdClient)
+	{
+		PvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS, true);
+		PvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
+		PvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
+	}
+
+#endif
 
 	AllLevelScene[UpperName] = Scene;
 	return Scene;
