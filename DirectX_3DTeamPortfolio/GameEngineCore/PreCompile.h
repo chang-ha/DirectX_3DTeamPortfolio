@@ -24,6 +24,7 @@
 
 // PhysX
 #include "PxConfig.h"
+#include "GameEnginePhysX.h"
 
 #pragma comment (lib, "PhysX_static_64.lib")
 #pragma comment (lib, "PhysXCharacterKinematic_static_64.lib")

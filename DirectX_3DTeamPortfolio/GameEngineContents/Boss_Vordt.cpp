@@ -1,7 +1,7 @@
 ﻿#include "PreCompile.h"
 #include "Boss_Vordt.h"
 
-#define BOSS_ANI_SPEED 0.33f
+#define BOSS_ANI_SPEED 0.033f
 
 Boss_Vordt::Boss_Vordt()
 {
@@ -30,7 +30,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 			BossFBXRenderer = CreateComponent<GameEngineFBXRenderer>(Enum_RenderOrder::Monster);
 		}
 
-		BossFBXRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBXAnimationTexture"); // Bone 136
+		BossFBXRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBX_Animation"); // Bone 136
 		// BossFBXRenderer->Transform.SetLocalScale({ 50.0f, 50.0f, 50.0f });
 		BossFBXRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
 	}

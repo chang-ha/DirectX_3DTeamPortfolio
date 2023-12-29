@@ -5,6 +5,8 @@
 #define SCENE_MAX_ACTOR 512
 #define GRAVITY_FORCE 9.8f
 
+#define AAA
+
 class PhysXErrorCallback : public physx::PxErrorCallback
 {
 private:
@@ -73,6 +75,7 @@ public:
 	static void PhysXRelease();
 	static physx::PxScene* CreateLevelScene();
 
+	static physx::PxPhysics* GetPhysics();
 protected:
 
 private:

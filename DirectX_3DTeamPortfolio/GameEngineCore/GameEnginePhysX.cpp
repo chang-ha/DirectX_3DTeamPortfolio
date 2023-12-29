@@ -107,17 +107,6 @@ physx::PxScene* GameEnginePhysX::CreateLevelScene()
 	SceneDesc.cpuDispatcher = CpuDispatcher;
 
 	physx::PxScene* Scene = mPhysics->createScene(SceneDesc);
-	physx::PxMaterial* gMaterial = mPhysics->createMaterial(0.5f, 0.5f, 0.6f);
-
-	// Test Code
-	Scene->setVisualizationParameter(physx::PxVisualizationParameter::eSCALE, 1.0f);
-	Scene->setVisualizationParameter(physx::PxVisualizationParameter::eACTOR_AXES, 2.0f);
-
-	physx::PxRigidStatic* groundPlane = PxCreatePlane(*mPhysics, physx::PxPlane(0, 1, 0, 0), *gMaterial);
-	Scene->addActor(*groundPlane);
-	groundPlane->setGlobalPose({0.0f, 0.0f, 0.0f});
-
-	//
 
 	AllLevelScene[UpperName] = Scene;
 	return Scene;
@@ -155,4 +144,9 @@ void GameEnginePhysX::PhysXRelease()
 		mFoundation->release();
 		mFoundation = nullptr;
 	}
+}
+
+physx::PxPhysics* GameEnginePhysX::GetPhysics()
+{
+	return mPhysics;
 }

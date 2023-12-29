@@ -24,6 +24,5 @@ protected:
 
 private:
 	std::shared_ptr<class Boss_Vordt> Boss_Object;
-	physx::PxScene* Scene = nullptr;
 };
 
