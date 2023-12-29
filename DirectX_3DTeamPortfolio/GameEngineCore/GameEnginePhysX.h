@@ -2,6 +2,9 @@
 
 #include <PxPhysicsAPI.h>
 
+#define SCENE_MAX_ACTOR 512
+#define GRAVITY_FORCE 9.8f
+
 class PhysXErrorCallback : public physx::PxErrorCallback
 {
 private:

@@ -24,17 +24,19 @@ void TestLevel_Boss::LevelEnd(GameEngineLevel* _NextLevel)
 
 void TestLevel_Boss::Start()
 {
-	Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
-	GameEnginePhysX::CreateLevelScene();
+	//Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
+	Scene = GameEnginePhysX::CreateLevelScene();
 
-	{
-		std::shared_ptr<GameEngineLight> Object = CreateActor<GameEngineLight>(0);
-	}
+	//{
+	//	std::shared_ptr<GameEngineLight> Object = CreateActor<GameEngineLight>(0);
+	//}
+
 }
 
 void TestLevel_Boss::Update(float _Delta)
 {
-	
+	Scene->simulate(1.0f / 60.0f);
+	Scene->fetchResults(true);
 }
 
 void TestLevel_Boss::Release()
