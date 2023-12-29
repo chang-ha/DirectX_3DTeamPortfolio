@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ContentsAnimationMesh.fx" />
+    <FxCompile Include="ContentsStaticMesh.fx" />
     <FxCompile Include="FBXAnimation.fx" />
     <FxCompile Include="Function.fx" />
     <FxCompile Include="Light.fx" />

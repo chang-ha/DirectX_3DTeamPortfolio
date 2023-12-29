@@ -75,7 +75,7 @@ void ContentResources::ContentResourcesInit()
 
 	{
 		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBX_Static");
-		Mat->SetVertexShader("FBXStaticColorShader_VS");
-		Mat->SetPixelShader("FBXStaticColorShader_PS");
+		Mat->SetVertexShader("ContentsStaticMesh_VS");
+		Mat->SetPixelShader("ContentsStaticMesh_PS");
 	}
 }
