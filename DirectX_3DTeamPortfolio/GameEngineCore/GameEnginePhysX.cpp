@@ -140,8 +140,14 @@ void GameEnginePhysX::PhysXRelease()
 
 	if (nullptr != mPvd)
 	{
+		physx::PxPvdTransport* transport = mPvd->getTransport();
 		mPvd->release();
 		mPvd = nullptr;
+
+		if (transport)
+		{
+			transport->release();
+		}
 	}
 
 	if (nullptr != CpuDispatcher)
