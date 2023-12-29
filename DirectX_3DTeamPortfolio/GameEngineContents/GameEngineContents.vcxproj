@@ -214,10 +214,12 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TestLevel_Map.cpp" />
     <ClCompile Include="TestLevel_Monster.cpp">
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TestMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ContentLevel.h">
@@ -263,10 +265,12 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="TestLevel_Map.h" />
     <ClInclude Include="TestLevel_Monster.h">
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="TestMap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
