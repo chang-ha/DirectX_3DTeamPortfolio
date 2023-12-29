@@ -8,6 +8,7 @@
 #include "PlayLevel.h"
 #include "TestLevel_Boss.h"
 #include "TestLevel_Monster.h"
+#include "TestLevel_Shader.h"
 
 #include <GameEngineCore\GameEnginePhysX.h>
 
@@ -35,6 +36,7 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
 	GameEngineCore::CreateLevel<TestLevel_Boss>("TestLevel_Boss");
 	GameEngineCore::CreateLevel<TestLevel_Monster>("TestLevel_Monster");
+	GameEngineCore::CreateLevel<TestLevel_Shader>("TestLevel_Shader");
 
 	GameEngineCore::ChangeLevel("PlayLevel");
 }

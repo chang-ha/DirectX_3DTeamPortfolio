@@ -40,6 +40,9 @@
     <ClCompile Include="Monster_HollowSoldier.cpp">
       <Filter>Monster</Filter>
     </ClCompile>
+    <ClCompile Include="TestLevel_Shader.cpp">
+      <Filter>Level\TestLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -83,6 +86,9 @@
     </ClInclude>
     <ClInclude Include="Monster_HollowSoldier.h">
       <Filter>Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="TestLevel_Shader.h">
+      <Filter>Level\TestLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
