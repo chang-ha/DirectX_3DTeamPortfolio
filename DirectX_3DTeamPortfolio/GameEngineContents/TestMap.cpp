@@ -15,7 +15,7 @@ void TestMap::Start()
 {
 	{
 		FBXRenderer = CreateComponent<GameEngineFBXRenderer>();
-		FBXRenderer->SetFBXMesh("WorldMap.FBX", "FBXTexture");
+		FBXRenderer->SetFBXMesh("WorldMap.FBX", "FBX_Static");
 	}
 }
 
