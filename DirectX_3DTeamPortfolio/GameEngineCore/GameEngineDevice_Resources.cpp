@@ -610,16 +610,22 @@ void GameEngineDevice::ResourcesInit()
 	}
 
 	{
-		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBXColor");
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBXAnimationColor");
 		Mat->SetVertexShader("FBXColorShader_VS");
 		Mat->SetPixelShader("FBXColorShader_PS");
 	}
 
 
 	{
-		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBXTexture");
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBXAnimationTexture");
 		Mat->SetVertexShader("FBXTextureShader_VS");
 		Mat->SetPixelShader("FBXTextureShader_PS");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBXStaticColor");
+		Mat->SetVertexShader("FBXStaticColorShader_VS");
+		Mat->SetPixelShader("FBXStaticColorShader_PS");
 	}
 
 

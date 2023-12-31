@@ -82,6 +82,10 @@ void GameEngineRenderer::Render(GameEngineCamera* _Camera, float _Delta)
 
 	for (size_t i = 0; i < Units.size(); i++)
 	{
+		if (false == Units[i]->IsUpdate())
+		{
+			continue;
+		}
 		Units[i]->ResSetting();
 		Units[i]->Draw();
 		Units[i]->ResReset();
@@ -128,15 +132,21 @@ void GameEngineRenderer::SetMaterial(std::string_view _Name, int _Index /*= 0*/)
 	std::shared_ptr<GameEngineRenderUnit> Unit = CreateAndFindRenderUnit(_Index);
 	Unit->SetMaterial(_Name);
 
-	if (Unit->ShaderResHelper.IsConstantBuffer("TransformData"))
-	{
-		Unit->ShaderResHelper.SetConstantBufferLink("TransformData", Transform.GetConstTransformDataRef());
-	}
+	//if (Unit->ShaderResHelper.IsConstantBuffer("TransformData"))
+	//{
+	//	Unit->ShaderResHelper.SetConstantBufferLink("TransformData", Transform.GetConstTransformDataRef());
+	//}
 
-	if (Unit->ShaderResHelper.IsConstantBuffer("RenderBaseInfo"))
-	{
-		Unit->ShaderResHelper.SetConstantBufferLink("RenderBaseInfo", RenderBaseInfoValue);
-	}
+	//if (Unit->ShaderResHelper.IsConstantBuffer("RenderBaseInfo"))
+	//{
+	//	Unit->ShaderResHelper.SetConstantBufferLink("RenderBaseInfo", RenderBaseInfoValue);
+	//}
+
+	//if (Unit->ShaderResHelper.IsConstantBuffer("LightDatas"))
+	//{
+	//	Unit->ShaderResHelper.SetConstantBufferLink("LightDatas", GetLevel()->LightDataObject);
+	//}
+
 
 	SetMaterialEvent(_Name, _Index);
 }

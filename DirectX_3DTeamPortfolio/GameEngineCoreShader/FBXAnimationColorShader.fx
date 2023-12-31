@@ -1,10 +1,12 @@
 #include "Transform.fx"
 #include "FBXAnimation.fx"
 #include "RenderBase.fx"
+#include "Light.fx"
 
 struct GameEngineVertex2D
 {
     float4 POSITION : POSITION;
+    float4 NORMAL : NORMAL;
     float4 BLENDWEIGHT : BLENDWEIGHT;
     int4 BLENDINDICES : BLENDINDICES;
 };
@@ -14,6 +16,9 @@ struct PixelOutPut
 {
     // 픽셀쉐이더에 보내느 ㄴ역
     float4 POSITION : SV_POSITION;
+    float4 VIEWPOSITION : POSITION;
+    float4 VIEWNORMAL : NORMAL;
+    // float4 LightColor;
 };
 
 PixelOutPut FBXColorShader_VS(GameEngineVertex2D _Input)
@@ -28,6 +33,21 @@ PixelOutPut FBXColorShader_VS(GameEngineVertex2D _Input)
     {
         Skinning(_Input.POSITION, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
     }
+    
+    // 버텍스 쉐이더에서 계산하면
+    // 고로쉐이딩.
+    
+    // float4x4 ViewMat = WorldMatrix * ViewMatrix;
+    
+    _Input.POSITION.w = 1.0f;
+    Result.VIEWPOSITION = mul(_Input.POSITION, WorldMatrix);
+    // Result.VIEWPOSITION = _Input.POSITION;
+    Result.VIEWPOSITION.w = 1.0f;
+    
+    _Input.NORMAL.w = 0.0f;
+    // Result.VIEWNORMAL = mul(_Input.NORMAL, WorldViewMatrix);
+    Result.VIEWNORMAL = mul(_Input.NORMAL, WorldMatrix);
+    Result.VIEWNORMAL.w = 0.0f;
     
     Result.POSITION = mul(_Input.POSITION, WorldViewProjectionMatrix);
     return Result;
@@ -67,6 +87,23 @@ PixelOut FBXColorShader_PS(PixelOutPut _Input) : SV_Target0
     PixelOut Result = (PixelOut)0.0f;
     float4 Color = BaseColor;
     Color.a = 1;
+    
+    float4 DiffuseRatio = (float4) 0.0f;
+    
+    if (1 == IsLight)
+    {
+        for (int i = 0; i < LightCount; ++i)
+        {
+            DiffuseRatio += CalDiffuseLight(_Input.VIEWNORMAL, AllLight[i]);
+        }
+        
+        float A = Color.w;
+        Color.xyz = Color.xyz * (DiffuseRatio.xyz);
+        Color.a = A;
+    }
+    
+    // 버텍스 쉐이더에서 계산하면
+    // 퐁쉐이딩.
     
     if (0 < Target0)
     {

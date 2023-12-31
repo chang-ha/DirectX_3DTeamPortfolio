@@ -8,7 +8,10 @@
 #include "PlayLevel.h"
 #include "TestLevel_Boss.h"
 #include "TestLevel_Monster.h"
+#include "TestLevel_Shader.h"
 #include "TestLevel_Map.h"
+
+#include <GameEngineCore\GameEnginePhysX.h>
 
 ContentsCore::ContentsCore() 
 {
@@ -22,6 +25,7 @@ ContentsCore::~ContentsCore()
 void ContentsCore::Start()
 {
 	ContentResources::ContentResourcesInit();
+	GameEnginePhysX::PhysXInit();
 
 	ContentsGUIWindow = GameEngineGUI::CreateGUIWindow<ContentsControlWindow>("ContentsControlWindow");
 	ContentsGUIWindow->On();
@@ -33,9 +37,10 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
 	GameEngineCore::CreateLevel<TestLevel_Boss>("TestLevel_Boss");
 	GameEngineCore::CreateLevel<TestLevel_Monster>("TestLevel_Monster");
+	GameEngineCore::CreateLevel<TestLevel_Shader>("TestLevel_Shader");
 	GameEngineCore::CreateLevel<TestLevel_Map>("TestLevel_Map");
 
-	GameEngineCore::ChangeLevel("TestLevel_Map");
+	GameEngineCore::ChangeLevel("PlayLevel");
 }
 
 void ContentsCore::Update(float _Delta)
@@ -45,7 +50,6 @@ void ContentsCore::Update(float _Delta)
 		CoreGUIWindow->OnOffSwitch();
 	}
 
-	// 나중에 GUI 제작하신 분이 원하시는 가상키로 바꾸세요. 
 	if (nullptr != ContentsGUIWindow && true == GameEngineInput::IsDown(VK_F8, this))
 	{
 		ContentsGUIWindow->OnOffSwitch();

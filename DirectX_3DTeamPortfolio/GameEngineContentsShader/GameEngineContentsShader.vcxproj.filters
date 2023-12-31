@@ -1,2 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" />
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="MeshShader">
+      <UniqueIdentifier>{8f9cf2a8-956b-4e79-895d-ff6b67c0a8b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header">
+      <UniqueIdentifier>{a0fb7a8d-0701-49bc-a656-61adafe5ff51}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="ContentsAnimationMesh.fx">
+      <Filter>MeshShader</Filter>
+    </FxCompile>
+    <FxCompile Include="FBXAnimation.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="Function.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="Light.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="Random.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="RenderBase.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="Transform.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="MeshBase.fx">
+      <Filter>MeshShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ContentsStaticMesh.fx">
+      <Filter>MeshShader</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>

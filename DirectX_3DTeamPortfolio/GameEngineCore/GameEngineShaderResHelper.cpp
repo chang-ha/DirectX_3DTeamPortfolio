@@ -109,6 +109,11 @@ void GameEngineStructedBufferSetter::Setting()
 {
 	ShaderType Type = ParentShader->GetShaderType();
 
+	if (Res->GetStructuredBufferType() == StructuredBufferType::NONE)
+	{
+		return;
+	}
+
 	if (Res->GetStructuredBufferType() == StructuredBufferType::SRV_ONLY)
 	{
 		if (nullptr == CPUDataPtr)

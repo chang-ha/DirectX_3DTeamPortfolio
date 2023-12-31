@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEngineObject.h"
+#include "GameEngineLight.h"
 
 // 설명 :
 // class GameEngineActor; 이래도되고
@@ -9,6 +10,8 @@ class GameEngineLevel : public GameEngineObject
 	friend class GameEngineCore;
 	friend class GameEngineCamera;
 	friend class GameEngineCollision;
+	friend class GameEngineRenderer;
+	friend class GameEngineRenderUnit;
 
 public:
 	static bool IsDebug;
@@ -71,8 +74,6 @@ public:
 		return LevelRenderTarget;
 	}
 
-	
-
 protected:
 
 private:
@@ -111,6 +112,8 @@ private:
 
 	// 빛 관리
 	std::list<std::shared_ptr<class GameEngineLight>> AllLight;
+	LightDatas LightDataObject;
+
 	void PushLight(std::shared_ptr<GameEngineLight> _Light);
 
 };

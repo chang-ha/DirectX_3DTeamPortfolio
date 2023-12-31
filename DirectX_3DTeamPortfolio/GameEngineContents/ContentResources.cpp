@@ -59,4 +59,17 @@ void ContentResources::ContentResourcesInit()
 			std::shared_ptr<GameEngineFBXAnimation> Mesh = GameEngineFBXAnimation::Load(Files[i].GetStringPath());
 		}
 	}
+
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBX_Animation");
+		Mat->SetVertexShader("ContentsAnimationMesh_VS");
+		Mat->SetPixelShader("ContentsAnimationMesh_PS");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBX_Static");
+		Mat->SetVertexShader("ContentsStaticMesh_VS");
+		Mat->SetPixelShader("ContentsStaticMesh_PS");
+	}
 }

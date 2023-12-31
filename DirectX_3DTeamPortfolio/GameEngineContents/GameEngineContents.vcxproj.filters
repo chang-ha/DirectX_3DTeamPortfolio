@@ -20,16 +20,13 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="GlobalValue.cpp">
-      <Filter>Global</Filter>
+      <Filter>Core\Global</Filter>
     </ClCompile>
     <ClCompile Include="Boss_Vordt.cpp">
       <Filter>Monster\Boss</Filter>
     </ClCompile>
     <ClCompile Include="TestLevel_Boss.cpp">
       <Filter>Level\TestLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="Monster_LothricKn.cpp">
-      <Filter>Monster</Filter>
     </ClCompile>
     <ClCompile Include="TestLevel_Monster.cpp">
       <Filter>Level\TestLevel</Filter>
@@ -39,6 +36,9 @@
     </ClCompile>
     <ClCompile Include="Monster_HollowSoldier.cpp">
       <Filter>Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="TestLevel_Shader.cpp">
+      <Filter>Level\TestLevel</Filter>
     </ClCompile>
     <ClCompile Include="TestLevel_Map.cpp">
       <Filter>Level\TestLevel</Filter>
@@ -52,7 +52,7 @@
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="ContentsEnum.h">
-      <Filter>Global</Filter>
+      <Filter>Core\Global</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Player</Filter>
@@ -70,16 +70,13 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="GlobalValue.h">
-      <Filter>Global</Filter>
+      <Filter>Core\Global</Filter>
     </ClInclude>
     <ClInclude Include="Boss_Vordt.h">
       <Filter>Monster\Boss</Filter>
     </ClInclude>
     <ClInclude Include="TestLevel_Boss.h">
       <Filter>Level\TestLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="Monster_LothricKn.h">
-      <Filter>Monster</Filter>
     </ClInclude>
     <ClInclude Include="TestLevel_Monster.h">
       <Filter>Level\TestLevel</Filter>
@@ -89,6 +86,9 @@
     </ClInclude>
     <ClInclude Include="Monster_HollowSoldier.h">
       <Filter>Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="TestLevel_Shader.h">
+      <Filter>Level\TestLevel</Filter>
     </ClInclude>
     <ClInclude Include="TestLevel_Map.h">
       <Filter>Level\TestLevel</Filter>
@@ -100,9 +100,6 @@
   <ItemGroup>
     <Filter Include="Level">
       <UniqueIdentifier>{c9a2e832-8d6b-49de-ac34-3e11f6f95c4b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Global">
-      <UniqueIdentifier>{ca09bba4-fac2-48d7-bd82-8680ddecfb32}</UniqueIdentifier>
     </Filter>
     <Filter Include="Player">
       <UniqueIdentifier>{a161891d-57fb-4a2c-96bf-522529e04c95}</UniqueIdentifier>
@@ -127,6 +124,12 @@
     </Filter>
     <Filter Include="ImGui">
       <UniqueIdentifier>{0ed2a347-3e0b-4fcf-a885-513c3ec4b169}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Monster\LothricKnight">
+      <UniqueIdentifier>{cd9c89d7-8afc-44e4-ab5c-adcca32c36d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Global">
+      <UniqueIdentifier>{ca09bba4-fac2-48d7-bd82-8680ddecfb32}</UniqueIdentifier>
     </Filter>
     <Filter Include="Map">
       <UniqueIdentifier>{afdebdbe-54a1-4db9-8273-84561c171924}</UniqueIdentifier>

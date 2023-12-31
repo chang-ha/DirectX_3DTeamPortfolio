@@ -102,13 +102,15 @@ public:
 
 	void ChangeAnimation(const std::string_view _AnimationName, bool _Force = false);
 
+	std::map<std::string, std::shared_ptr<GameEngineFBXAnimationInfo>>& GetAnimationInfos();
+
 	inline void SwitchPause()
 	{
 		Pause = !Pause;
 	}
 
-protected:
 	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> RenderUnits;
+protected:
 
 private:
 	bool Pause = false;
