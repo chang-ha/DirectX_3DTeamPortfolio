@@ -89,6 +89,119 @@ void GameEngineFBXMesh::Initialize()
 	File.Write(Ser);
 }
 
+
+void GameEngineFBXMesh::TestInitialize()
+{
+	if (0 != RenderUnitInfos.size())
+	{
+		return;
+	}
+
+	GameEngineFile File = GameEngineFile(GetPath());
+
+	FBXMeshName = File.GetFileName();
+
+	std::string ExtensionName = "MeshFBX";
+
+	int FileNum = 0;
+
+	ExtensionName += std::to_string(FileNum);
+
+	File.ChangeExtension(ExtensionName);
+
+	while (true == File.IsExits())
+	{
+		if (FileNum == 509)
+		{
+			// 여기 이후로 Open이 안됨.
+			int a = 0;
+		}
+
+		File.Open(FileOpenType::Read, FileDataType::Binary);
+
+		GameEngineSerializer Ser;
+		File.DataAllRead(Ser);
+
+
+		std::vector<FbxExMeshInfo> NewMeshInfo;
+		std::vector<FbxRenderUnitInfo> NewRenderUnitInfos;
+
+		MeshInfos.emplace_back();
+		RenderUnitInfos.emplace_back();
+
+
+		Ser >> FBXMeshName;
+
+		Ser >> NewMeshInfo;
+		Ser >> NewRenderUnitInfos;
+		//Ser >> MeshInfos[FileNum];
+		//Ser >> RenderUnitInfos[FileNum];
+		Ser >> AllBones;
+
+
+		MeshInfos[FileNum] = NewMeshInfo[0];
+		RenderUnitInfos[FileNum] = NewRenderUnitInfos[0];
+
+		for (int i = 0; i < AllBones.size(); i++)
+		{
+			AllFindMap[AllBones[i].Name] = &AllBones[i];
+		}
+
+		// 경로를 수정할 함수가 필요함.
+		File = GameEngineFile(GetPath());
+
+		FBXMeshName = File.GetFileName();
+
+		ExtensionName = "MeshFBX";
+
+		FileNum++;
+
+		ExtensionName += std::to_string(FileNum);
+
+		File.ChangeExtension(ExtensionName);
+	}
+
+	if (true == File.IsExits())
+	{
+		return;
+	}
+
+	FBXInit(GetPath());
+	MeshLoad();
+	// CreateBoneStructuredBuffer();
+
+
+	for (size_t i = 0; i < RenderUnitInfos.size(); i++)
+	{
+		GameEngineFile NewFile = GameEngineFile(GetPath());
+
+		FBXMeshName = NewFile.GetFileName();
+		FBXMeshName += std::to_string(i);
+
+		std::string ExtensionName = "MeshFBX";
+		ExtensionName += std::to_string(i);
+
+		NewFile.ChangeExtension(ExtensionName);
+
+		std::vector<FbxExMeshInfo> NewInfo;
+		NewInfo.push_back(MeshInfos[i]);
+
+		std::vector<FbxRenderUnitInfo> NewRenInfo;
+		NewRenInfo.push_back(RenderUnitInfos[i]);
+
+		GameEngineSerializer Ser;
+		Ser << FBXMeshName;
+		Ser << NewInfo;
+		Ser << NewRenInfo;
+		Ser << AllBones;
+
+
+		NewFile.Open(FileOpenType::Write, FileDataType::Binary);
+		NewFile.Write(Ser);
+	}
+
+}
+
 void GameEngineFBXMesh::CreateBoneStructuredBuffer()
 {
 	AllBoneStructuredBuffers = std::make_shared<GameEngineStructuredBuffer>();
@@ -147,7 +260,7 @@ std::shared_ptr<GameEngineMesh> GameEngineFBXMesh::GetGameEngineMesh(int _MeshIn
 	{
 		Unit.Meshs[_SubSetIndex] = GameEngineMesh::Create(Unit.VertexBuffer, Unit.IndexBuffers[_SubSetIndex]);
 	}
-	
+
 	// 텍스처도 로드해야 한다.
 	return Unit.Meshs[_SubSetIndex];
 }

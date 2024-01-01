@@ -140,7 +140,26 @@ void GameEngineFBXRenderer::SetFBXMesh(std::string_view _Name, std::string_view 
 	{
 		SetFBXMesh(_Name, _Material, UnitCount);
 	}
+}
 
+void GameEngineFBXRenderer::TestSetFBXMesh(std::string_view _Name, std::string_view _Material)
+{
+	Name = _Name;
+
+
+	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
+
+	if (nullptr == FindFBXMesh)
+	{
+		MsgBoxAssert("로드하지 않은 FBX 매쉬를 사용하려고 했습니다");
+	}
+
+	FindFBXMesh->TestInitialize();
+
+	for (int UnitCount = 0; UnitCount < FindFBXMesh->GetRenderUnitCount(); UnitCount++)
+	{
+		SetFBXMesh(_Name, _Material, UnitCount);
+	}
 }
 
 // 랜더 유니트를 하나씩 
@@ -148,6 +167,18 @@ void GameEngineFBXRenderer::SetFBXMesh(std::string_view _Name, std::string_view 
 {
 	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
 	FindFBXMesh->Initialize();
+	for (int SubSetCount = 0; SubSetCount < FindFBXMesh->GetSubSetCount(_RenderUnitInfoIndex); SubSetCount++)
+	{
+		SetFBXMesh(_Name, _Material, _RenderUnitInfoIndex, SubSetCount);
+	}
+}
+
+
+// 랜더 유니트를 하나씩 
+void GameEngineFBXRenderer::TestSetFBXMesh(std::string_view _Name, std::string_view _Material, int _RenderUnitInfoIndex = 0)
+{
+	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
+	FindFBXMesh->TestInitialize();
 	for (int SubSetCount = 0; SubSetCount < FindFBXMesh->GetSubSetCount(_RenderUnitInfoIndex); SubSetCount++)
 	{
 		SetFBXMesh(_Name, _Material, _RenderUnitInfoIndex, SubSetCount);
