@@ -101,7 +101,7 @@ void GameEngineFBXMesh::TestInitialize()
 
 	FBXMeshName = File.GetFileName();
 
-	std::string ExtensionName = "MeshFBX";
+	std::string ExtensionName = "FBX";
 
 	int FileNum = 0;
 
@@ -111,17 +111,11 @@ void GameEngineFBXMesh::TestInitialize()
 
 	while (true == File.IsExits())
 	{
-		if (FileNum == 509)
-		{
-			// 여기 이후로 Open이 안됨.
-			int a = 0;
-		}
-
 		File.Open(FileOpenType::Read, FileDataType::Binary);
 
 		GameEngineSerializer Ser;
 		File.DataAllRead(Ser);
-
+		File.Close();
 
 		std::vector<FbxExMeshInfo> NewMeshInfo;
 		std::vector<FbxRenderUnitInfo> NewRenderUnitInfos;
@@ -129,15 +123,10 @@ void GameEngineFBXMesh::TestInitialize()
 		MeshInfos.emplace_back();
 		RenderUnitInfos.emplace_back();
 
-
 		Ser >> FBXMeshName;
-
 		Ser >> NewMeshInfo;
 		Ser >> NewRenderUnitInfos;
-		//Ser >> MeshInfos[FileNum];
-		//Ser >> RenderUnitInfos[FileNum];
 		Ser >> AllBones;
-
 
 		MeshInfos[FileNum] = NewMeshInfo[0];
 		RenderUnitInfos[FileNum] = NewRenderUnitInfos[0];
@@ -152,7 +141,7 @@ void GameEngineFBXMesh::TestInitialize()
 
 		FBXMeshName = File.GetFileName();
 
-		ExtensionName = "MeshFBX";
+		ExtensionName = "FBX";
 
 		FileNum++;
 
@@ -161,6 +150,19 @@ void GameEngineFBXMesh::TestInitialize()
 		File.ChangeExtension(ExtensionName);
 	}
 
+	// 경로를 수정할 함수가 필요함.
+	File = GameEngineFile(GetPath());
+
+	FBXMeshName = File.GetFileName();
+
+	ExtensionName = "FBX";
+
+	FileNum--;
+
+	ExtensionName += std::to_string(FileNum);
+
+	File.ChangeExtension(ExtensionName);
+
 	if (true == File.IsExits())
 	{
 		return;
@@ -168,7 +170,6 @@ void GameEngineFBXMesh::TestInitialize()
 
 	FBXInit(GetPath());
 	MeshLoad();
-	// CreateBoneStructuredBuffer();
 
 
 	for (size_t i = 0; i < RenderUnitInfos.size(); i++)
@@ -178,7 +179,7 @@ void GameEngineFBXMesh::TestInitialize()
 		FBXMeshName = NewFile.GetFileName();
 		FBXMeshName += std::to_string(i);
 
-		std::string ExtensionName = "MeshFBX";
+		std::string ExtensionName = "FBX";
 		ExtensionName += std::to_string(i);
 
 		NewFile.ChangeExtension(ExtensionName);

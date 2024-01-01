@@ -47,6 +47,8 @@ public:
 	// 파일에서 데이터를 쓴다.
 	void Write(void* _Data, size_t _Size);
 
+	void Close();
+
 	// 8바이트 정수형
 	template<typename ReturnType>
 	ReturnType GetFileSize()

@@ -60,6 +60,22 @@ void ContentResources::ContentResourcesInit()
 		}
 	}
 
+	{
+		{
+			// 분할된 자체포맷 첫번째 로드
+			GameEngineDirectory Dir;
+			Dir.MoveParentToExistsChild("ContentsResources");
+			Dir.MoveChild("ContentsResources");
+			Dir.MoveChild("Mesh");
+			std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".FBX0" }, true);
+
+			for (size_t i = 0; i < Files.size(); i++)
+			{
+				std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Files[i].GetStringPath());
+			}
+		}
+	}
+
 
 	{
 		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBX_Animation");

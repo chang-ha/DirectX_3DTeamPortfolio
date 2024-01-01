@@ -94,8 +94,8 @@ public:
 	void SetFBXMesh(std::string_view _Name, std::string_view _Material);
 	void SetFBXMesh(std::string_view _Name, std::string_view _Material, int _RenderUnitInfoIndex);
 
-	void TestSetFBXMesh(std::string_view _Name, std::string_view _Material);
-	void TestSetFBXMesh(std::string_view _Name, std::string_view _Material, int _RenderUnitInfoIndex);
+	void SetBigFBXMesh(std::string_view _Name, std::string_view _Material);
+
 	//                                                                  RenderUnitInfoIndex
 	std::shared_ptr<GameEngineRenderUnit> SetFBXMesh(std::string_view _Name, std::string_view _Material, int _RenderUnitInfoIndex, int _SubSetIndex);
 

@@ -142,12 +142,19 @@ void GameEngineFBXRenderer::SetFBXMesh(std::string_view _Name, std::string_view 
 	}
 }
 
-void GameEngineFBXRenderer::TestSetFBXMesh(std::string_view _Name, std::string_view _Material)
+void GameEngineFBXRenderer::SetBigFBXMesh(std::string_view _Name, std::string_view _Material)
 {
 	Name = _Name;
 
+	// FBX.0 찾는다면 
 
-	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
+	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(Name);
+
+	if (nullptr == FindFBXMesh)
+	{
+		Name += std::to_string(0);
+		FindFBXMesh = GameEngineFBXMesh::Find(Name);
+	}
 
 	if (nullptr == FindFBXMesh)
 	{
@@ -158,7 +165,7 @@ void GameEngineFBXRenderer::TestSetFBXMesh(std::string_view _Name, std::string_v
 
 	for (int UnitCount = 0; UnitCount < FindFBXMesh->GetRenderUnitCount(); UnitCount++)
 	{
-		SetFBXMesh(_Name, _Material, UnitCount);
+		SetFBXMesh(Name, _Material, UnitCount);
 	}
 }
 
@@ -173,17 +180,6 @@ void GameEngineFBXRenderer::SetFBXMesh(std::string_view _Name, std::string_view 
 	}
 }
 
-
-// 랜더 유니트를 하나씩 
-void GameEngineFBXRenderer::TestSetFBXMesh(std::string_view _Name, std::string_view _Material, int _RenderUnitInfoIndex = 0)
-{
-	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
-	FindFBXMesh->TestInitialize();
-	for (int SubSetCount = 0; SubSetCount < FindFBXMesh->GetSubSetCount(_RenderUnitInfoIndex); SubSetCount++)
-	{
-		SetFBXMesh(_Name, _Material, _RenderUnitInfoIndex, SubSetCount);
-	}
-}
 
 std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(std::string_view _Name, std::string_view _Material, int _RenderUnitInfoIndex, int _SubSetIndex)
 {
