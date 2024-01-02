@@ -14,7 +14,9 @@ TestLevel_Map::~TestLevel_Map()
 
 void TestLevel_Map::LevelStart(GameEngineLevel* _PrevLevel)
 {
-
+	{
+		std::shared_ptr<TestMap> Object = CreateActor<TestMap>(0, "TestMap");
+	}
 }
 
 void TestLevel_Map::LevelEnd(GameEngineLevel* _NextLevel)
@@ -33,9 +35,6 @@ void TestLevel_Map::Start()
 	//GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, -1000.0f });
 	//GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
 
-	{
-		std::shared_ptr<TestMap> Object = CreateActor<TestMap>(0, "TestMap");
-	}
 }
 
 void TestLevel_Map::Update(float _Delta)
