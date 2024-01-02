@@ -282,7 +282,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEnginePhysXComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEnginePhysXLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEnginePhysXSphere.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -681,7 +689,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEnginePhysXComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEnginePhysXLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEnginePhysXSphere.cpp">
       <SubType>
       </SubType>
     </ClCompile>

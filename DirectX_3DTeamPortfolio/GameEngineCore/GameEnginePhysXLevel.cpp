@@ -1,8 +1,6 @@
 ﻿#include "PreCompile.h"
 #include "GameEnginePhysXLevel.h"
 
-physx::PxScene* GameEnginePhysXLevel::CurScene;
-
 GameEnginePhysXLevel::GameEnginePhysXLevel()
 {
 }

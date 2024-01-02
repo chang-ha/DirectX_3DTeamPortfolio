@@ -1,4 +1,5 @@
 #pragma once
+#include "GameEnginePhysXComponent.h"
 
 class GameEnginePhysXActor
 {
@@ -16,6 +17,5 @@ public:
 protected:
 
 private:
-
 };
 

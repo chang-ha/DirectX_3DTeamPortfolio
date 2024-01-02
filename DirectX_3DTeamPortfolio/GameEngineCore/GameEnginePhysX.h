@@ -75,17 +75,29 @@ public:
 	static void PhysXRelease();
 	static physx::PxScene* CreateLevelScene();
 
-	static physx::PxPhysics* GetPhysics();
+	static physx::PxPhysics* GetPhysics()
+	{
+		return Physics;
+
+	}
+
+	static const physx::PxMaterial* GetDefaultMaterial()
+	{
+		return Material;
+	}
+
+	static physx::PxScene* FindScene(std::string_view _SceneName);
 protected:
 
 private:
-	static PhysXErrorCallback  gErrorCallback;
-	static physx::PxDefaultAllocator  gDefaultAllocatorCallback;
-	static physx::PxFoundation* mFoundation;
-	static physx::PxPvd* mPvd;
-	static physx::PxPhysics* mPhysics;
-	static physx::PxCooking* mCooking;
+	static PhysXErrorCallback  ErrorCallback;
+	static physx::PxDefaultAllocator  DefaultAllocatorCallback;
+	static physx::PxFoundation* Foundation;
+	static physx::PxPvd* Pvd;
+	static physx::PxPhysics* Physics;
+	static physx::PxCooking* Cooking;
 	static physx::PxDefaultCpuDispatcher* CpuDispatcher;
+	static physx::PxMaterial* Material;
 
 	static std::map<std::string, physx::PxScene*> AllLevelScene;
 };

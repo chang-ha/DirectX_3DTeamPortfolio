@@ -51,6 +51,7 @@ void TestLevel_PhysX::Start()
 	DynamicActor->attachShape(*CapsuleShape);
 	physx::PxRigidBodyExt::updateMassAndInertia(*DynamicActor, 10.0f);
 	Scene->addActor(*DynamicActor);
+	DynamicActor->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, false);
 
 	//physx::PxRigidStatic* StaticActor = Physics->createRigidStatic(localTm);
 	//StaticActor->attachShape(*CapsuleShape);

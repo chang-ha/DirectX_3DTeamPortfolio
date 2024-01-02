@@ -1,13 +1,14 @@
 ﻿#include "PreCompile.h"
 #include "GameEnginePhysX.h"
 
-PhysXErrorCallback  GameEnginePhysX::gErrorCallback = {};
-physx::PxDefaultAllocator  GameEnginePhysX::gDefaultAllocatorCallback = {};
-physx::PxFoundation* GameEnginePhysX::mFoundation = nullptr;
-physx::PxPvd* GameEnginePhysX::mPvd = nullptr;
-physx::PxPhysics* GameEnginePhysX::mPhysics = nullptr;
-physx::PxCooking* GameEnginePhysX::mCooking = nullptr;
+PhysXErrorCallback  GameEnginePhysX::ErrorCallback = {};
+physx::PxDefaultAllocator  GameEnginePhysX::DefaultAllocatorCallback = {};
+physx::PxFoundation* GameEnginePhysX::Foundation = nullptr;
+physx::PxPvd* GameEnginePhysX::Pvd = nullptr;
+physx::PxPhysics* GameEnginePhysX::Physics = nullptr;
+physx::PxCooking* GameEnginePhysX::Cooking = nullptr;
 physx::PxDefaultCpuDispatcher* GameEnginePhysX::CpuDispatcher = nullptr;
+physx::PxMaterial* GameEnginePhysX::Material = nullptr;
 
 std::map<std::string, physx::PxScene*> GameEnginePhysX::AllLevelScene;
 
@@ -23,9 +24,9 @@ GameEnginePhysX::~GameEnginePhysX()
 
 void GameEnginePhysX::PhysXInit()
 {
-	mFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gDefaultAllocatorCallback, gErrorCallback);
+	Foundation = PxCreateFoundation(PX_PHYSICS_VERSION, DefaultAllocatorCallback, ErrorCallback);
 	
-	if (nullptr == mFoundation)
+	if (nullptr == Foundation)
 	{
 		MsgBoxAssert("Foundation 생성에 실패했습니다.");
 	}
@@ -33,9 +34,9 @@ void GameEnginePhysX::PhysXInit()
 	bool  RecordMemoryAllocations = true; // 메모리 프로파일 On
 
 #ifdef _DEBUG
-	mPvd = PxCreatePvd(*mFoundation);
+	Pvd = PxCreatePvd(*Foundation);
 
-	if (nullptr == mPvd)
+	if (nullptr == Pvd)
 	{
 		MsgBoxAssert("Pvd 생성에 실패했습니다.");
 	}
@@ -43,25 +44,32 @@ void GameEnginePhysX::PhysXInit()
 	// If Use PhysX Visual Debugger use this (NetWork)
 	// Default listening port is 5425 
 	physx::PxPvdTransport* transport = physx::PxDefaultPvdSocketTransportCreate(PVD_HOST, 5425, 10);
-	mPvd->connect(*transport, physx::PxPvdInstrumentationFlag::eALL);
+	Pvd->connect(*transport, physx::PxPvdInstrumentationFlag::eALL);
 
 #endif
 
 	physx::PxTolerancesScale Scale = physx::PxTolerancesScale(); // Default Length = 1(cm), Speed = 10(cm/s)
 
-	mPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *mFoundation, Scale, RecordMemoryAllocations, mPvd);
+	Physics = PxCreatePhysics(PX_PHYSICS_VERSION, *Foundation, Scale, RecordMemoryAllocations, Pvd);
 
-	if (nullptr == mPhysics)
+	if (nullptr == Physics)
 	{
 		MsgBoxAssert("Physics 생성에 실패했습니다.");
 	}
 
 
-	mCooking = PxCreateCooking(PX_PHYSICS_VERSION, *mFoundation, physx::PxCookingParams(mPhysics->getTolerancesScale()));
+	Cooking = PxCreateCooking(PX_PHYSICS_VERSION, *Foundation, physx::PxCookingParams(Physics->getTolerancesScale()));
 
-	if (nullptr == mCooking)
+	if (nullptr == Cooking)
 	{
 		MsgBoxAssert("Cooking 생성에 실패했습니다.");
+	}
+
+	Material = Physics->createMaterial(0.5f, 0.5f, 0.6f);
+
+	if (nullptr == Material)
+	{
+		MsgBoxAssert("DefaultMaterial 생성에 실패했습니다.");
 	}
 }
 
@@ -74,7 +82,7 @@ physx::PxScene* GameEnginePhysX::CreateLevelScene()
 		return AllLevelScene[UpperName];
 	}
 
-	physx::PxSceneDesc SceneDesc = physx::PxSceneDesc(mPhysics->getTolerancesScale());
+	physx::PxSceneDesc SceneDesc = physx::PxSceneDesc(Physics->getTolerancesScale());
 
 	// Scene Gravity
 	SceneDesc.gravity = physx::PxVec3(0.0f, -GRAVITY_FORCE, 0.0f);
@@ -106,7 +114,7 @@ physx::PxScene* GameEnginePhysX::CreateLevelScene()
 
 	SceneDesc.cpuDispatcher = CpuDispatcher;
 
-	physx::PxScene* Scene = mPhysics->createScene(SceneDesc);
+	physx::PxScene* Scene = Physics->createScene(SceneDesc);
 
 #ifdef _DEBUG
 	physx::PxPvdSceneClient* PvdClient = Scene->getScenePvdClient();
@@ -126,23 +134,23 @@ physx::PxScene* GameEnginePhysX::CreateLevelScene()
 
 void GameEnginePhysX::PhysXRelease()
 {
-	if (nullptr != mCooking)
+	if (nullptr != Cooking)
 	{
-		mCooking->release();
-		mCooking = nullptr;
+		Cooking->release();
+		Cooking = nullptr;
 	}
 
-	if (nullptr != mPhysics)
+	if (nullptr != Physics)
 	{
-		mPhysics->release();
-		mPhysics = nullptr;
+		Physics->release();
+		Physics = nullptr;
 	}
 
-	if (nullptr != mPvd)
+	if (nullptr != Pvd)
 	{
-		physx::PxPvdTransport* transport = mPvd->getTransport();
-		mPvd->release();
-		mPvd = nullptr;
+		physx::PxPvdTransport* transport = Pvd->getTransport();
+		Pvd->release();
+		Pvd = nullptr;
 
 		if (transport)
 		{
@@ -156,14 +164,22 @@ void GameEnginePhysX::PhysXRelease()
 		CpuDispatcher = nullptr;
 	}
 
-	if (nullptr != mFoundation)
+	if (nullptr != Foundation)
 	{
-		mFoundation->release();
-		mFoundation = nullptr;
+		Foundation->release();
+		Foundation = nullptr;
 	}
 }
 
-physx::PxPhysics* GameEnginePhysX::GetPhysics()
+physx::PxScene* GameEnginePhysX::FindScene(std::string_view _SceneName)
 {
-	return mPhysics;
+	std::string UpperName = GameEngineString::ToUpperReturn(_SceneName.data());
+
+	if (false == AllLevelScene.contains(UpperName))
+	{
+		MsgBoxAssert("존재하지 않는 Scene입니다.\nScene Name : " + UpperName);
+		return nullptr;
+	}
+
+	return AllLevelScene[UpperName];
 }

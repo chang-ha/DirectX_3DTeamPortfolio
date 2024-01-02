@@ -3,8 +3,6 @@
 class GameEnginePhysXLevel
 {
 public:
-	static physx::PxScene* CurScene;
-public:
 	// constructer destructer
 	GameEnginePhysXLevel();
 	~GameEnginePhysXLevel();

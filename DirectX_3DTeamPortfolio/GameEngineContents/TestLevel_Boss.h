@@ -1,7 +1,7 @@
 #pragma once
 #include "ContentLevel.h"
 
-class TestLevel_Boss : public ContentLevel
+class TestLevel_Boss : public ContentLevel, public GameEnginePhysXLevel
 {
 public:
 	// constructer destructer

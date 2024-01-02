@@ -30,6 +30,7 @@ protected:
 private:
 	std::shared_ptr<GameEngineFBXRenderer> BossFBXRenderer;
 	std::shared_ptr<GameEngineCollision> BossCollision;
+	std::shared_ptr<class GameEnginePhysXSphere> Sphere;
 	GameEngineState BossState;
 };
 

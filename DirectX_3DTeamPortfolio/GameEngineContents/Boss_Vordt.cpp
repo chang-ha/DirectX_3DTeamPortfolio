@@ -1,5 +1,6 @@
 ﻿#include "PreCompile.h"
 #include "Boss_Vordt.h"
+#include <GameEngineCore\GameEnginePhysXSphere.h>
 
 #define BOSS_ANI_SPEED 0.033f
 
@@ -102,6 +103,9 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	//	BossCollision->SetCollisionType(ColType::SPHERE2D);
 	//	BossCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 1.0f });
 	//}
+
+	Sphere = CreateComponent<GameEnginePhysXSphere>();
+	Sphere->PhysXComponentInit(10.0f);
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)

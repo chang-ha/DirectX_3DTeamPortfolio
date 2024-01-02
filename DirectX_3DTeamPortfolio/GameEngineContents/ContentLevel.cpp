@@ -13,12 +13,10 @@ ContentLevel::~ContentLevel()
 
 void ContentLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	CurScene = Scene;
 }
 
 void ContentLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
-	CurScene = nullptr;
 }
 
 void ContentLevel::Start()

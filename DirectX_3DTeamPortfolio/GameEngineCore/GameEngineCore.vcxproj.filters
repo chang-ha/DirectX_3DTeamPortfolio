@@ -163,6 +163,9 @@
     <Filter Include="ThirdParty\PhysX\lib\Debug">
       <UniqueIdentifier>{8a1c8ac6-6fba-4c75-8e8a-790ca1e2973e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PhysX\Component">
+      <UniqueIdentifier>{fdd8ce92-daa4-4af0-b9cf-f14560ef5036}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineActor.h">
@@ -937,6 +940,12 @@
     <ClInclude Include="GameEnginePhysXActor.h">
       <Filter>PhysX</Filter>
     </ClInclude>
+    <ClInclude Include="GameEnginePhysXComponent.h">
+      <Filter>PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEnginePhysXSphere.h">
+      <Filter>PhysX\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -1135,6 +1144,12 @@
     </ClCompile>
     <ClCompile Include="GameEnginePhysXActor.cpp">
       <Filter>PhysX</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEnginePhysXComponent.cpp">
+      <Filter>PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEnginePhysXSphere.cpp">
+      <Filter>PhysX\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
