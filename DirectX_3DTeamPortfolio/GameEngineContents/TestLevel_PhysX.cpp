@@ -14,17 +14,17 @@ TestLevel_PhysX::~TestLevel_PhysX()
 
 void TestLevel_PhysX::LevelStart(GameEngineLevel* _PrevLevel)
 {
-
+	ContentLevel::LevelStart(_PrevLevel);
 }
 
 void TestLevel_PhysX::LevelEnd(GameEngineLevel* _NextLevel)
 {
-
+	ContentLevel::LevelEnd(_NextLevel);
 }
 
 void TestLevel_PhysX::Start()
 {
-	PhysXLevelInit();
+	ContentLevel::Start();
 	//// Test Code
 	physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
 	//														정적마찰, 동적마찰, 복원
@@ -75,7 +75,7 @@ void TestLevel_PhysX::Start()
 
 void TestLevel_PhysX::Update(float _Delta)
 {
-	RunSimulation(_Delta);
+	ContentLevel::Update(_Delta);
 }
 
 void TestLevel_PhysX::Release()

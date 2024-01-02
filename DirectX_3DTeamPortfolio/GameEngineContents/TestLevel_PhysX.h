@@ -1,7 +1,7 @@
 #pragma once
 #include "ContentLevel.h"
 #include <GameEngineCore\GameEnginePhysXLevel.h>
-class TestLevel_PhysX : public ContentLevel, public GameEnginePhysXLevel
+class TestLevel_PhysX : public ContentLevel
 {
 public:
 	// constructer destructer
