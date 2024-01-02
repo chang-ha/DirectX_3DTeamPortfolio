@@ -45,7 +45,7 @@ void GameEnginePhysX::PhysXInit()
 	// Default listening port is 5425 
 	physx::PxPvdTransport* transport = physx::PxDefaultPvdSocketTransportCreate(PVD_HOST, 5425, 10);
 	Pvd->connect(*transport, physx::PxPvdInstrumentationFlag::eALL);
-
+	
 #endif
 
 	physx::PxTolerancesScale Scale = physx::PxTolerancesScale(); // Default Length = 1(cm), Speed = 10(cm/s)
@@ -65,7 +65,7 @@ void GameEnginePhysX::PhysXInit()
 		MsgBoxAssert("Cooking 생성에 실패했습니다.");
 	}
 
-	Material = Physics->createMaterial(0.5f, 0.5f, 0.6f);
+	Material = Physics->createMaterial(0.0f, 10.0f, 0.0f);
 
 	if (nullptr == Material)
 	{
@@ -99,7 +99,7 @@ physx::PxScene* GameEnginePhysX::CreateLevelScene()
 	// SceneLimitsData.maxNbDynamicShapes = 0;
 	// SceneLimitsData.maxNbAggregates = 0;
 	// SceneLimitsData.maxNbConstraints = 0;
-	SceneLimitsData.maxNbRegions = 255; // Maxmum 256
+	SceneLimitsData.maxNbRegions = 255; // Maximum 256
 	// SceneLimitsData.maxNbBroadPhaseOverlaps = 0;
 	
 	SceneDesc.limits = SceneLimitsData;
@@ -120,13 +120,16 @@ physx::PxScene* GameEnginePhysX::CreateLevelScene()
 	physx::PxPvdSceneClient* PvdClient = Scene->getScenePvdClient();
 	if (nullptr != PvdClient)
 	{
-		PvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS, true);
-		PvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
-		PvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
+		PvdClient->setScenePvdFlags(
+			physx::PxPvdSceneFlag::eTRANSMIT_CONTACTS |
+			physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES |
+			physx::PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS);
 	}
 
-#endif
+	Scene->setVisualizationParameter(physx::PxVisualizationParameter::eSCALE, 1.0f);
 
+#endif
+	
 	AllLevelScene[UpperName] = Scene;
 	return Scene;
 }
@@ -152,7 +155,7 @@ void GameEnginePhysX::PhysXRelease()
 		Pvd->release();
 		Pvd = nullptr;
 
-		if (transport)
+		if (nullptr != transport)
 		{
 			transport->release();
 		}

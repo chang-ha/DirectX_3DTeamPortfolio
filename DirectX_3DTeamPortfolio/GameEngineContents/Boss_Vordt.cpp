@@ -32,7 +32,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		}
 
 		BossFBXRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBX_Animation"); // Bone 136
-		// BossFBXRenderer->Transform.SetLocalScale({ 50.0f, 50.0f, 50.0f });
+		BossFBXRenderer->Transform.SetLocalScale({ 10.0f, 10.0f, 10.0f });
 		BossFBXRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
 	}
 
@@ -91,7 +91,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BossFBXRenderer->CreateFBXAnimation("Walk_Front", "Walk_Front.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Walk_Left", "Walk_Left.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Walk_Right", "Walk_Right.FBX", { BOSS_ANI_SPEED, true });
-		BossFBXRenderer->ChangeAnimation("Turn_Left");
+		BossFBXRenderer->ChangeAnimation("Idle");
 	}
 
 	//// Boss Collision
@@ -106,6 +106,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 	Sphere = CreateComponent<GameEnginePhysXSphere>();
 	Sphere->PhysXComponentInit(10.0f);
+
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
@@ -115,12 +116,32 @@ void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
 
 void Boss_Vordt::Start()
 {
-
+	GameEngineInput::AddInputObject(this);
 }
 
 void Boss_Vordt::Update(float _Delta)
 {
 	BossState.Update(_Delta);
+
+	if (true == GameEngineInput::IsPress('W', this))
+	{
+		Sphere->MoveForce({ 0.0f, 0.0f, 10.0f, 0.0f });
+	}
+
+	if (true == GameEngineInput::IsPress('S', this))
+	{
+		Sphere->MoveForce({ 0.0f, 0.0f, -10.0f, 0.0f });
+	}
+
+	if (true == GameEngineInput::IsPress('Q', this))
+	{
+		Sphere->AddForce({ 0.0f, 0.0f, 1000.0f, 0.0f });
+	}
+
+	if (true == GameEngineInput::IsPress('E', this))
+	{
+		Sphere->AddForce({ 0.0f, 0.0f, -1000.0f, 0.0f });
+	}
 }
 
 void Boss_Vordt::Release()

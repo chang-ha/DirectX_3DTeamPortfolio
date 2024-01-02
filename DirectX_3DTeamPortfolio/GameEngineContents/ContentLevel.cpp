@@ -13,10 +13,12 @@ ContentLevel::~ContentLevel()
 
 void ContentLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
+
 }
 
 void ContentLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
+
 }
 
 void ContentLevel::Start()
@@ -28,6 +30,7 @@ void ContentLevel::Start()
 void ContentLevel::Update(float _Delta)
 {
 	RunSimulation(_Delta);
+	
 }
 
 void ContentLevel::Release()

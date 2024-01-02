@@ -30,7 +30,6 @@ void TestLevel_PhysX::Start()
 	//														정적마찰, 동적마찰, 복원
 	//physx::PxMaterial* gMaterial = Physics->createMaterial(0.5f, 0.5f, 0.6f);
 
-	Scene->setVisualizationParameter(physx::PxVisualizationParameter::eSCALE, 1.0f);
 	Scene->setVisualizationParameter(physx::PxVisualizationParameter::eACTOR_AXES, 2.0f);
 
 	// create simulation
@@ -48,10 +47,12 @@ void TestLevel_PhysX::Start()
 	physx::PxQuat Quat = physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1));
 	physx::PxTransform localTm(physx::PxVec3(0.0f, 3.0f, -100.0f), Quat);
 	physx::PxRigidDynamic* DynamicActor = Physics->createRigidDynamic(localTm);
-	DynamicActor->attachShape(*CapsuleShape);
+	DynamicActor->attachShape(*Boxshape);
 	physx::PxRigidBodyExt::updateMassAndInertia(*DynamicActor, 10.0f);
+	physx::PxU32 Num = Scene->getNbActors(physx::PxActorTypeFlag::eRIGID_DYNAMIC);
+	
 	Scene->addActor(*DynamicActor);
-	DynamicActor->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, false);
+	// DynamicActor->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, false);
 
 	//physx::PxRigidStatic* StaticActor = Physics->createRigidStatic(localTm);
 	//StaticActor->attachShape(*CapsuleShape);
