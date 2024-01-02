@@ -374,9 +374,31 @@ public:
 
 	void SetParent(GameEngineTransform& _Parent)
 	{
+		if (nullptr != Parent)
+		{
+			Parent->Childs.remove(this);
+		}
+
 		Parent = &_Parent;
+
+		if (nullptr == Parent)
+		{
+			MsgBoxAssert("부모가 존재하지 않는 트랜스폼이 존재합니다.");
+		}
+
+		TransData.LocalWorldMatrix = TransData.WorldMatrix * Parent->TransData.WorldMatrix.InverseReturn();
+		TransData.LocalWorldMatrix.Decompose(TransData.Scale, TransData.Quaternion, TransData.Position);
+		TransData.Rotation = TransData.Quaternion.QuaternionToEulerDeg();
 		Parent->Childs.push_back(this);
+
+		AbsoluteReset();
+
 		TransformUpdate();
+	}
+
+	void AbsoluteReset() 
+	{
+		AbsoluteScale = AbsoluteRotation = AbsolutePosition = false;
 	}
 
 	void SetTransformData(const TransformData& Data)
