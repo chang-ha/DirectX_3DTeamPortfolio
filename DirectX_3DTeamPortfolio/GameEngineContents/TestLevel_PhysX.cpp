@@ -73,6 +73,7 @@ void TestLevel_PhysX::Start()
 	Sphereshape->release();
 	CapsuleShape->release();
 
+	CookingTestCode();
 }
 
 void TestLevel_PhysX::Update(float _Delta)
@@ -83,4 +84,73 @@ void TestLevel_PhysX::Update(float _Delta)
 void TestLevel_PhysX::Release()
 {
 
+}
+
+using namespace physx;
+
+void createRandomTerrain(const PxVec3& origin, PxU32 numRows, PxU32 numColumns,
+	PxReal cellSizeRow, PxReal cellSizeCol, PxReal heightScale,
+	PxVec3*& vertices, PxU32*& indices);
+
+void TestLevel_PhysX::CookingTestCode()
+{
+	
+
+	//GameEngineFile File;
+	//File.MoveParentToExistsChild("ContentsResources");
+	//File.MoveChild("ContentsResources");
+	//File.MoveChild("Mesh");
+	//File = File.PlusFilePath("o001220.FBX");
+
+	//GameEngineFile CheckFile;
+	//CheckFile = File;
+	//CheckFile.ChangeExtension(".MeshFBX");
+
+	//if (false == CheckFile.IsExits())
+	//{
+	//	std::shared_ptr<GameEngineActor> TriActor = CreateActor<GameEngineActor>();
+	//	std::shared_ptr<GameEngineFBXRenderer> FBXRENDERER = TriActor->CreateComponent<GameEngineFBXRenderer>();
+	//	FBXRENDERER->SetFBXMesh("o001220.fbx", "FBX_Static");
+	//	TriActor->Death();
+	//}
+
+	//if (true == CheckFile.IsExits())
+	//{
+	//	File.Open(FileOpenType::Read, FileDataType::Binary);
+	//	GameEngineSerializer Ser;
+	//	File.DataAllRead(Ser);
+
+	//	std::string FBXMeshName;
+	//	std::vector<FbxExMeshInfo> MeshInfos;
+	//	std::vector<FbxRenderUnitInfo> RenderUnitInfos;
+	//	std::vector<Bone> AllBones;
+	//	Ser >> FBXMeshName;
+	//	Ser >> MeshInfos;
+	//	Ser >> RenderUnitInfos;
+	//	Ser >> AllBones;
+	//}
+	
+	
+
+	PxTriangleMeshDesc meshDesc;
+	/*meshDesc.points.count = numVertices;
+	meshDesc.points.stride = sizeof(PxVec3);
+	meshDesc.points.data = vertices;
+
+	meshDesc.triangles.count = numTriangles;
+	meshDesc.triangles.stride = 3 * sizeof(PxU32);
+	meshDesc.triangles.data = indices;*/
+
+	PxDefaultMemoryOutputStream writeBuffer;
+	PxTriangleMeshCookingResult::Enum result;
+	bool status = GameEnginePhysX::GetCooking()->cookTriangleMesh(meshDesc, writeBuffer, &result);
+	if (!status)
+	{
+		MsgBoxAssert("Fail Cooking Triangle Mesh");
+		return;
+	}
+
+	PxDefaultMemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
+
+	GameEnginePhysX::GetPhysics()->createTriangleMesh(readBuffer);
 }

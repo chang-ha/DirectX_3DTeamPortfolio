@@ -14,6 +14,8 @@ public:
 	TestLevel_PhysX& operator=(const TestLevel_PhysX& _Other) = delete;
 	TestLevel_PhysX& operator=(TestLevel_PhysX&& _Other) noexcept = delete;
 
+	void CookingTestCode();
+
 protected:
 
 private:
