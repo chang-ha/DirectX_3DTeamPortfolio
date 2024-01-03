@@ -140,7 +140,7 @@ void TestLevel_PhysX::CookingTestCode()
 		PxTriangleMeshDesc meshDesc;
 		meshDesc.points.count = static_cast<PxU32>(Vertexs.size());
 		meshDesc.points.stride = sizeof(PxVec3);
-		meshDesc.points.data = reinterpret_cast<void*>(&Vertexs);
+		meshDesc.points.data = reinterpret_cast<void*>(&Vertexs[0]);
 
 		meshDesc.triangles.count = static_cast<PxU32>(UnitInfo.Indexs[0].size() / 3);
 		meshDesc.triangles.stride = 3 * sizeof(PxU32);

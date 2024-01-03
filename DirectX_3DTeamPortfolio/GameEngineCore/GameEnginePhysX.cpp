@@ -60,6 +60,12 @@ void GameEnginePhysX::PhysXInit()
 		MsgBoxAssert("Physics 생성에 실패했습니다.");
 	}
 
+	CpuDispatcher = physx::PxDefaultCpuDispatcherCreate(0);
+
+	if (nullptr == CpuDispatcher)
+	{
+		MsgBoxAssert("CpuDispatcher 생성에 실패했습니다.");
+	}
 
 	Cooking = PxCreateCooking(PX_PHYSICS_VERSION, *Foundation, physx::PxCookingParams(Physics->getTolerancesScale()));
 	if (nullptr == Cooking)
@@ -106,14 +112,6 @@ physx::PxScene* GameEnginePhysX::CreateLevelScene()
 	
 	SceneDesc.limits = SceneLimitsData;
 
-	// Cpu Dispatcher
-	CpuDispatcher = physx::PxDefaultCpuDispatcherCreate(0);
-
-	if (nullptr == CpuDispatcher)
-	{
-		MsgBoxAssert("CpuDispatcher 생성에 실패했습니다.");
-	}
-
 	SceneDesc.cpuDispatcher = CpuDispatcher;
 
 	physx::PxScene* Scene = Physics->createScene(SceneDesc);
@@ -145,6 +143,27 @@ void GameEnginePhysX::PhysXRelease()
 		Cooking = nullptr;
 	}
 
+	if (nullptr != CpuDispatcher)
+	{
+		CpuDispatcher->release();
+		CpuDispatcher = nullptr;
+	}
+
+	for (std::pair<const std::string, physx::PxScene*>& _Pair : AllLevelScene)
+	{
+		if (nullptr != _Pair.second)
+		{
+			_Pair.second->release();
+			_Pair.second = nullptr;
+		}
+	}
+
+	if (nullptr != Material)
+	{
+		Material->release();
+		Material = nullptr;
+	}
+
 	if (nullptr != Physics)
 	{
 		Physics->release();
@@ -160,13 +179,8 @@ void GameEnginePhysX::PhysXRelease()
 		if (nullptr != transport)
 		{
 			transport->release();
+			transport = nullptr;
 		}
-	}
-
-	if (nullptr != CpuDispatcher)
-	{
-		CpuDispatcher->release();
-		CpuDispatcher = nullptr;
 	}
 
 	if (nullptr != Foundation)
