@@ -612,7 +612,9 @@ public:
 	static std::shared_ptr<GameEngineFBXMesh> Load(std::string_view& _Path, std::string_view _Name);
 	
 	void Initialize();
-	void TestInitialize();
+
+	// 분할파일 용
+	void BigFBXInitialize();
 	
 	int GetRenderUnitCount()
 	{

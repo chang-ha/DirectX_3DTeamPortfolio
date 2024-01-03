@@ -161,7 +161,7 @@ void GameEngineFBXRenderer::SetBigFBXMesh(std::string_view _Name, std::string_vi
 		MsgBoxAssert("로드하지 않은 FBX 매쉬를 사용하려고 했습니다");
 	}
 
-	FindFBXMesh->TestInitialize();
+	FindFBXMesh->BigFBXInitialize();
 
 	for (int UnitCount = 0; UnitCount < FindFBXMesh->GetRenderUnitCount(); UnitCount++)
 	{

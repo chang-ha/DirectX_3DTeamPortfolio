@@ -483,7 +483,7 @@ void GameEngineDevice::ResourcesInit()
 		// 일반적인 보간형식 <= 뭉개진다.
 		// D3D11_FILTER_MIN_MAG_MIP_
 		// 그 밉맵에서 색상가져올때 다 뭉개는 방식으로 가져오겠다.
-		Desc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+		Desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 		Desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 		Desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 		Desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;

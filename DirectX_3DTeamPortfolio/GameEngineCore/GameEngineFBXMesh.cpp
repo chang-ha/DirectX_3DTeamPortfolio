@@ -90,7 +90,7 @@ void GameEngineFBXMesh::Initialize()
 }
 
 
-void GameEngineFBXMesh::TestInitialize()
+void GameEngineFBXMesh::BigFBXInitialize()
 {
 	if (0 != RenderUnitInfos.size())
 	{
