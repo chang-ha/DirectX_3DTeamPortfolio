@@ -17,7 +17,7 @@ void FXAAEffect::Start()
 
 	EffectUnit.ShaderResHelper.SetConstantBufferLink("RenderBaseInfo", RenderBaseInfoValue);
 	EffectUnit.ShaderResHelper.SetTexture("DiffuseTex", EffectTarget->GetTexture(0));
-	EffectUnit.ShaderResHelper.SetSampler("DiffuseTexSampler", "LINEAR");
+	EffectUnit.ShaderResHelper.SetSampler("DiffuseTextureSampler", "EngineBaseWRAPSampler");
 
 
 	float4 WindowScale = GameEngineCore::MainWindow.GetScale();
