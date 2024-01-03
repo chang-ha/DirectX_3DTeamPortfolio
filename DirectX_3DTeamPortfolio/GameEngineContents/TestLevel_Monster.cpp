@@ -31,6 +31,13 @@ void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		return;
 	}
 
+	if (true == SelectActor->IsDeath())
+	{
+		SelectActor = nullptr;
+		AnimationNames.clear();
+		return;
+	}
+
 	if (true == AnimationNames.empty())
 	{
 		CopyAnimationName();
