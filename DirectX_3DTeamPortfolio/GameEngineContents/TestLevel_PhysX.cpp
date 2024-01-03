@@ -140,11 +140,11 @@ void TestLevel_PhysX::CookingTestCode()
 		PxTriangleMeshDesc meshDesc;
 		meshDesc.points.count = static_cast<PxU32>(Vertexs.size());
 		meshDesc.points.stride = sizeof(PxVec3);
-		meshDesc.points.data = reinterpret_cast<void*>(&Vertexs[0]);
+		meshDesc.points.data = &Vertexs[0];
 
 		meshDesc.triangles.count = static_cast<PxU32>(UnitInfo.Indexs[0].size() / 3);
 		meshDesc.triangles.stride = 3 * sizeof(PxU32);
-		meshDesc.triangles.data = reinterpret_cast<void*>(&UnitInfo.Indexs[0]);
+		meshDesc.triangles.data = &UnitInfo.Indexs[0];
 
 		if (meshDesc.isValid())
 		{
@@ -153,7 +153,14 @@ void TestLevel_PhysX::CookingTestCode()
 			if (GameEnginePhysX::GetCooking()->cookTriangleMesh(meshDesc, writeBuffer))
 			{
 				PxDefaultMemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
-				GameEnginePhysX::GetPhysics()->createTriangleMesh(readBuffer);
+				PxTriangleMesh* TriMesh = GameEnginePhysX::GetPhysics()->createTriangleMesh(readBuffer);
+				PxMeshScale scale(PxVec3(100.0f, 100.0f, 100.0f), PxQuat(PxPi * 0.25f, PxVec3(0, 1, 0)));
+				PxTriangleMeshGeometry geom(TriMesh);
+				PxShape* myConvexMeshShape = GameEnginePhysX::GetPhysics()->createShape(geom, *GameEnginePhysX::GetDefaultMaterial());
+
+				physx::PxRigidStatic* staticActor = GameEnginePhysX::GetPhysics()->createRigidStatic(PxTransform(PxVec3(0.0f)));
+				staticActor->attachShape(*myConvexMeshShape);
+				Scene->addActor(*staticActor);
 			}
 			else
 			{
