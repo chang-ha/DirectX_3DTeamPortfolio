@@ -50,7 +50,8 @@ void GameEnginePhysX::PhysXInit()
 
 	// physx::PxTolerancesScale Scale = physx::PxTolerancesScale(); // Default Length = 1(cm), Speed = 10(cm/s)
 	physx::PxTolerancesScale Scale = physx::PxTolerancesScale(); // Default Length = 1(cm), Speed = 10(cm/s)
-	Scale.speed = 100;
+	Scale.speed = 10;
+	Scale.length = 0.1f;
 
 	Physics = PxCreatePhysics(PX_PHYSICS_VERSION, *Foundation, Scale, RecordMemoryAllocations, Pvd);
 
@@ -61,13 +62,12 @@ void GameEnginePhysX::PhysXInit()
 
 
 	Cooking = PxCreateCooking(PX_PHYSICS_VERSION, *Foundation, physx::PxCookingParams(Physics->getTolerancesScale()));
-
 	if (nullptr == Cooking)
 	{
 		MsgBoxAssert("Cooking 생성에 실패했습니다.");
 	}
 
-	Material = Physics->createMaterial(1.0f, 1.0f, 0.0f);
+	Material = Physics->createMaterial(0.0f, 0.0f, 0.0f);
 
 	if (nullptr == Material)
 	{
@@ -87,7 +87,7 @@ physx::PxScene* GameEnginePhysX::CreateLevelScene()
 	physx::PxSceneDesc SceneDesc = physx::PxSceneDesc(Physics->getTolerancesScale());
 
 	// Scene Gravity
-	SceneDesc.gravity = physx::PxVec3(0.0f, -GRAVITY_FORCE, 0.0f);
+	SceneDesc.gravity = physx::PxVec3(0.0f, -GRAVITY_FORCE * 2.0f, 0.0f);
 	physx::PxVec3 vec = SceneDesc.gravity;
 
 	// FilterShader

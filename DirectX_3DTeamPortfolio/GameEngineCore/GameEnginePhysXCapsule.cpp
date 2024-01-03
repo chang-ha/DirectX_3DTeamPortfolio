@@ -31,6 +31,9 @@ void GameEnginePhysXCapsule::Start()
 
 void GameEnginePhysXCapsule::Update(float _Delta)
 {
+	ComponentActor->clearTorque(physx::PxForceMode::eVELOCITY_CHANGE);
+
+
 	physx::PxTransform Transform = ComponentActor->getGlobalPose();
 
 	physx::PxVec3 ComponentPos = Transform.p;
@@ -54,7 +57,7 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 
 	float4 WolrdPos = Transform.GetWorldPosition();
 	float4 WorldDeg = Transform.GetWorldRotationEuler();
-
+	
 	physx::PxShape* CapsuleShape = Physics->createShape(physx::PxCapsuleGeometry(_Radius, _HalfHeight), *_Material); // 캡슐이 똑바로 서있는 모양은 1/4Pi 만큼 회전 필요
 
 	physx::PxVec3 Pos = { WolrdPos.X, WolrdPos.Y , WolrdPos.Z };
@@ -68,6 +71,7 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 	ComponentActor->attachShape(*CapsuleShape);
 	physx::PxRigidBodyExt::updateMassAndInertia(*ComponentActor, 0.001f);
 	physx::PxReal Mass = ComponentActor->getMass();
+	ComponentActor->setMassSpaceInertiaTensor(physx::PxVec3(0.f));
 
 	Scene->addActor(*ComponentActor);
 
@@ -83,12 +87,12 @@ eACCELERATION  == unit of distance/ time^2, i.e. an acceleration. It gets treate
 */
 void GameEnginePhysXCapsule::MoveForce(const physx::PxVec3 _Force)
 {
-	physx::PxVec3 Speed = ComponentActor->getLinearVelocity();
-	ComponentActor->setLinearVelocity({ 0, Speed.y, 0 });
+	// physx::PxVec3 Speed = ComponentActor->getLinearVelocity();
+	// ComponentActor->setLinearVelocity({ 0, Speed.y, 0 });
 	ComponentActor->addForce(_Force, physx::PxForceMode::eVELOCITY_CHANGE);
 }
 
 void GameEnginePhysXCapsule::AddForce(const physx::PxVec3 _Force)
 {
-	ComponentActor->addForce(_Force, physx::PxForceMode::eFORCE);
+	ComponentActor->addForce(_Force, physx::PxForceMode::eIMPULSE);
 }

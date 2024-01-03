@@ -125,34 +125,40 @@ void Boss_Vordt::Update(float _Delta)
 {
 	BossState.Update(_Delta);
 
-	if (true == GameEngineInput::IsPress('W', this))
+	if (true == GameEngineInput::IsDown('W', this))
 	{
 		Capsule->MoveForce({ 0.0f, 0.0f, 10.0f, 0.0f });
 	}
 
-	if (true == GameEngineInput::IsPress('S', this))
+	if (true == GameEngineInput::IsDown('S', this))
 	{
 		Capsule->MoveForce({ 0.0f, 0.0f, -10.0f, 0.0f });
 	}
 
-	if (true == GameEngineInput::IsPress('A', this))
+	if (true == GameEngineInput::IsDown('A', this))
 	{
 		Capsule->MoveForce({ 10.0f, 0.0f, 0.0f, 0.0f });
 	}
 
-	if (true == GameEngineInput::IsPress('D', this))
+	if (true == GameEngineInput::IsDown('D', this))
 	{
 		Capsule->MoveForce({ -10.0f, 0.0f, 0.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsDown('Q', this))
 	{
-		Capsule->AddForce({ 0.0f, 1000.0f, 1000.0f, 0.0f });
+		Capsule->AddForce({ 0.0f, 0.0f, 1000.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsDown('E', this))
 	{
-		Capsule->AddForce({ 0.0f, 1000.0f, -1000.0f, 0.0f });
+		Capsule->AddForce({ 0.0f, 0.0f, -1000.0f, 0.0f });
+	}
+
+
+	if (true == GameEngineInput::IsDown(VK_SPACE, this))
+	{
+		Capsule->AddForce({ 0.0f, 200.0f, 0.0f, 0.0f });
 	}
 }
 
