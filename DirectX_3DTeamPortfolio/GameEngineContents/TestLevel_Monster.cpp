@@ -31,18 +31,12 @@ void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		return;
 	}
 
-	if (true == SelectActor->IsDeath())
-	{
-		SelectActor = nullptr;
-		return;
-	}
-
 	if (true == AnimationNames.empty())
 	{
 		CopyAnimationName();
 	}
 
-	if (ImGui::ListBox("Aniamtion Name", &SelectAnimationIndex, &CAnimationNames[0], static_cast<int>(CAnimationNames.size()), 8))
+	if (ImGui::ListBox("Aniamtion Name", &SelectAnimationIndex, &CAnimationNames[0], static_cast<int>(CAnimationNames.size())))
 	{
 		const char* SelectAnimationName = CAnimationNames.at(SelectAnimationIndex);
 		SelectActor->GetFBXRenderer()->ChangeAnimation(SelectAnimationName);
@@ -159,6 +153,9 @@ void MonsterGUI::CopyAnimationName()
 void MonsterGUI::Release()
 {
 	CurAnimationInfo = nullptr;
+	SelectActor = nullptr;
+	ActorNames.clear();
+	CObjectNames.clear();
 	AnimationNames.clear();
 	CAnimationNames.clear();
 }
