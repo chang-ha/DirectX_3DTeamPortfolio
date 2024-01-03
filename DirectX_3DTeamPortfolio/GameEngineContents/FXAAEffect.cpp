@@ -13,7 +13,7 @@ FXAAEffect::~FXAAEffect()
 void FXAAEffect::Start()
 {
 	EffectUnit.SetMesh("fullrect");
-	EffectUnit.SetMaterial("BlurPostEffect");
+	EffectUnit.SetMaterial("FXAA");
 
 	EffectUnit.ShaderResHelper.SetConstantBufferLink("RenderBaseInfo", RenderBaseInfoValue);
 	EffectUnit.ShaderResHelper.SetTexture("DiffuseTex", EffectTarget->GetTexture(0));

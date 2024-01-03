@@ -23,6 +23,7 @@
     <FxCompile Include="ContentsStaticMesh.fx" />
     <FxCompile Include="FBXAnimation.fx" />
     <FxCompile Include="Function.fx" />
+    <FxCompile Include="FXAA.fx" />
     <FxCompile Include="Light.fx" />
     <FxCompile Include="MeshBase.fx" />
     <FxCompile Include="Random.fx" />
