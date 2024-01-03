@@ -3,6 +3,8 @@
 #include "Boss_Vordt.h"
 #include "Monster_HollowSoldier.h"
 #include "Monster_LothricKn.h"
+#include "FXAAEffect.h"
+#include <GameEngineCore/BlurPostEffect.h>
 
 TestLevel_Shader::TestLevel_Shader() 
 {
@@ -22,6 +24,8 @@ void TestLevel_Shader::LevelEnd(GameEngineLevel* _NextLevel)
 
 void TestLevel_Shader::Start()
 {
+
+	//GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<FXAAEffect>();
 
 	CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster);
 	CreateActor<Monster_HollowSoldier>(Enum_UpdateOrder::Monster);
