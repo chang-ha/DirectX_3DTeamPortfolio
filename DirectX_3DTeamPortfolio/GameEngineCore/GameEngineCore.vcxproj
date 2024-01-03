@@ -371,6 +371,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEnginePhysXBox.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEnginePhysXCapsule.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
     <ClInclude Include="imgui_impl_dx11.h" />
@@ -775,6 +783,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineVertexShader.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEnginePhysXBox.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEnginePhysXCapsule.cpp">
       <SubType>
       </SubType>
     </ClCompile>

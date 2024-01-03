@@ -946,6 +946,12 @@
     <ClInclude Include="GameEnginePhysXSphere.h">
       <Filter>PhysX\Component</Filter>
     </ClInclude>
+    <ClInclude Include="GameEnginePhysXBox.h">
+      <Filter>PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEnginePhysXCapsule.h">
+      <Filter>PhysX\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -1149,6 +1155,12 @@
       <Filter>PhysX\Component</Filter>
     </ClCompile>
     <ClCompile Include="GameEnginePhysXSphere.cpp">
+      <Filter>PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEnginePhysXBox.cpp">
+      <Filter>PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEnginePhysXCapsule.cpp">
       <Filter>PhysX\Component</Filter>
     </ClCompile>
   </ItemGroup>

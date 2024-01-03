@@ -48,7 +48,9 @@ void GameEnginePhysX::PhysXInit()
 	
 #endif
 
+	// physx::PxTolerancesScale Scale = physx::PxTolerancesScale(); // Default Length = 1(cm), Speed = 10(cm/s)
 	physx::PxTolerancesScale Scale = physx::PxTolerancesScale(); // Default Length = 1(cm), Speed = 10(cm/s)
+	Scale.speed = 100;
 
 	Physics = PxCreatePhysics(PX_PHYSICS_VERSION, *Foundation, Scale, RecordMemoryAllocations, Pvd);
 
@@ -65,7 +67,7 @@ void GameEnginePhysX::PhysXInit()
 		MsgBoxAssert("Cooking 생성에 실패했습니다.");
 	}
 
-	Material = Physics->createMaterial(0.0f, 10.0f, 0.0f);
+	Material = Physics->createMaterial(1.0f, 1.0f, 0.0f);
 
 	if (nullptr == Material)
 	{

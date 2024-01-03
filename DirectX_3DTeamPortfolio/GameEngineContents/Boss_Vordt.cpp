@@ -1,6 +1,8 @@
 ﻿#include "PreCompile.h"
 #include "Boss_Vordt.h"
 #include <GameEngineCore\GameEnginePhysXSphere.h>
+#include <GameEngineCore\GameEnginePhysXBox.h>
+#include <GameEngineCore\GameEnginePhysXCapsule.h>
 
 #define BOSS_ANI_SPEED 0.033f
 
@@ -33,7 +35,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 		BossFBXRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBX_Animation"); // Bone 136
 		BossFBXRenderer->Transform.SetLocalScale({ 10.0f, 10.0f, 10.0f });
-		BossFBXRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
+		BossFBXRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, 180.0f });
 	}
 
 	// Boss Animation
@@ -104,8 +106,8 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	//	BossCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 1.0f });
 	//}
 
-	Sphere = CreateComponent<GameEnginePhysXSphere>();
-	Sphere->PhysXComponentInit(10.0f);
+	Capsule = CreateComponent<GameEnginePhysXCapsule>();
+	Capsule->PhysXComponentInit(5.0f, 10.0f);
 
 }
 
@@ -125,22 +127,32 @@ void Boss_Vordt::Update(float _Delta)
 
 	if (true == GameEngineInput::IsPress('W', this))
 	{
-		Sphere->MoveForce({ 0.0f, 0.0f, 10.0f, 0.0f });
+		Capsule->MoveForce({ 0.0f, 0.0f, 10.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsPress('S', this))
 	{
-		Sphere->MoveForce({ 0.0f, 0.0f, -10.0f, 0.0f });
+		Capsule->MoveForce({ 0.0f, 0.0f, -10.0f, 0.0f });
 	}
 
-	if (true == GameEngineInput::IsPress('Q', this))
+	if (true == GameEngineInput::IsPress('A', this))
 	{
-		Sphere->AddForce({ 0.0f, 0.0f, 1000.0f, 0.0f });
+		Capsule->MoveForce({ 10.0f, 0.0f, 0.0f, 0.0f });
 	}
 
-	if (true == GameEngineInput::IsPress('E', this))
+	if (true == GameEngineInput::IsPress('D', this))
 	{
-		Sphere->AddForce({ 0.0f, 0.0f, -1000.0f, 0.0f });
+		Capsule->MoveForce({ -10.0f, 0.0f, 0.0f, 0.0f });
+	}
+
+	if (true == GameEngineInput::IsDown('Q', this))
+	{
+		Capsule->AddForce({ 0.0f, 1000.0f, 1000.0f, 0.0f });
+	}
+
+	if (true == GameEngineInput::IsDown('E', this))
+	{
+		Capsule->AddForce({ 0.0f, 1000.0f, -1000.0f, 0.0f });
 	}
 }
 

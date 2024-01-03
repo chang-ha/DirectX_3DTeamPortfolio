@@ -1,72 +1,77 @@
 ﻿#include "PreCompile.h"
-#include "GameEnginePhysXSphere.h"
-#include "GameEnginePhysXLevel.h"
+#include "GameEnginePhysXCapsule.h"
 
-GameEnginePhysXSphere::GameEnginePhysXSphere()
+
+GameEnginePhysXCapsule::GameEnginePhysXCapsule()
 {
 
 }
 
-GameEnginePhysXSphere::~GameEnginePhysXSphere()
+GameEnginePhysXCapsule::~GameEnginePhysXCapsule()
 {
 
 }
 
-void GameEnginePhysXSphere::LevelStart(GameEngineLevel* _PrevLevel)
+
+void GameEnginePhysXCapsule::LevelStart(GameEngineLevel* _PrevLevel)
 {
 
 }
 
-void GameEnginePhysXSphere::LevelEnd(GameEngineLevel* _NextLevel)
+void GameEnginePhysXCapsule::LevelEnd(GameEngineLevel* _NextLevel)
 {
 
 }
 
-void GameEnginePhysXSphere::Start()
+void GameEnginePhysXCapsule::Start()
 {
 	GameEnginePhysXComponent::Start();
 	ParentActor = GetActor();
 }
 
-void GameEnginePhysXSphere::Update(float _Delta)
+void GameEnginePhysXCapsule::Update(float _Delta)
 {
 	physx::PxTransform Transform = ComponentActor->getGlobalPose();
 
 	physx::PxVec3 ComponentPos = Transform.p;
 	physx::PxQuat ComponentQuat = Transform.q;
 
-	float4 ParentPos = {ComponentPos.x, ComponentPos.y, ComponentPos.z};
+	float4 ParentPos = { ComponentPos.x, ComponentPos.y, ComponentPos.z };
 	float4 Degree = float4(ComponentQuat.x, ComponentQuat.y, ComponentQuat.z, 1.0f).QuaternionToEulerDeg();
 
 	ParentActor->Transform.SetWorldPosition(ParentPos);
 	ParentActor->Transform.SetWorldRotation(Degree);
 }
 
-void GameEnginePhysXSphere::Release()
+void GameEnginePhysXCapsule::Release()
 {
 
 }
 
-void GameEnginePhysXSphere::PhysXComponentInit(float _Radius, const physx::PxMaterial* _Material /*= GameEnginePhysX::GetDefaultMaterial()*/)
+void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight, const physx::PxMaterial* _Material /*= GameEnginePhysX::GetDefaultMaterial()*/)
 {
 	physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
 
 	float4 WolrdPos = Transform.GetWorldPosition();
-	float4 WorldQuat = Transform.GetWorldRotationEuler().EulerDegToQuaternion();
+	float4 WorldDeg = Transform.GetWorldRotationEuler();
 
-	physx::PxShape* Sphereshape = Physics->createShape(physx::PxSphereGeometry(_Radius), *_Material);
+	physx::PxShape* CapsuleShape = Physics->createShape(physx::PxCapsuleGeometry(_Radius, _HalfHeight), *_Material); // 캡슐이 똑바로 서있는 모양은 1/4Pi 만큼 회전 필요
 
 	physx::PxVec3 Pos = { WolrdPos.X, WolrdPos.Y , WolrdPos.Z };
+	WorldDeg.Z += physx::PxHalfPi * GameEngineMath::R2D;
+	float4 WorldQuat = WorldDeg.EulerDegToQuaternion();
 	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
+	physx::PxQuat RotQuat = physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1));
+
 	physx::PxTransform Transform(Pos, Quat);
 	ComponentActor = Physics->createRigidDynamic(Transform);
-	ComponentActor->attachShape(*Sphereshape);
+	ComponentActor->attachShape(*CapsuleShape);
 	physx::PxRigidBodyExt::updateMassAndInertia(*ComponentActor, 0.001f);
 	physx::PxReal Mass = ComponentActor->getMass();
 
 	Scene->addActor(*ComponentActor);
 
-	Sphereshape->release();
+	CapsuleShape->release();
 }
 
 /*
@@ -76,14 +81,14 @@ eIMPULSE  == unit of mass * distance /time
 eVELOCITY_CHANGE  == unit of distance / time, i.e. the effect is mass independent: a velocity change.
 eACCELERATION  == unit of distance/ time^2, i.e. an acceleration. It gets treated just like a force except the mass is not divided out before integration.
 */
-void GameEnginePhysXSphere::MoveForce(const physx::PxVec3 _Force)
+void GameEnginePhysXCapsule::MoveForce(const physx::PxVec3 _Force)
 {
 	physx::PxVec3 Speed = ComponentActor->getLinearVelocity();
-	ComponentActor->setLinearVelocity({0, Speed.y, 0 });
+	ComponentActor->setLinearVelocity({ 0, Speed.y, 0 });
 	ComponentActor->addForce(_Force, physx::PxForceMode::eVELOCITY_CHANGE);
 }
 
-void GameEnginePhysXSphere::AddForce(const physx::PxVec3 _Force)
+void GameEnginePhysXCapsule::AddForce(const physx::PxVec3 _Force)
 {
 	ComponentActor->addForce(_Force, physx::PxForceMode::eFORCE);
 }
