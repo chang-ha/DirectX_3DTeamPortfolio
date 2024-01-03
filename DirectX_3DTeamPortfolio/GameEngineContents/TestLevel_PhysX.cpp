@@ -88,69 +88,78 @@ void TestLevel_PhysX::Release()
 
 using namespace physx;
 
-void createRandomTerrain(const PxVec3& origin, PxU32 numRows, PxU32 numColumns,
-	PxReal cellSizeRow, PxReal cellSizeCol, PxReal heightScale,
-	PxVec3*& vertices, PxU32*& indices);
-
 void TestLevel_PhysX::CookingTestCode()
 {
-	
+	std::string FileName = "c1240.FBX";
 
-	//GameEngineFile File;
-	//File.MoveParentToExistsChild("ContentsResources");
-	//File.MoveChild("ContentsResources");
-	//File.MoveChild("Mesh");
-	//File = File.PlusFilePath("o001220.FBX");
+	GameEngineFile File;
+	File.MoveParentToExistsChild("ContentsResources");
+	File.MoveChild("ContentsResources");
+	File.MoveChild("Mesh");
+	File.MoveChild("Monster");
+	File = File.PlusFilePath(FileName);
 
-	//GameEngineFile CheckFile;
-	//CheckFile = File;
-	//CheckFile.ChangeExtension(".MeshFBX");
+	File.ChangeExtension(".MeshFBX");
 
-	//if (false == CheckFile.IsExits())
-	//{
-	//	std::shared_ptr<GameEngineActor> TriActor = CreateActor<GameEngineActor>();
-	//	std::shared_ptr<GameEngineFBXRenderer> FBXRENDERER = TriActor->CreateComponent<GameEngineFBXRenderer>();
-	//	FBXRENDERER->SetFBXMesh("o001220.fbx", "FBX_Static");
-	//	TriActor->Death();
-	//}
-
-	//if (true == CheckFile.IsExits())
-	//{
-	//	File.Open(FileOpenType::Read, FileDataType::Binary);
-	//	GameEngineSerializer Ser;
-	//	File.DataAllRead(Ser);
-
-	//	std::string FBXMeshName;
-	//	std::vector<FbxExMeshInfo> MeshInfos;
-	//	std::vector<FbxRenderUnitInfo> RenderUnitInfos;
-	//	std::vector<Bone> AllBones;
-	//	Ser >> FBXMeshName;
-	//	Ser >> MeshInfos;
-	//	Ser >> RenderUnitInfos;
-	//	Ser >> AllBones;
-	//}
-	
-	
-
-	PxTriangleMeshDesc meshDesc;
-	/*meshDesc.points.count = numVertices;
-	meshDesc.points.stride = sizeof(PxVec3);
-	meshDesc.points.data = vertices;
-
-	meshDesc.triangles.count = numTriangles;
-	meshDesc.triangles.stride = 3 * sizeof(PxU32);
-	meshDesc.triangles.data = indices;*/
-
-	PxDefaultMemoryOutputStream writeBuffer;
-	PxTriangleMeshCookingResult::Enum result;
-	bool status = GameEnginePhysX::GetCooking()->cookTriangleMesh(meshDesc, writeBuffer, &result);
-	if (!status)
+	if (false == File.IsExits())
 	{
-		MsgBoxAssert("Fail Cooking Triangle Mesh");
-		return;
+		std::shared_ptr<GameEngineActor> TriActor = CreateActor<GameEngineActor>();
+		std::shared_ptr<GameEngineFBXRenderer> FBXRENDERER = TriActor->CreateComponent<GameEngineFBXRenderer>();
+		FBXRENDERER->SetFBXMesh(FileName, "FBXStaticColor");
+		TriActor->Death();
 	}
 
-	PxDefaultMemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
+	File.Open(FileOpenType::Read, FileDataType::Binary);
+	GameEngineSerializer Ser;
+	File.DataAllRead(Ser);
 
-	GameEnginePhysX::GetPhysics()->createTriangleMesh(readBuffer);
+	std::string FBXMeshName;
+	std::vector<FbxExMeshInfo> MeshInfos;
+	std::vector<FbxRenderUnitInfo> RenderUnitInfos;
+	std::vector<Bone> AllBones;
+	Ser >> FBXMeshName;
+	Ser >> MeshInfos;
+	Ser >> RenderUnitInfos;
+	Ser >> AllBones;
+
+
+	FbxRenderUnitInfo& UnitInfo = RenderUnitInfos[0];
+	std::vector<PxVec3> Vertexs;
+	Vertexs.resize(UnitInfo.Vertexs.size());
+
+	for (int i = 0; i < UnitInfo.Vertexs.size(); i++)
+	{
+		const float4 Position = UnitInfo.Vertexs[i].POSITION; 
+		Vertexs[i].x = Position.X;
+		Vertexs[i].y = Position.Y;
+		Vertexs[i].z = Position.Z;
+	}
+
+	if (true)
+	{
+		PxTriangleMeshDesc meshDesc;
+		meshDesc.points.count = static_cast<PxU32>(Vertexs.size());
+		meshDesc.points.stride = sizeof(PxVec3);
+		meshDesc.points.data = reinterpret_cast<void*>(&Vertexs);
+
+		meshDesc.triangles.count = static_cast<PxU32>(UnitInfo.Indexs[0].size() / 3);
+		meshDesc.triangles.stride = 3 * sizeof(PxU32);
+		meshDesc.triangles.data = reinterpret_cast<void*>(&UnitInfo.Indexs[0]);
+
+		if (meshDesc.isValid())
+		{
+			PxDefaultMemoryOutputStream writeBuffer;
+
+			if (GameEnginePhysX::GetCooking()->cookTriangleMesh(meshDesc, writeBuffer))
+			{
+				PxDefaultMemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
+				GameEnginePhysX::GetPhysics()->createTriangleMesh(readBuffer);
+			}
+			else
+			{
+				MsgBoxAssert("Fail Cooking Triangle Mesh");
+				return;
+			}
+		}
+	}
 }

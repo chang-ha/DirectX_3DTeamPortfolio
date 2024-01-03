@@ -86,7 +86,13 @@ public:
 		return Material;
 	}
 
+	static inline physx::PxCooking* GetCooking()
+	{
+		return Cooking;
+	}
+
 	static physx::PxScene* FindScene(std::string_view _SceneName);
+
 protected:
 
 private:
