@@ -167,12 +167,12 @@ void MonsterGUI::CopyObjectName()
 
 void MonsterGUI::CopyAnimationName()
 {
-	std::map<std::string, std::shared_ptr<GameEngineFBXAnimationInfo>>& Animations = SelectActor->GetFBXRenderer()->GetAnimationInfos();
+	std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& Animations = SelectActor->GetFBXRenderer()->GetAnimationInfos();
 	AnimationNames.reserve(Animations.size());
 	CAnimationNames.reserve(Animations.size());
 
 	int CurIndex = 0;
-	for (std::pair<const std::string, std::shared_ptr<GameEngineFBXAnimationInfo>>& _Pair : Animations)
+	for (std::pair<const std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& _Pair : Animations)
 	{
 		AnimationNames.push_back(_Pair.first);
 		CAnimationNames.push_back(AnimationNames[CurIndex].c_str());
@@ -223,11 +223,13 @@ void TestLevel_Monster::Update(float _Delta)
 void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn");
+	CreateActor<Monster_HollowSoldier>(static_cast<int>(Enum_UpdateOrder::Monster), "HollowSoldier");
 }
 
 void TestLevel_Monster::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	AllDeathObjectGroupConvert<Monster_LothricKn>(Enum_UpdateOrder::Monster);
+	AllDeathObjectGroupConvert<Monster_HollowSoldier>(Enum_UpdateOrder::Monster);
 
 	if (nullptr != MonsterWindow)
 	{

@@ -46,10 +46,13 @@
     <ClCompile Include="TestMap.cpp">
       <Filter>Map</Filter>
     </ClCompile>
-    <ClCompile Include="MonsterEditorActor.cpp" />
     <ClCompile Include="Monster_LothricKn.cpp" />
     <ClCompile Include="FXAAEffect.cpp">
       <Filter>PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonMonster.cpp" />
+    <ClCompile Include="GameContentsFBXRenderer.cpp">
+      <Filter>Monster\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,10 +104,13 @@
     <ClInclude Include="TestMap.h">
       <Filter>Map</Filter>
     </ClInclude>
-    <ClInclude Include="MonsterEditorActor.h" />
     <ClInclude Include="Monster_LothricKn.h" />
     <ClInclude Include="FXAAEffect.h">
       <Filter>PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonMonster.h" />
+    <ClInclude Include="GameContentsFBXRenderer.h">
+      <Filter>Monster\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +152,9 @@
     </Filter>
     <Filter Include="PostEffect">
       <UniqueIdentifier>{0908c021-de83-47a2-af52-678a47c6fbb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Monster\Renderer">
+      <UniqueIdentifier>{781099ec-31b3-4c0c-8941-80d28daaf927}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
