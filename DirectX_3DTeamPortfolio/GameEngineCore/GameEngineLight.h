@@ -60,6 +60,12 @@ public:
 		return LightDataValue;
 	}
 
+    void SetLightData(const LightData& _LightData)
+    {
+        LightDataValue = _LightData;
+    }
+
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
