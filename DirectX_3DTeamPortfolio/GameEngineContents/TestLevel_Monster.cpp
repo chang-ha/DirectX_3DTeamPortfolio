@@ -38,6 +38,8 @@ void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		return;
 	}
 
+	SetTransform();
+
 	if (true == AnimationNames.empty())
 	{
 		CopyAnimationName();
@@ -60,7 +62,7 @@ void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		}
 	}
 
-
+	 
 	
 	if (bool TestCode = false)
 	{
@@ -88,6 +90,28 @@ void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			}
 		}
 		ImGui::EndTabBar();
+	}
+}
+
+void MonsterGUI::SetTransform()
+{
+	Size = SelectActor->Transform.GetLocalScale().X;
+	Rot = SelectActor->Transform.GetLocalRotationEuler();
+	Pos = SelectActor->Transform.GetLocalPosition();
+
+	if (ImGui::InputFloat("Set Scale", &Size))
+	{
+		SelectActor->Transform.SetLocalScale(float4(Size, Size, Size));
+	}
+
+	if (ImGui::InputFloat3("Set Rotation", &Rot.X))
+	{
+		SelectActor->Transform.SetLocalRotation(Rot);
+	}
+
+	if (ImGui::InputFloat3("Set Pos", &Pos.X))
+	{
+		SelectActor->Transform.SetLocalPosition(Pos);
 	}
 }
 
@@ -182,6 +206,8 @@ TestLevel_Monster::~TestLevel_Monster()
 
 void TestLevel_Monster::Start()
 {
+	GetMainCamera()->GetCameraAllRenderTarget()->SetClearColor(float4::BLUE);
+
 	MonsterWindow = GameEngineGUI::CreateGUIWindow<MonsterGUI>("MonsterGUI");
 	MonsterWindow->Off();
 }
