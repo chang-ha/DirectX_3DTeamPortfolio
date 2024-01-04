@@ -1,8 +1,5 @@
 ﻿#include "PreCompile.h"
 #include "Boss_Vordt.h"
-#include <GameEngineCore\GameEnginePhysXSphere.h>
-#include <GameEngineCore\GameEnginePhysXBox.h>
-#include <GameEngineCore\GameEnginePhysXCapsule.h>
 
 #define BOSS_ANI_SPEED 0.033f
 
@@ -108,6 +105,13 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 	Capsule = CreateComponent<GameEnginePhysXCapsule>();
 	Capsule->PhysXComponentInit(5.0f, 10.0f);
+
+	std::shared_ptr<GameEngineFBXRenderer> Renderer;
+	Renderer = CreateComponent<GameEngineFBXRenderer>(Enum_RenderOrder::Monster);
+	Renderer->SetFBXMesh("SmallMap.fbx", "FBXStaticColor");
+	
+	std::shared_ptr<GameEnginePhysXTriMesh> TriMesh = CreateComponent<GameEnginePhysXTriMesh>();
+	TriMesh->PhysXComponentInit("SmallMap.fbx");
 
 }
 

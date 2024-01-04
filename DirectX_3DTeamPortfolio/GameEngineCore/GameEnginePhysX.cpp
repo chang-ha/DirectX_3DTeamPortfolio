@@ -51,7 +51,7 @@ void GameEnginePhysX::PhysXInit()
 	// physx::PxTolerancesScale Scale = physx::PxTolerancesScale(); // Default Length = 1(cm), Speed = 10(cm/s)
 	physx::PxTolerancesScale Scale = physx::PxTolerancesScale(); // Default Length = 1(cm), Speed = 10(cm/s)
 	Scale.speed = 10;
-	Scale.length = 0.1f;
+	Scale.length = 100.f;
 
 	Physics = PxCreatePhysics(PX_PHYSICS_VERSION, *Foundation, Scale, RecordMemoryAllocations, Pvd);
 

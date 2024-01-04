@@ -43,13 +43,18 @@ void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, cons
 
 	std::vector<FbxRenderUnitInfo> RenderUnitInfos = Mesh->GetRenderUnitInfos();
 
+	if (0 == RenderUnitInfos.size())
+	{
+		MsgBoxAssert("로드되지 않은 Mesh로 삼각형 매쉬를 만들 수 없습니다.");
+		return;
+	}
+
 	for (int i = 0; i < RenderUnitInfos.size(); i++)
 	{
 		FbxRenderUnitInfo& UnitInfo = RenderUnitInfos[i];
 		std::vector<physx::PxVec3> Vertexs;
 		std::vector<physx::PxVec3> Indexs;
 		Vertexs.resize(UnitInfo.Vertexs.size());
-		// Indexs.resize(UnitInfo.Indexs.size());
 
 		for (int i = 0; i < UnitInfo.Vertexs.size(); i++)
 		{
@@ -91,55 +96,4 @@ void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, cons
 			}
 		}
 	}
-
-	//for (int i = 0; i < RenderUnitInfos.size(); i++)
-	//{
-	//	FbxRenderUnitInfo& UnitInfo = RenderUnitInfos[0];
-	//	std::vector<PxVec3> Vertexs;
-	//	Vertexs.resize(UnitInfo.Vertexs.size());
-
-	//	for (int i = 0; i < UnitInfo.Vertexs.size(); i++)
-	//	{
-	//		const float4 Position = UnitInfo.Vertexs[i].POSITION;
-	//		Vertexs[i].x = Position.X;
-	//		Vertexs[i].y = Position.Y;
-	//		Vertexs[i].z = Position.Z;
-	//	}
-
-	//	if (true)
-	//	{
-	//		PxTriangleMeshDesc meshDesc;
-	//		meshDesc.points.count = static_cast<PxU32>(Vertexs.size());
-	//		meshDesc.points.stride = sizeof(PxVec3);
-	//		meshDesc.points.data = &Vertexs[1];
-
-	//		meshDesc.triangles.count = static_cast<PxU32>(UnitInfo.Indexs[0].size() / 3);
-	//		meshDesc.triangles.stride = 3 * sizeof(PxU32);
-	//		meshDesc.triangles.data = &UnitInfo.Indexs[0];
-
-	//		if (meshDesc.isValid())
-	//		{
-	//			PxDefaultMemoryOutputStream writeBuffer;
-
-	//			if (GameEnginePhysX::GetCooking()->cookTriangleMesh(meshDesc, writeBuffer))
-	//			{
-	//				PxDefaultMemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
-	//				PxTriangleMesh* TriMesh = GameEnginePhysX::GetPhysics()->createTriangleMesh(readBuffer);
-	//				PxMeshScale scale(PxVec3(100.0f, 100.0f, 100.0f), PxQuat(PxPi * 0.25f, PxVec3(0, 1, 0)));
-	//				PxTriangleMeshGeometry geom(TriMesh);
-	//				PxShape* myConvexMeshShape = GameEnginePhysX::GetPhysics()->createShape(geom, *GameEnginePhysX::GetDefaultMaterial());
-
-	//				physx::PxRigidStatic* staticActor = GameEnginePhysX::GetPhysics()->createRigidStatic(PxTransform(PxVec3(0.0f)));
-	//				staticActor->attachShape(*myConvexMeshShape);
-	//				Scene->addActor(*staticActor);
-	//			}
-	//			else
-	//			{
-	//				MsgBoxAssert("Fail Cooking Triangle Mesh");
-	//				return;
-	//			}
-	//		}
-	//	}
-	//}
-
 }
