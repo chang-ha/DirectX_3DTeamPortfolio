@@ -294,6 +294,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEnginePhysXTriMesh.h" />
     <ClInclude Include="GameEnginePixelShader.h" />
     <ClInclude Include="GameEngineRasterizer.h">
       <SubType>
@@ -709,6 +710,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEnginePhysXTriMesh.cpp" />
     <ClCompile Include="GameEnginePixelShader.cpp" />
     <ClCompile Include="GameEngineRasterizer.cpp">
       <SubType>

@@ -952,6 +952,9 @@
     <ClInclude Include="GameEnginePhysXCapsule.h">
       <Filter>PhysX\Component</Filter>
     </ClInclude>
+    <ClInclude Include="GameEnginePhysXTriMesh.h">
+      <Filter>PhysX\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -1161,6 +1164,9 @@
       <Filter>PhysX\Component</Filter>
     </ClCompile>
     <ClCompile Include="GameEnginePhysXCapsule.cpp">
+      <Filter>PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEnginePhysXTriMesh.cpp">
       <Filter>PhysX\Component</Filter>
     </ClCompile>
   </ItemGroup>

@@ -73,6 +73,13 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 	physx::PxReal Mass = ComponentActor->getMass();
 	ComponentActor->setMassSpaceInertiaTensor(physx::PxVec3(0.f));
 
+	//ComponentActor->setRigidDynamicLockFlags
+	//(
+	//	physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X |
+	//	physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y |
+	//	physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z
+	//);
+
 	Scene->addActor(*ComponentActor);
 
 	CapsuleShape->release();
