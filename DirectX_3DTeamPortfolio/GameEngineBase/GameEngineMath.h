@@ -197,13 +197,13 @@ public:
 	{
 		float4 result;
 
-		float sinrCosp = 2.0f * (W * Z + X * Y);
-		float cosrCosp = 1.0f - 2.0f * (Z * Z + X * X);
-		result.Z = atan2f(sinrCosp, cosrCosp);
+		double sinrCosp = 2.0f * (W * Z + X * Y);
+		double cosrCosp = 1.0f - 2.0f * (Z * Z + X * X);
+		result.Z = static_cast<float>(atan2(sinrCosp, cosrCosp));
 
-		float pitchTest = W * X - Y * Z;
-		float asinThreshold = 0.4999995f;
-		float sinp = 2.0f * pitchTest;
+		double pitchTest = W * X - Y * Z;
+		double asinThreshold = 0.4999995f;
+		double sinp = 2.0f * pitchTest;
 
 		if (pitchTest < -asinThreshold)
 		{
@@ -215,12 +215,12 @@ public:
 		}
 		else
 		{
-			result.X = asinf(sinp);
+			result.X = static_cast<float>(asin(sinp));
 		}
 
-		float sinyCosp = 2.0f * (W * Y + X * Z);
-		float cosyCosp = 1.0f - 2.0f * (X * X + Y * Y);
-		result.Y = atan2f(sinyCosp, cosyCosp);
+		double sinyCosp = 2.0f * (W * Y + X * Z);
+		double cosyCosp = 1.0f - 2.0f * (X * X + Y * Y);
+		result.Y = static_cast<float>(atan2(sinyCosp, cosyCosp));
 
 		return result;
 	}
@@ -670,6 +670,8 @@ public:
 	static const int MatrixYCount = 4;
 	static const int MatrixXCount = 4;
 
+	static const float4x4 Iden;
+
 	union
 	{
 		float Arr2D[MatrixYCount][MatrixXCount] =
@@ -1007,6 +1009,8 @@ public:
 
 	void LookToLH(const float4& _EyePos, const float4& _EyeDir, const float4& _EyeUp)
 	{
+		Identity();
+
 		DirectXMatrix = DirectX::XMMatrixLookToLH(_EyePos.DirectXVector, _EyeDir.DirectXVector, _EyeUp.DirectXVector);
 
 		//Identity();
