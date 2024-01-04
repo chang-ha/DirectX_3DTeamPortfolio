@@ -90,6 +90,45 @@ void GameEngineFBXMesh::Initialize()
 }
 
 
+void GameEngineFBXMesh::BigFBXLoad(size_t _Num, std::string_view _Name)
+{
+	GameEngineFile File = GameEngineFile(GetPath());
+
+	std::string ExtensionName = "FBX";
+
+	int FileNum = _Num;
+
+	ExtensionName += std::to_string(FileNum);
+
+	File.ChangeExtension(ExtensionName);
+
+	if (true == File.IsExits())
+	{
+		File.Open(FileOpenType::Read, FileDataType::Binary);
+
+		GameEngineSerializer Ser;
+		File.DataAllRead(Ser);
+		File.Close();
+
+		std::vector<FbxExMeshInfo> NewMeshInfo;
+		std::vector<FbxRenderUnitInfo> NewRenderUnitInfos;
+
+		Ser >> FBXMeshName;
+		Ser >> NewMeshInfo;
+		Ser >> NewRenderUnitInfos;
+		Ser >> AllBones;
+
+		MeshInfos[FileNum] = NewMeshInfo[0];
+		RenderUnitInfos[FileNum] = NewRenderUnitInfos[0];
+
+		for (int i = 0; i < AllBones.size(); i++)
+		{
+			AllFindMap[AllBones[i].Name] = &AllBones[i];
+		}
+	}
+}
+
+
 void GameEngineFBXMesh::BigFBXInitialize()
 {
 	if (0 != RenderUnitInfos.size())
@@ -148,6 +187,7 @@ void GameEngineFBXMesh::BigFBXInitialize()
 		ExtensionName += std::to_string(FileNum);
 
 		File.ChangeExtension(ExtensionName);
+
 	}
 
 	// 경로를 수정할 함수가 필요함.
@@ -200,6 +240,102 @@ void GameEngineFBXMesh::BigFBXInitialize()
 		NewFile.Open(FileOpenType::Write, FileDataType::Binary);
 		NewFile.Write(Ser);
 	}
+
+}
+
+void GameEngineFBXMesh::TestBigFBXInitialize()
+{
+	if (0 != RenderUnitInfos.size())
+	{
+		return;
+	}
+
+	GameEngineFile File = GameEngineFile(GetPath());
+
+	FBXMeshName = File.GetFileName();
+
+	File.ChangeExtension("MapData");
+
+	if (true == File.IsExits())
+	{
+		File.Open(FileOpenType::Read, FileDataType::Binary);
+
+		GameEngineSerializer Ser;
+		File.DataAllRead(Ser);
+		File.Close();
+
+		Ser >> MapDatas;
+
+		MeshInfos.resize(MapDatas.size());
+		RenderUnitInfos.resize(MapDatas.size());
+
+		return;
+	}
+
+	std::string ExtensionName = "FBX";
+
+	int FileNum = 0;
+
+	ExtensionName += std::to_string(FileNum);
+
+	File.ChangeExtension(ExtensionName);
+
+	while (true == File.IsExits())
+	{
+		File.Open(FileOpenType::Read, FileDataType::Binary);
+
+		GameEngineSerializer Ser;
+		File.DataAllRead(Ser);
+		File.Close();
+
+		std::vector<FbxExMeshInfo> NewMeshInfo;
+		std::vector<FbxRenderUnitInfo> NewRenderUnitInfos;
+
+		MeshInfos.emplace_back();
+		RenderUnitInfos.emplace_back();
+
+		Ser >> FBXMeshName;
+		Ser >> NewMeshInfo;
+		Ser >> NewRenderUnitInfos;
+		Ser >> AllBones;
+
+		MeshInfos[FileNum] = NewMeshInfo[0];
+		RenderUnitInfos[FileNum] = NewRenderUnitInfos[0];
+
+		MapDatas.emplace_back();
+
+		MapDatas[FileNum].Name = File.GetFileName();
+		MapDatas[FileNum].Pos = NewRenderUnitInfos[0].MinBoundBox;
+		MapDatas[FileNum].IsLoad = false;
+
+		for (int i = 0; i < AllBones.size(); i++)
+		{
+			AllFindMap[AllBones[i].Name] = &AllBones[i];
+		}
+
+		// 경로를 수정할 함수가 필요함.
+		File = GameEngineFile(GetPath());
+
+		FBXMeshName = File.GetFileName();
+
+		ExtensionName = "FBX";
+
+		FileNum++;
+
+		ExtensionName += std::to_string(FileNum);
+
+		File.ChangeExtension(ExtensionName);
+	}
+
+	GameEngineFile NewFile = GameEngineFile(GetPath());
+
+	NewFile.ChangeExtension("MapData");
+
+	GameEngineSerializer Ser;
+	Ser << MapDatas;
+
+	NewFile.Open(FileOpenType::Write, FileDataType::Binary);
+	NewFile.Write(Ser);
 
 }
 

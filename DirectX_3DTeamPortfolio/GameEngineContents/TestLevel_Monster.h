@@ -14,6 +14,7 @@ private:
 
 
 	void ShowLothricKnCount(class GameEngineLevel* _Level);
+	void SetTransform();
 	void CopyObjectName();
 	void CopyAnimationName();
 	void ShowObjectNameList();
@@ -26,7 +27,12 @@ private:
 	std::vector<const char*> CObjectNames;
 	std::vector<std::string> AnimationNames; // Store Value
 	std::vector<const char*> CAnimationNames; // Use 'AnimationNames' Pointer
-	std::shared_ptr<GameEngineFBXAnimationInfo> CurAnimationInfo;
+	std::shared_ptr<GameContentsFBXAnimationInfo> CurAnimationInfo;
+
+	float Size;
+	float4 Rot;
+	float4 Pos;
+
 	int SelectActorIndex = -1;
 	int SelectAnimationIndex = -1;
 

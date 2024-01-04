@@ -14,7 +14,7 @@ public:
 	CommonMonster& operator=(const CommonMonster& _Other) = delete;
 	CommonMonster& operator=(CommonMonster&& _Other) noexcept = delete;
 
-	inline std::shared_ptr<GameEngineFBXRenderer> GetFBXRenderer() { return MainRenderer; }
+	inline std::shared_ptr<GameContentsFBXRenderer> GetFBXRenderer() { return MainRenderer; }
 
 protected:
 	void Start() override;
@@ -24,7 +24,7 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 protected:
-	std::shared_ptr<GameEngineFBXRenderer> MainRenderer;
+	std::shared_ptr<GameContentsFBXRenderer> MainRenderer;
 	GameEngineState MainState;
 
 private:

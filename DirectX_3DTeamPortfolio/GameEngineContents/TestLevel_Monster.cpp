@@ -38,6 +38,8 @@ void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		return;
 	}
 
+	SetTransform();
+
 	if (true == AnimationNames.empty())
 	{
 		CopyAnimationName();
@@ -60,7 +62,7 @@ void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		}
 	}
 
-
+	 
 	
 	if (bool TestCode = false)
 	{
@@ -88,6 +90,28 @@ void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			}
 		}
 		ImGui::EndTabBar();
+	}
+}
+
+void MonsterGUI::SetTransform()
+{
+	Size = SelectActor->Transform.GetLocalScale().X;
+	Rot = SelectActor->Transform.GetLocalRotationEuler();
+	Pos = SelectActor->Transform.GetLocalPosition();
+
+	if (ImGui::InputFloat("Set Scale", &Size))
+	{
+		SelectActor->Transform.SetLocalScale(float4(Size, Size, Size));
+	}
+
+	if (ImGui::InputFloat3("Set Rotation", &Rot.X))
+	{
+		SelectActor->Transform.SetLocalRotation(Rot);
+	}
+
+	if (ImGui::InputFloat3("Set Pos", &Pos.X))
+	{
+		SelectActor->Transform.SetLocalPosition(Pos);
 	}
 }
 
@@ -143,12 +167,12 @@ void MonsterGUI::CopyObjectName()
 
 void MonsterGUI::CopyAnimationName()
 {
-	std::map<std::string, std::shared_ptr<GameEngineFBXAnimationInfo>>& Animations = SelectActor->GetFBXRenderer()->GetAnimationInfos();
+	std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& Animations = SelectActor->GetFBXRenderer()->GetAnimationInfos();
 	AnimationNames.reserve(Animations.size());
 	CAnimationNames.reserve(Animations.size());
 
 	int CurIndex = 0;
-	for (std::pair<const std::string, std::shared_ptr<GameEngineFBXAnimationInfo>>& _Pair : Animations)
+	for (std::pair<const std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& _Pair : Animations)
 	{
 		AnimationNames.push_back(_Pair.first);
 		CAnimationNames.push_back(AnimationNames[CurIndex].c_str());
@@ -182,6 +206,8 @@ TestLevel_Monster::~TestLevel_Monster()
 
 void TestLevel_Monster::Start()
 {
+	GetMainCamera()->GetCameraAllRenderTarget()->SetClearColor(float4::BLUE);
+
 	MonsterWindow = GameEngineGUI::CreateGUIWindow<MonsterGUI>("MonsterGUI");
 	MonsterWindow->Off();
 }
@@ -197,11 +223,13 @@ void TestLevel_Monster::Update(float _Delta)
 void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn");
+	CreateActor<Monster_HollowSoldier>(static_cast<int>(Enum_UpdateOrder::Monster), "HollowSoldier");
 }
 
 void TestLevel_Monster::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	AllDeathObjectGroupConvert<Monster_LothricKn>(Enum_UpdateOrder::Monster);
+	AllDeathObjectGroupConvert<Monster_HollowSoldier>(Enum_UpdateOrder::Monster);
 
 	if (nullptr != MonsterWindow)
 	{
