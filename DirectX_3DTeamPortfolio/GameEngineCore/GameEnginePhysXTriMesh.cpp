@@ -49,6 +49,15 @@ void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, cons
 		return;
 	}
 
+	physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
+
+	float4 WolrdPos = Transform.GetWorldPosition();
+	float4 WorldQuat = Transform.GetWorldRotationEuler().EulerDegToQuaternion();
+
+	physx::PxVec3 Pos = { WolrdPos.X, WolrdPos.Y , WolrdPos.Z };
+	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
+	physx::PxTransform PxTransform(Pos, Quat);
+
 	for (int i = 0; i < RenderUnitInfos.size(); i++)
 	{
 		FbxRenderUnitInfo& UnitInfo = RenderUnitInfos[i];
@@ -81,11 +90,11 @@ void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, cons
 			{
 				physx::PxDefaultMemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
 				physx::PxTriangleMesh* TriMesh = GameEnginePhysX::GetPhysics()->createTriangleMesh(readBuffer);
-				physx::PxMeshScale scale(physx::PxVec3(100.0f, 100.0f, 100.0f), physx::PxQuat(physx::PxPi * 0.25f, physx::PxVec3(0, 1, 0)));
+				physx::PxMeshScale scale(physx::PxVec3(1.0f, 1.0f, 1.0f), physx::PxQuat(physx::PxPi * 0.25f, physx::PxVec3(0, 1, 0)));
 				physx::PxTriangleMeshGeometry geom(TriMesh);
-				physx::PxShape* myConvexMeshShape = GameEnginePhysX::GetPhysics()->createShape(geom, *GameEnginePhysX::GetDefaultMaterial());
+				physx::PxShape* myConvexMeshShape = GameEnginePhysX::GetPhysics()->createShape(geom, *_Material);
 
-				physx::PxRigidStatic* staticActor = GameEnginePhysX::GetPhysics()->createRigidStatic(physx::PxTransform(physx::PxVec3(0.0f)));
+				physx::PxRigidStatic* staticActor = GameEnginePhysX::GetPhysics()->createRigidStatic(PxTransform);
 				staticActor->attachShape(*myConvexMeshShape);
 				Scene->addActor(*staticActor);
 			}

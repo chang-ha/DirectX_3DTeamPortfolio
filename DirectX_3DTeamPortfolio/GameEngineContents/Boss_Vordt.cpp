@@ -104,13 +104,14 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	//}
 
 	Capsule = CreateComponent<GameEnginePhysXCapsule>();
-	Capsule->PhysXComponentInit(5.0f, 10.0f);
+	Capsule->PhysXComponentInit(50.0f, 60.0f);
 
 	std::shared_ptr<GameEngineFBXRenderer> Renderer;
 	Renderer = CreateComponent<GameEngineFBXRenderer>(Enum_RenderOrder::Monster);
 	Renderer->SetFBXMesh("SmallMap.fbx", "FBXStaticColor");
 	
 	std::shared_ptr<GameEnginePhysXTriMesh> TriMesh = CreateComponent<GameEnginePhysXTriMesh>();
+	TriMesh->Transform.SetLocalPosition({1000.0f, 0.0f, 1000.0f});
 	TriMesh->PhysXComponentInit("SmallMap.fbx");
 
 }
@@ -131,22 +132,22 @@ void Boss_Vordt::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('W', this))
 	{
-		Capsule->MoveForce({ 0.0f, 0.0f, 10.0f, 0.0f });
+		Capsule->MoveForce({ 0.0f, 0.0f, 1000.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsDown('S', this))
 	{
-		Capsule->MoveForce({ 0.0f, 0.0f, -10.0f, 0.0f });
+		Capsule->MoveForce({ 0.0f, 0.0f, -1000.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsDown('A', this))
 	{
-		Capsule->MoveForce({ 10.0f, 0.0f, 0.0f, 0.0f });
+		Capsule->MoveForce({ 1000.0f, 0.0f, 0.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsDown('D', this))
 	{
-		Capsule->MoveForce({ -10.0f, 0.0f, 0.0f, 0.0f });
+		Capsule->MoveForce({ -1000.0f, 0.0f, 0.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsDown('Q', this))

@@ -54,11 +54,11 @@ void GameEnginePhysXSphere::PhysXComponentInit(float _Radius, const physx::PxMat
 	float4 WolrdPos = Transform.GetWorldPosition();
 	float4 WorldQuat = Transform.GetWorldRotationEuler().EulerDegToQuaternion();
 
-	physx::PxShape* Sphereshape = Physics->createShape(physx::PxSphereGeometry(_Radius), *_Material);
-
 	physx::PxVec3 Pos = { WolrdPos.X, WolrdPos.Y , WolrdPos.Z };
 	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
 	physx::PxTransform Transform(Pos, Quat);
+
+	physx::PxShape* Sphereshape = Physics->createShape(physx::PxSphereGeometry(_Radius), *_Material);
 	ComponentActor = Physics->createRigidDynamic(Transform);
 	ComponentActor->attachShape(*Sphereshape);
 	physx::PxRigidBodyExt::updateMassAndInertia(*ComponentActor, 0.001f);
