@@ -46,6 +46,8 @@
     <ClCompile Include="TestMap.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+    <ClCompile Include="MonsterEditorActor.cpp" />
+    <ClCompile Include="Monster_LothricKn.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -96,6 +98,8 @@
     <ClInclude Include="TestMap.h">
       <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="MonsterEditorActor.h" />
+    <ClInclude Include="Monster_LothricKn.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
