@@ -143,6 +143,9 @@ void MonsterGUI::ShowObjectNameList()
 			if (CObjectNames[SelectActorIndex] == Monster->GetName())
 			{
 				SelectActor = Monster.get();
+				AnimationNames.clear();
+				CAnimationNames.clear();
+				CurAnimationInfo = nullptr;
 			}
 		}
 	}
