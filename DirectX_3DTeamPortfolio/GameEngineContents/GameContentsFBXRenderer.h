@@ -22,6 +22,7 @@ public:
 	float CurFrameTime = 0.0f;
 	// 프레임 간격타임
 	float Inter = 0.1f;
+	float TotalFrameTime = 0.0f;
 
 	std::vector<unsigned int> Frames;
 	UINT CurFrame = 0;
@@ -100,6 +101,8 @@ private:
 	std::shared_ptr<GameEngineFBXMesh> FBXMesh;
 	std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>> Animations;
 	std::shared_ptr<GameContentsFBXAnimationInfo> CurAnimation;
+	std::shared_ptr<GameContentsFBXAnimationInfo> BlendAnimation;
+	float BlendTime = 0.0f;
 
 	std::vector<float4x4> AnimationBoneMatrixs;
 	std::vector<float4x4> AnimationBoneNotOffset;

@@ -98,9 +98,10 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 		FbxExBoneFrameData& NextData = FBXAnimationData->AniFrameData[i].BoneMatData[NextFrame];
 
 		// CurFrameTime 분명히 잘못되었다.
-		AnimationBoneData[i].Scale = float4::LerpClamp(CurData.S, NextData.S, CurFrameTime);
-		AnimationBoneData[i].RotQuaternion = float4::SLerpQuaternionClamp(CurData.Q, NextData.Q, CurFrameTime);
-		AnimationBoneData[i].Pos = float4::LerpClamp(CurData.T, NextData.T, CurFrameTime);
+		float FrameRatio = CurFrameTime / Inter;
+		AnimationBoneData[i].Scale = float4::LerpClamp(CurData.S, NextData.S, FrameRatio);
+		AnimationBoneData[i].RotQuaternion = float4::SLerpQuaternionClamp(CurData.Q, NextData.Q, FrameRatio);
+		AnimationBoneData[i].Pos = float4::LerpClamp(CurData.T, NextData.T, FrameRatio);
 
 		float4x4 Mat = float4x4::Affine(AnimationBoneData[i].Scale, AnimationBoneData[i].RotQuaternion, AnimationBoneData[i].Pos);
 
@@ -336,7 +337,21 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 		return;
 	}
 
+	if (0.0f == Ptr->TotalFrameTime)
+	{
+		Ptr->TotalFrameTime = Ptr->Inter * static_cast<float>(Ptr->FBXAnimationData->AniFrameData.size());
+	}
+
+	if (nullptr != CurAnimation)
+	{
+		BlendAnimation = CurAnimation;
+		float RemainBlendTime = BlendAnimation->TotalFrameTime - BlendAnimation->PlayTime;
+		BlendTime = Ptr->BlendOut + RemainBlendTime;
+		BlendAnimation->PlayTime = 0.0f;
+	}
+
 	CurAnimation = Ptr;
+	
 }
 
 void GameContentsFBXRenderer::Update(float _DeltaTime)
