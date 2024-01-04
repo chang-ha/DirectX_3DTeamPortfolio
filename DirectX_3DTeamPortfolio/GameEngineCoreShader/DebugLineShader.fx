@@ -22,11 +22,11 @@ PixelOutPut DebugLine_VS(GameEngineVertex2D _Input)
     
     if (_Input.iVertex == 0)
     {
-        Result.POSITION = mul(Position, ViewProjectionMatrix);
+        Result.POSITION = mul(LocalPosition, ViewProjectionMatrix);
     }
     else if (_Input.iVertex == 1)
     {
-        Result.POSITION = mul(Scale, ViewProjectionMatrix);
+        Result.POSITION = mul(LocalScale, ViewProjectionMatrix);
     }
     
     
