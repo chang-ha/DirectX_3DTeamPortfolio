@@ -149,11 +149,11 @@ void GameEngineTileMap::Render(GameEngineCamera* _Camera, float _Delta)
 			Pos.Y -= TileData.TileScale.Y * y + TileData.TileScale.hY();
 
 			Data = Transform.GetConstTransformDataRef();
-			Data.Position = Pos;
+			Data.LocalPosition = Pos;
 
-			Data.Scale = TileData.TileScale;
+			Data.LocalScale = TileData.TileScale;
 
-			Data.LocalCalculation(); // 로컬 월드 생성
+			Data.LocalCalculation(float4x4::Iden); // 로컬 월드 생성
 
 			Data.ParentMatrix = Transform.GetConstTransformDataRef().WorldMatrix;
 			Data.WorldMatrix = Data.LocalWorldMatrix * Data.ParentMatrix;

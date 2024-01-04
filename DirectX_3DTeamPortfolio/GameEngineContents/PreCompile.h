@@ -33,3 +33,5 @@
 #include "GlobalValue.h"
 
 #include "GameEngineCore\GameEnginePhysX.h"
+
+#include "GameContentsFBXRenderer.h"

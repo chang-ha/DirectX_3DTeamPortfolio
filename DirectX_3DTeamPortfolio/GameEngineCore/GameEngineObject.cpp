@@ -118,35 +118,17 @@ void GameEngineObject::AllUpdate(float _Delta)
 }
 
 
-void GameEngineObject::ChangeParent(GameEngineObject* _Parent, int _Order)
+
+void GameEngineObject::SetParent(GameEngineObject* _Parent, int _Order /*= 0*/)
 {
-
-	if (nullptr == Parent)
+	// 기존에 내가 부모를 가지고 있었다면
+	if (nullptr != Parent)
 	{
-		SetParent(_Parent, _Order);
-		return;
+		Parent->Childs[GetOrder()].remove(shared_from_this());
 	}
 
-	for (std::pair<const int, std::list<std::shared_ptr<GameEngineObject>>>& _Pair : Parent->Childs)
-	{
-		std::list<std::shared_ptr<GameEngineObject>>& Group = _Pair.second;
-
-		std::list<std::shared_ptr<GameEngineObject>>::iterator Start = Group.begin();
-		std::list<std::shared_ptr<GameEngineObject>>::iterator End = Group.end();
-		for (; Start != End;)
-
-		{
-			if (shared_from_this() != *Start)
-			{
-				Start++;
-				continue;
-			}
-
-			Start->get()->SetParent(_Parent, _Order);
-			Group.erase(Start);
-
-			return;
-
-		}
-	}
+	SetOrder(_Order);
+	Parent = _Parent;
+	Parent->Childs[_Order].push_back(shared_from_this());
+	Transform.SetParent(_Parent->Transform);
 }

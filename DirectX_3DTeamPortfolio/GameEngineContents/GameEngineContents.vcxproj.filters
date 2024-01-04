@@ -46,6 +46,14 @@
     <ClCompile Include="TestMap.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+    <ClCompile Include="Monster_LothricKn.cpp" />
+    <ClCompile Include="FXAAEffect.cpp">
+      <Filter>PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonMonster.cpp" />
+    <ClCompile Include="GameContentsFBXRenderer.cpp">
+      <Filter>Monster\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="MonsterEditorActor.cpp" />
     <ClCompile Include="Monster_LothricKn.cpp" />
   </ItemGroup>
@@ -98,8 +106,6 @@
     <ClInclude Include="TestMap.h">
       <Filter>Map</Filter>
     </ClInclude>
-    <ClInclude Include="MonsterEditorActor.h" />
-    <ClInclude Include="Monster_LothricKn.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -137,6 +143,12 @@
     </Filter>
     <Filter Include="Map">
       <UniqueIdentifier>{afdebdbe-54a1-4db9-8273-84561c171924}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PostEffect">
+      <UniqueIdentifier>{0908c021-de83-47a2-af52-678a47c6fbb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Monster\Renderer">
+      <UniqueIdentifier>{781099ec-31b3-4c0c-8941-80d28daaf927}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
