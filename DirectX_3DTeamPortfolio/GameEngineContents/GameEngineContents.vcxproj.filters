@@ -54,8 +54,10 @@
     <ClCompile Include="GameContentsFBXRenderer.cpp">
       <Filter>Monster\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="MonsterEditorActor.cpp" />
     <ClCompile Include="Monster_LothricKn.cpp" />
+    <ClCompile Include="GameServer.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -106,6 +108,13 @@
     <ClInclude Include="TestMap.h">
       <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="CommonMonster.h" />
+    <ClInclude Include="FXAAEffect.h" />
+    <ClInclude Include="GameContentsFBXRenderer.h" />
+    <ClInclude Include="Monster_LothricKn.h" />
+    <ClInclude Include="GameServer.h">
+      <Filter>Server</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -149,6 +158,9 @@
     </Filter>
     <Filter Include="Monster\Renderer">
       <UniqueIdentifier>{781099ec-31b3-4c0c-8941-80d28daaf927}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server">
+      <UniqueIdentifier>{691cf478-7f6a-423c-963d-010cb337579a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
