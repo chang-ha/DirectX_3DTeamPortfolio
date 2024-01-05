@@ -32,6 +32,23 @@ public:
 
 	void AddForce(const physx::PxVec3 _Force);
 
+	void ResetForce();
+
+	physx::PxVec3 GetLinearVelocity()
+	{
+		return ComponentActor->getLinearVelocity();
+	}
+
+	float GetMass()
+	{
+		return ComponentActor->getMass();
+	}
+
+	void SetMass(float _MassValue)
+	{
+		return ComponentActor->setMass(_MassValue);
+	}
+
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;

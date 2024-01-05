@@ -73,12 +73,12 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 	physx::PxReal Mass = ComponentActor->getMass();
 	ComponentActor->setMassSpaceInertiaTensor(physx::PxVec3(0.f));
 
-	//ComponentActor->setRigidDynamicLockFlags
-	//(
-	//	physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X |
-	//	physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y |
-	//	physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z
-	//);
+	// ComponentActor->setRigidDynamicLockFlags
+	// (
+	// 	physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X |
+	// 	physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y |
+	// 	physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z
+	// );
 
 	Scene->addActor(*ComponentActor);
 
@@ -102,4 +102,10 @@ void GameEnginePhysXCapsule::MoveForce(const physx::PxVec3 _Force)
 void GameEnginePhysXCapsule::AddForce(const physx::PxVec3 _Force)
 {
 	ComponentActor->addForce(_Force, physx::PxForceMode::eIMPULSE);
+}
+
+void GameEnginePhysXCapsule::ResetForce()
+{
+	ComponentActor->setLinearVelocity({ 0, 0, 0 });
+	// ComponentActor->clearForce(physx::PxForceMode::eFORCE);
 }

@@ -73,7 +73,7 @@ void TestLevel_PhysX::Start()
 	Sphereshape->release();
 	CapsuleShape->release();
 
-	CookingTestCode();
+	// CookingTestCode();
 }
 
 void TestLevel_PhysX::Update(float _Delta)

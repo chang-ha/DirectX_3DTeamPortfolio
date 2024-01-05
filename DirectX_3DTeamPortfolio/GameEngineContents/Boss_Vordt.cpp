@@ -130,24 +130,32 @@ void Boss_Vordt::Update(float _Delta)
 {
 	BossState.Update(_Delta);
 
-	if (true == GameEngineInput::IsDown('W', this))
+	if (false == GameEngineInput::IsPress('W', this)
+		&& false == GameEngineInput::IsPress('A', this)
+		&& false == GameEngineInput::IsPress('S', this)
+		&& false == GameEngineInput::IsPress('D', this))
 	{
-		Capsule->MoveForce({ 0.0f, 0.0f, 1000.0f, 0.0f });
+		Capsule->ResetForce();
 	}
 
-	if (true == GameEngineInput::IsDown('S', this))
+	if (true == GameEngineInput::IsPress('W', this))
 	{
-		Capsule->MoveForce({ 0.0f, 0.0f, -1000.0f, 0.0f });
+		Capsule->MoveForce({ 0.0f, 0.0f, 10.0f, 0.0f });
 	}
 
-	if (true == GameEngineInput::IsDown('A', this))
+	if (true == GameEngineInput::IsPress('S', this))
 	{
-		Capsule->MoveForce({ 1000.0f, 0.0f, 0.0f, 0.0f });
+		Capsule->MoveForce({ 0.0f, 0.0f, -10.0f, 0.0f });
 	}
 
-	if (true == GameEngineInput::IsDown('D', this))
+	if (true == GameEngineInput::IsPress('A', this))
 	{
-		Capsule->MoveForce({ -1000.0f, 0.0f, 0.0f, 0.0f });
+		Capsule->MoveForce({ 10.0f, 0.0f, 0.0f, 0.0f });
+	}
+
+	if (true == GameEngineInput::IsPress('D', this))
+	{
+		Capsule->MoveForce({ -10.0f, 0.0f, 0.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsDown('Q', this))
@@ -163,8 +171,12 @@ void Boss_Vordt::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown(VK_SPACE, this))
 	{
-		Capsule->AddForce({ 0.0f, 200.0f, 0.0f, 0.0f });
+		Capsule->AddForce({ 0.0f, 20000.0f, 0.0f, 0.0f });
 	}
+
+	physx::PxVec3 Vec = Capsule->GetLinearVelocity();
+	std::string Result = "X : " + std::to_string(Vec.x) + "\nY : " + std::to_string(Vec.y) + "\nZ : " + std::to_string(Vec.z) + "\n";
+	OutputDebugString(Result.c_str());
 }
 
 void Boss_Vordt::Release()
