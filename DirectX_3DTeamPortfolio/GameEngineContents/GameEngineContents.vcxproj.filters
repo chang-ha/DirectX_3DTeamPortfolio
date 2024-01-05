@@ -54,6 +54,8 @@
     <ClCompile Include="GameContentsFBXRenderer.cpp">
       <Filter>Monster\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="MonsterEditorActor.cpp" />
+    <ClCompile Include="Monster_LothricKn.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -103,14 +105,6 @@
     </ClInclude>
     <ClInclude Include="TestMap.h">
       <Filter>Map</Filter>
-    </ClInclude>
-    <ClInclude Include="Monster_LothricKn.h" />
-    <ClInclude Include="FXAAEffect.h">
-      <Filter>PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="CommonMonster.h" />
-    <ClInclude Include="GameContentsFBXRenderer.h">
-      <Filter>Monster\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

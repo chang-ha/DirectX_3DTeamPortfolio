@@ -21,6 +21,11 @@ protected:
 
 private:
 	std::shared_ptr<GameEngineFBXRenderer> FBXRenderer;
+	std::shared_ptr<GameEngineFBXMesh> MapMesh;
+
+	// ∏ µ•¿Ã≈Õ
+	std::vector<class MapData> MapDatas;
+
 
 };
 
