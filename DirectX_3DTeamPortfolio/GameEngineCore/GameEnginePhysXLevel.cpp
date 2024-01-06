@@ -13,6 +13,8 @@ GameEnginePhysXLevel::~GameEnginePhysXLevel()
 void GameEnginePhysXLevel::PhysXLevelInit()
 {
 	Scene = GameEnginePhysX::CreateLevelScene();
+
+	ControllerManager = PxCreateControllerManager(*Scene);
 }
 
 void GameEnginePhysXLevel::RunSimulation(float _Delta)

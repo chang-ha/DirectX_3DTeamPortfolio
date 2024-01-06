@@ -22,6 +22,7 @@ protected:
 	void Release() override;
 
 	physx::PxScene* Scene = nullptr;
+	class GameEnginePhysXLevel* CurPhysXLevel = nullptr;
 private:
 
 };

@@ -12,17 +12,6 @@ GameEnginePhysXCapsule::~GameEnginePhysXCapsule()
 
 }
 
-
-void GameEnginePhysXCapsule::LevelStart(GameEngineLevel* _PrevLevel)
-{
-
-}
-
-void GameEnginePhysXCapsule::LevelEnd(GameEngineLevel* _NextLevel)
-{
-
-}
-
 void GameEnginePhysXCapsule::Start()
 {
 	GameEnginePhysXComponent::Start();
@@ -31,9 +20,6 @@ void GameEnginePhysXCapsule::Start()
 
 void GameEnginePhysXCapsule::Update(float _Delta)
 {
-	ComponentActor->clearTorque(physx::PxForceMode::eVELOCITY_CHANGE);
-
-
 	physx::PxTransform Transform = ComponentActor->getGlobalPose();
 
 	physx::PxVec3 ComponentPos = Transform.p;
@@ -44,6 +30,8 @@ void GameEnginePhysXCapsule::Update(float _Delta)
 
 	ParentActor->Transform.SetWorldPosition(ParentPos);
 	ParentActor->Transform.SetWorldRotation(Degree);
+
+	RayCastUpdate();
 }
 
 void GameEnginePhysXCapsule::Release()
@@ -69,9 +57,18 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 	physx::PxTransform Transform(Pos, Quat);
 	ComponentActor = Physics->createRigidDynamic(Transform);
 	ComponentActor->attachShape(*CapsuleShape);
-	physx::PxRigidBodyExt::updateMassAndInertia(*ComponentActor, 0.001f);
+	physx::PxRigidBodyExt::updateMassAndInertia(*ComponentActor, 0.01f);
 	physx::PxReal Mass = ComponentActor->getMass();
 	ComponentActor->setMassSpaceInertiaTensor(physx::PxVec3(0.f));
+
+	// Pivot Setting Test
+	physx::PxTransform Test1 = ComponentActor->getCMassLocalPose();
+
+	physx::PxVec3 Pivot = { 0, 0.0f - _Radius - _HalfHeight , 0 };
+	ComponentActor->setCMassLocalPose(physx::PxTransform(Pivot, Quat));
+
+	physx::PxTransform Test2 = ComponentActor->getCMassLocalPose();
+	//
 
 	// ComponentActor->setRigidDynamicLockFlags
 	// (
@@ -81,7 +78,6 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 	// );
 
 	Scene->addActor(*ComponentActor);
-
 	CapsuleShape->release();
 }
 
@@ -89,7 +85,7 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 physx::PxForceMode
 eFORCE == unit of mass * distance/ time^2, i.e. a force
 eIMPULSE  == unit of mass * distance /time
-eVELOCITY_CHANGE  == unit of distance / time, i.e. the effect is mass independent: a velocity change.
+eVELOCITY_CHANGE  == unit of distance / time, i.e. the effect is mass independent: a velocity change. // ignore mass
 eACCELERATION  == unit of distance/ time^2, i.e. an acceleration. It gets treated just like a force except the mass is not divided out before integration.
 */
 void GameEnginePhysXCapsule::MoveForce(const physx::PxVec3 _Force)
@@ -101,11 +97,32 @@ void GameEnginePhysXCapsule::MoveForce(const physx::PxVec3 _Force)
 
 void GameEnginePhysXCapsule::AddForce(const physx::PxVec3 _Force)
 {
-	ComponentActor->addForce(_Force, physx::PxForceMode::eIMPULSE);
+	ComponentActor->addForce(_Force, physx::PxForceMode::eVELOCITY_CHANGE);
 }
 
 void GameEnginePhysXCapsule::ResetForce()
 {
-	ComponentActor->setLinearVelocity({ 0, 0, 0 });
+	physx::PxVec3 Speed = ComponentActor->getLinearVelocity();
+	ComponentActor->setLinearVelocity({ 0, Speed.y, 0 });
 	// ComponentActor->clearForce(physx::PxForceMode::eFORCE);
 }
+
+void GameEnginePhysXCapsule::RayCastUpdate()
+{
+	Scene;
+
+	float4 WolrdPos = Transform.GetWorldPosition();
+	physx::PxVec3 origin = ComponentActor->getGlobalPose().p;		 // [in] Ray origin
+	physx::PxVec3 unitDir = physx::PxVec3({0.0f, 0.0f, 1.0f});                // [in] Normalized ray direction
+	physx::PxReal maxDistance = 0.1f;            // [in] Raycast max distance
+	physx::PxRaycastBuffer hitResult;                 // [out] Raycast results
+
+	// Raycast against all static & dynamic objects (no filtering)
+	// The main result from this call is the closest hit, stored in the 'hit.block' structure
+	bool status = Scene->raycast(origin, unitDir, maxDistance, hitResult);
+	if (true == status)
+	{
+		int a = 0;
+	}
+}
+

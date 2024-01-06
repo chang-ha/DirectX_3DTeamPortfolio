@@ -13,11 +13,22 @@ public:
 	GameEnginePhysXLevel& operator=(const GameEnginePhysXLevel& _Other) = delete;
 	GameEnginePhysXLevel& operator=(GameEnginePhysXLevel&& _Other) noexcept = delete;
 
+	inline physx::PxScene* GetScene()
+	{
+		return Scene;
+	}
+
+	inline physx::PxControllerManager* GetControllerManager()
+	{
+		return ControllerManager;
+	}
+
 protected:
 	void PhysXLevelInit();
 	void RunSimulation(float _Delta);
 
 	physx::PxScene* Scene = nullptr;
+	physx::PxControllerManager* ControllerManager = nullptr;
 private:
 
 };

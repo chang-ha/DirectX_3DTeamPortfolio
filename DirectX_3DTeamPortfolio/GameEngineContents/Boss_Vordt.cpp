@@ -160,18 +160,18 @@ void Boss_Vordt::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('Q', this))
 	{
-		Capsule->AddForce({ 0.0f, 0.0f, 1000.0f, 0.0f });
+		Capsule->AddForce({ 0.0f, 0.0f, 100.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsDown('E', this))
 	{
-		Capsule->AddForce({ 0.0f, 0.0f, -1000.0f, 0.0f });
+		Capsule->AddForce({ 0.0f, 0.0f, -100.0f, 0.0f });
 	}
 
 
 	if (true == GameEngineInput::IsDown(VK_SPACE, this))
 	{
-		Capsule->AddForce({ 0.0f, 20000.0f, 0.0f, 0.0f });
+		Capsule->AddForce({ 0.0f, 800.0f, 0.0f, 0.0f });
 	}
 
 	physx::PxVec3 Vec = Capsule->GetLinearVelocity();

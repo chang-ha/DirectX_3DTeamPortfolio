@@ -37,3 +37,4 @@
 #include <GameEngineCore\GameEnginePhysXBox.h>
 #include <GameEngineCore\GameEnginePhysXCapsule.h>
 #include <GameEngineCore\GameEnginePhysXTriMesh.h>
+#include <GameEngineCore\GameEnginePhysXCharacterController.h>
