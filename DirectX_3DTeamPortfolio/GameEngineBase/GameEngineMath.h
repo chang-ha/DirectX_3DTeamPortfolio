@@ -1,6 +1,6 @@
 #pragma once
+#include "PreCompile.h"
 #include "GameEngineDebug.h"
-#include <Windows.h>
 
 #include <d3d11_4.h>
 #include <d3dcompiler.h>

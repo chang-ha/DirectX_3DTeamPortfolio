@@ -1,6 +1,4 @@
 #pragma once
-#include <Windows.h>
-#include <map>
 
 // Ό³Έν :
 class GameEngineTime
