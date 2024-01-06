@@ -167,6 +167,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CommonMonster.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ContentLevel.cpp">
       <SubType>
       </SubType>
@@ -184,11 +188,18 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameContentsFBXRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameServer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GlobalValue.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="MonsterEditorActor.cpp" />
     <ClCompile Include="Monster_HollowSoldier.cpp">
       <SubType>
       </SubType>
@@ -231,6 +242,10 @@
     <ClCompile Include="TestMap.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CommonMonster.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ContentLevel.h">
       <SubType>
       </SubType>
@@ -249,11 +264,18 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameContentsFBXRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameServer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GlobalValue.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="MonsterEditorActor.h" />
     <ClInclude Include="Monster_HollowSoldier.h">
       <SubType>
       </SubType>
