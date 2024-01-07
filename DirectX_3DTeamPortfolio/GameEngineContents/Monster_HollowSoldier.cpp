@@ -80,5 +80,5 @@ void Monster_HollowSoldier::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void Monster_HollowSoldier::MeshOnOffSwitch(HollowSoldier_MeshIndex _Index)
 {
-	MainRenderer->RenderUnits[static_cast<int>(_Index)][0]->OnOffSwitch();
+	MainRenderer->GetRenderUnits()[static_cast<int>(_Index)][0]->OnOffSwitch();
 }

@@ -41,6 +41,8 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 			CurFrameTime -= Inter;
 			++CurFrame;
 
+			
+
 			if (false == bOnceStart && CurFrame == 0)
 			{
 				bOnceStart = true;
@@ -110,7 +112,6 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 	}
 
 }
-
 
 GameContentsFBXRenderer::GameContentsFBXRenderer()
 {
@@ -337,17 +338,9 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 		return;
 	}
 
-	if (0.0f == Ptr->TotalFrameTime)
-	{
-		Ptr->TotalFrameTime = Ptr->Inter * static_cast<float>(Ptr->FBXAnimationData->AniFrameData.size());
-	}
-
 	if (nullptr != CurAnimation)
 	{
-		BlendAnimation = CurAnimation;
-		float RemainBlendTime = BlendAnimation->TotalFrameTime - BlendAnimation->PlayTime;
-		BlendTime = Ptr->BlendOut + RemainBlendTime;
-		BlendAnimation->PlayTime = 0.0f;
+		CurAnimation->Reset();
 	}
 
 	CurAnimation = Ptr;

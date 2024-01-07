@@ -6,6 +6,50 @@
 #include "Monster_HollowSoldier.h"
 
 
+
+void SoundFrameEventTab::Init()
+{
+	// Test SoundList
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources");
+		Dir.MoveChild("TestSoundFile");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".wav" });
+		SoundFileList.reserve(Files.size());
+		CSoundFileList.reserve(Files.size());
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			GameEngineFile& pFile = Files[i];
+			GameEngineSound::SoundLoad(pFile.GetStringPath());
+			SoundFileList.push_back(pFile.GetFileName());
+			CSoundFileList.push_back(SoundFileList[i].c_str());
+		}
+	}
+}
+
+void SoundFrameEventTab::Update(GameEngineLevel* _Level, float _Delta)
+{
+	if (nullptr == Parent)
+	{
+		MsgBoxAssert("부모를 모르고 사용할 수 없습니다.");
+		return;
+	}
+
+	ImGui::Combo("SoundList", &SelectItem, CSoundFileList[0]);
+	if (ImGui::Button("CreateEvent"))
+	{
+		Parent->SelectActor->GetName();
+		Parent->SelectFrame;
+	}
+}
+
+// 나중에 Core GUI로 합칠 예정
+void MonsterGUI::Start()
+{
+	CreateEventTab<SoundFrameEventTab>("SoundTab");
+}
+
 // _Level == TestLevel_Monster 
 void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
@@ -26,40 +70,46 @@ void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 	ShowObjectNameList();
 
-	if (nullptr == SelectActor)
+	if (nullptr != SelectActor)
 	{
-		return;
-	}
-
-	if (true == SelectActor->IsDeath())
-	{
-		SelectActor = nullptr;
-		AnimationNames.clear();
-		return;
-	}
-
-	SetTransform();
-
-	if (true == AnimationNames.empty())
-	{
-		CopyAnimationName();
-	}
-
-	if (ImGui::ListBox("Aniamtion Name", &SelectAnimationIndex, &CAnimationNames[0], static_cast<int>(CAnimationNames.size())))
-	{
-		const char* SelectAnimationName = CAnimationNames.at(SelectAnimationIndex);
-		SelectActor->GetFBXRenderer()->ChangeAnimation(SelectAnimationName);
-		CurAnimationInfo = SelectActor->GetFBXRenderer()->GetAnimationInfos()[AnimationNames.at(SelectAnimationIndex)];
-	}
-
-	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>>& RenderUnits = SelectActor->GetFBXRenderer()->RenderUnits;
-	const int IndexCount = static_cast<int>(RenderUnits.size());
-	for (int i = 0; i < IndexCount; i++)
-	{
-		if (ImGui::Button(std::to_string(i).c_str()))
+		if (true == SelectActor->IsDeath())
 		{
-			RenderUnits[i][0]->OnOffSwitch();
+			SelectActor = nullptr;
+			AnimationNames.clear();
+			return;
 		}
+
+		TransformEdit();
+
+		if (true == AnimationNames.empty())
+		{
+			CopyAnimationName();
+		}
+
+		if (ImGui::ListBox("Aniamtion Name", &SelectAnimationIndex, &CAnimationNames[0], static_cast<int>(CAnimationNames.size())))
+		{
+			const char* SelectAnimationName = CAnimationNames.at(SelectAnimationIndex);
+			SelectActor->GetFBXRenderer()->ChangeAnimation(SelectAnimationName);
+			CurAnimationInfo = SelectActor->GetFBXRenderer()->GetCurAnimation();
+		}
+
+		if (nullptr != CurAnimationInfo)
+		{
+			ImGui::Separator();
+
+			for (const std::shared_ptr<FrameEventTab>& EventTab : FrameEventTabs)
+			{
+				if (ImGui::TreeNode("FrameEvent Tree"))
+				{
+					ImGui::SliderInt("SelectFrame", &SelectFrame, CurAnimationInfo->Start, CurAnimationInfo->End);
+					EventTab->Update(_Level, _DeltaTime);
+				}
+				ImGui::TreePop();
+			}
+			ImGui::TreePop();
+		}
+		 
+		RenderUnitSwitch();
 	}
 
 	 
@@ -70,7 +120,6 @@ void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		{
 			if (ImGui::TreeNode("Animation Tree"))
 			{
-
 				ImGui::TreePop();
 			}
 
@@ -93,7 +142,7 @@ void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	}
 }
 
-void MonsterGUI::SetTransform()
+void MonsterGUI::TransformEdit()
 {
 	Size = SelectActor->Transform.GetLocalScale().X;
 	Rot = SelectActor->Transform.GetLocalRotationEuler();
@@ -147,6 +196,19 @@ void MonsterGUI::ShowObjectNameList()
 				CAnimationNames.clear();
 				CurAnimationInfo = nullptr;
 			}
+		}
+	}
+}
+
+void MonsterGUI::RenderUnitSwitch()
+{
+	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>>& RenderUnits = SelectActor->GetFBXRenderer()->GetRenderUnits();
+	const int IndexCount = static_cast<int>(RenderUnits.size());
+	for (int i = 0; i < IndexCount; i++)
+	{
+		if (ImGui::Button(std::to_string(i).c_str()))
+		{
+			RenderUnits[i][0]->OnOffSwitch();
 		}
 	}
 }
@@ -225,7 +287,9 @@ void TestLevel_Monster::Update(float _Delta)
 
 void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn");
+	std::shared_ptr<Monster_LothricKn> LothricKn = CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn");
+	LothricKn->Transform.SetWorldPosition(float4(100.0f, 0.0f, 0.0f));
+
 	CreateActor<Monster_HollowSoldier>(static_cast<int>(Enum_UpdateOrder::Monster), "HollowSoldier");
 }
 

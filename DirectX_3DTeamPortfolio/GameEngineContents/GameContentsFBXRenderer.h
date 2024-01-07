@@ -1,6 +1,8 @@
 #pragma once
 #include <GameEngineCore/GameEngineRenderer.h>
 
+
+
 class FbxExAniData;
 class GameEngineFBXMesh;
 class GameEngineFBXAnimation;
@@ -22,7 +24,6 @@ public:
 	float CurFrameTime = 0.0f;
 	// 프레임 간격타임
 	float Inter = 0.1f;
-	float TotalFrameTime = 0.0f;
 
 	std::vector<unsigned int> Frames;
 	UINT CurFrame = 0;
@@ -36,6 +37,7 @@ public:
 	// 과제로 내준것인데.
 	float BlendIn = 0.2f;
 	float BlendOut = 0.2f;
+
 
 	void Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index);
 	void Reset();
@@ -93,15 +95,20 @@ public:
 		Pause = !Pause;
 	}
 
-	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> RenderUnits;
+	inline std::shared_ptr<GameEngineFBXMesh>& GetFBXMesh() { return FBXMesh; }
+	inline std::shared_ptr<GameContentsFBXAnimationInfo>& GetCurAnimation() { return CurAnimation; }
+	inline std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>>& GetRenderUnits() { return RenderUnits; } 
+
 protected:
+	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> RenderUnits;
 
 private:
 	bool Pause = false;
 	std::shared_ptr<GameEngineFBXMesh> FBXMesh;
 	std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>> Animations;
 	std::shared_ptr<GameContentsFBXAnimationInfo> CurAnimation;
-	std::shared_ptr<GameContentsFBXAnimationInfo> BlendAnimation;
+
+
 	float BlendTime = 0.0f;
 
 	std::vector<float4x4> AnimationBoneMatrixs;
