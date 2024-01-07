@@ -1,8 +1,8 @@
 #pragma once
-
+#include "CommonMonster.h"
 
 // Ό³Έν :
-class Monster_LothricKn : public GameEngineActor
+class Monster_LothricKn : public CommonMonster
 {
 public:
 	// constrcuter destructer
@@ -23,8 +23,6 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
-	std::shared_ptr<GameEngineFBXRenderer> BodyRenderer;
-	GameEngineState MainState;
 
 };
 

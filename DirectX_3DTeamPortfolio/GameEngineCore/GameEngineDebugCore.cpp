@@ -69,10 +69,10 @@ void GameEngineDebug::DrawMesh(std::string_view _Mesh, float4 _Scale, float4 _Ro
 	Value.Unit.SetMaterial("2DTextureWire");
 
 	Value.Color = _Color;
-	Value.Data.Scale = _Scale;
-	Value.Data.Rotation = _Rot;
-	Value.Data.Position = _Pos;
-	Value.Data.LocalCalculation();
+	Value.Data.LocalScale = _Scale;
+	Value.Data.LocalRotation = _Rot;
+	Value.Data.LocalPosition = _Pos;
+	Value.Data.LocalCalculation(float4x4::Iden);
 	Value.Data.ViewMatrix = _Camera->Transform.GetConstTransformDataRef().ViewMatrix;
 	Value.Data.ProjectionMatrix = _Camera->Transform.GetConstTransformDataRef().ProjectionMatrix;
 	Value.Data.WorldViewProjectionCalculation();
@@ -93,8 +93,8 @@ void GameEngineDebug::DrawLine(float4 _Start, float4 _End, float4 _Color/* = flo
 	Value.Unit.SetMesh("Line");
 	Value.Unit.SetMaterial("2DDebugLine");
 
-	Value.Data.Position = _End;
-	Value.Data.Scale = _Start;
+	Value.Data.LocalPosition = _End;
+	Value.Data.LocalScale = _Start;
 
 	Value.Color = _Color;
 	Value.Data.ViewMatrix = _Camera->Transform.GetConstTransformDataRef().ViewMatrix;

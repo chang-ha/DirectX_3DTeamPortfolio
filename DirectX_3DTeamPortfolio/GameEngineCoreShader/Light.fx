@@ -45,7 +45,7 @@ float4 CalDiffuseLight(float4 _Normal, LightData _Data)
     float4 L = float4(normalize(_Data.ViewLightRevDir.xyz), 0.0f);
     
     ResultRatio.xyz = max(0.0f, dot(N.xyz, L.xyz));
-    return ResultRatio;
+    return ResultRatio * _Data.DifLightPower;
 }
 
 float4 CalSpacularLight(float4 _Pos, float4 _Normal, LightData _Data)
@@ -61,7 +61,7 @@ float4 CalSpacularLight(float4 _Pos, float4 _Normal, LightData _Data)
     float3 EyeL = normalize(_Data.CameraPosition.xyz - _Pos.xyz);
     
     float Result = max(0.0f, dot(ReflectionN.xyz, EyeL.xyz));
-    ResultRatio.xyzw = pow(Result, 50.0f);
+    ResultRatio.xyzw = pow(Result, _Data.SpcPow);
     
     return ResultRatio;
 }

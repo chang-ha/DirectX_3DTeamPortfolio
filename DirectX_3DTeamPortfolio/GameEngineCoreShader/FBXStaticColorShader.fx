@@ -14,7 +14,7 @@ struct GameEngineVertex2D
 struct PixelOutPut
 {
     // 픽셀쉐이더에 보내느 ㄴ역
-    float4 POSITION : SV_POSITION;
+    float4 POSITION : SV_Position;
     float4 VIEWPOSITION : POSITION;
     float4 VIEWNORMAL : NORMAL;
     // float4 LightColor;
@@ -26,19 +26,23 @@ PixelOutPut FBXStaticColorShader_VS(GameEngineVertex2D _Input)
     
     // 쉐이더 문법 모두 0인 자료형으로 초기화 하는것
     PixelOutPut Result = (PixelOutPut)0;
-    _Input.POSITION.w = 1.0f;
     
-    _Input.POSITION.w = 1.0f;
-    Result.VIEWPOSITION = mul(_Input.POSITION, WorldViewMatrix);
-    // Result.VIEWPOSITION = _Input.POSITION;
+    float4 InputPos = _Input.POSITION;
+    InputPos.w = 1.0f;
+    
+    float4 InputNormal = _Input.NORMAL;
+    InputNormal.w = 0.0f;
+    
+    Result.VIEWPOSITION = mul(InputPos, WorldViewMatrix);
+    // Result.VIEWPOSITION = mul(_Input.NORMAL, WorldMatrix);
     Result.VIEWPOSITION.w = 1.0f;
     
     _Input.NORMAL.w = 0.0f;
-    // Result.VIEWNORMAL = mul(_Input.NORMAL, WorldViewMatrix);
-    Result.VIEWNORMAL = mul(_Input.NORMAL, WorldMatrix);
+    Result.VIEWNORMAL = mul(InputNormal, WorldViewMatrix);
+    // Result.VIEWNORMAL = mul(_Input.NORMAL, WorldMatrix);
     Result.VIEWNORMAL.w = 0.0f;
     
-    Result.POSITION = mul(_Input.POSITION, WorldViewProjectionMatrix);
+    Result.POSITION = mul(InputPos, WorldViewProjectionMatrix);
     return Result;
 }
 

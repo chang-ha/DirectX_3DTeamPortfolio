@@ -931,6 +931,9 @@
     <ClInclude Include="ThirdParty\PhysX\inc\PxConfig.h">
       <Filter>ThirdParty\PhysX\inc</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineNetWindow.h">
+      <Filter>GUI\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -1124,6 +1127,9 @@
     <ClCompile Include="GameEnginePhysX.cpp">
       <Filter>PhysX</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineNetWindow.cpp">
+      <Filter>GUI\Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ThirdParty\DirectXTex\inc\DirectXTex.inl">
@@ -1160,27 +1166,6 @@
     </Library>
     <Library Include="ThirdParty\FW1FontWrapper\lib\Release\FW1FontWrapper.lib">
       <Filter>ThirdParty\Release</Filter>
-    </Library>
-    <Library Include="ThirdParty\PhysX\lib\Release\PhysXPvdSDK_static_64.lib">
-      <Filter>ThirdParty\PhysX\lib\Release</Filter>
-    </Library>
-    <Library Include="ThirdParty\PhysX\lib\Release\PhysXFoundation_static_64.lib">
-      <Filter>ThirdParty\PhysX\lib\Release</Filter>
-    </Library>
-    <Library Include="ThirdParty\PhysX\lib\Release\PhysXExtensions_static_64.lib">
-      <Filter>ThirdParty\PhysX\lib\Release</Filter>
-    </Library>
-    <Library Include="ThirdParty\PhysX\lib\Release\PhysXCooking_static_64.lib">
-      <Filter>ThirdParty\PhysX\lib\Release</Filter>
-    </Library>
-    <Library Include="ThirdParty\PhysX\lib\Release\PhysXCommon_static_64.lib">
-      <Filter>ThirdParty\PhysX\lib\Release</Filter>
-    </Library>
-    <Library Include="ThirdParty\PhysX\lib\Release\PhysXCharacterKinematic_static_64.lib">
-      <Filter>ThirdParty\PhysX\lib\Release</Filter>
-    </Library>
-    <Library Include="ThirdParty\PhysX\lib\Release\PhysXVehicle_static_64.lib">
-      <Filter>ThirdParty\PhysX\lib\Release</Filter>
     </Library>
   </ItemGroup>
   <ItemGroup>
@@ -1265,6 +1250,13 @@
     <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysX_static_64.lib">
       <Filter>ThirdParty\PhysX\lib\Release</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXCharacterKinematic_static_64.lib" />
+    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXCommon_static_64.lib" />
+    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXCooking_static_64.lib" />
+    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXExtensions_static_64.lib" />
+    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXFoundation_static_64.lib" />
+    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXPvdSDK_static_64.lib" />
+    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXVehicle_static_64.lib" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="FBX설명.txt">

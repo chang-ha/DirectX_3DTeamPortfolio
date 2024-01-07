@@ -96,32 +96,32 @@ void GameEngineCamera::Update(float _Delta)
 
 	if (GameEngineInput::IsPress('A', this))
 	{
-		Transform.AddLocalPosition(Transform.GetWorldLeftVector() * _Delta * Speed);
+		Transform.AddWorldPosition(Transform.GetWorldLeftVector() * _Delta * Speed);
 	}
 
 	if (GameEngineInput::IsPress('D', this))
 	{
-		Transform.AddLocalPosition(Transform.GetWorldRightVector() * _Delta * Speed);
+		Transform.AddWorldPosition(Transform.GetWorldRightVector() * _Delta * Speed);
 	}
 
 	if (GameEngineInput::IsPress('W', this))
 	{
-		Transform.AddLocalPosition(Transform.GetWorldForwardVector() * _Delta * Speed);
+		Transform.AddWorldPosition(Transform.GetWorldForwardVector() * _Delta * Speed);
 	}
 
 	if (GameEngineInput::IsPress('S', this))
 	{
-		Transform.AddLocalPosition(Transform.GetWorldBackVector() * _Delta * Speed);
+		Transform.AddWorldPosition(Transform.GetWorldBackVector() * _Delta * Speed);
 	}
 
 	if (GameEngineInput::IsPress('Q', this))
 	{
-		Transform.AddLocalPosition(float4::UP * _Delta * Speed);
+		Transform.AddWorldPosition(float4::UP * _Delta * Speed);
 	}
 
 	if (GameEngineInput::IsPress('E', this))
 	{
-		Transform.AddLocalPosition(float4::DOWN * _Delta * Speed);
+		Transform.AddWorldPosition(float4::DOWN * _Delta * Speed);
 	}
 
 	if (GameEngineInput::IsPress(VK_RBUTTON, this))
@@ -293,14 +293,13 @@ void GameEngineCamera::CameraUpdate(float _DeltaTime)
 		Transform.SetWorldPosition(Target->GetWorldPosition() + Pivot);
 	}
 
-	float4 Position = Transform.GetWorldPosition();
-	float4 Forward = Transform.GetWorldForwardVector();
-	float4 Up = Transform.GetWorldUpVector();
+	float4 Position = Transform.GetLocalPosition();
+	float4 Forward = Transform.GetLocalForwardVector();
+	float4 Up = Transform.GetLocalUpVector();
 
 	Transform.LookToLH(Position, Forward, Up);
 
 	float4 WindowScale = GameEngineCore::MainWindow.GetScale();
-
 	WindowScale *= ZoomValue;
 
 	float4 Qur = Transform.GetConstTransformDataRef().WorldQuaternion;
