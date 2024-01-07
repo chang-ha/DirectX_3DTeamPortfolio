@@ -61,11 +61,6 @@ public:
 		Name = _Name.data();
 	}
 
-	void SetName(const std::string& _Name)
-	{
-		Name = _Name;
-	}
-
 	std::string GetName()
 	{
 		return Name;
@@ -132,20 +127,12 @@ public:
 		return NewChild;
 	}
 	
-	void ChangeParent(GameEngineObject* _Parent, int _Order);
-
-	void SetParent(GameEngineObject* _Parent, int _Order)
-	{
-		Parent = _Parent;
-		Parent->Childs[_Order].push_back(shared_from_this());
-		Transform.SetParent(_Parent->Transform);
-	}
+	void SetParent(GameEngineObject* _Parent, int _Order = 0);
 
 	template<typename ParentType>
-	void SetParent(std::shared_ptr<ParentType> _Parent)
+	void SetParent(std::shared_ptr<ParentType> _Parent, int _Order = 0)
 	{
-		Parent = _Parent.get();
-		Transform.SetParent(_Parent->Transform);
+		SetParent(_Parent.get(), _Order);
 	}
 
 
@@ -153,7 +140,6 @@ public:
 	{
 		return Parent;
 	}
-
 
 	template<typename ParentType>
 	ParentType* GetParent()

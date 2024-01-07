@@ -120,10 +120,10 @@ class TransformData
 public:
 	// w가 0일때와 1일때의 차이를 잘 기억해놓자.
 
-	float4 Scale = float4::ONENULL;
-	float4 Rotation = float4::ZERONULL;
-	float4 Quaternion = float4::ZERO;
-	float4 Position = float4::ZERO;
+	//float4 Scale = float4::ONENULL;
+	//float4 Rotation = float4::ZERONULL;
+	//float4 Quaternion = float4::ZERO;
+	//float4 Position = float4::ZERO;
 	
 	// 이걸 직접 수정하는 일은 없을겁니다.
 	float4 LocalScale;
@@ -154,14 +154,29 @@ public:
 	// 로컬 => 월드 => 뷰 => 프로젝션 
 	float4x4 WorldViewProjectionMatrix;
 
-	void LocalCalculation()
+	void WorldDecompos() 
 	{
-		ScaleMatrix.Scale(Scale);
-		RotationMatrix.RotationDeg(Rotation);
-		PositionMatrix.Position(Position);
+		WorldMatrix.Decompose(WorldScale, WorldQuaternion, WorldPosition);
+		WorldRotation = WorldQuaternion.QuaternionToEulerDeg();
+	}
 
-		LocalWorldMatrix = ScaleMatrix * RotationMatrix * PositionMatrix * RevolutionMatrix;
-		WorldMatrix = LocalWorldMatrix;
+	void LocalDecompos()
+	{
+		LocalWorldMatrix.Decompose(LocalScale, LocalQuaternion, LocalPosition);
+		LocalRotation = LocalQuaternion.QuaternionToEulerDeg();
+	}
+
+	void LocalCalculation(float4x4 _Parent)
+	{
+		//ScaleMatrix.Scale(LocalScale);
+		//RotationMatrix.RotationDeg(LocalRotation);
+		//PositionMatrix.Position(LocalPosition);
+
+		// 짐벌락 해결
+		LocalQuaternion = LocalRotation.EulerDegToQuaternion();
+
+		LocalWorldMatrix.Compose(LocalScale, LocalQuaternion, LocalPosition);
+		WorldMatrix = LocalWorldMatrix * _Parent;
 	}
 
 	void WorldViewProjectionCalculation()
@@ -187,7 +202,7 @@ public:
 };
 
 // 설명 :
-class GameEngineTransform
+class GameEngineTransform : public DebugObject
 {
 public:
 	// constrcuter destructer
@@ -224,37 +239,37 @@ public:
 
 	void SetLocalScale(const float4& _Value)
 	{
-		TransData.Scale = _Value;
+		TransData.LocalScale = _Value;
 		TransformUpdate();
 	}
 
 	void AddLocalScale(const float4& _Value)
 	{
-		TransData.Scale += _Value;
+		TransData.LocalScale += _Value;
 		TransformUpdate();
 	}
 
 	void SetLocalRotation(const float4& _Value)
 	{
-		TransData.Rotation = _Value;
+		TransData.LocalRotation = _Value;
 		TransformUpdate();
 	}
 
 	void AddLocalRotation(const float4& _Value)
 	{
-		TransData.Rotation += _Value;
+		TransData.LocalRotation += _Value;
 		TransformUpdate();
 	}
 
 	void SetLocalPosition(const float4& _Value)
 	{
-		TransData.Position = _Value;
+		TransData.LocalPosition = _Value;
 		TransformUpdate();
 	}
 
 	void AddLocalPosition(const float4& _Value)
 	{
-		TransData.Position += _Value;
+		TransData.LocalPosition += _Value;
 		TransformUpdate();
 	}
 
@@ -265,21 +280,21 @@ public:
 	void SetWorldScale(const float4& _Value)
 	{
 		AbsoluteScale = true;
-		TransData.Scale = _Value;
+		TransData.WorldScale = _Value;
 		TransformUpdate();
 	}
 
 	void SetWorldRotation(const float4& _Value)
 	{
 		AbsoluteRotation = true;
-		TransData.Rotation = _Value;
+		TransData.WorldRotation = _Value;
 		TransformUpdate();
 	}
 
 	void SetWorldPosition(const float4& _Value)
 	{
 		AbsolutePosition = true;
-		TransData.Position = _Value;
+		TransData.WorldPosition = _Value;
 		TransformUpdate();
 	}
 
@@ -345,7 +360,6 @@ public:
 		return -(TransData.WorldMatrix.ArrVector[2].NormalizeReturn());
 	}
 
-
 	float4 GetWorldRightVector() const
 	{
 		return TransData.WorldMatrix.ArrVector[0].NormalizeReturn();
@@ -366,6 +380,36 @@ public:
 		return TransData.WorldMatrix.ArrVector[1].NormalizeReturn();
 	}
 
+	float4 GetLocalForwardVector() const
+	{
+		return TransData.LocalWorldMatrix.ArrVector[2].NormalizeReturn();
+	}
+
+	float4 GetLocalBackVector() const
+	{
+		return -(TransData.LocalWorldMatrix.ArrVector[2].NormalizeReturn());
+	}
+
+	float4 GetLocalRightVector() const
+	{
+		return TransData.LocalWorldMatrix.ArrVector[0].NormalizeReturn();
+	}
+
+	float4 GetLocalLeftVector() const
+	{
+		return -(TransData.LocalWorldMatrix.ArrVector[0].NormalizeReturn());
+	}
+
+	float4 GetLocalUpVector() const
+	{
+		return TransData.LocalWorldMatrix.ArrVector[1].NormalizeReturn();
+	}
+
+	float4 GetLocalDownVector() const
+	{
+		return TransData.LocalWorldMatrix.ArrVector[1].NormalizeReturn();
+	}
+
 	void CalculationViewAndProjection(const TransformData& _Transform);
 
 	void CalculationViewAndProjection(const float4x4& _View, const float4x4& _Projection);
@@ -374,9 +418,32 @@ public:
 
 	void SetParent(GameEngineTransform& _Parent)
 	{
+		if (nullptr != Parent)
+		{
+			Parent->Childs.remove(this);
+		}
+
 		Parent = &_Parent;
+
+		if (nullptr == Parent)
+		{
+			MsgBoxAssert("부모가 존재하지 않는 트랜스폼이 존재합니다.");
+		}
+
+		TransData.LocalWorldMatrix = TransData.WorldMatrix * Parent->TransData.WorldMatrix.InverseReturn();
+
+		TransData.LocalDecompos();
+
 		Parent->Childs.push_back(this);
+
+		AbsoluteReset();
+
 		TransformUpdate();
+	}
+
+	void AbsoluteReset() 
+	{
+		AbsoluteScale = AbsoluteRotation = AbsolutePosition = false;
 	}
 
 	void SetTransformData(const TransformData& Data)

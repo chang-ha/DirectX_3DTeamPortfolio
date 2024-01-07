@@ -11,11 +11,6 @@
 // 0 슬롯의 index 실행시켜보니 14 까지 허용한다.
 cbuffer TransformData : register(b0)
 {
-    float4 Scale;
-    float4 Rotation;
-    float4 Quaternion;
-    float4 Position;
-	
     float4 LocalScale;
     float4 LocalRotation;
     float4 LocalQuaternion;
@@ -35,11 +30,10 @@ cbuffer TransformData : register(b0)
     float4x4 LocalWorldMatrix;
 	// 월드 공간
     float4x4 WorldMatrix;
-    
+
     float4x4 ViewMatrix;
     float4x4 ProjectionMatrix;
     float4x4 ViewPort;
-    
     float4x4 WorldViewMatrix;
 	// 로컬 => 월드 => 뷰 => 프로젝션 
     float4x4 WorldViewProjectionMatrix;

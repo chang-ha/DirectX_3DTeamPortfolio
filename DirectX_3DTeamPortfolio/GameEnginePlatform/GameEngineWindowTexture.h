@@ -1,7 +1,5 @@
 #pragma once
-#include <Windows.h>
 #include <gdiplus.h>
-#include <string>
 #include <GameEngineBase/GameEngineMath.h>
 
 // Ό³Έν :

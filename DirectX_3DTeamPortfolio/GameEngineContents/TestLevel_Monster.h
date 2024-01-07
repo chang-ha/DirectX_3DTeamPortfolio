@@ -12,13 +12,28 @@ private:
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 	void Release();
 
+
 	void ShowLothricKnCount(class GameEngineLevel* _Level);
-	void CopyAnimationName(class TestLevel_Monster* _Level);
+	void SetTransform();
+	void CopyObjectName();
+	void CopyAnimationName();
+	void ShowObjectNameList();
+
 
 private:
+	class TestLevel_Monster* CurLevel = nullptr;
+	class CommonMonster* SelectActor = nullptr;
+	std::vector<std::string> ActorNames;
+	std::vector<const char*> CObjectNames;
 	std::vector<std::string> AnimationNames; // Store Value
 	std::vector<const char*> CAnimationNames; // Use 'AnimationNames' Pointer
-	std::shared_ptr<GameEngineFBXAnimationInfo> CurAnimationInfo;
+	std::shared_ptr<GameContentsFBXAnimationInfo> CurAnimationInfo;
+
+	float Size;
+	float4 Rot;
+	float4 Pos;
+
+	int SelectActorIndex = -1;
 	int SelectAnimationIndex = -1;
 
 };
@@ -64,7 +79,6 @@ protected:
 
 private:
 	std::shared_ptr<MonsterGUI> MonsterWindow;
-	std::shared_ptr<class MonsterEditorActor> EditorActor;
 
 };
 
