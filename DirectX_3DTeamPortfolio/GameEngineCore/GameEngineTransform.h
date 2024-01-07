@@ -195,10 +195,10 @@ public:
 	~GameEngineTransform();
 
 	// delete Function
-	GameEngineTransform(const GameEngineTransform& _Other) = delete;
-	GameEngineTransform(GameEngineTransform&& _Other) noexcept = delete;
-	GameEngineTransform& operator=(const GameEngineTransform& _Other) = delete;
-	GameEngineTransform& operator=(GameEngineTransform&& _Other) noexcept = delete;
+	//GameEngineTransform(const GameEngineTransform& _Other) = delete;
+	//GameEngineTransform(GameEngineTransform&& _Other) noexcept = delete;
+	//GameEngineTransform& operator=(const GameEngineTransform& _Other) = delete;
+	//GameEngineTransform& operator=(GameEngineTransform&& _Other) noexcept = delete;
 
 	static bool TriToRay(const float4& _Origin, const float4& _Dir, const float4& _TriV0, const float4& _TriV1, const float4& _TriV2, float& _Dis);
 

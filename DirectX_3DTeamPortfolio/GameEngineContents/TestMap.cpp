@@ -21,6 +21,15 @@ void TestMap::Start()
 
 		MapDatas = MapMesh->GetMapDatas();
 	}
+
+	Transdate.resize(MapDatas.size());
+
+	for (size_t i = 0; i < MapDatas.size(); i++)
+	{
+		Transdate[i].SetLocalPosition(MapDatas[i].Center);
+		Transdate[i].SetLocalScale(MapDatas[i].Scale);
+	}
+
 }
 
 void TestMap::Update(float _Delta)
@@ -32,7 +41,7 @@ void TestMap::Update(float _Delta)
 			continue;
 		}
 
-		if (GetLevel()->GetMainCamera()->Transform.GetWorldPosition().Z <= MapDatas[i].Pos.Z)
+		if (GetLevel()->GetMainCamera()->InCamera(Transdate[i]))
 		{
 			MapMesh->BigFBXLoad(i, MapDatas[i].Name);
 			FBXRenderer->SetBigFBXMesh("WorldMap.FBX0", "FBX_Static", i, 0);

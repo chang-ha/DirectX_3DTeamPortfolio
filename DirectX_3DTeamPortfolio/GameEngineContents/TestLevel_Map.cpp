@@ -32,8 +32,8 @@ void TestLevel_Map::Start()
 
 	//float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 
-	//GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, -1000.0f });
-	//GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
+	GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, -1000.0f });
+	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
 
 }
 

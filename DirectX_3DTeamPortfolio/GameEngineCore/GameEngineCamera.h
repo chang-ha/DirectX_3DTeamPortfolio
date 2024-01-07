@@ -117,6 +117,12 @@ public:
 		return Renderers;
 	}
 
+	bool InCamera(const GameEngineTransform& _Trans)
+	{
+		bool Result = CameraFrustum.Intersects(_Trans.ColData.OBB);
+		return Result;
+	}
+
 protected:
 	void Start() override;
 
@@ -151,6 +157,9 @@ private:
 	float4 ScreenMouseDir;
 	float4 ScreenMouseDirNormal;
 	TransformData OriginData;
+
+	// 카메라 범위
+	DirectX::BoundingFrustum CameraFrustum;
 
 	std::set<int> ZSortMap;
 	std::set<int> YSortMap;

@@ -305,7 +305,11 @@ void GameEngineFBXMesh::TestBigFBXInitialize()
 		MapDatas.emplace_back();
 
 		MapDatas[FileNum].Name = File.GetFileName();
-		MapDatas[FileNum].Pos = NewRenderUnitInfos[0].MinBoundBox;
+		MapDatas[FileNum].Center = NewRenderUnitInfos[0].MinBoundBox + (NewRenderUnitInfos[0].MinBoundBox - NewRenderUnitInfos[0].MaxBoundBox).Half();
+		MapDatas[FileNum].Scale.X = NewRenderUnitInfos[0].MinBoundBox.X - NewRenderUnitInfos[0].MaxBoundBox.X;
+		MapDatas[FileNum].Scale.Y = NewRenderUnitInfos[0].MinBoundBox.Y - NewRenderUnitInfos[0].MaxBoundBox.Y;
+		MapDatas[FileNum].Scale.Z = NewRenderUnitInfos[0].MinBoundBox.Z - NewRenderUnitInfos[0].MaxBoundBox.Z;
+		MapDatas[FileNum].Scale.ToABS();
 		MapDatas[FileNum].IsLoad = false;
 
 		for (int i = 0; i < AllBones.size(); i++)

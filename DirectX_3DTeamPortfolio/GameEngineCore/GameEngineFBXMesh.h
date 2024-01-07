@@ -571,27 +571,31 @@ struct Bone : public GameEngineSerializObject
 struct MapData : public GameEngineSerializObject
 {
 	std::string Name;
-	float4 Pos;
+	float4 Center;
+	float4 Scale;
 	bool IsLoad;
 
 	MapData()
 	{
 		Name = "";
-		Pos = float4::ZERO;
+		Center = float4::ZERO;
+		Scale = float4::ZERO;
 		IsLoad = false;
 	}
 
 	void Write(GameEngineSerializer& _File) override
 	{
 		_File << Name;
-		_File << Pos;
+		_File << Center;
+		_File << Scale;
 		_File << IsLoad;
 	}
 
 	void Read(GameEngineSerializer& _File) override
 	{
 		_File >> Name;
-		_File >> Pos;
+		_File >> Center;
+		_File >> Scale;
 		_File >> IsLoad;
 	}
 };

@@ -26,6 +26,8 @@ private:
 	// ∏ µ•¿Ã≈Õ
 	std::vector<class MapData> MapDatas;
 
+	//test
+	std::vector<GameEngineTransform> Transdate;
 
 };
 
