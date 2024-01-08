@@ -77,9 +77,15 @@ eIMPULSE  == unit of mass * distance /time
 eVELOCITY_CHANGE  == unit of distance / time, i.e. the effect is mass independent: a velocity change. // ignore mass
 eACCELERATION  == unit of distance/ time^2, i.e. an acceleration. It gets treated just like a force except the mass is not divided out before integration.
 */
-void GameEnginePhysXCapsule::MoveForce(const physx::PxVec3 _Force)
+void GameEnginePhysXCapsule::MoveForce(const physx::PxVec3 _Force, bool _IgnoreGravity/* = false*/)
 {
-	ComponentActor->addForce(_Force, physx::PxForceMode::eVELOCITY_CHANGE);
+	physx::PxVec3 CurLV = physx::PxVec3({0.0f});
+	if (false == _IgnoreGravity)
+	{
+		CurLV = ComponentActor->getLinearVelocity(); 
+	}
+
+	ComponentActor->setLinearVelocity({ _Force.x, _Force.y + CurLV.y, _Force.z }); // 현재 중력을 받아오기 위해
 }
 
 void GameEnginePhysXCapsule::AddForce(const physx::PxVec3 _Force)
@@ -89,8 +95,6 @@ void GameEnginePhysXCapsule::AddForce(const physx::PxVec3 _Force)
 
 void GameEnginePhysXCapsule::ResetForce()
 {
-	physx::PxVec3 Speed = ComponentActor->getLinearVelocity();
-	ComponentActor->setLinearVelocity({ 0, Speed.y, 0 });
 	ComponentActor->setLinearVelocity({ 0, 0, 0 });
 	// ComponentActor->clearForce(physx::PxForceMode::eFORCE);
 }
