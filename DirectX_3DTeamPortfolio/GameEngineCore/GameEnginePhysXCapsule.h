@@ -22,7 +22,7 @@ public:
 		MoveForce(Value);
 	}
 
-	void MoveForce(const physx::PxVec3 _Force);
+	void MoveForce(const physx::PxVec3 _Force, bool _IgnoreGravity = false);
 
 	void AddForce(const float4 _Force)
 	{
@@ -46,6 +46,7 @@ public:
 
 	void SetMass(float _MassValue)
 	{
+		// F = M * A
 		return ComponentActor->setMass(_MassValue);
 	}
 
