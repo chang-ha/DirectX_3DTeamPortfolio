@@ -104,14 +104,17 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	//}
 
 	Capsule = CreateComponent<GameEnginePhysXCapsule>();
+	Capsule->Transform.SetLocalPosition({0.0f, 500.0f, 0.0f});
 	Capsule->PhysXComponentInit(50.0f, 60.0f);
+	// Capsule->SetPositioningComponent();
+	Capsule->SetMaxSpeed(100.0f);
 
 	std::shared_ptr<GameEngineFBXRenderer> Renderer;
 	Renderer = CreateComponent<GameEngineFBXRenderer>(Enum_RenderOrder::Monster);
 	Renderer->SetFBXMesh("SmallMap.fbx", "FBXStaticColor");
 	
 	std::shared_ptr<GameEnginePhysXTriMesh> TriMesh = CreateComponent<GameEnginePhysXTriMesh>();
-	TriMesh->Transform.SetLocalPosition({1000.0f, 0.0f, 1000.0f});
+	TriMesh->Transform.SetLocalPosition({0.0f, 0.0f, 800.0f});
 	TriMesh->PhysXComponentInit("SmallMap.fbx");
 
 }

@@ -20,18 +20,7 @@ void GameEnginePhysXCapsule::Start()
 
 void GameEnginePhysXCapsule::Update(float _Delta)
 {
-	physx::PxTransform Transform = ComponentActor->getGlobalPose();
-
-	physx::PxVec3 ComponentPos = Transform.p;
-	physx::PxQuat ComponentQuat = Transform.q;
-
-	float4 ParentPos = { ComponentPos.x, ComponentPos.y, ComponentPos.z };
-	float4 Degree = float4(ComponentQuat.x, ComponentQuat.y, ComponentQuat.z, 1.0f).QuaternionToEulerDeg();
-
-	ParentActor->Transform.SetWorldPosition(ParentPos);
-	ParentActor->Transform.SetWorldRotation(Degree);
-
-	RayCastUpdate();
+	Positioning(_Delta);
 }
 
 void GameEnginePhysXCapsule::Release()
@@ -41,6 +30,7 @@ void GameEnginePhysXCapsule::Release()
 
 void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight, const physx::PxMaterial* _Material /*= GameEnginePhysX::GetDefaultMaterial()*/)
 {
+	// Before Init Set Transform
 	physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
 
 	float4 WolrdPos = Transform.GetWorldPosition();
@@ -52,24 +42,23 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 	WorldDeg.Z += physx::PxHalfPi * GameEngineMath::R2D;
 	float4 WorldQuat = WorldDeg.EulerDegToQuaternion();
 	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
-	physx::PxQuat RotQuat = physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1));
 
 	physx::PxTransform Transform(Pos, Quat);
 	ComponentActor = Physics->createRigidDynamic(Transform);
 	ComponentActor->attachShape(*CapsuleShape);
 	physx::PxRigidBodyExt::updateMassAndInertia(*ComponentActor, 0.01f);
-	physx::PxReal Mass = ComponentActor->getMass();
 	ComponentActor->setMassSpaceInertiaTensor(physx::PxVec3(0.f));
 
 	// Pivot Setting Test
-	physx::PxTransform Test1 = ComponentActor->getCMassLocalPose();
-
-	physx::PxVec3 Pivot = { 0, 0.0f - _Radius - _HalfHeight , 0 };
-	ComponentActor->setCMassLocalPose(physx::PxTransform(Pivot, Quat));
-
-	physx::PxTransform Test2 = ComponentActor->getCMassLocalPose();
+	// physx::PxTransform Test1 = ComponentActor->getCMassLocalPose();
+	// 
+	// physx::PxVec3 Pivot = { 0, 0.0f - _Radius - _HalfHeight , 0 };
+	// ComponentActor->setCMassLocalPose(physx::PxTransform(Pivot, Quat));
+	// 
+	// physx::PxTransform Test2 = ComponentActor->getCMassLocalPose();
 	//
 
+	// 축 고정 기능 (추후 필요시 사용)
 	// ComponentActor->setRigidDynamicLockFlags
 	// (
 	// 	physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X |
@@ -90,8 +79,6 @@ eACCELERATION  == unit of distance/ time^2, i.e. an acceleration. It gets treate
 */
 void GameEnginePhysXCapsule::MoveForce(const physx::PxVec3 _Force)
 {
-	// physx::PxVec3 Speed = ComponentActor->getLinearVelocity();
-	// ComponentActor->setLinearVelocity({ 0, Speed.y, 0 });
 	ComponentActor->addForce(_Force, physx::PxForceMode::eVELOCITY_CHANGE);
 }
 
@@ -107,22 +94,70 @@ void GameEnginePhysXCapsule::ResetForce()
 	// ComponentActor->clearForce(physx::PxForceMode::eFORCE);
 }
 
-void GameEnginePhysXCapsule::RayCastUpdate()
+void GameEnginePhysXCapsule::SetMaxSpeed(float _MaxSpeed)
 {
-	Scene;
+	ComponentActor->setMaxLinearVelocity(_MaxSpeed);
+}
 
+bool GameEnginePhysXCapsule::RayCastUpdate(const float4& _DirVector, float _MaxDisTance)
+{
 	float4 WolrdPos = Transform.GetWorldPosition();
-	physx::PxVec3 origin = ComponentActor->getGlobalPose().p;		 // [in] Ray origin
+	physx::PxVec3 origin = ComponentActor->getGlobalPose().p + physx::PxVec3(100.0f, 0.0f, 0.0f);		 // [in] Ray origin
 	physx::PxVec3 unitDir = physx::PxVec3({0.0f, 0.0f, 1.0f});                // [in] Normalized ray direction
-	physx::PxReal maxDistance = 0.1f;            // [in] Raycast max distance
+	physx::PxReal maxDistance = 100.0f;            // [in] Raycast max distance
 	physx::PxRaycastBuffer hitResult;                 // [out] Raycast results
 
 	// Raycast against all static & dynamic objects (no filtering)
 	// The main result from this call is the closest hit, stored in the 'hit.block' structure
 	bool status = Scene->raycast(origin, unitDir, maxDistance, hitResult);
+	
+	if (true ==  hitResult.hasBlock)
+	{
+		int a = 0;
+	}
+
 	if (true == status)
 	{
 		int a = 0;
 	}
+
+	return status;
 }
 
+void GameEnginePhysXCapsule::SetWorldPosition()
+{
+	// ComponentActor->setGlobalPose();
+}
+
+void GameEnginePhysXCapsule::Positioning(float _Delta)
+{
+	switch (IsPositioningComponent)
+	{
+	case 0:
+	{
+
+		break;
+	}
+	default:
+	{
+		// Component's Local Transform
+		physx::PxTransform Transform = ComponentActor->getGlobalPose();
+		const TransformData& LocalTransform = GameEngineObject::Transform.GetConstTransformDataRef();
+
+		physx::PxVec3 ComponentPos = Transform.p;
+		physx::PxQuat ComponentQuat = Transform.q;
+
+		float4 ParentPos = { ComponentPos.x, ComponentPos.y, ComponentPos.z , 1.0f };
+		float4 Degree = float4(ComponentQuat.x, ComponentQuat.y, ComponentQuat.z, 1.0f).QuaternionToEulerDeg();
+		Degree.Z -= 90.0f; // 90도 만큼 회전한 캡슐을 고려
+
+		ParentPos -= LocalTransform.LocalPosition; // Component Local Pos
+
+		float4 WolrdPos = GameEngineObject::Transform.GetWorldPosition();
+		ParentActor->Transform.SetWorldRotation(Degree);
+		ParentActor->Transform.SetWorldPosition(ParentPos);
+		WolrdPos = GameEngineObject::Transform.GetWorldPosition();
+		break;
+	}
+	}
+}

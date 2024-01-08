@@ -39,7 +39,7 @@ public:
 		return ComponentActor->getLinearVelocity();
 	}
 
-	float GetMass()
+	inline float GetMass()
 	{
 		return ComponentActor->getMass();
 	}
@@ -49,7 +49,16 @@ public:
 		return ComponentActor->setMass(_MassValue);
 	}
 
-	void RayCastUpdate();
+	void SetMaxSpeed(float _MaxSpeed);
+
+	inline void SetPositioningComponent()
+	{
+		IsPositioningComponent = true;
+	}
+
+	void SetWorldPosition();
+
+	bool RayCastUpdate(const float4& _DirVector, float _MaxDisTance);
 
 protected:
 	void Start() override;
@@ -57,7 +66,10 @@ protected:
 	void Release() override;
 
 private:
+	bool IsPositioningComponent = false;
 	GameEngineActor* ParentActor = nullptr;
 	physx::PxRigidDynamic* ComponentActor = nullptr;
+
+	void Positioning(float _Delta);
 };
 
