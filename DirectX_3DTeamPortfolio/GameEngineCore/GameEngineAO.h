@@ -16,9 +16,10 @@ public:
 	GameEngineAO& operator=(GameEngineAO&& _Other) noexcept = delete;
 
 protected:
-	void Init(class ID3D11Device* pDevice);
+	void Init(ID3D11Device* pDevice);
 
 private:
+	class GFSDK_SSAO_Context_D3D11* pAOContext;
 
 };
 
