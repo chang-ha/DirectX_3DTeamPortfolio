@@ -56,5 +56,19 @@ bool GameEngineNetClient::Connect(const std::string& _IP, unsigned short _Port)
         return false;
     }
 
+    if (0 == ClientSocket)
+    {
+        return false;
+    }
+
+    // 연결 됐고 서버가 보내는걸 받을 준비가 되었다.
+
+    RecvThread.Start("Client RecvThread", std::bind_front(&GameEngineNet::RecvThreadFunction, ClientSocket, this));
+
     return true;
+}
+
+void GameEngineNetClient::RecvProcess(char* _Data)
+{
+
 }
