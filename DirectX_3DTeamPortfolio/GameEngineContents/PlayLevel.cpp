@@ -3,6 +3,8 @@
 #include "PlayLevel.h"
 #include "Player.h"
 
+#include <GameEngineCore/GameEngineNetWindow.h>
+
 PlayLevel::PlayLevel() 
 {
 }
@@ -18,6 +20,9 @@ void PlayLevel::Start()
 	GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, -1000.0f });
 
 	CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+
+	// ¾ø¾Ù²¨ÀÓ
+	std::shared_ptr<GameEngineNetWindow> Ptr = GameEngineGUI::CreateGUIWindow<GameEngineNetWindow>("GameEngineNetWIndow");
 
 	if (nullptr != CoreWindow)
 	{

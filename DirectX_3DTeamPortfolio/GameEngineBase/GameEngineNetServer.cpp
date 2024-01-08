@@ -5,18 +5,45 @@
 void GameEngineNetServer::AcceptThread(SOCKET _AcceptSocket, GameEngineNetServer* _Net)
 {
     int AddressLen = sizeof(SOCKADDR_IN);
-    while (true)
+    while (_Net->IsRun)
     {
         SOCKADDR_IN ClientAdd;
 
         memset(&ClientAdd, 0, sizeof(ClientAdd));
 
-        SOCKET CientSocket = accept(_AcceptSocket, (sockaddr*)&ClientAdd, &AddressLen);
+        SOCKET ClientSocket = accept(_AcceptSocket, (sockaddr*)&ClientAdd, &AddressLen);
 
-        if (SOCKET_ERROR == CientSocket || INVALID_SOCKET == CientSocket)
+        if (SOCKET_ERROR == ClientSocket || INVALID_SOCKET == ClientSocket)
         {
             return;
         }
+
+
+        std::shared_ptr<GameEngineThread> NewThread = std::make_shared<GameEngineThread>();
+        _Net->ServerRecvThreads.push_back(NewThread);
+
+        // ClientSocket은 절대 겹치지 않아 키가 되어도 될것이다.
+        std::string ThreadName = std::to_string(ClientSocket);
+        ThreadName += "Server Recv Thread";
+
+        if (nullptr == _Net->AcceptCallBack)
+        {
+            MsgBoxAssert("엑셉트 함수를 세팅하지 않은 상태로 서버를 가동시켰습니다.");
+        }
+
+        int ID = -1;
+
+        {
+            ID = _Net->SOCKETID++;
+
+            std::lock_guard<std::mutex> Lock(_Net->UserLock);
+            _Net->Users.insert(std::pair(ID, ClientSocket));
+        }
+
+        _Net->AcceptCallBack(ClientSocket, _Net, ID);
+
+        NewThread->Start(ThreadName, std::bind(&GameEngineNet::RecvThreadFunction, ClientSocket, _Net));
+
     }
 }
 
@@ -26,6 +53,11 @@ GameEngineNetServer::GameEngineNetServer()
 
 GameEngineNetServer::~GameEngineNetServer() 
 {
+    for (std::pair<int, SOCKET> SocketPair : Users)
+    {
+        closesocket(SocketPair.second);
+    }
+
     if (0 != AcceptSocket)
     {
         closesocket(AcceptSocket);
@@ -73,4 +105,9 @@ void GameEngineNetServer::ServerOpen(short _Port, int _BackLog)
     }
 
     Thread.Start("AcceptThread", std::bind(GameEngineNetServer::AcceptThread, AcceptSocket, this));
+}
+
+void GameEngineNetServer::RecvProcess(char* _Data)
+{
+
 }
