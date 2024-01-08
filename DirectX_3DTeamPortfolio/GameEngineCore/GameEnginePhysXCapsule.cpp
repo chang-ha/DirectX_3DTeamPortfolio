@@ -91,6 +91,7 @@ void GameEnginePhysXCapsule::ResetForce()
 {
 	physx::PxVec3 Speed = ComponentActor->getLinearVelocity();
 	ComponentActor->setLinearVelocity({ 0, Speed.y, 0 });
+	ComponentActor->setLinearVelocity({ 0, 0, 0 });
 	// ComponentActor->clearForce(physx::PxForceMode::eFORCE);
 }
 
@@ -99,7 +100,7 @@ void GameEnginePhysXCapsule::SetMaxSpeed(float _MaxSpeed)
 	ComponentActor->setMaxLinearVelocity(_MaxSpeed);
 }
 
-bool GameEnginePhysXCapsule::RayCastUpdate(const float4& _DirVector, float _MaxDisTance)
+bool GameEnginePhysXCapsule::RayCast(const float4& _DirVector, float _MaxDisTance)
 {
 	float4 WolrdPos = Transform.GetWorldPosition();
 	physx::PxVec3 origin = ComponentActor->getGlobalPose().p + physx::PxVec3(100.0f, 0.0f, 0.0f);		 // [in] Ray origin
@@ -124,9 +125,30 @@ bool GameEnginePhysXCapsule::RayCastUpdate(const float4& _DirVector, float _MaxD
 	return status;
 }
 
-void GameEnginePhysXCapsule::SetWorldPosition()
+void GameEnginePhysXCapsule::SetWorldPosition(const float4& _Pos)
 {
-	// ComponentActor->setGlobalPose();
+	physx::PxVec3 Pos = { _Pos.X, _Pos.Y , _Pos.Z };
+
+	float4 WorldDeg = Transform.GetWorldRotationEuler();
+	WorldDeg.Z += physx::PxHalfPi * GameEngineMath::R2D;
+	float4 WorldQuat = WorldDeg.EulerDegToQuaternion();
+	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
+
+	physx::PxTransform Transform(Pos, Quat);
+	ComponentActor->setGlobalPose(Transform);
+}
+
+void GameEnginePhysXCapsule::SetWorldRotation(const float4& _Degree)
+{
+	float4 WorldDeg = { _Degree.X, _Degree.Y , _Degree.Z };
+
+	physx::PxTransform Transform = ComponentActor->getGlobalPose();
+	WorldDeg.Z += physx::PxHalfPi * GameEngineMath::R2D;
+	float4 WorldQuat = WorldDeg.EulerDegToQuaternion();
+	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
+
+	Transform.q = Quat;
+	ComponentActor->setGlobalPose(Transform);
 }
 
 void GameEnginePhysXCapsule::Positioning(float _Delta)
@@ -135,11 +157,15 @@ void GameEnginePhysXCapsule::Positioning(float _Delta)
 	{
 	case 0:
 	{
-
+		// Set MyPos to Reflect ParentPos
+		const TransformData& LocalTransform = GameEngineObject::Transform.GetConstTransformDataRef();
+		SetWorldPosition(LocalTransform.WorldPosition);
+		SetWorldRotation(LocalTransform.WorldRotation);
 		break;
 	}
 	default:
 	{
+		// Set ParentPos to Reflect MyPos
 		// Component's Local Transform
 		physx::PxTransform Transform = ComponentActor->getGlobalPose();
 		const TransformData& LocalTransform = GameEngineObject::Transform.GetConstTransformDataRef();
@@ -153,11 +179,19 @@ void GameEnginePhysXCapsule::Positioning(float _Delta)
 
 		ParentPos -= LocalTransform.LocalPosition; // Component Local Pos
 
-		float4 WolrdPos = GameEngineObject::Transform.GetWorldPosition();
 		ParentActor->Transform.SetWorldRotation(Degree);
 		ParentActor->Transform.SetWorldPosition(ParentPos);
-		WolrdPos = GameEngineObject::Transform.GetWorldPosition();
 		break;
 	}
 	}
+}
+
+void GameEnginePhysXCapsule::GravityOn()
+{
+	ComponentActor->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, false);
+}
+
+void GameEnginePhysXCapsule::GravityOff()
+{
+	ComponentActor->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, true);
 }

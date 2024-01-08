@@ -106,8 +106,9 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	Capsule = CreateComponent<GameEnginePhysXCapsule>();
 	Capsule->Transform.SetLocalPosition({0.0f, 500.0f, 0.0f});
 	Capsule->PhysXComponentInit(50.0f, 60.0f);
-	// Capsule->SetPositioningComponent();
-	Capsule->SetMaxSpeed(100.0f);
+	Capsule->SetMaxSpeed(150.0f);
+	Capsule->SetPositioningComponent();
+	Capsule->GravityOff();
 
 	std::shared_ptr<GameEngineFBXRenderer> Renderer;
 	Renderer = CreateComponent<GameEngineFBXRenderer>(Enum_RenderOrder::Monster);
@@ -163,19 +164,25 @@ void Boss_Vordt::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('Q', this))
 	{
-		Capsule->AddForce({ 0.0f, 0.0f, 100.0f, 0.0f });
+		Capsule->AddForce({ 0.0f, 0.0f, 1000.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsDown('E', this))
 	{
-		Capsule->AddForce({ 0.0f, 0.0f, -100.0f, 0.0f });
+		Capsule->AddForce({ 0.0f, 0.0f, -1000.0f, 0.0f });
 	}
-
 
 	if (true == GameEngineInput::IsDown(VK_SPACE, this))
 	{
-		Capsule->AddForce({ 0.0f, 800.0f, 0.0f, 0.0f });
+		Capsule->AddForce({ 0.0f, 2000.0f, 0.0f, 0.0f });
 	}
+
+	if (true == GameEngineInput::IsDown('V', this))
+	{
+		Capsule->SetWorldPosition({ 0.0f, 0.0f, 0.0f, 0.0f });
+	}
+
+	Capsule->RayCast({1.0f, }, 10.0f);
 
 	physx::PxVec3 Vec = Capsule->GetLinearVelocity();
 	std::string Result = "X : " + std::to_string(Vec.x) + "\nY : " + std::to_string(Vec.y) + "\nZ : " + std::to_string(Vec.z) + "\n";

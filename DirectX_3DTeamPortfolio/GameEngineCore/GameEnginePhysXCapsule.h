@@ -56,9 +56,13 @@ public:
 		IsPositioningComponent = true;
 	}
 
-	void SetWorldPosition();
+	void SetWorldPosition(const float4& _Pos);
+	void SetWorldRotation(const float4& _Degree);
 
-	bool RayCastUpdate(const float4& _DirVector, float _MaxDisTance);
+	void GravityOn();
+	void GravityOff();
+
+	bool RayCast(const float4& _DirVector, float _MaxDisTance);
 
 protected:
 	void Start() override;
