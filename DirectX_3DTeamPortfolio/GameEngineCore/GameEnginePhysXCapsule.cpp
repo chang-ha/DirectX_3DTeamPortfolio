@@ -97,9 +97,26 @@ void GameEnginePhysXCapsule::AddForce(const physx::PxVec3 _Force)
 	ComponentActor->addForce(_Force, physx::PxForceMode::eVELOCITY_CHANGE);
 }
 
-void GameEnginePhysXCapsule::ResetForce()
+void GameEnginePhysXCapsule::ResetMove(int _Axies)
 {
-	ComponentActor->setLinearVelocity({ 0, 0, 0 });
+	physx::PxVec3 CurLV = ComponentActor->getLinearVelocity();
+
+	if (Enum_Axies::X & _Axies)
+	{
+		CurLV.x = 0.0f;
+	}
+
+	if (Enum_Axies::Y & _Axies)
+	{
+		CurLV.y = 0.0f;
+	}
+
+	if (Enum_Axies::Z & _Axies)
+	{
+		CurLV.z = 0.0f;
+	}
+
+	ComponentActor->setLinearVelocity({ CurLV.x, CurLV.y, CurLV.z });
 	// ComponentActor->clearForce(physx::PxForceMode::eFORCE);
 }
 

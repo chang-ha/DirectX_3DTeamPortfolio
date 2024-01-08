@@ -24,7 +24,6 @@ protected:
 	void Release() override;
 
 private:
-	GameEngineActor* ParentActor = nullptr;
 	physx::PxRigidDynamic* ComponentActor = nullptr;
 };
 

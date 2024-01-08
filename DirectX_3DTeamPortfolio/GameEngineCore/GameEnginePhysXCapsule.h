@@ -32,7 +32,12 @@ public:
 
 	void AddForce(const physx::PxVec3 _Force);
 
-	void ResetForce();
+	void ResetMove(Enum_Axies _Axies)
+	{
+		ResetMove(static_cast<int>(_Axies));
+	}
+
+	void ResetMove(int _Axies);
 
 	physx::PxVec3 GetLinearVelocity()
 	{
@@ -72,7 +77,6 @@ protected:
 
 private:
 	bool IsPositioningComponent = false;
-	GameEngineActor* ParentActor = nullptr;
 	physx::PxRigidDynamic* ComponentActor = nullptr;
 
 	void Positioning(float _Delta);

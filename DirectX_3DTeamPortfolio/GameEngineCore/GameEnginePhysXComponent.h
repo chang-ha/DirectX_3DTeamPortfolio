@@ -1,6 +1,14 @@
 #pragma once
 #include "GameEngineComponent.h"
 
+enum Enum_Axies
+{
+	X = 1 << 0,
+	Y = 1 << 1,
+	Z = 1 << 2,
+	All = X | Y | Z
+};
+
 class GameEnginePhysXComponent : public GameEngineComponent
 {
 public:
@@ -23,6 +31,7 @@ protected:
 
 	physx::PxScene* Scene = nullptr;
 	class GameEnginePhysXLevel* CurPhysXLevel = nullptr;
+	GameEngineActor* ParentActor = nullptr;
 private:
 
 };

@@ -31,7 +31,6 @@ protected:
 	void Release() override;
 
 private:
-	GameEngineActor* ParentActor = nullptr;
 	physx::PxController* Controller = nullptr;
 	float MoveCallTime = 0.0f;
 };
