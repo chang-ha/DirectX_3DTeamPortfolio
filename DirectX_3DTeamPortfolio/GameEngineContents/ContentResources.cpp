@@ -1,5 +1,6 @@
 ﻿#include "PreCompile.h"
 #include "ContentResources.h"
+#include <GameEngineCore/GameEngineBlend.h>
 
 ContentResources::ContentResources()
 {
@@ -60,6 +61,22 @@ void ContentResources::ContentResourcesInit()
 		}
 	}
 
+	{
+		{
+			// 분할된 자체포맷 첫번째 로드
+			GameEngineDirectory Dir;
+			Dir.MoveParentToExistsChild("ContentsResources");
+			Dir.MoveChild("ContentsResources");
+			Dir.MoveChild("Mesh");
+			std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".FBX0" }, true);
+
+			for (size_t i = 0; i < Files.size(); i++)
+			{
+				std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Files[i].GetStringPath());
+			}
+		}
+	}
+
 
 	{
 		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBX_Animation");
@@ -71,5 +88,52 @@ void ContentResources::ContentResourcesInit()
 		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBX_Static");
 		Mat->SetVertexShader("ContentsStaticMesh_VS");
 		Mat->SetPixelShader("ContentsStaticMesh_PS");
+	}
+
+	//PostEffect
+
+	{
+		D3D11_BLEND_DESC Desc = { 0, };
+
+		Desc.AlphaToCoverageEnable = false;
+		Desc.IndependentBlendEnable = false;
+
+		Desc.RenderTarget[0].BlendEnable = true;
+		Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+		Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+		Desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+
+		Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_MAX;
+		Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+		Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+
+		GameEngineBlend::Create("MergeBlend", Desc);
+	}
+
+	//{
+	//	std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FadePostEffect");
+	//	Mat->SetVertexShader("FadePostEffect_VS");
+	//	Mat->SetPixelShader("FadePostEffect_PS");
+	//	Mat->SetDepthState("AlwaysDepth");
+	//	Mat->SetRasterizer("EngineRasterizer");
+	//}
+
+	//{
+	//	std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("BlurPostEffect");
+	//	Mat->SetVertexShader("BlurPostEffect_VS");
+	//	Mat->SetPixelShader("BlurPostEffect_PS");
+	//	Mat->SetDepthState("AlwaysDepth");
+	//	Mat->SetRasterizer("EngineRasterizer");
+	//}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FXAA");
+
+		Mat->SetVertexShader("FXAA_VS");
+		Mat->SetPixelShader("FXAA_PS");
+		Mat->SetRasterizer("EngineRasterizer");
+		Mat->SetBlendState("MergeBlend");
+		Mat->SetDepthState("AlwaysDepth");
 	}
 }

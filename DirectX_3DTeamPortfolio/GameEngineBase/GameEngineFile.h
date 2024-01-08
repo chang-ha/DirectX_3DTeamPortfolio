@@ -1,7 +1,6 @@
 #pragma once
 #include "GameEnginePath.h"
 #include "GameEngineSerializer.h"
-#include <string>
 
 // Ostream Istream
 // 그게 내부에서 내가 쓰는 함수를 쓰고 있어요.
@@ -46,6 +45,8 @@ public:
 
 	// 파일에서 데이터를 쓴다.
 	void Write(void* _Data, size_t _Size);
+
+	void Close();
 
 	// 8바이트 정수형
 	template<typename ReturnType>

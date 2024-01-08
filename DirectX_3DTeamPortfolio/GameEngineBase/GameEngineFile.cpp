@@ -1,13 +1,17 @@
 #include "PreCompile.h"
 #include "GameEngineFile.h"
 #include "GameEngineDebug.h"
-#include <filesystem>
 
 GameEngineFile::GameEngineFile() 
 {
 }
 
 GameEngineFile::~GameEngineFile() 
+{
+	Close();
+}
+
+void GameEngineFile::Close()
 {
 	if (nullptr != FilePtr)
 	{
@@ -62,7 +66,13 @@ void GameEngineFile::Open(FileOpenType _OpenType, FileDataType _DataType)
 	// "wb" 읽겠다 바이너리로
 	// "wt" 읽겠다 Text로
 
-	fopen_s(&FilePtr, Path.c_str(), Mode.c_str());
+	errno_t Error = fopen_s(&FilePtr, Path.c_str(), Mode.c_str());
+
+	if (Error != 0)
+	{
+		MsgBoxAssert("파일 오픈에 문제가 있었습니다. 에러코드 : " + std::to_string(Error));
+	}
+	
 
 	OpenType = _OpenType;
 	DataType = _DataType;

@@ -1,6 +1,5 @@
 #include "PreCompile.h"
 #include "GameEngineTime.h"
-#include <Windows.h>
 
 GameEngineTime::GameEngineTime() 
 {

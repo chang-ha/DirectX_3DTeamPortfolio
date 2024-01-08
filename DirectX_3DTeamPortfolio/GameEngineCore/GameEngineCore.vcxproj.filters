@@ -958,6 +958,9 @@
     <ClInclude Include="GameEnginePhysXCharacterController.h">
       <Filter>PhysX\Component</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineNetWindow.h">
+      <Filter>GUI\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -1174,6 +1177,9 @@
     </ClCompile>
     <ClCompile Include="GameEnginePhysXCharacterController.cpp">
       <Filter>PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineNetWindow.cpp">
+      <Filter>GUI\Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

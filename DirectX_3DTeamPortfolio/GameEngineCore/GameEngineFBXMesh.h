@@ -568,6 +568,33 @@ struct Bone : public GameEngineSerializObject
 	}
 };
 
+struct MapData : public GameEngineSerializObject
+{
+	std::string Name;
+	float4 Pos;
+	bool IsLoad;
+
+	MapData()
+	{
+		Name = "";
+		Pos = float4::ZERO;
+		IsLoad = false;
+	}
+
+	void Write(GameEngineSerializer& _File) override
+	{
+		_File << Name;
+		_File << Pos;
+		_File << IsLoad;
+	}
+
+	void Read(GameEngineSerializer& _File) override
+	{
+		_File >> Name;
+		_File >> Pos;
+		_File >> IsLoad;
+	}
+};
 
 class FbxClusterData
 {
@@ -612,6 +639,17 @@ public:
 	static std::shared_ptr<GameEngineFBXMesh> Load(std::string_view& _Path, std::string_view _Name);
 	
 	void Initialize();
+
+	// 분할파일 용
+	void BigFBXInitialize();
+	void TestBigFBXInitialize();
+	void BigFBXLoad(size_t _Num, std::string_view _Name);
+
+
+	int GetMapDatasCount()
+	{
+		return static_cast<int>(MapDatas.size());
+	}
 	
 	int GetRenderUnitCount()
 	{
@@ -641,6 +679,11 @@ public:
 	{
 		return RenderUnitInfos;
 	}
+	std::vector<MapData> GetMapDatas()
+	{
+		return MapDatas;
+	}
+
 protected:
 
 private:
@@ -652,6 +695,9 @@ private:
 	std::map<std::string, Bone*> AllFindMap;
 	std::vector<std::vector<FbxClusterData>> ClusterData;
 	std::shared_ptr<GameEngineStructuredBuffer> AllBoneStructuredBuffers;
+
+	// 맵데이터
+	std::vector<MapData> MapDatas;
 
 
 	void LoadMesh(std::string_view& _Path, std::string_view _Name);

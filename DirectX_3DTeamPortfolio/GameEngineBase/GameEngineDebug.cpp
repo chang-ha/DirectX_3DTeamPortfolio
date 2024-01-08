@@ -40,3 +40,11 @@ void GameEngineDebug::GetWindowLastErrorPrint()
 		LocalFree(message);
 	}
 }
+
+void DebugObject::DebugCheck()
+{
+	if (true == IsDebug)
+	{
+		int a = 0;
+	}
+}

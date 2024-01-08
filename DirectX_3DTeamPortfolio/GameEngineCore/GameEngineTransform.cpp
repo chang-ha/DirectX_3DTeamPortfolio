@@ -171,7 +171,56 @@ GameEngineTransform::~GameEngineTransform()
 
 void GameEngineTransform::TransformUpdate()
 {
-	TransData.LocalCalculation();
+	DebugCheck();
+
+	// setworld
+	// setlocal
+	// 사정에 따라서 계산 과정이 달라져야 할거에요.
+
+	if (nullptr != Parent)
+	{
+		TransData.ParentMatrix = Parent->TransData.WorldMatrix;
+	}
+	else 
+	{
+		TransData.ParentMatrix = float4x4::Iden;
+	}
+
+	if (true == AbsoluteScale || true == AbsoluteRotation || true == AbsolutePosition)
+	{
+		// 월드 계산
+		// 월드 => 로컬
+		float4 WScale, WRotation, WPosition;
+		float4 LScale, LRotation, LPosition;
+
+		TransData.WorldMatrix.Decompose(WScale, WRotation, WPosition);
+
+		if (true == AbsoluteScale)
+		{
+			WScale = TransData.WorldScale; 
+		}
+
+		if (true == AbsoluteRotation)
+		{
+			WRotation = TransData.WorldRotation.EulerDegToQuaternion(); 
+		}
+
+		if (true == AbsolutePosition)
+		{
+			WPosition = TransData.WorldPosition;
+		}
+
+		TransData.WorldMatrix.Compose(WScale, WRotation, WPosition);
+		TransData.LocalWorldMatrix = TransData.WorldMatrix * TransData.ParentMatrix.InverseReturn();
+	}
+	else 
+	{
+		TransData.LocalCalculation(TransData.ParentMatrix);
+	}
+
+	TransData.WorldDecompos();
+	TransData.LocalDecompos();
+
 
 	// world local
 
@@ -189,49 +238,48 @@ void GameEngineTransform::TransformUpdate()
 	// 단순하게 생각해보면 부모의 위치에서 나의 위치를 빼면
 	// 회전하고 
 
-	if (nullptr != Parent)
-	{
-		TransData.ParentMatrix = Parent->TransData.WorldMatrix;
-		TransData.WorldMatrix = TransData.WorldMatrix * TransData.ParentMatrix;
+	//if (nullptr != Parent)
+	//{
+	//	TransData.ParentMatrix = Parent->TransData.WorldMatrix;
+	//	TransData.WorldMatrix = TransData.WorldMatrix * TransData.ParentMatrix;
 
-		// 나는 부모의 행렬을 곱해서 나의 행렬이 나오게 되었다.
-		// 기존의 요소들은 유지하
+	//	// 나는 부모의 행렬을 곱해서 나의 행렬이 나오게 되었다.
+	//	// 기존의 요소들은 유지하
 
-		if (true == AbsoluteScale || true == AbsoluteRotation || true == AbsolutePosition)
-		{
-			// 수치를 고정시키라는 명령이 내려왔다.
-			float4 WScale, WRotation, WPosition;
-			float4 LScale, LRotation, LPosition;
+	//	if (true == AbsoluteScale || true == AbsoluteRotation || true == AbsolutePosition)
+	//	{
+	//		// 수치를 고정시키라는 명령이 내려왔다.
+	//		float4 WScale, WRotation, WPosition;
+	//		float4 LScale, LRotation, LPosition;
 
-			TransData.WorldMatrix.Decompose(WScale, WRotation, WPosition);
+	//		TransData.WorldMatrix.Decompose(WScale, WRotation, WPosition);
 
-			if (true == AbsoluteScale)
-			{
-				WScale = TransData.Scale; 
-			}
+	//		if (true == AbsoluteScale)
+	//		{
+	//			WScale = TransData.Scale; 
+	//		}
 
-			if (true == AbsoluteRotation)
-			{
-				WRotation = TransData.Rotation.EulerDegToQuaternion(); 
-			}
+	//		if (true == AbsoluteRotation)
+	//		{
+	//			WRotation = TransData.Rotation.EulerDegToQuaternion(); 
+	//		}
 
-			if (true == AbsolutePosition)
-			{
-				WPosition = TransData.Position;
-			}
+	//		if (true == AbsolutePosition)
+	//		{
+	//			WPosition = TransData.Position;
+	//		}
 
-			TransData.WorldMatrix.Compose(WScale, WRotation, WPosition);
-			TransData.LocalWorldMatrix = TransData.WorldMatrix * TransData.ParentMatrix.InverseReturn();
-		}
-	}
+	//		TransData.WorldMatrix.Compose(WScale, WRotation, WPosition);
+	//		TransData.LocalWorldMatrix = TransData.WorldMatrix * TransData.ParentMatrix.InverseReturn();
+	//	}
+	//}
 
 	// 내부에서 디컴포즈를 해주기 때문에
-	TransData.WorldMatrix.Decompose(TransData.WorldScale, TransData.WorldQuaternion, TransData.WorldPosition);
-	TransData.WorldRotation = TransData.WorldQuaternion.QuaternionToEulerDeg();
+	//TransData.WorldMatrix.Decompose(TransData.WorldScale, TransData.WorldQuaternion, TransData.WorldPosition);
+	//TransData.WorldRotation = TransData.WorldQuaternion.QuaternionToEulerDeg();
 
-	TransData.LocalWorldMatrix.Decompose(TransData.LocalScale, TransData.LocalQuaternion, TransData.LocalPosition);
-	TransData.LocalRotation = TransData.LocalQuaternion.QuaternionToEulerDeg();
-
+	//TransData.LocalWorldMatrix.Decompose(TransData.LocalScale, TransData.LocalQuaternion, TransData.LocalPosition);
+	//TransData.LocalRotation = TransData.LocalQuaternion.QuaternionToEulerDeg();
 
 	// 반지름 
 	ColData.OBB.Extents = TransData.WorldScale.ToABS().Half().Float3;
