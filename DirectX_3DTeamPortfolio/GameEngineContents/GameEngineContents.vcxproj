@@ -196,6 +196,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MonsterGUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Monster_HollowSoldier.cpp">
       <SubType>
       </SubType>
@@ -265,6 +269,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GlobalValue.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MonsterGUI.h">
       <SubType>
       </SubType>
     </ClInclude>
