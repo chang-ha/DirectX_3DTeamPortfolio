@@ -25,6 +25,12 @@ void GameEnginePhysXCapsule::Update(float _Delta)
 
 void GameEnginePhysXCapsule::Release()
 {
+	if (nullptr != CapsuleShape)
+	{
+		CapsuleShape->release();
+		CapsuleShape = nullptr;
+	}
+
 	if (nullptr != ComponentActor)
 	{
 		ComponentActor->release();
@@ -40,12 +46,15 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 	float4 WolrdPos = Transform.GetWorldPosition();
 	float4 WorldDeg = Transform.GetWorldRotationEuler();
 	
-	physx::PxShape* CapsuleShape = Physics->createShape(physx::PxCapsuleGeometry(_Radius, _HalfHeight), *_Material); // 캡슐이 똑바로 서있는 모양은 1/4Pi 만큼 회전 필요
+	CapsuleShape = Physics->createShape(physx::PxCapsuleGeometry(_Radius, _HalfHeight), *_Material); // 캡슐이 똑바로 서있는 모양은 1/4Pi 만큼 회전 필요
 
 	physx::PxVec3 Pos = { WolrdPos.X, WolrdPos.Y , WolrdPos.Z };
 	WorldDeg.Z += physx::PxHalfPi * GameEngineMath::R2D;
 	float4 WorldQuat = WorldDeg.EulerDegToQuaternion();
 	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
+
+	// Basically RayCastTarget is Off
+	CapsuleShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
 
 	physx::PxTransform Transform(Pos, Quat);
 	ComponentActor = Physics->createRigidDynamic(Transform);
@@ -71,7 +80,9 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 	// );
 
 	Scene->addActor(*ComponentActor);
-	CapsuleShape->release();
+	// CapsuleShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
+
+	// CapsuleShape->release();
 }
 
 /*
@@ -125,12 +136,11 @@ void GameEnginePhysXCapsule::SetMaxSpeed(float _MaxSpeed)
 	ComponentActor->setMaxLinearVelocity(_MaxSpeed);
 }
 
-bool GameEnginePhysXCapsule::RayCast(const float4& _DirVector, float _MaxDisTance)
+bool GameEnginePhysXCapsule::RayCast(const float4& _Pos, const float4& _DirVector, float _MaxDisTance)
 {
-	float4 WolrdPos = Transform.GetWorldPosition();
-	physx::PxVec3 origin = ComponentActor->getGlobalPose().p + physx::PxVec3(100.0f, 0.0f, 0.0f);		 // [in] Ray origin
-	physx::PxVec3 unitDir = physx::PxVec3({0.0f, 0.0f, 1.0f});                // [in] Normalized ray direction
-	physx::PxReal maxDistance = 100.0f;            // [in] Raycast max distance
+	physx::PxVec3 origin = ComponentActor->getGlobalPose().p + physx::PxVec3(_Pos.X, _Pos.Y, _Pos.Z);		 // [in] Ray origin
+	physx::PxVec3 unitDir = physx::PxVec3({ _DirVector.X, _DirVector.Y, _DirVector.Z });                // [in] Normalized ray direction
+	physx::PxReal maxDistance = _MaxDisTance;            // [in] Raycast max distance
 	physx::PxRaycastBuffer hitResult;                 // [out] Raycast results
 
 	// Raycast against all static & dynamic objects (no filtering)
@@ -219,4 +229,42 @@ void GameEnginePhysXCapsule::GravityOn()
 void GameEnginePhysXCapsule::GravityOff()
 {
 	ComponentActor->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, true);
+}
+
+void GameEnginePhysXCapsule::RayCastTargetOn()
+{
+	ComponentActor->detachShape(*CapsuleShape);
+	CapsuleShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
+	ComponentActor->attachShape(*CapsuleShape);
+}
+
+void GameEnginePhysXCapsule::RayCastTargetOff()
+{
+	ComponentActor->detachShape(*CapsuleShape);
+	CapsuleShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
+	ComponentActor->attachShape(*CapsuleShape);
+}
+
+void GameEnginePhysXCapsule::CollisionOn(bool _GravityOn /*= true*/)
+{
+	ComponentActor->detachShape(*CapsuleShape);
+	CapsuleShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+	ComponentActor->attachShape(*CapsuleShape);
+
+	if (true == _GravityOn)
+	{
+		GravityOn();
+	}
+}
+
+void GameEnginePhysXCapsule::CollisionOff(bool _GravityOff /*= true*/)
+{
+	ComponentActor->detachShape(*CapsuleShape);
+	CapsuleShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+	ComponentActor->attachShape(*CapsuleShape);
+
+	if (true == _GravityOff)
+	{
+		GravityOff();
+	}
 }

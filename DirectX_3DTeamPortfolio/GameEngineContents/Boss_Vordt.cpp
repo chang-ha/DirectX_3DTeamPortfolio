@@ -106,7 +106,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	Capsule = CreateComponent<GameEnginePhysXCapsule>();
 	Capsule->Transform.SetLocalPosition({0.0f, 500.0f, 0.0f});
 	Capsule->PhysXComponentInit(50.0f, 60.0f);
-	Capsule->SetMaxSpeed(150.0f);
+	// Capsule->SetMaxSpeed(150.0f);
 	Capsule->SetPositioningComponent();
 	// Capsule->GravityOff();
 	// Capsule->ResetMove(Enum_Axies::All);
@@ -141,7 +141,7 @@ void Boss_Vordt::Update(float _Delta)
 		&& false == GameEngineInput::IsPress('S', this)
 		&& false == GameEngineInput::IsPress('D', this))
 	{
-		// Capsule->ResetForce();
+		Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Y);
 	}
 
 	if (true == GameEngineInput::IsPress('W', this))
@@ -184,7 +184,14 @@ void Boss_Vordt::Update(float _Delta)
 		Capsule->SetWorldPosition({ 0.0f, 0.0f, 0.0f, 0.0f });
 	}
 
-	Capsule->RayCast({1.0f, }, 10.0f);
+	if (true == GameEngineInput::IsDown('B', this))
+	{
+		Capsule->CollisionOff();
+		Capsule->ResetMove(Enum_Axies::All);
+	}
+
+
+	Capsule->RayCast({100.0f, }, {0.0f,0.0f, 1.0f }, 1000.0f);
 
 	physx::PxVec3 Vec = Capsule->GetLinearVelocity();
 	std::string Result = "X : " + std::to_string(Vec.x) + " Y : " + std::to_string(Vec.y) + " Z : " + std::to_string(Vec.z) + "\n";
