@@ -23,10 +23,10 @@ void GameEngineNetWindow::OnGUI(class GameEngineLevel* _Level, float _DeltaTime)
 		switch (NetTypeValue)
 		{
 		case NetType::Server:
-			ImGui::Text("서버로 열었습니다");
+			ImGui::Text("Server Open");
 			break;
 		case NetType::Client:
-			ImGui::Text("클라로 접속했습니다");
+			ImGui::Text("Client Join");
 			break;
 		default:
 			break;
@@ -40,6 +40,15 @@ void GameEngineNetWindow::OnGUI(class GameEngineLevel* _Level, float _DeltaTime)
 	{
 		NetTypeValue = NetType::Server;
 		Server.ServerOpen(30000, 512);
+
+		Server.SetAcceptCallBack(
+			[=](SOCKET _ClientSocket, GameEngineNetServer* _Server, int ID)
+			{
+				// 상대한테 처음으로 너 N번이야를 알려줘야 한다.
+
+				int a = 0;
+			}
+		);
 
 		GameEngineNetWindow::Net = &Server;
 	}
