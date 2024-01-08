@@ -58,6 +58,7 @@
     <ClCompile Include="GameServer.cpp">
       <Filter>Server</Filter>
     </ClCompile>
+    <ClCompile Include="ContentsControlWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -115,6 +116,7 @@
     <ClInclude Include="GameServer.h">
       <Filter>Server</Filter>
     </ClInclude>
+    <ClInclude Include="ContentsControlWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">

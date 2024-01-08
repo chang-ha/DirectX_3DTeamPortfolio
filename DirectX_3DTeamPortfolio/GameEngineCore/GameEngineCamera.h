@@ -117,6 +117,7 @@ public:
 		return Renderers;
 	}
 
+	std::map<int, std::list<std::shared_ptr<class GameEngineRenderer>>> Renderers;
 protected:
 	void Start() override;
 
@@ -142,7 +143,7 @@ private:
 	bool IsFreeCameraValue = false;
 
 	int CameraOrder = 0;
-	std::map<int, std::list<std::shared_ptr<class GameEngineRenderer>>> Renderers;
+	
 
 	EPROJECTIONTYPE PrevProjectionType = EPROJECTIONTYPE::Orthographic;
 
