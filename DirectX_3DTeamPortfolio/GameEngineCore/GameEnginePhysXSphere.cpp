@@ -44,7 +44,11 @@ void GameEnginePhysXSphere::Update(float _Delta)
 
 void GameEnginePhysXSphere::Release()
 {
-
+	if (nullptr != ComponentActor)
+	{
+		ComponentActor->release();
+		ComponentActor = nullptr;
+	}
 }
 
 void GameEnginePhysXSphere::PhysXComponentInit(float _Radius, const physx::PxMaterial* _Material /*= GameEnginePhysX::GetDefaultMaterial()*/)

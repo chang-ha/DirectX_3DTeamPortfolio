@@ -114,7 +114,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	Renderer = CreateComponent<GameEngineFBXRenderer>(Enum_RenderOrder::Monster);
 	Renderer->SetFBXMesh("SmallMap.fbx", "FBXStaticColor");
 	
-	std::shared_ptr<GameEnginePhysXTriMesh> TriMesh = CreateComponent<GameEnginePhysXTriMesh>();
+	TriMesh = CreateComponent<GameEnginePhysXTriMesh>();
 	TriMesh->Transform.SetLocalPosition({0.0f, 0.0f, 800.0f});
 	TriMesh->PhysXComponentInit("SmallMap.fbx");
 
@@ -202,5 +202,17 @@ void Boss_Vordt::Release()
 	{
 		BossCollision->Death();
 		BossCollision = nullptr;
+	}
+
+	if (nullptr != Capsule)
+	{
+		Capsule->Death();
+		Capsule = nullptr;
+	}
+
+	if (nullptr != TriMesh)
+	{
+		TriMesh->Death();
+		TriMesh = nullptr;
 	}
 }

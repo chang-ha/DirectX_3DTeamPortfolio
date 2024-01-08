@@ -33,6 +33,7 @@ private:
 	std::shared_ptr<class GameEnginePhysXSphere> Sphere;
 	std::shared_ptr<class GameEngjnePhysXBox> Box;
 	std::shared_ptr<class GameEnginePhysXCapsule> Capsule;
+	std::shared_ptr<class GameEnginePhysXTriMesh> TriMesh;
 	GameEngineState BossState;
 };
 

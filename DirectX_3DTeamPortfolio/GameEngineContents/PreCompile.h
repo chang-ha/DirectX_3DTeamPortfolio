@@ -38,6 +38,5 @@
 #include <GameEngineCore\GameEnginePhysXCapsule.h>
 #include <GameEngineCore\GameEnginePhysXTriMesh.h>
 #include <GameEngineCore\GameEnginePhysXCharacterController.h>
-#include "GameEngineCore\GameEnginePhysX.h"
 
 #include "GameContentsFBXRenderer.h"

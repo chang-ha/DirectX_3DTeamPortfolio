@@ -34,7 +34,11 @@ void GameEnginePhysXTriMesh::Update(float _Delta)
 
 void GameEnginePhysXTriMesh::Release()
 {
-
+	if (nullptr != ComponentActor)
+	{
+		ComponentActor->release();
+		ComponentActor = nullptr;
+	}
 }
 
 void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, const physx::PxMaterial* _Material /*= GameEnginePhysX::GetDefaultMaterial()*/)

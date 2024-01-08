@@ -7,7 +7,7 @@ GameEnginePhysXLevel::GameEnginePhysXLevel()
 
 GameEnginePhysXLevel::~GameEnginePhysXLevel()
 {
-
+	Release();
 }
 
 void GameEnginePhysXLevel::PhysXLevelInit()
@@ -26,4 +26,13 @@ void GameEnginePhysXLevel::RunSimulation(float _Delta)
 
 	Scene->simulate(_Delta);
 	Scene->fetchResults(true);
+}
+
+void GameEnginePhysXLevel::Release()
+{
+	if (nullptr != ControllerManager)
+	{
+		ControllerManager->release();
+		ControllerManager = nullptr;
+	}
 }

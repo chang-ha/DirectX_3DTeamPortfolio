@@ -2,6 +2,7 @@
 
 class GameEnginePhysXLevel
 {
+	friend class GameEnginePhysX;
 public:
 	// constructer destructer
 	GameEnginePhysXLevel();
@@ -30,6 +31,7 @@ protected:
 	physx::PxScene* Scene = nullptr;
 	physx::PxControllerManager* ControllerManager = nullptr;
 private:
+	void Release();
 
 };
 
