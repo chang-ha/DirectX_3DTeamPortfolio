@@ -1,12 +1,15 @@
 #pragma once
 
-class FrameEventTab
+class FrameEventTree
 {
 	friend class MonsterGUI;
 
+public:
+	inline std::string GetName() const { return Name; }
+
 protected:
 	virtual void Init() {}
-	virtual void Update(GameEngineLevel* _Level, float _Delta) = 0;
+	virtual void OnGUI(GameEngineLevel* _Level, float _Delta) = 0;
 
 	class MonsterGUI* Parent = nullptr;
 
@@ -15,16 +18,16 @@ private:
 
 };
 
-class SoundFrameEventTab : public FrameEventTab
+class SoundFrameEventTab : public FrameEventTree
 {
 public:
 	void Init() override;
-	void Update(GameEngineLevel* _Level, float _Delta) override;
+	void OnGUI(GameEngineLevel* _Level, float _Delta) override;
 
 private:
 	std::vector<std::string> SoundFileList;
 	std::vector<const char*> CSoundFileList;
-	int SelectItem = 0;
+	int SelectSoundItem = 0;
 
 };
 
@@ -32,6 +35,7 @@ private:
 class MonsterGUI : public GameEngineGUIWindow
 {
 	friend class TestLevel_Monster;
+	friend class FrameEventTree;
 	friend class SoundFrameEventTab;
 
 
@@ -56,6 +60,7 @@ private:
 		Tab->Init();
 		Tab->Name = _TabName;
 		Tab->Parent = this;
+		EventEditors.push_back(Tab);
 	}
 
 private:
@@ -70,7 +75,7 @@ private:
 	std::vector<const char*> CAnimationNames; // Use 'AnimationNames' Pointer
 	std::shared_ptr<GameContentsFBXAnimationInfo> CurAnimationInfo;
 
-	std::vector<std::shared_ptr<FrameEventTab>> FrameEventTabs;
+	std::vector<std::shared_ptr<FrameEventTree>> EventEditors;
 
 
 	float Size = 0.0f;

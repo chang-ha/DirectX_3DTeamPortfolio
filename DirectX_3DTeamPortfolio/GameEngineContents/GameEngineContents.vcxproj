@@ -184,6 +184,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="FrameEventHelper.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="FrameEventObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FXAAEffect.cpp">
       <SubType>
       </SubType>
@@ -221,6 +229,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SoundFrameEvent.cpp">
+      <SubType>
+      </SubType>
     </ClCompile>
     <ClCompile Include="TestLevel_Boss.cpp">
       <SubType>
@@ -260,6 +272,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ContentsEnum.h" />
+    <ClInclude Include="FrameEventHelper.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FrameEventObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="FXAAEffect.h">
       <SubType>
       </SubType>
@@ -293,6 +313,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="PreCompile.h" />
+    <ClInclude Include="SoundFrameEvent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TestLevel_Boss.h">
       <SubType>
       </SubType>

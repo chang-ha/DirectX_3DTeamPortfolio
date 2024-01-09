@@ -3,7 +3,7 @@
 enum class Enum_MonsterType
 {
 	None,
-	LothricKn,
+	LothricKn = 1280,
 };
 
 // Ό³Έν :
@@ -25,13 +25,9 @@ public:
 	inline std::shared_ptr<GameContentsFBXRenderer> GetFBXRenderer() { return MainRenderer; }
 
 
-	static Enum_MonsterType GetMonsterType(std::string_view _MonsterTypeName)
-	{
-		if (auto search = MonsterTypes.find(_MonsterTypeName.data()); search != MonsterTypes.end())
-			return search->second;
+	std::string GetTypeName();
 
-		return Enum_MonsterType::None;
-	}
+	std::string GetEventPath();
 
 protected:
 	void Start() override;

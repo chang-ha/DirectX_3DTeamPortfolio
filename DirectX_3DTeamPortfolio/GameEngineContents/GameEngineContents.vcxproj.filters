@@ -46,17 +46,27 @@
     <ClCompile Include="TestMap.cpp">
       <Filter>Map</Filter>
     </ClCompile>
-    <ClCompile Include="Monster_LothricKn.cpp" />
     <ClCompile Include="FXAAEffect.cpp">
       <Filter>PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="CommonMonster.cpp" />
     <ClCompile Include="GameContentsFBXRenderer.cpp">
       <Filter>Monster\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Monster_LothricKn.cpp" />
     <ClCompile Include="MonsterGUI.cpp">
       <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_LothricKn.cpp">
+      <Filter>Monster\LothricKnight</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonMonster.cpp">
+      <Filter>Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameEventObject.cpp">
+      <Filter>Monster\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameEventHelper.cpp">
+      <Filter>Monster\Event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -108,12 +118,22 @@
     <ClInclude Include="TestMap.h">
       <Filter>Map</Filter>
     </ClInclude>
-    <ClInclude Include="CommonMonster.h" />
     <ClInclude Include="FXAAEffect.h" />
     <ClInclude Include="GameContentsFBXRenderer.h" />
-    <ClInclude Include="Monster_LothricKn.h" />
     <ClInclude Include="MonsterGUI.h">
       <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_LothricKn.h">
+      <Filter>Monster\LothricKnight</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonMonster.h">
+      <Filter>Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameEventObject.h">
+      <Filter>Monster\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameEventHelper.h">
+      <Filter>Monster\Event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

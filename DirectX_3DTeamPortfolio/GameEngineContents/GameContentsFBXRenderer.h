@@ -4,6 +4,7 @@
 
 
 class FbxExAniData;
+class FrameEventHelper;
 class GameEngineFBXMesh;
 class GameEngineFBXAnimation;
 class GameContentsFBXRenderer;
@@ -17,6 +18,8 @@ public:
 	std::shared_ptr<GameEngineFBXAnimation> Aniamtion;
 	// 애니메이션을 가지고 있는 FBX에서 알고 있는 애니메이션 정보
 	FbxExAniData* FBXAnimationData;
+
+	FrameEventHelper* EventHelper = nullptr;
 
 	// 재생시간
 	float PlayTime = 0.0f;
@@ -32,6 +35,7 @@ public:
 
 	bool bOnceStart = true;
 	bool bOnceEnd = true;
+	bool IsStart = true;
 	bool Loop = true;
 
 	// 과제로 내준것인데.

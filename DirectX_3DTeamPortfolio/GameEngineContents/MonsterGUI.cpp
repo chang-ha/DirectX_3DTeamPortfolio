@@ -1,8 +1,11 @@
 #include "PreCompile.h"
 #include "MonsterGUI.h"
+
 #include "CommonMonster.h"
+#include "FrameEventHelper.h"
 #include "TestLevel_Monster.h"
 #include "Monster_LothricKn.h"
+
 
 void SoundFrameEventTab::Init()
 {
@@ -25,7 +28,7 @@ void SoundFrameEventTab::Init()
 	}
 }
 
-void SoundFrameEventTab::Update(GameEngineLevel* _Level, float _Delta)
+void SoundFrameEventTab::OnGUI(GameEngineLevel* _Level, float _Delta)
 {
 	if (nullptr == Parent)
 	{
@@ -33,11 +36,12 @@ void SoundFrameEventTab::Update(GameEngineLevel* _Level, float _Delta)
 		return;
 	}
 
-	ImGui::Combo("SoundList", &SelectItem, CSoundFileList[0]);
+	ImGui::Combo("SoundList", &SelectSoundItem, &CSoundFileList[0], static_cast<int>(CSoundFileList.size()));
 	if (ImGui::Button("CreateEvent"))
 	{
-		Parent->SelectActor->GetName();
-		Parent->SelectFrame;
+		std::string ObjectName = Parent->SelectActor->GetName();
+		int Frame = Parent->SelectFrame;
+		std::string ScrFileName = CSoundFileList[SelectSoundItem];
 	}
 }
 
@@ -94,21 +98,26 @@ void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		{
 			ImGui::Separator();
 
-			for (const std::shared_ptr<FrameEventTab>& EventTab : FrameEventTabs)
+			if (nullptr == CurAnimationInfo->EventHelper)
 			{
-				if (ImGui::TreeNode("FrameEvent Tree"))
+				CurAnimationInfo->EventHelper = FrameEventHelper::CreateTempRes().get();
+			}
+
+			for (const std::shared_ptr<FrameEventTree>& EventTab : EventEditors)
+			{
+				if (ImGui::TreeNode(EventTab->GetName().c_str()))
 				{
-					ImGui::SliderInt("SelectFrame", &SelectFrame, CurAnimationInfo->Start, CurAnimationInfo->End);
-					EventTab->Update(_Level, _DeltaTime);
+					ImGui::SliderInt("Select Frame", &SelectFrame, CurAnimationInfo->Start, CurAnimationInfo->End);
+					EventTab->OnGUI(_Level, _DeltaTime);
+					ImGui::TreePop();
 				}
-				ImGui::TreePop();
 			}
 		}
 
 		RenderUnitSwitch();
 	}
 
-
+	ImGui::Separator();
 
 	if (bool TestCode = false)
 	{

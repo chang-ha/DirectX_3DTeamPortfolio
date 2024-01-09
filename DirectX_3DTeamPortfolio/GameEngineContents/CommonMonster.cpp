@@ -7,7 +7,6 @@ public:
 	MonsterInitial()
 	{
 		Init();
-		int MonsterNum = static_cast<int>(CommonMonster::GetMonsterType("LothricKn"));
 	}
 
 	~MonsterInitial() {} 
@@ -22,6 +21,7 @@ private:
 };
 
 
+
 std::map<std::string, Enum_MonsterType> CommonMonster::MonsterTypes;
 MonsterInitial MonsterInitial::MonsterInit;
 CommonMonster::CommonMonster() 
@@ -30,6 +30,38 @@ CommonMonster::CommonMonster()
 
 CommonMonster::~CommonMonster() 
 {
+}
+
+
+std::string CommonMonster::GetTypeName()
+{
+	std::string TypeName = "c";
+
+	if (auto search = MonsterTypes.find(GetName()); search != MonsterTypes.end())
+	{
+		int Type = static_cast<int>(search->second);
+		TypeName += std::to_string(Type);
+		return TypeName;
+	}
+
+	return std::string();
+}
+
+std::string CommonMonster::GetEventPath()
+{
+	GameEnginePath path;
+	std::string TypeName = GetTypeName();
+	if (TypeName.empty())
+	{
+		return std::string();
+	}
+
+	path.MoveParentToExistsChild("ContentsResources");
+	path.MoveChild("ContentsResources");
+	path.MoveChild("Mesh");
+	path.MoveChild(TypeName);
+	path.MoveChild("Animation");
+	return path.GetStringPath();
 }
 
 void CommonMonster::Start()
