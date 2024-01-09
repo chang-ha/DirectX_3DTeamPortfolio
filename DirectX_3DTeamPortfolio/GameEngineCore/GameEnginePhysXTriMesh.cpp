@@ -43,9 +43,21 @@ void GameEnginePhysXTriMesh::Release()
 
 void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, const physx::PxMaterial* _Material /*= GameEnginePhysX::GetDefaultMaterial()*/)
 {
-	MeshName = std::string(_MeshName);
-	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Find(_MeshName);
+	MeshPath;
 
+	GameEnginePath FilePath = GameEnginePath(_MeshName);
+	FilePath.ChangeExtension("PhysXTriMesh");
+	std::string FimeName = FilePath.GetFileName();
+	FilePath.SetCurrentPath();
+	MeshPath = GameEnginePath(FilePath.GetStringPath() + "\\" + FimeName);
+	
+	if (true == MeshPath.IsExits())
+	{
+		PhysXReadSerialization();
+		return;
+	}
+
+	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Find(_MeshName);
 	std::vector<FbxRenderUnitInfo> RenderUnitInfos = Mesh->GetRenderUnitInfos();
 
 	if (0 == RenderUnitInfos.size())
@@ -79,42 +91,45 @@ void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, cons
 			Vertexs[i].z = Position.Z;
 		}
 
-		physx::PxTriangleMeshDesc meshDesc;
-		meshDesc.points.count = static_cast<physx::PxU32>(Vertexs.size());
-		meshDesc.points.stride = sizeof(physx::PxVec3);
-		meshDesc.points.data = &Vertexs[0];
+		physx::PxTriangleMeshDesc MeshDesc;
+		MeshDesc.points.count = static_cast<physx::PxU32>(Vertexs.size());
+		MeshDesc.points.stride = sizeof(physx::PxVec3);
+		MeshDesc.points.data = &Vertexs[0];
 
-		meshDesc.triangles.count = static_cast<physx::PxU32>(UnitInfo.Indexs[0].size() / 3);
-		meshDesc.triangles.stride = 3 * sizeof(physx::PxU32);
-		meshDesc.triangles.data = &UnitInfo.Indexs[0][0];
+		MeshDesc.triangles.count = static_cast<physx::PxU32>(UnitInfo.Indexs[0].size() / 3);
+		MeshDesc.triangles.stride = 3 * sizeof(physx::PxU32);
+		MeshDesc.triangles.data = &UnitInfo.Indexs[0][0];
 
-		if (meshDesc.isValid())
+		if (true == MeshDesc.isValid())
 		{
-			physx::PxDefaultMemoryOutputStream writeBuffer;
+			physx::PxDefaultMemoryOutputStream WriteBuffer;
 
-			if (GameEnginePhysX::GetCooking()->cookTriangleMesh(meshDesc, writeBuffer))
+			if (true == GameEnginePhysX::GetCooking()->cookTriangleMesh(MeshDesc, WriteBuffer))
 			{
-				physx::PxDefaultMemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
-				physx::PxTriangleMesh* TriMesh = GameEnginePhysX::GetPhysics()->createTriangleMesh(readBuffer);
-				physx::PxMeshScale scale(physx::PxVec3(1.0f, 1.0f, 1.0f), physx::PxQuat(physx::PxPi * 0.25f, physx::PxVec3(0, 1, 0)));
-				physx::PxTriangleMeshGeometry geom(TriMesh);
-				physx::PxShape* myConvexMeshShape = GameEnginePhysX::GetPhysics()->createShape(geom, *_Material);
+				physx::PxDefaultMemoryInputData ReadBuffer(WriteBuffer.getData(), WriteBuffer.getSize());
+				physx::PxTriangleMesh* TriMesh = GameEnginePhysX::GetPhysics()->createTriangleMesh(ReadBuffer);
+				physx::PxTriangleMeshGeometry Geom(TriMesh);
+				physx::PxShape* TriMeshShape = GameEnginePhysX::GetPhysics()->createShape(Geom, *_Material);
 
-				StaticActor->attachShape(*myConvexMeshShape);
+				StaticActor->attachShape(*TriMeshShape);
 			}
 			else
 			{
-				MsgBoxAssert("Fail Cooking Triangle Mesh");
+				MsgBoxAssert("TriMesh생성에 실패했습니다.");
 				return;
 			}
+		}
+		else
+		{
+			MsgBoxAssert("매쉬 정보가 잘못되었습니다.");
 		}
 	}
 
 	Scene->addActor(*StaticActor);
-	PhysXSerialization();
+	PhysXWriteSerialization();
 }
 
-void GameEnginePhysXTriMesh::PhysXSerialization()
+void GameEnginePhysXTriMesh::PhysXWriteSerialization()
 {
 	physx::PxCooking* Cooking = GameEnginePhysX::GetCooking();
 
@@ -126,7 +141,8 @@ void GameEnginePhysXTriMesh::PhysXSerialization()
 	physx::PxSerialization::complete(*collection, *registry);
 
 	// Serialize either to binary or RepX
-	physx::PxDefaultFileOutputStream outStream("serialized.dat");
+	std::string FileName = MeshPath.GetFileName();
+	physx::PxDefaultFileOutputStream outStream(FileName.c_str());
 
 	// Binary
 	physx::PxSerialization::serializeCollectionToBinary(outStream, *collection, *registry);
@@ -135,4 +151,39 @@ void GameEnginePhysXTriMesh::PhysXSerialization()
 	// RepX
 	// physx::PxSerialization::serializeCollectionToXml(outStream, *collection, *registry);
 
+}
+
+void GameEnginePhysXTriMesh::PhysXReadSerialization()
+{
+	physx::PxSerializationRegistry* registry = physx::PxSerialization::createSerializationRegistry(PxGetPhysics());
+
+	std::string FileName = MeshPath.GetFileName();
+	// Binary
+	// Open file and get file size
+	FILE* File;
+	errno_t Error = fopen_s(&File, FileName.c_str(), "rb");
+
+	if (Error != 0)
+	{
+		MsgBoxAssert("파일 오픈에 문제가 있었습니다. 에러코드 : " + std::to_string(Error));
+	}
+	fseek(File, 0, SEEK_END);
+	unsigned fileSize = ftell(File);
+	fseek(File, 0, SEEK_SET);
+
+	// Allocate aligned memory, load data and deserialize
+	void* memory = malloc(fileSize + PX_SERIAL_FILE_ALIGN);
+	void* memory128 = (void*)((size_t(memory) + PX_SERIAL_FILE_ALIGN) & ~(PX_SERIAL_FILE_ALIGN - 1));
+	fread(memory128, 1, fileSize, File);
+	fclose(File);
+	physx::PxCollection* Collection = physx::PxSerialization::createCollectionFromBinary(memory128, *registry);
+	//~Binary
+
+	// RepX
+	// Load file and deserialize collection - needs cooking library
+	// physx::PxDefaultFileInputData inputData(FileName.c_str());
+	// physx::PxCollection* collection = physx::PxSerialization::createCollectionFromXml(inputData, *GameEnginePhysX::GetCooking(), *registry);
+	//~RepX
+
+	Scene->addCollection(*Collection);
 }

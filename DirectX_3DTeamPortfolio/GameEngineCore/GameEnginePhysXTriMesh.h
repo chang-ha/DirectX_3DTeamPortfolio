@@ -23,9 +23,10 @@ protected:
 	void Update(float _Delta) override;
 	void Release() override;
 private:
-	void PhysXSerialization();
+	void PhysXWriteSerialization();
+	void PhysXReadSerialization();
 
-	std::string MeshName = "";
+	GameEnginePath MeshPath = {};
 	physx::PxRigidStatic* StaticActor = nullptr;
 };
 
