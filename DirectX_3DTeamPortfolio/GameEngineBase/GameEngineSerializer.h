@@ -213,10 +213,15 @@ public:
 	}
 
 
-	template<typename PtrType>
-	PtrType* GetDataPtr()
+	int GetWriteOffsetInt()
 	{
-		return reinterpret_cast<PtrType*>(&Data[0]);
+		return static_cast<int>(WriteOffset);
+	}
+
+	template<typename PtrType>
+	PtrType GetDataPtr()
+	{
+		return reinterpret_cast<PtrType>(&Data[0]);
 	}
 
 protected:

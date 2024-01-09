@@ -55,13 +55,14 @@
       <Filter>Monster\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Monster_LothricKn.cpp" />
-    <ClCompile Include="GameServer.cpp">
-      <Filter>Server</Filter>
+    <ClCompile Include="ConnectIDPacket.cpp">
+      <Filter>Net\Packet</Filter>
     </ClCompile>
-    <ClCompile Include="ContentsControlWindow.cpp" />
-    <ClCompile Include="TestLevel_PhysX.cpp" />
-    <ClCompile Include="ContentsLight.cpp">
-      <Filter>Light</Filter>
+    <ClCompile Include="GameEngineNetWindow.cpp">
+      <Filter>Net</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectPacket.cpp">
+      <Filter>Net\Packet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -117,13 +118,17 @@
     <ClInclude Include="FXAAEffect.h" />
     <ClInclude Include="GameContentsFBXRenderer.h" />
     <ClInclude Include="Monster_LothricKn.h" />
-    <ClInclude Include="GameServer.h">
-      <Filter>Server</Filter>
+    <ClInclude Include="ObjectPacket.h">
+      <Filter>Net\Packet</Filter>
     </ClInclude>
-    <ClInclude Include="ContentsControlWindow.h" />
-    <ClInclude Include="TestLevel_PhysX.h" />
-    <ClInclude Include="ContentsLight.h">
-      <Filter>Light</Filter>
+    <ClInclude Include="ConnectIDPacket.h">
+      <Filter>Net\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketHeader.h">
+      <Filter>Net\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineNetWindow.h">
+      <Filter>Net</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -169,11 +174,11 @@
     <Filter Include="Monster\Renderer">
       <UniqueIdentifier>{781099ec-31b3-4c0c-8941-80d28daaf927}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Server">
-      <UniqueIdentifier>{691cf478-7f6a-423c-963d-010cb337579a}</UniqueIdentifier>
+    <Filter Include="Net">
+      <UniqueIdentifier>{3a7885fe-0f84-4a6a-9989-d926b4ac8f61}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Light">
-      <UniqueIdentifier>{a2294746-10db-495d-99ed-1f91b91762f0}</UniqueIdentifier>
+    <Filter Include="Net\Packet">
+      <UniqueIdentifier>{12126f42-9291-48ee-8034-ca565f71da15}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

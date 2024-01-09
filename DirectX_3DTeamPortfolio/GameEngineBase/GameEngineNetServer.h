@@ -21,7 +21,7 @@ public:
 
 	void ServerOpen(short Port, int _BackLog);
 
-	void SetAcceptCallBack(std::function<void(SOCKET _Client, GameEngineNetServer* Server, int _ID)> _CallBack)
+	void SetAcceptCallBack(std::function<void(SOCKET _Client, GameEngineNetServer* Server)> _CallBack)
 	{
 		if (nullptr == _CallBack)
 		{
@@ -45,7 +45,7 @@ private:
 	std::mutex UserLock;
 	std::map<int, SOCKET> Users;
 
-	std::function<void(SOCKET _Client, GameEngineNetServer* _Server, int _ID)> AcceptCallBack;
+	std::function<void(SOCKET _Client, GameEngineNetServer* _Server)> AcceptCallBack;
 
 	std::vector<std::shared_ptr<GameEngineThread>> ServerRecvThreads;
 

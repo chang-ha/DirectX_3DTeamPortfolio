@@ -1,6 +1,6 @@
 #pragma once
-#include "GameEngineGUI.h"
-#include "GAMEENGINERENDERTARGET.H"
+#include <GameEngineCore/GameEngineGUI.h>
+
 #include <GameEngineBase/GameEngineThreadJobQueue.h>
 #include <GameEngineBase/GameEngineNetServer.h>
 #include <GameEngineBase/GameEngineNetClient.h>
@@ -14,7 +14,8 @@ enum class NetType
 
 class GameEngineNetWindow : public GameEngineGUIWindow
 {
-	static GameEngineNet* Net;
+public:
+	static GameEngineNet* Net; // private으로 바꿀생각
 
 public:
 	// constrcuter destructer
@@ -26,6 +27,8 @@ public:
 	GameEngineNetWindow(GameEngineNetWindow&& _Other) noexcept = delete;
 	GameEngineNetWindow& operator=(const GameEngineNetWindow& _Other) = delete;
 	GameEngineNetWindow& operator=(GameEngineNetWindow&& _Other) noexcept = delete;
+
+	class Player* MainPlayer;
 
 protected:
 	void Start() override;
