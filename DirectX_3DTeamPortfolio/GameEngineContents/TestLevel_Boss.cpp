@@ -41,6 +41,8 @@ void TestLevel_Boss::Start()
 void TestLevel_Boss::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
+
+	RayCast({ 100.0f, }, { 0.0f,0.0f, 5.0f }, 1000.0f);
 }
 
 void TestLevel_Boss::Release()

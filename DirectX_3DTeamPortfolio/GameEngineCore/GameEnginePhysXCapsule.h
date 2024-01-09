@@ -74,8 +74,6 @@ public:
 	void CollisionOn(bool _GravityOn = true);
 	void CollisionOff(bool _GravityOff = true);
 
-	bool RayCast(const float4& _Pos, const float4& _DirVector, float _MaxDisTance);
-
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

@@ -189,9 +189,6 @@ void Boss_Vordt::Update(float _Delta)
 		Capsule->ResetMove(Enum_Axies::All);
 	}
 
-
-	Capsule->RayCast({100.0f, }, {0.0f,0.0f, 1.0f }, 1000.0f);
-
 	physx::PxVec3 Vec = Capsule->GetLinearVelocity();
 	std::string Result = "X : " + std::to_string(Vec.x) + " Y : " + std::to_string(Vec.y) + " Z : " + std::to_string(Vec.z) + "\n";
 	OutputDebugString(Result.c_str());
