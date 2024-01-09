@@ -10,6 +10,7 @@
 #include "TestLevel_Monster.h"
 #include "TestLevel_Shader.h"
 #include "TestLevel_Map.h"
+#include "TestLevel_PhysX.h"
 
 #include <GameEngineCore\GameEnginePhysX.h>
 
@@ -39,6 +40,7 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<TestLevel_Monster>("TestLevel_Monster");
 	GameEngineCore::CreateLevel<TestLevel_Shader>("TestLevel_Shader");
 	GameEngineCore::CreateLevel<TestLevel_Map>("TestLevel_Map");
+	GameEngineCore::CreateLevel<TestLevel_PhysX>("TestLevel_PhysX");
 
 	GameEngineCore::ChangeLevel("PlayLevel");
 }

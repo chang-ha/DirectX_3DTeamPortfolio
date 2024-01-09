@@ -2,6 +2,11 @@
 
 #include <PxPhysicsAPI.h>
 
+#define SCENE_MAX_ACTOR 512
+#define GRAVITY_FORCE 981.f
+
+#define PVD_HOST "127.0.0.1"	//Set this to the IP address of the system running the PhysX Visual Debugger that you want to connect to.
+
 class PhysXErrorCallback : public physx::PxErrorCallback
 {
 private:
@@ -70,16 +75,35 @@ public:
 	static void PhysXRelease();
 	static physx::PxScene* CreateLevelScene();
 
+	static inline  physx::PxPhysics* GetPhysics()
+	{
+		return Physics;
+
+	}
+
+	static inline  physx::PxMaterial* GetDefaultMaterial()
+	{
+		return Material;
+	}
+
+	static inline physx::PxCooking* GetCooking()
+	{
+		return Cooking;
+	}
+
+	static physx::PxScene* FindScene(std::string_view _SceneName);
+
 protected:
 
 private:
-	static PhysXErrorCallback  gErrorCallback;
-	static physx::PxDefaultAllocator  gDefaultAllocatorCallback;
-	static physx::PxFoundation* mFoundation;
-	static physx::PxPvd* mPvd;
-	static physx::PxPhysics* mPhysics;
-	static physx::PxCooking* mCooking;
+	static PhysXErrorCallback  ErrorCallback;
+	static physx::PxDefaultAllocator  DefaultAllocatorCallback;
+	static physx::PxFoundation* Foundation;
+	static physx::PxPvd* Pvd;
+	static physx::PxPhysics* Physics;
+	static physx::PxCooking* Cooking;
 	static physx::PxDefaultCpuDispatcher* CpuDispatcher;
+	static physx::PxMaterial* Material;
 
 	static std::map<std::string, physx::PxScene*> AllLevelScene;
 };

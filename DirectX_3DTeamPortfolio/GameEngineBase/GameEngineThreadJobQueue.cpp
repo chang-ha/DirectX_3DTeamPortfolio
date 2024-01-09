@@ -1,6 +1,5 @@
 #include "PreCompile.h"
 #include "GameEngineThreadJobQueue.h"
-#include <Windows.h>
 #include "GameEngineDebug.h"
 
 std::atomic_int GameEngineThreadJobQueue::RunThreadCount = 0;

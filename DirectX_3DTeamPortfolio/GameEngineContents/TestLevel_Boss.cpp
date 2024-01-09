@@ -24,17 +24,25 @@ void TestLevel_Boss::LevelEnd(GameEngineLevel* _NextLevel)
 
 void TestLevel_Boss::Start()
 {
-	Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
-	GameEnginePhysX::CreateLevelScene();
+	ContentLevel::Start();
 
-	{
-		std::shared_ptr<GameEngineLight> Object = CreateActor<GameEngineLight>(0);
-	}
+	Scene->setVisualizationParameter(physx::PxVisualizationParameter::eACTOR_AXES, 0.0f);
+
+	// Test Ground
+	physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
+	physx::PxMaterial* mMaterial = GameEnginePhysX::GetDefaultMaterial();
+	physx::PxRigidStatic* groundPlane = PxCreatePlane(*Physics, physx::PxPlane(0, 1, 0, 50), *mMaterial);
+	Scene->addActor(*groundPlane);
+
+	Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
+	Boss_Object->Transform.SetLocalPosition({0.0f, 0.0f, 0.0f});
 }
 
 void TestLevel_Boss::Update(float _Delta)
 {
-	
+	ContentLevel::Update(_Delta);
+
+	RayCast({ 100.0f, }, { 0.0f,0.0f, 5.0f }, 1000.0f);
 }
 
 void TestLevel_Boss::Release()

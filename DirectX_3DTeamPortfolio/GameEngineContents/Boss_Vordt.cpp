@@ -1,7 +1,7 @@
 ﻿#include "PreCompile.h"
 #include "Boss_Vordt.h"
 
-#define BOSS_ANI_SPEED 0.33f
+#define BOSS_ANI_SPEED 0.033f
 
 Boss_Vordt::Boss_Vordt()
 {
@@ -30,9 +30,9 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 			BossFBXRenderer = CreateComponent<GameEngineFBXRenderer>(Enum_RenderOrder::Monster);
 		}
 
-		BossFBXRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBXAnimationTexture"); // Bone 136
-		// BossFBXRenderer->Transform.SetLocalScale({ 50.0f, 50.0f, 50.0f });
-		BossFBXRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
+		BossFBXRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBX_Animation"); // Bone 136
+		BossFBXRenderer->Transform.SetLocalScale({ 10.0f, 10.0f, 10.0f });
+		BossFBXRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, 180.0f });
 	}
 
 	// Boss Animation
@@ -90,7 +90,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BossFBXRenderer->CreateFBXAnimation("Walk_Front", "Walk_Front.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Walk_Left", "Walk_Left.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Walk_Right", "Walk_Right.FBX", { BOSS_ANI_SPEED, true });
-		BossFBXRenderer->ChangeAnimation("Turn_Left");
+		BossFBXRenderer->ChangeAnimation("Idle");
 	}
 
 	//// Boss Collision
@@ -102,6 +102,22 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	//	BossCollision->SetCollisionType(ColType::SPHERE2D);
 	//	BossCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 1.0f });
 	//}
+
+	Capsule = CreateComponent<GameEnginePhysXCapsule>();
+	Capsule->Transform.SetLocalPosition({0.0f, 500.0f, 0.0f});
+	Capsule->PhysXComponentInit(50.0f, 60.0f);
+	// Capsule->SetMaxSpeed(150.0f);
+	Capsule->SetPositioningComponent();
+	Capsule->GravityOff();
+
+	std::shared_ptr<GameEngineFBXRenderer> Renderer;
+	Renderer = CreateComponent<GameEngineFBXRenderer>(Enum_RenderOrder::Monster);
+	Renderer->SetFBXMesh("SmallMap.fbx", "FBXStaticColor");
+	
+	TriMesh = CreateComponent<GameEnginePhysXTriMesh>();
+	TriMesh->Transform.SetLocalPosition({0.0f, 0.0f, 800.0f});
+	TriMesh->PhysXComponentInit("SmallMap.fbx");
+
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
@@ -111,12 +127,71 @@ void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
 
 void Boss_Vordt::Start()
 {
-
+	GameEngineInput::AddInputObject(this);
 }
 
+#define SPEED 100.0f
 void Boss_Vordt::Update(float _Delta)
 {
 	BossState.Update(_Delta);
+
+	if (false == GameEngineInput::IsPress('W', this)
+		&& false == GameEngineInput::IsPress('A', this)
+		&& false == GameEngineInput::IsPress('S', this)
+		&& false == GameEngineInput::IsPress('D', this))
+	{
+		Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Y);
+	}
+
+	if (true == GameEngineInput::IsPress('W', this))
+	{
+		Capsule->MoveForce({ 0.0f, 0.0f, SPEED, 0.0f });
+	}
+
+	if (true == GameEngineInput::IsPress('S', this))
+	{
+		Capsule->MoveForce({ 0.0f, 0.0f, -SPEED, 0.0f });
+	}
+
+	if (true == GameEngineInput::IsPress('A', this))
+	{
+		Capsule->MoveForce({ SPEED, 0.0f, 0.0f, 0.0f });
+	}
+
+	if (true == GameEngineInput::IsPress('D', this))
+	{
+		Capsule->MoveForce({ -SPEED, 0.0f, 0.0f, 0.0f });
+	}
+
+	if (true == GameEngineInput::IsDown('Q', this))
+	{
+		Capsule->AddForce({ 0.0f, 0.0f, 1000.0f, 0.0f });
+	}
+
+	if (true == GameEngineInput::IsDown('E', this))
+	{
+		Capsule->AddForce({ 0.0f, 0.0f, -1000.0f, 0.0f });
+	}
+
+	if (true == GameEngineInput::IsDown(VK_SPACE, this))
+	{
+		Capsule->AddForce({ 0.0f, 2000.0f, 0.0f, 0.0f });
+	}
+
+	if (true == GameEngineInput::IsDown('V', this))
+	{
+		Capsule->SetWorldPosition({ 0.0f, 0.0f, 0.0f, 0.0f });
+	}
+
+	if (true == GameEngineInput::IsDown('B', this))
+	{
+		Capsule->CollisionOff();
+		Capsule->ResetMove(Enum_Axies::All);
+	}
+
+	physx::PxVec3 Vec = Capsule->GetLinearVelocity();
+	std::string Result = "X : " + std::to_string(Vec.x) + " Y : " + std::to_string(Vec.y) + " Z : " + std::to_string(Vec.z) + "\n";
+	OutputDebugString(Result.c_str());
 }
 
 void Boss_Vordt::Release()
@@ -131,5 +206,17 @@ void Boss_Vordt::Release()
 	{
 		BossCollision->Death();
 		BossCollision = nullptr;
+	}
+
+	if (nullptr != Capsule)
+	{
+		Capsule->Death();
+		Capsule = nullptr;
+	}
+
+	if (nullptr != TriMesh)
+	{
+		TriMesh->Death();
+		TriMesh = nullptr;
 	}
 }
