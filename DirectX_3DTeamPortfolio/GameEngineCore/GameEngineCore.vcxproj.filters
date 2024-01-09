@@ -1244,13 +1244,27 @@
     <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysX_static_64.lib">
       <Filter>ThirdParty\PhysX\lib\Release</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXCharacterKinematic_static_64.lib" />
-    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXCommon_static_64.lib" />
-    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXCooking_static_64.lib" />
-    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXExtensions_static_64.lib" />
-    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXFoundation_static_64.lib" />
-    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXPvdSDK_static_64.lib" />
-    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXVehicle_static_64.lib" />
+    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXVehicle_static_64.lib">
+      <Filter>ThirdParty\PhysX\lib\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXCharacterKinematic_static_64.lib">
+      <Filter>ThirdParty\PhysX\lib\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXCommon_static_64.lib">
+      <Filter>ThirdParty\PhysX\lib\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXCooking_static_64.lib">
+      <Filter>ThirdParty\PhysX\lib\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXExtensions_static_64.lib">
+      <Filter>ThirdParty\PhysX\lib\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXFoundation_static_64.lib">
+      <Filter>ThirdParty\PhysX\lib\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXPvdSDK_static_64.lib">
+      <Filter>ThirdParty\PhysX\lib\Release</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
     <Text Include="FBX설명.txt">
