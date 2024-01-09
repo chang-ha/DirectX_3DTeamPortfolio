@@ -138,6 +138,8 @@ void GameEnginePhysXCapsule::SetMaxSpeed(float _MaxSpeed)
 
 bool GameEnginePhysXCapsule::RayCast(const float4& _Pos, const float4& _DirVector, float _MaxDisTance)
 {
+	// RayCast는 PhysXLevel로 이동예정 
+
 	physx::PxVec3 origin = ComponentActor->getGlobalPose().p + physx::PxVec3(_Pos.X, _Pos.Y, _Pos.Z);		 // [in] Ray origin
 	physx::PxVec3 unitDir = physx::PxVec3({ _DirVector.X, _DirVector.Y, _DirVector.Z });                // [in] Normalized ray direction
 	physx::PxReal maxDistance = _MaxDisTance;            // [in] Raycast max distance

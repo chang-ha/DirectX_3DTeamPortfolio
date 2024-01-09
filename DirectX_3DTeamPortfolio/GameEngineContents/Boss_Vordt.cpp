@@ -108,8 +108,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	Capsule->PhysXComponentInit(50.0f, 60.0f);
 	// Capsule->SetMaxSpeed(150.0f);
 	Capsule->SetPositioningComponent();
-	// Capsule->GravityOff();
-	// Capsule->ResetMove(Enum_Axies::All);
+	Capsule->GravityOff();
 
 	std::shared_ptr<GameEngineFBXRenderer> Renderer;
 	Renderer = CreateComponent<GameEngineFBXRenderer>(Enum_RenderOrder::Monster);
