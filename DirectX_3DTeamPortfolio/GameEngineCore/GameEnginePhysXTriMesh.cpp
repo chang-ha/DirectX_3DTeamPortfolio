@@ -49,6 +49,8 @@ void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, cons
 	FilePath.ChangeExtension("PhysXTriMesh");
 	std::string FimeName = FilePath.GetFileName();
 	FilePath.SetCurrentPath();
+	FilePath.MoveParentToExistsChild("PhysXSerialization");
+	FilePath.MoveChild("PhysXSerialization");
 	MeshPath = GameEnginePath(FilePath.GetStringPath() + "\\" + FimeName);
 	
 	if (true == MeshPath.IsExits())
@@ -141,8 +143,7 @@ void GameEnginePhysXTriMesh::PhysXWriteSerialization()
 	physx::PxSerialization::complete(*collection, *registry);
 
 	// Serialize either to binary or RepX
-	std::string FileName = MeshPath.GetFileName();
-	physx::PxDefaultFileOutputStream outStream(FileName.c_str());
+	physx::PxDefaultFileOutputStream outStream(MeshPath.GetStringPath().c_str());
 
 	// Binary
 	physx::PxSerialization::serializeCollectionToBinary(outStream, *collection, *registry);
@@ -155,13 +156,12 @@ void GameEnginePhysXTriMesh::PhysXWriteSerialization()
 
 void GameEnginePhysXTriMesh::PhysXReadSerialization()
 {
-	physx::PxSerializationRegistry* registry = physx::PxSerialization::createSerializationRegistry(PxGetPhysics());
+	physx::PxSerializationRegistry* Registry = physx::PxSerialization::createSerializationRegistry(*GameEnginePhysX::GetPhysics());
 
-	std::string FileName = MeshPath.GetFileName();
 	// Binary
 	// Open file and get file size
 	FILE* File;
-	errno_t Error = fopen_s(&File, FileName.c_str(), "rb");
+	errno_t Error = fopen_s(&File, MeshPath.GetStringPath().c_str(), "rb");
 
 	if (Error != 0)
 	{
@@ -172,11 +172,11 @@ void GameEnginePhysXTriMesh::PhysXReadSerialization()
 	fseek(File, 0, SEEK_SET);
 
 	// Allocate aligned memory, load data and deserialize
-	void* memory = malloc(fileSize + PX_SERIAL_FILE_ALIGN);
-	void* memory128 = (void*)((size_t(memory) + PX_SERIAL_FILE_ALIGN) & ~(PX_SERIAL_FILE_ALIGN - 1));
-	fread(memory128, 1, fileSize, File);
+	void* Data = malloc(fileSize + PX_SERIAL_FILE_ALIGN);
+	void* Data128 = (void*)((size_t(Data) + PX_SERIAL_FILE_ALIGN) & ~(PX_SERIAL_FILE_ALIGN - 1));
+	fread(Data128, 1, fileSize, File);
 	fclose(File);
-	physx::PxCollection* Collection = physx::PxSerialization::createCollectionFromBinary(memory128, *registry);
+	physx::PxCollection* Collection = physx::PxSerialization::createCollectionFromBinary(Data128, *Registry);
 	//~Binary
 
 	// RepX
