@@ -34,15 +34,16 @@ void GameEnginePhysXTriMesh::Update(float _Delta)
 
 void GameEnginePhysXTriMesh::Release()
 {
-	if (nullptr != ComponentActor)
+	if (nullptr != StaticActor)
 	{
-		ComponentActor->release();
-		ComponentActor = nullptr;
+		StaticActor->release();
+		StaticActor = nullptr;
 	}
 }
 
 void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, const physx::PxMaterial* _Material /*= GameEnginePhysX::GetDefaultMaterial()*/)
 {
+	MeshName = std::string(_MeshName);
 	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Find(_MeshName);
 
 	std::vector<FbxRenderUnitInfo> RenderUnitInfos = Mesh->GetRenderUnitInfos();
@@ -61,6 +62,7 @@ void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, cons
 	physx::PxVec3 Pos = { WolrdPos.X, WolrdPos.Y , WolrdPos.Z };
 	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
 	physx::PxTransform PxTransform(Pos, Quat);
+	StaticActor = GameEnginePhysX::GetPhysics()->createRigidStatic(PxTransform);
 
 	for (int i = 0; i < RenderUnitInfos.size(); i++)
 	{
@@ -98,9 +100,7 @@ void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, cons
 				physx::PxTriangleMeshGeometry geom(TriMesh);
 				physx::PxShape* myConvexMeshShape = GameEnginePhysX::GetPhysics()->createShape(geom, *_Material);
 
-				physx::PxRigidStatic* staticActor = GameEnginePhysX::GetPhysics()->createRigidStatic(PxTransform);
-				staticActor->attachShape(*myConvexMeshShape);
-				Scene->addActor(*staticActor);
+				StaticActor->attachShape(*myConvexMeshShape);
 			}
 			else
 			{
@@ -109,4 +109,30 @@ void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, cons
 			}
 		}
 	}
+
+	Scene->addActor(*StaticActor);
+	PhysXSerialization();
+}
+
+void GameEnginePhysXTriMesh::PhysXSerialization()
+{
+	physx::PxCooking* Cooking = GameEnginePhysX::GetCooking();
+
+	physx::PxSerializationRegistry* registry = physx::PxSerialization::createSerializationRegistry(*GameEnginePhysX::GetPhysics());
+
+	// Create a collection and all objects for serialization
+	physx::PxCollection* collection = PxCreateCollection();
+	collection->add(*StaticActor);
+	physx::PxSerialization::complete(*collection, *registry);
+
+	// Serialize either to binary or RepX
+	physx::PxDefaultFileOutputStream outStream("serialized.dat");
+
+	// Binary
+	physx::PxSerialization::serializeCollectionToBinary(outStream, *collection, *registry);
+	//~Binary
+
+	// RepX
+	// physx::PxSerialization::serializeCollectionToXml(outStream, *collection, *registry);
+
 }
