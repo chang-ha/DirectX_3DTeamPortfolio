@@ -73,7 +73,7 @@ public:
 
 	virtual void SerializeEnd(GameEngineSerializer& _Ser)
 	{
-		Size = _Ser.GetWriteOffset();
+		Size = _Ser.GetWriteOffsetInt();
 
 		if (0 >= Size)
 		{
