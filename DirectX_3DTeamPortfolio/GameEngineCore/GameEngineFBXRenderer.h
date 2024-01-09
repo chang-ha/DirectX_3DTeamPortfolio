@@ -116,8 +116,8 @@ public:
 		Pause = !Pause;
 	}
 
-	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> RenderUnits;
 protected:
+	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> RenderUnits;
 
 private:
 	bool Pause = false;

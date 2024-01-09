@@ -1,5 +1,7 @@
 #include "PreCompile.h"
 #include "GameEngineNetWindow.h"
+#include "ConnectIDPacket.h"
+#include "Player.h"
 
 GameEngineNet* GameEngineNetWindow::Net = nullptr;
 
@@ -41,12 +43,23 @@ void GameEngineNetWindow::OnGUI(class GameEngineLevel* _Level, float _DeltaTime)
 		NetTypeValue = NetType::Server;
 		Server.ServerOpen(30000, 512);
 
+		// 플레이어한테 아이디를 부여해야 한다.
+		{
+			int ID = GameEngineNetObject::CreateServerObjectID();
+			MainPlayer->SetObjectID(ID);
+			MainPlayer->SetContorllType(ControllType::Play);
+		}
+
 		Server.SetAcceptCallBack(
-			[=](SOCKET _ClientSocket, GameEngineNetServer* _Server, int ID)
+			[=](SOCKET _ClientSocket, GameEngineNetServer* _Server)
 			{
 				// 상대한테 처음으로 너 N번이야를 알려줘야 한다.
+				std::shared_ptr<ConnectIDPacket> Packet = std::make_shared<ConnectIDPacket>();
 
-				int a = 0;
+				int ID = GameEngineNetObject::CreateServerObjectID();
+				Packet->SetObjectID(ID);
+
+				_Server->SendPacket(_ClientSocket, Packet);
 			}
 		);
 
@@ -62,6 +75,8 @@ void GameEngineNetWindow::OnGUI(class GameEngineLevel* _Level, float _DeltaTime)
 	{
 		NetTypeValue = NetType::Client;
 		Client.Connect(IPBuffer, 30000);
+
+		MainPlayer->SetContorllType(ControllType::Play);
 
 		GameEngineNetWindow::Net = &Client;
 	}

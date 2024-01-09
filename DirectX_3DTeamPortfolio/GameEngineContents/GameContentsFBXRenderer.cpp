@@ -1,11 +1,13 @@
 #include "PreCompile.h"
 #include "GameContentsFBXRenderer.h"
+#include "FrameEventHelper.h"
 
 void GameContentsFBXAnimationInfo::Reset()
 {
 	CurFrameTime = 0.0f;
 	CurFrame = 0;
 	PlayTime = 0.0f;
+	IsStart = false;
 	// Start = 0;
 }
 
@@ -16,7 +18,7 @@ void GameContentsFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh
 	// 애니메이션의 행렬이 계산되는겁니다.
 
 	_Animation->AnimationMatrixLoad(_Mesh, _Name, _Index);
-	Aniamtion = _Animation;
+	Aniamtion = _Animation; 
 	FBXAnimationData = Aniamtion->GetAnimationData(_Index);
 	Start = static_cast<UINT>(FBXAnimationData->TimeStartCount);
 	End = static_cast<UINT>(FBXAnimationData->TimeEndCount);
@@ -25,12 +27,32 @@ void GameContentsFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh
 
 	Start = 0;
 	End = static_cast<unsigned int>(FBXAnimationData->TimeEndCount);
+
+
+	std::string EventName = FrameEventHelper::GetConvertFileName(_Animation->GetName());
+	std::shared_ptr<FrameEventHelper> pEventHelper = FrameEventHelper::Find(EventName);
+	if (nullptr != pEventHelper)
+	{
+		EventHelper = pEventHelper.get();
+		EventHelper->Initialze();
+		return;
+	}
 }
 
 void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 {
 	if (false == ParentRenderer->Pause)
 	{
+		if (false == IsStart)
+		{
+			if (nullptr != EventHelper)
+			{
+				EventHelper->PlayEvents(CurFrame);
+			}
+
+			IsStart = true;
+		}
+
 		// 0.1초짜리 
 		CurFrameTime += _DeltaTime;
 		PlayTime += _DeltaTime;
@@ -57,6 +79,11 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 				{
 					--CurFrame;
 				}
+			}
+
+			if (nullptr != EventHelper)
+			{
+				EventHelper->PlayEvents(CurFrame);
 			}
 		}
 	}
@@ -98,9 +125,10 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 		FbxExBoneFrameData& NextData = FBXAnimationData->AniFrameData[i].BoneMatData[NextFrame];
 
 		// CurFrameTime 분명히 잘못되었다.
-		AnimationBoneData[i].Scale = float4::LerpClamp(CurData.S, NextData.S, CurFrameTime);
-		AnimationBoneData[i].RotQuaternion = float4::SLerpQuaternionClamp(CurData.Q, NextData.Q, CurFrameTime);
-		AnimationBoneData[i].Pos = float4::LerpClamp(CurData.T, NextData.T, CurFrameTime);
+		float FrameRatio = CurFrameTime / Inter;
+		AnimationBoneData[i].Scale = float4::LerpClamp(CurData.S, NextData.S, FrameRatio);
+		AnimationBoneData[i].RotQuaternion = float4::SLerpQuaternionClamp(CurData.Q, NextData.Q, FrameRatio);
+		AnimationBoneData[i].Pos = float4::LerpClamp(CurData.T, NextData.T, FrameRatio);
 
 		float4x4 Mat = float4x4::Affine(AnimationBoneData[i].Scale, AnimationBoneData[i].RotQuaternion, AnimationBoneData[i].Pos);
 
@@ -109,7 +137,6 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 	}
 
 }
-
 
 GameContentsFBXRenderer::GameContentsFBXRenderer()
 {
@@ -297,7 +324,6 @@ void GameContentsFBXRenderer::CreateFBXAnimation(const std::string_view _Animati
 	}
 
 	std::string AniUpperName = GameEngineString::ToUpperReturn(_AnimationFBX);
-
 	std::shared_ptr<GameEngineFBXAnimation> AnimationFBX = GameEngineFBXAnimation::Find(AniUpperName);
 
 	if (nullptr == AnimationFBX)
@@ -334,6 +360,11 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 	if (false == _Force && CurAnimation == Ptr)
 	{
 		return;
+	}
+
+	if (nullptr != CurAnimation)
+	{
+		CurAnimation->Reset();
 	}
 
 	CurAnimation = Ptr;
