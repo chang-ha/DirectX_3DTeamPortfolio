@@ -2,6 +2,10 @@
 #include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineCore/GameEngineState.h>
 
+// 서버용
+#include <GameEngineBase/GameEngineNetObject.h>
+#include "ConnectIDPacket.h"
+
 enum class PlayerState
 {
 	Idle,
@@ -10,7 +14,7 @@ enum class PlayerState
 };
 
 // 설명 :
-class Player : public GameEngineActor
+class Player : public GameEngineActor, public GameEngineNetObject // 서버용
 {
 public:
 	// constrcuter destructer
@@ -26,6 +30,9 @@ public:
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
+
+	// 서버용
+	void ConnectIDPacketProcess(std::shared_ptr<ConnectIDPacket> _Packet);
 
 	// 원래대로 
 	// void Smoke_Stay()
