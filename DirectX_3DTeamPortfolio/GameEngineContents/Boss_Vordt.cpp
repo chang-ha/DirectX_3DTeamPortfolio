@@ -110,13 +110,13 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	Capsule->SetPositioningComponent();
 	Capsule->GravityOff();
 
-	if (nullptr == GameEngineFBXMesh::Find("WorldMap.fbx"))
-	{
-		GameEngineFile File;
-		File.MoveParentToExistsChild("ContentsResources");
-		File.MoveChild("ContentsResources\\Mesh\\MapResource\\WorldMap.fbx");
-		GameEngineFBXMesh::Load(File.GetStringPath());
-	}
+	//if (nullptr == GameEngineFBXMesh::Find("WorldMap.fbx"))
+	//{
+	//	GameEngineFile File;
+	//	File.MoveParentToExistsChild("ContentsResources");
+	//	File.MoveChild("ContentsResources\\Mesh\\MapResource\\WorldMap.fbx");
+	//	GameEngineFBXMesh::Load(File.GetStringPath());
+	//}
 
 	std::shared_ptr<GameEngineFBXRenderer> Renderer;
 	Renderer = CreateComponent<GameEngineFBXRenderer>(Enum_RenderOrder::Monster);
