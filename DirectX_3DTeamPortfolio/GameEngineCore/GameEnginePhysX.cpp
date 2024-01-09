@@ -190,8 +190,7 @@ void GameEnginePhysX::PhysXRelease()
 		Foundation = nullptr;
 	}
 
-	std::list<void*> ReleaseData = GameEnginePhysXLevel::AllData;
-	for (void* _Data : ReleaseData)
+	for (void* _Data : GameEnginePhysXLevel::AllData)
 	{
 		free(_Data);
 	}

@@ -124,6 +124,7 @@ void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, cons
 		else
 		{
 			MsgBoxAssert("매쉬 정보가 잘못되었습니다.");
+			return;
 		}
 	}
 
