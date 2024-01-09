@@ -52,14 +52,27 @@
     <ClCompile Include="GameContentsFBXRenderer.cpp">
       <Filter>Monster\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Monster_LothricKn.cpp" />
     <ClCompile Include="GameServer.cpp">
       <Filter>Server</Filter>
     </ClCompile>
     <ClCompile Include="ContentsControlWindow.cpp" />
-    <ClCompile Include="TestLevel_PhysX.cpp" />
     <ClCompile Include="ContentsLight.cpp">
       <Filter>Light</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonMonster.cpp">
+      <Filter>Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="TestLevel_PhysX.cpp">
+      <Filter>Level\TestLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_LothricKn.cpp">
+      <Filter>Monster\LothricKnight</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterGUI.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundFrameEvent.cpp">
+      <Filter>Monster\Event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -111,17 +124,33 @@
     <ClInclude Include="TestMap.h">
       <Filter>Map</Filter>
     </ClInclude>
-    <ClInclude Include="CommonMonster.h" />
-    <ClInclude Include="FXAAEffect.h" />
-    <ClInclude Include="GameContentsFBXRenderer.h" />
-    <ClInclude Include="Monster_LothricKn.h" />
     <ClInclude Include="GameServer.h">
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="ContentsControlWindow.h" />
-    <ClInclude Include="TestLevel_PhysX.h" />
     <ClInclude Include="ContentsLight.h">
       <Filter>Light</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonMonster.h">
+      <Filter>Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="TestLevel_PhysX.h">
+      <Filter>Level\TestLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_LothricKn.h">
+      <Filter>Monster\LothricKnight</Filter>
+    </ClInclude>
+    <ClInclude Include="GameContentsFBXRenderer.h">
+      <Filter>Monster\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterGUI.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundFrameEvent.h">
+      <Filter>Monster\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="FXAAEffect.h">
+      <Filter>PostEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +201,9 @@
     </Filter>
     <Filter Include="Light">
       <UniqueIdentifier>{a2294746-10db-495d-99ed-1f91b91762f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Monster\Event">
+      <UniqueIdentifier>{3a07aee8-e371-40ae-a574-6b4704cab447}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
