@@ -1,5 +1,6 @@
 ﻿#include "PreCompile.h"
 #include "GameEnginePhysX.h"
+#include "GameEnginePhysXLevel.h"
 
 PhysXErrorCallback  GameEnginePhysX::ErrorCallback = {};
 physx::PxDefaultAllocator  GameEnginePhysX::DefaultAllocatorCallback = {};
@@ -187,6 +188,12 @@ void GameEnginePhysX::PhysXRelease()
 	{
 		Foundation->release();
 		Foundation = nullptr;
+	}
+
+	std::list<void*> ReleaseData = GameEnginePhysXLevel::AllData;
+	for (void* _Data : ReleaseData)
+	{
+		free(_Data);
 	}
 }
 

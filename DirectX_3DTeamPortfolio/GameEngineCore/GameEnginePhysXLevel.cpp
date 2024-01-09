@@ -1,6 +1,8 @@
 ﻿#include "PreCompile.h"
 #include "GameEnginePhysXLevel.h"
 
+std::list<void*> GameEnginePhysXLevel::AllData;
+
 GameEnginePhysXLevel::GameEnginePhysXLevel()
 {
 }

@@ -28,5 +28,6 @@ private:
 
 	GameEnginePath MeshPath = {};
 	physx::PxRigidStatic* StaticActor = nullptr;
+	// physx::PxCollection* Collection = nullptr;
 };
 

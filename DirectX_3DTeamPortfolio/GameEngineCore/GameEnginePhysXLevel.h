@@ -3,6 +3,7 @@
 class GameEnginePhysXLevel
 {
 	friend class GameEnginePhysX;
+	friend class GameEnginePhysXTriMesh;
 public:
 	// constructer destructer
 	GameEnginePhysXLevel();
@@ -35,5 +36,6 @@ protected:
 private:
 	void Release();
 
+	static std::list<void*> AllData;
 };
 

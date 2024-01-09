@@ -1,6 +1,6 @@
 ﻿#include "PreCompile.h"
 #include "GameEnginePhysXTriMesh.h"
-
+#include "GameEnginePhysXLevel.h"
 
 GameEnginePhysXTriMesh::GameEnginePhysXTriMesh()
 {
@@ -135,23 +135,24 @@ void GameEnginePhysXTriMesh::PhysXWriteSerialization()
 {
 	physx::PxCooking* Cooking = GameEnginePhysX::GetCooking();
 
-	physx::PxSerializationRegistry* registry = physx::PxSerialization::createSerializationRegistry(*GameEnginePhysX::GetPhysics());
+	physx::PxSerializationRegistry* Registry = physx::PxSerialization::createSerializationRegistry(*GameEnginePhysX::GetPhysics());
 
 	// Create a collection and all objects for serialization
-	physx::PxCollection* collection = PxCreateCollection();
-	collection->add(*StaticActor);
-	physx::PxSerialization::complete(*collection, *registry);
+	physx::PxCollection* Collection = PxCreateCollection();
+	Collection->add(*StaticActor);
+	physx::PxSerialization::complete(*Collection, *Registry);
 
 	// Serialize either to binary or RepX
-	physx::PxDefaultFileOutputStream outStream(MeshPath.GetStringPath().c_str());
+	physx::PxDefaultFileOutputStream OutStream(MeshPath.GetStringPath().c_str());
 
 	// Binary
-	physx::PxSerialization::serializeCollectionToBinary(outStream, *collection, *registry);
+	physx::PxSerialization::serializeCollectionToBinary(OutStream, *Collection, *Registry);
 	//~Binary
 
 	// RepX
-	// physx::PxSerialization::serializeCollectionToXml(outStream, *collection, *registry);
-
+	// physx::PxSerialization::serializeCollectionToXml(OutStream, *Collection, *Registry);
+	Collection->release();
+	Registry->release();
 }
 
 void GameEnginePhysXTriMesh::PhysXReadSerialization()
@@ -160,30 +161,33 @@ void GameEnginePhysXTriMesh::PhysXReadSerialization()
 
 	// Binary
 	// Open file and get file size
-	FILE* File;
-	errno_t Error = fopen_s(&File, MeshPath.GetStringPath().c_str(), "rb");
-
-	if (Error != 0)
-	{
-		MsgBoxAssert("파일 오픈에 문제가 있었습니다. 에러코드 : " + std::to_string(Error));
-	}
-	fseek(File, 0, SEEK_END);
-	unsigned fileSize = ftell(File);
-	fseek(File, 0, SEEK_SET);
-
-	// Allocate aligned memory, load data and deserialize
-	void* Data = malloc(fileSize + PX_SERIAL_FILE_ALIGN);
-	void* Data128 = (void*)((size_t(Data) + PX_SERIAL_FILE_ALIGN) & ~(PX_SERIAL_FILE_ALIGN - 1));
-	fread(Data128, 1, fileSize, File);
-	fclose(File);
-	physx::PxCollection* Collection = physx::PxSerialization::createCollectionFromBinary(Data128, *Registry);
+	 FILE* File;
+	 errno_t Error = fopen_s(&File, MeshPath.GetStringPath().c_str(), "rb");
+	 
+	 if (Error != 0)
+	 {
+	 	MsgBoxAssert("파일 오픈에 문제가 있었습니다. 에러코드 : " + std::to_string(Error));
+	 }
+	 fseek(File, 0, SEEK_END);
+	 unsigned fileSize = ftell(File);
+	 fseek(File, 0, SEEK_SET);
+	
+	 // Allocate aligned memory, load data and deserialize
+	 void* Data = malloc(fileSize + PX_SERIAL_FILE_ALIGN);
+	 GameEnginePhysXLevel::AllData.push_back(Data);
+	 void* Data128 = (void*)((size_t(Data) + PX_SERIAL_FILE_ALIGN) & ~(PX_SERIAL_FILE_ALIGN - 1));
+	 fread(Data128, 1, fileSize, File);
+	 fclose(File);
+	 physx::PxCollection* Collection = physx::PxSerialization::createCollectionFromBinary(Data128, *Registry);
 	//~Binary
 
 	// RepX
 	// Load file and deserialize collection - needs cooking library
-	// physx::PxDefaultFileInputData inputData(FileName.c_str());
-	// physx::PxCollection* collection = physx::PxSerialization::createCollectionFromXml(inputData, *GameEnginePhysX::GetCooking(), *registry);
+	// physx::PxDefaultFileInputData InputData(MeshPath.GetStringPath().c_str());
+	// physx::PxCollection* Collection = physx::PxSerialization::createCollectionFromXml(InputData, *GameEnginePhysX::GetCooking(), *Registry);
 	//~RepX
 
 	Scene->addCollection(*Collection);
+	Collection->release();
+	Registry->release();
 }
