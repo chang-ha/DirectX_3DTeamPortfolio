@@ -35,3 +35,7 @@
 #include "GameEngineCore\GameEnginePhysX.h"
 
 #include "GameContentsFBXRenderer.h"
+
+
+// Server
+#include "PacketHeader.h"

@@ -54,8 +54,16 @@
     <ClCompile Include="GameContentsFBXRenderer.cpp">
       <Filter>Monster\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="MonsterEditorActor.cpp" />
     <ClCompile Include="Monster_LothricKn.cpp" />
+    <ClCompile Include="ConnectIDPacket.cpp">
+      <Filter>Net\Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineNetWindow.cpp">
+      <Filter>Net</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectPacket.cpp">
+      <Filter>Net\Packet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -106,6 +114,22 @@
     <ClInclude Include="TestMap.h">
       <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="CommonMonster.h" />
+    <ClInclude Include="FXAAEffect.h" />
+    <ClInclude Include="GameContentsFBXRenderer.h" />
+    <ClInclude Include="Monster_LothricKn.h" />
+    <ClInclude Include="ObjectPacket.h">
+      <Filter>Net\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="ConnectIDPacket.h">
+      <Filter>Net\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketHeader.h">
+      <Filter>Net\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineNetWindow.h">
+      <Filter>Net</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -149,6 +173,12 @@
     </Filter>
     <Filter Include="Monster\Renderer">
       <UniqueIdentifier>{781099ec-31b3-4c0c-8941-80d28daaf927}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net">
+      <UniqueIdentifier>{3a7885fe-0f84-4a6a-9989-d926b4ac8f61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\Packet">
+      <UniqueIdentifier>{12126f42-9291-48ee-8034-ca565f71da15}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

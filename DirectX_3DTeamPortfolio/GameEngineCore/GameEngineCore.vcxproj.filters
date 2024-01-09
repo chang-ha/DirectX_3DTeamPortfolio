@@ -931,9 +931,6 @@
     <ClInclude Include="ThirdParty\PhysX\inc\PxConfig.h">
       <Filter>ThirdParty\PhysX\inc</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineNetWindow.h">
-      <Filter>GUI\Engine</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -1126,9 +1123,6 @@
     </ClCompile>
     <ClCompile Include="GameEnginePhysX.cpp">
       <Filter>PhysX</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineNetWindow.cpp">
-      <Filter>GUI\Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

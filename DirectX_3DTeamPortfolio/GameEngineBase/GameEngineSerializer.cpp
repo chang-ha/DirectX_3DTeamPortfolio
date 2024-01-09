@@ -136,5 +136,5 @@ void GameEngineSerializer::Read(void* _Data, unsigned int _Size)
 
 std::string_view GameEngineSerializer::GetStringView()
 {
-	return GetDataPtr<const char>();
+	return GetDataPtr<const char*>();
 }
