@@ -1,5 +1,6 @@
 ﻿#include "PreCompile.h"
 #include "ContentLevel.h"
+#include "FXAAEffect.h"
 
 ContentLevel::ContentLevel()
 {
@@ -24,6 +25,7 @@ void ContentLevel::LevelEnd(GameEngineLevel* _NextLevel)
 void ContentLevel::Start()
 {
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
+	GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<FXAAEffect>();
 	PhysXLevelInit();
 }
 
