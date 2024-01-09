@@ -112,10 +112,13 @@ public:
 	{
 		Near = _Near;
 	}
+
 	std::map<int, std::list<std::shared_ptr<class GameEngineRenderer>>> GetRenderers()
 	{
 		return Renderers;
 	}
+
+	std::map<int, std::list<std::shared_ptr<class GameEngineRenderer>>> Renderers;
 
 	bool InCamera(const GameEngineTransform& _Trans)
 	{

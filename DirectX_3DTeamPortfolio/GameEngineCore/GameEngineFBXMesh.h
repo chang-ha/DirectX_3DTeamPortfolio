@@ -688,6 +688,10 @@ public:
 
 	const FbxExMaterialSettingData& GetMaterialSettingData(size_t _MeshIndex, size_t _SubIndex);
 
+	std::vector<FbxRenderUnitInfo> GetRenderUnitInfos()
+	{
+		return RenderUnitInfos;
+	}
 
 protected:
 
