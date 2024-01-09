@@ -138,7 +138,7 @@ void GameContentsFBXRenderer::SetFBXMesh(std::string_view _Name, std::string_vie
 	}
 }
 
-void GameContentsFBXRenderer::SetBigFBXMesh(std::string_view _Name, std::string_view _Material)
+void GameContentsFBXRenderer::SetMapFBXMesh(std::string_view _Name, std::string_view _Material)
 {
 	Name = _Name;
 
@@ -157,7 +157,7 @@ void GameContentsFBXRenderer::SetBigFBXMesh(std::string_view _Name, std::string_
 		MsgBoxAssert("로드하지 않은 FBX 매쉬를 사용하려고 했습니다");
 	}
 
-	FindFBXMesh->BigFBXInitialize();
+	FindFBXMesh->MapFBXInitialize();
 
 	for (int UnitCount = 0; UnitCount < FindFBXMesh->GetRenderUnitCount(); UnitCount++)
 	{
@@ -351,3 +351,136 @@ std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& GameConten
 {
 	return Animations;
 }
+
+
+// 맵 분할
+std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetMapFBXMesh(std::string_view _Name, std::string_view _Material, int _RenderUnitInfoIndex, int _SubSetIndex)
+{
+	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
+
+	if (nullptr == FindFBXMesh)
+	{
+		MsgBoxAssert("존재하지 않는 FBXMesh를 세팅했습니다");
+		return nullptr;
+	}
+
+	if (nullptr == FBXMesh && nullptr != FindFBXMesh)
+	{
+		FBXMesh = FindFBXMesh;
+	}
+
+	if (FBXMesh->GetPath() != FindFBXMesh->GetPath())
+	{
+		MsgBoxAssert("이미 세팅이 완료된 FBXRenderer에 다른 FBX mesh를 세팅하려고 했습니다.");
+		return nullptr;
+	}
+
+	FindFBXMesh->Initialize();
+
+
+	RenderUnits.resize(FBXMesh->GetRenderUnitCount());
+	for (int i = 0; i < FBXMesh->GetRenderUnitCount(); i++)
+	{
+		int Count = FindFBXMesh->GetSubSetCount(i);
+		RenderUnits[i].resize(Count);
+	}
+
+	// _RenderUnitInfoIndex, int _SubSetIndex
+	if (nullptr == RenderUnits[_RenderUnitInfoIndex][_SubSetIndex])
+	{
+		RenderUnits[_RenderUnitInfoIndex][_SubSetIndex] = CreateAndFindRenderUnit(-1);
+	}
+
+	std::shared_ptr<GameEngineRenderUnit> Unit = RenderUnits[_RenderUnitInfoIndex][_SubSetIndex];
+	std::shared_ptr<GameEngineMesh> Mesh = FindFBXMesh->GetGameEngineMesh(_RenderUnitInfoIndex, _SubSetIndex);
+
+	Unit->SetMesh(Mesh);
+	Unit->SetMaterial(_Material);
+
+
+	if (Unit->ShaderResHelper.IsStructedBuffer("ArrAniMationMatrix"))
+	{
+		if (0 >= AnimationBoneMatrixs.size())
+		{
+			size_t Size = FBXMesh->GetBoneCount();
+			AnimationBoneMatrixs.resize(Size);
+			AnimationBoneNotOffset.resize(Size);
+			AnimationBoneDatas.resize(Size);
+		}
+
+		std::shared_ptr<GameEngineStructuredBuffer> Buffer
+			= Unit->ShaderResHelper.GetStructedBuffer("ArrAniMationMatrix", ShaderType::Vertex);
+
+		int Size = static_cast<int>(FBXMesh->GetBoneCount());
+		Buffer->CreateResize(sizeof(float4x4), Size, StructuredBufferType::SRV_ONLY);
+
+		Unit->ShaderResHelper.SetStructedBufferLink("ArrAniMationMatrix", AnimationBoneMatrixs);
+
+	}
+
+	if (Unit->ShaderResHelper.IsTexture("DiffuseTexture"))
+	{
+		const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(_RenderUnitInfoIndex, _SubSetIndex);
+
+		if ("" == MatData.DifTextureName)
+		{
+			MsgBoxAssert("텍스처 정보가 없는 FBX매쉬에 텍스처를 사용하는 머티리얼을 사용했습니다.");
+		}
+
+		if (nullptr == GameEngineTexture::Find(MatData.DifTextureName))
+		{
+			GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
+			std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.DifTextureName;
+			GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
+		}
+
+		std::shared_ptr<GameEngineTexture> DifTex = GameEngineTexture::Find(MatData.DifTextureName);
+
+		if (nullptr == DifTex)
+		{
+			MsgBoxAssert("FBX매쉬에 텍스처 정보 로드에 실패했습니다.");
+		}
+
+		Unit->ShaderResHelper.SetTexture("DiffuseTexture", DifTex);
+	}
+
+	return Unit;
+}
+
+std::shared_ptr<GameEngineFBXMesh> GameContentsFBXRenderer::GetFBXMesh(std::string_view _Name)
+{
+	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
+
+	return FindFBXMesh;
+}
+
+// 분할 로드 테스트 보류
+//void GameContentsFBXRenderer::TestSetBigFBXMesh(std::string_view _Name, std::string_view _Material)
+//{
+//	Name = _Name;
+//
+//	// FBX.0 찾는다면 
+//
+//	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(Name);
+//
+//	if (nullptr == FindFBXMesh)
+//	{
+//		Name += std::to_string(0);
+//		FindFBXMesh = GameEngineFBXMesh::Find(Name);
+//	}
+//
+//	if (nullptr == FindFBXMesh)
+//	{
+//		MsgBoxAssert("로드하지 않은 FBX 매쉬를 사용하려고 했습니다");
+//	}
+//
+//	FindFBXMesh->TestBigFBXInitialize();
+//
+//	//리턴 FindFBXMesh 리턴해주고
+//
+//	// 랜더유닛 수와 이름이 필요함
+//	for (int UnitCount = 0; UnitCount < FindFBXMesh->GetMapDatasCount(); UnitCount++)
+//	{
+//		SetFBXMesh(Name, _Material, UnitCount);
+//	}
+//}

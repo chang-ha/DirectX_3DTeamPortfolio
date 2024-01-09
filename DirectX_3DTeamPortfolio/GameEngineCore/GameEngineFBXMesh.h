@@ -568,37 +568,6 @@ struct Bone : public GameEngineSerializObject
 	}
 };
 
-struct MapData : public GameEngineSerializObject
-{
-	std::string Name;
-	float4 Center;
-	float4 Scale;
-	bool IsLoad;
-
-	MapData()
-	{
-		Name = "";
-		Center = float4::ZERO;
-		Scale = float4::ZERO;
-		IsLoad = false;
-	}
-
-	void Write(GameEngineSerializer& _File) override
-	{
-		_File << Name;
-		_File << Center;
-		_File << Scale;
-		_File << IsLoad;
-	}
-
-	void Read(GameEngineSerializer& _File) override
-	{
-		_File >> Name;
-		_File >> Center;
-		_File >> Scale;
-		_File >> IsLoad;
-	}
-};
 
 class FbxClusterData
 {
@@ -616,6 +585,40 @@ public:
 
 	}
 };
+
+//// 맵데이터
+//struct MapData : public GameEngineSerializObject
+//{
+//	std::string Name;
+//	float4 Center;
+//	float4 Scale;
+//	float4 MinBox;
+//	bool IsLoad;
+//
+//	MapData()
+//	{
+//		Name = "";
+//		Center = float4::ZERO;
+//		Scale = float4::ZERO;
+//		IsLoad = false;
+//	}
+//
+//	void Write(GameEngineSerializer& _File) override
+//	{
+//		_File << Name;
+//		_File << Center;
+//		_File << Scale;
+//		_File << IsLoad;
+//	}
+//
+//	void Read(GameEngineSerializer& _File) override
+//	{
+//		_File >> Name;
+//		_File >> Center;
+//		_File >> Scale;
+//		_File >> IsLoad;
+//	}
+//};
 
 
 // 설명 :
@@ -645,15 +648,21 @@ public:
 	void Initialize();
 
 	// 분할파일 용
-	void BigFBXInitialize();
-	void TestBigFBXInitialize();
-	void BigFBXLoad(size_t _Num, std::string_view _Name);
+	void MapFBXInitialize();
+
+	// 분할로드 보류
+	// void TestBigFBXInitialize();
+	// void BigFBXLoad(size_t _Num, std::string_view _Name);
+	//int GetMapDatasCount()
+	//{
+	//	return static_cast<int>(MapDatas.size());
+	//}	
+	// //std::vector<MapData> GetMapDatas()
+	//{
+	//	return MapDatas;
+	//}
 
 
-	int GetMapDatasCount()
-	{
-		return static_cast<int>(MapDatas.size());
-	}
 	
 	int GetRenderUnitCount()
 	{
@@ -679,10 +688,6 @@ public:
 
 	const FbxExMaterialSettingData& GetMaterialSettingData(size_t _MeshIndex, size_t _SubIndex);
 
-	std::vector<MapData> GetMapDatas()
-	{
-		return MapDatas;
-	}
 
 protected:
 
@@ -696,8 +701,8 @@ private:
 	std::vector<std::vector<FbxClusterData>> ClusterData;
 	std::shared_ptr<GameEngineStructuredBuffer> AllBoneStructuredBuffers;
 
-	// 맵데이터
-	std::vector<MapData> MapDatas;
+	//// 맵데이터
+	//std::vector<MapData> MapDatas;
 
 
 	void LoadMesh(std::string_view& _Path, std::string_view _Name);

@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "TestMap.h"
 #include "ContentsEnum.h"
-// #include "GameEngineCore/GameEngineFBXRenderer.h"
+#include "GameContentsFBXRenderer.h"
 
 TestMap::TestMap() 
 {	
@@ -14,27 +14,30 @@ TestMap::~TestMap()
 void TestMap::Start()
 {
 	{
-		FBXRenderer = CreateComponent<GameEngineFBXRenderer>();
-		FBXRenderer->TestSetBigFBXMesh("WorldMap.FBX", "FBX_Static");
+		FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
+		FBXRenderer->SetMapFBXMesh("WorldMap.FBX", "FBX_Static");
 
-		MapMesh = FBXRenderer->GetFBXMesh("WorldMap.FBX0");
+		//MapMesh = FBXRenderer->GetFBXMesh("WorldMap.FBX0");
 
-		MapDatas = MapMesh->GetMapDatas();
+		//MapDatas = MapMesh->GetMapDatas();
 	}
 
-	Transdate.resize(MapDatas.size());
+	//Transdate.resize(MapDatas.size());
 
-	for (size_t i = 0; i < MapDatas.size(); i++)
-	{
-		Transdate[i].SetLocalPosition(MapDatas[i].Center);
-		Transdate[i].SetLocalScale(MapDatas[i].Scale);
-	}
+	//for (size_t i = 0; i < MapDatas.size(); i++)
+	//{
+	//	Transdate[i].SetLocalScale(MapDatas[i].Scale);
+	//	Transdate[i].SetLocalPosition(MapDatas[i].Center);
+	//	Transdate[i].SetLocalRotation(float4::ZERO);
+	//}
+
 
 }
 
 void TestMap::Update(float _Delta)
 {
-	for (size_t i = 0; i < MapDatas.size(); i++)
+	// 분할로드 보류
+	/*for (size_t i = 0; i < MapDatas.size(); i++)
 	{
 		if (true == MapDatas[i].IsLoad)
 		{
@@ -44,9 +47,9 @@ void TestMap::Update(float _Delta)
 		if (GetLevel()->GetMainCamera()->InCamera(Transdate[i]))
 		{
 			MapMesh->BigFBXLoad(i, MapDatas[i].Name);
-			FBXRenderer->SetBigFBXMesh("WorldMap.FBX0", "FBX_Static", i, 0);
+			FBXRenderer->SetBigFBXMesh("WorldMap.FBX0", "FBX_Static", static_cast<int>(i), 0);
 			MapDatas[i].IsLoad = true;
 		}
-	}
+	}*/
 
 }

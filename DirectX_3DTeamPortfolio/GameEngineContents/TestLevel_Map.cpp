@@ -36,11 +36,12 @@ void TestLevel_Map::Start()
 	GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, -1000.0f });
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
 
+	// 빛
 	std::shared_ptr<GameEngineLight> TestObject0 = CreateActor<GameEngineLight>(0);
 	LightData Data = TestObject0->GetLightData();
 
 	Data.DifLightPower = 0.1f;
-	Data.AmbientLight = float4(0.4f,0.4f,0.4f,1.0f);
+	Data.AmbientLight = float4(0.7f,0.7f,0.7f,1.0f);
 	Data.SpcPow = 200.0f;
 
 	TestObject0->SetLightData(Data);

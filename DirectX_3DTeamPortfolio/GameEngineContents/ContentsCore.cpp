@@ -40,7 +40,7 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<TestLevel_Shader>("TestLevel_Shader");
 	GameEngineCore::CreateLevel<TestLevel_Map>("TestLevel_Map");
 
-	GameEngineCore::ChangeLevel("PlayLevel");
+	GameEngineCore::ChangeLevel("TestLevel_Map");
 }
 
 void ContentsCore::Update(float _Delta)
