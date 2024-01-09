@@ -87,7 +87,7 @@ void GameEngineFile::Open(FileOpenType _OpenType, FileDataType _DataType)
 void GameEngineFile::DataAllRead(class GameEngineSerializer& _Data)
 {
 	_Data.BufferResize(GetFileSize<size_t>());
-	Read(_Data.GetDataPtr<void>(), _Data.GetBufferSize());
+	Read(_Data.GetDataPtr<void*>(), _Data.GetBufferSize());
 }
 
 void GameEngineFile::Read(void* _Data, size_t _Size)
@@ -120,7 +120,7 @@ uintmax_t GameEngineFile::GetFileSize()
 
 void GameEngineFile::Write(class GameEngineSerializer& _Data)
 {
-	Write(_Data.GetDataPtr<void>(), _Data.GetBufferSize());
+	Write(_Data.GetDataPtr<void*>(), _Data.GetBufferSize());
 }
 
 // 파일에서 데이터를 쓴다.

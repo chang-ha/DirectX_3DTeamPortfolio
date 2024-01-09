@@ -82,9 +82,23 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout PixelOut _Result)
     
     if (1 == IsLight)
     {
+        
         for (int i = 0; i < LightCount; ++i)
         {
-            DiffuseRatio += CalDiffuseLight(_Input.VIEWNORMAL, AllLight[i]);
+            float LightPower = 1.0f;
+            
+            if (0 != AllLight[i].LightType)
+            {
+                float Distance = length(AllLight[i].ViewLightPos.xyz - _Input.VIEWPOSITION.xyz);
+            
+                float FallOffStart = AllLight[i].PointLightRange * 0.2f;
+                float FallOffEnd = AllLight[i].PointLightRange;
+                        
+                LightPower *= saturate((FallOffEnd - Distance) / (FallOffEnd - FallOffStart));
+            }
+            
+            
+            DiffuseRatio += CalDiffuseLight(_Input.VIEWNORMAL, _Input.VIEWPOSITION, AllLight[i]);
             AmbientRatio += CalSpacularLight(_Input.VIEWPOSITION, _Input.VIEWNORMAL, AllLight[i]);
             AmbientRatio += CalAmbientLight(AllLight[i]);
         }

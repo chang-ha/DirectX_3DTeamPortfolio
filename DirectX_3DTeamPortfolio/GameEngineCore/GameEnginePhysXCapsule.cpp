@@ -25,7 +25,17 @@ void GameEnginePhysXCapsule::Update(float _Delta)
 
 void GameEnginePhysXCapsule::Release()
 {
+	if (nullptr != CapsuleShape)
+	{
+		CapsuleShape->release();
+		CapsuleShape = nullptr;
+	}
 
+	if (nullptr != ComponentActor)
+	{
+		ComponentActor->release();
+		ComponentActor = nullptr;
+	}
 }
 
 void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight, const physx::PxMaterial* _Material /*= GameEnginePhysX::GetDefaultMaterial()*/)
@@ -36,12 +46,15 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 	float4 WolrdPos = Transform.GetWorldPosition();
 	float4 WorldDeg = Transform.GetWorldRotationEuler();
 	
-	physx::PxShape* CapsuleShape = Physics->createShape(physx::PxCapsuleGeometry(_Radius, _HalfHeight), *_Material); // 캡슐이 똑바로 서있는 모양은 1/4Pi 만큼 회전 필요
+	CapsuleShape = Physics->createShape(physx::PxCapsuleGeometry(_Radius, _HalfHeight), *_Material); // 캡슐이 똑바로 서있는 모양은 1/4Pi 만큼 회전 필요
 
 	physx::PxVec3 Pos = { WolrdPos.X, WolrdPos.Y , WolrdPos.Z };
 	WorldDeg.Z += physx::PxHalfPi * GameEngineMath::R2D;
 	float4 WorldQuat = WorldDeg.EulerDegToQuaternion();
 	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
+
+	// Basically RayCastTarget is Off
+	CapsuleShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
 
 	physx::PxTransform Transform(Pos, Quat);
 	ComponentActor = Physics->createRigidDynamic(Transform);
@@ -67,7 +80,9 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 	// );
 
 	Scene->addActor(*ComponentActor);
-	CapsuleShape->release();
+	// CapsuleShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
+
+	// CapsuleShape->release();
 }
 
 /*
@@ -77,9 +92,15 @@ eIMPULSE  == unit of mass * distance /time
 eVELOCITY_CHANGE  == unit of distance / time, i.e. the effect is mass independent: a velocity change. // ignore mass
 eACCELERATION  == unit of distance/ time^2, i.e. an acceleration. It gets treated just like a force except the mass is not divided out before integration.
 */
-void GameEnginePhysXCapsule::MoveForce(const physx::PxVec3 _Force)
+void GameEnginePhysXCapsule::MoveForce(const physx::PxVec3 _Force, bool _IgnoreGravity/* = false*/)
 {
-	ComponentActor->addForce(_Force, physx::PxForceMode::eVELOCITY_CHANGE);
+	physx::PxVec3 CurLV = physx::PxVec3({0.0f});
+	if (false == _IgnoreGravity)
+	{
+		CurLV = ComponentActor->getLinearVelocity(); 
+	}
+
+	ComponentActor->setLinearVelocity({ _Force.x, _Force.y + CurLV.y, _Force.z }); // 현재 중력을 받아오기 위해
 }
 
 void GameEnginePhysXCapsule::AddForce(const physx::PxVec3 _Force)
@@ -87,11 +108,26 @@ void GameEnginePhysXCapsule::AddForce(const physx::PxVec3 _Force)
 	ComponentActor->addForce(_Force, physx::PxForceMode::eVELOCITY_CHANGE);
 }
 
-void GameEnginePhysXCapsule::ResetForce()
+void GameEnginePhysXCapsule::ResetMove(int _Axies)
 {
-	physx::PxVec3 Speed = ComponentActor->getLinearVelocity();
-	ComponentActor->setLinearVelocity({ 0, Speed.y, 0 });
-	ComponentActor->setLinearVelocity({ 0, 0, 0 });
+	physx::PxVec3 CurLV = ComponentActor->getLinearVelocity();
+
+	if (Enum_Axies::X & _Axies)
+	{
+		CurLV.x = 0.0f;
+	}
+
+	if (Enum_Axies::Y & _Axies)
+	{
+		CurLV.y = 0.0f;
+	}
+
+	if (Enum_Axies::Z & _Axies)
+	{
+		CurLV.z = 0.0f;
+	}
+
+	ComponentActor->setLinearVelocity({ CurLV.x, CurLV.y, CurLV.z });
 	// ComponentActor->clearForce(physx::PxForceMode::eFORCE);
 }
 
@@ -100,30 +136,6 @@ void GameEnginePhysXCapsule::SetMaxSpeed(float _MaxSpeed)
 	ComponentActor->setMaxLinearVelocity(_MaxSpeed);
 }
 
-bool GameEnginePhysXCapsule::RayCast(const float4& _DirVector, float _MaxDisTance)
-{
-	float4 WolrdPos = Transform.GetWorldPosition();
-	physx::PxVec3 origin = ComponentActor->getGlobalPose().p + physx::PxVec3(100.0f, 0.0f, 0.0f);		 // [in] Ray origin
-	physx::PxVec3 unitDir = physx::PxVec3({0.0f, 0.0f, 1.0f});                // [in] Normalized ray direction
-	physx::PxReal maxDistance = 100.0f;            // [in] Raycast max distance
-	physx::PxRaycastBuffer hitResult;                 // [out] Raycast results
-
-	// Raycast against all static & dynamic objects (no filtering)
-	// The main result from this call is the closest hit, stored in the 'hit.block' structure
-	bool status = Scene->raycast(origin, unitDir, maxDistance, hitResult);
-	
-	if (true ==  hitResult.hasBlock)
-	{
-		int a = 0;
-	}
-
-	if (true == status)
-	{
-		int a = 0;
-	}
-
-	return status;
-}
 
 void GameEnginePhysXCapsule::SetWorldPosition(const float4& _Pos)
 {
@@ -194,4 +206,42 @@ void GameEnginePhysXCapsule::GravityOn()
 void GameEnginePhysXCapsule::GravityOff()
 {
 	ComponentActor->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, true);
+}
+
+void GameEnginePhysXCapsule::RayCastTargetOn()
+{
+	ComponentActor->detachShape(*CapsuleShape);
+	CapsuleShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
+	ComponentActor->attachShape(*CapsuleShape);
+}
+
+void GameEnginePhysXCapsule::RayCastTargetOff()
+{
+	ComponentActor->detachShape(*CapsuleShape);
+	CapsuleShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
+	ComponentActor->attachShape(*CapsuleShape);
+}
+
+void GameEnginePhysXCapsule::CollisionOn(bool _GravityOn /*= true*/)
+{
+	ComponentActor->detachShape(*CapsuleShape);
+	CapsuleShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+	ComponentActor->attachShape(*CapsuleShape);
+
+	if (true == _GravityOn)
+	{
+		GravityOn();
+	}
+}
+
+void GameEnginePhysXCapsule::CollisionOff(bool _GravityOff /*= true*/)
+{
+	ComponentActor->detachShape(*CapsuleShape);
+	CapsuleShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+	ComponentActor->attachShape(*CapsuleShape);
+
+	if (true == _GravityOff)
+	{
+		GravityOff();
+	}
 }

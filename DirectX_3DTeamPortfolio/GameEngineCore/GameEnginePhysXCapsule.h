@@ -22,7 +22,7 @@ public:
 		MoveForce(Value);
 	}
 
-	void MoveForce(const physx::PxVec3 _Force);
+	void MoveForce(const physx::PxVec3 _Force, bool _IgnoreGravity = false);
 
 	void AddForce(const float4 _Force)
 	{
@@ -32,7 +32,12 @@ public:
 
 	void AddForce(const physx::PxVec3 _Force);
 
-	void ResetForce();
+	void ResetMove(Enum_Axies _Axies)
+	{
+		ResetMove(static_cast<int>(_Axies));
+	}
+
+	void ResetMove(int _Axies);
 
 	physx::PxVec3 GetLinearVelocity()
 	{
@@ -46,6 +51,7 @@ public:
 
 	void SetMass(float _MassValue)
 	{
+		// F = M * A
 		return ComponentActor->setMass(_MassValue);
 	}
 
@@ -62,7 +68,11 @@ public:
 	void GravityOn();
 	void GravityOff();
 
-	bool RayCast(const float4& _DirVector, float _MaxDisTance);
+	void RayCastTargetOn();
+	void RayCastTargetOff();
+
+	void CollisionOn(bool _GravityOn = true);
+	void CollisionOff(bool _GravityOff = true);
 
 protected:
 	void Start() override;
@@ -71,8 +81,8 @@ protected:
 
 private:
 	bool IsPositioningComponent = false;
-	GameEngineActor* ParentActor = nullptr;
 	physx::PxRigidDynamic* ComponentActor = nullptr;
+	physx::PxShape* CapsuleShape = nullptr;
 
 	void Positioning(float _Delta);
 };

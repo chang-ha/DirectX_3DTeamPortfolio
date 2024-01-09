@@ -24,6 +24,7 @@ protected:
 
 private:
 	std::shared_ptr<class Monster_HollowSoldier> HollowSoldier;
+	std::shared_ptr<class ContentsLight> Test_Light1;
 	//std::shared_ptr<class Boss_Vordt> Boss_Object;
 };
 

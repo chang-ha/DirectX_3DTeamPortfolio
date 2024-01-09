@@ -88,7 +88,7 @@ PixelOut FBXStaticColorShader_PS(PixelOutPut _Input) : SV_Target0
     {
         for (int i = 0; i < LightCount; ++i)
         {
-            DiffuseRatio += CalDiffuseLight(_Input.VIEWNORMAL, AllLight[i]);
+            DiffuseRatio += CalDiffuseLight(_Input.VIEWNORMAL, _Input.VIEWPOSITION, AllLight[i]);
             AmbientRatio += CalSpacularLight(_Input.VIEWPOSITION, _Input.VIEWNORMAL, AllLight[i]);
             AmbientRatio += CalAmbientLight(AllLight[i]);
         }

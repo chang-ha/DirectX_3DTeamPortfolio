@@ -3,6 +3,8 @@
 #include "PlayLevel.h"
 #include "Player.h"
 
+#include "GameEngineNetWindow.h"
+
 PlayLevel::PlayLevel() 
 {
 }
@@ -19,6 +21,9 @@ void PlayLevel::Start()
 
 	CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 
+	// ¾ø¾Ù²¨ÀÓ
+	std::shared_ptr<GameEngineNetWindow> Ptr = GameEngineGUI::CreateGUIWindow<GameEngineNetWindow>("GameEngineNetWIndow");
+
 	if (nullptr != CoreWindow)
 	{
 		CoreWindow->AddDebugRenderTarget(0, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
@@ -27,6 +32,8 @@ void PlayLevel::Start()
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
 		PlayerObject = Object;
+
+		Ptr->MainPlayer = PlayerObject.get();
 	}
 
 	{

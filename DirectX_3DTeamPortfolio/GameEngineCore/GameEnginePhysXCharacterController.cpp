@@ -40,6 +40,12 @@ void GameEnginePhysXCharacterController::Update(float _Delta)
 void GameEnginePhysXCharacterController::Release()
 {
 	GameEnginePhysXComponent::Release();
+
+	if (nullptr != Controller)
+	{
+		Controller->release();
+		Controller = nullptr;
+	}
 }
 
 void GameEnginePhysXCharacterController::PhysXComponentInit(

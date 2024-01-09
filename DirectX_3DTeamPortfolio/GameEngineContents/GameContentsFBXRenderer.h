@@ -1,7 +1,10 @@
 #pragma once
 #include <GameEngineCore/GameEngineRenderer.h>
 
+
+
 class FbxExAniData;
+class FrameEventHelper;
 class GameEngineFBXMesh;
 class GameEngineFBXAnimation;
 class GameContentsFBXRenderer;
@@ -15,6 +18,8 @@ public:
 	std::shared_ptr<GameEngineFBXAnimation> Aniamtion;
 	// 애니메이션을 가지고 있는 FBX에서 알고 있는 애니메이션 정보
 	FbxExAniData* FBXAnimationData;
+
+	FrameEventHelper* EventHelper = nullptr;
 
 	// 재생시간
 	float PlayTime = 0.0f;
@@ -30,11 +35,13 @@ public:
 
 	bool bOnceStart = true;
 	bool bOnceEnd = true;
+	bool IsStart = true;
 	bool Loop = true;
 
 	// 과제로 내준것인데.
 	float BlendIn = 0.2f;
 	float BlendOut = 0.2f;
+
 
 	void Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index);
 	void Reset();
@@ -97,17 +104,21 @@ public:
 		Pause = !Pause;
 	}
 
-	std::shared_ptr<GameEngineFBXMesh> GetFBXMesh(std::string_view _Name);
+	inline std::shared_ptr<GameEngineFBXMesh>& GetFBXMesh() { return FBXMesh; }
+	inline std::shared_ptr<GameContentsFBXAnimationInfo>& GetCurAnimation() { return CurAnimation; }
+	inline std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>>& GetRenderUnits() { return RenderUnits; } 
 
-
-	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> RenderUnits;
 protected:
+	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> RenderUnits;
 
 private:
 	bool Pause = false;
 	std::shared_ptr<GameEngineFBXMesh> FBXMesh;
 	std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>> Animations;
 	std::shared_ptr<GameContentsFBXAnimationInfo> CurAnimation;
+
+
+	float BlendTime = 0.0f;
 
 	std::vector<float4x4> AnimationBoneMatrixs;
 	std::vector<float4x4> AnimationBoneNotOffset;

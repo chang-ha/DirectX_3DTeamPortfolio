@@ -27,7 +27,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 		if (nullptr == BossFBXRenderer)
 		{
-			BossFBXRenderer = CreateComponent<GameEngineFBXRenderer>(Enum_RenderOrder::Monster);
+			BossFBXRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
 		}
 
 		BossFBXRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBX_Animation"); // Bone 136
@@ -106,15 +106,23 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	Capsule = CreateComponent<GameEnginePhysXCapsule>();
 	Capsule->Transform.SetLocalPosition({0.0f, 500.0f, 0.0f});
 	Capsule->PhysXComponentInit(50.0f, 60.0f);
-	Capsule->SetMaxSpeed(150.0f);
+	// Capsule->SetMaxSpeed(150.0f);
 	Capsule->SetPositioningComponent();
 	Capsule->GravityOff();
+
+	//if (nullptr == GameEngineFBXMesh::Find("WorldMap.fbx"))
+	//{
+	//	GameEngineFile File;
+	//	File.MoveParentToExistsChild("ContentsResources");
+	//	File.MoveChild("ContentsResources\\Mesh\\MapResource\\WorldMap.fbx");
+	//	GameEngineFBXMesh::Load(File.GetStringPath());
+	//}
 
 	std::shared_ptr<GameEngineFBXRenderer> Renderer;
 	Renderer = CreateComponent<GameEngineFBXRenderer>(Enum_RenderOrder::Monster);
 	Renderer->SetFBXMesh("SmallMap.fbx", "FBXStaticColor");
 	
-	std::shared_ptr<GameEnginePhysXTriMesh> TriMesh = CreateComponent<GameEnginePhysXTriMesh>();
+	TriMesh = CreateComponent<GameEnginePhysXTriMesh>();
 	TriMesh->Transform.SetLocalPosition({0.0f, 0.0f, 800.0f});
 	TriMesh->PhysXComponentInit("SmallMap.fbx");
 
@@ -130,6 +138,7 @@ void Boss_Vordt::Start()
 	GameEngineInput::AddInputObject(this);
 }
 
+#define SPEED 100.0f
 void Boss_Vordt::Update(float _Delta)
 {
 	BossState.Update(_Delta);
@@ -139,27 +148,27 @@ void Boss_Vordt::Update(float _Delta)
 		&& false == GameEngineInput::IsPress('S', this)
 		&& false == GameEngineInput::IsPress('D', this))
 	{
-		Capsule->ResetForce();
+		Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z);
 	}
 
 	if (true == GameEngineInput::IsPress('W', this))
 	{
-		Capsule->MoveForce({ 0.0f, 0.0f, 10.0f, 0.0f });
+		Capsule->MoveForce({ 0.0f, 0.0f, SPEED, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsPress('S', this))
 	{
-		Capsule->MoveForce({ 0.0f, 0.0f, -10.0f, 0.0f });
+		Capsule->MoveForce({ 0.0f, 0.0f, -SPEED, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsPress('A', this))
 	{
-		Capsule->MoveForce({ 10.0f, 0.0f, 0.0f, 0.0f });
+		Capsule->MoveForce({ SPEED, 0.0f, 0.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsPress('D', this))
 	{
-		Capsule->MoveForce({ -10.0f, 0.0f, 0.0f, 0.0f });
+		Capsule->MoveForce({ -SPEED, 0.0f, 0.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsDown('Q', this))
@@ -182,10 +191,14 @@ void Boss_Vordt::Update(float _Delta)
 		Capsule->SetWorldPosition({ 0.0f, 0.0f, 0.0f, 0.0f });
 	}
 
-	Capsule->RayCast({1.0f, }, 10.0f);
+	if (true == GameEngineInput::IsDown('B', this))
+	{
+		Capsule->CollisionOff();
+		Capsule->ResetMove(Enum_Axies::All);
+	}
 
 	physx::PxVec3 Vec = Capsule->GetLinearVelocity();
-	std::string Result = "X : " + std::to_string(Vec.x) + "\nY : " + std::to_string(Vec.y) + "\nZ : " + std::to_string(Vec.z) + "\n";
+	std::string Result = "X : " + std::to_string(Vec.x) + " Y : " + std::to_string(Vec.y) + " Z : " + std::to_string(Vec.z) + "\n";
 	OutputDebugString(Result.c_str());
 }
 
@@ -201,5 +214,17 @@ void Boss_Vordt::Release()
 	{
 		BossCollision->Death();
 		BossCollision = nullptr;
+	}
+
+	if (nullptr != Capsule)
+	{
+		Capsule->Death();
+		Capsule = nullptr;
+	}
+
+	if (nullptr != TriMesh)
+	{
+		TriMesh->Death();
+		TriMesh = nullptr;
 	}
 }

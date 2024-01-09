@@ -2,6 +2,8 @@
 
 #include <GameEnginePlatform/PreCompile.h>
 
+#include <GameEngineBase/GameEngineNetObject.h> // ¼­¹ö¿ë
+
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineSound.h>

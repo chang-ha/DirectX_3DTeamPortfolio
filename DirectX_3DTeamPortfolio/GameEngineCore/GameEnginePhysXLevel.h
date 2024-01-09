@@ -2,6 +2,8 @@
 
 class GameEnginePhysXLevel
 {
+	friend class GameEnginePhysX;
+	friend class GameEnginePhysXTriMesh;
 public:
 	// constructer destructer
 	GameEnginePhysXLevel();
@@ -23,6 +25,8 @@ public:
 		return ControllerManager;
 	}
 
+	bool RayCast(const float4& _Pos, const float4& _DirVector, float _MaxDisTance);
+
 protected:
 	void PhysXLevelInit();
 	void RunSimulation(float _Delta);
@@ -30,6 +34,8 @@ protected:
 	physx::PxScene* Scene = nullptr;
 	physx::PxControllerManager* ControllerManager = nullptr;
 private:
+	void Release();
 
+	static std::list<void*> AllData;
 };
 
