@@ -52,13 +52,7 @@
     <ClCompile Include="GameContentsFBXRenderer.cpp">
       <Filter>Monster\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="GameServer.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="ContentsControlWindow.cpp" />
-    <ClCompile Include="ContentsLight.cpp">
-      <Filter>Light</Filter>
-    </ClCompile>
     <ClCompile Include="CommonMonster.cpp">
       <Filter>Monster</Filter>
     </ClCompile>
@@ -72,6 +66,16 @@
       <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="SoundFrameEvent.cpp">
+      <Filter>Monster\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="ConnectIDPacket.cpp" />
+    <ClCompile Include="ContentsLight.cpp" />
+    <ClCompile Include="GameEngineNetWindow.cpp" />
+    <ClCompile Include="ObjectPacket.cpp" />
+    <ClCompile Include="FrameEventHelper.cpp">
+      <Filter>Monster\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameEventObject.cpp">
       <Filter>Monster\Event</Filter>
     </ClCompile>
   </ItemGroup>
@@ -124,13 +128,7 @@
     <ClInclude Include="TestMap.h">
       <Filter>Map</Filter>
     </ClInclude>
-    <ClInclude Include="GameServer.h">
-      <Filter>Server</Filter>
-    </ClInclude>
     <ClInclude Include="ContentsControlWindow.h" />
-    <ClInclude Include="ContentsLight.h">
-      <Filter>Light</Filter>
-    </ClInclude>
     <ClInclude Include="CommonMonster.h">
       <Filter>Monster</Filter>
     </ClInclude>
@@ -151,6 +149,17 @@
     </ClInclude>
     <ClInclude Include="FXAAEffect.h">
       <Filter>PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="ConnectIDPacket.h" />
+    <ClInclude Include="ContentsLight.h" />
+    <ClInclude Include="GameEngineNetWindow.h" />
+    <ClInclude Include="ObjectPacket.h" />
+    <ClInclude Include="PacketHeader.h" />
+    <ClInclude Include="FrameEventHelper.h">
+      <Filter>Monster\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameEventObject.h">
+      <Filter>Monster\Event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

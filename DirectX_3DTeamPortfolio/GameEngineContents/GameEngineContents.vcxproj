@@ -192,6 +192,8 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="FrameEventHelper.cpp" />
+    <ClCompile Include="FrameEventObject.cpp" />
     <ClCompile Include="FXAAEffect.cpp">
       <SubType>
       </SubType>
@@ -286,6 +288,8 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="FrameEventHelper.h" />
+    <ClInclude Include="FrameEventObject.h" />
     <ClInclude Include="FXAAEffect.h">
       <SubType>
       </SubType>
