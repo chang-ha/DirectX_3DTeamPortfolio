@@ -65,6 +65,34 @@
     <ClCompile Include="SoundFrameEvent.cpp">
       <Filter>Monster\Event</Filter>
     </ClCompile>
+    <ClCompile Include="ConnectIDPacket.cpp" />
+    <ClCompile Include="ContentsLight.cpp" />
+    <ClCompile Include="GameEngineNetWindow.cpp" />
+    <ClCompile Include="ObjectPacket.cpp" />
+    <ClCompile Include="Monster_HollowSoldier.cpp">
+      <Filter>Monster\Hollow</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_Hollow.cpp">
+      <Filter>Monster\Hollow</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_Hollow_Unarmed.cpp">
+      <Filter>Monster\Hollow</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_HollowSoldier_Sword.cpp">
+      <Filter>Monster\Hollow</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameEventHelper.cpp">
+      <Filter>Monster\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameEventObject.cpp">
+      <Filter>Monster\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_Hollow_RaggedRobes.cpp">
+      <Filter>Monster\Hollow</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_HollowSoldier_Lantern.cpp">
+      <Filter>Monster\Hollow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -156,6 +184,12 @@
     </ClInclude>
     <ClInclude Include="FrameEventObject.h">
       <Filter>Monster\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_Hollow_RaggedRobes.h">
+      <Filter>Monster\Hollow</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_HollowSoldier_Lantern.h">
+      <Filter>Monster\Hollow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

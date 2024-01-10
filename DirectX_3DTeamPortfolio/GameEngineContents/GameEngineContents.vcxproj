@@ -216,7 +216,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Monster_HollowSoldier_Lantern.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Monster_HollowSoldier_Sword.cpp" />
+    <ClCompile Include="Monster_Hollow_RaggedRobes.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Monster_Hollow_Unarmed.cpp" />
     <ClCompile Include="Monster_LothricKn.cpp">
       <SubType>
@@ -315,7 +323,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Monster_HollowSoldier_Lantern.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Monster_HollowSoldier_Sword.h" />
+    <ClInclude Include="Monster_Hollow_RaggedRobes.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Monster_Hollow_Unarmed.h" />
     <ClInclude Include="Monster_LothricKn.h">
       <SubType>
