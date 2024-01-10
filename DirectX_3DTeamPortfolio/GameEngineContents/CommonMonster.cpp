@@ -75,9 +75,3 @@ void CommonMonster::Release()
 {
 	MainRenderer = nullptr;
 }
-
-template<typename EnumType>
-void CommonMonster::MeshOnOffSwitch(EnumType _MeshIndex)
-{
-	MainRenderer->GetRenderUnits()[static_cast<int>(_MeshIndex)][0]->OnOffSwitch();
-}
