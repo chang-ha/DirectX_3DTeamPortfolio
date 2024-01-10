@@ -111,3 +111,8 @@ void GameEngineNetServer::RecvProcess(char* _Data)
 {
 
 }
+
+void GameEngineNetServer::SendPacket(std::shared_ptr<GameEnginePacket> _Packet)
+{
+
+}
