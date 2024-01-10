@@ -28,7 +28,7 @@ protected:
 	void Release() override;
 
 private:
-	std::shared_ptr<GameEngineFBXRenderer> BossFBXRenderer;
+	std::shared_ptr<GameContentsFBXRenderer> BossFBXRenderer;
 	std::shared_ptr<GameEngineCollision> BossCollision;
 	std::shared_ptr<class GameEnginePhysXSphere> Sphere;
 	std::shared_ptr<class GameEngjnePhysXBox> Box;

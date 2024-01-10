@@ -11,15 +11,6 @@ GameEnginePhysXTriMesh::~GameEnginePhysXTriMesh()
 {
 
 }
-void GameEnginePhysXTriMesh::LevelStart(GameEngineLevel* _PrevLevel)
-{
-
-}
-
-void GameEnginePhysXTriMesh::LevelEnd(GameEngineLevel* _NextLevel)
-{
-
-}
 
 void GameEnginePhysXTriMesh::Start()
 {
@@ -48,6 +39,7 @@ void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, cons
 	GameEnginePath FilePath = GameEnginePath(_MeshName);
 	FilePath.ChangeExtension("PhysXTriMesh");
 	std::string FimeName = FilePath.GetFileName();
+
 	FilePath.SetCurrentPath();
 	FilePath.MoveParentToExistsChild("PhysXSerialization");
 	FilePath.MoveChild("PhysXSerialization");

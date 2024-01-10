@@ -27,7 +27,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 		if (nullptr == BossFBXRenderer)
 		{
-			BossFBXRenderer = CreateComponent<GameEngineFBXRenderer>(Enum_RenderOrder::Monster);
+			BossFBXRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
 		}
 
 		BossFBXRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBX_Animation"); // Bone 136
@@ -110,6 +110,14 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	Capsule->SetPositioningComponent();
 	Capsule->GravityOff();
 
+	//if (nullptr == GameEngineFBXMesh::Find("WorldMap.fbx"))
+	//{
+	//	GameEngineFile File;
+	//	File.MoveParentToExistsChild("ContentsResources");
+	//	File.MoveChild("ContentsResources\\Mesh\\MapResource\\WorldMap.fbx");
+	//	GameEngineFBXMesh::Load(File.GetStringPath());
+	//}
+
 	std::shared_ptr<GameEngineFBXRenderer> Renderer;
 	Renderer = CreateComponent<GameEngineFBXRenderer>(Enum_RenderOrder::Monster);
 	Renderer->SetFBXMesh("SmallMap.fbx", "FBXStaticColor");
@@ -140,7 +148,7 @@ void Boss_Vordt::Update(float _Delta)
 		&& false == GameEngineInput::IsPress('S', this)
 		&& false == GameEngineInput::IsPress('D', this))
 	{
-		Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Y);
+		Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z);
 	}
 
 	if (true == GameEngineInput::IsPress('W', this))
