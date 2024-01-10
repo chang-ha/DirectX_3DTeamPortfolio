@@ -6,6 +6,7 @@
 #include "FXAAEffect.h"
 #include <GameEngineCore/BlurPostEffect.h>
 #include "ContentsLight.h"
+#include "TestObject_Shader.h"
 
 TestLevel_Shader::TestLevel_Shader() 
 {
@@ -29,16 +30,16 @@ void TestLevel_Shader::Start()
 
 	//GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<FXAAEffect>();
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
-	GetMainCamera()->Transform.AddLocalPosition({ 0.0f, 0.0f, -500.0f });
+	GetMainCamera()->Transform.AddLocalPosition({ 0.0f, 0.0f, -300.0f });
 
 	//CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster);
-	HollowSoldier = CreateActor<Monster_HollowSoldier>(Enum_UpdateOrder::Monster);
+	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
 
 	HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,10.0f });
-	HollowSoldier = CreateActor<Monster_HollowSoldier>(Enum_UpdateOrder::Monster);
+	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
 	HollowSoldier->Transform.AddLocalPosition({ 200.0f,0.0f,10.0f });
 
-	HollowSoldier = CreateActor<Monster_HollowSoldier>(Enum_UpdateOrder::Monster);
+	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
 	HollowSoldier->Transform.AddLocalPosition({ -200.0f,0.0f,10.0f });
 
 

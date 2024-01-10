@@ -78,6 +78,9 @@
     <ClCompile Include="FrameEventObject.cpp">
       <Filter>Monster\Event</Filter>
     </ClCompile>
+    <ClCompile Include="TestObject_Shader.cpp">
+      <Filter>TestObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -161,6 +164,9 @@
     <ClInclude Include="FrameEventObject.h">
       <Filter>Monster\Event</Filter>
     </ClInclude>
+    <ClInclude Include="TestObject_Shader.h">
+      <Filter>TestObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -213,6 +219,9 @@
     </Filter>
     <Filter Include="Monster\Event">
       <UniqueIdentifier>{3a07aee8-e371-40ae-a574-6b4704cab447}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestObject">
+      <UniqueIdentifier>{0d1f4363-901d-4f9c-8401-7a00bbe88547}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
