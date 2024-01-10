@@ -84,6 +84,19 @@ public:
 		*SizePtr = Size;
 	}
 
+	void DeSerializePacket(GameEngineSerializer& _Ser)
+	{
+		DeSerialize(_Ser);
+	}
+
+	virtual void DeSerialize(GameEngineSerializer& _Ser)
+	{
+		_Ser >> Size;
+		_Ser >> PacketID;
+		_Ser >> ObjectID;
+	}
+
+
 protected:
 
 private:

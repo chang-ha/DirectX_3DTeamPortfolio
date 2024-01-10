@@ -1,7 +1,9 @@
 #include "PreCompile.h"
 #include "GameEngineNetWindow.h"
 #include "ConnectIDPacket.h"
+#include "ObjectPacket.h"
 #include "Player.h"
+#include <memory>
 
 GameEngineNet* GameEngineNetWindow::Net = nullptr;
 
@@ -59,7 +61,7 @@ void GameEngineNetWindow::OnGUI(class GameEngineLevel* _Level, float _DeltaTime)
 				int ID = GameEngineNetObject::CreateServerObjectID();
 				Packet->SetObjectID(ID);
 
-				_Server->SendPacket(_ClientSocket, Packet);
+				_Server->GameEngineNet::SendPacket(_ClientSocket, Packet);
 			}
 		);
 
