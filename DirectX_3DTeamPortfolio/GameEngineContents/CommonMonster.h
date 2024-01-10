@@ -36,7 +36,11 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
-	
+	template<typename EnumType>
+	void MeshOnOffSwitch(EnumType _MeshIndex)
+	{
+		MainRenderer->GetRenderUnits().at(static_cast<int>(_MeshIndex))[0]->OnOffSwitch();
+	}
 
 protected:
 	std::shared_ptr<GameContentsFBXRenderer> MainRenderer;

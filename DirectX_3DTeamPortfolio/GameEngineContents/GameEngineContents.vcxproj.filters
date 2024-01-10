@@ -34,9 +34,6 @@
     <ClCompile Include="ContentsControlWindow.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Monster_HollowSoldier.cpp">
-      <Filter>Monster</Filter>
-    </ClCompile>
     <ClCompile Include="TestLevel_Shader.cpp">
       <Filter>Level\TestLevel</Filter>
     </ClCompile>
@@ -72,11 +69,29 @@
     <ClCompile Include="ContentsLight.cpp" />
     <ClCompile Include="GameEngineNetWindow.cpp" />
     <ClCompile Include="ObjectPacket.cpp" />
+    <ClCompile Include="Monster_HollowSoldier.cpp">
+      <Filter>Monster\Hollow</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_Hollow.cpp">
+      <Filter>Monster\Hollow</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_Hollow_Unarmed.cpp">
+      <Filter>Monster\Hollow</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_HollowSoldier_Sword.cpp">
+      <Filter>Monster\Hollow</Filter>
+    </ClCompile>
     <ClCompile Include="FrameEventHelper.cpp">
       <Filter>Monster\Event</Filter>
     </ClCompile>
     <ClCompile Include="FrameEventObject.cpp">
       <Filter>Monster\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_Hollow_RaggedRobes.cpp">
+      <Filter>Monster\Hollow</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_HollowSoldier_Lantern.cpp">
+      <Filter>Monster\Hollow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -116,9 +131,6 @@
     <ClInclude Include="ContentsControlWindow.h">
       <Filter>ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="Monster_HollowSoldier.h">
-      <Filter>Monster</Filter>
-    </ClInclude>
     <ClInclude Include="TestLevel_Shader.h">
       <Filter>Level\TestLevel</Filter>
     </ClInclude>
@@ -155,11 +167,29 @@
     <ClInclude Include="GameEngineNetWindow.h" />
     <ClInclude Include="ObjectPacket.h" />
     <ClInclude Include="PacketHeader.h" />
+    <ClInclude Include="Monster_HollowSoldier.h">
+      <Filter>Monster\Hollow</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_Hollow.h">
+      <Filter>Monster\Hollow</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_Hollow_Unarmed.h">
+      <Filter>Monster\Hollow</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_HollowSoldier_Sword.h">
+      <Filter>Monster\Hollow</Filter>
+    </ClInclude>
     <ClInclude Include="FrameEventHelper.h">
       <Filter>Monster\Event</Filter>
     </ClInclude>
     <ClInclude Include="FrameEventObject.h">
       <Filter>Monster\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_Hollow_RaggedRobes.h">
+      <Filter>Monster\Hollow</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_HollowSoldier_Lantern.h">
+      <Filter>Monster\Hollow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -213,6 +243,9 @@
     </Filter>
     <Filter Include="Monster\Event">
       <UniqueIdentifier>{3a07aee8-e371-40ae-a574-6b4704cab447}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Monster\Hollow">
+      <UniqueIdentifier>{d4c245a2-3270-417d-810e-ce6e0c363efe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
