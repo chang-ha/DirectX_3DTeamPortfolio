@@ -586,39 +586,39 @@ public:
 	}
 };
 
-//// 맵데이터
-//struct MapData : public GameEngineSerializObject
-//{
-//	std::string Name;
-//	float4 Center;
-//	float4 Scale;
-//	float4 MinBox;
-//	bool IsLoad;
-//
-//	MapData()
-//	{
-//		Name = "";
-//		Center = float4::ZERO;
-//		Scale = float4::ZERO;
-//		IsLoad = false;
-//	}
-//
-//	void Write(GameEngineSerializer& _File) override
-//	{
-//		_File << Name;
-//		_File << Center;
-//		_File << Scale;
-//		_File << IsLoad;
-//	}
-//
-//	void Read(GameEngineSerializer& _File) override
-//	{
-//		_File >> Name;
-//		_File >> Center;
-//		_File >> Scale;
-//		_File >> IsLoad;
-//	}
-//};
+// 맵데이터
+struct MapData : public GameEngineSerializObject
+{
+	std::string Name;
+	float4 Center;
+	float4 Scale;
+	float4 MinBox;
+	bool IsLoad;
+
+	MapData()
+	{
+		Name = "";
+		Center = float4::ZERO;
+		Scale = float4::ZERO;
+		IsLoad = false;
+	}
+
+	void Write(GameEngineSerializer& _File) override
+	{
+		_File << Name;
+		_File << Center;
+		_File << Scale;
+		_File << IsLoad;
+	}
+
+	void Read(GameEngineSerializer& _File) override
+	{
+		_File >> Name;
+		_File >> Center;
+		_File >> Scale;
+		_File >> IsLoad;
+	}
+};
 
 
 // 설명 :
@@ -651,16 +651,16 @@ public:
 	void MapFBXInitialize();
 
 	// 분할로드 보류
-	// void TestBigFBXInitialize();
-	// void BigFBXLoad(size_t _Num, std::string_view _Name);
-	//int GetMapDatasCount()
-	//{
-	//	return static_cast<int>(MapDatas.size());
-	//}	
-	// //std::vector<MapData> GetMapDatas()
-	//{
-	//	return MapDatas;
-	//}
+	void TestBigFBXInitialize();
+	void BigFBXLoad(size_t _Num, std::string_view _Name);
+	int GetMapDatasCount()
+	{
+		return static_cast<int>(MapDatas.size());
+	}	
+	std::vector<MapData> GetMapDatas()
+	{
+		return MapDatas;
+	}
 
 
 	
@@ -705,8 +705,8 @@ private:
 	std::vector<std::vector<FbxClusterData>> ClusterData;
 	std::shared_ptr<GameEngineStructuredBuffer> AllBoneStructuredBuffers;
 
-	//// 맵데이터
-	//std::vector<MapData> MapDatas;
+	// 맵데이터
+	std::vector<MapData> MapDatas;
 
 
 	void LoadMesh(std::string_view& _Path, std::string_view _Name);

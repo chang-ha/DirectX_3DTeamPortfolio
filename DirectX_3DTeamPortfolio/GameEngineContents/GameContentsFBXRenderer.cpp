@@ -478,40 +478,40 @@ std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetMapFBXMesh(std
 	return Unit;
 }
 
-//std::shared_ptr<GameEngineFBXMesh> GameContentsFBXRenderer::GetFBXMesh(std::string_view _Name)
-//{
-//	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
-//
-//	return FindFBXMesh;
-//}
+std::shared_ptr<GameEngineFBXMesh> GameContentsFBXRenderer::GetFBXMesh(std::string_view _Name)
+{
+	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
+
+	return FindFBXMesh;
+}
 
 // 분할 로드 테스트 보류
-//void GameContentsFBXRenderer::TestSetBigFBXMesh(std::string_view _Name, std::string_view _Material)
-//{
-//	Name = _Name;
-//
-//	// FBX.0 찾는다면 
-//
-//	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(Name);
-//
-//	if (nullptr == FindFBXMesh)
-//	{
-//		Name += std::to_string(0);
-//		FindFBXMesh = GameEngineFBXMesh::Find(Name);
-//	}
-//
-//	if (nullptr == FindFBXMesh)
-//	{
-//		MsgBoxAssert("로드하지 않은 FBX 매쉬를 사용하려고 했습니다");
-//	}
-//
-//	FindFBXMesh->TestBigFBXInitialize();
-//
-//	//리턴 FindFBXMesh 리턴해주고
-//
-//	// 랜더유닛 수와 이름이 필요함
-//	for (int UnitCount = 0; UnitCount < FindFBXMesh->GetMapDatasCount(); UnitCount++)
-//	{
-//		SetFBXMesh(Name, _Material, UnitCount);
-//	}
-//}
+void GameContentsFBXRenderer::TestSetBigFBXMesh(std::string_view _Name, std::string_view _Material)
+{
+	Name = _Name;
+
+	// FBX.0 찾는다면 
+
+	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(Name);
+
+	if (nullptr == FindFBXMesh)
+	{
+		Name += std::to_string(0);
+		FindFBXMesh = GameEngineFBXMesh::Find(Name);
+	}
+
+	if (nullptr == FindFBXMesh)
+	{
+		MsgBoxAssert("로드하지 않은 FBX 매쉬를 사용하려고 했습니다");
+	}
+
+	FindFBXMesh->TestBigFBXInitialize();
+
+	//리턴 FindFBXMesh 리턴해주고
+
+	// 랜더유닛 수와 이름이 필요함
+	for (int UnitCount = 0; UnitCount < FindFBXMesh->GetMapDatasCount(); UnitCount++)
+	{
+		SetFBXMesh(Name, _Material, UnitCount);
+	}
+}
