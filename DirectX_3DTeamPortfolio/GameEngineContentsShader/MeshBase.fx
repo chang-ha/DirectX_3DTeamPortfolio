@@ -78,33 +78,48 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout PixelOut _Result)
    // Color.a = 1;
     
     float4 DiffuseRatio = (float4) 0.0f;
+    float4 SpacularRatio = (float4) 0.0f;
     float4 AmbientRatio = (float4) 0.0f;
     
     if (1 == IsLight)
     {
+        float constantAttenuation = 1.0f;
+        float linearAttenuation = 0.0014;
+        float quadraticAttenuation = 0.000007;
         
         for (int i = 0; i < LightCount; ++i)
         {
             float LightPower = 1.0f;
             
+            
             if (0 != AllLight[i].LightType)
             {
                 float Distance = length(AllLight[i].ViewLightPos.xyz - _Input.VIEWPOSITION.xyz);
+                
+                float attenuation = 1.0 / (constantAttenuation + linearAttenuation * Distance + quadraticAttenuation * Distance * Distance);
             
-                float FallOffStart = AllLight[i].PointLightRange * 0.2f;
-                float FallOffEnd = AllLight[i].PointLightRange;
+                //float FallOffStart = AllLight[i].PointLightRange * 0.2f;
+                //float FallOffEnd = AllLight[i].PointLightRange;
                         
-                LightPower *= saturate((FallOffEnd - Distance) / (FallOffEnd - FallOffStart));
+                LightPower = attenuation;
             }
             
+            //float3 diffuse = max(dot(normalize(input.NormalWS), normalize(toLight)), 0.0) * materialDiffuse.rgb * lightIntensity;
+            //float3 specular = /* ...specular calculation... */;
+
+            //float3 finalColor = ambient + diffuse + specular;
             
-            DiffuseRatio += CalDiffuseLight(_Input.VIEWNORMAL, _Input.VIEWPOSITION, AllLight[i]);
-            AmbientRatio += CalSpacularLight(_Input.VIEWPOSITION, _Input.VIEWNORMAL, AllLight[i]);
-            AmbientRatio += CalAmbientLight(AllLight[i]);
+            if (0.0f < LightPower)
+            {
+                
+                DiffuseRatio += CalDiffuseLight(_Input.VIEWNORMAL, _Input.VIEWPOSITION, AllLight[i]) * LightPower;
+                SpacularRatio += CalSpacularLight(_Input.VIEWPOSITION, _Input.VIEWNORMAL, AllLight[i]) * LightPower;
+                AmbientRatio += CalAmbientLight(AllLight[i]) * LightPower;
+            }
         }
         
         float A = Color.w;
-        Color.xyz = Color.xyz * (DiffuseRatio.xyz + AmbientRatio.xyz);
+        Color.xyz = Color.xyz * (DiffuseRatio.xyz + AmbientRatio.xyz + SpacularRatio.xyz);
         Color.a = A;
     }
     
