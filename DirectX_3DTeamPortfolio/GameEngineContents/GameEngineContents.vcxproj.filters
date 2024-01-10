@@ -78,6 +78,9 @@
     <ClCompile Include="FrameEventObject.cpp">
       <Filter>Monster\Event</Filter>
     </ClCompile>
+    <ClCompile Include="TestObject.cpp">
+      <Filter>Monster\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -160,6 +163,9 @@
     </ClInclude>
     <ClInclude Include="FrameEventObject.h">
       <Filter>Monster\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="TestObject.h">
+      <Filter>Monster\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

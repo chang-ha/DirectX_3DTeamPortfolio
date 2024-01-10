@@ -31,8 +31,9 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		}
 
 		BossFBXRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBX_Animation"); // Bone 136
-		BossFBXRenderer->Transform.SetLocalScale({ 10.0f, 10.0f, 10.0f });
-		BossFBXRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, 180.0f });
+		BossFBXRenderer->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
+		BossFBXRenderer->Transform.SetLocalPosition({0.f, 800.f, 0.f});
+		BossFBXRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
 	}
 
 	// Boss Animation
@@ -90,41 +91,25 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BossFBXRenderer->CreateFBXAnimation("Walk_Front", "Walk_Front.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Walk_Left", "Walk_Left.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Walk_Right", "Walk_Right.FBX", { BOSS_ANI_SPEED, true });
-		BossFBXRenderer->ChangeAnimation("Idle");
+		BossFBXRenderer->ChangeAnimation("Rush&Turn");
 	}
 
 	//// Boss Collision
-	//{
-	//	if (nullptr == BossCollision)
-	//	{
-	//		BossCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::MonsterAttack);
-	//	}
-	//	BossCollision->SetCollisionType(ColType::SPHERE2D);
-	//	BossCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 1.0f });
-	//}
+	{
+		if (nullptr == BossCollision)
+		{
+			BossCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::MonsterAttack);
+		}
+		BossCollision->SetCollisionType(ColType::SPHERE3D);
+		BossCollision->Transform.SetLocalScale({ 1.0f, 1.0f, 1.0f });
+	}
 
 	Capsule = CreateComponent<GameEnginePhysXCapsule>();
-	Capsule->Transform.SetLocalPosition({0.0f, 500.0f, 0.0f});
+	Capsule->Transform.SetLocalPosition({0.f, 800.f, 0.f});
 	Capsule->PhysXComponentInit(50.0f, 60.0f);
 	// Capsule->SetMaxSpeed(150.0f);
 	Capsule->SetPositioningComponent();
-	Capsule->GravityOff();
-
-	//if (nullptr == GameEngineFBXMesh::Find("WorldMap.fbx"))
-	//{
-	//	GameEngineFile File;
-	//	File.MoveParentToExistsChild("ContentsResources");
-	//	File.MoveChild("ContentsResources\\Mesh\\MapResource\\WorldMap.fbx");
-	//	GameEngineFBXMesh::Load(File.GetStringPath());
-	//}
-
-	std::shared_ptr<GameEngineFBXRenderer> Renderer;
-	Renderer = CreateComponent<GameEngineFBXRenderer>(Enum_RenderOrder::Monster);
-	Renderer->SetFBXMesh("SmallMap.fbx", "FBXStaticColor");
-	
-	TriMesh = CreateComponent<GameEnginePhysXTriMesh>();
-	TriMesh->Transform.SetLocalPosition({0.0f, 0.0f, 800.0f});
-	TriMesh->PhysXComponentInit("SmallMap.fbx");
+	// Capsule->GravityOff();
 
 }
 
@@ -163,12 +148,12 @@ void Boss_Vordt::Update(float _Delta)
 
 	if (true == GameEngineInput::IsPress('A', this))
 	{
-		Capsule->MoveForce({ SPEED, 0.0f, 0.0f, 0.0f });
+		Capsule->MoveForce({ -SPEED, 0.0f, 0.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsPress('D', this))
 	{
-		Capsule->MoveForce({ -SPEED, 0.0f, 0.0f, 0.0f });
+		Capsule->MoveForce({ SPEED, 0.0f, 0.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsDown('Q', this))
@@ -222,9 +207,4 @@ void Boss_Vordt::Release()
 		Capsule = nullptr;
 	}
 
-	if (nullptr != TriMesh)
-	{
-		TriMesh->Death();
-		TriMesh = nullptr;
-	}
 }

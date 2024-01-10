@@ -260,6 +260,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TestMap.cpp" />
+    <ClCompile Include="TestObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonMonster.h">
@@ -355,6 +359,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TestMap.h" />
+    <ClInclude Include="TestObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
