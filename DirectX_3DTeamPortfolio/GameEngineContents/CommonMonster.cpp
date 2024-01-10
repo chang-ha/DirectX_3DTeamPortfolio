@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "CommonMonster.h"
 
+#include "FrameEventHelper.h"
+
 class MonsterInitial
 {
 public:
@@ -62,6 +64,16 @@ std::string CommonMonster::GetEventPath()
 	path.MoveChild(TypeName);
 	path.MoveChild("Animation");
 	return path.GetStringPath();
+}
+
+void CommonMonster::EventLoad()
+{
+	GameEngineDirectory Dir(GetEventPath());
+	std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".Event" });
+	for (GameEngineFile& pFile : Files)
+	{
+		FrameEventHelper::Load(pFile.GetStringPath());
+	}
 }
 
 void CommonMonster::Start()

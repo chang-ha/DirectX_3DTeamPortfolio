@@ -22,12 +22,12 @@ public:
 	CommonMonster& operator=(const CommonMonster& _Other) = delete;
 	CommonMonster& operator=(CommonMonster&& _Other) noexcept = delete;
 
-	inline std::shared_ptr<GameContentsFBXRenderer> GetFBXRenderer() { return MainRenderer; }
-
 
 	std::string GetTypeName();
-
 	std::string GetEventPath();
+	void EventLoad();
+
+	inline std::shared_ptr<GameContentsFBXRenderer> GetFBXRenderer() { return MainRenderer; }
 
 protected:
 	void Start() override;
@@ -43,7 +43,6 @@ protected:
 
 private:
 	static std::map<std::string, Enum_MonsterType> MonsterTypes;
-
 
 };
 

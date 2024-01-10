@@ -24,9 +24,12 @@ public:
 
 	static std::string GetConvertFileName(std::string_view _AnimationName);
 
-	static std::shared_ptr<FrameEventHelper> CreateTempRes()
+	static std::shared_ptr<FrameEventHelper> CreateTempRes(std::string_view _TempPath, int _FrameCount)
 	{
-		return CreateRes();
+		std::shared_ptr<FrameEventHelper> Helper = Load(_TempPath);
+		Helper->Events.resize(_FrameCount);
+		Helper->FrameCount = _FrameCount;
+		return Helper;
 	}
 
 	static std::shared_ptr<FrameEventHelper> Load(std::string_view _Path)
@@ -44,8 +47,8 @@ public:
 
 
 
-	void Initialze();
-	void SaveFile(std::string_view _Path);
+	void Initialze(int _Frame);
+	void SaveFile();
 
 
 	void PlayEvents(int _Frame);
@@ -53,6 +56,10 @@ public:
 
 	std::vector<std::list<FrameEventObject*>>& GetAllEvents() { return Events; }
 	std::list<std::shared_ptr<SoundFrameEvent>>& GetSoundEvents() { return SoundEvents; }
+	int GetEventCount();
+
+	void CreateSoundEvent(int _StartFrame, std::string_view _SoundName);
+	void PopEvent(const std::shared_ptr<SoundFrameEvent>& _Event);
 
 protected:
 	void PushEventData();

@@ -36,19 +36,53 @@ void SoundFrameEventTab::OnGUI(GameEngineLevel* _Level, float _Delta)
 		return;
 	}
 
+	FrameEventHelper* EventHelper = Parent->CurAnimationInfo->EventHelper;
+
+	ImGui::SliderInt("Start Frame", &SelectStartFrame, Parent->CurAnimationInfo->Start, Parent->CurAnimationInfo->End);
 	ImGui::Combo("SoundList", &SelectSoundItem, &CSoundFileList[0], static_cast<int>(CSoundFileList.size()));
 	if (ImGui::Button("CreateEvent"))
 	{
-		std::string ObjectName = Parent->SelectActor->GetName();
-		int Frame = Parent->SelectFrame;
+		int Frame = SelectStartFrame;
 		std::string ScrFileName = CSoundFileList[SelectSoundItem];
+		EventHelper->CreateSoundEvent(Frame, ScrFileName);
+	}
+
+	ImGui::SameLine();
+
+	if (ImGui::Button("Save Data"))
+	{
+		EventHelper->SaveFile();
+	}
+
+	ImGui::Separator();
+	
+	std::list<std::shared_ptr<SoundFrameEvent>>& SEvents = EventHelper->GetSoundEvents();
+	if (SEvents.empty())
+	{
+		return;
+	}
+
+
+	std::shared_ptr<SoundFrameEvent> SelectEvent;
+	for (const std::shared_ptr<SoundFrameEvent>& SEvent : SEvents)
+	{
+		int StartFrame = SEvent->GetFrame();
+		std::string EventName = std::to_string(StartFrame) + SEvent->GetSoundName().data();
+		if (ImGui::Button(EventName.c_str()))
+		{
+			SelectEvent = SEvent;
+		}
+	}
+	if (nullptr != SelectEvent)
+	{
+		EventHelper->PopEvent(SelectEvent);
 	}
 }
 
 // 나중에 Core GUI로 합칠 예정
 void MonsterGUI::Start()
 {
-	CreateEventTab<SoundFrameEventTab>("SoundTab");
+	CreateEventTab<SoundFrameEventTab>("Sound Event");
 }
 
 // _Level == TestLevel_Monster 
@@ -96,18 +130,26 @@ void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 		if (nullptr != CurAnimationInfo)
 		{
-			ImGui::Separator();
-
 			if (nullptr == CurAnimationInfo->EventHelper)
 			{
-				CurAnimationInfo->EventHelper = FrameEventHelper::CreateTempRes().get();
+				std::string_view AniName = CurAnimationInfo->Aniamtion->GetName();
+				int Frame = static_cast<int>(CurAnimationInfo->End);
+
+				GameEnginePath EventPath = GameEnginePath(SelectActor->GetEventPath());
+				EventPath.MoveChild(AniName);
+				EventPath.ChangeExtension(FrameEventHelper::GetExtName());
+
+				CurAnimationInfo->EventHelper = FrameEventHelper::CreateTempRes(EventPath.GetStringPath(), Frame).get();
+				return;
 			}
 
-			for (const std::shared_ptr<FrameEventTree>& EventTab : EventEditors)
+			ImGui::Separator();
+
+			for (const std::shared_ptr<EventTree>& EventTab : EventInfos)
 			{
 				if (ImGui::TreeNode(EventTab->GetName().c_str()))
 				{
-					ImGui::SliderInt("Select Frame", &SelectFrame, CurAnimationInfo->Start, CurAnimationInfo->End);
+					// ImGui::SliderInt("Select Frame", &SelectFrame, CurAnimationInfo->Start, CurAnimationInfo->End);
 					EventTab->OnGUI(_Level, _DeltaTime);
 					ImGui::TreePop();
 				}

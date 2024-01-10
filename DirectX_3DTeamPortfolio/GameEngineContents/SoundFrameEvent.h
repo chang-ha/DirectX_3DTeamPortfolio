@@ -31,6 +31,12 @@ public:
 		_File >> SoundName;
 	}
 
+
+	inline std::string_view GetSoundName()const
+	{
+		return SoundName;
+	}
+
 protected:
 
 private:

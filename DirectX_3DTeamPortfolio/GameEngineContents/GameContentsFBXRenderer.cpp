@@ -28,13 +28,12 @@ void GameContentsFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh
 	Start = 0;
 	End = static_cast<unsigned int>(FBXAnimationData->TimeEndCount);
 
-
 	std::string EventName = FrameEventHelper::GetConvertFileName(_Animation->GetName());
 	std::shared_ptr<FrameEventHelper> pEventHelper = FrameEventHelper::Find(EventName);
 	if (nullptr != pEventHelper)
 	{
 		EventHelper = pEventHelper.get();
-		EventHelper->Initialze();
+		EventHelper->Initialze(End);
 		return;
 	}
 }
