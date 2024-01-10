@@ -28,8 +28,8 @@ void TestLevel_Boss::Start()
 {
 	ContentLevel::Start();
 
-	GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, 3000.0f });
-	GetMainCamera()->Transform.AddWorldRotation({ 0.f, 180.f, 0.f });
+	// GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, 3000.0f });
+	// GetMainCamera()->Transform.AddWorldRotation({ 0.f, 180.f, 0.f });
 
 	Scene->setVisualizationParameter(physx::PxVisualizationParameter::eACTOR_AXES, 0.0f);
 
@@ -40,8 +40,7 @@ void TestLevel_Boss::Start()
 	Scene->addActor(*groundPlane);
 
 	Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
-	Boss_Object->Transform.SetLocalPosition({1000.f, });
-
+	Boss_Object->Transform.SetLocalPosition({0.f, 0.f, 100.f});
 	{
 		std::shared_ptr<ContentsLight> Test_Light1 = CreateActor<ContentsLight>(0);
 		Test_Light1->SetLightType(Enum_LightType::Point);
@@ -56,7 +55,7 @@ void TestLevel_Boss::Start()
 	}
 
 	TestObj = CreateActor<TestObject>(0, "TestObj");
-	TestObj->Transform.SetLocalPosition({ 0.0f, -100.0f, 0.0f });
+	TestObj->Transform.SetLocalPosition({ 0.0f, 0.0f, -2000.0f });
 }
 
 void TestLevel_Boss::Update(float _Delta)

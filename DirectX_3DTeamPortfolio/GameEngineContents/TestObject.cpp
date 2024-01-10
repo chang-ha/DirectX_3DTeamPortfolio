@@ -23,7 +23,7 @@ void TestObject::LevelStart(GameEngineLevel* _PrevLevel)
 	//}
 
 	FBXRenderer->SetFBXMesh("SmallMap.fbx", "FBXStaticColor");
-	TriMesh->Transform.SetLocalPosition({0.f, -1000.f, 0.f});
+	TriMesh->Transform.SetLocalPosition({0.f, 0.f, 0.f});
 	TriMesh->PhysXComponentInit("SmallMap.fbx");
 }
 

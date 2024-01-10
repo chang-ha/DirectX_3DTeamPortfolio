@@ -25,14 +25,13 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 			GameEngineFBXMesh::Load(File.GetStringPath());
 		}
 
-		if (nullptr == BossFBXRenderer)
-		{
-			BossFBXRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
-		}
+		//if (nullptr == BossFBXRenderer)
+		//{
+		//	BossFBXRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
+		//}
 
 		BossFBXRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBX_Animation"); // Bone 136
 		BossFBXRenderer->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
-		BossFBXRenderer->Transform.SetLocalPosition({0.f, 800.f, 0.f});
 		BossFBXRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
 	}
 
@@ -104,9 +103,11 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BossCollision->Transform.SetLocalScale({ 1.0f, 1.0f, 1.0f });
 	}
 
-	Capsule = CreateComponent<GameEnginePhysXCapsule>();
-	Capsule->Transform.SetLocalPosition({0.f, 800.f, 0.f});
-	Capsule->PhysXComponentInit(50.0f, 60.0f);
+	//if (nullptr == Capsule)
+	//{
+	//	Capsule = CreateComponent<GameEnginePhysXCapsule>();
+	//}
+	Capsule->PhysXComponentInit(100.0f, 500.0f);
 	// Capsule->SetMaxSpeed(150.0f);
 	Capsule->SetPositioningComponent();
 	// Capsule->GravityOff();
@@ -121,6 +122,16 @@ void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
 void Boss_Vordt::Start()
 {
 	GameEngineInput::AddInputObject(this);
+
+	if (nullptr == BossFBXRenderer)
+	{
+		BossFBXRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
+	}
+
+	if (nullptr == Capsule)
+	{
+		Capsule = CreateComponent<GameEnginePhysXCapsule>();
+	}
 }
 
 #define SPEED 100.0f
