@@ -72,3 +72,8 @@ void GameEngineNetClient::RecvProcess(char* _Data)
 {
 
 }
+
+void GameEngineNetClient::SendPacket(std::shared_ptr<GameEnginePacket> _Packet)
+{
+    GameEngineNet::SendPacket(ClientSocket, _Packet);
+}

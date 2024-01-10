@@ -31,6 +31,8 @@ public:
 		AcceptCallBack = _CallBack;
 	}
 
+	void SendPacket(std::shared_ptr<GameEnginePacket> _Packet) override;
+
 protected:
 	void RecvProcess(char* _Data) override;
 
