@@ -73,7 +73,7 @@ public:
 
 	virtual void SerializeEnd(GameEngineSerializer& _Ser)
 	{
-		Size = _Ser.GetWriteOffset();
+		Size = _Ser.GetWriteOffsetInt();
 
 		if (0 >= Size)
 		{
@@ -83,6 +83,19 @@ public:
 		int* SizePtr = _Ser.GetDataPtr<int*>();
 		*SizePtr = Size;
 	}
+
+	void DeSerializePacket(GameEngineSerializer& _Ser)
+	{
+		DeSerialize(_Ser);
+	}
+
+	virtual void DeSerialize(GameEngineSerializer& _Ser)
+	{
+		_Ser >> Size;
+		_Ser >> PacketID;
+		_Ser >> ObjectID;
+	}
+
 
 protected:
 

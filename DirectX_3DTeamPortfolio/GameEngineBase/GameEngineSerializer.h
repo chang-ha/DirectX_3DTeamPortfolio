@@ -207,11 +207,21 @@ public:
 		return Data.size();
 	}
 
+	void Reset()
+	{
+		WriteOffset = 0;
+		ReadOffset = 0;
+	}
+
 	size_t GetWriteOffset()
 	{
 		return WriteOffset;
 	}
 
+	size_t GetReadOffset()
+	{
+		return ReadOffset;
+	}
 
 	int GetWriteOffsetInt()
 	{
@@ -223,6 +233,8 @@ public:
 	{
 		return reinterpret_cast<PtrType>(&Data[0]);
 	}
+
+	void ClearReadData();
 
 protected:
 

@@ -138,3 +138,11 @@ std::string_view GameEngineSerializer::GetStringView()
 {
 	return GetDataPtr<const char*>();
 }
+
+
+void GameEngineSerializer::ClearReadData()
+{
+	memcpy_s(&Data[0], WriteOffset, &Data[ReadOffset], WriteOffset - ReadOffset);
+	WriteOffset -= ReadOffset;
+	ReadOffset = 0;
+}

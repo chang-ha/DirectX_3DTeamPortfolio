@@ -81,7 +81,12 @@ public:
 	void SetFBXMesh(std::string_view _Name, std::string_view _Material);
 	void SetFBXMesh(std::string_view _Name, std::string_view _Material, int _RenderUnitInfoIndex);
 
-	void SetBigFBXMesh(std::string_view _Name, std::string_view _Material);
+	void SetMapFBXMesh(std::string_view _Name, std::string_view _Material);
+
+	// º¸·ù
+	void TestSetBigFBXMesh(std::string_view _Name, std::string_view _Material);
+
+	std::shared_ptr<GameEngineRenderUnit> SetMapFBXMesh(std::string_view _Name, std::string_view _Material, int _RenderUnitInfoIndex, int _SubSetIndex);
 
 	//                                                                  RenderUnitInfoIndex
 	std::shared_ptr<GameEngineRenderUnit> SetFBXMesh(std::string_view _Name, std::string_view _Material, int _RenderUnitInfoIndex, int _SubSetIndex);
@@ -98,6 +103,8 @@ public:
 	{
 		Pause = !Pause;
 	}
+
+	std::shared_ptr<GameEngineFBXMesh> GetFBXMesh(std::string_view _Name);
 
 	inline std::shared_ptr<GameEngineFBXMesh>& GetFBXMesh() { return FBXMesh; }
 	inline std::shared_ptr<GameContentsFBXAnimationInfo>& GetCurAnimation() { return CurAnimation; }

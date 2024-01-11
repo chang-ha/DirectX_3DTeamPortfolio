@@ -49,27 +49,21 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 	CapsuleShape = Physics->createShape(physx::PxCapsuleGeometry(_Radius, _HalfHeight), *_Material); // 캡슐이 똑바로 서있는 모양은 1/4Pi 만큼 회전 필요
 
 	physx::PxVec3 Pos = { WolrdPos.X, WolrdPos.Y , WolrdPos.Z };
-	WorldDeg.Z += physx::PxHalfPi * GameEngineMath::R2D;
+	// WorldDeg.Z += physx::PxHalfPi * GameEngineMath::R2D;
 	float4 WorldQuat = WorldDeg.EulerDegToQuaternion();
 	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
 
 	// Basically RayCastTarget is Off
 	CapsuleShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
+	// Pivot to Bottom
+	physx::PxVec3 Pivot = { 0, 0.0f + _Radius * 0.5f + _HalfHeight , 0 };
+	CapsuleShape->setLocalPose(physx::PxTransform(Pivot, physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1))));
 
 	physx::PxTransform Transform(Pos, Quat);
 	ComponentActor = Physics->createRigidDynamic(Transform);
 	ComponentActor->attachShape(*CapsuleShape);
 	physx::PxRigidBodyExt::updateMassAndInertia(*ComponentActor, 0.01f);
 	ComponentActor->setMassSpaceInertiaTensor(physx::PxVec3(0.f));
-
-	// Pivot Setting Test
-	// physx::PxTransform Test1 = ComponentActor->getCMassLocalPose();
-	// 
-	// physx::PxVec3 Pivot = { 0, 0.0f - _Radius - _HalfHeight , 0 };
-	// ComponentActor->setCMassLocalPose(physx::PxTransform(Pivot, Quat));
-	// 
-	// physx::PxTransform Test2 = ComponentActor->getCMassLocalPose();
-	//
 
 	// 축 고정 기능 (추후 필요시 사용)
 	// ComponentActor->setRigidDynamicLockFlags
@@ -81,7 +75,6 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 
 	Scene->addActor(*ComponentActor);
 	// CapsuleShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
-
 	// CapsuleShape->release();
 }
 
@@ -142,7 +135,7 @@ void GameEnginePhysXCapsule::SetWorldPosition(const float4& _Pos)
 	physx::PxVec3 Pos = { _Pos.X, _Pos.Y , _Pos.Z };
 
 	float4 WorldDeg = Transform.GetWorldRotationEuler();
-	WorldDeg.Z += physx::PxHalfPi * GameEngineMath::R2D;
+	// WorldDeg.Z += physx::PxHalfPi * GameEngineMath::R2D;
 	float4 WorldQuat = WorldDeg.EulerDegToQuaternion();
 	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
 
@@ -155,7 +148,7 @@ void GameEnginePhysXCapsule::SetWorldRotation(const float4& _Degree)
 	float4 WorldDeg = { _Degree.X, _Degree.Y , _Degree.Z };
 
 	physx::PxTransform Transform = ComponentActor->getGlobalPose();
-	WorldDeg.Z += physx::PxHalfPi * GameEngineMath::R2D;
+	// WorldDeg.Z += physx::PxHalfPi * GameEngineMath::R2D;
 	float4 WorldQuat = WorldDeg.EulerDegToQuaternion();
 	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
 
@@ -180,14 +173,14 @@ void GameEnginePhysXCapsule::Positioning(float _Delta)
 		// Set ParentPos to Reflect MyPos
 		// Component's Local Transform
 		physx::PxTransform Transform = ComponentActor->getGlobalPose();
-		const TransformData& LocalTransform = GameEngineObject::Transform.GetConstTransformDataRef();
+ 		const TransformData& LocalTransform = GameEngineObject::Transform.GetConstTransformDataRef();
 
 		physx::PxVec3 ComponentPos = Transform.p;
 		physx::PxQuat ComponentQuat = Transform.q;
 
 		float4 ParentPos = { ComponentPos.x, ComponentPos.y, ComponentPos.z , 1.0f };
 		float4 Degree = float4(ComponentQuat.x, ComponentQuat.y, ComponentQuat.z, 1.0f).QuaternionToEulerDeg();
-		Degree.Z -= 90.0f; // 90도 만큼 회전한 캡슐을 고려
+		// Degree.Z -= 90.0f; // 90도 만큼 회전한 캡슐을 고려
 
 		ParentPos -= LocalTransform.LocalPosition; // Component Local Pos
 

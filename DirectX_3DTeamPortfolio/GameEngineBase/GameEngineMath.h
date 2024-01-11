@@ -143,6 +143,10 @@ public:
 		return Y * 0.5f;
 	}
 
+	inline float hZ() const
+	{
+		return Z * 0.5f;
+	}
 
 	inline int ihX() const
 	{
@@ -156,7 +160,7 @@ public:
 
 	inline float4 Half() const
 	{
-		return { hX(), hY(), Z, W };
+		return { hX(), hY(), hZ(), W};
 	}
 
 	float4 ToABS() const

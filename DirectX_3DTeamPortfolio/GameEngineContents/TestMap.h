@@ -20,12 +20,15 @@ protected:
 	void Update(float _Delta) override;
 
 private:
-	std::shared_ptr<GameEngineFBXRenderer> FBXRenderer;
-	std::shared_ptr<GameEngineFBXMesh> MapMesh;
+	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer;
 
-	// ∏ µ•¿Ã≈Õ
-	std::vector<class MapData> MapDatas;
+	std::shared_ptr<class GameEnginePhysXTriMesh> TriMesh;
 
+
+	//// ∏ µ•¿Ã≈Õ
+	//std::shared_ptr<GameEngineFBXMesh> MapMesh;
+	//std::vector<class MapData> MapDatas;
+	//std::vector<GameEngineTransform> Transdate;
 
 };
 

@@ -2,6 +2,8 @@
 #include "GameEnginePhysXTriMesh.h"
 #include "GameEnginePhysXLevel.h"
 
+#define OBJECT_ID 10
+
 GameEnginePhysXTriMesh::GameEnginePhysXTriMesh()
 {
 
@@ -34,8 +36,6 @@ void GameEnginePhysXTriMesh::Release()
 
 void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, const physx::PxMaterial* _Material /*= GameEnginePhysX::GetDefaultMaterial()*/)
 {
-	MeshPath;
-
 	GameEnginePath FilePath = GameEnginePath(_MeshName);
 	FilePath.ChangeExtension("PhysXTriMesh");
 	std::string FimeName = FilePath.GetFileName();
@@ -44,10 +44,10 @@ void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, cons
 	FilePath.MoveParentToExistsChild("PhysXSerialization");
 	FilePath.MoveChild("PhysXSerialization");
 	MeshPath = GameEnginePath(FilePath.GetStringPath() + "\\" + FimeName);
-	
+
 	if (true == MeshPath.IsExits())
 	{
-		PhysXReadSerialization();
+		PhysXDeserialization();
 		return;
 	}
 
@@ -121,10 +121,10 @@ void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, cons
 	}
 
 	Scene->addActor(*StaticActor);
-	PhysXWriteSerialization();
+	PhysXSerialization();
 }
 
-void GameEnginePhysXTriMesh::PhysXWriteSerialization()
+void GameEnginePhysXTriMesh::PhysXSerialization()
 {
 	physx::PxCooking* Cooking = GameEnginePhysX::GetCooking();
 
@@ -132,7 +132,7 @@ void GameEnginePhysXTriMesh::PhysXWriteSerialization()
 
 	// Create a collection and all objects for serialization
 	physx::PxCollection* Collection = PxCreateCollection();
-	Collection->add(*StaticActor);
+	Collection->add(*StaticActor, OBJECT_ID);
 	physx::PxSerialization::complete(*Collection, *Registry);
 
 	// Serialize either to binary or RepX
@@ -148,7 +148,7 @@ void GameEnginePhysXTriMesh::PhysXWriteSerialization()
 	Registry->release();
 }
 
-void GameEnginePhysXTriMesh::PhysXReadSerialization()
+void GameEnginePhysXTriMesh::PhysXDeserialization()
 {
 	physx::PxSerializationRegistry* Registry = physx::PxSerialization::createSerializationRegistry(*GameEnginePhysX::GetPhysics());
 
@@ -172,6 +172,31 @@ void GameEnginePhysXTriMesh::PhysXReadSerialization()
 	 fread(Data128, 1, fileSize, File);
 	 fclose(File);
 	 physx::PxCollection* Collection = physx::PxSerialization::createCollectionFromBinary(Data128, *Registry);
+	 physx::PxBase* Base = Collection->find(OBJECT_ID);
+	 physx::PxRigidStatic* Static = Base->is<physx::PxRigidStatic>();
+
+	 for (physx::PxU32 i = 0; i < Collection->getNbObjects(); i++)
+	 {
+		 switch (Collection->getObject(i).getConcreteType())
+		 {
+		 case  physx::PxConcreteType::eSHAPE :
+		 {
+			 Static->attachShape(*Collection->getObject(i).is<physx::PxShape>());
+			 int a = 0;
+		 }
+			 break;
+		 default:
+			 break;
+		 }
+	 }
+	float4 WolrdPos = Transform.GetWorldPosition();
+	float4 WorldQuat = Transform.GetWorldRotationEuler().EulerDegToQuaternion();
+
+	physx::PxVec3 Pos = { WolrdPos.X, WolrdPos.Y , WolrdPos.Z };
+	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
+	physx::PxTransform PxTransform(Pos, Quat);
+
+	Static->setGlobalPose(PxTransform);
 	//~Binary
 
 	// RepX
@@ -179,8 +204,7 @@ void GameEnginePhysXTriMesh::PhysXReadSerialization()
 	// physx::PxDefaultFileInputData InputData(MeshPath.GetStringPath().c_str());
 	// physx::PxCollection* Collection = physx::PxSerialization::createCollectionFromXml(InputData, *GameEnginePhysX::GetCooking(), *Registry);
 	//~RepX
-
-	Scene->addCollection(*Collection);
+	Scene->addActor(*Static);
 	Collection->release();
 	Registry->release();
 }
