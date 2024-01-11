@@ -19,6 +19,9 @@ void PlayLevel::Start()
 
 	GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, -1000.0f });
 
+
+
+
 	CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 
 	// ╬Ь╬ы╡╗юс

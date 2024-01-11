@@ -63,10 +63,39 @@ void Player::Start()
 	FBXRenderer->CreateFBXAnimation("Attack_04", "045150.FBX", { 0.1f, true });
 	FBXRenderer->CreateFBXAnimation("Open_Door", "060030.FBX", { 0.1f, true });
 
-	FBXRenderer->CreateFBXAnimation("Idle", "back_step.FBX", { 0.1f, true });
+	FBXRenderer->CreateFBXAnimation("String_Block", "19500.FBX", { 0.1f, true });
+
+	FBXRenderer->CreateFBXAnimation("Parrying_Attack", "030400.FBX", { 0.1f, true });
+	FBXRenderer->CreateFBXAnimation("DownAttack", "030810.FBX", { 0.1f, true });
+	FBXRenderer->CreateFBXAnimation("Parrying", "032100.FBX", { 0.1f, true });
+	FBXRenderer->CreateFBXAnimation("Portion_Drink_01", "050110.FBX", { 0.1f, true });
+	FBXRenderer->CreateFBXAnimation("Portion_Drink_02", "050111.FBX", { 0.1f, true });
+	FBXRenderer->CreateFBXAnimation("Portion_Drink_03", "050112.FBX", { 0.1f, true });
+	//FBXRenderer->CreateFBXAnimation("Run10", "060250.FBX", { 0.1f, true });
+	FBXRenderer->CreateFBXAnimation("Sit_Down", "068010.FBX", { 0.1f, true });
+	FBXRenderer->CreateFBXAnimation("Stand_Up", "068012.FBX", { 0.1f, true });
 
 
-	FBXRenderer->ChangeAnimation("Idle");
+	FBXRenderer->CreateFBXAnimation("Solar_hurray", "080001.FBX", { 0.1f, true });
+	FBXRenderer->CreateFBXAnimation("Hi", "080011.FBX", { 0.1f, true });
+	FBXRenderer->CreateFBXAnimation("hand", "080012.FBX", { 0.1f, true });
+	FBXRenderer->CreateFBXAnimation("Fighting", "080013.FBX", { 0.1f, true });
+	FBXRenderer->CreateFBXAnimation("Fighting_02", "080014.FBX", { 0.1f, true });
+	FBXRenderer->CreateFBXAnimation("Surren", "080700.FBX", { 0.1f, true });
+	FBXRenderer->CreateFBXAnimation("Surren_Up", "080702.FBX", { 0.1f, true });
+	FBXRenderer->CreateFBXAnimation("Run20", "019500.FBX", { 0.1f, true });
+
+
+
+
+
+
+
+
+
+
+
+	FBXRenderer->ChangeAnimation("Run20");
 
 	GameEngineInput::AddInputObject(this);
 }
