@@ -3,6 +3,66 @@
 
 #define BOSS_ANI_SPEED 0.033f
 
+void Boss_State_GUI::Start()
+{
+	
+}
+
+void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
+{
+	{
+		physx::PxVec3 Vec = Linked_Boss->Capsule->GetLinearVelocity();
+
+		Vec.x = floor(Vec.x * 100) / 100;
+		Vec.y = floor(Vec.y * 100) / 100;
+		if (Vec.y < 0.001f)
+		{
+			Vec.y = 0.00f;
+		}
+		Vec.z = floor(Vec.z * 100) / 100;
+
+		std::string Speed = "Speed\n";
+		Speed += "X : " + std::to_string(Vec.x) + "\n";
+		Speed += "Y : " + std::to_string(Vec.y) + "\n";
+		Speed += "Z : " + std::to_string(Vec.z) + "\n";
+		ImGui::Text(Speed.c_str());
+	}
+
+	ImGui::NewLine();
+
+	{
+		physx::PxVec3 Vec = Linked_Boss->Capsule->GetWorldPosition();
+
+		Vec.x = floor(Vec.x * 100) / 100;
+		Vec.y = floor(Vec.y * 100) / 100;
+		Vec.z = floor(Vec.z * 100) / 100;
+
+		std::string Pos = "Pos\n";
+		Pos += "X : " + std::to_string(Vec.x) + "\n";
+		Pos += "Y : " + std::to_string(Vec.y) + "\n";
+		Pos += "Z : " + std::to_string(Vec.z) + "\n";
+		ImGui::Text(Pos.c_str());
+	}
+
+
+	ImGui::NewLine();
+
+	{
+		bool Result = Linked_Boss->Capsule->IsGravity();
+		std::string Gravity = "IsGravity\n";
+		switch (Result)
+		{
+		case 0:
+			Gravity += " False";
+			break;
+		default:
+			Gravity += " True";
+			break;
+		}
+		ImGui::Text(Gravity.c_str());
+	}
+}
+
 Boss_Vordt::Boss_Vordt()
 {
 
@@ -107,10 +167,14 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	//{
 	//	Capsule = CreateComponent<GameEnginePhysXCapsule>();
 	//}
-	Capsule->PhysXComponentInit(100.0f, 500.0f);
+	Capsule->PhysXComponentInit(100.0f, 50.0f);
 	// Capsule->SetMaxSpeed(150.0f);
 	Capsule->SetPositioningComponent();
 	// Capsule->GravityOff();
+	Capsule->IsGravity();
+
+	std::shared_ptr<Boss_State_GUI> GUI = GameEngineGUI::CreateGUIWindow<Boss_State_GUI>("Boss_State");
+	GUI->Linked_Boss = this;
 
 }
 
@@ -192,10 +256,6 @@ void Boss_Vordt::Update(float _Delta)
 		Capsule->CollisionOff();
 		Capsule->ResetMove(Enum_Axies::All);
 	}
-
-	physx::PxVec3 Vec = Capsule->GetLinearVelocity();
-	std::string Result = "X : " + std::to_string(Vec.x) + " Y : " + std::to_string(Vec.y) + " Z : " + std::to_string(Vec.z) + "\n";
-	OutputDebugString(Result.c_str());
 }
 
 void Boss_Vordt::Release()

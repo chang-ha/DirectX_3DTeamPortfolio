@@ -182,7 +182,6 @@ void GameEnginePhysXTriMesh::PhysXDeserialization()
 		 case  physx::PxConcreteType::eSHAPE :
 		 {
 			 Static->attachShape(*Collection->getObject(i).is<physx::PxShape>());
-			 int a = 0;
 		 }
 			 break;
 		 default:
