@@ -28,6 +28,12 @@ void GameContentsFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh
 	Start = 0;
 	End = static_cast<unsigned int>(FBXAnimationData->TimeEndCount);
 
+	float TotalTime = static_cast<float>(End) * Inter;
+	if (BlendIn > TotalTime)
+	{
+		BlendIn = TotalTime;
+	}
+
 	std::string EventName = FrameEventHelper::GetConvertFileName(_Animation->GetName());
 	std::shared_ptr<FrameEventHelper> pEventHelper = FrameEventHelper::Find(EventName);
 	if (nullptr != pEventHelper)
@@ -128,6 +134,27 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 		AnimationBoneData[i].Scale = float4::LerpClamp(CurData.S, NextData.S, FrameRatio);
 		AnimationBoneData[i].RotQuaternion = float4::SLerpQuaternionClamp(CurData.Q, NextData.Q, FrameRatio);
 		AnimationBoneData[i].Pos = float4::LerpClamp(CurData.T, NextData.T, FrameRatio);
+
+		if (true == ParentRenderer->IsBlend)
+		{
+			float BlendRatio = PlayTime / BlendIn;
+			if (BlendRatio < 1.0f)
+			{
+				float4x4& BoneData = ParentRenderer->BlendBoneMatrixs[i];
+				float4 BlendScale;
+				float4 BlendQuaternion;
+				float4 BlendPos;
+				BoneData.Decompose(BlendScale, BlendQuaternion, BlendPos);
+
+				AnimationBoneData[i].Scale = float4::LerpClamp(BlendScale, AnimationBoneData[i].Scale, BlendRatio);
+				AnimationBoneData[i].RotQuaternion = float4::SLerpQuaternionClamp(BlendQuaternion, AnimationBoneData[i].RotQuaternion, BlendRatio);
+				AnimationBoneData[i].Pos = float4::LerpClamp(BlendPos, AnimationBoneData[i].Pos, BlendRatio);
+			}
+			else
+			{
+				ParentRenderer->BlendReset();
+			}
+		}
 
 		float4x4 Mat = float4x4::Affine(AnimationBoneData[i].Scale, AnimationBoneData[i].RotQuaternion, AnimationBoneData[i].Pos);
 
@@ -363,6 +390,8 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 
 	if (nullptr != CurAnimation)
 	{
+		BlendBoneMatrixs = AnimationBoneNotOffset;
+		IsBlend = true;
 		CurAnimation->Reset();
 	}
 
@@ -513,4 +542,10 @@ void GameContentsFBXRenderer::TestSetBigFBXMesh(std::string_view _Name, std::str
 	{
 		SetFBXMesh(Name, _Material, UnitCount);
 	}
+}
+
+void GameContentsFBXRenderer::BlendReset()
+{
+	IsBlend = false;
+	BlendBoneMatrixs.clear();
 }

@@ -40,7 +40,6 @@ public:
 
 	// 과제로 내준것인데.
 	float BlendIn = 0.2f;
-	float BlendOut = 0.2f;
 
 
 	void Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index);
@@ -110,20 +109,21 @@ public:
 	inline std::shared_ptr<GameContentsFBXAnimationInfo>& GetCurAnimation() { return CurAnimation; }
 	inline std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>>& GetRenderUnits() { return RenderUnits; } 
 
+	void BlendReset();
+
 protected:
 	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> RenderUnits;
 
 private:
 	bool Pause = false;
+	bool IsBlend = false;
 	std::shared_ptr<GameEngineFBXMesh> FBXMesh;
 	std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>> Animations;
 	std::shared_ptr<GameContentsFBXAnimationInfo> CurAnimation;
 
-
-	float BlendTime = 0.0f;
-
 	std::vector<float4x4> AnimationBoneMatrixs;
 	std::vector<float4x4> AnimationBoneNotOffset;
+	std::vector<float4x4> BlendBoneMatrixs;
 	std::vector<AnimationBoneData> AnimationBoneDatas;
 };
 

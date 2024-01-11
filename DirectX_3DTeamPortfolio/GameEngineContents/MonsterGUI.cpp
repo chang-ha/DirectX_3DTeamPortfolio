@@ -132,15 +132,18 @@ void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		{
 			if (nullptr == CurAnimationInfo->EventHelper)
 			{
-				std::string_view AniName = CurAnimationInfo->Aniamtion->GetName();
-				int Frame = static_cast<int>(CurAnimationInfo->End);
+				std::string Path = SelectActor->GetEventPath();
+				if (false == Path.empty())
+				{
+					std::string_view AniName = CurAnimationInfo->Aniamtion->GetName();
+					int Frame = static_cast<int>(CurAnimationInfo->End);
 
-				GameEnginePath EventPath = GameEnginePath(SelectActor->GetEventPath());
-				EventPath.MoveChild(AniName);
-				EventPath.ChangeExtension(FrameEventHelper::GetExtName());
+					GameEnginePath EventPath = GameEnginePath(Path);
+					EventPath.MoveChild(AniName);
+					EventPath.ChangeExtension(FrameEventHelper::GetExtName());
 
-				CurAnimationInfo->EventHelper = FrameEventHelper::CreateTempRes(EventPath.GetStringPath(), Frame).get();
-				return;
+					CurAnimationInfo->EventHelper = FrameEventHelper::CreateTempRes(EventPath.GetStringPath(), Frame).get();
+				}
 			}
 
 			ImGui::Separator();
@@ -149,7 +152,6 @@ void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			{
 				if (ImGui::TreeNode(EventTab->GetName().c_str()))
 				{
-					// ImGui::SliderInt("Select Frame", &SelectFrame, CurAnimationInfo->Start, CurAnimationInfo->End);
 					EventTab->OnGUI(_Level, _DeltaTime);
 					ImGui::TreePop();
 				}
