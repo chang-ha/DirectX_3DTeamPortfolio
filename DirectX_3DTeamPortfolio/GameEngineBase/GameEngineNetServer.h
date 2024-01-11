@@ -33,6 +33,14 @@ public:
 
 	void SendPacket(std::shared_ptr<GameEnginePacket> _Packet) override;
 
+	void AddUser(int _ID, SOCKET _UserSocket)
+	{
+		std::lock_guard<std::mutex> Lock(UserLock);
+		Users.insert(std::pair<int, SOCKET>(_ID, _UserSocket));
+	}
+
+	void Disconnect(SOCKET _Socket) override;
+
 protected:
 	void RecvProcess(char* _Data) override;
 

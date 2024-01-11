@@ -73,6 +73,11 @@ void GameEngineNetClient::RecvProcess(char* _Data)
 
 }
 
+void GameEngineNetClient::Disconnect(SOCKET _Socket)
+{
+    MessageBoxA(nullptr, "서버와의 연결이 끊어졌습니다.", "연결 종료", MB_OK);
+}
+
 void GameEngineNetClient::SendPacket(std::shared_ptr<GameEnginePacket> _Packet)
 {
     GameEngineNet::SendPacket(ClientSocket, _Packet);
