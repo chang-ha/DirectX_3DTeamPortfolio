@@ -173,22 +173,21 @@ void GameEnginePhysXTriMesh::PhysXDeserialization()
 	 fclose(File);
 	 physx::PxCollection* Collection = physx::PxSerialization::createCollectionFromBinary(Data128, *Registry);
 	 physx::PxBase* Base = Collection->find(OBJECT_ID);
-	 physx::PxRigidStatic* Static = Base->is<physx::PxRigidStatic>();
+	 StaticActor = Base->is<physx::PxRigidStatic>();
 
-	 for (physx::PxU32 i = 0; i < Collection->getNbObjects(); i++)
-	 {
-		 switch (Collection->getObject(i).getConcreteType())
-		 {
-		 case  physx::PxConcreteType::eSHAPE :
-		 {
-			 Static->attachShape(*Collection->getObject(i).is<physx::PxShape>());
-			 int a = 0;
-		 }
-			 break;
-		 default:
-			 break;
-		 }
-	 }
+	 //for (physx::PxU32 i = 0; i < Collection->getNbObjects(); i++)
+	 //{
+		// switch (Collection->getObject(i).getConcreteType())
+		// {
+		// case  physx::PxConcreteType::eSHAPE :
+		// {
+		//	 StaticActor->attachShape(*Collection->getObject(i).is<physx::PxShape>());
+		// }
+		//	 break;
+		// default:
+		//	 break;
+		// }
+	 //}
 	float4 WolrdPos = Transform.GetWorldPosition();
 	float4 WorldQuat = Transform.GetWorldRotationEuler().EulerDegToQuaternion();
 
@@ -196,7 +195,7 @@ void GameEnginePhysXTriMesh::PhysXDeserialization()
 	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
 	physx::PxTransform PxTransform(Pos, Quat);
 
-	Static->setGlobalPose(PxTransform);
+	StaticActor->setGlobalPose(PxTransform);
 	//~Binary
 
 	// RepX
@@ -204,7 +203,8 @@ void GameEnginePhysXTriMesh::PhysXDeserialization()
 	// physx::PxDefaultFileInputData InputData(MeshPath.GetStringPath().c_str());
 	// physx::PxCollection* Collection = physx::PxSerialization::createCollectionFromXml(InputData, *GameEnginePhysX::GetCooking(), *Registry);
 	//~RepX
-	Scene->addActor(*Static);
+	// Scene->addActor(*StaticActor);
+	Scene->addCollection(*Collection);
 	Collection->release();
 	Registry->release();
 }
