@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Bloom.fx" />
     <FxCompile Include="ContentsAnimationMesh.fx" />
     <FxCompile Include="ContentsStaticMesh.fx" />
     <FxCompile Include="FBXAnimation.fx" />
