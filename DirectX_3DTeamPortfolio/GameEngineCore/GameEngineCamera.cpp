@@ -302,13 +302,23 @@ void GameEngineCamera::CameraUpdate(float _DeltaTime)
 	float4 WindowScale = GameEngineCore::MainWindow.GetScale();
 	WindowScale *= ZoomValue;
 
+	float4 Qur = Transform.GetConstTransformDataRef().WorldQuaternion;
+
 	switch (ProjectionType)
 	{
 	case EPROJECTIONTYPE::Perspective:
 		Transform.PerspectiveFovLHDeg(FOV, WindowScale.X, WindowScale.Y, Near, Far);
+		CameraFrustum.Far = Far;
+		CameraFrustum.Near = Near;
+		CameraFrustum.Origin = { Position.X, Position.Y, Position.Z };
+		CameraFrustum.Orientation = { Qur.X, Qur.Y, Qur.Z, Qur.W };
 		break;
 	case EPROJECTIONTYPE::Orthographic:
 		Transform.OrthographicLH(WindowScale.X, WindowScale.Y, Near, Far);
+		CameraFrustum.Far = Far;
+		CameraFrustum.Near = Near;
+		CameraFrustum.Origin = { Position.X, Position.Y, Position.Z };
+		CameraFrustum.Orientation = { Qur.X, Qur.Y, Qur.Z, Qur.W };
 		break;
 	default:
 		break;

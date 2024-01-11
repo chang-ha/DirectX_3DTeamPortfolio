@@ -934,11 +934,14 @@
     <ClInclude Include="ThirdParty\PhysX\inc\PxConfig.h">
       <Filter>ThirdParty\PhysX\inc</Filter>
     </ClInclude>
-    <ClInclude Include="GameEnginePhysXLevel.h">
-      <Filter>PhysX</Filter>
+    <ClInclude Include="GameEnginePhysXBox.h">
+      <Filter>PhysX\Component</Filter>
     </ClInclude>
-    <ClInclude Include="GameEnginePhysXActor.h">
-      <Filter>PhysX</Filter>
+    <ClInclude Include="GameEnginePhysXCapsule.h">
+      <Filter>PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEnginePhysXCharacterController.h">
+      <Filter>PhysX\Component</Filter>
     </ClInclude>
     <ClInclude Include="GameEnginePhysXComponent.h">
       <Filter>PhysX\Component</Filter>
@@ -946,20 +949,14 @@
     <ClInclude Include="GameEnginePhysXSphere.h">
       <Filter>PhysX\Component</Filter>
     </ClInclude>
-    <ClInclude Include="GameEnginePhysXBox.h">
-      <Filter>PhysX\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEnginePhysXCapsule.h">
-      <Filter>PhysX\Component</Filter>
-    </ClInclude>
     <ClInclude Include="GameEnginePhysXTriMesh.h">
       <Filter>PhysX\Component</Filter>
     </ClInclude>
-    <ClInclude Include="GameEnginePhysXCharacterController.h">
-      <Filter>PhysX\Component</Filter>
+    <ClInclude Include="GameEnginePhysXActor.h">
+      <Filter>PhysX</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineNetWindow.h">
-      <Filter>GUI\Engine</Filter>
+    <ClInclude Include="GameEnginePhysXLevel.h">
+      <Filter>PhysX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1154,11 +1151,14 @@
     <ClCompile Include="GameEnginePhysX.cpp">
       <Filter>PhysX</Filter>
     </ClCompile>
-    <ClCompile Include="GameEnginePhysXLevel.cpp">
-      <Filter>PhysX</Filter>
+    <ClCompile Include="GameEnginePhysXBox.cpp">
+      <Filter>PhysX\Component</Filter>
     </ClCompile>
-    <ClCompile Include="GameEnginePhysXActor.cpp">
-      <Filter>PhysX</Filter>
+    <ClCompile Include="GameEnginePhysXCapsule.cpp">
+      <Filter>PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEnginePhysXCharacterController.cpp">
+      <Filter>PhysX\Component</Filter>
     </ClCompile>
     <ClCompile Include="GameEnginePhysXComponent.cpp">
       <Filter>PhysX\Component</Filter>
@@ -1166,20 +1166,14 @@
     <ClCompile Include="GameEnginePhysXSphere.cpp">
       <Filter>PhysX\Component</Filter>
     </ClCompile>
-    <ClCompile Include="GameEnginePhysXBox.cpp">
-      <Filter>PhysX\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEnginePhysXCapsule.cpp">
-      <Filter>PhysX\Component</Filter>
-    </ClCompile>
     <ClCompile Include="GameEnginePhysXTriMesh.cpp">
       <Filter>PhysX\Component</Filter>
     </ClCompile>
-    <ClCompile Include="GameEnginePhysXCharacterController.cpp">
-      <Filter>PhysX\Component</Filter>
+    <ClCompile Include="GameEnginePhysXActor.cpp">
+      <Filter>PhysX</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineNetWindow.cpp">
-      <Filter>GUI\Engine</Filter>
+    <ClCompile Include="GameEnginePhysXLevel.cpp">
+      <Filter>PhysX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

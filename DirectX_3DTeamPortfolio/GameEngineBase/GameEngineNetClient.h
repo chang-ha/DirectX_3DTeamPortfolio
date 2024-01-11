@@ -20,6 +20,8 @@ public:
 
 	void RecvProcess(char* _Data) override;
 
+	void SendPacket(std::shared_ptr<GameEnginePacket> _Packet) override;
+
 protected:
 
 private:

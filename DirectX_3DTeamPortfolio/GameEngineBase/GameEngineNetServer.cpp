@@ -40,7 +40,7 @@ void GameEngineNetServer::AcceptThread(SOCKET _AcceptSocket, GameEngineNetServer
             _Net->Users.insert(std::pair(ID, ClientSocket));
         }
 
-        _Net->AcceptCallBack(ClientSocket, _Net, ID);
+        _Net->AcceptCallBack(ClientSocket, _Net);
 
         NewThread->Start(ThreadName, std::bind(&GameEngineNet::RecvThreadFunction, ClientSocket, _Net));
 
@@ -108,6 +108,11 @@ void GameEngineNetServer::ServerOpen(short _Port, int _BackLog)
 }
 
 void GameEngineNetServer::RecvProcess(char* _Data)
+{
+
+}
+
+void GameEngineNetServer::SendPacket(std::shared_ptr<GameEnginePacket> _Packet)
 {
 
 }

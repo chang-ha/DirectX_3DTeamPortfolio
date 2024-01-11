@@ -17,12 +17,14 @@ public:
 	void PhysXComponentInit(std::string_view _MeshName, const physx::PxMaterial* _Material = GameEnginePhysX::GetDefaultMaterial());
 
 protected:
-	void LevelStart(GameEngineLevel* _PrevLevel) override;
-	void LevelEnd(GameEngineLevel* _NextLevel) override;
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
 private:
-	physx::PxRigidDynamic* ComponentActor = nullptr;
+	void PhysXSerialization();
+	void PhysXDeserialization();
+
+	GameEnginePath MeshPath = {};
+	physx::PxRigidStatic* StaticActor = nullptr;
 };
 

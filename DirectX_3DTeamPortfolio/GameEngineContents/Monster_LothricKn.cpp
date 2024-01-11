@@ -15,6 +15,8 @@ void Monster_LothricKn::Start()
 {
 	CommonMonster::Start();
 
+	EventLoad();
+
 	MainRenderer->SetFBXMesh("c1280.fbx", "FBXAnimationTexture");
 
 	MainRenderer->CreateFBXAnimation("DH_Aiming", "c1280_DH_Aiming.fbx", { 0.05f , true });

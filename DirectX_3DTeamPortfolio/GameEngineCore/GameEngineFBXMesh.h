@@ -568,33 +568,6 @@ struct Bone : public GameEngineSerializObject
 	}
 };
 
-struct MapData : public GameEngineSerializObject
-{
-	std::string Name;
-	float4 Pos;
-	bool IsLoad;
-
-	MapData()
-	{
-		Name = "";
-		Pos = float4::ZERO;
-		IsLoad = false;
-	}
-
-	void Write(GameEngineSerializer& _File) override
-	{
-		_File << Name;
-		_File << Pos;
-		_File << IsLoad;
-	}
-
-	void Read(GameEngineSerializer& _File) override
-	{
-		_File >> Name;
-		_File >> Pos;
-		_File >> IsLoad;
-	}
-};
 
 class FbxClusterData
 {
@@ -610,6 +583,40 @@ public:
 		, LinkName("")
 	{
 
+	}
+};
+
+// 맵데이터
+struct MapData : public GameEngineSerializObject
+{
+	std::string Name;
+	float4 Center;
+	float4 Scale;
+	float4 MinBox;
+	bool IsLoad;
+
+	MapData()
+	{
+		Name = "";
+		Center = float4::ZERO;
+		Scale = float4::ZERO;
+		IsLoad = false;
+	}
+
+	void Write(GameEngineSerializer& _File) override
+	{
+		_File << Name;
+		_File << Center;
+		_File << Scale;
+		_File << IsLoad;
+	}
+
+	void Read(GameEngineSerializer& _File) override
+	{
+		_File >> Name;
+		_File >> Center;
+		_File >> Scale;
+		_File >> IsLoad;
 	}
 };
 
@@ -641,15 +648,21 @@ public:
 	void Initialize();
 
 	// 분할파일 용
-	void BigFBXInitialize();
+	void MapFBXInitialize();
+
+	// 분할로드 보류
 	void TestBigFBXInitialize();
 	void BigFBXLoad(size_t _Num, std::string_view _Name);
-
-
 	int GetMapDatasCount()
 	{
 		return static_cast<int>(MapDatas.size());
+	}	
+	std::vector<MapData> GetMapDatas()
+	{
+		return MapDatas;
 	}
+
+
 	
 	int GetRenderUnitCount()
 	{
@@ -678,10 +691,6 @@ public:
 	std::vector<FbxRenderUnitInfo> GetRenderUnitInfos()
 	{
 		return RenderUnitInfos;
-	}
-	std::vector<MapData> GetMapDatas()
-	{
-		return MapDatas;
 	}
 
 protected:
