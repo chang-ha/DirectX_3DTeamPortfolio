@@ -10,6 +10,11 @@ void Boss_State_GUI::Start()
 
 void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
+	if (nullptr == Linked_Boss)
+	{
+		return;
+	}
+
 	{
 		physx::PxVec3 Vec = Linked_Boss->Capsule->GetLinearVelocity();
 
@@ -173,13 +178,14 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	// Capsule->GravityOff();
 	Capsule->IsGravity();
 
-	std::shared_ptr<Boss_State_GUI> GUI = GameEngineGUI::CreateGUIWindow<Boss_State_GUI>("Boss_State");
+	GUI = GameEngineGUI::CreateGUIWindow<Boss_State_GUI>("Boss_State");
 	GUI->Linked_Boss = this;
 
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
 {
+	GUI->Linked_Boss = nullptr;
 	Death();
 }
 

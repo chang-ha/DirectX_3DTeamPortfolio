@@ -51,5 +51,6 @@ private:
 	std::shared_ptr<class GameEngjnePhysXBox> Box;
 	std::shared_ptr<class GameEnginePhysXCapsule> Capsule;
 	GameEngineState BossState;
+	std::shared_ptr<Boss_State_GUI> GUI = nullptr;
 };
 
