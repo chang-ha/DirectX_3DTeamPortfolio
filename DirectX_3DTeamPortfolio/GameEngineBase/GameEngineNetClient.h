@@ -16,6 +16,8 @@ public:
 	GameEngineNetClient& operator=(const GameEngineNetClient& _Other) = delete;
 	GameEngineNetClient& operator=(GameEngineNetClient&& _Other) noexcept = delete;
 
+	void Disconnect(SOCKET _Socket);
+
 	bool Connect(const std::string& _IP, unsigned short _Port);
 
 	void RecvProcess(char* _Data) override;

@@ -18,6 +18,8 @@ public:
 	GameEngineNet& operator=(const GameEngineNet& _Other) = delete;
 	GameEngineNet& operator=(GameEngineNet&& _Other) noexcept = delete;
 
+	virtual void Disconnect(SOCKET _Socket) {}
+
 	virtual void RecvProcess(char* _Data) = 0;
 
 	virtual void SendPacket(std::shared_ptr<GameEnginePacket> _Packet) = 0;

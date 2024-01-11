@@ -18,7 +18,6 @@ void GameEngineNetServer::AcceptThread(SOCKET _AcceptSocket, GameEngineNetServer
             return;
         }
 
-
         std::shared_ptr<GameEngineThread> NewThread = std::make_shared<GameEngineThread>();
         _Net->ServerRecvThreads.push_back(NewThread);
 
@@ -29,15 +28,6 @@ void GameEngineNetServer::AcceptThread(SOCKET _AcceptSocket, GameEngineNetServer
         if (nullptr == _Net->AcceptCallBack)
         {
             MsgBoxAssert("엑셉트 함수를 세팅하지 않은 상태로 서버를 가동시켰습니다.");
-        }
-
-        int ID = -1;
-
-        {
-            ID = _Net->SOCKETID++;
-
-            std::lock_guard<std::mutex> Lock(_Net->UserLock);
-            _Net->Users.insert(std::pair(ID, ClientSocket));
         }
 
         _Net->AcceptCallBack(ClientSocket, _Net);
@@ -107,6 +97,32 @@ void GameEngineNetServer::ServerOpen(short _Port, int _BackLog)
     Thread.Start("AcceptThread", std::bind(GameEngineNetServer::AcceptThread, AcceptSocket, this));
 }
 
+void GameEngineNetServer::Disconnect(SOCKET _Socket)
+{
+    // 내가 직접 종료했을때는 메세지 안띄우게 만든다.
+
+    std::mutex UserLock;
+
+    std::map<int, SOCKET>::iterator StartIter = Users.begin();
+    std::map<int, SOCKET>::iterator EndIter = Users.end();
+
+    for (; StartIter != EndIter; )
+    {
+        if (StartIter->second != _Socket)
+        {
+            ++StartIter;
+            continue;
+        }
+
+        StartIter = Users.erase(StartIter);
+
+        //std::string Text = std::to_string(StartIter->first);
+        //Text += " 번 유저가 접속을 종료했습니다.";
+        //MessageBoxA(nullptr, Text.c_str(), "연결 종료", MB_OK);
+
+    }
+}
+
 void GameEngineNetServer::RecvProcess(char* _Data)
 {
 
@@ -114,5 +130,19 @@ void GameEngineNetServer::RecvProcess(char* _Data)
 
 void GameEngineNetServer::SendPacket(std::shared_ptr<GameEnginePacket> _Packet)
 {
+    // 이걸 날리는 도중 갑자기 접속자가 들어오면
+    std::lock_guard<std::mutex> Lock(UserLock);
 
+    GameEngineSerializer Ser;
+    _Packet->SerializePacket(Ser);
+
+    for (std::pair<const int, SOCKET>& pair : Users)
+    {
+        if (pair.first == _Packet->GetObjectID())
+        {
+            continue;
+        }
+
+        GameEngineNet::Send(pair.second, Ser);
+    }
 }

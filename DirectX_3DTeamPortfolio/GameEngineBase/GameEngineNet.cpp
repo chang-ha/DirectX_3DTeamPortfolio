@@ -25,6 +25,7 @@ void GameEngineNet::RecvThreadFunction(SOCKET _Socket, GameEngineNet* _Net)
 
 		if (-1 == Result)
 		{
+			_Net->Disconnect(_Socket);
 			return;
 		}
 
@@ -128,7 +129,6 @@ void GameEngineNet::SendPacket(std::shared_ptr<GameEnginePacket> _Packet)
 
 void GameEngineNet::SendPacket(SOCKET _Socket, std::shared_ptr<GameEnginePacket> _Packet)
 {
-
 	GameEngineSerializer Ser;
 	_Packet->SerializePacket(Ser);
 	Send(_Socket, Ser);

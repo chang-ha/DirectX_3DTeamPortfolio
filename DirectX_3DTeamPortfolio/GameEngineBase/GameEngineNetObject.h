@@ -88,6 +88,12 @@ public:
 		ObjectID = _ObjectID;
 	}
 
+	int GetObjectID()
+	{
+		return ObjectID;
+	}
+
+
 	void SetContorllType(ControllType _Type)
 	{
 		Type = _Type;
