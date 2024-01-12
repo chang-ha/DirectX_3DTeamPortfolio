@@ -167,6 +167,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Boss_Vordt_State.cpp" />
     <ClCompile Include="CommonMonster.cpp">
       <SubType>
       </SubType>

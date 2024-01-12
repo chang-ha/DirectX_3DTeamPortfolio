@@ -176,11 +176,17 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	// Capsule->SetMaxSpeed(150.0f);
 	Capsule->SetPositioningComponent();
 	// Capsule->GravityOff();
-	Capsule->IsGravity();
 
 	GUI = GameEngineGUI::CreateGUIWindow<Boss_State_GUI>("Boss_State");
 	GUI->Linked_Boss = this;
 
+	CreateStateParameter Idle;
+	Idle.Start = std::bind(&Boss_Vordt::IdleStart, this);
+	Idle.Stay = std::bind(&Boss_Vordt::IdleUpdate, this, GameEngineCore::MainTime.GetDeltaTime());
+	Idle.End = std::bind(&Boss_Vordt::IdleEnd, this);
+
+	BossState.CreateState(Enum_BossState::Idle, Idle);
+	BossState.ChangeState(Enum_BossState::Idle);
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)

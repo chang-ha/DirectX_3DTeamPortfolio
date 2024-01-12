@@ -14,8 +14,6 @@ private:
 	Boss_Vordt* Linked_Boss = nullptr;
 };
 
-
-
 enum class Enum_BossState
 {
 	Idle,
@@ -50,7 +48,12 @@ private:
 	std::shared_ptr<class GameEnginePhysXSphere> Sphere;
 	std::shared_ptr<class GameEngjnePhysXBox> Box;
 	std::shared_ptr<class GameEnginePhysXCapsule> Capsule;
-	GameEngineState BossState;
 	std::shared_ptr<Boss_State_GUI> GUI = nullptr;
+
+	// State
+	GameEngineState BossState;
+	void IdleStart();
+	void IdleUpdate(float _Delta);
+	void IdleEnd();
 };
 

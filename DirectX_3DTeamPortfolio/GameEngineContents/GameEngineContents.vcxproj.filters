@@ -93,6 +93,12 @@
     <ClCompile Include="Monster_HollowSoldier_Lantern.cpp">
       <Filter>Monster\Hollow</Filter>
     </ClCompile>
+    <ClCompile Include="Boss_Vordt_State.cpp">
+      <Filter>Monster\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="TestObject.cpp">
+      <Filter>Monster\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -190,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="Monster_HollowSoldier_Lantern.h">
       <Filter>Monster\Hollow</Filter>
+    </ClInclude>
+    <ClInclude Include="TestObject.h">
+      <Filter>Monster\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
