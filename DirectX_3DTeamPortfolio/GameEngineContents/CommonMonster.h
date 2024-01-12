@@ -28,10 +28,12 @@ public:
 	void EventLoad();
 
 	inline std::shared_ptr<GameContentsFBXRenderer> GetFBXRenderer() { return MainRenderer; }
+	inline std::shared_ptr<GameEngineCollision> GetRAttackCollision() { return RAttackCollision; }
 
 protected:
 	void Start() override;
-	void Update(float _Delta) override {}
+	void Update(float _Delta) override;
+	
 	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
@@ -44,6 +46,9 @@ protected:
 
 protected:
 	std::shared_ptr<GameContentsFBXRenderer> MainRenderer;
+	std::shared_ptr<GameEngineCollision> RAttackCollision;
+
+	GameEngineState MainState;
 
 private:
 	static std::map<std::string, Enum_MonsterType> MonsterTypes;

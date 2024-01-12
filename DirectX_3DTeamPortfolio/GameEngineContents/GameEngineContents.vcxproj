@@ -167,6 +167,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AnimationInfoGUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="CommonMonster.cpp">
       <SubType>
       </SubType>
@@ -275,8 +279,16 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TreeWindow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationInfoGUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="CommonMonster.h">
       <SubType>
       </SubType>
@@ -382,6 +394,10 @@
     </ClInclude>
     <ClInclude Include="TestMap.h" />
     <ClInclude Include="TestObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TreeWindow.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -156,6 +156,40 @@ void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 					ImGui::TreePop();
 				}
 			}
+
+			if (ImGui::TreeNode("Collision Node"))
+			{
+				const std::vector<float4x4>& BoneMats = SelectActor->GetFBXRenderer()->GetBoneMatrixs();
+				static int CurBoneNum = 0;
+				static float fFlowTime = 0.0f;
+				fFlowTime += _DeltaTime;
+				if (fFlowTime > 0.2f)
+				{
+					fFlowTime -= 0.2f;
+					
+					int BoneSize = static_cast<int>(BoneMats.size());
+					
+
+					++CurBoneNum;
+					if (CurBoneNum >= BoneSize)
+					{
+						CurBoneNum = 0;
+					}
+				}
+
+				float4x4 Mat = BoneMats.at(CurBoneNum);
+				float4 Scale;
+				float4 Quat;
+				float4 Pos;
+				Mat.Decompose(Scale, Quat, Pos);
+				Pos *= 50.0f;
+
+				std::shared_ptr<GameEngineCollision> RCol = SelectActor->GetRAttackCollision();
+				RCol->Transform.SetLocalRotation(Quat);
+				RCol->Transform.SetLocalPosition(Pos);
+
+				ImGui::TreePop();
+			}
 		}
 
 		RenderUnitSwitch();
@@ -293,7 +327,6 @@ void MonsterGUI::CopyAnimationName()
 		CurIndex++;
 	}
 }
-
 
 void MonsterGUI::Release()
 {

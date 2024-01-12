@@ -93,6 +93,13 @@
     <ClCompile Include="Monster_HollowSoldier_Lantern.cpp">
       <Filter>Monster\Hollow</Filter>
     </ClCompile>
+    <ClCompile Include="TestObject.cpp" />
+    <ClCompile Include="TreeWindow.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationInfoGUI.cpp">
+      <Filter>ImGui\Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -191,6 +198,13 @@
     <ClInclude Include="Monster_HollowSoldier_Lantern.h">
       <Filter>Monster\Hollow</Filter>
     </ClInclude>
+    <ClInclude Include="TestObject.h" />
+    <ClInclude Include="TreeWindow.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationInfoGUI.h">
+      <Filter>ImGui\Editor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -246,6 +260,12 @@
     </Filter>
     <Filter Include="Monster\Hollow">
       <UniqueIdentifier>{d4c245a2-3270-417d-810e-ce6e0c363efe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Monster\GUI">
+      <UniqueIdentifier>{92721433-7570-49bf-bb7a-742fa65e8a9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\Editor">
+      <UniqueIdentifier>{22360345-3c92-4fb6-b5f0-27066f4f3cf7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

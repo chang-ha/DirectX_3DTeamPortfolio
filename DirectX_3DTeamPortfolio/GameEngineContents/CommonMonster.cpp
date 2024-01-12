@@ -81,7 +81,18 @@ void CommonMonster::Start()
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
 	MainRenderer->Transform.SetLocalScale(float4(50.0f, 50.0f, 50.0f));
 	MainRenderer->Transform.SetLocalRotation(float4(0.0f, 0.0f, -90.0f));
+
+	RAttackCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::MonsterAttack);
+	RAttackCollision->Transform.SetLocalScale(float4(50.0f, 50.0f, 50.0f));
+
 }
+
+void CommonMonster::Update(float _Delta)
+{
+	MainState.Update(_Delta);
+}
+
+
 
 void CommonMonster::Release()
 {

@@ -13,10 +13,6 @@ void GameContentsFBXAnimationInfo::Reset()
 
 void GameContentsFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index)
 {
-	// GameENgineFBXAnimation의 행렬 정보가 완전해지는것은 
-	// CalFbxExBoneFrameTransMatrix가 호출되고 난 후입니다.
-	// 애니메이션의 행렬이 계산되는겁니다.
-
 	_Animation->AnimationMatrixLoad(_Mesh, _Name, _Index);
 	Aniamtion = _Animation; 
 	FBXAnimationData = Aniamtion->GetAnimationData(_Index);
@@ -129,13 +125,12 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 		FbxExBoneFrameData& CurData = FBXAnimationData->AniFrameData[i].BoneMatData[CurFrame];
 		FbxExBoneFrameData& NextData = FBXAnimationData->AniFrameData[i].BoneMatData[NextFrame];
 
-		// CurFrameTime 분명히 잘못되었다.
 		float FrameRatio = CurFrameTime / Inter;
 		AnimationBoneData[i].Scale = float4::LerpClamp(CurData.S, NextData.S, FrameRatio);
 		AnimationBoneData[i].RotQuaternion = float4::SLerpQuaternionClamp(CurData.Q, NextData.Q, FrameRatio);
 		AnimationBoneData[i].Pos = float4::LerpClamp(CurData.T, NextData.T, FrameRatio);
 
-		if (true == ParentRenderer->IsBlend)
+		if (false == ParentRenderer->BlendBoneMatrixs.empty())
 		{
 			float BlendRatio = PlayTime / BlendIn;
 			if (BlendRatio < 1.0f)
@@ -362,7 +357,14 @@ void GameContentsFBXRenderer::CreateFBXAnimation(const std::string_view _Animati
 	// 이때 애니메이션을 진짜 로드 한다.
 	NewAnimation->Init(FBXMesh, AnimationFBX, _AnimationName, _Index);
 	NewAnimation->ParentRenderer = this;
-	NewAnimation->Inter = _Params.Inter;
+	if (0.0f == _Params.Inter)
+	{
+		NewAnimation->Inter = 1.0f / 30.0f;
+	}
+	else
+	{
+		NewAnimation->Inter = _Params.Inter;
+	}
 	NewAnimation->Loop = _Params.Loop;
 	NewAnimation->Reset();
 
@@ -391,7 +393,6 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 	if (nullptr != CurAnimation)
 	{
 		BlendBoneMatrixs = AnimationBoneNotOffset;
-		IsBlend = true;
 		CurAnimation->Reset();
 	}
 
@@ -546,6 +547,5 @@ void GameContentsFBXRenderer::TestSetBigFBXMesh(std::string_view _Name, std::str
 
 void GameContentsFBXRenderer::BlendReset()
 {
-	IsBlend = false;
 	BlendBoneMatrixs.clear();
 }
