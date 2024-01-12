@@ -100,6 +100,12 @@
     <ClCompile Include="AnimationInfoGUI.cpp">
       <Filter>ImGui\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="Boss_Vordt_State.cpp">
+      <Filter>Monster\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="TestObject.cpp">
+      <Filter>Monster\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -204,6 +210,9 @@
     </ClInclude>
     <ClInclude Include="AnimationInfoGUI.h">
       <Filter>ImGui\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="TestObject.h">
+      <Filter>Monster\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

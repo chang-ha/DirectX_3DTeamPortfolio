@@ -46,7 +46,7 @@ public:
 	}
 
 	template<typename EnumType>
-	EnumType GetPacktID(){
+	EnumType GetPacketID() {
 		return static_cast<EnumType>(PacketID);
 	}
 

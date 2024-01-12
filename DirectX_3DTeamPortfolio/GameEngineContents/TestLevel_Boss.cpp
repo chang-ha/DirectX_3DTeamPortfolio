@@ -49,7 +49,7 @@ void TestLevel_Boss::Start()
 
 		Data.DifLightPower = 1.0f;
 		Data.SpcPow = 50.0f;
-		//Data.AmbientLight = float4(0.4f;
+		Data.AmbientLight = float4(0.4f);
 
 		Test_Light1->SetLightData(Data);
 	}
