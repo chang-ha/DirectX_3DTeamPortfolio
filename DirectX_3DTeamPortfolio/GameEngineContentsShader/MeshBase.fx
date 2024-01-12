@@ -34,12 +34,9 @@ void Mesh_VS_Update(inout GameEngineVertex3D _Input,inout PixelOutPut Result)
     InputNormal.w = 0.0f;
     
     Result.VIEWPOSITION = mul(InputPos, WorldViewMatrix);
-    // Result.VIEWPOSITION = mul(_Input.NORMAL, WorldMatrix);
     Result.VIEWPOSITION.w = 1.0f;
     
-    _Input.NORMAL.w = 0.0f;
     Result.VIEWNORMAL = mul(InputNormal, WorldViewMatrix);
-    // Result.VIEWNORMAL = mul(_Input.NORMAL, WorldMatrix);
     Result.VIEWNORMAL.w = 0.0f;
     
     Result.POSITION = mul(_Input.POSITION, WorldViewProjectionMatrix);
