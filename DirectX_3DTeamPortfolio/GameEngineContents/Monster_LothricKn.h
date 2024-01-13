@@ -1,9 +1,21 @@
 #pragma once
-#include "CommonMonster.h"
+#include "BaseMonster.h"
 
 // Ό³Έν :
-class Monster_LothricKn : public CommonMonster
+class Monster_LothricKn : public BaseMonster
 {
+	enum class Enum_LothricKn_State
+	{
+		None,
+		Idle_Standing1,
+		Unwake,
+		Scout,
+		Attack11,
+		Attack12,
+		Attack13,
+
+	};
+
 public:
 	// constrcuter destructer
 	Monster_LothricKn();
@@ -23,6 +35,25 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
+	void ResourcesLoad();
+	void CreateFSM();
+
+	// Start
+	void StartIdle_Standing1(GameEngineState* _State);
+	void StartUnWake(GameEngineState* _State);
+	void StartScout(GameEngineState* _State);
+	void StartRH_Attack11(GameEngineState* _State);
+	void StartRH_Attack12(GameEngineState* _State);
+	void StartRH_Attack13(GameEngineState* _State);
+
+	
+	// Update
+	void UpdateIdle_Standing1(float _DeltaTime, GameEngineState* _State);
+	void UpdateUnWake(float _DeltaTime, GameEngineState* _State);
+	void UpdateScout(float _DeltaTime, GameEngineState* _State);
+	void UpdateRH_Attack11(float _DeltaTime, GameEngineState* _State);
+	void UpdateRH_Attack12(float _DeltaTime, GameEngineState* _State);
+	void UpdateRH_Attack13(float _DeltaTime, GameEngineState* _State);
 
 };
 

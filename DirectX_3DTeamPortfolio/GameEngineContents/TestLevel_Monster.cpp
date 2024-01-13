@@ -1,6 +1,5 @@
 #include "PreCompile.h"
 #include "TestLevel_Monster.h"
-#include <GameEngineCore/GameEngineGUI.h>
 
 #include "Monster_LothricKn.h"
 #include "Monster_HollowSoldier.h"
@@ -19,17 +18,11 @@ TestLevel_Monster::~TestLevel_Monster()
 void TestLevel_Monster::Start()
 {
 	GetMainCamera()->GetCameraAllRenderTarget()->SetClearColor(float4::BLUE);
-
-	MonsterWindow = GameEngineGUI::CreateGUIWindow<MonsterGUI>("MonsterGUI");
-	MonsterWindow->Off();
 }
 
 void TestLevel_Monster::Update(float _Delta)
 {
-	if (nullptr != MonsterWindow && true == GameEngineInput::IsDown('=', this))
-	{
-		MonsterWindow->OnOffSwitch();
-	}
+
 }
 
 void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
@@ -44,10 +37,4 @@ void TestLevel_Monster::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	AllDeathObjectGroupConvert<Monster_LothricKn>(Enum_UpdateOrder::Monster);
 	AllDeathObjectGroupConvert<Monster_HollowSoldier_Sword>(Enum_UpdateOrder::Monster);
-
-	if (nullptr != MonsterWindow)
-	{
-		MonsterWindow->Release();
-		MonsterWindow->Off();
-	}
 }

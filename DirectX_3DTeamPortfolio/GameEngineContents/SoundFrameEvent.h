@@ -32,7 +32,7 @@ public:
 	}
 
 
-	inline std::string_view GetSoundName()const
+	inline std::string_view GetSoundName() const
 	{
 		return SoundName;
 	}

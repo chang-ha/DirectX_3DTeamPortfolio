@@ -54,12 +54,14 @@ public:
 	void PlayEvents(int _Frame);
 	void EventReset() {}
 
-	std::vector<std::list<FrameEventObject*>>& GetAllEvents() { return Events; }
-	std::list<std::shared_ptr<SoundFrameEvent>>& GetSoundEvents() { return SoundEvents; }
 	int GetEventCount();
 
 	void CreateSoundEvent(int _StartFrame, std::string_view _SoundName);
 	void PopEvent(const std::shared_ptr<SoundFrameEvent>& _Event);
+
+
+	std::vector<std::list<FrameEventObject*>>& GetAllEvents() { return Events; }
+	std::list<std::shared_ptr<SoundFrameEvent>>& GetSoundEvents() { return SoundEvents; }
 
 protected:
 	void PushEventData();

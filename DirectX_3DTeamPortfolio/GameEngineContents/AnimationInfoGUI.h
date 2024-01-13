@@ -76,7 +76,7 @@ protected:
 	}
 
 private:
-	class CommonMonster* SelectActor = nullptr;
+	class BaseMonster* SelectActor = nullptr;
 
 	std::vector<std::string> ActorNames;
 	std::vector<const char*> CObjectNames;

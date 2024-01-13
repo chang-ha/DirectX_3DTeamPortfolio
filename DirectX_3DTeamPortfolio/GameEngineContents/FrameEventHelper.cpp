@@ -131,7 +131,6 @@ void FrameEventHelper::CreateSoundEvent(int _StartFrame, std::string_view _Sound
 		}
 	}
 	std::shared_ptr<SoundFrameEvent> SEvent = std::make_shared<SoundFrameEvent>();
-	SEvent->Type = Enum_FrameEventType::Sound;
 	SEvent->StartFrame = _StartFrame;
 	SEvent->SoundName = _SoundName;
 	SoundEvents.push_back(SEvent);
@@ -156,7 +155,7 @@ void FrameEventHelper::PopEvent(const std::shared_ptr<SoundFrameEvent>& _Event)
 	case Sound:
 		SoundEvents.remove(_Event);
 		break;
-	case Collision:
+	case Collision: 
 		break;
 	case Transfrom:
 		break;

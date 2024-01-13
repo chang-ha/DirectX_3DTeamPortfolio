@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "AnimationInfoGUI.h"
 
-#include "CommonMonster.h"
+#include "BaseMonster.h"
 #include "FrameEventHelper.h"
 
 AnimationInfoGUI::AnimationInfoGUI() 
@@ -68,8 +68,8 @@ void AnimationInfoGUI::ShowActorList(GameEngineLevel* _Level)
 			return;
 		}
 
-		const std::vector<std::shared_ptr<CommonMonster>>& MonsterGroup = _Level->GetObjectGroupConvert<CommonMonster>(Enum_UpdateOrder::Monster);
-		for (const std::shared_ptr<CommonMonster>& Monster : MonsterGroup)
+		const std::vector<std::shared_ptr<BaseMonster>>& MonsterGroup = _Level->GetObjectGroupConvert<BaseMonster>(Enum_UpdateOrder::Monster);
+		for (const std::shared_ptr<BaseMonster>& Monster : MonsterGroup)
 		{
 			if (CObjectNames[SelectActorIndex] == Monster->GetName())
 			{

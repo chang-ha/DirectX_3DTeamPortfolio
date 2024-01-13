@@ -1,5 +1,5 @@
 #pragma once
-#include "CommonMonster.h"
+#include "BaseMonster.h"
 
 enum class Enum_Hollow_MeshIndex
 {
@@ -42,7 +42,7 @@ enum class Enum_Hollow_MeshIndex
 };
 
 // Ό³Έν : 
-class Monster_Hollow : public CommonMonster
+class Monster_Hollow : public BaseMonster
 {
 public:
 	// constrcuter destructer

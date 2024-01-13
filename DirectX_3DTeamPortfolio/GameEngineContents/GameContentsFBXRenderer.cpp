@@ -8,7 +8,7 @@ void GameContentsFBXAnimationInfo::Reset()
 	CurFrame = 0;
 	PlayTime = 0.0f;
 	IsStart = false;
-	// Start = 0;
+	IsEnd = false;
 }
 
 void GameContentsFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index)
@@ -44,6 +44,8 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 {
 	if (false == ParentRenderer->Pause)
 	{
+		IsEnd = false;
+
 		if (false == IsStart)
 		{
 			if (nullptr != EventHelper)
@@ -75,6 +77,7 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 				if (true == Loop)
 				{
 					CurFrame = Start;
+					IsEnd = true;
 				}
 				else
 				{
@@ -405,11 +408,6 @@ void GameContentsFBXRenderer::Update(float _DeltaTime)
 	{
 		CurAnimation->Update(_DeltaTime);
 	}
-}
-
-std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& GameContentsFBXRenderer::GetAnimationInfos()
-{
-	return Animations;
 }
 
 
