@@ -19,8 +19,6 @@ protected:
 
 private:
 
-	std::shared_ptr<GameEngineRenderUnit> BlurUnit;
-	std::shared_ptr<GameEngineRenderUnit> CombineUnit;
 
 	void Start() override;
 	void EffectProcess(float _DeltaTime) override;
