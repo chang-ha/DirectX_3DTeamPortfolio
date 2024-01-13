@@ -86,7 +86,7 @@ struct PixelOutPut
 };
 
 
-PixelOutPut Bloom_VS(GameEngineVertex2D _Input)
+PixelOutPut BloomBlur_VS(GameEngineVertex2D _Input)
 {
     PixelOutPut Result = (PixelOutPut) 0;
     Result.POSITION = _Input.POSITION;
@@ -94,15 +94,12 @@ PixelOutPut Bloom_VS(GameEngineVertex2D _Input)
     return Result;
 }
 
-Texture2D DiffuseTex : register(t0);
-SamplerState DiffuseTexSampler : register(s0);
+Texture2D BrightTex : register(t0);
+SamplerState BrightTexSampler : register(s0);
 
 // StructuredBuffer<float4> ArrScreenSize : register(t11);
 
-float4 Bloom_PS(PixelOutPut _Input) : SV_Target0
+float4 BloomBlur_PS(PixelOutPut _Input) : SV_Target0
 {
-    
-    
-    
-    return GaussianBlur(DiffuseTex, DiffuseTexSampler, ScreenSize.xy, _Input.TEXCOORD.xy);
+    return GaussianBlur(BrightTex, BrightTexSampler, ScreenSize.xy, _Input.TEXCOORD.xy);
 }
