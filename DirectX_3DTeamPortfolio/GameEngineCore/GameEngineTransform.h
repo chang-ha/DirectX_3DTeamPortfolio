@@ -267,6 +267,12 @@ public:
 		TransformUpdate();
 	}
 
+	void SetLocalMatrix(const float4x4& _Value)
+	{
+		_Value.Decompose(TransData.LocalScale, TransData.LocalRotation, TransData.LocalPosition);
+		TransformUpdate();
+	}
+
 	void AddLocalPosition(const float4& _Value)
 	{
 		TransData.LocalPosition += _Value;

@@ -57,6 +57,7 @@ public:
 	void ShowActorList(class GameEngineLevel* _Level);
 	void TransformEditor();
 	void AnimationList();
+	void BoneEditor();
 	void EventEditor(class GameEngineLevel* _Level, float _DeltaTime);
 
 
@@ -88,6 +89,9 @@ private:
 	std::vector<std::string> AnimationNames; // Store Value
 	std::vector<const char*> CAnimationNames; // Use 'AnimationNames' Pointer
 	std::shared_ptr<GameContentsFBXAnimationInfo> SelectAnimation;
+
+	std::vector<std::string> BoneNames;
+	std::vector<const char*> CBoneNames;
 
 	std::vector<std::shared_ptr<EventTree>> EventTrees;
 

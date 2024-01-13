@@ -23,6 +23,7 @@ void AnimationInfoGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	ShowActorList(_Level);
 	TransformEditor();
 	AnimationList();
+	BoneEditor();
 	EventEditor(_Level, _DeltaTime);
 }
 
@@ -34,6 +35,8 @@ void AnimationInfoGUI::LevelEnd()
 	CObjectNames.clear();
 	AnimationNames.clear();
 	CAnimationNames.clear();
+	BoneNames.clear();
+	CBoneNames.clear();
 }
 
 void AnimationInfoGUI::ShowActorList(GameEngineLevel* _Level)
@@ -76,6 +79,8 @@ void AnimationInfoGUI::ShowActorList(GameEngineLevel* _Level)
 				SelectActor = Monster.get();
 				AnimationNames.clear();
 				CAnimationNames.clear();
+				BoneNames.clear();
+				CBoneNames.clear();
 				SelectAnimation = nullptr;
 			}
 		}
@@ -154,6 +159,51 @@ void AnimationInfoGUI::AnimationList()
 			const char* SelectAnimationName = CAnimationNames.at(SelectAnimationIdex);
 			SelectActor->GetFBXRenderer()->ChangeAnimation(SelectAnimationName);
 			SelectAnimation = SelectActor->GetFBXRenderer()->GetCurAnimation();
+		}
+
+		ImGui::TreePop();
+	}
+}
+
+void AnimationInfoGUI::BoneEditor()
+{
+	if (nullptr == SelectActor)
+	{
+		return;
+	}
+
+	if (BoneNames.empty())
+	{
+		const std::shared_ptr<GameEngineFBXMesh>& Mesh = SelectActor->GetFBXRenderer()->GetFBXMesh();
+		int BoneCnt = static_cast<int>(Mesh->GetBoneCount());
+
+		BoneNames.resize(BoneCnt);
+		CBoneNames.resize(BoneCnt);
+
+		for (int i = 0; i < BoneCnt; i++)
+		{
+			BoneNames[i] = std::to_string(i) + "." + Mesh->FindBoneToIndex(i)->Name;
+			CBoneNames[i] = BoneNames[i].c_str();
+		}
+	}
+
+	if (ImGui::TreeNode("Bone Editor"))
+	{
+		static int SelectBone = 0;
+
+		ImGui::Combo("Bone", &SelectBone, &CBoneNames[0], static_cast<int>(CBoneNames.size()));
+
+		if (GameEngineLevel::IsDebug)
+		{
+			std::vector<float4x4>& BoneMats = SelectActor->GetFBXRenderer()->GetBoneSockets();
+			float4x4 WorldMat = SelectActor->Transform.GetConstTransformDataRef().WorldMatrix;
+			float4x4& BoneMatrix = BoneMats[SelectBone];
+			WorldMat = WorldMat * BoneMatrix;
+			float4 BoneScale;
+			float4 BoneQuat;
+			float4 BonePos;
+			WorldMat.Decompose(BoneScale, BoneQuat, BonePos);
+			GameEngineDebug::DrawSphere2D(BoneScale, BoneQuat, BonePos, float4::RED);
 		}
 
 		ImGui::TreePop();

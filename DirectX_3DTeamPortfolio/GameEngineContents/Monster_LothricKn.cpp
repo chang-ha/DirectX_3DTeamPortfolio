@@ -17,6 +17,9 @@ void Monster_LothricKn::Start()
 
 	GameEngineInput::AddInputObject(this);
 
+	SetBoneIndex(Enum_BoneType::B_01_RightHand, 78);
+	SetBoneIndex(Enum_BoneType::B_01_LeftHand, 47);
+
 	EventLoad();
 	ResourcesLoad();
 	CreateFSM();

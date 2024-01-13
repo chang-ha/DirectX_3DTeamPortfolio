@@ -25,6 +25,7 @@ private:
 
 
 std::map<std::string, Enum_MonsterType> BaseMonster::MonsterTypes;
+std::map<Enum_BoneType, int> BaseMonster::BoneIndex;
 MonsterInitial MonsterInitial::MonsterInit;
 BaseMonster::BaseMonster() 
 {
@@ -32,6 +33,84 @@ BaseMonster::BaseMonster()
 
 BaseMonster::~BaseMonster() 
 {
+}
+
+void BaseMonster::Start()
+{
+	MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
+	RAttackCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster);
+
+	Transform.SetLocalScale(float4(50.0f, 50.0f, 50.0f));
+	Transform.SetLocalRotation(float4(0.0f, 0.0f, -90.0f));
+}
+
+void BaseMonster::Update(float _Delta)
+{
+	MainState.Update(_Delta);
+
+	std::vector<float4x4>& BoneMats = GetFBXRenderer()->GetBoneSockets();
+	if (nullptr != RAttackCollision 
+		&& true == RAttackCollision->IsUpdate())
+	{
+		RAttackCollision->Transform.SetLocalMatrix(BoneMats[GetBoneIndex(Enum_BoneType::B_01_RightHand)]);
+	}
+}
+
+
+
+void BaseMonster::Release()
+{
+	MainRenderer = nullptr;
+	RAttackCollision = nullptr;
+}
+
+
+
+bool BaseMonster::IsOnFlag(Enum_MonsterFlag _Flag) const
+{
+	return (Flags / _Flag) % 2;
+}
+
+void BaseMonster::SetFlag(Enum_MonsterFlag _Flag, bool _Value)
+{
+	AddFlag(_Flag);
+
+	if (false == _Value)
+	{
+		Flags -= _Flag;
+	}
+}
+
+void BaseMonster::AddFlag(Enum_MonsterFlag _Flag)
+{
+	Flags |= _Flag;
+}
+
+void BaseMonster::SubFlag(Enum_MonsterFlag _Flag)
+{
+	SetFlag(_Flag, false);
+}
+
+
+void BaseMonster::SetBoneIndex(Enum_BoneType _BoneType, int _BoneNum)
+{
+	BoneIndex.insert(std::make_pair(_BoneType, _BoneNum));
+}
+
+/// <summary>
+/// 엔진에서 정의한 해시와 본 인덱스를 매핑시킨 데이터를 반환합니다.
+/// </summary>
+/// <param name="_BoneType">해시 정보</param>
+/// <returns> Default Value : 0 </returns>
+int BaseMonster::GetBoneIndex(Enum_BoneType _BoneType)
+{
+	std::map<Enum_BoneType, int>::iterator FindIter = BoneIndex.find(_BoneType);
+	if (FindIter == BoneIndex.end())
+	{
+		return 0;
+	}
+
+	return FindIter->second;
 }
 
 
@@ -74,54 +153,4 @@ void BaseMonster::EventLoad()
 	{
 		FrameEventHelper::Load(pFile.GetStringPath());
 	}
-}
-
-void BaseMonster::Start()
-{
-	MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
-	MainRenderer->Transform.SetLocalScale(float4(50.0f, 50.0f, 50.0f));
-	MainRenderer->Transform.SetLocalRotation(float4(0.0f, 0.0f, -90.0f));
-	 
-	RAttackCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster);
-	RAttackCollision->Transform.SetLocalScale({ 50.0f, 50.0f, 50.0f });
-}
-
-void BaseMonster::Update(float _Delta)
-{
-	MainState.Update(_Delta);
-}
-
-
-
-void BaseMonster::Release()
-{
-	MainRenderer = nullptr;
-	RAttackCollision = nullptr;
-}
-
-
-
-bool BaseMonster::IsFlag(Enum_MonsterFlag _Flag) const
-{
-	return (Flag / _Flag) % 2;
-}
-
-void BaseMonster::SetFlag(Enum_MonsterFlag _Flag, bool _Value)
-{
-	AddFlag(_Flag);
-
-	if (false == _Value)
-	{
-		Flag -= _Flag;
-	}
-}
-
-void BaseMonster::AddFlag(Enum_MonsterFlag _Flag)
-{
-	Flag |= _Flag;
-}
-
-void BaseMonster::SubFlag(Enum_MonsterFlag _Flag)
-{
-	SetFlag(_Flag, false);
 }

@@ -6,6 +6,13 @@ enum class Enum_MonsterType
 	LothricKn = 1280,
 };
 
+enum class Enum_BoneType
+{
+	None,
+	B_01_LeftHand,
+	B_01_RightHand,
+};
+
 
 // Ό³Έν :
 class BaseMonster : public GameEngineActor
@@ -37,7 +44,8 @@ public:
 	std::string GetEventPath();
 	void EventLoad();
 
-	inline std::shared_ptr<GameContentsFBXRenderer> GetFBXRenderer() { return MainRenderer; }
+	inline std::shared_ptr<GameContentsFBXRenderer>& GetFBXRenderer() { return MainRenderer; }
+	inline std::shared_ptr<GameEngineCollision>& GetRAttCollision() { return RAttackCollision; }
 
 protected:
 	void Start() override;
@@ -53,10 +61,13 @@ protected:
 		MainRenderer->GetRenderUnits().at(static_cast<int>(_MeshIndex))[0]->OnOffSwitch();
 	}
 
-	bool IsFlag(Enum_MonsterFlag _Flag) const;
+	bool IsOnFlag(Enum_MonsterFlag _Flag) const;
 	void SetFlag(Enum_MonsterFlag _Flag, bool _Value);
 	void AddFlag(Enum_MonsterFlag _Flag);
 	void SubFlag(Enum_MonsterFlag _Flag);
+
+	void SetBoneIndex(Enum_BoneType _BoneType, int _BoneNum);
+	int GetBoneIndex(Enum_BoneType _BoneType);
 
 protected:
 	std::shared_ptr<GameContentsFBXRenderer> MainRenderer;
@@ -64,10 +75,11 @@ protected:
 
 	GameEngineState MainState;
 
+	int Flags = 0;
+
 private:
+	static std::map<Enum_BoneType, int> BoneIndex;
 	static std::map<std::string, Enum_MonsterType> MonsterTypes;
 
-	int Flag = 0;
 
 };
-
