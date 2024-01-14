@@ -21,13 +21,13 @@ std::string FrameEventHelper::GetConvertFileName(std::string_view _AnimationName
 
 void FrameEventHelper::Initialze(int _Frame)
 {
-	if (false == Events.empty())
+	if (false == EventInfo.empty())
 	{
 		return;
 	}
 
 	FrameCount = _Frame;
-	Events.resize(FrameCount);
+	EventInfo.resize(FrameCount);
 	
 	GameEngineFile File(Path);
 	File.Open(FileOpenType::Read, FileDataType::Binary);
@@ -35,17 +35,40 @@ void FrameEventHelper::Initialze(int _Frame)
 	GameEngineSerializer Ser;
 	File.DataAllRead(Ser);
 
-	int SoundEvnetCnt = 0;
+	int Size;
 	
-	Ser >> SoundEvnetCnt;
-	if (0 != SoundEvnetCnt)
+	Ser >> Size;
+	if (0 == Size)
 	{
-		for (int i = 0; i < SoundEvnetCnt; i++)
+		return;
+	}
+
+	for (int i = 0; i < Size; i++)
+	{
+		int TypeNum;
+		std::shared_ptr<FrameEventObject> NewEvent;
+
+		Ser >> TypeNum;
+
+		switch (static_cast<Enum_FrameEventType>(TypeNum))
 		{
-			std::shared_ptr<SoundFrameEvent> NewEvent = std::make_shared<SoundFrameEvent>();
-			NewEvent->Read(Ser);
-			SoundEvents.push_back(NewEvent);
+		case None:
+			break;
+		case Sound:
+		{
+			NewEvent = std::make_shared<SoundFrameEvent>();
 		}
+			break;
+		case Collision:
+			break;
+		case Transfrom:
+			break;
+		default:
+			break;
+		}
+
+		NewEvent->Read(Ser);
+		Events[TypeNum].push_back(NewEvent);
 	}
 
 	PushEventData();
@@ -53,11 +76,14 @@ void FrameEventHelper::Initialze(int _Frame)
 
 void FrameEventHelper::PushEventData()
 {
-	for (std::shared_ptr<SoundFrameEvent>& SEvent : SoundEvents)
+	for (std::pair<const int, std::list<std::shared_ptr<FrameEventObject>>>& Pair : Events)
 	{
-		int Frame = SEvent->StartFrame;
-		std::list<FrameEventObject*>& EventList = Events.at(Frame);
-		EventList.push_back(SEvent.get());
+		for (const std::shared_ptr<FrameEventObject>& Object : Pair.second)
+		{
+			int Frame = Object->GetFrame();
+			EventInfo.at(Frame).push_back(Object.get());
+		}
+		
 	}
 }
 
@@ -74,14 +100,19 @@ void FrameEventHelper::SaveFile()
 
 	GameEngineSerializer Ser;
 
-	int SoundEvnetCnt = static_cast<int>(SoundEvents.size());
+	int Size = GetEventSize();
 
-	Ser << SoundEvnetCnt;
-	if (0 != SoundEvnetCnt)
+	Ser << Size;
+	if (0 == Size)
 	{
-		for (const std::shared_ptr<SoundFrameEvent>& SEvent : SoundEvents)
+		return;
+	}
+
+	for (std::pair<const int, std::list<std::shared_ptr<FrameEventObject>>>& Pair : Events)
+	{
+		for (const std::shared_ptr<FrameEventObject>& Object : Pair.second)
 		{
-			SEvent->Write(Ser);
+			Object->Write(Ser);
 		}
 	}
 
@@ -90,7 +121,7 @@ void FrameEventHelper::SaveFile()
 
 void FrameEventHelper::PlayEvents(int _Frame)
 {
-	if (Events.empty())
+	if (EventInfo.empty())
 	{
 		return;
 	}
@@ -101,7 +132,7 @@ void FrameEventHelper::PlayEvents(int _Frame)
 		return;
 	}
 
-	std::list<FrameEventObject*>& EventList = Events.at(_Frame);
+	std::list<FrameEventObject*>& EventList = EventInfo.at(_Frame);
 	if (EventList.empty())
 	{
 		return;
@@ -113,39 +144,50 @@ void FrameEventHelper::PlayEvents(int _Frame)
 	}
 }
 
-int FrameEventHelper::GetEventCount()
+int FrameEventHelper::GetEventSize()
 {
-	int SEventCnt = static_cast<int>(SoundEvents.size());
-	return SEventCnt;
+	size_t EventCnt = 0;
+	for (std::pair<const int, std::list<std::shared_ptr<FrameEventObject>>>& Pair : Events)
+	{
+		EventCnt += Pair.second.size();
+	}
+
+	return static_cast<int>(EventCnt);
 }
 
 void FrameEventHelper::CreateSoundEvent(int _StartFrame, std::string_view _SoundName)
 {
-	for (std::shared_ptr<SoundFrameEvent> SEvent : SoundEvents)
-	{
-		bool FrameSame = SEvent->StartFrame == _StartFrame;
-		bool SoundSame = SEvent->SoundName == _SoundName.data();
-		if (FrameSame && SoundSame)
-		{
-			return;
-		}
-	}
-	std::shared_ptr<SoundFrameEvent> SEvent = std::make_shared<SoundFrameEvent>();
-	SEvent->StartFrame = _StartFrame;
-	SEvent->SoundName = _SoundName;
-	SoundEvents.push_back(SEvent);
-
-	if (Events.empty())
+	if (EventInfo.empty())
 	{
 		MsgBoxAssert("Events의 컨테이너가 존재하지 않습니다.");
 		return;
 	}
 
-	Events.at(_StartFrame).push_back(SEvent.get());
+	std::shared_ptr<SoundFrameEvent> SEvent = std::make_shared<SoundFrameEvent>();
+	SEvent->StartFrame = _StartFrame;
+	SEvent->SoundName = _SoundName;
+	Events.at(static_cast<int>(Enum_FrameEventType::Sound)).push_back(SEvent);
+	EventInfo.at(_StartFrame).push_back(SEvent.get());
 }
 
-void FrameEventHelper::PopEvent(const std::shared_ptr<SoundFrameEvent>& _Event)
+void FrameEventHelper::SetEvent(std::shared_ptr<FrameEventObject> _EventObject)
 {
-	Events[_Event->StartFrame].remove(_Event.get());
-	SoundEvents.remove(_Event);
+	Events.at(static_cast<int>(_EventObject->GetType())).push_back(_EventObject);
+	EventInfo.at(_EventObject->GetFrame()).push_back(_EventObject.get());
+}
+
+void FrameEventHelper::PopEvent(const std::shared_ptr<FrameEventObject>& _Event)
+{
+	EventInfo[_Event->GetFrame()].remove(_Event.get());
+	Events.at(static_cast<int>(_Event->GetType())).remove(_Event);
+}
+
+std::list<std::shared_ptr<FrameEventObject>>& FrameEventHelper::GetEventGroup(Enum_FrameEventType _Type)
+{
+	return GetEventGroup(static_cast<int>(_Type));
+}
+
+std::list<std::shared_ptr<FrameEventObject>>& FrameEventHelper::GetEventGroup(int _Type)
+{
+	return Events[_Type];
 }

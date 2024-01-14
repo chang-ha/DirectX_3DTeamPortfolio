@@ -29,6 +29,7 @@ public:
 
 	void Write(class GameEngineSerializer& _File) override
 	{
+		_File << static_cast<int>(Type);
 		_File << StartFrame;
 	}
 	void Read(class GameEngineSerializer& _File) override
@@ -41,7 +42,7 @@ public:
 		return StartFrame;
 	}
 
-	Enum_FrameEventType GetType() 
+	inline Enum_FrameEventType GetType() const
 	{
 		return Type;
 	}

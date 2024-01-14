@@ -277,11 +277,17 @@ void SoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 
 	ImGui::SliderInt("Start Frame", &SelectStartFrame, Parent->SelectAnimation->Start, Parent->SelectAnimation->End);
 	ImGui::Combo("SoundList", &SelectSoundItem, &CSoundFileList[0], static_cast<int>(CSoundFileList.size()));
+	//if (ImGui::Button("CreateEvent"))
+	//{
+	//	int Frame = SelectStartFrame;
+	//	std::string ScrFileName = CSoundFileList[SelectSoundItem];
+	//	EventHelper->CreateSoundEvent(Frame, ScrFileName);
+	//}
 	if (ImGui::Button("CreateEvent"))
 	{
-		int Frame = SelectStartFrame;
 		std::string ScrFileName = CSoundFileList[SelectSoundItem];
-		EventHelper->CreateSoundEvent(Frame, ScrFileName);
+		std::shared_ptr<SoundFrameEvent> SEvent = SoundFrameEvent::CreateEventObject(SelectStartFrame, ScrFileName);
+		EventHelper->SetEvent(SEvent);
 	}
 
 	ImGui::SameLine();
@@ -293,25 +299,26 @@ void SoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 
 	ImGui::Separator();
 
-	std::list<std::shared_ptr<SoundFrameEvent>>& SEvents = EventHelper->GetSoundEvents();
-	if (SEvents.empty())
+	std::list<std::shared_ptr<FrameEventObject>>& SEventGroup = EventHelper->GetEventGroup(Enum_FrameEventType::Sound);
+	if (SEventGroup.empty())
 	{
 		return;
 	}
 
+	std::shared_ptr<FrameEventObject> SelectObject;
 
-	std::shared_ptr<SoundFrameEvent> SelectEvent;
-	for (const std::shared_ptr<SoundFrameEvent>& SEvent : SEvents)
+	int Cnt = 0;
+	for (const std::shared_ptr<FrameEventObject>& Object : SEventGroup)
 	{
-		int StartFrame = SEvent->GetFrame();
-		std::string EventName = std::to_string(StartFrame) + SEvent->GetSoundName().data();
+		++Cnt;
+		std::string EventName = std::to_string(Cnt) + ". Frame: " + std::to_string(Object->GetFrame());
 		if (ImGui::Button(EventName.c_str()))
 		{
-			SelectEvent = SEvent;
+			SelectObject = Object;
 		}
 	}
-	if (nullptr != SelectEvent)
+	if (nullptr != SelectObject)
 	{
-		EventHelper->PopEvent(SelectEvent);
+		EventHelper->PopEvent(SelectObject);
 	}
 }
