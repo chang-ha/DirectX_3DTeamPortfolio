@@ -155,21 +155,6 @@ int FrameEventHelper::GetEventSize()
 	return static_cast<int>(EventCnt);
 }
 
-void FrameEventHelper::CreateSoundEvent(int _StartFrame, std::string_view _SoundName)
-{
-	if (EventInfo.empty())
-	{
-		MsgBoxAssert("Events의 컨테이너가 존재하지 않습니다.");
-		return;
-	}
-
-	std::shared_ptr<SoundFrameEvent> SEvent = std::make_shared<SoundFrameEvent>();
-	SEvent->StartFrame = _StartFrame;
-	SEvent->SoundName = _SoundName;
-	Events.at(static_cast<int>(Enum_FrameEventType::Sound)).push_back(SEvent);
-	EventInfo.at(_StartFrame).push_back(SEvent.get());
-}
-
 void FrameEventHelper::SetEvent(std::shared_ptr<FrameEventObject> _EventObject)
 {
 	Events.at(static_cast<int>(_EventObject->GetType())).push_back(_EventObject);

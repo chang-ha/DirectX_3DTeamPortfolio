@@ -53,7 +53,6 @@ public:
 
 	int GetEventSize();
 
-	void CreateSoundEvent(int _StartFrame, std::string_view _SoundName);
 	void SetEvent(std::shared_ptr<FrameEventObject> _EventObject);
 	void PopEvent(const std::shared_ptr<FrameEventObject>& _Event);
 
