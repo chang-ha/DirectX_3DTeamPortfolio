@@ -6,12 +6,28 @@ enum class Enum_MonsterType
 	LothricKn = 1280,
 };
 
+
 enum class Enum_BoneType
 {
 	None,
 	B_01_LeftHand,
 	B_01_RightHand,
 };
+
+namespace std
+{
+	template<>
+	class hash<Enum_BoneType>
+	{
+	public:
+		int operator()(Enum_BoneType _Type) const
+		{
+			return static_cast<int>(_Type);
+		}
+	};
+}
+
+
 
 
 // 설명 :
@@ -41,8 +57,8 @@ public:
 	BaseMonster& operator=(BaseMonster&& _Other) noexcept = delete;
 
 
-	std::string GetTypeName();
-	std::string GetEventPath();
+	static std::string GetTypeName(std::string_view _Name);
+	static std::string GetEventPath(std::string_view _Name);
 
 	inline std::shared_ptr<GameContentsFBXRenderer>& GetFBXRenderer() { return MainRenderer; }
 
@@ -76,7 +92,7 @@ protected:
 	/// <param name="_Order">콜리전 오더</param>
 	/// <param name="_Index">본 해시 값</param>
 	/// <returns>Collision 공유 포인터</returns>
-	/// <list>야</list>
+	/// <list>이 함수는 각 클래스에 본소켓과 매핑된 BoneIndex를 사용하기 때문에 정의하지 않으면 사용할 수 없음 </list>
 	template<typename OrderType>
 	std::shared_ptr<BoneSocketCollision> FindAndCreateSocketCollision(OrderType _Order, Enum_BoneType _Index)
 	{
@@ -96,7 +112,7 @@ protected:
 	int Flags = 0;
 
 private:
-	static std::map<Enum_BoneType, int> BoneIndex;
+	std::unordered_map<Enum_BoneType, int> BoneIndex;
 	static std::map<std::string, Enum_MonsterType> MonsterTypes;
 
 

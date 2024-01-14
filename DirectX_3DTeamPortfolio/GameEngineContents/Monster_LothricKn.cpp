@@ -21,6 +21,8 @@ void Monster_LothricKn::Start()
 
 	SetBoneIndex(Enum_BoneType::B_01_RightHand, 78);
 	SetBoneIndex(Enum_BoneType::B_01_LeftHand, 47);
+	// int V1 = GetBoneIndex(Enum_BoneType::B_01_LeftHand);
+	// int V2 = GetBoneIndex(Enum_BoneType::B_01_RightHand);
 
 	EventLoad();
 	ResourcesLoad();

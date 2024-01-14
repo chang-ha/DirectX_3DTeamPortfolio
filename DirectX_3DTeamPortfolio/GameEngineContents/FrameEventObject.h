@@ -41,7 +41,7 @@ public:
 		return StartFrame;
 	}
 
-	static Enum_FrameEventType GetType() 
+	Enum_FrameEventType GetType() 
 	{
 		return Type;
 	}
@@ -49,7 +49,7 @@ public:
 	std::string GetTypeString() const;
 
 protected:
-	const static Enum_FrameEventType Type = Enum_FrameEventType::None;
+	Enum_FrameEventType Type = Enum_FrameEventType::None;
 	int StartFrame = 0;
 
 };

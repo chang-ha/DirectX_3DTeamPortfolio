@@ -26,7 +26,6 @@ private:
 
 
 std::map<std::string, Enum_MonsterType> BaseMonster::MonsterTypes;
-std::map<Enum_BoneType, int> BaseMonster::BoneIndex;
 MonsterInitial MonsterInitial::MonsterInit;
 BaseMonster::BaseMonster() 
 {
@@ -97,7 +96,7 @@ void BaseMonster::SetBoneIndex(Enum_BoneType _BoneType, int _BoneNum)
 /// <returns> Default Value : 0 </returns>
 int BaseMonster::GetBoneIndex(Enum_BoneType _BoneType)
 {
-	std::map<Enum_BoneType, int>::const_iterator FindIter = BoneIndex.find(_BoneType);
+	std::unordered_map<Enum_BoneType, int>::const_iterator FindIter = BoneIndex.find(_BoneType);
 	if (FindIter == BoneIndex.end())
 	{
 		return 0;
@@ -127,9 +126,9 @@ std::shared_ptr<BoneSocketCollision> BaseMonster::FindAndCreateSocketCollision(i
 	return NewCol;
 }
 
-std::string BaseMonster::GetTypeName()
+std::string BaseMonster::GetTypeName(std::string_view _Name)
 {
-	if (auto search = MonsterTypes.find(GetName()); search != MonsterTypes.end())
+	if (auto search = MonsterTypes.find(_Name.data()); search != MonsterTypes.end())
 	{
 		int Type = static_cast<int>(search->second);
 		std::string TypeName = std::string("c") + std::to_string(Type);
@@ -139,9 +138,9 @@ std::string BaseMonster::GetTypeName()
 	return std::string();
 }
 
-std::string BaseMonster::GetEventPath()
+std::string BaseMonster::GetEventPath(std::string_view _Name)
 {
-	std::string TypeName = GetTypeName();
+	std::string TypeName = GetTypeName(_Name);
 	if (TypeName.empty())
 	{
 		return std::string();
@@ -158,7 +157,7 @@ std::string BaseMonster::GetEventPath()
 
 void BaseMonster::EventLoad()
 {
-	GameEngineDirectory Dir(GetEventPath());
+	GameEngineDirectory Dir(GetEventPath(GetName()));
 	std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".Event" });
 	for (GameEngineFile& pFile : Files)
 	{

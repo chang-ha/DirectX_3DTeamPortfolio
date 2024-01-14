@@ -219,11 +219,11 @@ void AnimationInfoGUI::EventEditor(GameEngineLevel* _Level, float _DeltaTime)
 
 	if (nullptr == SelectAnimation->EventHelper)
 	{
-		std::string Path = SelectActor->GetEventPath();
+		std::string Path = SelectActor->GetEventPath(SelectActor->GetName());
 		if (false == Path.empty())
 		{
 			std::string_view AniName = SelectAnimation->Aniamtion->GetName();
-			int Frame = static_cast<int>(SelectAnimation->End);
+			int Frame = static_cast<int>(SelectAnimation->End + 1);
 
 			GameEnginePath EventPath = GameEnginePath(Path);
 			EventPath.MoveChild(AniName);
