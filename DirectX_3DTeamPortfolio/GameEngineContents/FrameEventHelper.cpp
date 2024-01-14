@@ -19,8 +19,16 @@ std::string FrameEventHelper::GetConvertFileName(std::string_view _AnimationName
 	return Name;
 }
 
-void FrameEventHelper::Initialze()
+void FrameEventHelper::Initialze(int _Frame)
 {
+	if (false == Events.empty())
+	{
+		return;
+	}
+
+	FrameCount = _Frame;
+	Events.resize(FrameCount);
+	
 	GameEngineFile File(Path);
 	File.Open(FileOpenType::Read, FileDataType::Binary);
 
@@ -45,11 +53,6 @@ void FrameEventHelper::Initialze()
 
 void FrameEventHelper::PushEventData()
 {
-	if (Events.empty())
-	{
-		Events.resize(FrameCount);
-	}
-
 	for (std::shared_ptr<SoundFrameEvent>& SEvent : SoundEvents)
 	{
 		int Frame = SEvent->StartFrame;
@@ -58,14 +61,16 @@ void FrameEventHelper::PushEventData()
 	}
 }
 
-void FrameEventHelper::SaveFile(std::string_view _Path)
+void FrameEventHelper::SaveFile()
 {
-	GameEngineFile File(_Path.data());
+	GameEngineFile File(Path);
 	if (File.IsDirectory())
 	{
 		MsgBoxAssert("폴더 경로에 쓰기를 할 수 없습니다.");
 		return;
 	}
+
+	File.Open(FileOpenType::Write, FileDataType::Binary);
 
 	GameEngineSerializer Ser;
 
@@ -105,5 +110,56 @@ void FrameEventHelper::PlayEvents(int _Frame)
 	for (FrameEventObject* EventObject : EventList)
 	{
 		EventObject->PlayEvent();
+	}
+}
+
+int FrameEventHelper::GetEventCount()
+{
+	int SEventCnt = static_cast<int>(SoundEvents.size());
+	return SEventCnt;
+}
+
+void FrameEventHelper::CreateSoundEvent(int _StartFrame, std::string_view _SoundName)
+{
+	for (std::shared_ptr<SoundFrameEvent> SEvent : SoundEvents)
+	{
+		bool FrameSame = SEvent->StartFrame == _StartFrame;
+		bool SoundSame = SEvent->SoundName == _SoundName.data();
+		if (FrameSame && SoundSame)
+		{
+			return;
+		}
+	}
+	std::shared_ptr<SoundFrameEvent> SEvent = std::make_shared<SoundFrameEvent>();
+	SEvent->StartFrame = _StartFrame;
+	SEvent->SoundName = _SoundName;
+	SoundEvents.push_back(SEvent);
+
+	if (Events.empty())
+	{
+		MsgBoxAssert("Events의 컨테이너가 존재하지 않습니다.");
+		return;
+	}
+
+	Events.at(_StartFrame).push_back(SEvent.get());
+}
+
+void FrameEventHelper::PopEvent(const std::shared_ptr<SoundFrameEvent>& _Event)
+{
+	Events[_Event->StartFrame].remove(_Event.get());
+	Enum_FrameEventType Type = _Event->GetType();
+	switch (Type)
+	{
+	case None:
+		break;
+	case Sound:
+		SoundEvents.remove(_Event);
+		break;
+	case Collision: 
+		break;
+	case Transfrom:
+		break;
+	default:
+		break;
 	}
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEnginePacket.h"
+#include "GameEngineDispatcher.h"
 #include <memory>
 
 // 설명 : // 서버 클라 가리지 않는다.
@@ -17,19 +18,39 @@ public:
 	GameEngineNet& operator=(const GameEngineNet& _Other) = delete;
 	GameEngineNet& operator=(GameEngineNet&& _Other) noexcept = delete;
 
+	virtual void Disconnect(SOCKET _Socket) {}
+
 	virtual void RecvProcess(char* _Data) = 0;
+
+	virtual void SendPacket(std::shared_ptr<GameEnginePacket> _Packet) = 0;
 
 	void SendPacket(SOCKET _Socket, std::shared_ptr<GameEnginePacket> _Packet);
 
 	void Send(SOCKET _Socket, GameEngineSerializer& _Ser);
 	void Send(SOCKET _Socket, const char* _DataPtr, int _Size);
 
+	GameEngineDispatcher Dispatcher;
+
+	std::mutex& GetRecvPacketLock()
+	{
+		return RecvPacketLock;
+	}
+
+	std::list<std::shared_ptr<GameEnginePacket>>& GetRecvPacket()
+	{
+		return RecvPacket;
+	}
+
+	void RecvPacketProcess();
+
+
 protected:
 	static void RecvThreadFunction(SOCKET _Socket, GameEngineNet* _Net);
 	bool IsRun = true;
 
 private:
-	int AtomicID;
+	std::mutex RecvPacketLock;
+	std::list<std::shared_ptr<GameEnginePacket>> RecvPacket;
 
 };
 

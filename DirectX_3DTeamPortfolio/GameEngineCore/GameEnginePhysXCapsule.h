@@ -65,6 +65,18 @@ public:
 	void SetWorldPosition(const float4& _Pos);
 	void SetWorldRotation(const float4& _Degree);
 
+	physx::PxVec3 GetWorldPosition()
+	{
+		return ComponentActor->getGlobalPose().p;
+	}
+
+	bool IsGravity()
+	{
+		physx::PxActorFlags Flags = ComponentActor->getActorFlags();
+		bool Result = Flags & physx::PxActorFlag::eDISABLE_GRAVITY;
+		return !Result;
+	}
+
 	void GravityOn();
 	void GravityOff();
 

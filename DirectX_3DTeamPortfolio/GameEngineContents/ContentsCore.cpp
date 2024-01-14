@@ -3,6 +3,8 @@
 
 #include <GameEngineCore/GameEngineCoreWindow.h>
 #include "ContentsControlWindow.h"
+#include "TreeWindow.h"
+
 #include "PlayLevel.h"
 #include "ContentResources.h"
 #include "PlayLevel.h"
@@ -29,7 +31,10 @@ void ContentsCore::Start()
 	GameEnginePhysX::PhysXInit();
 
 	ContentsGUIWindow = GameEngineGUI::CreateGUIWindow<ContentsControlWindow>("ContentsControlWindow");
-	ContentsGUIWindow->On();
+	ContentsGUIWindow->On(); 
+
+	TreeGUIWindow = GameEngineGUI::CreateGUIWindow<TreeWindow>("TreeWindow");
+	TreeGUIWindow->On();
 
 	CoreGUIWindow = GameEngineGUI::CreateGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 	CoreGUIWindow->On();

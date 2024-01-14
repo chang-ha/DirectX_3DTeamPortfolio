@@ -1,6 +1,7 @@
 #pragma once
 #include "GameEngineLevel.h"
 #include "GameEngineDevice.h"
+#include <GameEngineBase/GameEngineNet.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 
 // Ό³Έν :
@@ -93,9 +94,15 @@ public:
 		return CurLevel;
 	}
 
+	static void SetNet(GameEngineNet* _Net)
+	{
+		Net = _Net;
+	}
+
 protected:
 
 private:
+	static GameEngineNet* Net;
 	static GameEngineDevice MainDevice;
 
 	static void EngineProcess(HINSTANCE _Inst, const std::string& _Name, float4 _Pos, float4 _Size);
