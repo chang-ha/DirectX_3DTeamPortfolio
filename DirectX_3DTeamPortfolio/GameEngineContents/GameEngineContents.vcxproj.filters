@@ -109,6 +109,9 @@
     <ClCompile Include="Monster_LothricKn_State.cpp">
       <Filter>Monster\LothricKnight</Filter>
     </ClCompile>
+    <ClCompile Include="BoneSocketCollision.cpp">
+      <Filter>Monster\Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -214,6 +217,9 @@
     <ClInclude Include="FrameEventObject.h">
       <Filter>ImGui\Editor</Filter>
     </ClInclude>
+    <ClInclude Include="BoneSocketCollision.h">
+      <Filter>Monster\Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -269,6 +275,9 @@
     </Filter>
     <Filter Include="ImGui\Editor">
       <UniqueIdentifier>{22360345-3c92-4fb6-b5f0-27066f4f3cf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Monster\Collision">
+      <UniqueIdentifier>{20ef003c-31cf-4935-939c-83cd89462723}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

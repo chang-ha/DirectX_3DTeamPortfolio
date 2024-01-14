@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "Monster_LothricKn.h"
 
+#include "BoneSocketCollision.h"
+
 
 Monster_LothricKn::Monster_LothricKn() 
 {
@@ -22,7 +24,11 @@ void Monster_LothricKn::Start()
 
 	EventLoad();
 	ResourcesLoad();
+
+	FindAndCreateSocketCollision(Enum_BoneType::B_01_RightHand, Enum_CollisionOrder::Monster);
+
 	CreateFSM();
+
 }
 
 void Monster_LothricKn::Update(float _Delta)

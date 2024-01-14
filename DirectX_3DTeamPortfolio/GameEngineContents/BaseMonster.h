@@ -15,6 +15,7 @@ enum class Enum_BoneType
 
 
 // Ό³Έν :
+class BoneSocketCollision;
 class BaseMonster : public GameEngineActor
 {
 private:
@@ -42,15 +43,12 @@ public:
 
 	std::string GetTypeName();
 	std::string GetEventPath();
-	void EventLoad();
 
 	inline std::shared_ptr<GameContentsFBXRenderer>& GetFBXRenderer() { return MainRenderer; }
-	inline std::shared_ptr<GameEngineCollision>& GetRAttCollision() { return RAttackCollision; }
 
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
-	
 	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
@@ -68,10 +66,30 @@ protected:
 
 	void SetBoneIndex(Enum_BoneType _BoneType, int _BoneNum);
 	int GetBoneIndex(Enum_BoneType _BoneType);
+	float4x4& GetBoneMatrixToIndex(Enum_BoneType _BoneType);
+
+	template<typename MonsterType>
+	std::shared_ptr<BoneSocketCollision> FindAndCreateSocketCollision(Enum_BoneType _Index, MonsterType _Type)
+	{
+		int SocketIndex = GetBoneIndex(_Index);
+		if (auto FindIter = Collisions.find(SocketIndex); FindIter != Collisions.end())
+		{
+			return FindIter->second;
+		}
+
+		std::shared_ptr<BoneSocketCollision> NewCol = CreateComponent<BoneSocketCollision>(_Type);
+		NewCol->SetSocket(&GetBoneMatrixToIndex(_Index));
+		Collisions.insert(std::make_pair(SocketIndex, NewCol));
+		return NewCol;
+	}
+
+	void AllUpdateSocketCollision();
+
+	void EventLoad();
 
 protected:
 	std::shared_ptr<GameContentsFBXRenderer> MainRenderer;
-	std::shared_ptr<GameEngineCollision> RAttackCollision;
+	std::map<int, std::shared_ptr<BoneSocketCollision>> Collisions;
 
 	GameEngineState MainState;
 

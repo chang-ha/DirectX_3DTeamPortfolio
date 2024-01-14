@@ -2,6 +2,7 @@
 #include "BaseMonster.h"
 
 #include "FrameEventHelper.h"
+#include "BoneSocketCollision.h"
 
 class MonsterInitial
 {
@@ -38,7 +39,6 @@ BaseMonster::~BaseMonster()
 void BaseMonster::Start()
 {
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
-	RAttackCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster);
 
 	Transform.SetLocalScale(float4(50.0f, 50.0f, 50.0f));
 	Transform.SetLocalRotation(float4(0.0f, 0.0f, -90.0f));
@@ -47,13 +47,6 @@ void BaseMonster::Start()
 void BaseMonster::Update(float _Delta)
 {
 	MainState.Update(_Delta);
-
-	std::vector<float4x4>& BoneMats = GetFBXRenderer()->GetBoneSockets();
-	if (nullptr != RAttackCollision 
-		&& true == RAttackCollision->IsUpdate())
-	{
-		RAttackCollision->Transform.SetLocalMatrix(BoneMats[GetBoneIndex(Enum_BoneType::B_01_RightHand)]);
-	}
 }
 
 
@@ -61,7 +54,7 @@ void BaseMonster::Update(float _Delta)
 void BaseMonster::Release()
 {
 	MainRenderer = nullptr;
-	RAttackCollision = nullptr;
+	Collisions.clear();
 }
 
 
@@ -104,7 +97,7 @@ void BaseMonster::SetBoneIndex(Enum_BoneType _BoneType, int _BoneNum)
 /// <returns> Default Value : 0 </returns>
 int BaseMonster::GetBoneIndex(Enum_BoneType _BoneType)
 {
-	std::map<Enum_BoneType, int>::iterator FindIter = BoneIndex.find(_BoneType);
+	std::map<Enum_BoneType, int>::const_iterator FindIter = BoneIndex.find(_BoneType);
 	if (FindIter == BoneIndex.end())
 	{
 		return 0;
@@ -113,15 +106,23 @@ int BaseMonster::GetBoneIndex(Enum_BoneType _BoneType)
 	return FindIter->second;
 }
 
+float4x4& BaseMonster::GetBoneMatrixToIndex(Enum_BoneType _BoneType)
+{
+	std::vector<float4x4>& BoneMats = GetFBXRenderer()->GetBoneSockets();
+	return BoneMats[GetBoneIndex(Enum_BoneType::B_01_RightHand)];
+}
+
+void BaseMonster::AllUpdateSocketCollision()
+{
+
+}
 
 std::string BaseMonster::GetTypeName()
 {
-	std::string TypeName = "c";
-
 	if (auto search = MonsterTypes.find(GetName()); search != MonsterTypes.end())
 	{
 		int Type = static_cast<int>(search->second);
-		TypeName += std::to_string(Type);
+		std::string TypeName = std::string("c") + std::to_string(Type);
 		return TypeName;
 	}
 
@@ -130,13 +131,13 @@ std::string BaseMonster::GetTypeName()
 
 std::string BaseMonster::GetEventPath()
 {
-	GameEnginePath path;
 	std::string TypeName = GetTypeName();
 	if (TypeName.empty())
 	{
 		return std::string();
 	}
 
+	GameEnginePath path;
 	path.MoveParentToExistsChild("ContentsResources");
 	path.MoveChild("ContentsResources");
 	path.MoveChild("Mesh");
