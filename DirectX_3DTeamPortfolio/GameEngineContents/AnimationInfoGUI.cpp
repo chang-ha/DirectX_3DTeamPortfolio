@@ -198,12 +198,12 @@ void AnimationInfoGUI::BoneEditor()
 			std::vector<float4x4>& BoneMats = SelectActor->GetFBXRenderer()->GetBoneSockets();
 			float4x4 WorldMat = SelectActor->Transform.GetConstTransformDataRef().WorldMatrix;
 			float4x4& BoneMatrix = BoneMats[SelectBone];
-			WorldMat = WorldMat * BoneMatrix;
-			float4 BoneScale;
-			float4 BoneQuat;
-			float4 BonePos;
-			WorldMat.Decompose(BoneScale, BoneQuat, BonePos);
-			GameEngineDebug::DrawSphere2D(BoneScale, BoneQuat, BonePos, float4::RED);
+			WorldMat = BoneMatrix * WorldMat;
+			float4 wBoneScale;
+			float4 wBoneQuat;
+			float4 wBonePos;
+			WorldMat.Decompose(wBoneScale, wBoneQuat, wBonePos);
+			GameEngineDebug::DrawSphere2D(wBoneScale, wBoneQuat, wBonePos, float4::RED);
 		}
 
 		ImGui::TreePop();
