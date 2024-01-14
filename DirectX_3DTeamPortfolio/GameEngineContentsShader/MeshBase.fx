@@ -5,8 +5,10 @@
 struct GameEngineVertex3D
 {
     float4 POSITION : POSITION;
-    float4 TEXCOORD : TEXCOORD;
     float4 NORMAL : NORMAL;
+    float4 TEXCOORD : TEXCOORD;
+    float4 TANGENT : TANGENT;
+    float4 BINORMAL : BINORMAL;
     float4 BLENDWEIGHT : BLENDWEIGHT;
     int4 BLENDINDICES : BLENDINDICES;
 };
@@ -19,6 +21,8 @@ struct PixelOutPut
     float4 TEXCOORD : TEXCOORD;
     float4 VIEWPOSITION : POSITION;
     float4 VIEWNORMAL : NORMAL;
+    float4 VIEWTANGENT : TANGENT;
+    float4 VIEWBINORMAL : BINORMAL;
 };
 
 
@@ -27,20 +31,21 @@ void Mesh_VS_Update(inout GameEngineVertex3D _Input,inout PixelOutPut Result)
 {
     //PixelOutPut Result = (PixelOutPut) 0;
     
-    float4 InputPos = _Input.POSITION;
-    InputPos.w = 1.0f;
-    
-    float4 InputNormal = _Input.NORMAL;
-    InputNormal.w = 0.0f;
-    
-    Result.VIEWPOSITION = mul(InputPos, WorldViewMatrix);
-    // Result.VIEWPOSITION = mul(_Input.NORMAL, WorldMatrix);
+    _Input.POSITION.w = 1.0f;
+    Result.VIEWPOSITION = mul(_Input.POSITION, WorldViewMatrix);
     Result.VIEWPOSITION.w = 1.0f;
     
     _Input.NORMAL.w = 0.0f;
-    Result.VIEWNORMAL = mul(InputNormal, WorldViewMatrix);
-    // Result.VIEWNORMAL = mul(_Input.NORMAL, WorldMatrix);
+    Result.VIEWNORMAL = mul(_Input.NORMAL, WorldViewMatrix);
     Result.VIEWNORMAL.w = 0.0f;
+    
+    _Input.TANGENT.w = 0.0f;
+    Result.VIEWTANGENT = mul(_Input.TANGENT, WorldViewMatrix);
+    Result.VIEWTANGENT.w = 0.0f;
+    
+    _Input.BINORMAL.w = 0.0f;
+    Result.VIEWBINORMAL = mul(_Input.BINORMAL, WorldViewMatrix);
+    Result.VIEWBINORMAL.w = 0.0f;
     
     Result.POSITION = mul(_Input.POSITION, WorldViewProjectionMatrix);
     Result.TEXCOORD = _Input.TEXCOORD;
@@ -65,6 +70,8 @@ struct PixelOut
 
 Texture2D DiffuseTexture : register(t0);
 SamplerState DiffuseTextureSampler : register(s0);
+Texture2D NormalTexture : register(t2);
+SamplerState NormalTextureSAMPLER : register(s2);
 
 void Mesh_PS_Update(inout PixelOutPut _Input, inout PixelOut _Result)
 {
@@ -75,9 +82,16 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout PixelOut _Result)
     {
         clip(-1);
     }
-   // Color.a = 1;
+    
+    if (0 != IsNormal)
+    {
+        _Input.VIEWNORMAL = NormalTexCalculate(NormalTexture, NormalTextureSAMPLER, _Input.TEXCOORD, _Input.VIEWTANGENT, _Input.VIEWBINORMAL, _Input.VIEWNORMAL);
+    }
+    
+    
     
     float4 DiffuseRatio = (float4) 0.0f;
+    float4 SpacularRatio = (float4) 0.0f;
     float4 AmbientRatio = (float4) 0.0f;
     
     if (1 == IsLight)
@@ -99,12 +113,12 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout PixelOut _Result)
             
             
             DiffuseRatio += CalDiffuseLight(_Input.VIEWNORMAL, _Input.VIEWPOSITION, AllLight[i]);
-            AmbientRatio += CalSpacularLight(_Input.VIEWPOSITION, _Input.VIEWNORMAL, AllLight[i]);
+            SpacularRatio += CalSpacularLight(_Input.VIEWPOSITION, _Input.VIEWNORMAL, AllLight[i]);
             AmbientRatio += CalAmbientLight(AllLight[i]);
         }
         
         float A = Color.w;
-        Color.xyz = Color.xyz * (DiffuseRatio.xyz + AmbientRatio.xyz);
+        Color.xyz = Color.xyz * (DiffuseRatio.xyz + SpacularRatio.xyz + AmbientRatio.xyz);
         Color.a = A;
     }
     
