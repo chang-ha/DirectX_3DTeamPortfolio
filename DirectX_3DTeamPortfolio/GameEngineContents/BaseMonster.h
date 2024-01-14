@@ -68,22 +68,22 @@ protected:
 	int GetBoneIndex(Enum_BoneType _BoneType);
 	float4x4& GetBoneMatrixToIndex(Enum_BoneType _BoneType);
 
-	template<typename MonsterType>
-	std::shared_ptr<BoneSocketCollision> FindAndCreateSocketCollision(Enum_BoneType _Index, MonsterType _Type)
+	/// <summary>
+	/// 본 소켓 행렬로 자동으로 콜리전 Model행렬 업데이트를 수행하는 콜리전
+	/// map 컨테이너에 있다면 ReturnType이 반환되며, 없으면 만들어서 반환됩니다.
+	/// </summary>
+	/// <typeparam name="MonsterType">콜리전 오더 타입</typeparam>
+	/// <param name="_Order">콜리전 오더</param>
+	/// <param name="_Index">본 해시 값</param>
+	/// <returns>Collision 공유 포인터</returns>
+	/// <list>야</list>
+	template<typename OrderType>
+	std::shared_ptr<BoneSocketCollision> FindAndCreateSocketCollision(OrderType _Order, Enum_BoneType _Index)
 	{
-		int SocketIndex = GetBoneIndex(_Index);
-		if (auto FindIter = Collisions.find(SocketIndex); FindIter != Collisions.end())
-		{
-			return FindIter->second;
-		}
-
-		std::shared_ptr<BoneSocketCollision> NewCol = CreateComponent<BoneSocketCollision>(_Type);
-		NewCol->SetSocket(&GetBoneMatrixToIndex(_Index));
-		Collisions.insert(std::make_pair(SocketIndex, NewCol));
-		return NewCol;
+		return FindAndCreateSocketCollision(static_cast<int>(_Order), _Index);
 	}
 
-	void AllUpdateSocketCollision();
+	std::shared_ptr<BoneSocketCollision> FindAndCreateSocketCollision(int _Order, Enum_BoneType _Index);
 
 	void EventLoad();
 

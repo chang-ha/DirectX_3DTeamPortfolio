@@ -112,9 +112,19 @@ float4x4& BaseMonster::GetBoneMatrixToIndex(Enum_BoneType _BoneType)
 	return BoneMats[GetBoneIndex(Enum_BoneType::B_01_RightHand)];
 }
 
-void BaseMonster::AllUpdateSocketCollision()
-{
 
+std::shared_ptr<BoneSocketCollision> BaseMonster::FindAndCreateSocketCollision(int _Order, Enum_BoneType _Index)
+{
+	int SocketIndex = GetBoneIndex(_Index);
+	if (auto FindIter = Collisions.find(SocketIndex); FindIter != Collisions.end())
+	{
+		return FindIter->second;
+	}
+
+	std::shared_ptr<BoneSocketCollision> NewCol = CreateComponent<BoneSocketCollision>(_Order);
+	NewCol->SetSocket(&GetBoneMatrixToIndex(_Index));
+	Collisions.insert(std::make_pair(SocketIndex, NewCol));
+	return NewCol;
 }
 
 std::string BaseMonster::GetTypeName()

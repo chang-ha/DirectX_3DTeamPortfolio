@@ -25,10 +25,9 @@ void Monster_LothricKn::Start()
 	EventLoad();
 	ResourcesLoad();
 
-	FindAndCreateSocketCollision(Enum_BoneType::B_01_RightHand, Enum_CollisionOrder::Monster);
+	FindAndCreateSocketCollision(Enum_CollisionOrder::Monster, Enum_BoneType::B_01_RightHand);
 
 	CreateFSM();
-
 }
 
 void Monster_LothricKn::Update(float _Delta)
