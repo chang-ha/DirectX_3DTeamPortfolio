@@ -6,13 +6,14 @@
 // ¼­¹ö¿ë
 #include "GameEngineNetWindow.h"
 
-Player::Player() 
-{	
-}
-
-Player::~Player() 
+Player::Player()
 {
 }
+
+Player::~Player()
+{
+}
+
 
 void Player::Start()
 {
@@ -21,6 +22,8 @@ void Player::Start()
 	FBXRenderer->Transform.SetLocalScale({ 200.0f, 200.0f, 200.0f });
 	FBXRenderer->Transform.SetLocalPosition({ 0.0f, -100.0f, 0.0f });
 	FBXRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
+	//	FBXRenderer->CreateFBXAnimation("Idle", "c0000.FBX", { 0.1f, true });
+	FBXRenderer->CreateFBXAnimation("Idle", "00000.FBX", { 0.1f, true });
 	FBXRenderer->CreateFBXAnimation("Shield_Idle", "00100.FBX", { 0.1f, true });
 	//FBXRenderer->CreateFBXAnimation("Run", "Ani001.FBX", { 0.1f, true });
 	FBXRenderer->CreateFBXAnimation("Waek_jump", "004200.FBX", { 0.1f, true });
@@ -86,25 +89,29 @@ void Player::Start()
 	FBXRenderer->CreateFBXAnimation("Fighting_02", "080014.FBX", { 0.1f, true });
 	FBXRenderer->CreateFBXAnimation("Surren", "080700.FBX", { 0.1f, true });
 	FBXRenderer->CreateFBXAnimation("Surren_Up", "080702.FBX", { 0.1f, true });
-	FBXRenderer->CreateFBXAnimation("Run20", "019500.FBX", { 0.1f, true });
+	//FBXRenderer->CreateFBXAnimation("Run20", "019500.FBX", { 0.1f, true });
 
+	FBXRenderer->CreateFBXAnimation("Left_Stop", "022102.FBX", { 0.1f, false }); // ¿ÞÂÊ ¸ØÃã 
+	FBXRenderer->CreateFBXAnimation("Behind_Stop", "022101.FBX", { 0.1f, false }); // µÚ ¸ØÃã 
+	FBXRenderer->CreateFBXAnimation("Right_Stop", "022103.FBX", { 0.1f, false }); // ¿À¸¥ÂÊ ¸ØÃã 
+	FBXRenderer->CreateFBXAnimation("Forward_Stop", "022200.FBX", { 0.1f, false }); // ¾Õ ¸ØÃã 
 
-
-
-
-
-
-
-
-
-
-	FBXRenderer->ChangeAnimation("Run20");
+	FBXRenderer->ChangeAnimation("Idle");
 
 	GameEngineInput::AddInputObject(this);
+
+
+	Capsule = CreateComponent<GameEnginePhysXCapsule>();
+	Capsule->Transform.SetLocalScale({ 200.0f,200.0f });
+
+
+	Player_State();
 }
 
 void Player::Update(float _Delta)
 {
+
+
 	// ¼­¹ö¸¦ ¿­¾úµç
 	if (nullptr != GameEngineNetWindow::Net)
 	{
@@ -119,8 +126,17 @@ void Player::Update(float _Delta)
 			return;
 		}
 	}
+	if (check == false)
+	{
+		PlayerState.Update(_Delta);
+	}
 
-	PlayerState.Update(_Delta);
+}
+
+void Player::LevelStart(GameEngineLevel* _PrevLevel)
+{
+	Capsule->PhysXComponentInit(100.0f, 50.0f);
+	Capsule->SetPositioningComponent();
 }
 
 void Player::ConnectIDPacketProcess(std::shared_ptr<ConnectIDPacket> _Packet)
