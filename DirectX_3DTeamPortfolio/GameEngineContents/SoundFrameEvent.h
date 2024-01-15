@@ -42,6 +42,7 @@ public:
 protected:
 
 private:
+	static const Enum_FrameEventType Type = Enum_FrameEventType::Sound;
 	std::string SoundName;
 
 };

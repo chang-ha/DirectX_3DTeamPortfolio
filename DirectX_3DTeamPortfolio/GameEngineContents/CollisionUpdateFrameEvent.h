@@ -42,15 +42,18 @@ public:
 
 
 	void PlayEvent() override;
+	int UpdateEvent(float _Delta) override;
 
 
 protected:
 
 private:
+	static const Enum_FrameEventType Type = Enum_FrameEventType::CollisionUpdate;
+
 	int EndFrame = -1;
 	int TypeNumber = -1;
 
-	BoneSocketCollision* pCollision;
+	class BoneSocketCollision* pCollision = nullptr;
 
 };
 

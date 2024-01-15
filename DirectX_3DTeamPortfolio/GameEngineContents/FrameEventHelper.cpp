@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "FrameEventHelper.h"
 
+#include "SoundFrameEvent.h"
+#include "CollisionUpdateFrameEvent.h"
+
 std::string FrameEventHelper::ExtName = ".Event";
 FrameEventHelper::FrameEventHelper() 
 {
@@ -19,14 +22,15 @@ std::string FrameEventHelper::GetConvertFileName(std::string_view _AnimationName
 	return Name;
 }
 
-void FrameEventHelper::Initialze(int _Frame)
+void FrameEventHelper::Initialze(GameContentsFBXAnimationInfo* _AnimationInfo)
 {
 	if (false == EventInfo.empty())
 	{
 		return;
 	}
 
-	FrameCount = _Frame;
+	ParentInfo = _AnimationInfo;
+	FrameCount = static_cast<int>(_AnimationInfo->FBXAnimationData->FrameCount + 1);
 	EventInfo.resize(FrameCount);
 	
 	GameEngineFile File(Path);
@@ -59,7 +63,10 @@ void FrameEventHelper::Initialze(int _Frame)
 			NewEvent = std::make_shared<SoundFrameEvent>();
 		}
 			break;
-		case Collision:
+		case CollisionUpdate:
+		{
+			NewEvent = std::make_shared<CollisionUpdateFrameEvent>();
+		}
 			break;
 		case Transfrom:
 			break;
@@ -155,27 +162,44 @@ int FrameEventHelper::GetEventSize()
 	return static_cast<int>(EventCnt);
 }
 
+void FrameEventHelper::PushPlayingEvent(FrameEventObject* _Object)
+{
+	PlayingEvents.push_back(_Object);
+}
+
+void FrameEventHelper::UpdateEvent(float _Delta)
+{
+	if (PlayingEvents.empty())
+	{
+		return;
+	}
+
+	std::list<FrameEventObject*>::iterator StartIter = PlayingEvents.begin();
+	std::list<FrameEventObject*>::iterator EndIter = PlayingEvents.end();
+	for (; StartIter != EndIter;)
+	{
+		FrameEventObject* pObject = (*StartIter);
+		if (EVENT_PLAY == pObject->UpdateEvent(_Delta))
+		{
+			++StartIter;
+			continue;
+		}
+
+		StartIter = PlayingEvents.erase(StartIter);
+	}
+}
+
 void FrameEventHelper::SetEvent(std::shared_ptr<FrameEventObject> _EventObject)
 {
 	_EventObject->SetParent(this);
-	Events[static_cast<int>(_EventObject->GetType())].push_back(_EventObject);
+	Events[_EventObject->GetEventID()].push_back(_EventObject);
 	EventInfo.at(_EventObject->GetFrame()).push_back(_EventObject.get());
 }
 
 void FrameEventHelper::PopEvent(const std::shared_ptr<FrameEventObject>& _Event)
 {
 	EventInfo[_Event->GetFrame()].remove(_Event.get());
-	Events.at(static_cast<int>(_Event->GetType())).remove(_Event);
-}
- 
-void FrameEventHelper::PushPlayingEvent(FrameEventObject* _Object)
-{
-	PlayingEvents.push_back(_Object);
-}
-
-std::list<std::shared_ptr<FrameEventObject>>& FrameEventHelper::GetEventGroup(Enum_FrameEventType _Type)
-{
-	return GetEventGroup(static_cast<int>(_Type));
+	Events.at(_Event->GetEventID()).remove(_Event);
 }
 
 std::list<std::shared_ptr<FrameEventObject>>& FrameEventHelper::GetEventGroup(int _Type)

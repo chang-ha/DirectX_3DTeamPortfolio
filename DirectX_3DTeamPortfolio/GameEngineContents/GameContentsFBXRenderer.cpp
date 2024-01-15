@@ -35,7 +35,7 @@ void GameContentsFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh
 	if (nullptr != pEventHelper)
 	{
 		EventHelper = pEventHelper.get();
-		EventHelper->Initialze(End);
+		EventHelper->Initialze(this);
 		return;
 	}
 }
@@ -90,6 +90,11 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 				EventHelper->PlayEvents(CurFrame);
 			}
 		}
+	}
+
+	if (nullptr != EventHelper)
+	{
+		EventHelper->UpdateEvent(_DeltaTime);
 	}
 
 	unsigned int NextFrame = CurFrame;

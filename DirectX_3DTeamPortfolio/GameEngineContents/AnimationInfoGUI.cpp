@@ -4,6 +4,8 @@
 #include "BaseMonster.h"
 #include "FrameEventHelper.h"
 #include "BoneSocketCollision.h"
+
+#include "SoundFrameEvent.h"
 #include "CollisionUpdateFrameEvent.h"
 
 AnimationInfoGUI::AnimationInfoGUI() 
@@ -240,13 +242,12 @@ void AnimationInfoGUI::EventEditor(GameEngineLevel* _Level, float _DeltaTime)
 		}
 
 		std::string_view AniName = SelectAnimation->Aniamtion->GetName();
-		int Frame = static_cast<int>(SelectAnimation->End + 1);
 
 		GameEnginePath EventPath = GameEnginePath(Path);
 		EventPath.MoveChild(AniName);
 		EventPath.ChangeExtension(FrameEventHelper::GetExtName());
 
-		SelectAnimation->EventHelper = FrameEventHelper::CreateTempRes(EventPath.GetStringPath(), Frame).get();
+		SelectAnimation->EventHelper = FrameEventHelper::CreateTempRes(EventPath.GetStringPath(), SelectAnimation.get()).get();
 	}
 
 	ImGui::Separator();

@@ -1,12 +1,14 @@
 #include "PreCompile.h"
 #include "CollisionUpdateFrameEvent.h"
 
+#include "GameContentsFBXRenderer.h"
 #include "BoneSocketCollision.h"
 #include "FrameEventHelper.h"
 
 
 CollisionUpdateFrameEvent::CollisionUpdateFrameEvent() 
 {
+	SetEventID(static_cast<int>(Type));
 }
 
 CollisionUpdateFrameEvent::~CollisionUpdateFrameEvent()
@@ -26,5 +28,23 @@ std::shared_ptr<CollisionUpdateFrameEvent> CollisionUpdateFrameEvent::CreateEven
 
 void CollisionUpdateFrameEvent::PlayEvent()
 {
+	if (nullptr == pCollision)
+	{
+		MsgBoxAssert("콜리전이 존재하지 않습니다.");
+		return;
+	}
+
+	pCollision->On();
 	ParentHelper->PushPlayingEvent(this);
+}
+
+int CollisionUpdateFrameEvent::UpdateEvent(float _Delta)
+{
+	if (GetCurFrame() >= EndFrame)
+	{
+		pCollision->Off();
+		return EVENT_DONE;
+	}
+
+	return EVENT_PLAY;
 }

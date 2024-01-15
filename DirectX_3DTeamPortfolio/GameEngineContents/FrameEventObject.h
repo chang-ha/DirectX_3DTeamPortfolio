@@ -1,12 +1,17 @@
 #pragma once
 #include <GameEngineBase/GameEngineSerializer.h>
 
+#define EVENT_ERROR -1
+#define EVENT_DONE 0
+#define EVENT_PLAY 1
+
+
 enum Enum_FrameEventType
 {
 	None,
 	Sound,
-	Collision,
-	Transfrom,
+	CollisionUpdate = 11,
+	Transfrom = 21,
 
 };
 
@@ -26,10 +31,11 @@ public:
 	FrameEventObject& operator=(FrameEventObject&& _Other) noexcept = delete;
 
 	virtual void PlayEvent() = 0;
+	virtual int UpdateEvent(float _Delta) { return EVENT_DONE; }
 
 	void Write(class GameEngineSerializer& _File) override
 	{
-		_File << static_cast<int>(Type);
+		_File << static_cast<int>(EventID);
 		_File << StartFrame;
 	}
 	void Read(class GameEngineSerializer& _File) override
@@ -42,19 +48,23 @@ public:
 		return StartFrame;
 	}
 
-	inline Enum_FrameEventType GetType() const
+	inline int GetEventID() const
 	{
-		return Type;
+		return EventID;
 	}
 
 	std::string GetTypeString() const;
 
-	void SetParent(FrameEventHelper* _Parent) { ParentHelper = _Parent; }
+	inline void SetParent(FrameEventHelper* _Parent) { ParentHelper = _Parent; }
+
+protected:
+	inline void SetEventID(int _ID) { EventID = _ID; }
+	int GetCurFrame();
 
 protected:
 	class FrameEventHelper* ParentHelper = nullptr;
 
-	Enum_FrameEventType Type = Enum_FrameEventType::None;
+	int EventID = 0;
 	int StartFrame = 0;
 
 };
