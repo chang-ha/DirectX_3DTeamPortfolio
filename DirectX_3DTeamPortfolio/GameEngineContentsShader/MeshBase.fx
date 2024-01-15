@@ -129,9 +129,9 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout PixelOut _Result)
             if (0.0f < LightPower)
             {
                 
-                DiffuseRatio += CalDiffuseLight(_Input.VIEWNORMAL, _Input.VIEWPOSITION, AllLight[i]) * LightPower;
-                SpacularRatio += CalSpacularLight(_Input.VIEWPOSITION, _Input.VIEWNORMAL, AllLight[i]) * LightPower;
-                //SpacularRatio += CalSpacularLightContents(_Input.VIEWPOSITION, _Input.VIEWNORMAL, AllLight[i], SpecularColor) * LightPower;
+                DiffuseRatio += CalDiffuseLightContents(_Input.VIEWNORMAL, _Input.VIEWPOSITION, AllLight[i]) * LightPower;
+                //SpacularRatio += CalSpacularLight(_Input.VIEWPOSITION, _Input.VIEWNORMAL, AllLight[i]) * LightPower;
+                SpacularRatio += CalSpacularLightContents(_Input.VIEWPOSITION, _Input.VIEWNORMAL, AllLight[i], SpecularColor) * LightPower;
                 AmbientRatio += CalAmbientLight(AllLight[i]) * LightPower;
             }
         }

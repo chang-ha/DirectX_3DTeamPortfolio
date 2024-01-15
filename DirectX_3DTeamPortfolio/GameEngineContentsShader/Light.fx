@@ -37,6 +37,29 @@ float4 CalSpacularLightContents(float4 _Pos, float4 _Normal, LightData _Data, fl
     return ResultRatio * _Data.SpcLightPower;
 }
 
+float4 CalDiffuseLightContents(float4 _Normal, float4 _Pos, LightData _Data)
+{
+    // 0~1
+    float4 ResultRatio = 0.0f;
+    
+    float4 N = float4(normalize(_Normal.xyz), 0.0f);
+    float4 L = (float4) 0;
+    
+    if (0 == _Data.LightType)
+    {
+        // directional
+        L.xyz = normalize(_Data.ViewLightRevDir.xyz);
+    }
+    else
+    {
+        // point , spot
+        L.xyz = normalize(_Data.ViewLightPos.xyz - _Pos.xyz);
+    }
+    
+    ResultRatio.xyz = max(0.0f, dot(N.xyz, L.xyz));
+    return ResultRatio * _Data.DifLightPower;
+}
+
 
 //float4 PS(VertexOut input) : SV_Target
 //{
