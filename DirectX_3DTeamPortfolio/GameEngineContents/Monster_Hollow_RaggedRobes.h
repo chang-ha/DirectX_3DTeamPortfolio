@@ -1,6 +1,16 @@
 #pragma once
 #include "Monster_Hollow.h"
 
+enum class Enum_Hollow_RaggedRobes_State
+{
+	Pray1,
+	Pray2,
+	Pray3,
+	PrayToBeScared,
+	BeScared,
+	Max,
+};
+
 // Ό³Έν : 
 class Monster_Hollow_RaggedRobes : public Monster_Hollow
 {

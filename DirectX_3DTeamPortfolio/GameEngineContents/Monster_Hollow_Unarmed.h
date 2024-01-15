@@ -1,6 +1,16 @@
 #pragma once
 #include "Monster_Hollow.h"
 
+enum class Enum_Hollow_Unarmed_State
+{
+	Pray1,
+	Pray2,
+	Pray3,
+	PrayToBeScared,
+	BeScared,
+	Max,
+};
+
 // Ό³Έν : 
 class Monster_Hollow_Unarmed : public Monster_Hollow
 {
