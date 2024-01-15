@@ -4,29 +4,6 @@
 #include "FrameEventHelper.h"
 #include "BoneSocketCollision.h"
 
-class MonsterInitial
-{
-public:
-	MonsterInitial()
-	{
-		Init();
-	}
-
-	~MonsterInitial() {} 
-
-private:
-	void Init()
-	{
-		BaseMonster::MonsterTypes.insert(std::make_pair("LothricKn", Enum_MonsterType::LothricKn));
-	}
-
-	static MonsterInitial MonsterInit;
-};
-
-
-
-std::map<std::string, Enum_MonsterType> BaseMonster::MonsterTypes;
-MonsterInitial MonsterInitial::MonsterInit;
 BaseMonster::BaseMonster() 
 {
 }
@@ -126,41 +103,38 @@ std::shared_ptr<BoneSocketCollision> BaseMonster::FindAndCreateSocketCollision(i
 	return NewCol;
 }
 
-std::string BaseMonster::GetTypeName(std::string_view _Name)
+std::string BaseMonster::GetEventPath(int _ID)
 {
-	if (auto search = MonsterTypes.find(_Name.data()); search != MonsterTypes.end())
+	if (EMPTY_ID == _ID)
 	{
-		int Type = static_cast<int>(search->second);
-		std::string TypeName = std::string("c") + std::to_string(Type);
-		return TypeName;
+		return "";
 	}
 
-	return std::string();
-}
-
-std::string BaseMonster::GetEventPath(std::string_view _Name)
-{
-	std::string TypeName = GetTypeName(_Name);
-	if (TypeName.empty())
-	{
-		return std::string();
-	}
+	std::string IDName = std::string("c") + std::to_string(_ID);
 
 	GameEnginePath path;
 	path.MoveParentToExistsChild("ContentsResources");
 	path.MoveChild("ContentsResources");
 	path.MoveChild("Mesh");
-	path.MoveChild(TypeName);
+	path.MoveChild(IDName);
 	path.MoveChild("Animation");
 	return path.GetStringPath();
 }
 
-void BaseMonster::EventLoad()
+bool BaseMonster::LoadEvent(int _ID)
 {
-	GameEngineDirectory Dir(GetEventPath(GetName()));
-	std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".Event" });
+	std::string Path = GetEventPath(_ID);
+	if (Path.empty())
+	{
+		return false;
+	}
+
+	GameEngineDirectory Dir(Path);
+	std::vector<GameEngineFile> Files = Dir.GetAllFile({ FrameEventHelper::GetExtName().data() });
 	for (GameEngineFile& pFile : Files)
 	{
 		FrameEventHelper::Load(pFile.GetStringPath());
 	}
+
+	return true;
 }

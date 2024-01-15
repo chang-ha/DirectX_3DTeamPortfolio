@@ -166,7 +166,7 @@ void FrameEventHelper::PopEvent(const std::shared_ptr<FrameEventObject>& _Event)
 	EventInfo[_Event->GetFrame()].remove(_Event.get());
 	Events.at(static_cast<int>(_Event->GetType())).remove(_Event);
 }
-
+ 
 std::list<std::shared_ptr<FrameEventObject>>& FrameEventHelper::GetEventGroup(Enum_FrameEventType _Type)
 {
 	return GetEventGroup(static_cast<int>(_Type));

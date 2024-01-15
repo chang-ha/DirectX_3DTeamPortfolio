@@ -219,18 +219,20 @@ void AnimationInfoGUI::EventEditor(GameEngineLevel* _Level, float _DeltaTime)
 
 	if (nullptr == SelectAnimation->EventHelper)
 	{
-		std::string Path = SelectActor->GetEventPath(SelectActor->GetName());
-		if (false == Path.empty())
+		std::string Path = SelectActor->GetEventPath(SelectActor->GetID());
+		if (Path.empty())
 		{
-			std::string_view AniName = SelectAnimation->Aniamtion->GetName();
-			int Frame = static_cast<int>(SelectAnimation->End + 1);
-
-			GameEnginePath EventPath = GameEnginePath(Path);
-			EventPath.MoveChild(AniName);
-			EventPath.ChangeExtension(FrameEventHelper::GetExtName());
-
-			SelectAnimation->EventHelper = FrameEventHelper::CreateTempRes(EventPath.GetStringPath(), Frame).get();
+			return;
 		}
+
+		std::string_view AniName = SelectAnimation->Aniamtion->GetName();
+		int Frame = static_cast<int>(SelectAnimation->End + 1);
+
+		GameEnginePath EventPath = GameEnginePath(Path);
+		EventPath.MoveChild(AniName);
+		EventPath.ChangeExtension(FrameEventHelper::GetExtName());
+
+		SelectAnimation->EventHelper = FrameEventHelper::CreateTempRes(EventPath.GetStringPath(), Frame).get();
 	}
 
 	ImGui::Separator();
@@ -259,7 +261,6 @@ void SoundEventTree::Start()
 		for (size_t i = 0; i < Files.size(); i++)
 		{
 			GameEngineFile& pFile = Files[i];
-			GameEngineSound::SoundLoad(pFile.GetStringPath());
 			SoundFileList.push_back(pFile.GetFileName());
 			CSoundFileList.push_back(SoundFileList[i].c_str());
 		}

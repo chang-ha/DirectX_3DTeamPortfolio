@@ -27,6 +27,7 @@ public:
 	Monster_LothricKn& operator=(const Monster_LothricKn& _Other) = delete;
 	Monster_LothricKn& operator=(Monster_LothricKn&& _Other) noexcept = delete;
 
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -55,5 +56,12 @@ private:
 	void UpdateRH_Attack12(float _DeltaTime, GameEngineState* _State);
 	void UpdateRH_Attack13(float _DeltaTime, GameEngineState* _State);
 
+public:
+	const static Enum_MonsterType Type = Enum_MonsterType::LothricKn;
+
+private:
+
+
+	
 };
 

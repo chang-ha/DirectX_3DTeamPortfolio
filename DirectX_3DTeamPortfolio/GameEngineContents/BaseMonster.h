@@ -1,5 +1,7 @@
 #pragma once
 
+static constexpr int EMPTY_ID = 9999;
+
 enum class Enum_MonsterType
 {
 	None,
@@ -56,9 +58,11 @@ public:
 	BaseMonster& operator=(const BaseMonster& _Other) = delete;
 	BaseMonster& operator=(BaseMonster&& _Other) noexcept = delete;
 
+	static std::string GetEventPath(int _ID);
+	static bool LoadEvent(int _ID);
 
-	static std::string GetTypeName(std::string_view _Name);
-	static std::string GetEventPath(std::string_view _Name);
+	inline void SetID(Enum_MonsterType _Type) { ActorID = static_cast<int>(_Type); }
+	inline int GetID() const { return ActorID; }
 
 	inline std::shared_ptr<GameContentsFBXRenderer>& GetFBXRenderer() { return MainRenderer; }
 
@@ -68,6 +72,8 @@ protected:
 	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
+
+	
 
 	template<typename EnumType>
 	void MeshOnOffSwitch(EnumType _MeshIndex)
@@ -113,7 +119,8 @@ protected:
 
 private:
 	std::unordered_map<Enum_BoneType, int> BoneIndex;
-	static std::map<std::string, Enum_MonsterType> MonsterTypes;
+
+	int ActorID = EMPTY_ID;
 
 
 };
