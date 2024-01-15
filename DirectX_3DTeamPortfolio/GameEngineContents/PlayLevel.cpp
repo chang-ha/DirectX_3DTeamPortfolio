@@ -5,16 +5,17 @@
 
 #include "GameEngineNetWindow.h"
 
-PlayLevel::PlayLevel() 
+PlayLevel::PlayLevel()
 {
 }
 
-PlayLevel::~PlayLevel() 
+PlayLevel::~PlayLevel()
 {
 }
 
 void PlayLevel::Start()
 {
+	ContentLevel::Start();
 	GameEngineInput::AddInputObject(this);
 
 	GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, -1000.0f });
@@ -40,12 +41,24 @@ void PlayLevel::Start()
 	}
 
 	{
+		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
+
+		//Object->Transform.AddLocalPosition({ 500.0f,0.0f });
+		PlayerObject = Object;
+
+		Ptr->MainPlayer = PlayerObject.get();
+		Object->check = true;
+	}
+
+	{
 		std::shared_ptr<GameEngineLight> Object = CreateActor<GameEngineLight>(0);
 	}
 }
 
 void PlayLevel::Update(float _Delta)
 {
+	//ContentLevel::Update(_Delta);
+
 }
 
 void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)

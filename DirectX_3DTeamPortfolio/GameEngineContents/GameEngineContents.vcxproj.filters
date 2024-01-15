@@ -91,6 +91,7 @@
     <ClCompile Include="TestObject.cpp">
       <Filter>Monster\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="Player_State.cpp" />
     <ClCompile Include="AnimationInfoGUI.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
