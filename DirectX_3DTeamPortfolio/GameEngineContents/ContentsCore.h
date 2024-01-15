@@ -38,6 +38,7 @@ protected:
 
 private:
 	std::shared_ptr<class ContentsControlWindow> ContentsGUIWindow;
+	std::shared_ptr<class TreeWindow> TreeGUIWindow;
 	std::shared_ptr<class GameEngineCoreWindow> CoreGUIWindow;
 
 

@@ -13,7 +13,8 @@ PixelOutPut ContentsAnimationMesh_VS(GameEngineVertex3D _Input)
     
     if (0 != IsAnimation)
     {
-        Skinning(_Input.POSITION, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
+        Skinning(_Input.POSITION, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);        
+        SkinningNormal(_Input.NORMAL, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
     }
     
     Mesh_VS_Update(_Input, Result);

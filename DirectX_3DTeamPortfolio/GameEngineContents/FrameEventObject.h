@@ -29,12 +29,11 @@ public:
 
 	void Write(class GameEngineSerializer& _File) override
 	{
-		_File << Type;
+		_File << static_cast<int>(Type);
 		_File << StartFrame;
 	}
 	void Read(class GameEngineSerializer& _File) override
 	{
-		_File >> Type;
 		_File >> StartFrame;
 	}
 
@@ -55,4 +54,3 @@ protected:
 	int StartFrame = 0;
 
 };
-

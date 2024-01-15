@@ -11,7 +11,7 @@ Monster_Hollow::~Monster_Hollow()
 
 void Monster_Hollow::Start()
 {
-	CommonMonster::Start();
+	BaseMonster::Start();
 
 	MainRenderer->SetFBXMesh("c1100.fbx", "FBXAnimationTexture");
 
@@ -72,7 +72,7 @@ void Monster_Hollow::Update(float _Delta)
 
 void Monster_Hollow::Release()
 {
-	CommonMonster::Release();
+	BaseMonster::Release();
 }
 
 void Monster_Hollow::LevelEnd(class GameEngineLevel* _NextLevel)

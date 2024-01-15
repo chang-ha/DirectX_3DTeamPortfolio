@@ -11,21 +11,18 @@ class GameContentsFBXRenderer;
 class GameContentsFBXAnimationInfo : public std::enable_shared_from_this<GameContentsFBXAnimationInfo>
 {
 public:
-	GameContentsFBXRenderer* ParentRenderer;
+	GameContentsFBXRenderer* ParentRenderer = nullptr;
 	// SetFBX 본을 가지고 있는 매쉬
 	std::shared_ptr<GameEngineFBXMesh> Mesh;
 	// 애니메이션을 가지고 있는 FBX
 	std::shared_ptr<GameEngineFBXAnimation> Aniamtion;
 	// 애니메이션을 가지고 있는 FBX에서 알고 있는 애니메이션 정보
-	FbxExAniData* FBXAnimationData;
+	FbxExAniData* FBXAnimationData = nullptr;
 
 	FrameEventHelper* EventHelper = nullptr;
 
-	// 재생시간
 	float PlayTime = 0.0f;
-	// 현재까지 생한 시간
 	float CurFrameTime = 0.0f;
-	// 프레임 간격타임
 	float Inter = 0.1f;
 
 	std::vector<unsigned int> Frames;
@@ -37,8 +34,8 @@ public:
 	bool bOnceEnd = true;
 	bool IsStart = true;
 	bool Loop = true;
+	bool IsEnd = false;
 
-	// 과제로 내준것인데.
 	float BlendIn = 0.2f;
 
 
@@ -74,9 +71,10 @@ public:
 	GameContentsFBXRenderer(GameContentsFBXRenderer&& _Other) noexcept = delete;
 	GameContentsFBXRenderer& operator=(const GameContentsFBXRenderer& _Other) = delete;
 	GameContentsFBXRenderer& operator=(GameContentsFBXRenderer&& _Other) noexcept = delete;
+
+
 	void Update(float _DeltaTime) override;
 
-	// Sprite랜더러는 부담이 되지가 않아서 
 	void SetFBXMesh(std::string_view _Name, std::string_view _Material);
 	void SetFBXMesh(std::string_view _Name, std::string_view _Material, int _RenderUnitInfoIndex);
 
@@ -92,22 +90,32 @@ public:
 
 	std::shared_ptr<GameContentsFBXAnimationInfo> FindAnimation(const std::string_view _AnimationName);
 
-	void CreateFBXAnimation(const std::string_view _AnimationName, const std::string_view _AnimationFBX, const AnimationCreateParams& _Param, int _Index = 0);
-
+	void CreateFBXAnimation(const std::string_view _AnimationName, const std::string_view _AnimationFBX, const AnimationCreateParams& _Param = AnimationCreateParams(), int _Index = 0);
 	void ChangeAnimation(const std::string_view _AnimationName, bool _Force = false);
-
-	std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& GetAnimationInfos();
 
 	inline void SwitchPause()
 	{
 		Pause = !Pause;
 	}
 
+	inline bool IsCurAnimationEnd() const
+	{
+		return CurAnimation->IsEnd;
+	}
+
+	inline int GetCurAnimationFrame() const
+	{
+		return CurAnimation->CurFrame;
+	}
+
 	std::shared_ptr<GameEngineFBXMesh> GetFBXMesh(std::string_view _Name);
 
 	inline std::shared_ptr<GameEngineFBXMesh>& GetFBXMesh() { return FBXMesh; }
-	inline std::shared_ptr<GameContentsFBXAnimationInfo>& GetCurAnimation() { return CurAnimation; }
+	inline std::shared_ptr<GameContentsFBXAnimationInfo>&  GetCurAnimation() { return CurAnimation; }
 	inline std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>>& GetRenderUnits() { return RenderUnits; } 
+	inline std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& GetAnimationInfos() { return Animations; }
+	inline std::vector<float4x4>& GetBoneMatrixs() { return AnimationBoneMatrixs; }
+	inline std::vector<float4x4>& GetBoneSockets() { return AnimationBoneNotOffset; }
 
 	void BlendReset();
 
@@ -116,7 +124,7 @@ protected:
 
 private:
 	bool Pause = false;
-	bool IsBlend = false;
+
 	std::shared_ptr<GameEngineFBXMesh> FBXMesh;
 	std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>> Animations;
 	std::shared_ptr<GameContentsFBXAnimationInfo> CurAnimation;
