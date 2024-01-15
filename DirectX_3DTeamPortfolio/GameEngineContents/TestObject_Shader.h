@@ -1,8 +1,8 @@
 #pragma once
-#include"CommonMonster.h"
+#include"BaseMonster.h"
 
 // Ό³Έν :
-class TestObject_Shader : public CommonMonster
+class TestObject_Shader : public BaseMonster
 {
 public:
 	// constrcuter destructer
@@ -14,6 +14,13 @@ public:
 	TestObject_Shader(TestObject_Shader&& _Other) noexcept = delete;
 	TestObject_Shader& operator=(const TestObject_Shader& _Other) = delete;
 	TestObject_Shader& operator=(TestObject_Shader&& _Other) noexcept = delete;
+
+
+	std::shared_ptr<GameContentsFBXRenderer> GetMainRenderer()
+	{
+		return MainRenderer;
+	}
+	//std::map<int, std::shared_ptr<BoneSocketCollision>> Collisions;
 
 protected:
 	void Start() override;

@@ -112,11 +112,11 @@
     <ClCompile Include="BoneSocketCollision.cpp">
       <Filter>Monster\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="TestObject_Shader.cpp">
-      <Filter>TestObject</Filter>
-    </ClCompile>
     <ClCompile Include="BloomEffect.cpp">
       <Filter>PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="TestObject_Shader.cpp">
+      <Filter>TestObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -226,11 +226,11 @@
     <ClInclude Include="BoneSocketCollision.h">
       <Filter>Monster\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="TestObject_Shader.h">
-      <Filter>TestObject</Filter>
-    </ClInclude>
     <ClInclude Include="BloomEffect.h">
       <Filter>PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="TestObject_Shader.h">
+      <Filter>TestObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

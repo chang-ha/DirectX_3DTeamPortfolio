@@ -88,12 +88,14 @@ float4 CalSpacularLight(float4 _Pos, float4 _Normal, LightData _Data)
     float Result = max(0.0f, dot(ReflectionN.xyz, EyeL.xyz));
     ResultRatio.xyzw = pow(Result, _Data.SpcPow);
     
-    return ResultRatio;
+    return ResultRatio * _Data.SpcLightPower;
 }
+
+
 
 float4 CalAmbientLight(LightData _Data)
 {
-    return _Data.AmbientLight;
+    return _Data.AmbientLight * _Data.AmbLightPower;
 }
 
 float4 NormalTexCalculate(Texture2D NormalTex, SamplerState Smp, float4 UV, float4 _Tangent, float4 _BiNormal, float4 _Normal)
@@ -120,3 +122,4 @@ float4 NormalTexCalculate(Texture2D NormalTex, SamplerState Smp, float4 UV, floa
     return Result;
 
 }
+

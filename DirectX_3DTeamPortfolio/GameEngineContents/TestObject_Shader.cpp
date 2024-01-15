@@ -11,7 +11,7 @@ TestObject_Shader::~TestObject_Shader()
 
 void TestObject_Shader::Start()
 {
-	CommonMonster::Start();
+	BaseMonster::Start();
 	{
 		//MainRenderer = CreateComponent<GameEngineFBXRenderer>();
 		MainRenderer->SetFBXMesh("c1100.FBX", "FBX_Animation"); // Bone 136
@@ -66,7 +66,7 @@ void TestObject_Shader::Update(float _Delta)
 
 void TestObject_Shader::Release()
 {
-	CommonMonster::Release();
+	BaseMonster::Release();
 }
 
 void TestObject_Shader::LevelEnd(GameEngineLevel* _NextLevel)
