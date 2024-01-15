@@ -109,6 +109,16 @@ protected:
 
 	std::shared_ptr<BoneSocketCollision> FindAndCreateSocketCollision(int _Order, Enum_BoneType _Type);
 
+	template<typename OrderType>
+	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(OrderType _Order, Enum_BoneType _Type, std::string ColName = "")
+	{
+		return CreateSocketCollision(static_cast<int>(_Order), _Type, ColName);
+	}
+
+	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(int _Order, Enum_BoneType _Type, std::string _ColName = "");
+
+	std::shared_ptr<BoneSocketCollision> FindSocketCollision(Enum_BoneType _Type);
+
 protected:
 	std::shared_ptr<GameContentsFBXRenderer> MainRenderer;
 	std::map<int, std::shared_ptr<BoneSocketCollision>> Collisions;

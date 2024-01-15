@@ -83,7 +83,7 @@ private:
 
 	int FrameCount = 0;
 
-	class GameContentsFBXAnimationInfo* ParentInfo;
+	class GameContentsFBXAnimationInfo* ParentInfo = nullptr;
 	std::vector<std::list<FrameEventObject*>> EventInfo;
 	std::list<FrameEventObject*> PlayingEvents;
 	std::map<int, std::list<std::shared_ptr<FrameEventObject>>> Events;

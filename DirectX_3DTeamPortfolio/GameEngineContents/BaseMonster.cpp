@@ -101,8 +101,39 @@ std::shared_ptr<BoneSocketCollision> BaseMonster::FindAndCreateSocketCollision(i
 	NewCol->SetName(std::to_string(SocketIndex));
 	NewCol->SetBoneIndex(SocketIndex);
 	NewCol->SetSocket(&GetBoneMatrixToType(_Type));
+	NewCol->Off();
 	Collisions.insert(std::make_pair(SocketIndex, NewCol));
 	return NewCol;
+}
+
+std::shared_ptr<BoneSocketCollision> BaseMonster::CreateSocketCollision(int _Order, Enum_BoneType _Type, std::string _ColName)
+{
+	int SocketIndex = GetBoneIndex(_Type);
+	if (auto FindIter = Collisions.find(SocketIndex); FindIter != Collisions.end())
+	{
+		MsgBoxAssert("이미 존재하는 충돌체를 생성하려 했습니다.");
+		return nullptr;
+	}
+
+	std::shared_ptr<BoneSocketCollision> NewCol = CreateComponent<BoneSocketCollision>(_Order);
+	NewCol->SetName(_ColName);
+	NewCol->SetBoneIndex(SocketIndex);
+	NewCol->SetSocket(&GetBoneMatrixToType(_Type));
+	NewCol->Off();
+	Collisions.insert(std::make_pair(SocketIndex, NewCol));
+	return NewCol;
+}
+
+std::shared_ptr<BoneSocketCollision> BaseMonster::FindSocketCollision(Enum_BoneType _Type)
+{
+	int SocketIndex = GetBoneIndex(_Type);
+	if (auto FindIter = Collisions.find(SocketIndex); FindIter != Collisions.end())
+	{
+		return FindIter->second;
+	}
+
+	MsgBoxAssert("존재하지 않는 충돌체를 참조하려 했습니다.");
+	return nullptr;
 }
 
 std::string BaseMonster::GetEventPath(int _ID)

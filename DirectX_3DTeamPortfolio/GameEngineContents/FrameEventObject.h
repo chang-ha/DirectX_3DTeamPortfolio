@@ -55,7 +55,7 @@ public:
 
 	std::string GetTypeString() const;
 
-	inline void SetParent(FrameEventHelper* _Parent) { ParentHelper = _Parent; }
+	inline void SetParentHelper(FrameEventHelper* _Parent) { ParentHelper = _Parent; }
 
 protected:
 	inline void SetEventID(int _ID) { EventID = _ID; }

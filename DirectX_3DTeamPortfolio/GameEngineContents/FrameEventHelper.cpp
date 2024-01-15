@@ -75,7 +75,7 @@ void FrameEventHelper::Initialze(GameContentsFBXAnimationInfo* _AnimationInfo)
 		}
 
 		NewEvent->Read(Ser);
-		NewEvent->SetParent(this);
+		NewEvent->SetParentHelper(this);
 		Events[TypeNum].push_back(NewEvent);
 	}
 
@@ -191,7 +191,7 @@ void FrameEventHelper::UpdateEvent(float _Delta)
 
 void FrameEventHelper::SetEvent(std::shared_ptr<FrameEventObject> _EventObject)
 {
-	_EventObject->SetParent(this);
+	_EventObject->SetParentHelper(this);
 	Events[_EventObject->GetEventID()].push_back(_EventObject);
 	EventInfo.at(_EventObject->GetFrame()).push_back(_EventObject.get());
 }
