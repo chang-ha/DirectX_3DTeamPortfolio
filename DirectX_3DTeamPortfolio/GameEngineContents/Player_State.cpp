@@ -76,47 +76,51 @@ void Player::Player_State()
 
 				if (true == GameEngineInput::IsPress('W', this))
 				{
-					Capsule->MoveForce({ 0.0f, 0.0f, 100, 0.0f });
+					//Capsule->MoveForce({ 0.0f, 0.0f, 100, 0.0f });
+					Transform.AddLocalPosition({ float4::UP * Speed });
 				}
 
 				if (true == GameEngineInput::IsPress('S', this))
 				{
-					Capsule->MoveForce({ 0.0f, 0.0f, -100, 0.0f });
+					//Capsule->MoveForce({ 0.0f, 0.0f, -100, 0.0f });
+					Transform.AddLocalPosition({ float4::DOWN * Speed });
 				}
 
 				if (true == GameEngineInput::IsPress('A', this))
 				{
-					Capsule->MoveForce({ -100, 0.0f, 0.0f, 0.0f });
+					//Capsule->MoveForce({ -100, 0.0f, 0.0f, 0.0f });
+					Transform.AddLocalPosition({ float4::LEFT * Speed });
 				}
 
 				if (true == GameEngineInput::IsPress('D', this))
 				{
-					Capsule->MoveForce({ 100, 0.0f, 0.0f, 0.0f });
+					//Capsule->MoveForce({ 100, 0.0f, 0.0f, 0.0f });
+					Transform.AddLocalPosition({ float4::RIGHT * Speed });
 				}
 
 
 				if (GameEngineInput::IsUp('A', this))
 				{
-					FBXRenderer->ChangeAnimation("Left_Stop");
-					PlayerState.ChangeState(PlayerState::Move_Stop);
+					//FBXRenderer->ChangeAnimation("Idle");
+					PlayerState.ChangeState(PlayerState::Idle);
 					return;
 				}
 				else if (GameEngineInput::IsUp('D', this))
 				{
-					FBXRenderer->ChangeAnimation("Right_Stop");
-					PlayerState.ChangeState(PlayerState::Move_Stop);
+					//FBXRenderer->ChangeAnimation("Idle");
+					PlayerState.ChangeState(PlayerState::Idle);
 					return;
 				}
 				else if (GameEngineInput::IsUp('W', this))
 				{
-					FBXRenderer->ChangeAnimation("Forward_Stop");
-					PlayerState.ChangeState(PlayerState::Move_Stop);
+				//	FBXRenderer->ChangeAnimation("Idle");
+					PlayerState.ChangeState(PlayerState::Idle);
 					return;
 				}
 				else if (GameEngineInput::IsUp('S', this))
 				{
-					FBXRenderer->ChangeAnimation("Behind_Stop");
-					PlayerState.ChangeState(PlayerState::Move_Stop);
+					//FBXRenderer->ChangeAnimation("Idle");
+					PlayerState.ChangeState(PlayerState::Idle);
 					return;
 				}
 
@@ -142,12 +146,12 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				if (FBXRenderer->IsCurAnimationEnd())
+				/*if (FBXRenderer->IsCurAnimationEnd())
 				{
 
 					PlayerState.ChangeState(PlayerState::Idle);
 					return;
-				}
+				}*/
 
 
 

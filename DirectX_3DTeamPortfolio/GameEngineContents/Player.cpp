@@ -89,7 +89,7 @@ void Player::Start()
 	FBXRenderer->CreateFBXAnimation("Fighting_02", "080014.FBX", { 0.1f, true });
 	FBXRenderer->CreateFBXAnimation("Surren", "080700.FBX", { 0.1f, true });
 	FBXRenderer->CreateFBXAnimation("Surren_Up", "080702.FBX", { 0.1f, true });
-	//FBXRenderer->CreateFBXAnimation("Run20", "019500.FBX", { 0.1f, true });
+	FBXRenderer->CreateFBXAnimation("Run20", "019500.FBX", { 0.1f, true });
 
 	FBXRenderer->CreateFBXAnimation("Left_Stop", "022102.FBX", { 0.1f, false }); // ¿ÞÂÊ ¸ØÃã 
 	FBXRenderer->CreateFBXAnimation("Behind_Stop", "022101.FBX", { 0.1f, false }); // µÚ ¸ØÃã 
@@ -101,8 +101,36 @@ void Player::Start()
 	GameEngineInput::AddInputObject(this);
 
 
-	Capsule = CreateComponent<GameEnginePhysXCapsule>();
-	Capsule->Transform.SetLocalScale({ 200.0f,200.0f });
+	/*Capsule = CreateComponent<GameEnginePhysXCapsule>();
+	Capsule->Transform.SetLocalScale({ 200.0f,200.0f });*/
+
+	Col = CreateComponent<GameEngineCollision>();
+	Col->Transform.SetLocalScale({ 200.0f,200.0f });
+
+
+	Mini_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+
+		};
+
+	Mini_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+			float4 Monster = Col->GetActor()->Transform.GetLocalPosition();
+			Monster.Normalize();
+
+			float4 Other_Monster = col->GetActor()->Transform.GetLocalPosition();
+			Other_Monster.Normalize();
+
+			Col->GetActor()->Transform.AddLocalPosition(Other_Monster - Monster * DeltaTime);
+		};
+
+
+
+	Mini_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+
+		};
+
 
 
 	Player_State();
@@ -110,7 +138,20 @@ void Player::Start()
 
 void Player::Update(float _Delta)
 {
+	DeltaTime = _Delta;
 
+
+
+	Col->CollisionEvent(0, { .Stay = [&](class GameEngineCollision* _This,class GameEngineCollision* _collisions)
+	{
+			float4 Monster = _This->GetActor()->Transform.GetLocalPosition();
+
+			float4 Other_Monster = _collisions->GetActor()->Transform.GetLocalPosition();
+
+			float4 Dir = Monster - Other_Monster;
+
+			_This->GetActor()->Transform.AddLocalPosition(Dir * _Delta);
+	} });
 
 	// ¼­¹ö¸¦ ¿­¾úµç
 	if (nullptr != GameEngineNetWindow::Net)
@@ -135,8 +176,8 @@ void Player::Update(float _Delta)
 
 void Player::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	Capsule->PhysXComponentInit(100.0f, 50.0f);
-	Capsule->SetPositioningComponent();
+	/*Capsule->PhysXComponentInit(100.0f, 50.0f);
+	Capsule->SetPositioningComponent();*/
 }
 
 void Player::ConnectIDPacketProcess(std::shared_ptr<ConnectIDPacket> _Packet)

@@ -43,9 +43,12 @@ protected:
 private:
 	bool TimeCheck = false;
 	float Time = 0.0f;
-	float Speed = 100.0f;
+	float Speed = 10.0f;
 	std::shared_ptr<GameEngineFBXRenderer> FBXRenderer;
 	std::shared_ptr<GameEnginePhysXCapsule> Capsule;
+	std::shared_ptr<GameEngineCollision> Col;
 	GameEngineState PlayerState;
 	float MoveSpeed = 100.0f;
+	EventParameter Mini_Event;
+	float DeltaTime = 0.0f;
 };
