@@ -20,6 +20,17 @@ private:
 
 };
 
+class TotalEventTree : public EventTree
+{
+	friend class AnimationInfoGUI;
+
+public:
+
+private:
+	void OnGUI(GameEngineLevel* _Level, float _Delta) override;
+
+};
+
 class SoundEventTree : public EventTree
 {
 	friend class AnimationInfoGUI;
@@ -38,10 +49,26 @@ private:
 
 };
 
+class CollisionEventTree : public EventTree
+{
+	friend class AnimationInfoGUI;
+
+public:
+
+private:
+	void Start() override;
+	void OnGUI(GameEngineLevel* _Level, float _Delta) override;
+
+private:
+
+};
+
 // Ό³Έν :
 class AnimationInfoGUI : public TreeObject
 {
 	friend class SoundEventTree;
+	friend class TotalEventTree;
+	friend class CollisionEventTree;
 
 public:
 	// constrcuter destructer

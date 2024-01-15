@@ -9,11 +9,12 @@ enum class Enum_MonsterType
 };
 
 
+// Collision, BoneIndex
 enum class Enum_BoneType
 {
 	None,
-	B_01_LeftHand,
-	B_01_RightHand,
+	B_01_LeftHand = 1,
+	B_01_RightHand = 21,
 };
 
 namespace std

@@ -157,7 +157,7 @@ int FrameEventHelper::GetEventSize()
 
 void FrameEventHelper::SetEvent(std::shared_ptr<FrameEventObject> _EventObject)
 {
-	Events.at(static_cast<int>(_EventObject->GetType())).push_back(_EventObject);
+	Events[static_cast<int>(_EventObject->GetType())].push_back(_EventObject);
 	EventInfo.at(_EventObject->GetFrame()).push_back(_EventObject.get());
 }
 

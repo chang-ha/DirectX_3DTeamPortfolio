@@ -15,7 +15,9 @@ AnimationInfoGUI::~AnimationInfoGUI()
 
 void AnimationInfoGUI::Start()
 {
-	CreateEventTree<SoundEventTree>("Sound Event Editor");
+	CreateEventTree<TotalEventTree>("Total Events");
+	CreateEventTree<SoundEventTree>("Sound");
+	CreateEventTree<CollisionEventTree>("Collision Switch");
 }
 
 void AnimationInfoGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
@@ -237,13 +239,55 @@ void AnimationInfoGUI::EventEditor(GameEngineLevel* _Level, float _DeltaTime)
 
 	ImGui::Separator();
 
-	for (const std::shared_ptr<EventTree>& Tree : EventTrees)
+	if (ImGui::TreeNode("Frame Event Editor"))
 	{
-		if (ImGui::TreeNode(Tree->GetName().c_str()))
+		for (const std::shared_ptr<EventTree>& Tree : EventTrees)
 		{
-			Tree->OnGUI(_Level, _DeltaTime);
-			ImGui::TreePop();
+			if (ImGui::TreeNode(Tree->GetName().c_str()))
+			{
+				Tree->OnGUI(_Level, _DeltaTime);
+				ImGui::TreePop();
+			}
 		}
+
+		ImGui::TreePop();
+	}
+}
+
+void TotalEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
+{
+	FrameEventHelper* EventHelper = Parent->SelectAnimation->EventHelper;
+	std::map<int, std::list<std::shared_ptr<FrameEventObject>>>& AllEvents = EventHelper->GetAllEvents();
+	if (AllEvents.empty())
+	{
+		return;
+	}
+
+	if (ImGui::Button("Save Data"))
+	{
+		EventHelper->SaveFile();
+	}
+
+	std::shared_ptr<FrameEventObject> SelectObject;
+
+	int Cnt = 0;
+	for (std::pair<const int, std::list<std::shared_ptr<FrameEventObject>>>& Pair : AllEvents)
+	{
+		std::list<std::shared_ptr<FrameEventObject>>& EventGroup = Pair.second;
+		for (const std::shared_ptr<FrameEventObject>& Object : EventGroup)
+		{
+			++Cnt;
+			std::string EventName = std::to_string(Cnt) + ". Frame: " + std::to_string(Object->GetFrame());
+			if (ImGui::Button(EventName.c_str()))
+			{
+				SelectObject = Object;
+			}
+		}
+	}
+
+	if (nullptr != SelectObject)
+	{
+		EventHelper->PopEvent(SelectObject);
 	}
 }
 
@@ -278,48 +322,22 @@ void SoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 
 	ImGui::SliderInt("Start Frame", &SelectStartFrame, Parent->SelectAnimation->Start, Parent->SelectAnimation->End);
 	ImGui::Combo("SoundList", &SelectSoundItem, &CSoundFileList[0], static_cast<int>(CSoundFileList.size()));
-	//if (ImGui::Button("CreateEvent"))
-	//{
-	//	int Frame = SelectStartFrame;
-	//	std::string ScrFileName = CSoundFileList[SelectSoundItem];
-	//	EventHelper->CreateSoundEvent(Frame, ScrFileName);
-	//}
+
 	if (ImGui::Button("CreateEvent"))
 	{
 		std::string ScrFileName = CSoundFileList[SelectSoundItem];
 		std::shared_ptr<SoundFrameEvent> SEvent = SoundFrameEvent::CreateEventObject(SelectStartFrame, ScrFileName);
 		EventHelper->SetEvent(SEvent);
 	}
+}
 
-	ImGui::SameLine();
 
-	if (ImGui::Button("Save Data"))
-	{
-		EventHelper->SaveFile();
-	}
+void CollisionEventTree::Start()
+{
 
-	ImGui::Separator();
+}
 
-	std::list<std::shared_ptr<FrameEventObject>>& SEventGroup = EventHelper->GetEventGroup(Enum_FrameEventType::Sound);
-	if (SEventGroup.empty())
-	{
-		return;
-	}
+void CollisionEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
+{
 
-	std::shared_ptr<FrameEventObject> SelectObject;
-
-	int Cnt = 0;
-	for (const std::shared_ptr<FrameEventObject>& Object : SEventGroup)
-	{
-		++Cnt;
-		std::string EventName = std::to_string(Cnt) + ". Frame: " + std::to_string(Object->GetFrame());
-		if (ImGui::Button(EventName.c_str()))
-		{
-			SelectObject = Object;
-		}
-	}
-	if (nullptr != SelectObject)
-	{
-		EventHelper->PopEvent(SelectObject);
-	}
 }
