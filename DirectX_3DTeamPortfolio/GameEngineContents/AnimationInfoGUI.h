@@ -12,6 +12,8 @@ public:
 protected:
 	virtual void Start() {}
 	virtual void OnGUI(GameEngineLevel* _Level, float _Delta) = 0;
+	virtual void ChangeAnimation() {}
+	virtual void ChangeActor() {}
 
 	class AnimationInfoGUI* Parent = nullptr;
 
@@ -58,8 +60,11 @@ public:
 private:
 	void Start() override;
 	void OnGUI(GameEngineLevel* _Level, float _Delta) override;
+	void ChangeActor() override;
 
 private:
+	std::vector<std::string> ColNames;
+	std::vector<const char*> CColNames;
 
 };
 
@@ -82,10 +87,12 @@ public:
 	AnimationInfoGUI& operator=(AnimationInfoGUI&& _Other) noexcept = delete;
 
 	void ShowActorList(class GameEngineLevel* _Level);
+	void ActorChange();
 	void TransformEditor();
 	void AnimationList();
 	void BoneEditor();
 	void EventEditor(class GameEngineLevel* _Level, float _DeltaTime);
+
 
 
 protected:

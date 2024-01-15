@@ -82,23 +82,25 @@ int BaseMonster::GetBoneIndex(Enum_BoneType _BoneType)
 	return FindIter->second;
 }
 
-float4x4& BaseMonster::GetBoneMatrixToIndex(Enum_BoneType _BoneType)
+float4x4& BaseMonster::GetBoneMatrixToType(Enum_BoneType _BoneType)
 {
 	std::vector<float4x4>& BoneMats = GetFBXRenderer()->GetBoneSockets();
 	return BoneMats[GetBoneIndex(Enum_BoneType::B_01_RightHand)];
 }
 
 
-std::shared_ptr<BoneSocketCollision> BaseMonster::FindAndCreateSocketCollision(int _Order, Enum_BoneType _Index)
+std::shared_ptr<BoneSocketCollision> BaseMonster::FindAndCreateSocketCollision(int _Order, Enum_BoneType _Type)
 {
-	int SocketIndex = GetBoneIndex(_Index);
+	int SocketIndex = GetBoneIndex(_Type);
 	if (auto FindIter = Collisions.find(SocketIndex); FindIter != Collisions.end())
 	{
 		return FindIter->second;
 	}
 
 	std::shared_ptr<BoneSocketCollision> NewCol = CreateComponent<BoneSocketCollision>(_Order);
-	NewCol->SetSocket(&GetBoneMatrixToIndex(_Index));
+	NewCol->SetName(std::to_string(SocketIndex));
+	NewCol->SetBoneIndex(SocketIndex);
+	NewCol->SetSocket(&GetBoneMatrixToType(_Type));
 	Collisions.insert(std::make_pair(SocketIndex, NewCol));
 	return NewCol;
 }
@@ -107,7 +109,7 @@ std::string BaseMonster::GetEventPath(int _ID)
 {
 	if (EMPTY_ID == _ID)
 	{
-		return "";
+		return std::string();
 	}
 
 	std::string IDName = std::string("c") + std::to_string(_ID);

@@ -66,6 +66,7 @@ public:
 	inline int GetID() const { return ActorID; }
 
 	inline std::shared_ptr<GameContentsFBXRenderer>& GetFBXRenderer() { return MainRenderer; }
+	inline std::map<int, std::shared_ptr<BoneSocketCollision>>& GetCollisions() { return Collisions; }
 
 protected:
 	void Start() override;
@@ -89,7 +90,7 @@ protected:
 
 	void SetBoneIndex(Enum_BoneType _BoneType, int _BoneNum);
 	int GetBoneIndex(Enum_BoneType _BoneType);
-	float4x4& GetBoneMatrixToIndex(Enum_BoneType _BoneType);
+	float4x4& GetBoneMatrixToType(Enum_BoneType _BoneType);
 
 	/// <summary>
 	/// 본 소켓 행렬로 자동으로 콜리전 Model행렬 업데이트를 수행하는 콜리전
@@ -101,14 +102,12 @@ protected:
 	/// <returns>Collision 공유 포인터</returns>
 	/// <list>이 함수는 각 클래스에 본소켓과 매핑된 BoneIndex를 사용하기 때문에 정의하지 않으면 사용할 수 없음 </list>
 	template<typename OrderType>
-	std::shared_ptr<BoneSocketCollision> FindAndCreateSocketCollision(OrderType _Order, Enum_BoneType _Index)
+	std::shared_ptr<BoneSocketCollision> FindAndCreateSocketCollision(OrderType _Order, Enum_BoneType _Type)
 	{
-		return FindAndCreateSocketCollision(static_cast<int>(_Order), _Index);
+		return FindAndCreateSocketCollision(static_cast<int>(_Order), _Type);
 	}
 
-	std::shared_ptr<BoneSocketCollision> FindAndCreateSocketCollision(int _Order, Enum_BoneType _Index);
-
-	void EventLoad();
+	std::shared_ptr<BoneSocketCollision> FindAndCreateSocketCollision(int _Order, Enum_BoneType _Type);
 
 protected:
 	std::shared_ptr<GameContentsFBXRenderer> MainRenderer;

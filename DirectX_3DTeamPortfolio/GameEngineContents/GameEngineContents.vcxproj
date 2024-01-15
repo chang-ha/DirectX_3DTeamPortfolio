@@ -180,6 +180,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="CollisionUpdateFrameEvent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ConnectIDPacket.cpp">
       <SubType>
       </SubType>
@@ -297,6 +301,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BoneSocketCollision.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CollisionUpdateFrameEvent.h">
       <SubType>
       </SubType>
     </ClInclude>

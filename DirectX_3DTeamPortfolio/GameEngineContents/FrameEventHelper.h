@@ -6,6 +6,8 @@
 // Ό³Έν :
 class FrameEventHelper : public GameEngineResources<FrameEventHelper>
 {
+	friend class CollisionUpdateFrameEvent;
+
 public:
 	// constrcuter destructer
 	FrameEventHelper();
@@ -63,6 +65,7 @@ public:
 
 protected:
 	void PushEventData();
+	void PushPlayingEvent(FrameEventObject* _Object);
 
 private:
 	static std::string ExtName;

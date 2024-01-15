@@ -3,6 +3,8 @@
 
 #include "BaseMonster.h"
 #include "FrameEventHelper.h"
+#include "BoneSocketCollision.h"
+#include "CollisionUpdateFrameEvent.h"
 
 AnimationInfoGUI::AnimationInfoGUI() 
 {
@@ -79,14 +81,24 @@ void AnimationInfoGUI::ShowActorList(GameEngineLevel* _Level)
 			if (CObjectNames[SelectActorIndex] == Monster->GetName())
 			{
 				SelectActor = Monster.get();
-				AnimationNames.clear();
-				CAnimationNames.clear();
-				BoneNames.clear();
-				CBoneNames.clear();
-				SelectAnimation = nullptr;
+				ActorChange();
 			}
 		}
 	}
+}
+
+void AnimationInfoGUI::ActorChange()
+{
+	for (std::shared_ptr<EventTree>& Tree : EventTrees)
+	{
+		Tree->ChangeActor();
+	}
+
+	AnimationNames.clear();
+	CAnimationNames.clear();
+	BoneNames.clear();
+	CBoneNames.clear();
+	SelectAnimation = nullptr;
 }
 
 void AnimationInfoGUI::TransformEditor()
@@ -268,6 +280,8 @@ void TotalEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 		EventHelper->SaveFile();
 	}
 
+	ImGui::Text("Erase Event");
+
 	std::shared_ptr<FrameEventObject> SelectObject;
 
 	int Cnt = 0;
@@ -334,10 +348,54 @@ void SoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 
 void CollisionEventTree::Start()
 {
-
 }
 
 void CollisionEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 {
+	if (CColNames.empty())
+	{
+		std::map<int, std::shared_ptr<BoneSocketCollision>>& Collisions = Parent->SelectActor->GetCollisions();
+		size_t Size = Collisions.size();
+		ColNames.reserve(Size);
+		CColNames.reserve(Size);
 
+		int Cnt = 0;
+
+		for (std::pair<const int, std::shared_ptr<BoneSocketCollision>>& Pair : Collisions)
+		{
+			ColNames.push_back(Pair.second->GetName());
+			CColNames.push_back(ColNames[Cnt].c_str());
+			++Cnt;
+		}
+	}
+
+	static std::vector<int> Frames;
+	Frames.resize(2);
+	static int SelectCol = 0;
+
+	int StartFrame = static_cast<int>(Parent->SelectAnimation->Start);
+	int EndFrame = static_cast<int>(Parent->SelectAnimation->End);
+
+	ImGui::SliderInt2("Start To End Frame", &Frames[0], StartFrame, EndFrame);
+	ImGui::Combo("Collision List", &SelectCol, &CColNames[0], static_cast<int>(CColNames.size()));
+
+	if (ImGui::Button("Create Event"))
+	{
+		std::map<int, std::shared_ptr<BoneSocketCollision>>& Collisions = Parent->SelectActor->GetCollisions();
+		for (std::pair<const int, std::shared_ptr<BoneSocketCollision>>& Pair : Collisions)
+		{
+			if (CColNames[SelectCol] == Pair.second->GetName())
+			{
+				FrameEventHelper* EventHelper = Parent->SelectAnimation->EventHelper;
+				std::shared_ptr<CollisionUpdateFrameEvent> CEvent = CollisionUpdateFrameEvent::CreateEventObject(Frames[0], Frames[1], Pair.second);
+				EventHelper->SetEvent(CEvent);
+			}
+		}
+	}
+}
+
+void CollisionEventTree::ChangeActor()
+{
+	CColNames.clear();
+	CColNames.clear();
 }

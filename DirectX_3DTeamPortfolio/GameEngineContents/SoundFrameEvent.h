@@ -1,6 +1,5 @@
 #pragma once
 #include "FrameEventObject.h"
-#include "GameEngineBase/GameEngineSerializer.h"
 
 // Ό³Έν :
 class SoundFrameEvent : public FrameEventObject

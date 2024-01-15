@@ -27,7 +27,7 @@ void TreeWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 void TreeObject::Init(std::shared_ptr<TreeObject> _Object)
 {
 	_Object->Start();
-}
+} 
 
 void TreeObject::AllOnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {

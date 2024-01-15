@@ -49,7 +49,11 @@ public:
 
 	std::string GetTypeString() const;
 
+	void SetParent(FrameEventHelper* _Parent) { ParentHelper = _Parent; }
+
 protected:
+	class FrameEventHelper* ParentHelper = nullptr;
+
 	Enum_FrameEventType Type = Enum_FrameEventType::None;
 	int StartFrame = 0;
 

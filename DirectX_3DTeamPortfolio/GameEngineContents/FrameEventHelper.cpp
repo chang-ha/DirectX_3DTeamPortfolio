@@ -68,6 +68,7 @@ void FrameEventHelper::Initialze(int _Frame)
 		}
 
 		NewEvent->Read(Ser);
+		NewEvent->SetParent(this);
 		Events[TypeNum].push_back(NewEvent);
 	}
 
@@ -83,7 +84,6 @@ void FrameEventHelper::PushEventData()
 			int Frame = Object->GetFrame();
 			EventInfo.at(Frame).push_back(Object.get());
 		}
-		
 	}
 }
 
@@ -157,6 +157,7 @@ int FrameEventHelper::GetEventSize()
 
 void FrameEventHelper::SetEvent(std::shared_ptr<FrameEventObject> _EventObject)
 {
+	_EventObject->SetParent(this);
 	Events[static_cast<int>(_EventObject->GetType())].push_back(_EventObject);
 	EventInfo.at(_EventObject->GetFrame()).push_back(_EventObject.get());
 }
@@ -167,6 +168,11 @@ void FrameEventHelper::PopEvent(const std::shared_ptr<FrameEventObject>& _Event)
 	Events.at(static_cast<int>(_Event->GetType())).remove(_Event);
 }
  
+void FrameEventHelper::PushPlayingEvent(FrameEventObject* _Object)
+{
+	PlayingEvents.push_back(_Object);
+}
+
 std::list<std::shared_ptr<FrameEventObject>>& FrameEventHelper::GetEventGroup(Enum_FrameEventType _Type)
 {
 	return GetEventGroup(static_cast<int>(_Type));

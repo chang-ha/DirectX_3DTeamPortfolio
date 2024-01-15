@@ -112,6 +112,9 @@
     <ClCompile Include="BoneSocketCollision.cpp">
       <Filter>Monster\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionUpdateFrameEvent.cpp">
+      <Filter>ImGui\Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -219,6 +222,9 @@
     </ClInclude>
     <ClInclude Include="BoneSocketCollision.h">
       <Filter>Monster\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionUpdateFrameEvent.h">
+      <Filter>ImGui\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
