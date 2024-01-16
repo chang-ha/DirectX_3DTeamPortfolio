@@ -124,16 +124,21 @@ std::shared_ptr<BoneSocketCollision> BaseMonster::CreateSocketCollision(int _Ord
 	return NewCol;
 }
 
-std::shared_ptr<BoneSocketCollision> BaseMonster::FindSocketCollision(Enum_BoneType _Type)
+std::shared_ptr<BoneSocketCollision> BaseMonster::GetSocketCollision(int _Index)
 {
-	int SocketIndex = GetBoneIndex(_Type);
-	if (auto FindIter = Collisions.find(SocketIndex); FindIter != Collisions.end())
+	if (auto FindIter = Collisions.find(_Index); FindIter != Collisions.end())
 	{
 		return FindIter->second;
 	}
 
 	MsgBoxAssert("존재하지 않는 충돌체를 참조하려 했습니다.");
 	return nullptr;
+}
+
+std::shared_ptr<BoneSocketCollision> BaseMonster::FindSocketCollision(Enum_BoneType _Type)
+{
+	int SocketIndex = GetBoneIndex(_Type);
+	return GetSocketCollision(SocketIndex);
 }
 
 std::string BaseMonster::GetEventPath(int _ID)

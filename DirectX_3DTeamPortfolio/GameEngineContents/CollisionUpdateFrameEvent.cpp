@@ -4,6 +4,7 @@
 #include "GameContentsFBXRenderer.h"
 #include "BoneSocketCollision.h"
 #include "FrameEventHelper.h"
+#include "BaseMonster.h"
 
 
 CollisionUpdateFrameEvent::CollisionUpdateFrameEvent() 
@@ -21,7 +22,7 @@ std::shared_ptr<CollisionUpdateFrameEvent> CollisionUpdateFrameEvent::CreateEven
 	std::shared_ptr<CollisionUpdateFrameEvent> CEvent = std::make_shared<CollisionUpdateFrameEvent>();
 	CEvent->StartFrame = _SFrame;
 	CEvent->EndFrame = _EFrame;
-	CEvent->TypeNumber = Collision->GetBoneIndex();
+	CEvent->ColNumber = Collision->GetBoneIndex();
 	CEvent->pCollision = Collision.get();
 	return CEvent;
 }
@@ -30,8 +31,7 @@ void CollisionUpdateFrameEvent::PlayEvent()
 {
 	if (nullptr == pCollision)
 	{
-		MsgBoxAssert("콜리전이 존재하지 않습니다.");
-		return;
+		Init();
 	}
 
 	pCollision->On();
@@ -47,4 +47,10 @@ int CollisionUpdateFrameEvent::UpdateEvent(float _Delta)
 	}
 
 	return EVENT_PLAY;
+}
+
+void CollisionUpdateFrameEvent::Init()
+{
+	std::shared_ptr<BaseMonster> ParentActor = GetDynamicCastParentActor<BaseMonster>();
+	pCollision = ParentActor->GetSocketCollision(ColNumber).get();
 }

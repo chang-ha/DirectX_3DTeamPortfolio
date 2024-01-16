@@ -292,7 +292,7 @@ void TotalEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 		for (const std::shared_ptr<FrameEventObject>& Object : EventGroup)
 		{
 			++Cnt;
-			std::string EventName = std::to_string(Cnt) + ". Frame: " + std::to_string(Object->GetFrame());
+			std::string EventName = std::string(". Frame: ") + std::to_string(Object->GetFrame()) + Object->GetTypeString();
 			if (ImGui::Button(EventName.c_str()))
 			{
 				SelectObject = Object;
@@ -346,11 +346,6 @@ void SoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 	}
 }
 
-
-void CollisionEventTree::Start()
-{
-}
-
 void CollisionEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 {
 	if (CColNames.empty())
@@ -370,27 +365,39 @@ void CollisionEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 		}
 	}
 
-	static std::vector<int> Frames;
-	Frames.resize(2);
+	static std::vector<int> SelectFrames;
+	if (SelectFrames.empty())
+	{
+		SelectFrames.resize(2);
+	}
+
 	static int SelectCol = 0;
 
 	int StartFrame = static_cast<int>(Parent->SelectAnimation->Start);
 	int EndFrame = static_cast<int>(Parent->SelectAnimation->End);
 
-	ImGui::SliderInt2("Start To End Frame", &Frames[0], StartFrame, EndFrame);
+	ImGui::SliderInt2("Start To End Frame", &SelectFrames[0], StartFrame, EndFrame);
 	ImGui::Combo("Collision List", &SelectCol, &CColNames[0], static_cast<int>(CColNames.size()));
 
 	if (ImGui::Button("Create Event"))
 	{
-		std::map<int, std::shared_ptr<BoneSocketCollision>>& Collisions = Parent->SelectActor->GetCollisions();
-		for (std::pair<const int, std::shared_ptr<BoneSocketCollision>>& Pair : Collisions)
+		bool IsCreatable = (SelectFrames[0] < SelectFrames[1]);
+		if (IsCreatable)
 		{
-			if (CColNames[SelectCol] == Pair.second->GetName())
+			std::map<int, std::shared_ptr<BoneSocketCollision>>& Collisions = Parent->SelectActor->GetCollisions();
+			for (std::pair<const int, std::shared_ptr<BoneSocketCollision>>& Pair : Collisions)
 			{
-				FrameEventHelper* EventHelper = Parent->SelectAnimation->EventHelper;
-				std::shared_ptr<CollisionUpdateFrameEvent> CEvent = CollisionUpdateFrameEvent::CreateEventObject(Frames[0], Frames[1], Pair.second);
-				EventHelper->SetEvent(CEvent);
+				if (CColNames[SelectCol] == Pair.second->GetName())
+				{
+					FrameEventHelper* EventHelper = Parent->SelectAnimation->EventHelper;
+					std::shared_ptr<CollisionUpdateFrameEvent> CEvent = CollisionUpdateFrameEvent::CreateEventObject(SelectFrames[0], SelectFrames[1], Pair.second);
+					EventHelper->SetEvent(CEvent);
+				}
 			}
+		}
+		else
+		{
+			OutputDebugStringA("시작 프레임이 끝 프레임보다 크거나 같으면 이벤트를 생성할 수 없습니다.");
 		}
 	}
 }

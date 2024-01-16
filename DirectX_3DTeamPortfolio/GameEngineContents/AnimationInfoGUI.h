@@ -58,7 +58,7 @@ class CollisionEventTree : public EventTree
 public:
 
 private:
-	void Start() override;
+	void Start() override {}
 	void OnGUI(GameEngineLevel* _Level, float _Delta) override;
 	void ChangeActor() override;
 

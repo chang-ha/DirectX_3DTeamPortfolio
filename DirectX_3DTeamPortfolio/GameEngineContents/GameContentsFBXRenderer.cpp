@@ -414,9 +414,8 @@ void GameContentsFBXRenderer::CreateFBXAnimation(const std::string_view _Animati
 	}
 
 	std::shared_ptr<GameContentsFBXAnimationInfo> NewAnimation = std::make_shared<GameContentsFBXAnimationInfo>();
-	// 이때 애니메이션을 진짜 로드 한다.
-	NewAnimation->Init(FBXMesh, AnimationFBX, _AnimationName, _Index);
 	NewAnimation->ParentRenderer = this;
+	NewAnimation->Init(FBXMesh, AnimationFBX, _AnimationName, _Index);
 	if (0.0f == _Params.Inter)
 	{
 		NewAnimation->Inter = 1.0f / 30.0f;

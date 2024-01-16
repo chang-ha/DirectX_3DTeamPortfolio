@@ -1,6 +1,8 @@
 #pragma once
 #include <GameEngineBase/GameEngineSerializer.h>
 
+#include "FrameEventHelper.h"
+
 #define EVENT_ERROR -1
 #define EVENT_DONE 0
 #define EVENT_PLAY 1
@@ -60,6 +62,26 @@ public:
 protected:
 	inline void SetEventID(int _ID) { EventID = _ID; }
 	int GetCurFrame();
+	
+	template<typename ObjectType>
+	std::shared_ptr<ObjectType> GetDynamicCastParentActor()
+	{
+		GameContentsFBXRenderer* FBXRenderer = ParentHelper->GetAnimationInfo()->ParentRenderer;
+		if (nullptr == FBXRenderer)
+		{
+			MsgBoxAssert("렌더러가 존재하지 않습니다.");
+			return nullptr;
+		}
+
+		std::shared_ptr<ObjectType> DynamicObject = FBXRenderer->GetActor()->GetDynamic_Cast_This<ObjectType>();
+		if (nullptr == DynamicObject)
+		{
+			MsgBoxAssert("다이나믹 캐스팅된 액터가 존재하지 않습니다.");
+			return nullptr;
+		}
+
+		return DynamicObject;
+	}
 
 protected:
 	class FrameEventHelper* ParentHelper = nullptr;

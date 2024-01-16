@@ -38,8 +38,3 @@ void Monster_LothricKn::Release()
 {
 	BaseMonster::Release();
 }
-
-void Monster_LothricKn::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	Death();
-}

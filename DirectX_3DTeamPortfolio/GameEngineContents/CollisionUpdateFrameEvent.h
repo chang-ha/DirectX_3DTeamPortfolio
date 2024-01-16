@@ -21,13 +21,13 @@ public:
 	{
 		FrameEventObject::Write(_File);
 		_File << EndFrame;
-		_File << TypeNumber;
+		_File << ColNumber;
 	}
 	void Read(class GameEngineSerializer& _File) override
 	{
 		FrameEventObject::Read(_File);
 		_File >> EndFrame;
-		_File >> TypeNumber;
+		_File >> ColNumber;
 	}
 
 	inline int GetEndFrame() const
@@ -37,12 +37,13 @@ public:
 
 	inline int GetTypeNumber() const
 	{
-		return TypeNumber;
+		return ColNumber;
 	}
 
 
 	void PlayEvent() override;
 	int UpdateEvent(float _Delta) override;
+	void Init();
 
 
 protected:
@@ -51,7 +52,7 @@ private:
 	static const Enum_FrameEventType Type = Enum_FrameEventType::CollisionUpdate;
 
 	int EndFrame = -1;
-	int TypeNumber = -1;
+	int ColNumber = -1;
 
 	class BoneSocketCollision* pCollision = nullptr;
 
