@@ -1,18 +1,8 @@
 #pragma once
-#include "Monster_Hollow.h"
-
-enum class Enum_Hollow_RaggedRobes_State
-{
-	Pray1,
-	Pray2,
-	Pray3,
-	PrayToBeScared,
-	BeScared,
-	Max,
-};
+#include "Monster_Hollow_NonFirstAttack.h"
 
 // Ό³Έν : 
-class Monster_Hollow_RaggedRobes : public Monster_Hollow
+class Monster_Hollow_RaggedRobes : public Monster_Hollow_NonFirstAttack
 {
 public:
 	// constrcuter destructer
