@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "TurnSpeedFrameEvent.h"
 
+#include "BaseMonster.h"
+
 TurnSpeedFrameEvent::TurnSpeedFrameEvent()
 {
 	SetEventID(static_cast<int>(Type));
