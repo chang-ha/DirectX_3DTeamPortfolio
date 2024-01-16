@@ -3,6 +3,7 @@
 
 #include "SoundFrameEvent.h"
 #include "CollisionUpdateFrameEvent.h"
+#include "TurnSpeedFrameEvent.h"
 
 std::string FrameEventHelper::ExtName = ".Event";
 FrameEventHelper::FrameEventHelper() 
@@ -70,6 +71,10 @@ void FrameEventHelper::Initialze(GameContentsFBXAnimationInfo* _AnimationInfo)
 			break;
 		case Transfrom:
 			break;
+		case TurnSpeed:
+		{
+			NewEvent = std::make_shared<TurnSpeedFrameEvent>();
+		}
 		default:
 			break;
 		}
