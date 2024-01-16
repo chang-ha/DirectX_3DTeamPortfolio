@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="BloomBlur.fx" />
+    <FxCompile Include="BloomBright.fx" />
     <FxCompile Include="ContentsAnimationMesh.fx" />
     <FxCompile Include="ContentsStaticMesh.fx" />
     <FxCompile Include="FBXAnimation.fx" />
@@ -29,6 +31,9 @@
     <FxCompile Include="Random.fx" />
     <FxCompile Include="RenderBase.fx" />
     <FxCompile Include="Transform.fx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BloomCombine.fx" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

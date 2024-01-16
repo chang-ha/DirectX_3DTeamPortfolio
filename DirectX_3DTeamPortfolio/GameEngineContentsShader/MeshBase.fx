@@ -72,6 +72,8 @@ Texture2D DiffuseTexture : register(t0);
 SamplerState DiffuseTextureSampler : register(s0);
 Texture2D NormalTexture : register(t2);
 SamplerState NormalTextureSAMPLER : register(s2);
+Texture2D SpecularTexture : register(t3);
+SamplerState SpecularTextureSAMPLER : register(s3);
 
 void Mesh_PS_Update(inout PixelOutPut _Input, inout PixelOut _Result)
 {
@@ -83,9 +85,11 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout PixelOut _Result)
         clip(-1);
     }
     
+    float3 SpecularColor = SpecularTexture.Sample(SpecularTextureSAMPLER, _Input.TEXCOORD.xy).rgb;
+    
     if (0 != IsNormal)
     {
-        _Input.VIEWNORMAL = NormalTexCalculate(NormalTexture, NormalTextureSAMPLER, _Input.TEXCOORD, _Input.VIEWTANGENT, _Input.VIEWBINORMAL, _Input.VIEWNORMAL);
+        _Input.VIEWNORMAL = -NormalTexCalculate(NormalTexture, NormalTextureSAMPLER, _Input.TEXCOORD, _Input.VIEWTANGENT, _Input.VIEWBINORMAL, _Input.VIEWNORMAL);
     }
     
     
@@ -96,25 +100,40 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout PixelOut _Result)
     
     if (1 == IsLight)
     {
+        float constantAttenuation = 1.0f;
+        float linearAttenuation = 0.0014;
+        float quadraticAttenuation = 0.000007;
         
         for (int i = 0; i < LightCount; ++i)
         {
             float LightPower = 1.0f;
             
+            
             if (0 != AllLight[i].LightType)
             {
                 float Distance = length(AllLight[i].ViewLightPos.xyz - _Input.VIEWPOSITION.xyz);
+                
+                float attenuation = 1.0 / (constantAttenuation + linearAttenuation * Distance + quadraticAttenuation * Distance * Distance);
             
-                float FallOffStart = AllLight[i].PointLightRange * 0.2f;
-                float FallOffEnd = AllLight[i].PointLightRange;
+                //float FallOffStart = AllLight[i].PointLightRange * 0.2f;
+                //float FallOffEnd = AllLight[i].PointLightRange;
                         
-                LightPower *= saturate((FallOffEnd - Distance) / (FallOffEnd - FallOffStart));
+                LightPower = attenuation;
             }
             
+            //float3 diffuse = max(dot(normalize(input.NormalWS), normalize(toLight)), 0.0) * materialDiffuse.rgb * lightIntensity;
+            //float3 specular = /* ...specular calculation... */;
+
+            //float3 finalColor = ambient + diffuse + specular;
             
-            DiffuseRatio += CalDiffuseLight(_Input.VIEWNORMAL, _Input.VIEWPOSITION, AllLight[i]);
-            SpacularRatio += CalSpacularLight(_Input.VIEWPOSITION, _Input.VIEWNORMAL, AllLight[i]);
-            AmbientRatio += CalAmbientLight(AllLight[i]);
+            if (0.0f < LightPower)
+            {
+                
+                DiffuseRatio += CalDiffuseLightContents(_Input.VIEWNORMAL, _Input.VIEWPOSITION, AllLight[i]) * LightPower;
+                //SpacularRatio += CalSpacularLight(_Input.VIEWPOSITION, _Input.VIEWNORMAL, AllLight[i]) * LightPower;
+                SpacularRatio += CalSpacularLightContents(_Input.VIEWPOSITION, _Input.VIEWNORMAL, AllLight[i], SpecularColor) * LightPower;
+                AmbientRatio += CalAmbientLight(AllLight[i]) * LightPower;
+            }
         }
         
         float A = Color.w;

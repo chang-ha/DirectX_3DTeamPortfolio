@@ -171,6 +171,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BloomEffect.cpp" />
     <ClCompile Include="BoneSocketCollision.cpp">
       <SubType>
       </SubType>
@@ -287,6 +288,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TestObject_Shader.cpp" />
     <ClCompile Include="TreeWindow.cpp">
       <SubType>
       </SubType>
@@ -301,6 +303,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BloomEffect.h" />
     <ClInclude Include="BoneSocketCollision.h">
       <SubType>
       </SubType>
@@ -409,6 +412,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="TestObject_Shader.h" />
     <ClInclude Include="TreeWindow.h">
       <SubType>
       </SubType>

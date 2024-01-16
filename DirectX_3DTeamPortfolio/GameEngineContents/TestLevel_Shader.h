@@ -22,9 +22,11 @@ protected:
 	void Update(float _Delta) override;
 	void Release() override;
 
+
 private:
-	std::shared_ptr<class Monster_HollowSoldier> HollowSoldier;
+	std::shared_ptr<class TestObject_Shader> HollowSoldier;
 	std::shared_ptr<class ContentsLight> Test_Light1;
+	std::shared_ptr<class Boss_Vordt> Boss_Object;
 	//std::shared_ptr<class Boss_Vordt> Boss_Object;
 };
 
