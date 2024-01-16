@@ -121,6 +121,9 @@
     <ClCompile Include="LightGUI.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="Monster_Hollow_NonFirstAttack.cpp">
+      <Filter>Monster\Hollow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -236,6 +239,9 @@
     <ClInclude Include="TestObject_Shader.h" />
     <ClInclude Include="LightGUI.h">
       <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_Hollow_NonFirstAttack.h">
+      <Filter>Monster\Hollow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
