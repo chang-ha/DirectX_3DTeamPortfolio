@@ -49,6 +49,11 @@ int CollisionUpdateFrameEvent::UpdateEvent(float _Delta)
 	return EVENT_PLAY;
 }
 
+void CollisionUpdateFrameEvent::Reset()
+{
+	pCollision->Off();
+}
+
 void CollisionUpdateFrameEvent::Init()
 {
 	std::shared_ptr<BaseMonster> ParentActor = GetDynamicCastParentActor<BaseMonster>();

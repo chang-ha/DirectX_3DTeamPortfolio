@@ -53,7 +53,7 @@ public:
 	void PlayEvents(int _Frame);
 	void PushPlayingEvent(FrameEventObject* _Object);
 	void UpdateEvent(float _Delta);
-	void EventReset() {}
+	void EventReset();
 
 	int GetEventSize();
 

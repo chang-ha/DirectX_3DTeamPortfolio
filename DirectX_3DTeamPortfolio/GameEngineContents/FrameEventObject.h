@@ -34,6 +34,7 @@ public:
 
 	virtual void PlayEvent() = 0;
 	virtual int UpdateEvent(float _Delta) { return EVENT_DONE; }
+	virtual void Reset() {}
 
 	void Write(class GameEngineSerializer& _File) override
 	{

@@ -189,6 +189,17 @@ void FrameEventHelper::UpdateEvent(float _Delta)
 	}
 }
 
+void FrameEventHelper::EventReset()
+{
+	for (FrameEventObject* pObject : PlayingEvents)
+	{
+		pObject->Reset();
+	}
+
+	PlayingEvents.clear();
+}
+
+
 void FrameEventHelper::SetEvent(std::shared_ptr<FrameEventObject> _EventObject)
 {
 	_EventObject->SetParentHelper(this);

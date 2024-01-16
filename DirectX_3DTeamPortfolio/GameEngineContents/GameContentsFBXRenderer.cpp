@@ -9,6 +9,11 @@ void GameContentsFBXAnimationInfo::Reset()
 	PlayTime = 0.0f;
 	IsStart = false;
 	IsEnd = false;
+
+	if (nullptr != EventHelper)
+	{
+		EventHelper->EventReset();
+	}
 }
 
 void GameContentsFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index)

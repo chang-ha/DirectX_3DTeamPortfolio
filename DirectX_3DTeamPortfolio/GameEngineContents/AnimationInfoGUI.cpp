@@ -292,7 +292,7 @@ void TotalEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 		for (const std::shared_ptr<FrameEventObject>& Object : EventGroup)
 		{
 			++Cnt;
-			std::string EventName = std::string(". Frame: ") + std::to_string(Object->GetFrame()) + Object->GetTypeString();
+			std::string EventName = std::string("Frame:") + std::to_string(Object->GetFrame()) + " " + Object->GetTypeString();
 			if (ImGui::Button(EventName.c_str()))
 			{
 				SelectObject = Object;

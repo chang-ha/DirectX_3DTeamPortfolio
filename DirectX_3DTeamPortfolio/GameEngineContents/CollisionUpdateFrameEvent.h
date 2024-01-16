@@ -43,6 +43,8 @@ public:
 
 	void PlayEvent() override;
 	int UpdateEvent(float _Delta) override;
+	void Reset() override;
+
 	void Init();
 
 
