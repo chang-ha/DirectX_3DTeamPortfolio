@@ -116,6 +116,11 @@
     <ClCompile Include="CollisionUpdateFrameEvent.cpp">
       <Filter>ImGui\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="BloomEffect.cpp" />
+    <ClCompile Include="TestObject_Shader.cpp" />
+    <ClCompile Include="LightGUI.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -226,6 +231,11 @@
     </ClInclude>
     <ClInclude Include="CollisionUpdateFrameEvent.h">
       <Filter>ImGui\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="BloomEffect.h" />
+    <ClInclude Include="TestObject_Shader.h" />
+    <ClInclude Include="LightGUI.h">
+      <Filter>ImGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

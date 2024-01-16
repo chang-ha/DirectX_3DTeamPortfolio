@@ -62,7 +62,7 @@ void TestLevel_Shader::Start()
 
 
 	{
-		Test_Light1 = CreateActor<ContentsLight>(0);
+		Test_Light1 = CreateActor<ContentsLight>(static_cast<int>(Enum_UpdateOrder::Light),"MainLight");
 		Test_Light1->SetLightType(Enum_LightType::Point);
 		//Test_Light1->IsDebugValue = true;
 		LightData Data = Test_Light1->GetLightData();
