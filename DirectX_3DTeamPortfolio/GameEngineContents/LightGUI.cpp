@@ -10,10 +10,25 @@ LightGUI::~LightGUI()
 {
 }
 
+
+void LightGUI::Start()
+{
+}
+
 void LightGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
 	ShowLightList(_Level);
+	LightEditor();
 }
+
+void LightGUI::LevelEnd()
+{
+	SelectActor = nullptr;
+
+	ActorNames.clear();
+	CObjectNames.clear();
+}
+
 
 void LightGUI::ShowLightList(GameEngineLevel* _Level)
 {
@@ -57,5 +72,71 @@ void LightGUI::ShowLightList(GameEngineLevel* _Level)
 				//ActorChange();
 			}
 		}
+	}
+}
+
+
+void LightGUI::LightEditor()
+{
+	if (nullptr == SelectActor)
+	{
+		return;
+	}
+
+	if (ImGui::TreeNode("LightData Editor"))
+	{
+		if (true == SelectActor->IsDeath())
+		{
+			SelectActor = nullptr;
+
+			ImGui::TreePop();
+			return;
+		}
+
+		LightData Data = SelectActor->GetLightData();
+
+		float4 Rot = SelectActor->Transform.GetLocalRotationEuler();
+		float4 Pos = SelectActor->Transform.GetLocalPosition();
+
+		float Size = 0.0f;
+		//float4 LightColor = Data.LightColor;
+
+
+
+		if (ImGui::InputFloat3("Rotation", &Rot.X))
+		{
+			SelectActor->Transform.SetLocalRotation(Rot);
+		}
+
+		if (ImGui::InputFloat3("Pos", &Pos.X))
+		{
+			SelectActor->Transform.SetLocalPosition(Pos);
+		}
+
+		if (ImGui::InputFloat3("LightColor", &Data.LightColor.X))
+		{
+		}
+
+		if (ImGui::InputFloat3("AmbientLight", &Data.AmbientLight.X))
+		{
+		}
+
+		if (ImGui::InputFloat("DifLightPower", &Data.DifLightPower))
+		{
+		}
+		
+		if (ImGui::InputFloat("SpcLightPower", &Data.SpcLightPower))
+		{
+		}
+		if (ImGui::InputFloat("AmbLightPower", &Data.AmbLightPower))
+		{
+		}
+		if (ImGui::InputFloat("SpcPow", &Data.SpcPow))
+		{
+		}
+
+		SelectActor->SetLightData(Data);
+
+		ImGui::TreePop();
 	}
 }
