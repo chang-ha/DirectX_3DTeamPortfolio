@@ -87,9 +87,23 @@ void GameEngineTexture::CreateShaderResourceView()
 		return;
 	}
 
-	// 이미지를 수정할수 있는 권한을 '만든다'
+	HRESULT Result;
 
-	HRESULT Result = GameEngineCore::GetDevice()->CreateShaderResourceView(Texture2D, nullptr, &SRV);
+	// 깊이버퍼용 쉐이더리소스뷰
+	if (D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL & Desc.BindFlags)
+	{
+		D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+		srvDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+		srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		srvDesc.Texture2D.MipLevels = 1;
+		srvDesc.Texture2D.MostDetailedMip = 0;
+		Result = GameEngineCore::GetDevice()->CreateShaderResourceView(Texture2D, &srvDesc, &SRV);
+	}
+	// 이미지를 수정할수 있는 권한을 '만든다'
+	else
+	{
+		Result = GameEngineCore::GetDevice()->CreateShaderResourceView(Texture2D, nullptr, &SRV);
+	}
 
 	if (S_OK != Result)
 	{
@@ -115,7 +129,14 @@ void GameEngineTexture::CreateDepthStencilView()
 
 	// 이미지를 수정할수 있는 권한을 '만든다'
 
-	HRESULT Result = GameEngineCore::GetDevice()->CreateDepthStencilView(Texture2D, nullptr, &DSV);
+	D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc;
+	dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT; 
+	dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	dsvDesc.Texture2D.MipSlice = 0;
+	dsvDesc.Flags = 0; // new in D3D11
+
+
+	HRESULT Result = GameEngineCore::GetDevice()->CreateDepthStencilView(Texture2D, &dsvDesc, &DSV);
 
 	if (S_OK != Result)
 	{
@@ -222,7 +243,9 @@ void GameEngineTexture::ResCreate(const D3D11_TEXTURE2D_DESC& _Desc)
 {
 	Desc = _Desc;
 
-	if (S_OK != GameEngineCore::GetDevice()->CreateTexture2D(&Desc, nullptr, &Texture2D))
+	HRESULT result = GameEngineCore::GetDevice()->CreateTexture2D(&Desc, nullptr, &Texture2D);
+
+	if (S_OK != result)
 	{
 		MsgBoxAssert("if (S_OK != GameEngineCore::GetDevice()->CreateTexture2D(&Desc, nullptr, &Texture2D))");
 	}
@@ -232,15 +255,17 @@ void GameEngineTexture::ResCreate(const D3D11_TEXTURE2D_DESC& _Desc)
 		CreateRenderTargetView();
 	}
 
+	if (D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL & Desc.BindFlags)
+	{
+		CreateDepthStencilView();
+	}
+
 	if (D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE & Desc.BindFlags)
 	{
 		CreateShaderResourceView();
 	}
 
-	if (D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL & Desc.BindFlags)
-	{
-		CreateDepthStencilView();
-	}
+	
 }
 
 GameEngineColor GameEngineTexture::GetColor(unsigned int _X, unsigned int _Y, GameEngineColor _DefaultColor)

@@ -4,7 +4,11 @@
 // Ό³Έν :
 class GameEngineAO : public GameEngineObjectBase
 {
+private:
+	static GameEngineAO MainHBAO;
+
 public:
+
 	// constrcuter destructer
 	GameEngineAO();
 	~GameEngineAO();
@@ -15,11 +19,13 @@ public:
 	GameEngineAO& operator=(const GameEngineAO& _Other) = delete;
 	GameEngineAO& operator=(GameEngineAO&& _Other) noexcept = delete;
 
+	//void DrawHBAO()
+
 protected:
 	void Init(ID3D11Device* pDevice);
 
 private:
-	class GFSDK_SSAO_Context_D3D11* pAOContext;
+	class GFSDK_SSAO_Context_D3D11* AOContext = nullptr;
 
 };
 
