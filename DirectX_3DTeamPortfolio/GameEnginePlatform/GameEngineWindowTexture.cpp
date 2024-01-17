@@ -1,6 +1,5 @@
 #include "PreCompile.h"
 #include "GameEngineWindowTexture.h"
-#include <Windows.h>
 #include <GameEngineBase/GameEngineDebug.h>
 #include "GameEngineWindow.h"
 

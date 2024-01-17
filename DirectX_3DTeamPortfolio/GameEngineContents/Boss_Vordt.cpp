@@ -1,7 +1,72 @@
 ﻿#include "PreCompile.h"
 #include "Boss_Vordt.h"
 
-#define BOSS_ANI_SPEED 0.33f
+#define BOSS_ANI_SPEED 0.033f
+
+void Boss_State_GUI::Start()
+{
+	
+}
+
+void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
+{
+	if (nullptr == Linked_Boss)
+	{
+		return;
+	}
+
+	{
+		physx::PxVec3 Vec = Linked_Boss->Capsule->GetLinearVelocity();
+
+		Vec.x = floor(Vec.x * 100) / 100;
+		Vec.y = floor(Vec.y * 100) / 100;
+		if (Vec.y < 0.001f)
+		{
+			Vec.y = 0.00f;
+		}
+		Vec.z = floor(Vec.z * 100) / 100;
+
+		std::string Speed = "Speed\n";
+		Speed += "X : " + std::to_string(Vec.x) + "\n";
+		Speed += "Y : " + std::to_string(Vec.y) + "\n";
+		Speed += "Z : " + std::to_string(Vec.z) + "\n";
+		ImGui::Text(Speed.c_str());
+	}
+
+	ImGui::NewLine();
+
+	{
+		physx::PxVec3 Vec = Linked_Boss->Capsule->GetWorldPosition();
+
+		Vec.x = floor(Vec.x * 100) / 100;
+		Vec.y = floor(Vec.y * 100) / 100;
+		Vec.z = floor(Vec.z * 100) / 100;
+
+		std::string Pos = "Pos\n";
+		Pos += "X : " + std::to_string(Vec.x) + "\n";
+		Pos += "Y : " + std::to_string(Vec.y) + "\n";
+		Pos += "Z : " + std::to_string(Vec.z) + "\n";
+		ImGui::Text(Pos.c_str());
+	}
+
+
+	ImGui::NewLine();
+
+	{
+		bool Result = Linked_Boss->Capsule->IsGravity();
+		std::string Gravity = "IsGravity\n";
+		switch (Result)
+		{
+		case 0:
+			Gravity += " False";
+			break;
+		default:
+			Gravity += " True";
+			break;
+		}
+		ImGui::Text(Gravity.c_str());
+	}
+}
 
 Boss_Vordt::Boss_Vordt()
 {
@@ -25,13 +90,13 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 			GameEngineFBXMesh::Load(File.GetStringPath());
 		}
 
-		if (nullptr == BossFBXRenderer)
-		{
-			BossFBXRenderer = CreateComponent<GameEngineFBXRenderer>(Enum_RenderOrder::Monster);
-		}
+		//if (nullptr == BossFBXRenderer)
+		//{
+		//	BossFBXRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
+		//}
 
-		BossFBXRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBXAnimationTexture"); // Bone 136
-		// BossFBXRenderer->Transform.SetLocalScale({ 50.0f, 50.0f, 50.0f });
+		BossFBXRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBX_Animation"); // Bone 136
+		BossFBXRenderer->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
 		BossFBXRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
 	}
 
@@ -90,33 +155,119 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BossFBXRenderer->CreateFBXAnimation("Walk_Front", "Walk_Front.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Walk_Left", "Walk_Left.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Walk_Right", "Walk_Right.FBX", { BOSS_ANI_SPEED, true });
-		BossFBXRenderer->ChangeAnimation("Turn_Left");
+		BossFBXRenderer->ChangeAnimation("Rush&Turn");
 	}
 
 	//// Boss Collision
+	{
+		if (nullptr == BossCollision)
+		{
+			BossCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::MonsterAttack);
+		}
+		BossCollision->SetCollisionType(ColType::SPHERE3D);
+		BossCollision->Transform.SetLocalScale({ 1.0f, 1.0f, 1.0f });
+	}
+
+	//if (nullptr == Capsule)
 	//{
-	//	if (nullptr == BossCollision)
-	//	{
-	//		BossCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::MonsterAttack);
-	//	}
-	//	BossCollision->SetCollisionType(ColType::SPHERE2D);
-	//	BossCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 1.0f });
+	//	Capsule = CreateComponent<GameEnginePhysXCapsule>();
 	//}
+	Capsule->PhysXComponentInit(100.0f, 50.0f);
+	// Capsule->SetMaxSpeed(150.0f);
+	Capsule->SetPositioningComponent();
+	// Capsule->GravityOff();
+
+	GUI = GameEngineGUI::CreateGUIWindow<Boss_State_GUI>("Boss_State");
+	GUI->Linked_Boss = this;
+
+	CreateStateParameter Idle;
+	Idle.Start = std::bind(&Boss_Vordt::IdleStart, this);
+	Idle.Stay = std::bind(&Boss_Vordt::IdleUpdate, this, GameEngineCore::MainTime.GetDeltaTime());
+	Idle.End = std::bind(&Boss_Vordt::IdleEnd, this);
+
+	BossState.CreateState(Enum_BossState::Idle, Idle);
+	BossState.ChangeState(Enum_BossState::Idle);
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
 {
+	GUI->Linked_Boss = nullptr;
 	Death();
 }
 
 void Boss_Vordt::Start()
 {
+	GameEngineInput::AddInputObject(this);
 
+	if (nullptr == BossFBXRenderer)
+	{
+		BossFBXRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
+	}
+
+	if (nullptr == Capsule)
+	{
+		Capsule = CreateComponent<GameEnginePhysXCapsule>();
+	}
 }
 
+#define SPEED 100.0f
 void Boss_Vordt::Update(float _Delta)
 {
 	BossState.Update(_Delta);
+
+	if (false == GameEngineInput::IsPress('W', this)
+		&& false == GameEngineInput::IsPress('A', this)
+		&& false == GameEngineInput::IsPress('S', this)
+		&& false == GameEngineInput::IsPress('D', this))
+	{
+		Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z);
+	}
+
+	if (true == GameEngineInput::IsPress('W', this))
+	{
+		Capsule->MoveForce({ 0.0f, 0.0f, SPEED, 0.0f });
+	}
+
+	if (true == GameEngineInput::IsPress('S', this))
+	{
+		Capsule->MoveForce({ 0.0f, 0.0f, -SPEED, 0.0f });
+	}
+
+	if (true == GameEngineInput::IsPress('A', this))
+	{
+		Capsule->MoveForce({ -SPEED, 0.0f, 0.0f, 0.0f });
+	}
+
+	if (true == GameEngineInput::IsPress('D', this))
+	{
+		Capsule->MoveForce({ SPEED, 0.0f, 0.0f, 0.0f });
+	}
+
+	if (true == GameEngineInput::IsDown('Q', this))
+	{
+		Capsule->AddForce({ 0.0f, 0.0f, 1000.0f, 0.0f });
+	}
+
+	if (true == GameEngineInput::IsDown('E', this))
+	{
+		Capsule->AddForce({ 0.0f, 0.0f, -1000.0f, 0.0f });
+	}
+
+	if (true == GameEngineInput::IsDown(VK_SPACE, this))
+	{
+		Capsule->AddForce({ 0.0f, 2000.0f, 0.0f, 0.0f });
+	}
+
+	if (true == GameEngineInput::IsDown('V', this))
+	{
+		Capsule->SetWorldPosition({ 0.0f, 0.0f, 0.0f, 0.0f });
+	}
+
+	if (true == GameEngineInput::IsDown('B', this))
+	{
+		Capsule->CollisionOff();
+		Capsule->ResetMove(Enum_Axies::All);
+	}
 }
 
 void Boss_Vordt::Release()
@@ -132,4 +283,11 @@ void Boss_Vordt::Release()
 		BossCollision->Death();
 		BossCollision = nullptr;
 	}
+
+	if (nullptr != Capsule)
+	{
+		Capsule->Death();
+		Capsule = nullptr;
+	}
+
 }

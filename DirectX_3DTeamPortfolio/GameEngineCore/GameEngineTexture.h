@@ -57,7 +57,7 @@ public:
 	}
 
 	static std::shared_ptr<GameEngineTexture> Load(std::string_view _Path, 
-		D3D11_FILTER _Filter = D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_POINT, 
+		D3D11_FILTER _Filter = D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_LINEAR,
 		D3D11_TEXTURE_ADDRESS_MODE _Address = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_CLAMP)
 	{
 		GameEnginePath Path = _Path;
@@ -66,7 +66,7 @@ public:
 	}
 
 	static std::shared_ptr<GameEngineTexture> Load(std::string_view _Path, std::string_view _Name,
-		D3D11_FILTER _Filter = D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_POINT,
+		D3D11_FILTER _Filter = D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_LINEAR,
 		D3D11_TEXTURE_ADDRESS_MODE _Address = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_CLAMP)
 	{
 		std::shared_ptr<GameEngineTexture> NewRes = CreateRes(_Name);

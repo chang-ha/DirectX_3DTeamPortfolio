@@ -33,5 +33,14 @@
 #include "GlobalValue.h"
 
 #include "GameEngineCore\GameEnginePhysX.h"
+#include <GameEngineCore\GameEnginePhysXSphere.h>
+#include <GameEngineCore\GameEnginePhysXBox.h>
+#include <GameEngineCore\GameEnginePhysXCapsule.h>
+#include <GameEngineCore\GameEnginePhysXTriMesh.h>
+#include <GameEngineCore\GameEnginePhysXCharacterController.h>
 
 #include "GameContentsFBXRenderer.h"
+
+
+// Server
+#include "PacketHeader.h"

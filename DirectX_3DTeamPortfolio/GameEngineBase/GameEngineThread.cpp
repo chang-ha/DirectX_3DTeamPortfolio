@@ -1,6 +1,5 @@
 #include "PreCompile.h"
 #include "GameEngineThread.h"
-#include <Windows.h>
 #include "GameEngineString.h"
 
 GameEngineThread::GameEngineThread() 

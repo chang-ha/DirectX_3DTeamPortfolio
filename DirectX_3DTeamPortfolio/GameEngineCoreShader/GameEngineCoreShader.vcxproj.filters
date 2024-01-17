@@ -56,6 +56,15 @@
     <FxCompile Include="FBXStaticColorShader.fx">
       <Filter>3D</Filter>
     </FxCompile>
+    <FxCompile Include="FBXStaticTextureShader.fx">
+      <Filter>3D</Filter>
+    </FxCompile>
+    <FxCompile Include="FBXDeferredAnimationShader.fx">
+      <Filter>3D</Filter>
+    </FxCompile>
+    <FxCompile Include="DeferredRender.fx">
+      <Filter>Deferred</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -78,6 +87,9 @@
     </Filter>
     <Filter Include="3D">
       <UniqueIdentifier>{1ceb1225-7aa7-4ad4-8f41-4767fb2d1787}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Deferred">
+      <UniqueIdentifier>{e8289301-9204-42a5-bf43-2a6a551d1a72}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -4,12 +4,26 @@
 #include <list>
 #include <memory>
 #include <set>
+#include "GameEngineRenderUnit.h"
 
+
+enum class RenderPath
+{
+	None,
+	CoustomForward,
+	Forward,
+	CoustomDeferred,
+	Deferred,
+	CoustomAlpha,
+	Alpha,
+	Debug,
+};
 
 // 설명 :
 class GameEngineCamera : public GameEngineActor
 {
 
+	friend class GameEngineRenderUnit;
 	friend class GameEngineRenderer;
 	friend class GameEngineActor;
 	friend class GameEngineLevel;
@@ -103,6 +117,16 @@ public:
 		return AllRenderTarget;
 	}
 
+	std::shared_ptr<class GameEngineRenderTarget> GetCameraForwardTarget()
+	{
+		return ForwardTarget;
+	}
+
+	std::shared_ptr<class GameEngineRenderTarget> GetCameraDeferredTarget()
+	{
+		return DeferredTarget;
+	}
+
 	void SetFar(float _Far)
 	{
 		Far = _Far;
@@ -115,6 +139,31 @@ public:
 	std::map<int, std::list<std::shared_ptr<class GameEngineRenderer>>> GetRenderers()
 	{
 		return Renderers;
+	}
+
+	std::map<int, std::list<std::shared_ptr<class GameEngineRenderer>>> Renderers;
+
+	bool InCamera(const GameEngineTransform& _Trans)
+	{
+		float4 Position = Transform.GetLocalPosition();
+		float4 Forward = Transform.GetLocalForwardVector();
+		float4 Up = Transform.GetLocalUpVector();
+
+		Transform.LookToLH(Position, Forward, Up);
+
+		float4 WindowScale = GameEngineCore::MainWindow.GetScale();
+		WindowScale *= ZoomValue;
+
+		float4 Qur = Transform.GetConstTransformDataRef().WorldQuaternion;
+
+		Transform.PerspectiveFovLHDeg(FOV, WindowScale.X, WindowScale.Y, Near, Far);
+		CameraFrustum.Far = Far;
+		CameraFrustum.Near = Near;
+		CameraFrustum.Origin = { Position.X, Position.Y, Position.Z };
+		CameraFrustum.Orientation = { Qur.X, Qur.Y, Qur.Z, Qur.W };
+
+		bool Result = CameraFrustum.Intersects(_Trans.ColData.AABB);
+		return Result;
 	}
 
 protected:
@@ -142,7 +191,10 @@ private:
 	bool IsFreeCameraValue = false;
 
 	int CameraOrder = 0;
-	std::map<int, std::list<std::shared_ptr<class GameEngineRenderer>>> Renderers;
+	//std::map<int, std::list<std::shared_ptr<class GameEngineRenderer>>> Renderers;
+
+	std::map<RenderPath, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>> Units;
+
 
 	EPROJECTIONTYPE PrevProjectionType = EPROJECTIONTYPE::Orthographic;
 
@@ -152,10 +204,20 @@ private:
 	float4 ScreenMouseDirNormal;
 	TransformData OriginData;
 
+	// 카메라 범위
+	DirectX::BoundingFrustum CameraFrustum;
+
 	std::set<int> ZSortMap;
 	std::set<int> YSortMap;
 
 	std::shared_ptr<class GameEngineRenderTarget> AllRenderTarget;
+
+	// 포워드의 최종 결과물
+	std::shared_ptr<class GameEngineRenderTarget> ForwardTarget;
+
+	GameEngineRenderUnit DeferredRenderUnit;
+	// 디퍼드의 빛 결과물
+	std::shared_ptr<class GameEngineRenderTarget> DeferredTarget;
 
 	void CameraUpdate(float _DeltaTime);
 };

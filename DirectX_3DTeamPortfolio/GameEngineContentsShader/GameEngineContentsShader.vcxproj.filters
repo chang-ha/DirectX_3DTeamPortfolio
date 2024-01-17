@@ -42,5 +42,16 @@
     <FxCompile Include="FXAA.fx">
       <Filter>PostEffect</Filter>
     </FxCompile>
+    <FxCompile Include="BloomBlur.fx">
+      <Filter>PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="BloomBright.fx">
+      <Filter>PostEffect</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BloomCombine.fx">
+      <Filter>PostEffect</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

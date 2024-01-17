@@ -1,5 +1,19 @@
 #pragma once
 
+// Ό³Έν :
+class Boss_State_GUI : public GameEngineGUIWindow
+{
+	friend class Boss_Vordt;
+public:
+	void Start() override;
+	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
+	
+protected:
+
+private:
+	Boss_Vordt* Linked_Boss = nullptr;
+};
+
 enum class Enum_BossState
 {
 	Idle,
@@ -8,6 +22,7 @@ enum class Enum_BossState
 
 class Boss_Vordt : public GameEngineActor
 {
+	friend Boss_State_GUI;
 public:
 	// constructer destructer
 	Boss_Vordt();
@@ -28,8 +43,17 @@ protected:
 	void Release() override;
 
 private:
-	std::shared_ptr<GameEngineFBXRenderer> BossFBXRenderer;
+	std::shared_ptr<GameContentsFBXRenderer> BossFBXRenderer;
 	std::shared_ptr<GameEngineCollision> BossCollision;
+	std::shared_ptr<class GameEnginePhysXSphere> Sphere;
+	std::shared_ptr<class GameEngjnePhysXBox> Box;
+	std::shared_ptr<class GameEnginePhysXCapsule> Capsule;
+	std::shared_ptr<Boss_State_GUI> GUI = nullptr;
+
+	// State
 	GameEngineState BossState;
+	void IdleStart();
+	void IdleUpdate(float _Delta);
+	void IdleEnd();
 };
 

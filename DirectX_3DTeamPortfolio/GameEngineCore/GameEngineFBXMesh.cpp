@@ -90,46 +90,8 @@ void GameEngineFBXMesh::Initialize()
 }
 
 
-void GameEngineFBXMesh::BigFBXLoad(size_t _Num, std::string_view _Name)
-{
-	GameEngineFile File = GameEngineFile(GetPath());
 
-	std::string ExtensionName = "FBX";
-
-	int FileNum = _Num;
-
-	ExtensionName += std::to_string(FileNum);
-
-	File.ChangeExtension(ExtensionName);
-
-	if (true == File.IsExits())
-	{
-		File.Open(FileOpenType::Read, FileDataType::Binary);
-
-		GameEngineSerializer Ser;
-		File.DataAllRead(Ser);
-		File.Close();
-
-		std::vector<FbxExMeshInfo> NewMeshInfo;
-		std::vector<FbxRenderUnitInfo> NewRenderUnitInfos;
-
-		Ser >> FBXMeshName;
-		Ser >> NewMeshInfo;
-		Ser >> NewRenderUnitInfos;
-		Ser >> AllBones;
-
-		MeshInfos[FileNum] = NewMeshInfo[0];
-		RenderUnitInfos[FileNum] = NewRenderUnitInfos[0];
-
-		for (int i = 0; i < AllBones.size(); i++)
-		{
-			AllFindMap[AllBones[i].Name] = &AllBones[i];
-		}
-	}
-}
-
-
-void GameEngineFBXMesh::BigFBXInitialize()
+void GameEngineFBXMesh::MapFBXInitialize()
 {
 	if (0 != RenderUnitInfos.size())
 	{
@@ -243,6 +205,7 @@ void GameEngineFBXMesh::BigFBXInitialize()
 
 }
 
+// 분할로드 보류
 void GameEngineFBXMesh::TestBigFBXInitialize()
 {
 	if (0 != RenderUnitInfos.size())
@@ -305,7 +268,9 @@ void GameEngineFBXMesh::TestBigFBXInitialize()
 		MapDatas.emplace_back();
 
 		MapDatas[FileNum].Name = File.GetFileName();
-		MapDatas[FileNum].Pos = NewRenderUnitInfos[0].MinBoundBox;
+
+		MapDatas[FileNum].Center = NewRenderUnitInfos[0].MinBoundBox + (NewRenderUnitInfos[0].BoundScaleBox).Half();
+		MapDatas[FileNum].Scale = NewRenderUnitInfos[0].BoundScaleBox;
 		MapDatas[FileNum].IsLoad = false;
 
 		for (int i = 0; i < AllBones.size(); i++)
@@ -338,6 +303,46 @@ void GameEngineFBXMesh::TestBigFBXInitialize()
 	NewFile.Write(Ser);
 
 }
+
+
+void GameEngineFBXMesh::BigFBXLoad(size_t _Num, std::string_view _Name)
+{
+	GameEngineFile File = GameEngineFile(GetPath());
+
+	std::string ExtensionName = "FBX";
+
+	int FileNum = _Num;
+
+	ExtensionName += std::to_string(FileNum);
+
+	File.ChangeExtension(ExtensionName);
+
+	if (true == File.IsExits())
+	{
+		File.Open(FileOpenType::Read, FileDataType::Binary);
+
+		GameEngineSerializer Ser;
+		File.DataAllRead(Ser);
+		File.Close();
+
+		std::vector<FbxExMeshInfo> NewMeshInfo;
+		std::vector<FbxRenderUnitInfo> NewRenderUnitInfos;
+
+		Ser >> FBXMeshName;
+		Ser >> NewMeshInfo;
+		Ser >> NewRenderUnitInfos;
+		Ser >> AllBones;
+
+		MeshInfos[FileNum] = NewMeshInfo[0];
+		RenderUnitInfos[FileNum] = NewRenderUnitInfos[0];
+
+		for (int i = 0; i < AllBones.size(); i++)
+		{
+			AllFindMap[AllBones[i].Name] = &AllBones[i];
+		}
+	}
+}
+
 
 void GameEngineFBXMesh::CreateBoneStructuredBuffer()
 {
@@ -550,8 +555,8 @@ void GameEngineFBXMesh::FbxRenderUnitInfoMaterialSetting(fbxsdk::FbxNode* _Node,
 			MatData.TransparencyFactor = MaterialFactor(pMtrl, "TransparencyFactor");
 
 			MatData.DifTexturePath = MaterialTex(pMtrl, "DiffuseColor");
-			MatData.NorTexturePath = MaterialTex(pMtrl, "NormalMap");
-			MatData.SpcTexturePath = MaterialTex(pMtrl, "SpecularColor");
+			MatData.NorTexturePath = NorTexturePathSetting(MatData.DifTexturePath);
+			MatData.SpcTexturePath = SpcTexturePathSetting(MatData.DifTexturePath);
 
 			MatData.DifTextureName = GameEnginePath::GetFileName(MatData.DifTexturePath);
 			MatData.NorTextureName = GameEnginePath::GetFileName(MatData.NorTexturePath);
@@ -563,6 +568,44 @@ void GameEngineFBXMesh::FbxRenderUnitInfoMaterialSetting(fbxsdk::FbxNode* _Node,
 		// MsgAssert("매쉬는 존재하지만 재질은 존재하지 않습니다.");
 	}
 
+}
+
+std::string GameEngineFBXMesh::NorTexturePathSetting(std::string_view _str)
+{
+	std::string result = _str.data();
+	
+
+	char Type = result[result.size() - 5];
+
+	if (Type == 'l')
+	{
+		result[result.size() - 7] = 'n';
+	}
+	else
+	{
+		result[result.size() - 5] = 'n';
+	}
+
+	return result;
+}
+
+std::string GameEngineFBXMesh::SpcTexturePathSetting(std::string_view _str)
+{
+	std::string result = _str.data();
+
+
+	char Type = result[result.size() - 5];
+
+	if (Type == 'l')
+	{
+		result[result.size() - 7] = 'r';
+	}
+	else
+	{
+		result[result.size() - 5] = 'r';
+	}
+
+	return result;
 }
 
 
@@ -920,6 +963,8 @@ void GameEngineFBXMesh::LoadUV(fbxsdk::FbxMesh* _Mesh, fbxsdk::FbxAMatrix _MeshM
 	_ArrVtx[_Index].TEXCOORD.Z = 0.0f;
 	_ArrVtx[_Index].TEXCOORD.W = 0.0f;
 }
+
+
 
 fbxsdk::FbxNode* GameEngineFBXMesh::RecursiveFindParentLodGroup(fbxsdk::FbxNode* parentNode)
 {

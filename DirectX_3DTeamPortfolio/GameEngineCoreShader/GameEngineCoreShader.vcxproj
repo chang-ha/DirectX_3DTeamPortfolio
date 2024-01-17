@@ -28,11 +28,14 @@
     </FxCompile>
     <FxCompile Include="DebugColorShader.fx" />
     <FxCompile Include="DebugLineShader.fx" />
+    <FxCompile Include="DeferredRender.fx" />
     <FxCompile Include="FadePostEffect.fx" />
     <FxCompile Include="FBXAnimation.fx" />
     <FxCompile Include="FBXAnimationColorShader.fx" />
     <FxCompile Include="FBXAnimationTextureShader.fx" />
+    <FxCompile Include="FBXDeferredAnimationShader.fx" />
     <FxCompile Include="FBXStaticColorShader.fx" />
+    <FxCompile Include="FBXStaticTextureShader.fx" />
     <FxCompile Include="Function.fx" />
     <FxCompile Include="Light.fx" />
     <FxCompile Include="ParticleHeader.fx" />

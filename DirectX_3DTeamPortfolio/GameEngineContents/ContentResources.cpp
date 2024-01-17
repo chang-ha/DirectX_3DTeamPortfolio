@@ -2,6 +2,8 @@
 #include "ContentResources.h"
 #include <GameEngineCore/GameEngineBlend.h>
 
+#include "Monster_LothricKn.h"
+
 ContentResources::ContentResources()
 {
 
@@ -77,7 +79,6 @@ void ContentResources::ContentResourcesInit()
 		}
 	}
 
-
 	{
 		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBX_Animation");
 		Mat->SetVertexShader("ContentsAnimationMesh_VS");
@@ -135,5 +136,20 @@ void ContentResources::ContentResourcesInit()
 		Mat->SetRasterizer("EngineRasterizer");
 		Mat->SetBlendState("MergeBlend");
 		Mat->SetDepthState("AlwaysDepth");
+	}
+
+
+	BaseMonster::LoadEvent(static_cast<int>(Monster_LothricKn::Type));
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources");
+		Dir.MoveChild("TestSoundFile");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile pFile : Files)
+		{
+			GameEngineSound::SoundLoad(pFile.GetStringPath());
+		}
 	}
 }

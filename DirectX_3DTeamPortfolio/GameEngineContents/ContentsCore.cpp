@@ -3,6 +3,8 @@
 
 #include <GameEngineCore/GameEngineCoreWindow.h>
 #include "ContentsControlWindow.h"
+#include "TreeWindow.h"
+
 #include "PlayLevel.h"
 #include "ContentResources.h"
 #include "PlayLevel.h"
@@ -10,6 +12,7 @@
 #include "TestLevel_Monster.h"
 #include "TestLevel_Shader.h"
 #include "TestLevel_Map.h"
+#include "TestLevel_PhysX.h"
 
 #include <GameEngineCore\GameEnginePhysX.h>
 
@@ -28,7 +31,10 @@ void ContentsCore::Start()
 	GameEnginePhysX::PhysXInit();
 
 	ContentsGUIWindow = GameEngineGUI::CreateGUIWindow<ContentsControlWindow>("ContentsControlWindow");
-	ContentsGUIWindow->On();
+	ContentsGUIWindow->On(); 
+
+	TreeGUIWindow = GameEngineGUI::CreateGUIWindow<TreeWindow>("TreeWindow");
+	TreeGUIWindow->On();
 
 	CoreGUIWindow = GameEngineGUI::CreateGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 	CoreGUIWindow->On();
@@ -39,6 +45,7 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<TestLevel_Monster>("TestLevel_Monster");
 	GameEngineCore::CreateLevel<TestLevel_Shader>("TestLevel_Shader");
 	GameEngineCore::CreateLevel<TestLevel_Map>("TestLevel_Map");
+	GameEngineCore::CreateLevel<TestLevel_PhysX>("TestLevel_PhysX");
 
 	GameEngineCore::ChangeLevel("PlayLevel");
 }

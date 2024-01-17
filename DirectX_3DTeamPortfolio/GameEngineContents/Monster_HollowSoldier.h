@@ -1,46 +1,7 @@
 #pragma once
-#include "CommonMonster.h"
+#include "Monster_Hollow.h"
 
-enum class HollowSoldier_MeshIndex
-{
-	Sword = 0,
-	Spear = 1,
-	Crossbow,
-	CircleShield,
-	WoodShield,
-	ChainMail,
-	ShoulderRobe,
-	Helmat,
-	InnerHood,
-	HeadChainMail,
-	RightKneePads,
-	LeftKneePads,
-	Shoes,
-	Lantern,
-	SmallLeatherVest,
-	Bone,
-	BeltLantern,
-	BrokenSword,
-	Dagger,
-	Pants,
-	OuterHood,
-	Shirt1,
-	Shirt2,
-	Belt1,
-	Belt2,
-	Belt3,
-	BigLeatherVest,
-	ShortSkirt,
-	LongSkirt1,
-	LongSkirt2,
-	TopRobe,
-	Scarf,
-	ArmSleeve1,
-	ArmSleeve2,
-	UpperBody
-};
-
-enum class HollowSoldier_State
+enum class Enum_HollowSoldier_State
 {
 	Walk,
 	Run,
@@ -48,7 +9,7 @@ enum class HollowSoldier_State
 };
 
 // Ό³Έν : 
-class Monster_HollowSoldier : public CommonMonster
+class Monster_HollowSoldier : public Monster_Hollow
 {
 public:
 	// constrcuter destructer
@@ -61,7 +22,7 @@ public:
 	Monster_HollowSoldier& operator=(const Monster_HollowSoldier & _Other) = delete;
 	Monster_HollowSoldier& operator=(Monster_HollowSoldier && _Other) noexcept = delete;
 
-	void MeshOnOffSwitch(HollowSoldier_MeshIndex _Index);
+	
 
 protected:
 	void Start() override;
@@ -70,9 +31,7 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 private:
-	
-	
 
-	HollowSoldier_State State = HollowSoldier_State::Max;
+	Enum_HollowSoldier_State State = Enum_HollowSoldier_State::Max;
 };
 

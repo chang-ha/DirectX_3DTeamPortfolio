@@ -2,6 +2,8 @@
 
 #include <GameEnginePlatform/PreCompile.h>
 
+#include <GameEngineBase/GameEngineNetObject.h> // ¼­¹ö¿ë
+
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineSound.h>
@@ -24,6 +26,7 @@
 
 // PhysX
 #include "PxConfig.h"
+#include "GameEnginePhysX.h"
 
 #pragma comment (lib, "PhysX_static_64.lib")
 #pragma comment (lib, "PhysXCharacterKinematic_static_64.lib")

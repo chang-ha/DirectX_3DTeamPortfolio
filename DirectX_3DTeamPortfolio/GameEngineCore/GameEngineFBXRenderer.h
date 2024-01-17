@@ -93,13 +93,6 @@ public:
 	// Sprite랜더러는 부담이 되지가 않아서 
 	void SetFBXMesh(std::string_view _Name, std::string_view _Material);
 	void SetFBXMesh(std::string_view _Name, std::string_view _Material, int _RenderUnitInfoIndex);
-
-	void SetBigFBXMesh(std::string_view _Name, std::string_view _Material);
-	void TestSetBigFBXMesh(std::string_view _Name, std::string_view _Material);
-	std::shared_ptr<GameEngineRenderUnit> SetBigFBXMesh(std::string_view _Name, std::string_view _Material, int _RenderUnitInfoIndex, int _SubSetIndex);
-
-	std::shared_ptr<GameEngineFBXMesh> GetFBXMesh(std::string_view _Name);
-
 	//                                                                  RenderUnitInfoIndex
 	std::shared_ptr<GameEngineRenderUnit> SetFBXMesh(std::string_view _Name, std::string_view _Material, int _RenderUnitInfoIndex, int _SubSetIndex);
 
@@ -116,8 +109,8 @@ public:
 		Pause = !Pause;
 	}
 
-	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> RenderUnits;
 protected:
+	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> RenderUnits;
 
 private:
 	bool Pause = false;

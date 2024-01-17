@@ -3,21 +3,30 @@
 #include "PlayLevel.h"
 #include "Player.h"
 
-PlayLevel::PlayLevel() 
+#include "GameEngineNetWindow.h"
+
+PlayLevel::PlayLevel()
 {
 }
 
-PlayLevel::~PlayLevel() 
+PlayLevel::~PlayLevel()
 {
 }
 
 void PlayLevel::Start()
 {
+	ContentLevel::Start();
 	GameEngineInput::AddInputObject(this);
 
 	GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, -1000.0f });
 
+
+
+
 	CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+
+	// ¾ø¾Ù²¨ÀÓ
+	std::shared_ptr<GameEngineNetWindow> Ptr = GameEngineGUI::CreateGUIWindow<GameEngineNetWindow>("GameEngineNetWIndow");
 
 	if (nullptr != CoreWindow)
 	{
@@ -27,6 +36,18 @@ void PlayLevel::Start()
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
 		PlayerObject = Object;
+
+		Ptr->MainPlayer = PlayerObject.get();
+	}
+
+	{
+		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
+
+		//Object->Transform.AddLocalPosition({ 500.0f,0.0f });
+		PlayerObject = Object;
+
+		Ptr->MainPlayer = PlayerObject.get();
+		Object->check = true;
 	}
 
 	{
@@ -36,6 +57,8 @@ void PlayLevel::Start()
 
 void PlayLevel::Update(float _Delta)
 {
+	//ContentLevel::Update(_Delta);
+
 }
 
 void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)

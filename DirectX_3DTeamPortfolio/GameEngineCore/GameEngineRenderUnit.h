@@ -19,7 +19,7 @@ enum class RenderMode
 	Instancing,
 };
 
-class GameEngineRenderUnit final : public GameEngineObjectBase, std::enable_shared_from_this<GameEngineRenderUnit>
+class GameEngineRenderUnit final : public GameEngineObjectBase, public std::enable_shared_from_this<GameEngineRenderUnit>
 {
 public:
 	// constrcuter destructer

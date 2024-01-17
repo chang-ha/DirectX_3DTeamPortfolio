@@ -65,12 +65,13 @@ public:
         LightDataValue = _LightData;
     }
 
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
+	LightData LightDataValue;
 
 private:
-	LightData LightDataValue;
 	float4 ShadowRange;
 };
 

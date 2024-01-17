@@ -5,6 +5,7 @@
 #include "GameEngineCore.h"
 #include "GameEngineRenderTarget.h"
 
+
 // std::shared_ptr<class GameEngineRenderTarget> GameEngineCamera::AllRenderTarget = nullptr;
 
 float GameEngineCamera::FreeRotSpeed = 180.0f;
@@ -38,15 +39,48 @@ void GameEngineCamera::Start()
 	{
 		// 이녀석이 깊이 버퍼도 가집니다.
 		AllRenderTarget = GameEngineRenderTarget::Create();
-		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R8G8B8A8_UNORM, WindowScale, float4::ZERONULL);
-		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R8G8B8A8_UNORM, WindowScale, float4::ZERONULL);
-		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R8G8B8A8_UNORM, WindowScale, float4::ZERONULL);
-		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R8G8B8A8_UNORM, WindowScale, float4::ZERONULL);
-		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R8G8B8A8_UNORM, WindowScale, float4::ZERONULL);
-		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R8G8B8A8_UNORM, WindowScale, float4::ZERONULL);
-		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R8G8B8A8_UNORM, WindowScale, float4::ZERONULL);
-		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R8G8B8A8_UNORM, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
 		AllRenderTarget->CreateDepthTexture();
+	}
+
+	{
+		ForwardTarget = GameEngineRenderTarget::Create();
+		ForwardTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+	}
+
+	{
+		DeferredTarget = GameEngineRenderTarget::Create();
+		// 모두 종합
+		DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		// 디퓨즈 컬러
+		DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		// 난반사광 dif
+		DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		// 정반사광 spc
+		DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		// 환경광 amb
+		DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+
+		//Texture2D DifColorTex : register(t0);
+		//Texture2D PositionTex : register(t1);
+		//Texture2D NormalTex : register(t2);
+		//SamplerState POINTWRAP : register(s0);
+
+
+		DeferredRenderUnit.SetMesh("FullRect");
+		DeferredRenderUnit.SetMaterial("DeferredRender");
+		DeferredRenderUnit.ShaderResHelper.SetTexture("DifColorTex", AllRenderTarget->GetTexture(1));
+		DeferredRenderUnit.ShaderResHelper.SetTexture("PositionTex", AllRenderTarget->GetTexture(2));
+		DeferredRenderUnit.ShaderResHelper.SetTexture("NormalTex", AllRenderTarget->GetTexture(3));
+		DeferredRenderUnit.ShaderResHelper.SetSampler("POINTWRAP", "POINT");
+		DeferredRenderUnit.ShaderResHelper.SetConstantBufferLink("LightDatas", GetLevel()->LightDataObject);
 	}
 
 	// 이건 최종 타겟일 뿐입니다.
@@ -188,22 +222,81 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 		for (std::shared_ptr<class GameEngineRenderer> & Renderer : RendererList)
 		{
-			if (false == Renderer->IsUpdate())
-			{
-				continue;
-			}
-
 			Renderer->Transform.CalculationViewAndProjection(Transform.GetConstTransformDataRef());
-			Renderer->Render(this, _DeltaTime);
 		}
+
+		//for (std::shared_ptr<class GameEngineRenderer> & Renderer : RendererList)
+		//{
+		//	if (false == Renderer->IsUpdate())
+		//	{
+		//		continue;
+		//	}
+
+		//	Renderer->Transform.CalculationViewAndProjection(Transform.GetConstTransformDataRef());
+		//	Renderer->Render(this, _DeltaTime);
+		//}
 	}
+
+	// 포워드 그리고
+	{
+		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPath = Units[RenderPath::Forward];
+		for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPair : RenderPath)
+		{
+			std::list<std::shared_ptr<class GameEngineRenderUnit>>& UnitList = RenderPair.second;
+
+			for (std::shared_ptr<class GameEngineRenderUnit> Unit : UnitList)
+			{
+				Unit->Render();
+			}
+		}
+
+		ForwardTarget->Copy(0, AllRenderTarget, 0);
+	}
+
+	AllRenderTarget->Setting();
+	// 디퍼드 그리고
+	{
+		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPath = Units[RenderPath::Deferred];
+
+		for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPair : RenderPath)
+		{
+			std::list<std::shared_ptr<class GameEngineRenderUnit>>& UnitList = RenderPair.second;
+
+			for (std::shared_ptr<class GameEngineRenderUnit> Unit : UnitList)
+			{
+				Unit->Render();
+			}
+		}
+
+		auto LightData = GetLevel()->LightDataObject;
+
+		DeferredRenderUnit.ShaderResHelper.SetConstantBufferLink("LightDatas", GetLevel()->LightDataObject);
+
+		AllRenderTarget->RenderTargetReset();
+		DeferredTarget->Clear();
+		DeferredTarget->Setting();
+		DeferredRenderUnit.Render();
+
+	}
+
+
+	// 디퍼드는 하면 안되는데.
+	//AllRenderTarget->Clear();
+	//AllRenderTarget->Setting();
+
+
+	// 깊이 버퍼는 클리어하면 안되고.
+
 
 	// 기존에 그려진걸 싹다 지우고 복사
 	// CameraTarget->Copy(0, AllRenderTarget, 0);
 
 	AllRenderTarget->PostEffect(_DeltaTime);
 
-	GetLevel()->LevelRenderTarget->Merge(0, AllRenderTarget, 0);
+	// 포워드로 그려진 모든것 병합
+	GetLevel()->LevelRenderTarget->Merge(0, ForwardTarget, 0);
+	// 디퍼드로 그려진 모든것 병합
+	GetLevel()->LevelRenderTarget->Merge(0, DeferredTarget, 0);
 }
 
 void GameEngineCamera::AllReleaseCheck()
@@ -302,13 +395,23 @@ void GameEngineCamera::CameraUpdate(float _DeltaTime)
 	float4 WindowScale = GameEngineCore::MainWindow.GetScale();
 	WindowScale *= ZoomValue;
 
+	float4 Qur = Transform.GetConstTransformDataRef().WorldQuaternion;
+
 	switch (ProjectionType)
 	{
 	case EPROJECTIONTYPE::Perspective:
 		Transform.PerspectiveFovLHDeg(FOV, WindowScale.X, WindowScale.Y, Near, Far);
+		CameraFrustum.Far = Far;
+		CameraFrustum.Near = Near;
+		CameraFrustum.Origin = { Position.X, Position.Y, Position.Z };
+		CameraFrustum.Orientation = { Qur.X, Qur.Y, Qur.Z, Qur.W };
 		break;
 	case EPROJECTIONTYPE::Orthographic:
 		Transform.OrthographicLH(WindowScale.X, WindowScale.Y, Near, Far);
+		CameraFrustum.Far = Far;
+		CameraFrustum.Near = Near;
+		CameraFrustum.Origin = { Position.X, Position.Y, Position.Z };
+		CameraFrustum.Orientation = { Qur.X, Qur.Y, Qur.Z, Qur.W };
 		break;
 	default:
 		break;
