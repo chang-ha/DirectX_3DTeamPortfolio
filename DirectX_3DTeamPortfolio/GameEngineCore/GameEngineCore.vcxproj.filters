@@ -163,9 +163,6 @@
     <Filter Include="ThirdParty\PhysX\lib\Debug">
       <UniqueIdentifier>{8a1c8ac6-6fba-4c75-8e8a-790ca1e2973e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="AO">
-      <UniqueIdentifier>{7756b436-7751-4515-95e2-4bc442b78309}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ThirdParty\HBAO">
       <UniqueIdentifier>{b3d62a71-ae0c-46d2-8bf0-1da40bbad7d1}</UniqueIdentifier>
     </Filter>
@@ -174,6 +171,9 @@
     </Filter>
     <Filter Include="ThirdParty\HBAO\lib">
       <UniqueIdentifier>{ea2707d8-0284-4d44-a0b6-13db47039ddd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\AO">
+      <UniqueIdentifier>{7756b436-7751-4515-95e2-4bc442b78309}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -944,11 +944,19 @@
       <Filter>ThirdParty\PhysX\inc</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineAO.h">
-      <Filter>AO</Filter>
+      <Filter>Rendering\AO</Filter>
     </ClInclude>
     <ClInclude Include="ThirdParty\HBAO\inc\GFSDK_SSAO.h">
       <Filter>ThirdParty\HBAO\inc</Filter>
     </ClInclude>
+    <ClInclude Include="GameEnginePhysXActor.h" />
+    <ClInclude Include="GameEnginePhysXCharacterController.h" />
+    <ClInclude Include="GameEnginePhysXComponent.h" />
+    <ClInclude Include="GameEnginePhysXLevel.h" />
+    <ClInclude Include="GameEnginePhysXSphere.h" />
+    <ClInclude Include="GameEnginePhysXTriMesh.h" />
+    <ClInclude Include="GameEnginePhysXBox.h" />
+    <ClInclude Include="GameEnginePhysXCapsule.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -1143,8 +1151,16 @@
       <Filter>PhysX</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineAO.cpp">
-      <Filter>AO</Filter>
+      <Filter>Rendering\AO</Filter>
     </ClCompile>
+    <ClCompile Include="GameEnginePhysXActor.cpp" />
+    <ClCompile Include="GameEnginePhysXCharacterController.cpp" />
+    <ClCompile Include="GameEnginePhysXComponent.cpp" />
+    <ClCompile Include="GameEnginePhysXLevel.cpp" />
+    <ClCompile Include="GameEnginePhysXSphere.cpp" />
+    <ClCompile Include="GameEnginePhysXTriMesh.cpp" />
+    <ClCompile Include="GameEnginePhysXBox.cpp" />
+    <ClCompile Include="GameEnginePhysXCapsule.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ThirdParty\DirectXTex\inc\DirectXTex.inl">

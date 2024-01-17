@@ -7,6 +7,7 @@
 #include <GameEngineCore/BlurPostEffect.h>
 #include "ContentsLight.h"
 #include "TestObject_Shader.h"
+#include <GameEngineCore/GameEngineCoreWindow.h>
 
 TestLevel_Shader::TestLevel_Shader() 
 {
@@ -32,6 +33,15 @@ void TestLevel_Shader::Start()
 
 	// GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, 3000.0f });
 	// GetMainCamera()->Transform.AddWorldRotation({ 0.f, 180.f, 0.f });
+
+	CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+	if (nullptr != CoreWindow)
+	{
+		CoreWindow->AddDebugRenderTarget(0, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
+		CoreWindow->AddDebugRenderTarget(1, "ForwardTarget", GetMainCamera()->GetCameraForwardTarget());
+		CoreWindow->AddDebugRenderTarget(2, "DeferredTarget", GetMainCamera()->GetCameraDeferredTarget());
+	}
+
 
 	Scene->setVisualizationParameter(physx::PxVisualizationParameter::eACTOR_AXES, 0.0f);
 
