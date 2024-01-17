@@ -22,6 +22,19 @@ public:
 	GameEnginePhysXComponent& operator=(const GameEnginePhysXComponent& _Other) = delete;
 	GameEnginePhysXComponent& operator=(GameEnginePhysXComponent&& _Other) noexcept = delete;
 
+	void MoveForce(const float4 _Force, bool _IgnoreGravity = false)
+	{
+		physx::PxVec3 Value = physx::PxVec3(_Force.X, _Force.Y, _Force.Z);
+		MoveForce(Value, _IgnoreGravity);
+	}
+
+	void MoveForce(const physx::PxVec3 _Force, bool _IgnoreGravity = false);
+
+	void SetWorldPosition(const float4& _Pos);
+	void SetWorldRotation(const float4& _Degree);
+
+	void AddWorldRotation(const float4& _Degree);
+
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
@@ -32,6 +45,7 @@ protected:
 	physx::PxScene* Scene = nullptr;
 	class GameEnginePhysXLevel* CurPhysXLevel = nullptr;
 	GameEngineActor* ParentActor = nullptr;
+	physx::PxRigidDynamic* ComponentActor = nullptr;
 private:
 
 };

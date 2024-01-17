@@ -16,14 +16,6 @@ public:
 
 	void PhysXComponentInit(float _Radius, float _HalfHeight, const physx::PxMaterial* _Material = GameEnginePhysX::GetDefaultMaterial());
 
-	void MoveForce(const float4 _Force)
-	{
-		physx::PxVec3 Value = physx::PxVec3(_Force.X, _Force.Y, _Force.Z);
-		MoveForce(Value);
-	}
-
-	void MoveForce(const physx::PxVec3 _Force, bool _IgnoreGravity = false);
-
 	void AddForce(const float4 _Force)
 	{
 		physx::PxVec3 Value = physx::PxVec3(_Force.X, _Force.Y, _Force.Z);
@@ -62,9 +54,6 @@ public:
 		IsPositioningComponent = true;
 	}
 
-	void SetWorldPosition(const float4& _Pos);
-	void SetWorldRotation(const float4& _Degree);
-
 	physx::PxVec3 GetWorldPosition()
 	{
 		return ComponentActor->getGlobalPose().p;
@@ -93,7 +82,6 @@ protected:
 
 private:
 	bool IsPositioningComponent = false;
-	physx::PxRigidDynamic* ComponentActor = nullptr;
 	physx::PxShape* CapsuleShape = nullptr;
 
 	void Positioning(float _Delta);

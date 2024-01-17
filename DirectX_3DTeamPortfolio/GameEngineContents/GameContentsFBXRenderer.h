@@ -29,6 +29,7 @@ public:
 	float Inter = 0.1f;
 
 	std::vector<unsigned int> Frames;
+	std::vector<float4> RootMotionFrames;
 	UINT CurFrame = 0;
 	UINT Start = -1;
 	UINT End = -1;
@@ -37,6 +38,7 @@ public:
 	bool bOnceEnd = true;
 	bool IsStart = true;
 	bool Loop = true;
+	bool RootMotion = false;
 
 	// 과제로 내준것인데.
 	float BlendIn = 0.2f;
@@ -45,6 +47,16 @@ public:
 	void Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index);
 	void Reset();
 	void Update(float _DeltaTime);
+
+	inline void RootMotionOn()
+	{
+		RootMotion = true;
+	}
+
+	inline void RootMotionOff()
+	{
+		RootMotion = false;
+	}
 
 public:
 	GameContentsFBXAnimationInfo()
@@ -111,6 +123,16 @@ public:
 
 	void BlendReset();
 
+	// Root Motion
+
+	void SetRootMotionComponent(GameEnginePhysXComponent* _RootMotionComponent)
+	{
+		// TriMesh는 아직 구현 안했습니다. 필요시 우창하에게 문의
+		RootMotionComponent = _RootMotionComponent;
+	}
+
+	void SetRootMotion(std::string_view _AniName, std::string_view _FileName = "", bool _RootMotion = true);
+
 protected:
 	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> RenderUnits;
 
@@ -125,5 +147,8 @@ private:
 	std::vector<float4x4> AnimationBoneNotOffset;
 	std::vector<float4x4> BlendBoneMatrixs;
 	std::vector<AnimationBoneData> AnimationBoneDatas;
+
+	// Root Motion
+	GameEnginePhysXComponent* RootMotionComponent = nullptr;
 };
 

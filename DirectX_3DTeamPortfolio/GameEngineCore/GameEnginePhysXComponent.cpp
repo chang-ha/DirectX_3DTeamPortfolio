@@ -44,3 +44,68 @@ void GameEnginePhysXComponent::Release()
 {
 
 }
+
+void GameEnginePhysXComponent::MoveForce(const physx::PxVec3 _Force, bool _IgnoreGravity/* = false*/)
+{
+	physx::PxVec3 CurLV = physx::PxVec3({ 0.0f });
+	if (false == _IgnoreGravity)
+	{
+		CurLV = ComponentActor->getLinearVelocity();
+	}
+
+	ComponentActor->setLinearVelocity({ _Force.x, _Force.y + CurLV.y, _Force.z }); // 현재 중력을 받아오기 위해
+}
+
+
+void GameEnginePhysXComponent::SetWorldPosition(const float4& _Pos)
+{
+	physx::PxVec3 Pos = { _Pos.X, _Pos.Y , _Pos.Z };
+
+	float4 WorldDeg = Transform.GetWorldRotationEuler();
+	// WorldDeg.Z += physx::PxHalfPi * GameEngineMath::R2D;
+	float4 WorldQuat = WorldDeg.EulerDegToQuaternion();
+	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
+
+	physx::PxTransform Transform(Pos, Quat);
+	ComponentActor->setGlobalPose(Transform);
+}
+
+void GameEnginePhysXComponent::SetWorldRotation(const float4& _Degree)
+{
+	float4 WorldDeg = { _Degree.X, _Degree.Y , _Degree.Z };
+
+	physx::PxTransform Transform = ComponentActor->getGlobalPose();
+	// WorldDeg.Z += physx::PxHalfPi * GameEngineMath::R2D;
+	float4 WorldQuat = WorldDeg.EulerDegToQuaternion();
+	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
+
+	Transform.q = Quat;
+	ComponentActor->setGlobalPose(Transform);
+}
+
+void GameEnginePhysXComponent::AddWorldRotation(const float4& _Degree)
+{
+	physx::PxTransform Transform = ComponentActor->getGlobalPose();
+	physx::PxQuat Quat = Transform.q;
+	float4 WorldDeg = { Quat.x, Quat.y, Quat.z, Quat.w };
+	WorldDeg = WorldDeg.QuaternionToEulerDeg();
+	WorldDeg += _Degree;
+	if (0 > WorldDeg.X)
+	{
+		WorldDeg.X += 360.0f;
+	}
+	if (0 > WorldDeg.Y)
+	{
+		WorldDeg.Y += 360.0f;
+	}
+	if (0 > WorldDeg.Z)
+	{
+		WorldDeg.Z += 360.0f;
+	}
+
+	WorldDeg = WorldDeg.EulerDegToQuaternion();
+
+	Quat = physx::PxQuat(WorldDeg.X, WorldDeg.Y, WorldDeg.Z, WorldDeg.W);
+	Transform.q = Quat;
+	ComponentActor->setGlobalPose(Transform);
+}
