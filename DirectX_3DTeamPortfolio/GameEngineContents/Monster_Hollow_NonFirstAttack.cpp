@@ -19,7 +19,6 @@ void Monster_Hollow_NonFirstAttack::Update(float _Delta)
 {
 	Monster_Hollow::Update(_Delta);
 	StateUpdate(_Delta);
-	
 }
 
 void Monster_Hollow_NonFirstAttack::ChangeState(Enum_Hollow_State _State)
@@ -43,6 +42,9 @@ void Monster_Hollow_NonFirstAttack::ChangeState(Enum_Hollow_State _State)
 		case Enum_Hollow_State::BeScared:
 			State_BeScared_Start();
 			break;
+		case Enum_Hollow_State::Hit:
+			State_Hit_Start();
+			break;
 		default:
 			break;
 		}
@@ -55,18 +57,17 @@ void Monster_Hollow_NonFirstAttack::StateUpdate(float _Delta)
 	switch (HollowState)
 	{
 	case Enum_Hollow_State::Pray1:
-		//return State_Pray1_Update(float _Delta);
-		return;
+		return State_Pray1_Update(_Delta);
 	case Enum_Hollow_State::Pray2:
-		//return State_Pray2_Update(float _Delta);
-		return;
+		return State_Pray2_Update(_Delta);
 	case Enum_Hollow_State::Pray3:
-		//return State_Pray3_Update(float _Delta);
-		return;
+		return State_Pray3_Update(_Delta);
 	case Enum_Hollow_State::PrayToBeScared:
 		return State_PrayToBeScared_Update(_Delta);
 	case Enum_Hollow_State::BeScared:
 		return State_BeScared_Update(_Delta);
+	case Enum_Hollow_State::Hit:
+		return;
 	default:
 		break;
 	}
@@ -78,21 +79,62 @@ void Monster_Hollow_NonFirstAttack::State_Pray1_Start()
 {
 	MainRenderer->ChangeAnimation("c1100_Pray1");
 }
+void Monster_Hollow_NonFirstAttack::State_Pray1_Update(float _Delta)
+{	
+	/*StateTime += _Delta;
+	if (StateTime > 3.0f)*/
+	if (false)
+	{
+		ChangeState(Enum_Hollow_State::PrayToBeScared);
+	}
+}
 
 void Monster_Hollow_NonFirstAttack::State_Pray2_Start()
 {
 	MainRenderer->ChangeAnimation("c1100_Pray2");
+}
+void Monster_Hollow_NonFirstAttack::State_Pray2_Update(float _Delta)
+{
+	/*StateTime += _Delta;
+	if (StateTime > 3.0f)*/
+	if (false)
+	{
+		ChangeState(Enum_Hollow_State::PrayToBeScared);
+	}
 }
 
 void Monster_Hollow_NonFirstAttack::State_Pray3_Start()
 {
 	MainRenderer->ChangeAnimation("c1100_Pray3");
 }
+void Monster_Hollow_NonFirstAttack::State_Pray3_Update(float _Delta)
+{
+	/*StateTime += _Delta;
+	if (StateTime > 3.0f)*/
+	if (false)
+	{
+		ChangeState(Enum_Hollow_State::PrayToBeScared);
+	}
+}
 
 void Monster_Hollow_NonFirstAttack::State_PrayToBeScared_Start()
 {
-	//MainRenderer->ChangeAnimation("c1100_Pray3");
-	MainRenderer->ChangeAnimation("c1100_PrayToBeScared1");
+	if (PrevState == Enum_Hollow_State::Pray1)
+	{
+		MainRenderer->ChangeAnimation("c1100_PrayToBeScared1");
+	}
+	else if (PrevState == Enum_Hollow_State::Pray2)
+	{
+		MainRenderer->ChangeAnimation("c1100_PrayToBeScared2");
+	}
+	else if (PrevState == Enum_Hollow_State::Pray3)
+	{
+		MainRenderer->ChangeAnimation("c1100_PrayToBeScared3");
+	}
+	else
+	{
+		MainRenderer->ChangeAnimation("c1100_PrayToBeScared1");
+	}
 }
 void Monster_Hollow_NonFirstAttack::State_PrayToBeScared_Update(float _Delta)
 {
@@ -109,4 +151,10 @@ void Monster_Hollow_NonFirstAttack::State_BeScared_Start()
 void Monster_Hollow_NonFirstAttack::State_BeScared_Update(float _Delta)
 {
 	
+}
+
+void Monster_Hollow_NonFirstAttack::State_Hit_Start()
+{
+	MeshOnOffSwitch(Enum_Hollow_MeshIndex::BrokenSword);
+	// MainRenderer->ChangeAnimation("");
 }

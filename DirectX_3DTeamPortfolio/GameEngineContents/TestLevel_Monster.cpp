@@ -31,6 +31,7 @@ void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 	LothricKn->Transform.SetWorldPosition(float4(100.0f, 0.0f, 0.0f));
 
 	std::shared_ptr<Monster_Hollow_Unarmed> Hollow = CreateActor<Monster_Hollow_Unarmed>(static_cast<int>(Enum_UpdateOrder::Monster), "Hollow");
+	Hollow->SetStatePray1();
 }
 
 void TestLevel_Monster::LevelEnd(GameEngineLevel* _NextLevel)
