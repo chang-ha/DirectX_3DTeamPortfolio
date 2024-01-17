@@ -96,7 +96,7 @@ void Monster_Hollow_NonFirstAttack::State_PrayToBeScared_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_PrayToBeScared_Update(float _Delta)
 {
-	if (true == MainRenderer->IsCurAnimationEnd())
+	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End) - 1)
 	{
 		ChangeState(Enum_Hollow_State::BeScared);
 	}

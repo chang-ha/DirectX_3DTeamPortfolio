@@ -17,6 +17,7 @@ TestLevel_Monster::~TestLevel_Monster()
 void TestLevel_Monster::Start()
 {
 	GetMainCamera()->GetCameraAllRenderTarget()->SetClearColor(float4::BLUE);
+	GetMainCamera()->Transform.SetLocalPosition({0.0f, 0.0f, -200.0f});
 }
 
 void TestLevel_Monster::Update(float _Delta)
