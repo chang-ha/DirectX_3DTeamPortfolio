@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEngineObject.h"
+#include "GFSDK_SSAO.h"
 
 // Ό³Έν :
 class GameEngineAO : public GameEngineObjectBase
@@ -20,9 +21,10 @@ public:
 	GameEngineAO& operator=(GameEngineAO&& _Other) noexcept = delete;
 
 	//void DrawHBAO()
+	void Init(ID3D11Device* pDevice);
 
 protected:
-	void Init(ID3D11Device* pDevice);
+ 
 
 private:
 	class GFSDK_SSAO_Context_D3D11* AOContext = nullptr;

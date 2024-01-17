@@ -5,6 +5,7 @@
 #include <memory>
 #include <set>
 #include "GameEngineRenderUnit.h"
+#include "GameEngineAO.h"
 
 
 enum class RenderPath
@@ -214,6 +215,8 @@ private:
 
 	// 포워드의 최종 결과물
 	std::shared_ptr<class GameEngineRenderTarget> ForwardTarget;
+
+	GameEngineAO AO;
 
 	GameEngineRenderUnit DeferredRenderUnit;
 	// 디퍼드의 빛 결과물

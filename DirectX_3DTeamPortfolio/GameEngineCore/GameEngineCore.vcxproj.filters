@@ -957,6 +957,9 @@
     <ClInclude Include="GameEnginePhysXTriMesh.h" />
     <ClInclude Include="GameEnginePhysXBox.h" />
     <ClInclude Include="GameEnginePhysXCapsule.h" />
+    <ClInclude Include="GFSDK_SSAO.h">
+      <Filter>Rendering\AO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -1198,6 +1201,12 @@
     <Library Include="ThirdParty\FW1FontWrapper\lib\Release\FW1FontWrapper.lib">
       <Filter>ThirdParty\Release</Filter>
     </Library>
+    <Library Include="ThirdParty\HBAO\lib\GFSDK_SSAO_D3D11_UWP.win64.lib">
+      <Filter>ThirdParty\HBAO\lib</Filter>
+    </Library>
+    <Library Include="ThirdParty\HBAO\lib\GFSDK_SSAO_D3D11.win64.lib">
+      <Filter>ThirdParty\HBAO\lib</Filter>
+    </Library>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="ThirdParty\FW1FontWrapper\lib\Debug\FW1FontWrapper.dll">
@@ -1288,13 +1297,7 @@
     <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXFoundation_static_64.lib" />
     <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXPvdSDK_static_64.lib" />
     <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXVehicle_static_64.lib" />
-    <CopyFileToFolders Include="ThirdParty\HBAO\lib\GFSDK_SSAO_D3D11_UWP.win64.lib">
-      <Filter>ThirdParty\HBAO\lib</Filter>
-    </CopyFileToFolders>
     <CopyFileToFolders Include="ThirdParty\HBAO\lib\GFSDK_SSAO_D3D11.win64.dll">
-      <Filter>ThirdParty\HBAO\lib</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="ThirdParty\HBAO\lib\GFSDK_SSAO_D3D11.win64.lib">
       <Filter>ThirdParty\HBAO\lib</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="ThirdParty\HBAO\lib\GFSDK_SSAO_D3D11_UWP.win64.dll">

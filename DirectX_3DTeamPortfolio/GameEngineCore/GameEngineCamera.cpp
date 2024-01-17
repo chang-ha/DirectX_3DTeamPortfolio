@@ -55,6 +55,10 @@ void GameEngineCamera::Start()
 		ForwardTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
 	}
 
+
+	//앰비언트 오큘르전 
+	AO.Init(GameEngineCore::GetDevice());
+
 	{
 		DeferredTarget = GameEngineRenderTarget::Create();
 		// 모두 종합
