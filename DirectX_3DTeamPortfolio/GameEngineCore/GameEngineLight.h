@@ -1,8 +1,6 @@
 #pragma once
 #include "GameEngineActor.h"
 
-
-
 struct LightData
 {
     float4x4 LightViewMatrix;
@@ -67,7 +65,6 @@ public:
         LightDataValue = _LightData;
     }
 
-    
 
 protected:
 	void Start() override;

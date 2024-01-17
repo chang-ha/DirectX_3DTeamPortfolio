@@ -4,12 +4,26 @@
 #include <list>
 #include <memory>
 #include <set>
+#include "GameEngineRenderUnit.h"
 
+
+enum class RenderPath
+{
+	None,
+	CoustomForward,
+	Forward,
+	CoustomDeferred,
+	Deferred,
+	CoustomAlpha,
+	Alpha,
+	Debug,
+};
 
 // 설명 :
 class GameEngineCamera : public GameEngineActor
 {
 
+	friend class GameEngineRenderUnit;
 	friend class GameEngineRenderer;
 	friend class GameEngineActor;
 	friend class GameEngineLevel;
@@ -103,6 +117,16 @@ public:
 		return AllRenderTarget;
 	}
 
+	std::shared_ptr<class GameEngineRenderTarget> GetCameraForwardTarget()
+	{
+		return ForwardTarget;
+	}
+
+	std::shared_ptr<class GameEngineRenderTarget> GetCameraDeferredTarget()
+	{
+		return DeferredTarget;
+	}
+
 	void SetFar(float _Far)
 	{
 		Far = _Far;
@@ -112,7 +136,6 @@ public:
 	{
 		Near = _Near;
 	}
-
 	std::map<int, std::list<std::shared_ptr<class GameEngineRenderer>>> GetRenderers()
 	{
 		return Renderers;
@@ -168,7 +191,10 @@ private:
 	bool IsFreeCameraValue = false;
 
 	int CameraOrder = 0;
-	
+	//std::map<int, std::list<std::shared_ptr<class GameEngineRenderer>>> Renderers;
+
+	std::map<RenderPath, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>> Units;
+
 
 	EPROJECTIONTYPE PrevProjectionType = EPROJECTIONTYPE::Orthographic;
 
@@ -185,6 +211,13 @@ private:
 	std::set<int> YSortMap;
 
 	std::shared_ptr<class GameEngineRenderTarget> AllRenderTarget;
+
+	// 포워드의 최종 결과물
+	std::shared_ptr<class GameEngineRenderTarget> ForwardTarget;
+
+	GameEngineRenderUnit DeferredRenderUnit;
+	// 디퍼드의 빛 결과물
+	std::shared_ptr<class GameEngineRenderTarget> DeferredTarget;
 
 	void CameraUpdate(float _DeltaTime);
 };

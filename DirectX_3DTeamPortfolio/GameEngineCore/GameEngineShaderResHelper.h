@@ -2,7 +2,6 @@
 #include "GameEngineConstantBuffer.h"
 #include "GameEngineTexture.h"
 #include "GameEngineSampler.h"
-#include "GameEngineShader.h"
 #include "GameEngineStructuredBuffer.h"
 
 class GameEngineShaderResources
