@@ -77,12 +77,36 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 				bOnceEnd = false;
 			}
 
+			// Root Motion
+			if (true == RootMotion && nullptr != ParentRenderer->RootMotionComponent)
+			{
+				int PrevFrame = CurFrame - 1;
+				if (0 == CurFrame)
+				{
+					PrevFrame = 0;
+				}
+				float4 MotionVector = RootMotionFrames[PrevFrame] - RootMotionFrames[CurFrame];
+				MotionVector.X *= 10000.f;
+				MotionVector.Y *= 10000.f;
+				MotionVector.Z *= 10000.f;
+				MotionVector.W = RootMotionFrames[CurFrame].W - RootMotionFrames[PrevFrame].W;
+				ParentRenderer->RootMotionComponent->AddWorldRotation(float4(0.f, MotionVector.W * GameEngineMath::R2D, 0.f, 0.f));
+				ParentRenderer->RootMotionComponent->MoveForce(MotionVector, true);
+
+				if (CurFrame == RootMotionFrames.size() - 1)
+				{
+					ParentRenderer->RootMotionComponent->AddDir(RootMotionFrames[CurFrame].W * GameEngineMath::R2D);
+				}
+			}
+
 			if (CurFrame >= End)
 			{
+				IsEnd = true;
+
 				if (true == Loop)
 				{
 					CurFrame = Start;
-					IsEnd = true;
+					
 				}
 				else
 				{
@@ -108,6 +132,12 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 	if (NextFrame >= End)
 	{
 		NextFrame = 0;
+		
+		if (Loop == false)
+		{
+			NextFrame = End;
+		}
+
 	}
 
 	if (CurFrame >= End)
@@ -134,6 +164,7 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 			AnimationBoneMatrix[i] = float4x4::Affine(BoneData->BonePos.GlobalScale, BoneData->BonePos.GlobalRotation, BoneData->BonePos.GlobalRotation);
 			continue;
 		}
+		
 
 		FbxExBoneFrameData& CurData = FBXAnimationData->AniFrameData[i].BoneMatData[CurFrame];
 		FbxExBoneFrameData& NextData = FBXAnimationData->AniFrameData[i].BoneMatData[NextFrame];
@@ -169,7 +200,6 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 		AnimationBoneNotOffSet[i] = Mat;
 		AnimationBoneMatrix[i] = BoneData->BonePos.Offset * Mat;
 	}
-
 }
 
 GameContentsFBXRenderer::GameContentsFBXRenderer()
@@ -659,4 +689,110 @@ void GameContentsFBXRenderer::TestSetBigFBXMesh(std::string_view _Name, std::str
 void GameContentsFBXRenderer::BlendReset()
 {
 	BlendBoneMatrixs.clear();
+}
+
+void GameContentsFBXRenderer::SetRootMotion(std::string_view _AniName, std::string_view _FileName, bool _RootMotion)
+{
+	// 추후 직렬화로 자체포멧 추가 예정
+
+	std::string UpperName = GameEngineString::ToUpperReturn(_AniName.data());
+	if (false == Animations.contains(UpperName))
+	{
+		MsgBoxAssert("존재하지 않는 애니메이션에 루트 모션을 세팅할 수 없습니다.");
+	}
+
+	GameEngineFile File;
+	std::shared_ptr<GameContentsFBXAnimationInfo> AniInfo = nullptr;
+	AniInfo = Animations[UpperName];
+	File = GameEngineFile(AniInfo->Aniamtion->GetPath());
+	if ("" == _FileName.data())
+	{
+		File.ChangeExtension("XML");
+	}
+	else
+	{
+		File.MoveParent();
+		File.MoveChild(_FileName.data());
+	}
+
+	if (false == File.IsExits())
+	{
+		MsgBoxAssert("루트모션 경로가 잘못되었습니다. 애니메이션 파일과 같은 경로에 놔주세요.");
+	}
+
+	AniInfo->RootMotion = _RootMotion;
+
+	File.Open(FileOpenType::Read, FileDataType::Text);
+
+	GameEngineSerializer Serial;	
+	File.DataAllRead(Serial);
+
+	std::string DataString = Serial.GetDataPtr<const char*>();
+	size_t DataPos = DataString.rfind("hkaDefaultAnimatedReferenceFrame");
+	if (std::string::npos == DataPos)
+	{
+		MsgBoxAssert("RootMotion이 존재하지 않는 애니메이션 입니다.");
+	}
+
+	size_t NumStartIndex = DataString.find("numelements", DataPos);
+
+	size_t NumEndIndex = DataString.find("\"", NumStartIndex + 13);
+
+	std::string NumberString = std::string(DataString, NumStartIndex + 13, NumEndIndex - (NumStartIndex + 13));
+
+	int FrameCount = std::stoi(NumberString);
+
+	if (AniInfo->FBXAnimationData->AniFrameData[0].BoneMatData.size() != FrameCount)
+	{
+		MsgBoxAssert("애니메이션 프레임수가 일치하지 않습니다. 잘못된 애니메이션일 수 있습니다.");
+	}
+
+	size_t VectorStart = DataString.find("(", NumEndIndex);
+	
+	AniInfo->RootMotionFrames.reserve(FrameCount);
+
+	size_t ValueStart = VectorStart + 1;
+	size_t ValueEnd = 0;
+	for (int i = 0; i < FrameCount; i++)
+	{
+		float4 RootMotionVector = float4::ZERO;
+		for (int j = 0; j < 4; j++)
+		{
+			std::string Value = "";
+
+			switch (j)
+			{
+			case 0:
+				ValueEnd = DataString.find(" ", ValueStart);
+				Value = std::string(DataString, ValueStart, ValueEnd - ValueStart);
+				RootMotionVector.X = std::stof(Value);
+				ValueStart = ValueEnd + 1;
+				break;
+			case 1:
+				ValueEnd = DataString.find(" ", ValueStart);
+				Value = std::string(DataString, ValueStart, ValueEnd - ValueStart);
+				RootMotionVector.Y = std::stof(Value);
+				ValueStart = ValueEnd + 1;
+				break;
+			case 2:
+				ValueEnd = DataString.find(" ", ValueStart);
+				Value = std::string(DataString, ValueStart, ValueEnd - ValueStart);
+				RootMotionVector.Z = std::stof(Value);
+				ValueStart = ValueEnd + 1;
+				break;
+			case 3:
+				ValueEnd = DataString.find(")", ValueStart);
+				Value = std::string(DataString, ValueStart, ValueEnd - ValueStart);
+				RootMotionVector.W = std::stof(Value);
+				ValueStart = DataString.find("(", ValueEnd) + 1;
+				AniInfo->RootMotionFrames.push_back(RootMotionVector);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+
+	File.Close();
 }

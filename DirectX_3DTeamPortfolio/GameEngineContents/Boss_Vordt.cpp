@@ -158,6 +158,10 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BossFBXRenderer->ChangeAnimation("Rush&Turn");
 	}
 
+	// Root Motion
+	BossFBXRenderer->SetRootMotionComponent(Capsule.get());
+	BossFBXRenderer->SetRootMotion("Rush&Turn");
+
 	//// Boss Collision
 	{
 		if (nullptr == BossCollision)
@@ -177,12 +181,13 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	Capsule->SetPositioningComponent();
 	// Capsule->GravityOff();
 
+
 	GUI = GameEngineGUI::CreateGUIWindow<Boss_State_GUI>("Boss_State");
 	GUI->Linked_Boss = this;
 
 	CreateStateParameter Idle;
 	Idle.Start = std::bind(&Boss_Vordt::IdleStart, this);
-	Idle.Stay = std::bind(&Boss_Vordt::IdleUpdate, this, GameEngineCore::MainTime.GetDeltaTime());
+	Idle.Stay = std::bind(&Boss_Vordt::IdleUpdate, this, std::placeholders::_1);
 	Idle.End = std::bind(&Boss_Vordt::IdleEnd, this);
 
 	BossState.CreateState(Enum_BossState::Idle, Idle);
@@ -245,12 +250,12 @@ void Boss_Vordt::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('Q', this))
 	{
-		Capsule->AddForce({ 0.0f, 0.0f, 1000.0f, 0.0f });
+		Capsule->AddWorldRotation({0.f, 90.f });
 	}
 
 	if (true == GameEngineInput::IsDown('E', this))
 	{
-		Capsule->AddForce({ 0.0f, 0.0f, -1000.0f, 0.0f });
+		Capsule->AddWorldRotation({ 0.f, -90.f });
 	}
 
 	if (true == GameEngineInput::IsDown(VK_SPACE, this))

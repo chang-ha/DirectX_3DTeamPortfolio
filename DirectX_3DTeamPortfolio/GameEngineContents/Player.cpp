@@ -18,10 +18,13 @@ Player::~Player()
 
 void Player::Start()
 {
-	FBXRenderer = CreateComponent<GameEngineFBXRenderer>();
+	
+
+
+	FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
 	FBXRenderer->SetFBXMesh("c0010.FBX", "FBXAnimationTexture"); // Bone 136
-	FBXRenderer->Transform.SetLocalScale({ 200.0f, 200.0f, 200.0f });
-	FBXRenderer->Transform.SetLocalPosition({ 0.0f, -100.0f, 0.0f });
+	FBXRenderer->Transform.SetLocalScale({ 400.0f, 400.0f, 400.0f });
+	//FBXRenderer->Transform.SetLocalPosition({ 0.0f, -300.0f, 0.0f });
 	FBXRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
 	//	FBXRenderer->CreateFBXAnimation("Idle", "c0000.FBX", { 0.1f, true });
 	FBXRenderer->CreateFBXAnimation("Idle", "00000.FBX", { Frame, true });
@@ -64,10 +67,13 @@ void Player::Start()
 
 	FBXRenderer->CreateFBXAnimation("Weapon_Draw", "029090.FBX", { Frame, true });
 	FBXRenderer->CreateFBXAnimation("Shield_Draw", "029091.FBX", { Frame, true });
-	FBXRenderer->CreateFBXAnimation("Attack_01", "045120.FBX", { Frame, true });
-	FBXRenderer->CreateFBXAnimation("Attack_02", "045130.FBX", { Frame, true });
-	FBXRenderer->CreateFBXAnimation("Attack_03", "045140.FBX", { Frame, true });
-	FBXRenderer->CreateFBXAnimation("Attack_04", "045150.FBX", { Frame, true });
+	FBXRenderer->CreateFBXAnimation("Attack_02", "045120.FBX", { Frame, false }); //Attack_02
+	FBXRenderer->CreateFBXAnimation("Attack_01", "045130.FBX", { Frame, false }); //Attack_01
+	FBXRenderer->CreateFBXAnimation("Attack_03", "045140.FBX", { Frame, false });
+	FBXRenderer->CreateFBXAnimation("Attack_04", "045150.FBX", { Frame, false });
+	FBXRenderer->CreateFBXAnimation("Attack_05", "045110.FBX", { Frame, true });
+
+
 	FBXRenderer->CreateFBXAnimation("Open_Door", "060030.FBX", { Frame, true });
 
 	FBXRenderer->CreateFBXAnimation("String_Block", "19500.FBX", { Frame, true });
@@ -78,7 +84,6 @@ void Player::Start()
 	FBXRenderer->CreateFBXAnimation("Portion_Drink_01", "050110.FBX", { Frame, true });
 	FBXRenderer->CreateFBXAnimation("Portion_Drink_02", "050111.FBX", { Frame, true });
 	FBXRenderer->CreateFBXAnimation("Portion_Drink_03", "050112.FBX", { Frame, true });
-	//FBXRenderer->CreateFBXAnimation("Run10", "060250.FBX", { 0.1f, true });
 	FBXRenderer->CreateFBXAnimation("Sit_Down", "068010.FBX", { Frame, true });
 	FBXRenderer->CreateFBXAnimation("Stand_Up", "068012.FBX", { Frame, true });
 
@@ -97,7 +102,7 @@ void Player::Start()
 	FBXRenderer->CreateFBXAnimation("Right_Stop", "022103.FBX", { Frame, false }); // ¿À¸¥ÂÊ ¸ØÃã 
 	FBXRenderer->CreateFBXAnimation("Forward_Stop", "022200.FBX", { Frame, false }); // ¾Õ ¸ØÃã 
 
-	FBXRenderer->ChangeAnimation("Idle");
+	FBXRenderer->ChangeAnimation("Shield_Idle");
 
 	GameEngineInput::AddInputObject(this);
 
@@ -133,6 +138,7 @@ void Player::Start()
 		};
 
 
+	//Capsule = CreateComponent<GameEnginePhysXCapsule>();
 
 	Player_State();
 }
@@ -177,8 +183,9 @@ void Player::Update(float _Delta)
 
 void Player::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	/*Capsule->PhysXComponentInit(100.0f, 50.0f);
-	Capsule->SetPositioningComponent();*/
+	//Capsule->PhysXComponentInit(100.0f, 50.0f);
+	//Capsule->SetPositioningComponent();
+
 }
 
 void Player::ConnectIDPacketProcess(std::shared_ptr<ConnectIDPacket> _Packet)
