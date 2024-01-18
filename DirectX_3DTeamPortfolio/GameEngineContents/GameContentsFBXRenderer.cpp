@@ -74,10 +74,12 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 
 			if (CurFrame >= End)
 			{
+				IsEnd = true;
+
 				if (true == Loop)
 				{
 					CurFrame = Start;
-					IsEnd = true;
+					
 				}
 				else
 				{
@@ -98,6 +100,12 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 	if (NextFrame >= End)
 	{
 		NextFrame = 0;
+		
+		if (Loop == false)
+		{
+			NextFrame = End;
+		}
+
 	}
 
 	if (CurFrame >= End)
@@ -124,6 +132,7 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 			AnimationBoneMatrix[i] = float4x4::Affine(BoneData->BonePos.GlobalScale, BoneData->BonePos.GlobalRotation, BoneData->BonePos.GlobalRotation);
 			continue;
 		}
+		
 
 		FbxExBoneFrameData& CurData = FBXAnimationData->AniFrameData[i].BoneMatData[CurFrame];
 		FbxExBoneFrameData& NextData = FBXAnimationData->AniFrameData[i].BoneMatData[NextFrame];
