@@ -37,8 +37,8 @@ namespace std
 class BoneSocketCollision;
 class BaseMonster : public GameEngineActor
 {
-private:
-	enum Enum_MonsterFlag
+protected:
+	enum Enum_StatusFlag
 	{
 		None = 0,
 		IsHit = (1 << 0),
@@ -46,6 +46,7 @@ private:
 		IsGaurding = (1 << 2)
 	};
 
+private:
 	friend class MonsterInitial;
 
 public:
@@ -89,10 +90,10 @@ protected:
 		MainRenderer->GetRenderUnits().at(static_cast<int>(_MeshIndex))[0]->OnOffSwitch();
 	}
 
-	bool IsOnFlag(Enum_MonsterFlag _Flag) const;
-	void SetFlag(Enum_MonsterFlag _Flag, bool _Value);
-	void AddFlag(Enum_MonsterFlag _Flag);
-	void SubFlag(Enum_MonsterFlag _Flag);
+	bool IsOnFlag(Enum_StatusFlag _Flag) const;
+	void SetFlag(Enum_StatusFlag _Flag, bool _Value);
+	void AddFlag(Enum_StatusFlag _Flag);
+	void SubFlag(Enum_StatusFlag _Flag);
 
 	void SetBoneIndex(Enum_BoneType _BoneType, int _BoneNum);
 	int GetBoneIndex(Enum_BoneType _BoneType);
@@ -128,6 +129,7 @@ protected:
 protected:
 	std::shared_ptr<GameContentsFBXRenderer> MainRenderer;
 	std::map<int, std::shared_ptr<BoneSocketCollision>> Collisions;
+	std::shared_ptr<class GameEnginePhysXCapsule> Capsule;
 
 	GameEngineState MainState;
 

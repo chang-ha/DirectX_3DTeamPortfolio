@@ -50,12 +50,12 @@ float BaseMonster::GetWDirection() const
 	return Transform.GetWorldRotationEuler().Z;
 }
 
-bool BaseMonster::IsOnFlag(Enum_MonsterFlag _Flag) const
+bool BaseMonster::IsOnFlag(Enum_StatusFlag _Flag) const
 {
 	return (Flags / _Flag) % 2;
 }
 
-void BaseMonster::SetFlag(Enum_MonsterFlag _Flag, bool _Value)
+void BaseMonster::SetFlag(Enum_StatusFlag _Flag, bool _Value)
 {
 	AddFlag(_Flag);
 
@@ -65,12 +65,12 @@ void BaseMonster::SetFlag(Enum_MonsterFlag _Flag, bool _Value)
 	}
 }
 
-void BaseMonster::AddFlag(Enum_MonsterFlag _Flag)
+void BaseMonster::AddFlag(Enum_StatusFlag _Flag)
 {
 	Flags |= _Flag;
 }
 
-void BaseMonster::SubFlag(Enum_MonsterFlag _Flag)
+void BaseMonster::SubFlag(Enum_StatusFlag _Flag)
 {
 	SetFlag(_Flag, false);
 }

@@ -50,8 +50,6 @@ private:
 	int EndFrame = -1;
 	float TurnSpeed = 0.0f;
 
-	class BaseMonster* pMonster = nullptr;
+	class BaseMonster* pParentActor = nullptr;
 
 };
-
-

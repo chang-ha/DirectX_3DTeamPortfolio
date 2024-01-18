@@ -252,7 +252,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Monster_LothricKn_Resources.cpp" />
     <ClCompile Include="Monster_LothricKn_State.cpp" />
     <ClCompile Include="ObjectPacket.cpp" />
     <ClCompile Include="Player.cpp">
@@ -269,10 +268,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="SetFlagFrameEvent.cpp">
-      <SubType>
-      </SubType>
     </ClCompile>
     <ClCompile Include="SoundFrameEvent.cpp">
       <SubType>
@@ -414,10 +409,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="PreCompile.h" />
-    <ClInclude Include="SetFlagFrameEvent.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="SoundFrameEvent.h">
       <SubType>
       </SubType>

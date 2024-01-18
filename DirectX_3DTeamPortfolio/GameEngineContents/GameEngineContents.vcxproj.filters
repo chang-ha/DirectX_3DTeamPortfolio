@@ -80,9 +80,6 @@
     <ClCompile Include="TestObject.cpp">
       <Filter>Monster\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="Monster_LothricKn_Resources.cpp">
-      <Filter>Monster\LothricKnight</Filter>
-    </ClCompile>
     <ClCompile Include="Monster_LothricKn_State.cpp">
       <Filter>Monster\LothricKnight</Filter>
     </ClCompile>
@@ -132,9 +129,6 @@
       <Filter>ImGui\Editor\FrameEvent</Filter>
     </ClCompile>
     <ClCompile Include="FrameEventObject.cpp">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
-    </ClCompile>
-    <ClCompile Include="SetFlagFrameEvent.cpp">
       <Filter>ImGui\Editor\FrameEvent</Filter>
     </ClCompile>
     <ClCompile Include="SoundFrameEvent.cpp">
@@ -279,9 +273,6 @@
       <Filter>ImGui\Editor\FrameEvent</Filter>
     </ClInclude>
     <ClInclude Include="FrameEventObject.h">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
-    </ClInclude>
-    <ClInclude Include="SetFlagFrameEvent.h">
       <Filter>ImGui\Editor\FrameEvent</Filter>
     </ClInclude>
     <ClInclude Include="SoundFrameEvent.h">
