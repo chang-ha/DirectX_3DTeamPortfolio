@@ -7,7 +7,7 @@ void GameContentsFBXAnimationInfo::Reset()
 	CurFrameTime = 0.0f;
 	CurFrame = 0;
 	PlayTime = 0.0f;
-	IsStart = false;
+	bOnceStart = false;
 	IsEnd = false;
 	
 
@@ -55,86 +55,73 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 		return;
 	}
 
-	if (false == ParentRenderer->Pause)
+
+	IsEnd = false;
+
+	if (false == bOnceStart)
 	{
-		IsEnd = false;
-
-		if (false == IsStart)
+		if (nullptr != EventHelper)
 		{
-			if (nullptr != EventHelper)
-			{
-				EventHelper->PlayEvents(CurFrame);
-			}
-
-			IsStart = true;
+			EventHelper->PlayEvents(CurFrame);
 		}
 
-		// 0.1초짜리 
-		CurFrameTime += _DeltaTime;
-		PlayTime += _DeltaTime;
+		bOnceStart = true;
+	}
 
-		while (CurFrameTime >= Inter)
+	// 0.1초짜리 
+	CurFrameTime += _DeltaTime;
+	PlayTime += _DeltaTime;
+
+	while (CurFrameTime >= Inter)
+	{
+		//   2.0         0.1
+		CurFrameTime -= Inter;
+		++CurFrame;
+
+		// Root Motion
+		if (true == RootMotion && nullptr != ParentRenderer->RootMotionComponent)
 		{
-			//   2.0         0.1
-			CurFrameTime -= Inter;
-			++CurFrame;
-
-			if (false == bOnceStart && CurFrame == 0)
+			int PrevFrame = CurFrame - 1;
+			if (1 == CurFrame)
 			{
-				bOnceStart = true;
-				bOnceEnd = false;
+				RootMotion_StartDir = ParentRenderer->RootMotionComponent->GetDir();
 			}
 
-			// Root Motion
-			if (true == RootMotion && nullptr != ParentRenderer->RootMotionComponent)
+			if (0 == CurFrame)
 			{
-				int PrevFrame = CurFrame - 1;
-				if (1 == CurFrame)
-				{
-					RootMotion_StartDir = ParentRenderer->RootMotionComponent->GetDir();
-				}
-
-				if (0 == CurFrame)
-				{
-					MsgBoxAssert("우창하에게 알려주세요....");
-				}
-
-				float4 MotionVector = RootMotionFrames[CurFrame] - RootMotionFrames[PrevFrame];
-				MotionVector.X *= 10000.f;
-				MotionVector.Y *= 10000.f;
-				MotionVector.Z *= 10000.f;
-				MotionVector.W = RootMotionFrames[CurFrame].W - RootMotionFrames[PrevFrame].W;
-				ParentRenderer->RootMotionComponent->AddWorldRotation(float4(0.f, MotionVector.W * GameEngineMath::R2D, 0.f, 0.f));
-				ParentRenderer->RootMotionComponent->MoveForce(MotionVector, RootMotion_StartDir, true);
+				MsgBoxAssert("우창하에게 알려주세요....");
 			}
 
-			if (CurFrame > End)
-			{
-				IsEnd = true;
+			float4 MotionVector = RootMotionFrames[CurFrame] - RootMotionFrames[PrevFrame];
+			MotionVector.X *= 10000.f;
+			MotionVector.Y *= 10000.f;
+			MotionVector.Z *= 10000.f;
+			MotionVector.W = RootMotionFrames[CurFrame].W - RootMotionFrames[PrevFrame].W;
+			ParentRenderer->RootMotionComponent->AddWorldRotation(float4(0.f, MotionVector.W * GameEngineMath::R2D, 0.f, 0.f));
+			ParentRenderer->RootMotionComponent->MoveForce(MotionVector, RootMotion_StartDir, true);
+		}
 
-				if (true == Loop)
-				{
-					CurFrame = Start;
-				}
-				else
-				{
-					--CurFrame;
-				}
+		bool DoneCheck = false;
+
+		if (CurFrame > End)
+		{
+			IsEnd = true;
+
+			if (true == Loop)
+			{
+				CurFrame = Start;
 			}
-
-			if (nullptr != EventHelper)
+			else
 			{
-				EventHelper->PlayEvents(CurFrame);
+				--CurFrame;
 			}
 		}
+
+		if (nullptr != EventHelper)
+		{
+			EventHelper->PlayEvents(CurFrame);
+		}
 	}
-
-
-	if (nullptr != EventHelper)
-	{
-		EventHelper->UpdateEvent(_DeltaTime);
-	}
-
 
 	unsigned int NextFrame = CurFrame;
 	++NextFrame;
@@ -142,6 +129,11 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 	if (NextFrame > End)
 	{
 		NextFrame = Start;
+
+		if (Loop == false)
+		{
+			NextFrame = End;
+		}
 	}
 
 	std::vector<float4x4>& AnimationBoneMatrix = ParentRenderer->AnimationBoneMatrixs;
@@ -198,6 +190,12 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 
 		AnimationBoneNotOffSet[i] = Mat;
 		AnimationBoneMatrix[i] = BoneData->BonePos.Offset * Mat;
+	}
+
+
+	if (nullptr != EventHelper)
+	{
+		EventHelper->UpdateEvent(_DeltaTime);
 	}
 }
 

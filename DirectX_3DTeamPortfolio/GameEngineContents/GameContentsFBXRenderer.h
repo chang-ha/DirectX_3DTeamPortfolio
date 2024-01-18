@@ -33,7 +33,6 @@ public:
 
 	bool bOnceStart = true;
 	bool bOnceEnd = true;
-	bool IsStart = true;
 	bool Loop = true;
 	bool IsEnd = false;
 	bool RootMotion = false;
