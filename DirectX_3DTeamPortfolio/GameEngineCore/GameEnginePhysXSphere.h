@@ -39,6 +39,5 @@ protected:
 	void Update(float _Delta) override;
 	void Release() override;
 private:
-	physx::PxRigidDynamic* ComponentActor = nullptr;
 };
 

@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "BaseMonster.h"
 
+#include "ContentsMath.h"
+
 #include "FrameEventHelper.h"
 #include "BoneSocketCollision.h"
 
@@ -25,8 +27,6 @@ void BaseMonster::Update(float _Delta)
 	MainState.Update(_Delta);
 }
 
-
-
 void BaseMonster::Release()
 {
 	MainRenderer = nullptr;
@@ -34,6 +34,21 @@ void BaseMonster::Release()
 }
 
 
+
+void BaseMonster::AddWDirection(float _Degree)
+{
+	Transform.AddWorldRotation(float4(0.0f, 0.0f, _Degree));
+}
+
+void BaseMonster::SetWDirection(float _Degree)
+{
+	Transform.SetWorldRotation(float4(0.0f, 0.0f, _Degree));
+}
+
+float BaseMonster::GetWDirection() const
+{
+	return Transform.GetWorldRotationEuler().Z;
+}
 
 bool BaseMonster::IsOnFlag(Enum_MonsterFlag _Flag) const
 {

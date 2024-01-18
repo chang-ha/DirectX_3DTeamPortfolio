@@ -25,7 +25,6 @@ void GameEnginePhysXSphere::LevelEnd(GameEngineLevel* _NextLevel)
 void GameEnginePhysXSphere::Start()
 {
 	GameEnginePhysXComponent::Start();
-	ParentActor = GetActor();
 }
 
 void GameEnginePhysXSphere::Update(float _Delta)

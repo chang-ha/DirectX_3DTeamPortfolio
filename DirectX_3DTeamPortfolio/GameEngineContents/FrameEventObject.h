@@ -14,6 +14,7 @@ enum Enum_FrameEventType
 	Sound,
 	CollisionUpdate = 11,
 	Transfrom = 21,
+	TurnSpeed = 22,
 
 };
 
