@@ -33,6 +33,7 @@ void GameEnginePhysXComponent::Start()
 
 	// Scene = GameEnginePhysX::FindScene(GetLevel()->GetName());
 	Scene = CurPhysXLevel->GetScene();
+	ParentActor = GetActor();
 }
 
 void GameEnginePhysXComponent::Update(float _Delta)
@@ -56,6 +57,10 @@ void GameEnginePhysXComponent::MoveForce(const physx::PxVec3 _Force, bool _Ignor
 	ComponentActor->setLinearVelocity({ _Force.x, _Force.y + CurLV.y, _Force.z }); // 현재 중력을 받아오기 위해
 }
 
+void GameEnginePhysXComponent::AddForce(const physx::PxVec3 _Force)
+{
+	ComponentActor->addForce(_Force, physx::PxForceMode::eVELOCITY_CHANGE);
+}
 
 void GameEnginePhysXComponent::SetWorldPosition(const float4& _Pos)
 {

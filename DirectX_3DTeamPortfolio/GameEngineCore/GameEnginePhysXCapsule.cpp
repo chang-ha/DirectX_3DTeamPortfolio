@@ -1,6 +1,6 @@
 ﻿#include "PreCompile.h"
 #include "GameEnginePhysXCapsule.h"
-
+#include "GameEnginePhysXLevel.h"
 
 GameEnginePhysXCapsule::GameEnginePhysXCapsule()
 {
@@ -15,7 +15,6 @@ GameEnginePhysXCapsule::~GameEnginePhysXCapsule()
 void GameEnginePhysXCapsule::Start()
 {
 	GameEnginePhysXComponent::Start();
-	ParentActor = GetActor();
 }
 
 void GameEnginePhysXCapsule::Update(float _Delta)
@@ -85,11 +84,6 @@ eIMPULSE  == unit of mass * distance /time
 eVELOCITY_CHANGE  == unit of distance / time, i.e. the effect is mass independent: a velocity change. // ignore mass
 eACCELERATION  == unit of distance/ time^2, i.e. an acceleration. It gets treated just like a force except the mass is not divided out before integration.
 */
-
-void GameEnginePhysXCapsule::AddForce(const physx::PxVec3 _Force)
-{
-	ComponentActor->addForce(_Force, physx::PxForceMode::eVELOCITY_CHANGE);
-}
 
 void GameEnginePhysXCapsule::ResetMove(int _Axies)
 {

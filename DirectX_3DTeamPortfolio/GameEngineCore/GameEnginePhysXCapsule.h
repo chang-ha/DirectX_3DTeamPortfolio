@@ -16,14 +16,6 @@ public:
 
 	void PhysXComponentInit(float _Radius, float _HalfHeight, const physx::PxMaterial* _Material = GameEnginePhysX::GetDefaultMaterial());
 
-	void AddForce(const float4 _Force)
-	{
-		physx::PxVec3 Value = physx::PxVec3(_Force.X, _Force.Y, _Force.Z);
-		AddForce(Value);
-	}
-
-	void AddForce(const physx::PxVec3 _Force);
-
 	void ResetMove(Enum_Axies _Axies)
 	{
 		ResetMove(static_cast<int>(_Axies));

@@ -160,7 +160,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 	// Root Motion
 	BossFBXRenderer->SetRootMotionComponent(Capsule.get());
-	BossFBXRenderer->SetRootMotion("Rush&Turn", "Rush&Turn.xml");
+	BossFBXRenderer->SetRootMotion("Rush&Turn");
 
 	//// Boss Collision
 	{
@@ -250,12 +250,12 @@ void Boss_Vordt::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('Q', this))
 	{
-		Capsule->AddWorldRotation({0.f, 180.f });
+		Capsule->AddWorldRotation({0.f, 90.f });
 	}
 
 	if (true == GameEngineInput::IsDown('E', this))
 	{
-		Capsule->AddWorldRotation({ 0.f, -180.f });
+		Capsule->AddWorldRotation({ 0.f, -90.f });
 	}
 
 	if (true == GameEngineInput::IsDown(VK_SPACE, this))
