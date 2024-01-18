@@ -155,12 +155,54 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BossFBXRenderer->CreateFBXAnimation("Walk_Front", "Walk_Front.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Walk_Left", "Walk_Left.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Walk_Right", "Walk_Right.FBX", { BOSS_ANI_SPEED, true });
-		BossFBXRenderer->ChangeAnimation("Rush&Turn");
+		BossFBXRenderer->ChangeAnimation("Rush&Hit&Turn&Rush");
 	}
 
 	// Root Motion
 	BossFBXRenderer->SetRootMotionComponent(Capsule.get());
+	BossFBXRenderer->SetRootMotion("Breath");
+	BossFBXRenderer->SetRootMotion("Combo1_Step1");
+	BossFBXRenderer->SetRootMotion("Combo1_Step2");
+	BossFBXRenderer->SetRootMotion("Combo1_Step3");
+	BossFBXRenderer->SetRootMotion("Combo2_Step1");
+	BossFBXRenderer->SetRootMotion("Combo2_Step2");
+	BossFBXRenderer->SetRootMotion("Death");
+	BossFBXRenderer->SetRootMotion("Death_Groggy");
+	BossFBXRenderer->SetRootMotion("Hit&Sweep");
+	BossFBXRenderer->SetRootMotion("Hit_001");
+	BossFBXRenderer->SetRootMotion("Hit_002");
+	BossFBXRenderer->SetRootMotion("Hit_003_Left");
+	BossFBXRenderer->SetRootMotion("Hit_003_Right");
+	BossFBXRenderer->SetRootMotion("Hit_004_Groggy");
+	BossFBXRenderer->SetRootMotion("Hit_Down_001");
+	BossFBXRenderer->SetRootMotion("Hit_Down_002");
+	BossFBXRenderer->SetRootMotion("Hit_Down_003");
+	BossFBXRenderer->SetRootMotion("Hit_Down_004");
+	BossFBXRenderer->SetRootMotion("Hit_Down_005");
+	BossFBXRenderer->SetRootMotion("Hit_Down_006");
+	BossFBXRenderer->SetRootMotion("Hit_Groggy");
+	BossFBXRenderer->SetRootMotion("Howling");
+	BossFBXRenderer->SetRootMotion("Idle");
+	BossFBXRenderer->SetRootMotion("Jump_Back");
+	BossFBXRenderer->SetRootMotion("Jump_Left");
+	BossFBXRenderer->SetRootMotion("Jump_Right");
+	BossFBXRenderer->SetRootMotion("Rush&Hit&Turn&Rush");
+	BossFBXRenderer->SetRootMotion("Rush&Hit&Turn");
 	BossFBXRenderer->SetRootMotion("Rush&Turn");
+	BossFBXRenderer->SetRootMotion("Rush_Attack");
+	BossFBXRenderer->SetRootMotion("Rush_Attack_002");
+	BossFBXRenderer->SetRootMotion("Rush_Front");
+	BossFBXRenderer->SetRootMotion("Sweep&Sweep");
+	BossFBXRenderer->SetRootMotion("Sweep_001");
+	BossFBXRenderer->SetRootMotion("Sweep_002");
+	BossFBXRenderer->SetRootMotion("Thrust");
+	BossFBXRenderer->SetRootMotion("Turn_Left");
+	BossFBXRenderer->SetRootMotion("Turn_Left_Twice");
+	BossFBXRenderer->SetRootMotion("Turn_Right");
+	BossFBXRenderer->SetRootMotion("Turn_Right_Twice");
+	BossFBXRenderer->SetRootMotion("Walk_Front");
+	BossFBXRenderer->SetRootMotion("Walk_Left");
+	BossFBXRenderer->SetRootMotion("Walk_Right");
 
 	//// Boss Collision
 	{

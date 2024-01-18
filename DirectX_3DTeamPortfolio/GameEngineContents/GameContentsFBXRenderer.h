@@ -37,9 +37,9 @@ public:
 	bool Loop = true;
 	bool IsEnd = false;
 	bool RootMotion = false;
+	float RootMotion_StartDir = 0.f;
 
 	float BlendIn = 0.2f;
-
 
 	void Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index);
 	void Reset();
