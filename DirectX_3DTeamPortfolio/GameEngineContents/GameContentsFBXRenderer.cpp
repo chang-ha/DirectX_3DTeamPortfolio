@@ -9,6 +9,7 @@ void GameContentsFBXAnimationInfo::Reset()
 	PlayTime = 0.0f;
 	IsStart = false;
 	IsEnd = false;
+	
 
 	if (nullptr != EventHelper)
 	{
@@ -39,14 +40,21 @@ void GameContentsFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh
 	std::shared_ptr<FrameEventHelper> pEventHelper = FrameEventHelper::Find(EventName);
 	if (nullptr != pEventHelper)
 	{
+		pEventHelper->Initialze(this);
 		EventHelper = pEventHelper.get();
-		EventHelper->Initialze(this);
 		return;
 	}
 }
 
 void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 {
+	bool PauseCheck = ParentRenderer->Pause;
+	bool NotLoopEndCheck = IsEnd && !Loop;
+	if (PauseCheck || NotLoopEndCheck)
+	{
+		return;
+	}
+
 	if (false == ParentRenderer->Pause)
 	{
 		IsEnd = false;
@@ -99,14 +107,13 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 				}
 			}
 
-			if (CurFrame >= End)
+			if (CurFrame > End)
 			{
 				IsEnd = true;
 
 				if (true == Loop)
 				{
 					CurFrame = Start;
-					
 				}
 				else
 				{
@@ -121,28 +128,19 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 		}
 	}
 
+
 	if (nullptr != EventHelper)
 	{
 		EventHelper->UpdateEvent(_DeltaTime);
 	}
 
+
 	unsigned int NextFrame = CurFrame;
 	++NextFrame;
 
-	if (NextFrame >= End)
+	if (NextFrame > End)
 	{
-		NextFrame = 0;
-		
-		if (Loop == false)
-		{
-			NextFrame = End;
-		}
-
-	}
-
-	if (CurFrame >= End)
-	{
-		CurFrame = 0;
+		NextFrame = Start;
 	}
 
 	std::vector<float4x4>& AnimationBoneMatrix = ParentRenderer->AnimationBoneMatrixs;
