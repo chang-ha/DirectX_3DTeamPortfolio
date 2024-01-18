@@ -81,22 +81,23 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 			if (true == RootMotion && nullptr != ParentRenderer->RootMotionComponent)
 			{
 				int PrevFrame = CurFrame - 1;
+				if (1 == CurFrame)
+				{
+					RootMotion_StartDir = ParentRenderer->RootMotionComponent->GetDir();
+				}
+
 				if (0 == CurFrame)
 				{
-					PrevFrame = 0;
+					MsgBoxAssert("우창하에게 알려주세요....");
 				}
-				float4 MotionVector = RootMotionFrames[PrevFrame] - RootMotionFrames[CurFrame];
+
+				float4 MotionVector = RootMotionFrames[CurFrame] - RootMotionFrames[PrevFrame];
 				MotionVector.X *= 10000.f;
 				MotionVector.Y *= 10000.f;
 				MotionVector.Z *= 10000.f;
 				MotionVector.W = RootMotionFrames[CurFrame].W - RootMotionFrames[PrevFrame].W;
 				ParentRenderer->RootMotionComponent->AddWorldRotation(float4(0.f, MotionVector.W * GameEngineMath::R2D, 0.f, 0.f));
-				ParentRenderer->RootMotionComponent->MoveForce(MotionVector, true);
-
-				if (CurFrame == RootMotionFrames.size() - 1)
-				{
-					ParentRenderer->RootMotionComponent->AddDir(RootMotionFrames[CurFrame].W * GameEngineMath::R2D);
-				}
+				ParentRenderer->RootMotionComponent->MoveForce(MotionVector, RootMotion_StartDir, true);
 			}
 
 			if (CurFrame >= End)
@@ -768,7 +769,7 @@ void GameContentsFBXRenderer::SetRootMotion(std::string_view _AniName, std::stri
 			case 2:
 				ValueEnd = DataString.find(" ", ValueStart);
 				Value = std::string(DataString, ValueStart, ValueEnd - ValueStart);
-				RootMotionVector.Z = std::stof(Value);
+				RootMotionVector.Z = -std::stof(Value);
 				ValueStart = ValueEnd + 1;
 				break;
 			case 3:
