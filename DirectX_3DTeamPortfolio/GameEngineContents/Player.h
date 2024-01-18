@@ -11,7 +11,13 @@ enum class PlayerState
 	Idle,
 	Smoke,
 	Move,
-	Move_Stop
+	Move_Stop,
+	Slow_Walk, 
+	Run, 
+	Attack_01,
+	Attack_02,
+	Attack_03,
+	Attack_04
 };
 
 // Ό³Έν :
@@ -42,9 +48,10 @@ protected:
 
 private:
 	bool TimeCheck = false;
+	bool Attack_Check = false;
 	float Time = 0.0f;
-	float Speed = 10.0f;
-	std::shared_ptr<GameEngineFBXRenderer> FBXRenderer;
+	float Speed = 0.0f;
+	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer;
 	std::shared_ptr<GameEnginePhysXCapsule> Capsule;
 	std::shared_ptr<GameEngineCollision> Col;
 	GameEngineState PlayerState;
