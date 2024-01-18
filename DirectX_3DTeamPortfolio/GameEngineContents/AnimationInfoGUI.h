@@ -89,7 +89,7 @@ public:
 	void ShowActorList(class GameEngineLevel* _Level);
 	void ActorChange();
 	void TransformEditor();
-	void AnimationList();
+	void AnimationList(class GameEngineLevel* _Level, float _DeltaTime);
 	void BoneEditor();
 	void EventEditor(class GameEngineLevel* _Level, float _DeltaTime);
 

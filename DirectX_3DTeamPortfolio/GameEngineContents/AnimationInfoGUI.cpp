@@ -28,21 +28,16 @@ void AnimationInfoGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
 	ShowActorList(_Level);
 	TransformEditor();
-	AnimationList();
+	AnimationList( _Level, _DeltaTime);
 	BoneEditor();
-	EventEditor(_Level, _DeltaTime);
 }
 
 void AnimationInfoGUI::LevelEnd()
 {
 	SelectActor = nullptr;
-	SelectAnimation = nullptr;
 	ActorNames.clear();
 	CObjectNames.clear();
-	AnimationNames.clear();
-	CAnimationNames.clear();
-	BoneNames.clear();
-	CBoneNames.clear();
+	ActorChange();
 }
 
 void AnimationInfoGUI::ShowActorList(GameEngineLevel* _Level)
@@ -144,7 +139,7 @@ void AnimationInfoGUI::TransformEditor()
 	}
 }
 
-void AnimationInfoGUI::AnimationList()
+void AnimationInfoGUI::AnimationList(class GameEngineLevel* _Level, float _DeltaTime)
 {
 	if (nullptr == SelectActor)
 	{
@@ -176,6 +171,8 @@ void AnimationInfoGUI::AnimationList()
 			SelectActor->GetFBXRenderer()->ChangeAnimation(SelectAnimationName);
 			SelectAnimation = SelectActor->GetFBXRenderer()->GetCurAnimation();
 		}
+
+		EventEditor(_Level, _DeltaTime);
 
 		ImGui::TreePop();
 	}
@@ -397,13 +394,13 @@ void CollisionEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 		}
 		else
 		{
-			OutputDebugStringA("시작 프레임이 끝 프레임보다 크거나 같으면 이벤트를 생성할 수 없습니다.");
+			OutputDebugStringA("시작 프레임이 끝 프레임보다 크거나 같으면 이벤트를 생성할 수 없습니다. \n");
 		}
 	}
 }
 
 void CollisionEventTree::ChangeActor()
 {
-	CColNames.clear();
+	ColNames.clear();
 	CColNames.clear();
 }
