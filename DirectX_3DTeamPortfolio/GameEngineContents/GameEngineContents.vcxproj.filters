@@ -50,7 +50,7 @@
       <Filter>Monster\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="ContentsControlWindow.cpp" />
-    <ClCompile Include="CommonMonster.cpp">
+    <ClCompile Include="BaseMonster.cpp">
       <Filter>Monster</Filter>
     </ClCompile>
     <ClCompile Include="TestLevel_PhysX.cpp">
@@ -58,12 +58,6 @@
     </ClCompile>
     <ClCompile Include="Monster_LothricKn.cpp">
       <Filter>Monster\LothricKnight</Filter>
-    </ClCompile>
-    <ClCompile Include="MonsterGUI.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundFrameEvent.cpp">
-      <Filter>Monster\Event</Filter>
     </ClCompile>
     <ClCompile Include="ConnectIDPacket.cpp" />
     <ClCompile Include="ContentsLight.cpp" />
@@ -81,23 +75,42 @@
     <ClCompile Include="Monster_HollowSoldier_Sword.cpp">
       <Filter>Monster\Hollow</Filter>
     </ClCompile>
-    <ClCompile Include="FrameEventHelper.cpp">
-      <Filter>Monster\Event</Filter>
-    </ClCompile>
-    <ClCompile Include="FrameEventObject.cpp">
-      <Filter>Monster\Event</Filter>
-    </ClCompile>
     <ClCompile Include="Monster_Hollow_RaggedRobes.cpp">
       <Filter>Monster\Hollow</Filter>
     </ClCompile>
     <ClCompile Include="Monster_HollowSoldier_Lantern.cpp">
       <Filter>Monster\Hollow</Filter>
     </ClCompile>
+    <ClCompile Include="TestObject.cpp" />
+    <ClCompile Include="TreeWindow.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
     <ClCompile Include="Boss_Vordt_State.cpp">
       <Filter>Monster\Boss</Filter>
     </ClCompile>
     <ClCompile Include="TestObject.cpp">
       <Filter>Monster\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationInfoGUI.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameEventObject.cpp">
+      <Filter>ImGui\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundFrameEvent.cpp">
+      <Filter>ImGui\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameEventHelper.cpp">
+      <Filter>ImGui\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_LothricKn_Resources.cpp">
+      <Filter>Monster\LothricKnight</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_LothricKn_State.cpp">
+      <Filter>Monster\LothricKnight</Filter>
+    </ClCompile>
+    <ClCompile Include="BoneSocketCollision.cpp">
+      <Filter>Monster\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -147,7 +160,7 @@
       <Filter>Map</Filter>
     </ClInclude>
     <ClInclude Include="ContentsControlWindow.h" />
-    <ClInclude Include="CommonMonster.h">
+    <ClInclude Include="BaseMonster.h">
       <Filter>Monster</Filter>
     </ClInclude>
     <ClInclude Include="TestLevel_PhysX.h">
@@ -158,12 +171,6 @@
     </ClInclude>
     <ClInclude Include="GameContentsFBXRenderer.h">
       <Filter>Monster\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="MonsterGUI.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundFrameEvent.h">
-      <Filter>Monster\Event</Filter>
     </ClInclude>
     <ClInclude Include="FXAAEffect.h">
       <Filter>PostEffect</Filter>
@@ -185,20 +192,33 @@
     <ClInclude Include="Monster_HollowSoldier_Sword.h">
       <Filter>Monster\Hollow</Filter>
     </ClInclude>
-    <ClInclude Include="FrameEventHelper.h">
-      <Filter>Monster\Event</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameEventObject.h">
-      <Filter>Monster\Event</Filter>
-    </ClInclude>
     <ClInclude Include="Monster_Hollow_RaggedRobes.h">
       <Filter>Monster\Hollow</Filter>
     </ClInclude>
     <ClInclude Include="Monster_HollowSoldier_Lantern.h">
       <Filter>Monster\Hollow</Filter>
     </ClInclude>
+    <ClInclude Include="TestObject.h" />
+    <ClInclude Include="TreeWindow.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
     <ClInclude Include="TestObject.h">
       <Filter>Monster\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationInfoGUI.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundFrameEvent.h">
+      <Filter>ImGui\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameEventHelper.h">
+      <Filter>ImGui\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameEventObject.h">
+      <Filter>ImGui\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="BoneSocketCollision.h">
+      <Filter>Monster\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -250,11 +270,14 @@
     <Filter Include="Net\Packet">
       <UniqueIdentifier>{12126f42-9291-48ee-8034-ca565f71da15}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Monster\Event">
-      <UniqueIdentifier>{3a07aee8-e371-40ae-a574-6b4704cab447}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Monster\Hollow">
       <UniqueIdentifier>{d4c245a2-3270-417d-810e-ce6e0c363efe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\Editor">
+      <UniqueIdentifier>{22360345-3c92-4fb6-b5f0-27066f4f3cf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Monster\Collision">
+      <UniqueIdentifier>{20ef003c-31cf-4935-939c-83cd89462723}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

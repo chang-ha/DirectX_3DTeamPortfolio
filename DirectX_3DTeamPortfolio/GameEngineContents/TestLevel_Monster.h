@@ -1,6 +1,5 @@
 #pragma once
 #include "ContentLevel.h"
-#include "MonsterGUI.h"
 
 // Ό³Έν :
 class TestLevel_Monster : public ContentLevel
@@ -41,7 +40,6 @@ protected:
 	}
 
 private:
-	std::shared_ptr<class MonsterGUI> MonsterWindow;
 
 };
 

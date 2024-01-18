@@ -18,7 +18,7 @@ public:
 	SoundFrameEvent& operator=(const SoundFrameEvent& _Other) = delete;
 	SoundFrameEvent& operator=(SoundFrameEvent&& _Other) noexcept = delete;
 
-	void PlayEvent() override;
+	static std::shared_ptr<SoundFrameEvent> CreateEventObject(int _Frame, std::string_view _FileName);
 
 	void Write(class GameEngineSerializer& _File) override
 	{
@@ -31,11 +31,14 @@ public:
 		_File >> SoundName;
 	}
 
-
-	inline std::string_view GetSoundName()const
+	inline std::string_view GetSoundName() const
 	{
 		return SoundName;
 	}
+
+
+	void PlayEvent() override;
+
 
 protected:
 
