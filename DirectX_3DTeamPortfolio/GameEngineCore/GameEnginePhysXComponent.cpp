@@ -79,6 +79,8 @@ void GameEnginePhysXComponent::SetWorldRotation(const float4& _Degree)
 {
 	float4 WorldDeg = { _Degree.X, _Degree.Y , _Degree.Z };
 
+	SetDir(WorldDeg.Y);
+
 	physx::PxTransform Transform = ComponentActor->getGlobalPose();
 	// WorldDeg.Z += physx::PxHalfPi * GameEngineMath::R2D;
 	float4 WorldQuat = WorldDeg.EulerDegToQuaternion();
@@ -107,6 +109,8 @@ void GameEnginePhysXComponent::AddWorldRotation(const float4& _Degree)
 	{
 		WorldDeg.Z += 360.0f;
 	}
+
+	SetDir(WorldDeg.Y);
 
 	WorldDeg = WorldDeg.EulerDegToQuaternion();
 

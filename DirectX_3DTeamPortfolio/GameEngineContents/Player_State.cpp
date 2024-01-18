@@ -85,6 +85,13 @@ void Player::Player_State()
 					_Parent->ChangeState(PlayerState::Move);
 					return;
 				}
+				if (GameEngineInput::IsPress('R', this))
+				{
+					FBXRenderer->ChangeAnimation("Portion_Drink_01");
+					_Parent->ChangeState(PlayerState::Portion_01);
+					return;
+				}
+
 				if (GameEngineInput::IsPress(VK_LBUTTON, this))
 				{
 					_Parent->ChangeState(PlayerState::Attack_01);
@@ -147,11 +154,11 @@ void Player::Player_State()
 					return;
 				}
 
-				if (true == GameEngineInput::IsPress('W', this) && true == GameEngineInput::IsPress('A', this))
+				/*if (true == GameEngineInput::IsPress('W', this) && true == GameEngineInput::IsPress('A', this))
 				{
 					Transform.AddLocalPosition({ float4::UP * Speed });
 					return; 
-				}
+				}*/
 
 				if (true == GameEngineInput::IsPress('W', this))
 				{
@@ -594,6 +601,70 @@ void Player::Player_State()
 			};
 
 		PlayerState.CreateState(PlayerState::Attack_04, NewPara);
+	}
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				FBXRenderer->ChangeAnimation("Portion_Drink_01");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (FBXRenderer->IsCurAnimationEnd())
+				{
+					PlayerState.ChangeState(PlayerState::Portion_02);
+					return;
+				}
+			};
+
+		PlayerState.CreateState(PlayerState::Portion_01, NewPara);
+	}
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				FBXRenderer->ChangeAnimation("Portion_Drink_02");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (FBXRenderer->IsCurAnimationEnd())
+				{
+					PlayerState.ChangeState(PlayerState::Portion_03);
+					return;
+				}
+			};
+
+		PlayerState.CreateState(PlayerState::Portion_02, NewPara);
+	}
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				FBXRenderer->ChangeAnimation("Portion_Drink_03");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (FBXRenderer->IsCurAnimationEnd())
+				{
+					PlayerState.ChangeState(PlayerState::Idle);
+					return;
+				}
+
+			};
+
+		PlayerState.CreateState(PlayerState::Portion_03, NewPara);
 	}
 
 

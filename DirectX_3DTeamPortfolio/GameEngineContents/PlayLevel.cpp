@@ -42,15 +42,15 @@ void PlayLevel::Start()
 		Ptr->MainPlayer = PlayerObject.get();
 	}
 
-	//{
-	//	std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
+	{
+		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
 
-	//	//Object->Transform.AddLocalPosition({ 500.0f,0.0f });
-	//	PlayerObject = Object;
+		//Object->Transform.AddLocalPosition({ 500.0f,0.0f });
+		PlayerObject = Object;
 
-	//	Ptr->MainPlayer = PlayerObject.get();
-	//	Object->check = true;
-	//}
+		Ptr->MainPlayer = PlayerObject.get();
+		Object->check = true;
+	}
 
 	{
 		std::shared_ptr<GameEngineLight> Object = CreateActor<GameEngineLight>(0);

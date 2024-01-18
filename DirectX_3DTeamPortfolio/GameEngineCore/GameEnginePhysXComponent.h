@@ -22,6 +22,14 @@ public:
 	GameEnginePhysXComponent& operator=(const GameEnginePhysXComponent& _Other) = delete;
 	GameEnginePhysXComponent& operator=(GameEnginePhysXComponent&& _Other) noexcept = delete;
 
+	void MoveForce(const float4 _Force, float _Dir, bool _IgnoreGravity = false)
+	{
+		float4 Force = _Force;
+		Force.VectorRotationToDegY(_Dir);
+		physx::PxVec3 Value = physx::PxVec3(Force.X, Force.Y, Force.Z);
+		MoveForce(Value, _IgnoreGravity);
+	}
+
 	void MoveForce(const float4 _Force, bool _IgnoreGravity = false)
 	{
 		float4 Force = _Force;
@@ -48,6 +56,16 @@ public:
 	inline void SetDir(float _Dir)
 	{
 		Dir = _Dir;
+
+		if (360.f <= Dir)
+		{
+			Dir -= 360.f;
+		}
+
+		if (0.f > Dir)
+		{
+			Dir += 360.f;
+		}
 	}
 
 	void AddDir(float _Dir)
