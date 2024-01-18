@@ -28,8 +28,3 @@ void BoneSocketCollision::Release()
 {
 	GameEngineCollision::Release();
 }
-
-void BoneSocketCollision::SetSocket(float4x4* _Socket)
-{
-	pSocket = _Socket;
-}

@@ -9,6 +9,11 @@ void GameContentsFBXAnimationInfo::Reset()
 	PlayTime = 0.0f;
 	IsStart = false;
 	IsEnd = false;
+
+	if (nullptr != EventHelper)
+	{
+		EventHelper->EventReset();
+	}
 }
 
 void GameContentsFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index)
@@ -35,7 +40,7 @@ void GameContentsFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh
 	if (nullptr != pEventHelper)
 	{
 		EventHelper = pEventHelper.get();
-		EventHelper->Initialze(End);
+		EventHelper->Initialze(this);
 		return;
 	}
 }
@@ -112,6 +117,11 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 				EventHelper->PlayEvents(CurFrame);
 			}
 		}
+	}
+
+	if (nullptr != EventHelper)
+	{
+		EventHelper->UpdateEvent(_DeltaTime);
 	}
 
 	unsigned int NextFrame = CurFrame;
@@ -324,7 +334,7 @@ std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetFBXMesh(std::s
 
 		if (nullptr == GameEngineTexture::Find(MatData.DifTextureName))
 		{
-			GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
+ 			GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
 			std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.DifTextureName;
 			GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
 		}
@@ -337,6 +347,58 @@ std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetFBXMesh(std::s
 		}
 
 		Unit->ShaderResHelper.SetTexture("DiffuseTexture", DifTex);
+	}
+
+	if (Unit->ShaderResHelper.IsTexture("NormalTexture"))
+	{
+		const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(_RenderUnitInfoIndex, _SubSetIndex);
+
+		if ("" == MatData.NorTextureName)
+		{
+			MsgBoxAssert("텍스처 정보가 없는 FBX매쉬에 텍스처를 사용하는 머티리얼을 사용했습니다.");
+		}
+
+		if (nullptr == GameEngineTexture::Find(MatData.NorTextureName))
+		{
+			GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
+			std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.NorTextureName;
+			GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
+		}
+
+		std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find(MatData.NorTextureName);
+
+		if (nullptr == Tex)
+		{
+			MsgBoxAssert("FBX매쉬에 텍스처 정보 로드에 실패했습니다.");
+		}
+
+		Unit->ShaderResHelper.SetTexture("NormalTexture", Tex);
+	}
+
+	if (Unit->ShaderResHelper.IsTexture("SpecularTexture"))
+	{
+		const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(_RenderUnitInfoIndex, _SubSetIndex);
+
+		if ("" == MatData.NorTextureName)
+		{
+			MsgBoxAssert("텍스처 정보가 없는 FBX매쉬에 텍스처를 사용하는 머티리얼을 사용했습니다.");
+		}
+
+		if (nullptr == GameEngineTexture::Find(MatData.SpcTextureName))
+		{
+			GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
+			std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.NorTextureName;
+			GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
+		}
+
+		std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find(MatData.NorTextureName);
+
+		if (nullptr == Tex)
+		{
+			MsgBoxAssert("FBX매쉬에 텍스처 정보 로드에 실패했습니다.");
+		}
+
+		Unit->ShaderResHelper.SetTexture("SpecularTexture", Tex);
 	}
 
 	return Unit;
@@ -378,9 +440,8 @@ void GameContentsFBXRenderer::CreateFBXAnimation(const std::string_view _Animati
 	}
 
 	std::shared_ptr<GameContentsFBXAnimationInfo> NewAnimation = std::make_shared<GameContentsFBXAnimationInfo>();
-	// 이때 애니메이션을 진짜 로드 한다.
-	NewAnimation->Init(FBXMesh, AnimationFBX, _AnimationName, _Index);
 	NewAnimation->ParentRenderer = this;
+	NewAnimation->Init(FBXMesh, AnimationFBX, _AnimationName, _Index);
 	if (0.0f == _Params.Inter)
 	{
 		NewAnimation->Inter = 1.0f / 30.0f;
@@ -521,6 +582,58 @@ std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetMapFBXMesh(std
 		}
 
 		Unit->ShaderResHelper.SetTexture("DiffuseTexture", DifTex);
+	}
+
+	if (Unit->ShaderResHelper.IsTexture("NormalTexture"))
+	{
+		const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(_RenderUnitInfoIndex, _SubSetIndex);
+
+		if ("" == MatData.NorTextureName)
+		{
+			MsgBoxAssert("텍스처 정보가 없는 FBX매쉬에 텍스처를 사용하는 머티리얼을 사용했습니다.");
+		}
+
+		if (nullptr == GameEngineTexture::Find(MatData.NorTextureName))
+		{
+			GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
+			std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.NorTextureName;
+			GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
+		}
+
+		std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find(MatData.NorTextureName);
+
+		if (nullptr == Tex)
+		{
+			MsgBoxAssert("FBX매쉬에 텍스처 정보 로드에 실패했습니다.");
+		}
+
+		Unit->ShaderResHelper.SetTexture("NormalTexture", Tex);
+	}
+
+	if (Unit->ShaderResHelper.IsTexture("SpecularTexture"))
+	{
+		const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(_RenderUnitInfoIndex, _SubSetIndex);
+
+		if ("" == MatData.NorTextureName)
+		{
+			MsgBoxAssert("텍스처 정보가 없는 FBX매쉬에 텍스처를 사용하는 머티리얼을 사용했습니다.");
+		}
+
+		if (nullptr == GameEngineTexture::Find(MatData.SpcTextureName))
+		{
+			GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
+			std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.NorTextureName;
+			GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
+		}
+
+		std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find(MatData.NorTextureName);
+
+		if (nullptr == Tex)
+		{
+			MsgBoxAssert("FBX매쉬에 텍스처 정보 로드에 실패했습니다.");
+		}
+
+		Unit->ShaderResHelper.SetTexture("SpecularTexture", Tex);
 	}
 
 	return Unit;

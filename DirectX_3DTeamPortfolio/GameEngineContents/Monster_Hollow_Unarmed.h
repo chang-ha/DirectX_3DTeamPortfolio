@@ -1,8 +1,8 @@
 #pragma once
-#include "Monster_Hollow.h"
+#include "Monster_Hollow_NonFirstAttack.h"
 
 // Ό³Έν : 
-class Monster_Hollow_Unarmed : public Monster_Hollow
+class Monster_Hollow_Unarmed : public Monster_Hollow_NonFirstAttack
 {
 public:
 	// constrcuter destructer

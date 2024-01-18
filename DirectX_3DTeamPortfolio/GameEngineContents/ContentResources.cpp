@@ -139,7 +139,6 @@ void ContentResources::ContentResourcesInit()
 	}
 
 
-	// 몬스터 리소스
 	BaseMonster::LoadEvent(static_cast<int>(Monster_LothricKn::Type));
 
 	{

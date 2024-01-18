@@ -1,9 +1,8 @@
 #pragma once
-#include "SoundFrameEvent.h"
 #include <GameEngineCore/GameEngineResources.h>
 
-
 // Ό³Έν :
+class FrameEventObject;
 class FrameEventHelper : public GameEngineResources<FrameEventHelper>
 {
 public:
@@ -24,11 +23,14 @@ public:
 
 	static std::string GetConvertFileName(std::string_view _AnimationName);
 
-	static std::shared_ptr<FrameEventHelper> CreateTempRes(std::string_view _TempPath, int _FrameCount)
+	static std::shared_ptr<FrameEventHelper> CreateTempRes(std::string_view _TempPath, GameContentsFBXAnimationInfo* _AnimationInfo)
 	{
+		int FrameCnt = static_cast<int>(_AnimationInfo->FBXAnimationData->FrameCount + 1);
+
 		std::shared_ptr<FrameEventHelper> Helper = Load(_TempPath);
-		Helper->EventInfo.resize(_FrameCount);
-		Helper->FrameCount = _FrameCount;
+		Helper->ParentInfo = _AnimationInfo;
+		Helper->EventInfo.resize(FrameCnt);
+		Helper->FrameCount = FrameCnt;
 		return Helper;
 	}
 
@@ -45,21 +47,30 @@ public:
 		return Helper;
 	}
 
-	void Initialze(int _Frame);
+	void Initialze(GameContentsFBXAnimationInfo* _AnimationInfo);
 	void SaveFile();
 
 	void PlayEvents(int _Frame);
-	void EventReset() {}
+	void PushPlayingEvent(FrameEventObject* _Object);
+	void UpdateEvent(float _Delta);
+	void EventReset();
 
 	int GetEventSize();
 
 	void SetEvent(std::shared_ptr<FrameEventObject> _EventObject);
 	void PopEvent(const std::shared_ptr<FrameEventObject>& _Event);
 
-	std::vector<std::list<FrameEventObject*>>& GetEventInfo() { return EventInfo; }
-	std::map<int, std::list<std::shared_ptr<FrameEventObject>>>& GetAllEvents() { return Events; }
-	std::list<std::shared_ptr<FrameEventObject>>& GetEventGroup(Enum_FrameEventType _Type);
-	std::list<std::shared_ptr<FrameEventObject>>& GetEventGroup(int _Type);
+	inline class GameContentsFBXAnimationInfo* GetAnimationInfo() { return ParentInfo; }
+	inline std::vector<std::list<FrameEventObject*>>& GetEventInfo() { return EventInfo; }
+	inline std::map<int, std::list<std::shared_ptr<FrameEventObject>>>& GetAllEvents() { return Events; }
+
+	template<typename _EventType>
+	std::list<std::shared_ptr<FrameEventObject>>& GetEventGroup(_EventType _Type)
+	{
+		return GetEventGroup(static_cast<int>(_Type));
+	}
+
+	inline std::list<std::shared_ptr<FrameEventObject>>& GetEventGroup(int _Type);
 
 protected:
 	void PushEventData();
@@ -72,6 +83,7 @@ private:
 
 	int FrameCount = 0;
 
+	class GameContentsFBXAnimationInfo* ParentInfo = nullptr;
 	std::vector<std::list<FrameEventObject*>> EventInfo;
 	std::list<FrameEventObject*> PlayingEvents;
 	std::map<int, std::list<std::shared_ptr<FrameEventObject>>> Events;

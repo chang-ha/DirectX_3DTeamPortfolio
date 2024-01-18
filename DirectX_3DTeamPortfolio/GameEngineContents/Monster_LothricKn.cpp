@@ -24,9 +24,7 @@ void Monster_LothricKn::Start()
 	SetBoneIndex(Enum_BoneType::B_01_LeftHand, 47);
 
 	ResourcesLoad();
-
-	FindAndCreateSocketCollision(Enum_CollisionOrder::Monster, Enum_BoneType::B_01_RightHand);
-
+	CreateSocketCollision(Enum_CollisionOrder::Monster, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
 	CreateFSM();
 }
 
@@ -39,9 +37,4 @@ void Monster_LothricKn::Update(float _Delta)
 void Monster_LothricKn::Release()
 {
 	BaseMonster::Release();
-}
-
-void Monster_LothricKn::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	Death();
 }

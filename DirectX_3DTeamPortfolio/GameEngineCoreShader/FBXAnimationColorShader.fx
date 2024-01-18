@@ -94,7 +94,7 @@ PixelOut FBXColorShader_PS(PixelOutPut _Input) : SV_Target0
     {
         for (int i = 0; i < LightCount; ++i)
         {
-            DiffuseRatio += CalDiffuseLight(_Input.VIEWNORMAL, _Input.VIEWPOSITION, AllLight[i]);
+            DiffuseRatio += CalDiffuseLight(_Input.VIEWNORMAL, AllLight[i]);
         }
         
         float A = Color.w;

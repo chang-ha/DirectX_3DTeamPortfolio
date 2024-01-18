@@ -1,6 +1,5 @@
 #pragma once
 #include "FrameEventObject.h"
-#include "GameEngineBase/GameEngineSerializer.h"
 
 // Ό³Έν :
 class SoundFrameEvent : public FrameEventObject
@@ -43,6 +42,7 @@ public:
 protected:
 
 private:
+	static const Enum_FrameEventType Type = Enum_FrameEventType::Sound;
 	std::string SoundName;
 
 };

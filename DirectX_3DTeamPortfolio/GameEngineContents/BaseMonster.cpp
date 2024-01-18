@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "BaseMonster.h"
 
+#include "ContentsMath.h"
+
 #include "FrameEventHelper.h"
 #include "BoneSocketCollision.h"
 
@@ -25,8 +27,6 @@ void BaseMonster::Update(float _Delta)
 	MainState.Update(_Delta);
 }
 
-
-
 void BaseMonster::Release()
 {
 	MainRenderer = nullptr;
@@ -34,6 +34,21 @@ void BaseMonster::Release()
 }
 
 
+
+void BaseMonster::AddWDirection(float _Degree)
+{
+	Transform.AddWorldRotation(float4(0.0f, 0.0f, _Degree));
+}
+
+void BaseMonster::SetWDirection(float _Degree)
+{
+	Transform.SetWorldRotation(float4(0.0f, 0.0f, _Degree));
+}
+
+float BaseMonster::GetWDirection() const
+{
+	return Transform.GetWorldRotationEuler().Z;
+}
 
 bool BaseMonster::IsOnFlag(Enum_MonsterFlag _Flag) const
 {
@@ -82,32 +97,70 @@ int BaseMonster::GetBoneIndex(Enum_BoneType _BoneType)
 	return FindIter->second;
 }
 
-float4x4& BaseMonster::GetBoneMatrixToIndex(Enum_BoneType _BoneType)
+float4x4& BaseMonster::GetBoneMatrixToType(Enum_BoneType _BoneType)
 {
 	std::vector<float4x4>& BoneMats = GetFBXRenderer()->GetBoneSockets();
 	return BoneMats[GetBoneIndex(Enum_BoneType::B_01_RightHand)];
 }
 
 
-std::shared_ptr<BoneSocketCollision> BaseMonster::FindAndCreateSocketCollision(int _Order, Enum_BoneType _Index)
+std::shared_ptr<BoneSocketCollision> BaseMonster::FindAndCreateSocketCollision(int _Order, Enum_BoneType _Type)
 {
-	int SocketIndex = GetBoneIndex(_Index);
+	int SocketIndex = GetBoneIndex(_Type);
 	if (auto FindIter = Collisions.find(SocketIndex); FindIter != Collisions.end())
 	{
 		return FindIter->second;
 	}
 
 	std::shared_ptr<BoneSocketCollision> NewCol = CreateComponent<BoneSocketCollision>(_Order);
-	NewCol->SetSocket(&GetBoneMatrixToIndex(_Index));
+	NewCol->SetName(std::to_string(SocketIndex));
+	NewCol->SetBoneIndex(SocketIndex);
+	NewCol->SetSocket(&GetBoneMatrixToType(_Type));
+	NewCol->Off();
 	Collisions.insert(std::make_pair(SocketIndex, NewCol));
 	return NewCol;
+}
+
+std::shared_ptr<BoneSocketCollision> BaseMonster::CreateSocketCollision(int _Order, Enum_BoneType _Type, std::string _ColName)
+{
+	int SocketIndex = GetBoneIndex(_Type);
+	if (auto FindIter = Collisions.find(SocketIndex); FindIter != Collisions.end())
+	{
+		MsgBoxAssert("이미 존재하는 충돌체를 생성하려 했습니다.");
+		return nullptr;
+	}
+
+	std::shared_ptr<BoneSocketCollision> NewCol = CreateComponent<BoneSocketCollision>(_Order);
+	NewCol->SetName(_ColName);
+	NewCol->SetBoneIndex(SocketIndex);
+	NewCol->SetSocket(&GetBoneMatrixToType(_Type));
+	NewCol->Off();
+	Collisions.insert(std::make_pair(SocketIndex, NewCol));
+	return NewCol;
+}
+
+std::shared_ptr<BoneSocketCollision> BaseMonster::GetSocketCollision(int _Index)
+{
+	if (auto FindIter = Collisions.find(_Index); FindIter != Collisions.end())
+	{
+		return FindIter->second;
+	}
+
+	MsgBoxAssert("존재하지 않는 충돌체를 참조하려 했습니다.");
+	return nullptr;
+}
+
+std::shared_ptr<BoneSocketCollision> BaseMonster::FindSocketCollision(Enum_BoneType _Type)
+{
+	int SocketIndex = GetBoneIndex(_Type);
+	return GetSocketCollision(SocketIndex);
 }
 
 std::string BaseMonster::GetEventPath(int _ID)
 {
 	if (EMPTY_ID == _ID)
 	{
-		return "";
+		return std::string();
 	}
 
 	std::string IDName = std::string("c") + std::to_string(_ID);

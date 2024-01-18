@@ -7,6 +7,7 @@ PixelOutPut ContentsStaticMesh_VS(GameEngineVertex3D _Input)
     
     PixelOutPut Result = (PixelOutPut) 0;
     _Input.POSITION.w = 1.0f;
+    _Input.NORMAL.w = 0.0f;
     
     
     Mesh_VS_Update(_Input, Result);

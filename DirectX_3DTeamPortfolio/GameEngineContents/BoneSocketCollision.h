@@ -14,7 +14,9 @@ public:
 	BoneSocketCollision& operator=(const BoneSocketCollision& _Other) = delete;
 	BoneSocketCollision& operator=(BoneSocketCollision&& _Other) noexcept = delete;
 
-	void SetSocket(float4x4* _Socket);
+	inline void SetBoneIndex(int _Index) { BoneIndex = _Index; }
+	inline int GetBoneIndex() const { return BoneIndex; }
+	inline void SetSocket(float4x4* _Socket) { pSocket = _Socket; }
 
 protected:
 	void Start() override;
@@ -22,6 +24,7 @@ protected:
 	void Release() override;
 
 private:
+	int BoneIndex = -1;
 	float4x4* pSocket = nullptr;
 
 };

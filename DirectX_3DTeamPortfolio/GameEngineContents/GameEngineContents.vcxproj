@@ -171,12 +171,17 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BloomEffect.cpp" />
     <ClCompile Include="BoneSocketCollision.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="Boss_Vordt_State.cpp" />
     <ClCompile Include="BaseMonster.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CollisionUpdateFrameEvent.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -201,6 +206,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ContentsMath.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FrameEventHelper.cpp" />
     <ClCompile Include="FrameEventObject.cpp" />
     <ClCompile Include="FXAAEffect.cpp">
@@ -216,6 +225,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="LightGUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Monster_Hollow.cpp" />
     <ClCompile Include="Monster_HollowSoldier.cpp">
       <SubType>
@@ -226,6 +239,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Monster_HollowSoldier_Sword.cpp" />
+    <ClCompile Include="Monster_Hollow_NonFirstAttack.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Monster_Hollow_RaggedRobes.cpp">
       <SubType>
       </SubType>
@@ -242,6 +259,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Player_State.cpp" />
     <ClCompile Include="PlayLevel.cpp">
       <SubType>
       </SubType>
@@ -251,6 +269,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SetFlagFrameEvent.cpp">
+      <SubType>
+      </SubType>
     </ClCompile>
     <ClCompile Include="SoundFrameEvent.cpp">
       <SubType>
@@ -282,7 +304,12 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TestObject_Shader.cpp" />
     <ClCompile Include="TreeWindow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TurnSpeedFrameEvent.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -296,7 +323,12 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BloomEffect.h" />
     <ClInclude Include="BoneSocketCollision.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CollisionUpdateFrameEvent.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -322,6 +354,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ContentsMath.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="FrameEventHelper.h" />
     <ClInclude Include="FrameEventObject.h" />
     <ClInclude Include="FXAAEffect.h">
@@ -337,6 +373,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="LightGUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Monster_Hollow.h" />
     <ClInclude Include="Monster_HollowSoldier.h">
       <SubType>
@@ -347,6 +387,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Monster_HollowSoldier_Sword.h" />
+    <ClInclude Include="Monster_Hollow_NonFirstAttack.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Monster_Hollow_RaggedRobes.h">
       <SubType>
       </SubType>
@@ -370,6 +414,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="PreCompile.h" />
+    <ClInclude Include="SetFlagFrameEvent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="SoundFrameEvent.h">
       <SubType>
       </SubType>
@@ -400,7 +448,12 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="TestObject_Shader.h" />
     <ClInclude Include="TreeWindow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TurnSpeedFrameEvent.h">
       <SubType>
       </SubType>
     </ClInclude>

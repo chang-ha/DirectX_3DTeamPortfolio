@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "TreeWindow.h"
 #include "AnimationInfoGUI.h"
+#include "LightGUI.h"
 
 
 void TreeWindow::Start()
@@ -11,6 +12,7 @@ void TreeWindow::Start()
 void RootTree::Start()
 {
 	CreateTree<AnimationInfoGUI>("Actor Editor");
+	CreateTree<LightGUI>("Light Editor");
 }
 
 void TreeWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
@@ -27,7 +29,7 @@ void TreeWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 void TreeObject::Init(std::shared_ptr<TreeObject> _Object)
 {
 	_Object->Start();
-}
+} 
 
 void TreeObject::AllOnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {

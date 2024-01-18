@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "FrameEventObject.h"
 
+#include "FrameEventHelper.h"
+
 FrameEventObject::FrameEventObject() 
 {
 }
@@ -12,15 +14,15 @@ FrameEventObject::~FrameEventObject()
 std::string FrameEventObject::GetTypeString() const
 {
 	std::string ReturnValue;
-	switch (Type)
+	switch (static_cast<Enum_FrameEventType>(EventID))
 	{
 	case None:
 		break;
 	case Sound:
 		ReturnValue = "Sound";
 		break;
-	case Collision:
-		ReturnValue = "Collision";
+	case CollisionUpdate:
+		ReturnValue = "CollisionUpdate";
 		break;
 	case Transfrom:
 		ReturnValue = "Transfrom";
@@ -30,4 +32,9 @@ std::string FrameEventObject::GetTypeString() const
 	}
 
 	return ReturnValue;
+}
+
+int FrameEventObject::GetCurFrame()
+{
+	return static_cast<int>(ParentHelper->GetAnimationInfo()->CurFrame);
 }

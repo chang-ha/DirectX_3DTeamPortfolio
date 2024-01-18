@@ -3,9 +3,10 @@
 
 #include "FrameEventHelper.h"
 
+
 SoundFrameEvent::SoundFrameEvent() 
 {
-	Type = Enum_FrameEventType::Sound;
+	SetEventID(Type);
 }
 
 SoundFrameEvent::~SoundFrameEvent() 

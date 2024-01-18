@@ -12,11 +12,24 @@ public:
 protected:
 	virtual void Start() {}
 	virtual void OnGUI(GameEngineLevel* _Level, float _Delta) = 0;
+	virtual void ChangeAnimation() {}
+	virtual void ChangeActor() {}
 
 	class AnimationInfoGUI* Parent = nullptr;
 
 private:
 	std::string Name;
+
+};
+
+class TotalEventTree : public EventTree
+{
+	friend class AnimationInfoGUI;
+
+public:
+
+private:
+	void OnGUI(GameEngineLevel* _Level, float _Delta) override;
 
 };
 
@@ -38,10 +51,29 @@ private:
 
 };
 
+class CollisionEventTree : public EventTree
+{
+	friend class AnimationInfoGUI;
+
+public:
+
+private:
+	void Start() override {}
+	void OnGUI(GameEngineLevel* _Level, float _Delta) override;
+	void ChangeActor() override;
+
+private:
+	std::vector<std::string> ColNames;
+	std::vector<const char*> CColNames;
+
+};
+
 // Ό³Έν :
 class AnimationInfoGUI : public TreeObject
 {
 	friend class SoundEventTree;
+	friend class TotalEventTree;
+	friend class CollisionEventTree;
 
 public:
 	// constrcuter destructer
@@ -55,10 +87,12 @@ public:
 	AnimationInfoGUI& operator=(AnimationInfoGUI&& _Other) noexcept = delete;
 
 	void ShowActorList(class GameEngineLevel* _Level);
+	void ActorChange();
 	void TransformEditor();
 	void AnimationList();
 	void BoneEditor();
 	void EventEditor(class GameEngineLevel* _Level, float _DeltaTime);
+
 
 
 protected:

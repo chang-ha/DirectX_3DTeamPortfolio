@@ -3,6 +3,10 @@
 
 #include "BaseMonster.h"
 #include "FrameEventHelper.h"
+#include "BoneSocketCollision.h"
+
+#include "SoundFrameEvent.h"
+#include "CollisionUpdateFrameEvent.h"
 
 AnimationInfoGUI::AnimationInfoGUI() 
 {
@@ -15,7 +19,9 @@ AnimationInfoGUI::~AnimationInfoGUI()
 
 void AnimationInfoGUI::Start()
 {
-	CreateEventTree<SoundEventTree>("Sound Event Editor");
+	CreateEventTree<TotalEventTree>("Total Events");
+	CreateEventTree<SoundEventTree>("Sound");
+	CreateEventTree<CollisionEventTree>("Collision Switch");
 }
 
 void AnimationInfoGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
@@ -77,14 +83,24 @@ void AnimationInfoGUI::ShowActorList(GameEngineLevel* _Level)
 			if (CObjectNames[SelectActorIndex] == Monster->GetName())
 			{
 				SelectActor = Monster.get();
-				AnimationNames.clear();
-				CAnimationNames.clear();
-				BoneNames.clear();
-				CBoneNames.clear();
-				SelectAnimation = nullptr;
+				ActorChange();
 			}
 		}
 	}
+}
+
+void AnimationInfoGUI::ActorChange()
+{
+	for (std::shared_ptr<EventTree>& Tree : EventTrees)
+	{
+		Tree->ChangeActor();
+	}
+
+	AnimationNames.clear();
+	CAnimationNames.clear();
+	BoneNames.clear();
+	CBoneNames.clear();
+	SelectAnimation = nullptr;
 }
 
 void AnimationInfoGUI::TransformEditor()
@@ -226,24 +242,67 @@ void AnimationInfoGUI::EventEditor(GameEngineLevel* _Level, float _DeltaTime)
 		}
 
 		std::string_view AniName = SelectAnimation->Aniamtion->GetName();
-		int Frame = static_cast<int>(SelectAnimation->End + 1);
 
 		GameEnginePath EventPath = GameEnginePath(Path);
 		EventPath.MoveChild(AniName);
 		EventPath.ChangeExtension(FrameEventHelper::GetExtName());
 
-		SelectAnimation->EventHelper = FrameEventHelper::CreateTempRes(EventPath.GetStringPath(), Frame).get();
+		SelectAnimation->EventHelper = FrameEventHelper::CreateTempRes(EventPath.GetStringPath(), SelectAnimation.get()).get();
 	}
 
 	ImGui::Separator();
 
-	for (const std::shared_ptr<EventTree>& Tree : EventTrees)
+	if (ImGui::TreeNode("Frame Event Editor"))
 	{
-		if (ImGui::TreeNode(Tree->GetName().c_str()))
+		for (const std::shared_ptr<EventTree>& Tree : EventTrees)
 		{
-			Tree->OnGUI(_Level, _DeltaTime);
-			ImGui::TreePop();
+			if (ImGui::TreeNode(Tree->GetName().c_str()))
+			{
+				Tree->OnGUI(_Level, _DeltaTime);
+				ImGui::TreePop();
+			}
 		}
+
+		ImGui::TreePop();
+	}
+}
+
+void TotalEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
+{
+	FrameEventHelper* EventHelper = Parent->SelectAnimation->EventHelper;
+	std::map<int, std::list<std::shared_ptr<FrameEventObject>>>& AllEvents = EventHelper->GetAllEvents();
+	if (AllEvents.empty())
+	{
+		return;
+	}
+
+	if (ImGui::Button("Save Data"))
+	{
+		EventHelper->SaveFile();
+	}
+
+	ImGui::Text("Erase Event");
+
+	std::shared_ptr<FrameEventObject> SelectObject;
+
+	int Cnt = 0;
+	for (std::pair<const int, std::list<std::shared_ptr<FrameEventObject>>>& Pair : AllEvents)
+	{
+		std::list<std::shared_ptr<FrameEventObject>>& EventGroup = Pair.second;
+		for (const std::shared_ptr<FrameEventObject>& Object : EventGroup)
+		{
+			++Cnt;
+			std::string EventName = std::string("Frame:") + std::to_string(Object->GetFrame()) + " " + Object->GetTypeString();
+			if (ImGui::Button(EventName.c_str()))
+			{
+				SelectObject = Object;
+			}
+		}
+	}
+
+	if (nullptr != SelectObject)
+	{
+		EventHelper->PopEvent(SelectObject);
 	}
 }
 
@@ -278,48 +337,73 @@ void SoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 
 	ImGui::SliderInt("Start Frame", &SelectStartFrame, Parent->SelectAnimation->Start, Parent->SelectAnimation->End);
 	ImGui::Combo("SoundList", &SelectSoundItem, &CSoundFileList[0], static_cast<int>(CSoundFileList.size()));
-	//if (ImGui::Button("CreateEvent"))
-	//{
-	//	int Frame = SelectStartFrame;
-	//	std::string ScrFileName = CSoundFileList[SelectSoundItem];
-	//	EventHelper->CreateSoundEvent(Frame, ScrFileName);
-	//}
+
 	if (ImGui::Button("CreateEvent"))
 	{
 		std::string ScrFileName = CSoundFileList[SelectSoundItem];
 		std::shared_ptr<SoundFrameEvent> SEvent = SoundFrameEvent::CreateEventObject(SelectStartFrame, ScrFileName);
 		EventHelper->SetEvent(SEvent);
 	}
+}
 
-	ImGui::SameLine();
-
-	if (ImGui::Button("Save Data"))
+void CollisionEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
+{
+	if (CColNames.empty())
 	{
-		EventHelper->SaveFile();
-	}
+		std::map<int, std::shared_ptr<BoneSocketCollision>>& Collisions = Parent->SelectActor->GetCollisions();
+		size_t Size = Collisions.size();
+		ColNames.reserve(Size);
+		CColNames.reserve(Size);
 
-	ImGui::Separator();
+		int Cnt = 0;
 
-	std::list<std::shared_ptr<FrameEventObject>>& SEventGroup = EventHelper->GetEventGroup(Enum_FrameEventType::Sound);
-	if (SEventGroup.empty())
-	{
-		return;
-	}
-
-	std::shared_ptr<FrameEventObject> SelectObject;
-
-	int Cnt = 0;
-	for (const std::shared_ptr<FrameEventObject>& Object : SEventGroup)
-	{
-		++Cnt;
-		std::string EventName = std::to_string(Cnt) + ". Frame: " + std::to_string(Object->GetFrame());
-		if (ImGui::Button(EventName.c_str()))
+		for (std::pair<const int, std::shared_ptr<BoneSocketCollision>>& Pair : Collisions)
 		{
-			SelectObject = Object;
+			ColNames.push_back(Pair.second->GetName());
+			CColNames.push_back(ColNames[Cnt].c_str());
+			++Cnt;
 		}
 	}
-	if (nullptr != SelectObject)
+
+	static std::vector<int> SelectFrames;
+	if (SelectFrames.empty())
 	{
-		EventHelper->PopEvent(SelectObject);
+		SelectFrames.resize(2);
 	}
+
+	static int SelectCol = 0;
+
+	int StartFrame = static_cast<int>(Parent->SelectAnimation->Start);
+	int EndFrame = static_cast<int>(Parent->SelectAnimation->End);
+
+	ImGui::SliderInt2("Start To End Frame", &SelectFrames[0], StartFrame, EndFrame);
+	ImGui::Combo("Collision List", &SelectCol, &CColNames[0], static_cast<int>(CColNames.size()));
+
+	if (ImGui::Button("Create Event"))
+	{
+		bool IsCreatable = (SelectFrames[0] < SelectFrames[1]);
+		if (IsCreatable)
+		{
+			std::map<int, std::shared_ptr<BoneSocketCollision>>& Collisions = Parent->SelectActor->GetCollisions();
+			for (std::pair<const int, std::shared_ptr<BoneSocketCollision>>& Pair : Collisions)
+			{
+				if (CColNames[SelectCol] == Pair.second->GetName())
+				{
+					FrameEventHelper* EventHelper = Parent->SelectAnimation->EventHelper;
+					std::shared_ptr<CollisionUpdateFrameEvent> CEvent = CollisionUpdateFrameEvent::CreateEventObject(SelectFrames[0], SelectFrames[1], Pair.second);
+					EventHelper->SetEvent(CEvent);
+				}
+			}
+		}
+		else
+		{
+			OutputDebugStringA("시작 프레임이 끝 프레임보다 크거나 같으면 이벤트를 생성할 수 없습니다.");
+		}
+	}
+}
+
+void CollisionEventTree::ChangeActor()
+{
+	CColNames.clear();
+	CColNames.clear();
 }

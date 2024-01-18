@@ -31,7 +31,7 @@ struct RenderBaseInfo
 	int Target6 = 0;
 	int Target7 = 0;
 	int IsLight = 1;
-	int IsNormal = 0;
+	int IsNormal = 1;
 	int Temp1 = 0;
 	int Temp2 = 0;
 };
