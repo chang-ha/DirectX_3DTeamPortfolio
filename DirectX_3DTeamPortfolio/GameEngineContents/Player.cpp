@@ -24,7 +24,7 @@ void Player::Start()
 	FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
 	FBXRenderer->SetFBXMesh("c0010.FBX", "FBXAnimationTexture"); // Bone 136
 	FBXRenderer->Transform.SetLocalScale({ 400.0f, 400.0f, 400.0f });
-	//FBXRenderer->Transform.SetLocalPosition({ 0.0f, -300.0f, 0.0f });
+	FBXRenderer->Transform.SetLocalPosition({ 0.0f, -300.0f, 0.0f });
 	FBXRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
 	//	FBXRenderer->CreateFBXAnimation("Idle", "c0000.FBX", { 0.1f, true });
 	FBXRenderer->CreateFBXAnimation("Idle", "00000.FBX", { Frame, true });
@@ -81,9 +81,9 @@ void Player::Start()
 	FBXRenderer->CreateFBXAnimation("Parrying_Attack", "030400.FBX", { Frame, true });
 	FBXRenderer->CreateFBXAnimation("DownAttack", "030810.FBX", { Frame, true });
 	FBXRenderer->CreateFBXAnimation("Parrying", "032100.FBX", { Frame, true });
-	FBXRenderer->CreateFBXAnimation("Portion_Drink_01", "050110.FBX", { Frame, true });
-	FBXRenderer->CreateFBXAnimation("Portion_Drink_02", "050111.FBX", { Frame, true });
-	FBXRenderer->CreateFBXAnimation("Portion_Drink_03", "050112.FBX", { Frame, true });
+	FBXRenderer->CreateFBXAnimation("Portion_Drink_01", "050110.FBX", { Frame, false });
+	FBXRenderer->CreateFBXAnimation("Portion_Drink_02", "050111.FBX", { Frame, false });
+	FBXRenderer->CreateFBXAnimation("Portion_Drink_03", "050112.FBX", { Frame, false });
 	FBXRenderer->CreateFBXAnimation("Sit_Down", "068010.FBX", { Frame, true });
 	FBXRenderer->CreateFBXAnimation("Stand_Up", "068012.FBX", { Frame, true });
 

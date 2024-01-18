@@ -17,7 +17,11 @@ enum class PlayerState
 	Attack_01,
 	Attack_02,
 	Attack_03,
-	Attack_04
+	Attack_04,
+	Portion_01, 
+	Portion_02,
+	Portion_03,
+	Portion_04, 
 };
 
 // Ό³Έν :
@@ -50,7 +54,7 @@ private:
 	bool TimeCheck = false;
 	bool Attack_Check = false;
 	float Time = 0.0f;
-	float Speed = 0.0f;
+	float Speed = 10.0f;
 	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer;
 	std::shared_ptr<GameEnginePhysXCapsule> Capsule;
 	std::shared_ptr<GameEngineCollision> Col;
