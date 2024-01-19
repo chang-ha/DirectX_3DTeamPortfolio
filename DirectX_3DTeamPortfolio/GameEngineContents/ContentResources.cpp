@@ -152,4 +152,13 @@ void ContentResources::ContentResourcesInit()
 			GameEngineSound::SoundLoad(pFile.GetStringPath());
 		}
 	}
+
+	//Defferd
+
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("ContentsDeferredRender");
+		Mat->SetVertexShader("ContentsDeferredRender_VS");
+		Mat->SetPixelShader("ContentsDeferredRender_PS");
+	}
 }

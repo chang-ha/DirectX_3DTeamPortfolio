@@ -129,7 +129,7 @@ bool GameEngineShader::AutoCompile(GameEngineFile& _File)
 			std::string_view EntryName = ShaderCode.substr(FirstIndex + 1, EntryIndex - FirstIndex + 2);
 			std::shared_ptr<GameEnginePixelShader> Shader = GameEnginePixelShader::Load(_File.GetStringPath(), EntryName);
 
-			size_t EntryIndex = ShaderCode.find("struct DeferrdOut");
+			size_t EntryIndex = ShaderCode.find("DeferrdOut");
 			// 못찾았을때 나옵니다.
 			if (EntryIndex != std::string::npos)
 			{

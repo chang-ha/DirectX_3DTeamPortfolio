@@ -54,16 +54,12 @@ void Mesh_VS_Update(inout GameEngineVertex3D _Input,inout PixelOutPut Result)
 }
 
 
-struct PixelOut
+struct DeferrdOut
 {
-    float4 Color0 : SV_Target0;
-    float4 Color1 : SV_Target1;
-    float4 Color2 : SV_Target1;
-    float4 Color3 : SV_Target1;
-    float4 Color4 : SV_Target1;
-    float4 Color5 : SV_Target1;
-    float4 Color6 : SV_Target1;
-    float4 Color7 : SV_Target1;
+    float4 DifColor : SV_Target1;
+    float4 PosColor : SV_Target2;
+    float4 NorColor : SV_Target3;
+    float4 SpcColor : SV_Target4;
 };
 
 
@@ -75,87 +71,36 @@ SamplerState NormalTextureSAMPLER : register(s2);
 Texture2D SpecularTexture : register(t3);
 SamplerState SpecularTextureSAMPLER : register(s3);
 
-void Mesh_PS_Update(inout PixelOutPut _Input, inout PixelOut _Result)
+void Mesh_PS_Update(inout PixelOutPut _Input, inout DeferrdOut _Result)
 {
     //PixelOut Result = (PixelOut) 0.0f;
     float4 Color = DiffuseTexture.Sample(DiffuseTextureSampler, _Input.TEXCOORD.xy);
+    
+    float3 SpecularColor = SpecularTexture.Sample(SpecularTextureSAMPLER, _Input.TEXCOORD.xy).rgb;
     
     if (0.0f >= Color.a)
     {
         clip(-1);
     }
+     
+    Color.w = 1.0f;
     
-    float3 SpecularColor = SpecularTexture.Sample(SpecularTextureSAMPLER, _Input.TEXCOORD.xy).rgb;
+    _Result.DifColor = Color;
+    _Result.PosColor = _Input.VIEWPOSITION;
+    _Result.SpcColor = float4(SpecularColor, 1.0f);
+    
     
     if (0 != IsNormal)
     {
-        _Input.VIEWNORMAL = -NormalTexCalculate(NormalTexture, NormalTextureSAMPLER, _Input.TEXCOORD, _Input.VIEWTANGENT, _Input.VIEWBINORMAL, _Input.VIEWNORMAL);
+        _Result.NorColor = -NormalTexCalculate(NormalTexture, NormalTextureSAMPLER, _Input.TEXCOORD, _Input.VIEWTANGENT, _Input.VIEWBINORMAL, _Input.VIEWNORMAL);
     }
-    
-    
-    
-    float4 DiffuseRatio = (float4) 0.0f;
-    float4 SpacularRatio = (float4) 0.0f;
-    float4 AmbientRatio = (float4) 0.0f;
-    
-    if (1 == IsLight)
+    else
     {
-        float constantAttenuation = 1.0f;
-        float linearAttenuation = 0.0014;
-        float quadraticAttenuation = 0.000007;
-        
-        for (int i = 0; i < LightCount; ++i)
-        {
-            float LightPower = 1.0f;
-            
-            
-            if (0 != AllLight[i].LightType)
-            {
-                float Distance = length(AllLight[i].ViewLightPos.xyz - _Input.VIEWPOSITION.xyz);
-                
-                float attenuation = 1.0 / (constantAttenuation + linearAttenuation * Distance + quadraticAttenuation * Distance * Distance);
-            
-                //float FallOffStart = AllLight[i].PointLightRange * 0.2f;
-                //float FallOffEnd = AllLight[i].PointLightRange;
-                        
-                LightPower = attenuation;
-            }
-            
-            //float3 diffuse = max(dot(normalize(input.NormalWS), normalize(toLight)), 0.0) * materialDiffuse.rgb * lightIntensity;
-            //float3 specular = /* ...specular calculation... */;
-
-            //float3 finalColor = ambient + diffuse + specular;
-            
-            if (0.0f < LightPower)
-            {
-                
-                DiffuseRatio += CalDiffuseLightContents(_Input.VIEWNORMAL, _Input.VIEWPOSITION, AllLight[i]) * LightPower;
-                //SpacularRatio += CalSpacularLight(_Input.VIEWPOSITION, _Input.VIEWNORMAL, AllLight[i]) * LightPower;
-                SpacularRatio += CalSpacularLightContents(_Input.VIEWPOSITION, _Input.VIEWNORMAL, AllLight[i], SpecularColor) * LightPower;
-                AmbientRatio += CalAmbientLight(AllLight[i]) * LightPower;
-            }
-        }
-        
-        float A = Color.w;
-        Color.xyz = Color.xyz * (DiffuseRatio.xyz + SpacularRatio.xyz + AmbientRatio.xyz);
-        Color.a = A;
+        _Result.NorColor = _Input.VIEWNORMAL;
     }
     
     
-    if (0 < Target0)
-    {
-        _Result.Color0 = Color;
-    }
-    if (0 < Target1)
-    {
-        _Result.Color1 = Color;
-    }
-    if (0 < Target2)
-    {
-        _Result.Color2 = Color;
-    }
-    if (0 < Target3)
-    {
-        _Result.Color3 = Color;
-    }
+   
+    _Result.NorColor.w = 1.0f;
+    
 }

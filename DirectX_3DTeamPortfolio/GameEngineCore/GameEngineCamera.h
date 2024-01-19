@@ -127,6 +127,11 @@ public:
 	{
 		return DeferredTarget;
 	}
+	
+	std::shared_ptr<class GameEngineRenderTarget> GetCameraHBAOTarget()
+	{
+		return HBAO.HBAOTarget;
+	}
 
 	void SetFar(float _Far)
 	{
@@ -216,7 +221,7 @@ private:
 	// 포워드의 최종 결과물
 	std::shared_ptr<class GameEngineRenderTarget> ForwardTarget;
 
-	GameEngineAO AO;
+	GameEngineAO HBAO;
 
 	GameEngineRenderUnit DeferredRenderUnit;
 	// 디퍼드의 빛 결과물

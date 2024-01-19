@@ -10,7 +10,7 @@ float4 CalSpacularLightContents(float4 _Pos, float4 _Normal, LightData _Data, fl
     float3 N = normalize(_Normal.xyz);
     //float3 L = normalize(_Data.ViewLightRevDir.xyz);
     
-    float3 L = (float4) 0;
+    float3 L = (float3) 0;
     
     if (0 == _Data.LightType)
     {
@@ -30,9 +30,13 @@ float4 CalSpacularLightContents(float4 _Pos, float4 _Normal, LightData _Data, fl
     
     float Result = max(0.0f, dot(ReflectionN.xyz, EyeL.xyz));
     
-    float SpecIntensity = pow(Result, _Data.SpcPow);
+    ResultRatio.xyzw = pow(Result, _Data.SpcPow);
+    
+    ResultRatio.xyz *= _SpecColor;
+    //ResultRatio.w = 1.0f;
+   // float SpecIntensity = pow(Result, _Data.SpcPow);
    
-    ResultRatio = float4(SpecIntensity * _SpecColor, 1.0f);
+    //ResultRatio = float4(SpecIntensity * _SpecColor, 1.0f);
     
     return ResultRatio * _Data.SpcLightPower;
 }

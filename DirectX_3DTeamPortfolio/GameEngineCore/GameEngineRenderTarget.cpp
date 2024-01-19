@@ -41,7 +41,7 @@ void GameEngineRenderTarget::Clear()
 
 	if (nullptr != DSV)
 	{
-		GameEngineCore::GetContext()->ClearDepthStencilView(DSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+		GameEngineCore::GetContext()->ClearDepthStencilView(DSV, D3D11_CLEAR_DEPTH , 1.0f, 0);
 	}
 }
 

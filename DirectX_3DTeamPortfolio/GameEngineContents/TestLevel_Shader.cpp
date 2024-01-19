@@ -40,6 +40,7 @@ void TestLevel_Shader::Start()
 		CoreWindow->AddDebugRenderTarget(0, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
 		CoreWindow->AddDebugRenderTarget(1, "ForwardTarget", GetMainCamera()->GetCameraForwardTarget());
 		CoreWindow->AddDebugRenderTarget(2, "DeferredTarget", GetMainCamera()->GetCameraDeferredTarget());
+		CoreWindow->AddDebugRenderTarget(3, "HBAO", GetMainCamera()->GetCameraHBAOTarget());
 	}
 
 
@@ -73,18 +74,35 @@ void TestLevel_Shader::Start()
 
 	{
 		Test_Light1 = CreateActor<ContentsLight>(static_cast<int>(Enum_UpdateOrder::Light),"MainLight");
-		Test_Light1->SetLightType(Enum_LightType::Point);
+		//Test_Light1->SetLightType(Enum_LightType::Point);
 		//Test_Light1->IsDebugValue = true;
 		LightData Data = Test_Light1->GetLightData();
 		Test_Light1->Transform.SetWorldRotation(float4{ 0.0f,0.0f, 0.0f });
 
-		Data.DifLightPower = 4.0f;
-		Data.SpcLightPower = 2.0f;
-		Data.SpcPow = 100.0f;
-		//Data.AmbientLight = float4(0.4f;
+		Data.DifLightPower = 1.0f;
+		Data.SpcLightPower = 1.0f;
+		Data.AmbientLight = float4::ONE * 0.1f;
+		Data.SpcPow = 10.0f;
 
 		Test_Light1->SetLightData(Data);
 	}
+
+
+	{
+		{
+			std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
+			std::shared_ptr<GameEngineRenderer> NewRenderer = Object->CreateComponent<GameEngineRenderer>();
+			NewRenderer->RenderBaseInfoValue.IsDiffuse = 0;
+			NewRenderer->SetMesh("Box");
+			NewRenderer->SetMaterial("FBX_Static");
+			// NewRenderer->GetShaderResHelper().SetTexture("NormalTexture", "BumpNormal.gif");
+			NewRenderer->Transform.SetLocalPosition({ 0.0f, -200.0f, 2000.0f });
+			NewRenderer->Transform.SetLocalScale({ 3000.0f, 100.0f, 3000.0f });
+			NewRenderer->Transform.SetLocalRotation({ -30.0f, 0.0f, 0.0f });
+			NewRenderer->RenderBaseInfoValue.BaseColor = float4::RED;
+		}
+	}
+
 }
 
 void TestLevel_Shader::Update(float _Delta)
@@ -135,6 +153,11 @@ void TestLevel_Shader::Update(float _Delta)
 	{
 		Test_Light1->Transform.AddLocalRotation(float4::DOWN * _Delta * MoveSpeed);
 		GetMainCamera()->Transform.AddLocalRotation(float4::DOWN * _Delta * MoveSpeed);
+	}
+
+	if (true == GameEngineInput::IsDown(VK_F7, this))
+	{
+		GameEngineGUI::AllWindowOff();
 	}
 
 }

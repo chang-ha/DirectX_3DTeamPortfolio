@@ -57,7 +57,7 @@ void GameEngineCamera::Start()
 
 
 	//¾Úºñ¾ğÆ® ¿ÀÅ§¸£Àü 
-	AO.Init(GameEngineCore::GetDevice());
+	HBAO.Init(GameEngineCore::GetDevice());
 
 	{
 		DeferredTarget = GameEngineRenderTarget::Create();
@@ -79,10 +79,11 @@ void GameEngineCamera::Start()
 
 
 		DeferredRenderUnit.SetMesh("FullRect");
-		DeferredRenderUnit.SetMaterial("DeferredRender");
+		DeferredRenderUnit.SetMaterial("ContentsDeferredRender");
 		DeferredRenderUnit.ShaderResHelper.SetTexture("DifColorTex", AllRenderTarget->GetTexture(1));
 		DeferredRenderUnit.ShaderResHelper.SetTexture("PositionTex", AllRenderTarget->GetTexture(2));
 		DeferredRenderUnit.ShaderResHelper.SetTexture("NormalTex", AllRenderTarget->GetTexture(3));
+		DeferredRenderUnit.ShaderResHelper.SetTexture("SpecularTex", AllRenderTarget->GetTexture(4));
 		DeferredRenderUnit.ShaderResHelper.SetSampler("POINTWRAP", "POINT");
 		DeferredRenderUnit.ShaderResHelper.SetConstantBufferLink("LightDatas", GetLevel()->LightDataObject);
 	}
@@ -272,11 +273,15 @@ void GameEngineCamera::Render(float _DeltaTime)
 			}
 		}
 
+		AllRenderTarget->RenderTargetReset();
+		if (ProjectionType == EPROJECTIONTYPE::Perspective)
+		{
+			HBAO.DrawHBAO(AllRenderTarget, Transform.GetConstTransformDataRef());
+		}
 		auto LightData = GetLevel()->LightDataObject;
 
 		DeferredRenderUnit.ShaderResHelper.SetConstantBufferLink("LightDatas", GetLevel()->LightDataObject);
 
-		AllRenderTarget->RenderTargetReset();
 		DeferredTarget->Clear();
 		DeferredTarget->Setting();
 		DeferredRenderUnit.Render();

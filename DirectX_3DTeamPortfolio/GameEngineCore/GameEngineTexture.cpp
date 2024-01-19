@@ -130,7 +130,7 @@ void GameEngineTexture::CreateDepthStencilView()
 	// 이미지를 수정할수 있는 권한을 '만든다'
 
 	D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc;
-	dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT; 
+	dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 	dsvDesc.Texture2D.MipSlice = 0;
 	dsvDesc.Flags = 0; // new in D3D11
@@ -266,7 +266,7 @@ void GameEngineTexture::ResCreate(const D3D11_TEXTURE2D_DESC& _Desc)
 	}
 
 	
-}
+} 
 
 GameEngineColor GameEngineTexture::GetColor(unsigned int _X, unsigned int _Y, GameEngineColor _DefaultColor)
 {
