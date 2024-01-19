@@ -90,6 +90,18 @@ protected:
 		MainRenderer->GetRenderUnits().at(static_cast<int>(_MeshIndex))[0]->OnOffSwitch();
 	}
 
+	template<typename EnumType>
+	void MeshOn(EnumType _MeshIndex)
+	{
+		MainRenderer->GetRenderUnits().at(static_cast<int>(_MeshIndex))[0]->On();
+	}
+
+	template<typename EnumType>
+	void MeshOff(EnumType _MeshIndex)
+	{
+		MainRenderer->GetRenderUnits().at(static_cast<int>(_MeshIndex))[0]->Off();
+	}
+
 	bool IsOnFlag(Enum_StatusFlag _Flag) const;
 	void SetFlag(Enum_StatusFlag _Flag, bool _Value);
 	void AddFlag(Enum_StatusFlag _Flag);

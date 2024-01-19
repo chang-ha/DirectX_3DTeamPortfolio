@@ -8,6 +8,8 @@ enum class Enum_Hollow_State
 	Pray3,
 	PrayToBeScared,
 	BeScared,
+	PrayToIdle,
+	Idle,
 	Hit,
 	Max,
 };
@@ -76,6 +78,12 @@ protected:
 
 	void State_BeScared_Start();
 	void State_BeScared_Update(float _Delta);
+
+	void State_PrayToIdle_Start();
+	void State_PrayToIdle_Update(float _Delta);
+
+	void State_Idle_Start();
+	void State_Idle_Update(float _Delta);
 
 	void State_Hit_Start();
 	//void State_TakeHit_Update(float _Delta);

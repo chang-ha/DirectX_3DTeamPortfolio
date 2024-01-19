@@ -23,6 +23,9 @@ void Monster_Hollow::Start()
 		MainRenderer->CreateFBXAnimation("c1100_Pray2", "c1100_Pray2.FBX", { 0.1f, true });
 		MainRenderer->CreateFBXAnimation("c1100_Pray3", "c1100_Pray3.FBX", { 0.1f, true });
 		MainRenderer->CreateFBXAnimation("c1100_BeScared", "c1100_BeScared.FBX", { 0.1f, true });
+		MainRenderer->CreateFBXAnimation("c1100_PrayToIdle1", "c1100_PrayToIdle1.FBX", { 0.1f, false });
+		MainRenderer->CreateFBXAnimation("c1100_PrayToIdle2", "c1100_PrayToIdle2.FBX", { 0.1f, false });
+		MainRenderer->CreateFBXAnimation("c1100_PrayToIdle3", "c1100_PrayToIdle3.FBX", { 0.1f, false });
 		MainRenderer->CreateFBXAnimation("c1100_RH_VerticalSlash", "c1100_RH_VerticalSlash.FBX", { 0.1f, true });
 		MainRenderer->CreateFBXAnimation("c1100_RH_HorizontalSlash", "c1100_RH_HorizontalSlash.FBX", { 0.1f, true });
 		MainRenderer->CreateFBXAnimation("c1100_RH_ChargingSting", "c1100_RH_ChargingSting.FBX", { 0.1f, true });
