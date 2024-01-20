@@ -84,6 +84,7 @@ void GameEngineCamera::Start()
 		DeferredRenderUnit.ShaderResHelper.SetTexture("PositionTex", AllRenderTarget->GetTexture(2));
 		DeferredRenderUnit.ShaderResHelper.SetTexture("NormalTex", AllRenderTarget->GetTexture(3));
 		DeferredRenderUnit.ShaderResHelper.SetTexture("SpecularTex", AllRenderTarget->GetTexture(4));
+		DeferredRenderUnit.ShaderResHelper.SetTexture("HBAOTex", HBAO.HBAOTarget->GetTexture());
 		DeferredRenderUnit.ShaderResHelper.SetSampler("POINTWRAP", "POINT");
 		DeferredRenderUnit.ShaderResHelper.SetConstantBufferLink("LightDatas", GetLevel()->LightDataObject);
 	}

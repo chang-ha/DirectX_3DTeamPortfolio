@@ -6,7 +6,7 @@
 
 
 
-GameEngineAO GameEngineAO::MainHBAO;
+HBAOInfos GameEngineAO::HBAOInfosValue;
 
 GameEngineAO::GameEngineAO() 
 {

@@ -225,6 +225,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="HBAOGUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="LightGUI.cpp">
       <SubType>
       </SubType>
@@ -370,6 +374,10 @@
     </ClInclude>
     <ClInclude Include="GameEngineNetWindow.h" />
     <ClInclude Include="GlobalValue.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="HBAOGUI.h">
       <SubType>
       </SubType>
     </ClInclude>

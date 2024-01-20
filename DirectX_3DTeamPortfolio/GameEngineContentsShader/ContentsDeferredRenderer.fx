@@ -26,6 +26,7 @@ Texture2D DifColorTex : register(t0);
 Texture2D PositionTex : register(t1);
 Texture2D NormalTex : register(t2);
 Texture2D SpecularTex : register(t3);
+Texture2D HBAOTex : register(t4); 
 SamplerState POINTWRAP : register(s0);
 
 struct DeferredRenderOutPut
@@ -34,7 +35,7 @@ struct DeferredRenderOutPut
     float4 DifColor : SV_Target1; // 알베도 색깔
     float4 DifLight : SV_Target2; // 나머지는 그 빛만
     float4 SpcLight : SV_Target3;
-    float4 AmbLight : SV_Target4;
+    float4 AmbLight : SV_Target4;  //HBAOlight
 };
 
 DeferredRenderOutPut ContentsDeferredRender_PS(PixelOutPut _Input)
@@ -45,6 +46,7 @@ DeferredRenderOutPut ContentsDeferredRender_PS(PixelOutPut _Input)
     float4 Pos = PositionTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     float4 Normal = NormalTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
 	float3 SpecularColor = SpecularTex.Sample(POINTWRAP, _Input.TEXCOORD.xy).rgb;
+    float3 HBAOTexColor = HBAOTex.Sample(POINTWRAP, _Input.TEXCOORD.xy).rgb;
 
     if (0.0f >= Color.a)
     {
@@ -90,13 +92,16 @@ DeferredRenderOutPut ContentsDeferredRender_PS(PixelOutPut _Input)
     
     
 	Result.DifColor = Color;
+	Result.DifColor.w = 1.0f;
 	Result.DifLight = DiffuseRatio;
-	Result.DifLight.w = 1.;
+    Result.DifLight.w = 1.0f;
 	Result.SpcLight = CalSpacularLightContents(Pos, Normal, AllLight[0], SpecularColor);
-	Result.AmbLight = AmbientRatio;
+    //Result.AmbLight.xyz = Result.DifColor.xyz * (DiffuseRatio.xyz + SpacularRatio.xyz + AmbientRatio.xyz);
+    Result.AmbLight.xyz = HBAOTexColor;
+    Result.AmbLight.w = 1.0f;
 
 	//float A = Result.DifColor.w;
-	Result.DeferredColor.xyz = Result.DifColor.xyz * (DiffuseRatio.xyz + SpacularRatio.xyz + AmbientRatio.xyz);
+    Result.DeferredColor.xyz = (Result.DifColor.xyz * (DiffuseRatio.xyz + SpacularRatio.xyz + AmbientRatio.xyz)) * HBAOTexColor;
 	Result.DeferredColor.a = 1.0f;
     
 	

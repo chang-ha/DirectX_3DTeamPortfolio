@@ -149,6 +149,9 @@
     <ClCompile Include="LightGUI.cpp">
       <Filter>ImGui\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="HBAOGUI.cpp">
+      <Filter>ImGui\Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -291,6 +294,9 @@
       <Filter>ImGui\Editor</Filter>
     </ClInclude>
     <ClInclude Include="AnimationInfoGUI.h">
+      <Filter>ImGui\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="HBAOGUI.h">
       <Filter>ImGui\Editor</Filter>
     </ClInclude>
   </ItemGroup>
