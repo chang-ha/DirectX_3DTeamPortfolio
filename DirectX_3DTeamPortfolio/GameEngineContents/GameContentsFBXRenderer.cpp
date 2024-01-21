@@ -9,7 +9,7 @@ void GameContentsFBXAnimationInfo::Reset()
 	PlayTime = 0.0f;
 	bOnceStart = false;
 	IsEnd = false;
-	
+
 
 	if (nullptr != EventHelper)
 	{
@@ -20,7 +20,7 @@ void GameContentsFBXAnimationInfo::Reset()
 void GameContentsFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index)
 {
 	_Animation->AnimationMatrixLoad(_Mesh, _Name, _Index);
-	Aniamtion = _Animation; 
+	Aniamtion = _Animation;
 	FBXAnimationData = Aniamtion->GetAnimationData(_Index);
 	Start = static_cast<UINT>(FBXAnimationData->TimeStartCount);
 	End = static_cast<UINT>(FBXAnimationData->TimeEndCount);
@@ -72,56 +72,56 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 	CurFrameTime += _DeltaTime;
 	PlayTime += _DeltaTime;
 
-		if (true == RootMotion && nullptr != ParentRenderer->RootMotionComponent)
+	if (true == RootMotion && nullptr != ParentRenderer->RootMotionComponent)
+	{
+		ParentRenderer->RootMotionComponent->ResetMove(Enum_Axies::All);
+	}
+
+	while (CurFrameTime >= Inter)
+	{
+		//   2.0         0.1
+		CurFrameTime -= Inter;
+		++CurFrame;
+
+		if (false == bOnceStart && CurFrame == 0)
 		{
-			ParentRenderer->RootMotionComponent->ResetMove(Enum_Axies::All);
+			bOnceStart = true;
+			bOnceEnd = false;
 		}
 
-		while (CurFrameTime >= Inter)
+		// Root Motion
+		if (true == RootMotion && nullptr != ParentRenderer->RootMotionComponent)
 		{
-			//   2.0         0.1
-			CurFrameTime -= Inter;
-			++CurFrame;
-
-			if (false == bOnceStart && CurFrame == 0)
+			int PrevFrame = CurFrame - 1;
+			if (1 == CurFrame)
 			{
-				bOnceStart = true;
-				bOnceEnd = false;
+				RootMotion_StartDir = ParentRenderer->RootMotionComponent->GetDir();
 			}
 
-			// Root Motion
-			if (true == RootMotion && nullptr != ParentRenderer->RootMotionComponent)
+			if (0 == CurFrame)
 			{
-				int PrevFrame = CurFrame - 1;
-				if (1 == CurFrame)
-				{
-					RootMotion_StartDir = ParentRenderer->RootMotionComponent->GetDir();
-				}
-
-				if (0 == CurFrame)
-				{
-					MsgBoxAssert("우창하에게 알려주세요....");
-				}
-
-				float4 MotionVector = RootMotionFrames[CurFrame] - RootMotionFrames[PrevFrame];
-				MotionVector.X *= 10000.f;
-				MotionVector.Y *= 10000.f;
-				MotionVector.Z *= 10000.f;
-				MotionVector.W = RootMotionFrames[CurFrame].W - RootMotionFrames[PrevFrame].W;
-				ParentRenderer->RootMotionComponent->AddWorldRotation(float4(0.f, MotionVector.W * GameEngineMath::R2D, 0.f, 0.f));
-				switch (RootMotionMode)
-				{
-				case Enum_RootMotionMode::StartDir:
-					ParentRenderer->RootMotionComponent->MoveForce(MotionVector, RootMotion_StartDir, true);
-					break;
-				case Enum_RootMotionMode::RealTimeDir:
-					ParentRenderer->RootMotionComponent->MoveForce(MotionVector, true);
-					break;
-				default:
-					MsgBoxAssert("존재하지 않는 루트모션 모드입니다.");
-					break;
-				}
+				MsgBoxAssert("우창하에게 알려주세요....");
 			}
+
+			float4 MotionVector = RootMotionFrames[CurFrame] - RootMotionFrames[PrevFrame];
+			MotionVector.X *= 10000.f;
+			MotionVector.Y *= 10000.f;
+			MotionVector.Z *= 10000.f;
+			MotionVector.W = RootMotionFrames[CurFrame].W - RootMotionFrames[PrevFrame].W;
+			ParentRenderer->RootMotionComponent->AddWorldRotation(float4(0.f, MotionVector.W * GameEngineMath::R2D, 0.f, 0.f));
+			switch (RootMotionMode)
+			{
+			case Enum_RootMotionMode::StartDir:
+				ParentRenderer->RootMotionComponent->MoveForce(MotionVector, RootMotion_StartDir, true);
+				break;
+			case Enum_RootMotionMode::RealTimeDir:
+				ParentRenderer->RootMotionComponent->MoveForce(MotionVector, true);
+				break;
+			default:
+				MsgBoxAssert("존재하지 않는 루트모션 모드입니다.");
+				break;
+			}
+		}
 
 		bool DoneCheck = false;
 
@@ -177,7 +177,7 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 			AnimationBoneMatrix[i] = float4x4::Affine(BoneData->BonePos.GlobalScale, BoneData->BonePos.GlobalRotation, BoneData->BonePos.GlobalRotation);
 			continue;
 		}
-		
+
 
 		FbxExBoneFrameData& CurData = FBXAnimationData->AniFrameData[i].BoneMatData[CurFrame];
 		FbxExBoneFrameData& NextData = FBXAnimationData->AniFrameData[i].BoneMatData[NextFrame];
@@ -362,7 +362,7 @@ std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetFBXMesh(std::s
 
 		if (nullptr == GameEngineTexture::Find(MatData.DifTextureName))
 		{
- 			GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
+			GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
 			std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.DifTextureName;
 			GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
 		}
@@ -743,7 +743,7 @@ void GameContentsFBXRenderer::SetRootMotion(std::string_view _AniName, std::stri
 
 	File.Open(FileOpenType::Read, FileDataType::Text);
 
-	GameEngineSerializer Serial;	
+	GameEngineSerializer Serial;
 	File.DataAllRead(Serial);
 
 	std::string DataString = Serial.GetDataPtr<const char*>();
@@ -767,7 +767,7 @@ void GameContentsFBXRenderer::SetRootMotion(std::string_view _AniName, std::stri
 	}
 
 	size_t VectorStart = DataString.find("(", NumEndIndex);
-	
+
 	AniInfo->RootMotionFrames.reserve(FrameCount);
 
 	size_t ValueStart = VectorStart + 1;
