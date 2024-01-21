@@ -1,7 +1,11 @@
 #pragma once
 #include <GameEngineCore/GameEngineRenderer.h>
 
-
+enum class Enum_RootMotionMode
+{
+	StartDir,
+	RealTimeDir,
+};
 
 class FbxExAniData;
 class FrameEventHelper;
@@ -35,14 +39,11 @@ public:
 	bool bOnceEnd = true;
 	bool Loop = true;
 	bool IsEnd = false;
+
+	// RootMotion
 	bool RootMotion = false;
 	float RootMotion_StartDir = 0.f;
-
-	float BlendIn = 0.2f;
-
-	void Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index);
-	void Reset();
-	void Update(float _DeltaTime);
+	Enum_RootMotionMode RootMotionMode = Enum_RootMotionMode::StartDir;
 
 	inline void RootMotionOn()
 	{
@@ -53,6 +54,12 @@ public:
 	{
 		RootMotion = false;
 	}
+
+	float BlendIn = 0.2f;
+
+	void Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index);
+	void Reset();
+	void Update(float _DeltaTime);
 
 public:
 	GameContentsFBXAnimationInfo()
@@ -138,7 +145,8 @@ public:
 		RootMotionComponent = _RootMotionComponent;
 	}
 
-	void SetRootMotion(std::string_view _AniName, std::string_view _FileName = "", bool _RootMotion = true);
+	void SetRootMotion(std::string_view _AniName, std::string_view _FileName = "", Enum_RootMotionMode _Mode = Enum_RootMotionMode::StartDir, bool _RootMotion = true);
+	void SetRootMotionMode(std::string_view _AniName, Enum_RootMotionMode _Mode);
 
 protected:
 	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> RenderUnits;

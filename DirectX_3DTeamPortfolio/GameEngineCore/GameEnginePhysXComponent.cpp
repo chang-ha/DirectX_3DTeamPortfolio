@@ -46,6 +46,14 @@ void GameEnginePhysXComponent::Release()
 
 }
 
+/*
+physx::PxForceMode
+eFORCE == unit of mass * distance/ time^2, i.e. a force
+eIMPULSE  == unit of mass * distance /time
+eVELOCITY_CHANGE  == unit of distance / time, i.e. the effect is mass independent: a velocity change. // ignore mass
+eACCELERATION  == unit of distance/ time^2, i.e. an acceleration. It gets treated just like a force except the mass is not divided out before integration.
+*/
+
 void GameEnginePhysXComponent::MoveForce(const physx::PxVec3 _Force, bool _IgnoreGravity/* = false*/)
 {
 	physx::PxVec3 CurLV = physx::PxVec3({ 0.0f });
@@ -117,4 +125,27 @@ void GameEnginePhysXComponent::AddWorldRotation(const float4& _Degree)
 	Quat = physx::PxQuat(WorldDeg.X, WorldDeg.Y, WorldDeg.Z, WorldDeg.W);
 	Transform.q = Quat;
 	ComponentActor->setGlobalPose(Transform);
+}
+
+void GameEnginePhysXComponent::ResetMove(int _Axies)
+{
+	physx::PxVec3 CurLV = ComponentActor->getLinearVelocity();
+
+	if (Enum_Axies::X & _Axies)
+	{
+		CurLV.x = 0.0f;
+	}
+
+	if (Enum_Axies::Y & _Axies)
+	{
+		CurLV.y = 0.0f;
+	}
+
+	if (Enum_Axies::Z & _Axies)
+	{
+		CurLV.z = 0.0f;
+	}
+
+	ComponentActor->setLinearVelocity({ CurLV.x, CurLV.y, CurLV.z });
+	// ComponentActor->clearForce(physx::PxForceMode::eFORCE);
 }

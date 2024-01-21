@@ -22,7 +22,7 @@ public:
 	GameEnginePhysXComponent& operator=(const GameEnginePhysXComponent& _Other) = delete;
 	GameEnginePhysXComponent& operator=(GameEnginePhysXComponent&& _Other) noexcept = delete;
 
-	void MoveForce(const float4 _Force, float _Dir, bool _IgnoreGravity = false)
+	void MoveForce(const float4& _Force, float _Dir, bool _IgnoreGravity = false)
 	{
 		float4 Force = _Force;
 		Force.VectorRotationToDegY(_Dir);
@@ -30,7 +30,7 @@ public:
 		MoveForce(Value, _IgnoreGravity);
 	}
 
-	void MoveForce(const float4 _Force, bool _IgnoreGravity = false)
+	void MoveForce(const float4& _Force, bool _IgnoreGravity = false)
 	{
 		float4 Force = _Force;
 		Force.VectorRotationToDegY(Dir);
@@ -40,7 +40,7 @@ public:
 
 	void MoveForce(const physx::PxVec3 _Force, bool _IgnoreGravity = false);
 
-	void AddForce(const float4 _Force)
+	void AddForce(const float4& _Force)
 	{
 		physx::PxVec3 Value = physx::PxVec3(_Force.X, _Force.Y, _Force.Z);
 		AddForce(Value);
@@ -87,6 +87,13 @@ public:
 	{
 		return Dir;
 	}
+
+	void ResetMove(Enum_Axies _Axies)
+	{
+		ResetMove(static_cast<int>(_Axies));
+	}
+
+	void ResetMove(int _Axies);
 
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;

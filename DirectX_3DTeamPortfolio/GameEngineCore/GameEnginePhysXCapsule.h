@@ -16,13 +16,6 @@ public:
 
 	void PhysXComponentInit(float _Radius, float _HalfHeight, const physx::PxMaterial* _Material = GameEnginePhysX::GetDefaultMaterial());
 
-	void ResetMove(Enum_Axies _Axies)
-	{
-		ResetMove(static_cast<int>(_Axies));
-	}
-
-	void ResetMove(int _Axies);
-
 	physx::PxVec3 GetLinearVelocity()
 	{
 		return ComponentActor->getLinearVelocity();
