@@ -65,6 +65,11 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 		CurFrameTime += _DeltaTime;
 		PlayTime += _DeltaTime;
 
+		if (true == RootMotion && nullptr != ParentRenderer->RootMotionComponent)
+		{
+			ParentRenderer->RootMotionComponent->ResetMove(Enum_Axies::All);
+		}
+
 		while (CurFrameTime >= Inter)
 		{
 			//   2.0         0.1
@@ -97,7 +102,18 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 				MotionVector.Z *= 10000.f;
 				MotionVector.W = RootMotionFrames[CurFrame].W - RootMotionFrames[PrevFrame].W;
 				ParentRenderer->RootMotionComponent->AddWorldRotation(float4(0.f, MotionVector.W * GameEngineMath::R2D, 0.f, 0.f));
-				ParentRenderer->RootMotionComponent->MoveForce(MotionVector, RootMotion_StartDir, true);
+				switch (RootMotionMode)
+				{
+				case Enum_RootMotionMode::StartDir:
+					ParentRenderer->RootMotionComponent->MoveForce(MotionVector, RootMotion_StartDir, true);
+					break;
+				case Enum_RootMotionMode::RealTimeDir:
+					ParentRenderer->RootMotionComponent->MoveForce(MotionVector, true);
+					break;
+				default:
+					MsgBoxAssert("존재하지 않는 루트모션 모드입니다.");
+					break;
+				}
 			}
 
 			if (CurFrame >= End)
@@ -692,7 +708,7 @@ void GameContentsFBXRenderer::BlendReset()
 	BlendBoneMatrixs.clear();
 }
 
-void GameContentsFBXRenderer::SetRootMotion(std::string_view _AniName, std::string_view _FileName, bool _RootMotion)
+void GameContentsFBXRenderer::SetRootMotion(std::string_view _AniName, std::string_view _FileName, Enum_RootMotionMode _Mode, bool _RootMotion)
 {
 	// 추후 직렬화로 자체포멧 추가 예정
 
@@ -703,8 +719,7 @@ void GameContentsFBXRenderer::SetRootMotion(std::string_view _AniName, std::stri
 	}
 
 	GameEngineFile File;
-	std::shared_ptr<GameContentsFBXAnimationInfo> AniInfo = nullptr;
-	AniInfo = Animations[UpperName];
+	std::shared_ptr<GameContentsFBXAnimationInfo> AniInfo = Animations[UpperName];
 	File = GameEngineFile(AniInfo->Aniamtion->GetPath());
 	if ("" == _FileName.data())
 	{
@@ -722,6 +737,7 @@ void GameContentsFBXRenderer::SetRootMotion(std::string_view _AniName, std::stri
 	}
 
 	AniInfo->RootMotion = _RootMotion;
+	AniInfo->RootMotionMode = _Mode;
 
 	File.Open(FileOpenType::Read, FileDataType::Text);
 
@@ -796,4 +812,16 @@ void GameContentsFBXRenderer::SetRootMotion(std::string_view _AniName, std::stri
 
 
 	File.Close();
+}
+
+void GameContentsFBXRenderer::SetRootMotionMode(std::string_view _AniName, Enum_RootMotionMode _Mode)
+{
+	std::string UpperName = GameEngineString::ToUpperReturn(_AniName.data());
+	if (false == Animations.contains(UpperName))
+	{
+		MsgBoxAssert("존재하지 않는 애니메이션에 루트 모션모드를 세팅할 수 없습니다.");
+	}
+
+	std::shared_ptr<GameContentsFBXAnimationInfo> AniInfo = Animations[UpperName];
+	AniInfo->RootMotionMode = _Mode;
 }

@@ -267,47 +267,47 @@ void Boss_Vordt::Update(float _Delta)
 		&& false == GameEngineInput::IsPress('S', this)
 		&& false == GameEngineInput::IsPress('D', this))
 	{
-		Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z);
+		// Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z);
 	}
 
 	if (true == GameEngineInput::IsPress('W', this))
 	{
-		Capsule->MoveForce({ 0.0f, 0.0f, SPEED, 0.0f });
+		// Capsule->MoveForce({ 0.0f, 0.0f, SPEED, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsPress('S', this))
 	{
-		Capsule->MoveForce({ 0.0f, 0.0f, -SPEED, 0.0f });
+		// Capsule->MoveForce({ 0.0f, 0.0f, -SPEED, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsPress('A', this))
 	{
-		Capsule->MoveForce({ -SPEED, 0.0f, 0.0f, 0.0f });
+		// Capsule->MoveForce({ -SPEED, 0.0f, 0.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsPress('D', this))
 	{
-		Capsule->MoveForce({ SPEED, 0.0f, 0.0f, 0.0f });
+		// Capsule->MoveForce({ SPEED, 0.0f, 0.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsDown('Q', this))
 	{
-		Capsule->AddWorldRotation({0.f, 90.f });
+		// Capsule->AddWorldRotation({0.f, 90.f });
 	}
 
 	if (true == GameEngineInput::IsDown('E', this))
 	{
-		Capsule->AddWorldRotation({ 0.f, -90.f });
+		// Capsule->AddWorldRotation({ 0.f, -90.f });
 	}
 
 	if (true == GameEngineInput::IsDown(VK_SPACE, this))
 	{
-		Capsule->AddForce({ 0.0f, 2000.0f, 0.0f, 0.0f });
+		// Capsule->AddForce({ 0.0f, 2000.0f, 0.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsDown('V', this))
 	{
-		Capsule->SetWorldPosition({ 0.0f, 0.0f, 0.0f, 0.0f });
+		// Capsule->SetWorldPosition({ 0.0f, 0.0f, 0.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsDown('B', this))

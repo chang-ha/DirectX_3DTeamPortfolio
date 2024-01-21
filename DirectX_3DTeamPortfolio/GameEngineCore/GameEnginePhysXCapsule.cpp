@@ -77,43 +77,10 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 	// CapsuleShape->release();
 }
 
-/*
-physx::PxForceMode
-eFORCE == unit of mass * distance/ time^2, i.e. a force
-eIMPULSE  == unit of mass * distance /time
-eVELOCITY_CHANGE  == unit of distance / time, i.e. the effect is mass independent: a velocity change. // ignore mass
-eACCELERATION  == unit of distance/ time^2, i.e. an acceleration. It gets treated just like a force except the mass is not divided out before integration.
-*/
-
-void GameEnginePhysXCapsule::ResetMove(int _Axies)
-{
-	physx::PxVec3 CurLV = ComponentActor->getLinearVelocity();
-
-	if (Enum_Axies::X & _Axies)
-	{
-		CurLV.x = 0.0f;
-	}
-
-	if (Enum_Axies::Y & _Axies)
-	{
-		CurLV.y = 0.0f;
-	}
-
-	if (Enum_Axies::Z & _Axies)
-	{
-		CurLV.z = 0.0f;
-	}
-
-	ComponentActor->setLinearVelocity({ CurLV.x, CurLV.y, CurLV.z });
-	// ComponentActor->clearForce(physx::PxForceMode::eFORCE);
-}
-
 void GameEnginePhysXCapsule::SetMaxSpeed(float _MaxSpeed)
 {
 	ComponentActor->setMaxLinearVelocity(_MaxSpeed);
 }
-
-
 
 void GameEnginePhysXCapsule::Positioning(float _Delta)
 {
