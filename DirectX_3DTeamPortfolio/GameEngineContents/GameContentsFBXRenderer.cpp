@@ -89,6 +89,23 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 			bOnceEnd = false;
 		}
 
+		bool DoneCheck = false;
+
+		if (CurFrame > End)
+		{
+			IsEnd = true;
+
+			if (true == Loop)
+			{
+				CurFrame = Start;
+			}
+			else
+			{
+				--CurFrame;
+			}
+		}
+
+
 		// Root Motion
 		if (true == RootMotion && nullptr != ParentRenderer->RootMotionComponent)
 		{
@@ -100,7 +117,8 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 
 			if (0 == CurFrame)
 			{
-				MsgBoxAssert("우창하에게 알려주세요....");
+				PrevFrame = 0;
+				// MsgBoxAssert("우창하에게 알려주세요....");
 			}
 
 			float4 MotionVector = RootMotionFrames[CurFrame] - RootMotionFrames[PrevFrame];
@@ -123,21 +141,6 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 			}
 		}
 
-		bool DoneCheck = false;
-
-		if (CurFrame > End)
-		{
-			IsEnd = true;
-
-			if (true == Loop)
-			{
-				CurFrame = Start;
-			}
-			else
-			{
-				--CurFrame;
-			}
-		}
 
 		if (nullptr != EventHelper)
 		{

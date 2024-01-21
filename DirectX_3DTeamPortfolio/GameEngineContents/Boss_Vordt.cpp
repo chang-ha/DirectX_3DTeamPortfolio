@@ -49,6 +49,14 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		ImGui::Text(Pos.c_str());
 	}
 
+	ImGui::NewLine();
+
+	{
+		float Dir = Linked_Boss->Capsule->GetDir();
+		std::string String = "Z Angle\n";
+		String += "Z Angle : " + std::to_string(Dir) + "\n";
+		ImGui::Text(String.c_str());
+	}
 
 	ImGui::NewLine();
 
