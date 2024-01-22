@@ -7,6 +7,17 @@ enum class Enum_RootMotionMode
 	RealTimeDir,
 };
 
+class RootMotionData
+{
+	friend class GameContentsFBXAnimationInfo;
+	friend class GameContentsFBXRenderer;
+
+	bool RootMotion = false;
+	float RootMotion_StartDir = 0.f;
+	float MoveFrameTime = 0.f;
+	Enum_RootMotionMode RootMotionMode = Enum_RootMotionMode::StartDir;
+};
+
 class FbxExAniData;
 class FrameEventHelper;
 class GameEngineFBXMesh;
@@ -41,19 +52,19 @@ public:
 	bool IsEnd = false;
 
 	// RootMotion
-	bool RootMotion = false;
-	float RootMotion_StartDir = 0.f;
-	Enum_RootMotionMode RootMotionMode = Enum_RootMotionMode::StartDir;
+	RootMotionData mRootMotionData;
 
 	inline void RootMotionOn()
 	{
-		RootMotion = true;
+		mRootMotionData.RootMotion = true;
 	}
 
 	inline void RootMotionOff()
 	{
-		RootMotion = false;
+		mRootMotionData.RootMotion = false;
 	}
+
+	void RootMotionUpdate(float _Delta);
 
 	float BlendIn = 0.2f;
 
