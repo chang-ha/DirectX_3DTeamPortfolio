@@ -249,6 +249,11 @@ void GameContentsFBXAnimationInfo::RootMotionUpdate(float _Delta)
 		CurFramePos = RootMotionFrames[tCurFrame];
 		++NextFrame;
 		NextFramePos = RootMotionFrames[NextFrame];
+
+		if (NextFrame == End)
+		{
+			CurFrameTimeValue = 0.f;
+		}
 	}
 
 	DifPos = NextFramePos - CurFramePos;
