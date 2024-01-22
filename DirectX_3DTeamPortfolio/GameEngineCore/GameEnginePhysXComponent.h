@@ -53,6 +53,33 @@ public:
 
 	void AddWorldRotation(const float4& _Degree);
 
+	inline float GetDir()
+	{
+		return Dir;
+	}
+
+	void ResetMove(Enum_Axies _Axies)
+	{
+		ResetMove(static_cast<int>(_Axies));
+	}
+
+	void ResetMove(int _Axies);
+
+protected:
+	void LevelStart(GameEngineLevel* _PrevLevel) override;
+	void LevelEnd(GameEngineLevel* _NextLevel) override; 
+	void Start() override;
+	void Update(float _Delta) override;
+	void Release() override;
+
+	physx::PxScene* Scene = nullptr;
+	class GameEnginePhysXLevel* CurPhysXLevel = nullptr;
+
+	float Dir = 0.f;
+	GameEngineActor* ParentActor = nullptr;
+	physx::PxRigidDynamic* ComponentActor = nullptr;
+private:
+
 	inline void SetDir(float _Dir)
 	{
 		Dir = _Dir;
@@ -82,33 +109,5 @@ public:
 			Dir += 360.f;
 		}
 	}
-
-	inline float GetDir()
-	{
-		return Dir;
-	}
-
-	void ResetMove(Enum_Axies _Axies)
-	{
-		ResetMove(static_cast<int>(_Axies));
-	}
-
-	void ResetMove(int _Axies);
-
-protected:
-	void LevelStart(GameEngineLevel* _PrevLevel) override;
-	void LevelEnd(GameEngineLevel* _NextLevel) override; 
-	void Start() override;
-	void Update(float _Delta) override;
-	void Release() override;
-
-	physx::PxScene* Scene = nullptr;
-	class GameEnginePhysXLevel* CurPhysXLevel = nullptr;
-
-	float Dir = 0.f;
-	GameEngineActor* ParentActor = nullptr;
-	physx::PxRigidDynamic* ComponentActor = nullptr;
-private:
-
 };
 

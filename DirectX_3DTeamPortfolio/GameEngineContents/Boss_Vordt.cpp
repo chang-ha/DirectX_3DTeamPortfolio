@@ -100,7 +100,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 		//if (nullptr == BossFBXRenderer)
 		//{
-		//	BossFBXRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
+		// 	BossFBXRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
 		//}
 
 		BossFBXRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBX_Animation"); // Bone 136
@@ -163,7 +163,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BossFBXRenderer->CreateFBXAnimation("Walk_Front", "Walk_Front.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Walk_Left", "Walk_Left.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Walk_Right", "Walk_Right.FBX", { BOSS_ANI_SPEED, true });
-		BossFBXRenderer->ChangeAnimation("Rush&Hit&Turn&Rush");
+		BossFBXRenderer->ChangeAnimation("Walk_Right");
 	}
 
 	// Root Motion
@@ -210,16 +210,12 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	BossFBXRenderer->SetRootMotion("Turn_Right_Twice");
 	BossFBXRenderer->SetRootMotion("Walk_Front");
 	BossFBXRenderer->SetRootMotion("Walk_Left");
-	BossFBXRenderer->SetRootMotion("Walk_Right");
+	BossFBXRenderer->SetRootMotion("Walk_Right", "", Enum_RootMotionMode::RealTimeDir);
 
 	//// Boss Collision
 	{
-		if (nullptr == BossCollision)
-		{
-			BossCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::MonsterAttack);
-		}
 		BossCollision->SetCollisionType(ColType::SPHERE3D);
-		BossCollision->Transform.SetLocalScale({ 1.0f, 1.0f, 1.0f });
+		BossCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
 	}
 
 	//if (nullptr == Capsule)
@@ -227,10 +223,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	//	Capsule = CreateComponent<GameEnginePhysXCapsule>();
 	//}
 	Capsule->PhysXComponentInit(100.0f, 50.0f);
-	// Capsule->SetMaxSpeed(150.0f);
 	Capsule->SetPositioningComponent();
-	// Capsule->GravityOff();
-
 
 	GUI = GameEngineGUI::CreateGUIWindow<Boss_State_GUI>("Boss_State");
 	GUI->Linked_Boss = this;
@@ -262,6 +255,11 @@ void Boss_Vordt::Start()
 	if (nullptr == Capsule)
 	{
 		Capsule = CreateComponent<GameEnginePhysXCapsule>();
+	}
+
+	if (nullptr == BossCollision)
+	{
+		BossCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::MonsterAttack);
 	}
 }
 
@@ -323,6 +321,7 @@ void Boss_Vordt::Update(float _Delta)
 		Capsule->CollisionOff();
 		Capsule->ResetMove(Enum_Axies::All);
 	}
+
 }
 
 void Boss_Vordt::Release()
