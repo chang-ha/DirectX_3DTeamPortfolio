@@ -107,6 +107,15 @@ void Player::Start()
 	GameEngineInput::AddInputObject(this);
 
 
+	{
+		Weapon = CreateComponent<GameContentsFBXRenderer>();
+		Weapon->SetFBXMesh("WP_A_0221.FBX", "FBXAnimationTexture");
+
+		Weapon->Transform.SetLocalScale({ 400.0f, 400.0f, 400.0f });
+		Weapon->Transform.SetLocalPosition({ -200.0f, 0.0f, 0.0f });
+	}
+
+
 	/*Capsule = CreateComponent<GameEnginePhysXCapsule>();
 	Capsule->Transform.SetLocalScale({ 200.0f,200.0f });*/
 
