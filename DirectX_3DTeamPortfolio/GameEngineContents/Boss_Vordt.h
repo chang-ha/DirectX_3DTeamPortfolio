@@ -12,6 +12,8 @@ protected:
 
 private:
 	Boss_Vordt* Linked_Boss = nullptr;
+	bool IsChasingCamera = false;
+	bool ChasingFront = false;
 };
 
 enum class Enum_BossState

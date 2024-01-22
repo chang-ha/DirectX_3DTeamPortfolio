@@ -15,6 +15,37 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		return;
 	}
 
+	int AniIndex = 0;
+
+	std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& AniInfo = Linked_Boss->BossFBXRenderer->GetAnimationInfos();
+	std::vector<const char*> AniNames;
+	AniNames.reserve(AniInfo.size());
+	for (std::pair<const std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& _Pair : AniInfo)
+	{
+		AniNames.push_back(_Pair.first.data());
+	}
+
+	{
+		if (ImGui::ListBox("Animation", &AniIndex, &AniNames[0], static_cast<int>(AniNames.size())))
+		{
+			Linked_Boss->BossFBXRenderer->ChangeAnimation(AniNames[AniIndex]);
+		}
+	}
+
+	ImGui::NewLine();
+
+	{
+		ImGui::Checkbox("ChasingCamera", &IsChasingCamera);
+	}
+
+	ImGui::NewLine();
+
+	{
+		ImGui::Checkbox("ChasingFront", &ChasingFront);
+	}
+
+	ImGui::NewLine();
+
 	{
 		physx::PxVec3 Vec = Linked_Boss->Capsule->GetLinearVelocity();
 
@@ -163,7 +194,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BossFBXRenderer->CreateFBXAnimation("Walk_Front", "Walk_Front.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Walk_Left", "Walk_Left.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Walk_Right", "Walk_Right.FBX", { BOSS_ANI_SPEED, true });
-		BossFBXRenderer->ChangeAnimation("Walk_Right");
+		BossFBXRenderer->ChangeAnimation("Thrust");
 	}
 
 	// Root Motion
@@ -267,6 +298,29 @@ void Boss_Vordt::Start()
 void Boss_Vordt::Update(float _Delta)
 {
 	BossState.Update(_Delta);
+
+	if (true == GUI->IsChasingCamera)
+	{
+		if (true == GUI->ChasingFront)
+		{
+			GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Transform.GetWorldPosition() + float4(0.f, 100.f, 1200.f));
+			GetLevel()->GetMainCamera()->Transform.SetWorldRotation(float4(0.f, 180.f, 0.f));
+		}
+		else
+		{
+			GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Transform.GetWorldPosition() + float4(0.f, 100.f, -1200.f));
+			GetLevel()->GetMainCamera()->Transform.SetWorldRotation(float4(0.f, 0.0f, 0.f));
+		}
+	}
+
+	if (true == GUI->ChasingFront)
+	{
+		GetLevel()->GetMainCamera()->Transform.SetWorldRotation(float4(0.f, 180.f, 0.f));
+	}
+	else
+	{
+		GetLevel()->GetMainCamera()->Transform.SetWorldRotation(float4(0.f, 0.0f, 0.f));
+	}
 
 	if (false == GameEngineInput::IsPress('W', this)
 		&& false == GameEngineInput::IsPress('A', this)
