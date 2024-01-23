@@ -103,6 +103,7 @@ public:
 	inline std::shared_ptr<GameContentsFBXRenderer>& GetFBXRenderer() { return MainRenderer; }
 	inline std::map<int, std::shared_ptr<BoneSocketCollision>>& GetCollisions() { return SocketCollisions; }
 	std::shared_ptr<BoneSocketCollision> GetSocketCollision(int _Index);
+	inline int* GetFlagPointer() { return &Flags; }
 
 protected:
 	void Start() override;

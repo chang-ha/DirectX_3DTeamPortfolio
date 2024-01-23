@@ -218,7 +218,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="FlagSwitchFrameEvent.cpp">
+    <ClCompile Include="SwitchFlagFrameEvent.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -373,7 +373,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="FlagSwitchFrameEvent.h">
+    <ClInclude Include="SwitchFlagFrameEvent.h">
       <SubType>
       </SubType>
     </ClInclude>
