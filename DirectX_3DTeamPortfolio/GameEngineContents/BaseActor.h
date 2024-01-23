@@ -2,7 +2,7 @@
 
 static constexpr int EMPTY_ID = 9999;
 
-enum class Enum_MonsterType
+enum class Enum_ActorType
 {
 	None,
 	LothricKn = 1280,
@@ -91,7 +91,7 @@ public:
 	static bool LoadEvent(int _ID);
 
 	// ID
-	inline void SetID(Enum_MonsterType _Type) { ActorID = static_cast<int>(_Type); }
+	inline void SetID(Enum_ActorType _Type) { ActorID = static_cast<int>(_Type); }
 	inline int GetID() const { return ActorID; }
 
 

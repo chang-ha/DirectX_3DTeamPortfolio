@@ -6,7 +6,7 @@
 
 Monster_LothricKn::Monster_LothricKn() 
 {
-	SetID(Enum_MonsterType::LothricKn);
+	SetID(Enum_ActorType::LothricKn);
 }
 
 Monster_LothricKn::~Monster_LothricKn() 
