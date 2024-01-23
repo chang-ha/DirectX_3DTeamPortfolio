@@ -15,6 +15,58 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		return;
 	}
 
+	int AniIndex = 0;
+
+	std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& AniInfo = Linked_Boss->BossFBXRenderer->GetAnimationInfos();
+	std::vector<const char*> AniNames;
+	AniNames.reserve(AniInfo.size());
+	for (std::pair<const std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& _Pair : AniInfo)
+	{
+		AniNames.push_back(_Pair.first.data());
+	}
+
+	{
+		if (ImGui::ListBox("Animation", &AniIndex, &AniNames[0], static_cast<int>(AniNames.size())))
+		{
+			Linked_Boss->BossFBXRenderer->ChangeAnimation(AniNames[AniIndex]);
+		}
+	}
+
+	ImGui::NewLine();
+
+	{
+		if (true == ImGui::Checkbox("ChasingCamera", &IsChasingCamera) && true == ChasingFront)
+		{
+			Linked_Boss->GetLevel()->GetMainCamera()->Transform.SetWorldRotation(float4(0.f, 0.f, 0.f));
+			ChasingCameraPos = float4(0.f, 100.f, -1200.f);
+			ChasingFront = false;
+			Linked_Boss->GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Linked_Boss->Transform.GetWorldPosition() + Linked_Boss->GUI->ChasingCameraPos);
+		}
+	}
+
+	if (true == IsChasingCamera)
+	{
+		ImGui::Dummy(ImVec2(15.f, 20.f));
+		ImGui::SameLine();
+		{
+			if (true == ImGui::Checkbox("ChasingFront", &ChasingFront))
+			{
+				Linked_Boss->GetLevel()->GetMainCamera()->Transform.AddWorldRotation(float4(0.f, 180.f, 0.f));
+				ChasingCameraPos.Z *= -1.f;
+			}
+		}
+	}
+
+	ImGui::NewLine();
+
+	bool IsRotation = Linked_Boss->BossFBXRenderer->GetCurAnimation()->IsRootMotionRot();
+	if (true == ImGui::Checkbox("RootMotionRot", &IsRotation))
+	{
+		Linked_Boss->BossFBXRenderer->GetCurAnimation()->SwitchRootMotionRot();
+	}
+
+	ImGui::NewLine();
+
 	{
 		physx::PxVec3 Vec = Linked_Boss->Capsule->GetLinearVelocity();
 
@@ -49,6 +101,23 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		ImGui::Text(Pos.c_str());
 	}
 
+	ImGui::NewLine();
+
+	{
+		ImGui::DragFloat("Z Dir", Linked_Boss->Capsule->GetDirPtr(), 0.1f, -180.f, 180.f);
+	}
+
+	ImGui::NewLine();
+
+	{
+		std::string String = "Z Rotation\n";
+		ImGui::Text(String.c_str());
+		float4 Rot = Linked_Boss->Transform.GetWorldRotationEuler();
+		if (true == ImGui::DragFloat("Z Rot", &Rot.Y, 0.1f, -180.f, 180.f))
+		{
+			Linked_Boss->Capsule->SetWorldRotation(Rot);
+		}
+	}
 
 	ImGui::NewLine();
 
@@ -92,7 +161,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 		//if (nullptr == BossFBXRenderer)
 		//{
-		//	BossFBXRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
+		// 	BossFBXRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
 		//}
 
 		BossFBXRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBX_Animation"); // Bone 136
@@ -155,7 +224,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BossFBXRenderer->CreateFBXAnimation("Walk_Front", "Walk_Front.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Walk_Left", "Walk_Left.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Walk_Right", "Walk_Right.FBX", { BOSS_ANI_SPEED, true });
-		BossFBXRenderer->ChangeAnimation("Rush&Hit&Turn&Rush");
+		BossFBXRenderer->ChangeAnimation("Idle");
 	}
 
 	// Root Motion
@@ -200,18 +269,14 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	BossFBXRenderer->SetRootMotion("Turn_Left_Twice");
 	BossFBXRenderer->SetRootMotion("Turn_Right");
 	BossFBXRenderer->SetRootMotion("Turn_Right_Twice");
-	BossFBXRenderer->SetRootMotion("Walk_Front");
-	BossFBXRenderer->SetRootMotion("Walk_Left");
-	BossFBXRenderer->SetRootMotion("Walk_Right");
+	BossFBXRenderer->SetRootMotion("Walk_Front", "", Enum_RootMotionMode::RealTimeDir);
+	BossFBXRenderer->SetRootMotion("Walk_Left", "", Enum_RootMotionMode::RealTimeDir);
+	BossFBXRenderer->SetRootMotion("Walk_Right", "", Enum_RootMotionMode::RealTimeDir);
 
 	//// Boss Collision
 	{
-		if (nullptr == BossCollision)
-		{
-			BossCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::MonsterAttack);
-		}
 		BossCollision->SetCollisionType(ColType::SPHERE3D);
-		BossCollision->Transform.SetLocalScale({ 1.0f, 1.0f, 1.0f });
+		BossCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
 	}
 
 	//if (nullptr == Capsule)
@@ -219,10 +284,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	//	Capsule = CreateComponent<GameEnginePhysXCapsule>();
 	//}
 	Capsule->PhysXComponentInit(100.0f, 50.0f);
-	// Capsule->SetMaxSpeed(150.0f);
 	Capsule->SetPositioningComponent();
-	// Capsule->GravityOff();
-
 
 	GUI = GameEngineGUI::CreateGUIWindow<Boss_State_GUI>("Boss_State");
 	GUI->Linked_Boss = this;
@@ -255,6 +317,11 @@ void Boss_Vordt::Start()
 	{
 		Capsule = CreateComponent<GameEnginePhysXCapsule>();
 	}
+
+	if (nullptr == BossCollision)
+	{
+		BossCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::MonsterAttack);
+	}
 }
 
 #define SPEED 100.0f
@@ -262,52 +329,49 @@ void Boss_Vordt::Update(float _Delta)
 {
 	BossState.Update(_Delta);
 
-	if (false == GameEngineInput::IsPress('W', this)
-		&& false == GameEngineInput::IsPress('A', this)
-		&& false == GameEngineInput::IsPress('S', this)
-		&& false == GameEngineInput::IsPress('D', this))
+	if (true == GUI->IsChasingCamera)
 	{
-		Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z);
+		GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Transform.GetWorldPosition() + GUI->ChasingCameraPos);
 	}
 
 	if (true == GameEngineInput::IsPress('W', this))
 	{
-		Capsule->MoveForce({ 0.0f, 0.0f, SPEED, 0.0f });
+		// Capsule->MoveForce({ 0.0f, 0.0f, SPEED, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsPress('S', this))
 	{
-		Capsule->MoveForce({ 0.0f, 0.0f, -SPEED, 0.0f });
+		// Capsule->MoveForce({ 0.0f, 0.0f, -SPEED, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsPress('A', this))
 	{
-		Capsule->MoveForce({ -SPEED, 0.0f, 0.0f, 0.0f });
+		// Capsule->MoveForce({ -SPEED, 0.0f, 0.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsPress('D', this))
 	{
-		Capsule->MoveForce({ SPEED, 0.0f, 0.0f, 0.0f });
+		// Capsule->MoveForce({ SPEED, 0.0f, 0.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsDown('Q', this))
 	{
-		Capsule->AddWorldRotation({0.f, 90.f });
+		// Capsule->AddWorldRotation({0.f, 90.f });
 	}
 
 	if (true == GameEngineInput::IsDown('E', this))
 	{
-		Capsule->AddWorldRotation({ 0.f, -90.f });
+		// Capsule->AddWorldRotation({ 0.f, -90.f });
 	}
 
 	if (true == GameEngineInput::IsDown(VK_SPACE, this))
 	{
-		Capsule->AddForce({ 0.0f, 2000.0f, 0.0f, 0.0f });
+		// Capsule->AddForce({ 0.0f, 2000.0f, 0.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsDown('V', this))
 	{
-		Capsule->SetWorldPosition({ 0.0f, 0.0f, 0.0f, 0.0f });
+		// Capsule->SetWorldPosition({ 0.0f, 0.0f, 0.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsDown('B', this))
@@ -315,6 +379,9 @@ void Boss_Vordt::Update(float _Delta)
 		Capsule->CollisionOff();
 		Capsule->ResetMove(Enum_Axies::All);
 	}
+
+	float* Dir = Capsule->GetDirPtr();
+	*Dir += 1.0f;
 }
 
 void Boss_Vordt::Release()

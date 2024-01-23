@@ -12,6 +12,9 @@ protected:
 
 private:
 	Boss_Vordt* Linked_Boss = nullptr;
+	bool IsChasingCamera = false;
+	bool ChasingFront = false;
+	float4 ChasingCameraPos = float4(0.f, 100.f, -1200.f);
 };
 
 enum class Enum_BossState
@@ -56,4 +59,3 @@ private:
 	void IdleUpdate(float _Delta);
 	void IdleEnd();
 };
-

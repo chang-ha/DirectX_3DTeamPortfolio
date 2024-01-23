@@ -22,7 +22,7 @@ public:
 	GameEnginePhysXComponent& operator=(const GameEnginePhysXComponent& _Other) = delete;
 	GameEnginePhysXComponent& operator=(GameEnginePhysXComponent&& _Other) noexcept = delete;
 
-	void MoveForce(const float4 _Force, float _Dir, bool _IgnoreGravity = false)
+	void MoveForce(const float4& _Force, float _Dir, bool _IgnoreGravity = false)
 	{
 		float4 Force = _Force;
 		Force.VectorRotationToDegY(_Dir);
@@ -30,7 +30,7 @@ public:
 		MoveForce(Value, _IgnoreGravity);
 	}
 
-	void MoveForce(const float4 _Force, bool _IgnoreGravity = false)
+	void MoveForce(const float4& _Force, bool _IgnoreGravity = false)
 	{
 		float4 Force = _Force;
 		Force.VectorRotationToDegY(Dir);
@@ -40,7 +40,7 @@ public:
 
 	void MoveForce(const physx::PxVec3 _Force, bool _IgnoreGravity = false);
 
-	void AddForce(const float4 _Force)
+	void AddForce(const float4& _Force)
 	{
 		physx::PxVec3 Value = physx::PxVec3(_Force.X, _Force.Y, _Force.Z);
 		AddForce(Value);
@@ -52,6 +52,38 @@ public:
 	void SetWorldRotation(const float4& _Degree);
 
 	void AddWorldRotation(const float4& _Degree);
+
+	inline float GetDir()
+	{
+		return Dir;
+	}
+
+	inline float* GetDirPtr()
+	{
+		return &Dir;
+	}
+
+	void ResetMove(Enum_Axies _Axies)
+	{
+		ResetMove(static_cast<int>(_Axies));
+	}
+
+	void ResetMove(int _Axies);
+
+protected:
+	void LevelStart(GameEngineLevel* _PrevLevel) override;
+	void LevelEnd(GameEngineLevel* _NextLevel) override; 
+	void Start() override;
+	void Update(float _Delta) override;
+	void Release() override;
+
+	physx::PxScene* Scene = nullptr;
+	class GameEnginePhysXLevel* CurPhysXLevel = nullptr;
+
+	float Dir = 0.f;
+	GameEngineActor* ParentActor = nullptr;
+	physx::PxRigidDynamic* ComponentActor = nullptr;
+private:
 
 	inline void SetDir(float _Dir)
 	{
@@ -82,26 +114,5 @@ public:
 			Dir += 360.f;
 		}
 	}
-
-	inline float GetDir()
-	{
-		return Dir;
-	}
-
-protected:
-	void LevelStart(GameEngineLevel* _PrevLevel) override;
-	void LevelEnd(GameEngineLevel* _NextLevel) override; 
-	void Start() override;
-	void Update(float _Delta) override;
-	void Release() override;
-
-	physx::PxScene* Scene = nullptr;
-	class GameEnginePhysXLevel* CurPhysXLevel = nullptr;
-
-	float Dir = 0.f;
-	GameEngineActor* ParentActor = nullptr;
-	physx::PxRigidDynamic* ComponentActor = nullptr;
-private:
-
 };
 

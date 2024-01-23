@@ -1,7 +1,23 @@
 #pragma once
 #include <GameEngineCore/GameEngineRenderer.h>
 
+enum class Enum_RootMotionMode
+{
+	StartDir,
+	RealTimeDir,
+};
 
+class RootMotionData
+{
+	friend class GameContentsFBXAnimationInfo;
+	friend class GameContentsFBXRenderer;
+
+	bool RootMotion = false;
+	float RootMotion_StartDir = 0.f;
+	float MoveFrameTime = 0.f;
+	Enum_RootMotionMode RootMotionMode = Enum_RootMotionMode::StartDir;
+	bool IsRotation = true;
+};
 
 class FbxExAniData;
 class FrameEventHelper;
@@ -35,24 +51,57 @@ public:
 	bool bOnceEnd = true;
 	bool Loop = true;
 	bool IsEnd = false;
-	bool RootMotion = false;
-	float RootMotion_StartDir = 0.f;
+
+	// RootMotion
+	RootMotionData mRootMotionData;
+
+	inline bool IsRootMotion()
+	{
+		return mRootMotionData.RootMotion;
+	}
+
+	inline void RootMotionOn()
+	{
+		mRootMotionData.RootMotion = true;
+	}
+
+	inline void RootMotionOff()
+	{
+		mRootMotionData.RootMotion = false;
+	}
+
+	inline void SwitchRootMotion()
+	{
+		mRootMotionData.RootMotion = !mRootMotionData.RootMotion;
+	}
+
+	inline bool IsRootMotionRot()
+	{
+		return mRootMotionData.IsRotation;
+	}
+
+	inline void RootMotionRotOn()
+	{
+		mRootMotionData.IsRotation = true;
+	}
+
+	inline void RootMotionRotOff()
+	{
+		mRootMotionData.IsRotation = false;
+	}
+
+	inline void SwitchRootMotionRot()
+	{
+		mRootMotionData.IsRotation = !mRootMotionData.IsRotation;
+	}
+
+	void RootMotionUpdate(float _Delta);
 
 	float BlendIn = 0.2f;
 
 	void Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index);
 	void Reset();
 	void Update(float _DeltaTime);
-
-	inline void RootMotionOn()
-	{
-		RootMotion = true;
-	}
-
-	inline void RootMotionOff()
-	{
-		RootMotion = false;
-	}
 
 public:
 	GameContentsFBXAnimationInfo()
@@ -138,7 +187,8 @@ public:
 		RootMotionComponent = _RootMotionComponent;
 	}
 
-	void SetRootMotion(std::string_view _AniName, std::string_view _FileName = "", bool _RootMotion = true);
+	void SetRootMotion(std::string_view _AniName, std::string_view _FileName = "", Enum_RootMotionMode _Mode = Enum_RootMotionMode::StartDir, bool _RootMotion = true);
+	void SetRootMotionMode(std::string_view _AniName, Enum_RootMotionMode _Mode);
 
 protected:
 	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> RenderUnits;

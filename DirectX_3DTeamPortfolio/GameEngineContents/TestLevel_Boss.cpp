@@ -40,22 +40,22 @@ void TestLevel_Boss::Start()
 	Scene->addActor(*groundPlane);
 
 	Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
-	Boss_Object->Transform.SetLocalPosition({0.f, 0.f, 100.f});
+	Boss_Object->Transform.SetLocalPosition({0.f, 0.f, 1000.f});
 	{
 		std::shared_ptr<ContentsLight> Test_Light1 = CreateActor<ContentsLight>(0);
-		Test_Light1->SetLightType(Enum_LightType::Point);
+		Test_Light1->SetLightType(Enum_LightType::Directional);
 		Test_Light1->IsDebugValue = true;
 		LightData Data = Test_Light1->GetLightData();
 
-		Data.DifLightPower = 1.0f;
+		Data.DifLightPower = 3.0f;
 		Data.SpcPow = 50.0f;
 		Data.AmbientLight = float4(0.4f);
 
 		Test_Light1->SetLightData(Data);
 	}
 
-	TestObj = CreateActor<TestObject>(0, "TestObj");
-	TestObj->Transform.SetLocalPosition({ 0.0f, 0.0f, -2000.0f });
+	// TestObj = CreateActor<TestObject>(0, "TestObj");
+	// TestObj->Transform.SetLocalPosition({ 0.0f, 0.0f, -2000.0f });
 }
 
 void TestLevel_Boss::Update(float _Delta)

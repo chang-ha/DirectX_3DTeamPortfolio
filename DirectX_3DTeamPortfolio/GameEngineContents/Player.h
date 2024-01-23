@@ -22,10 +22,17 @@ enum class PlayerState
 	Portion_02,
 	Portion_03,
 	Portion_04, 
+
+	Roll_Behind,
+	Roll_Right,
+	Roll_Left,
+	Back_Step,
+
+
 };
 
 // 설명 :
-class Player : public GameEngineActor, public GameEngineNetObject // 서버용
+class Player : public GameEngineActor, public GameEngineNetObject // 서버용 
 {
 public:
 	// constrcuter destructer
@@ -54,12 +61,13 @@ private:
 	bool TimeCheck = false;
 	bool Attack_Check = false;
 	float Time = 0.0f;
-	float Speed = 10.0f;
+	float Speed = 0.0f;
 	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer;
+	std::shared_ptr<GameContentsFBXRenderer> Weapon;
 	std::shared_ptr<GameEnginePhysXCapsule> Capsule;
 	std::shared_ptr<GameEngineCollision> Col;
 	GameEngineState PlayerState;
-	float MoveSpeed = 100.0f;
+	float MoveSpeed = 0.0f;
 	EventParameter Mini_Event;
 	float DeltaTime = 0.0f;
 };

@@ -31,7 +31,6 @@ void GameEnginePhysXComponent::Start()
 		return;
 	}
 
-	// Scene = GameEnginePhysX::FindScene(GetLevel()->GetName());
 	Scene = CurPhysXLevel->GetScene();
 	ParentActor = GetActor();
 }
@@ -45,6 +44,14 @@ void GameEnginePhysXComponent::Release()
 {
 
 }
+
+/*
+physx::PxForceMode
+eFORCE == unit of mass * distance/ time^2, i.e. a force
+eIMPULSE  == unit of mass * distance /time
+eVELOCITY_CHANGE  == unit of distance / time, i.e. the effect is mass independent: a velocity change. // ignore mass
+eACCELERATION  == unit of distance/ time^2, i.e. an acceleration. It gets treated just like a force except the mass is not divided out before integration.
+*/
 
 void GameEnginePhysXComponent::MoveForce(const physx::PxVec3 _Force, bool _IgnoreGravity/* = false*/)
 {
@@ -67,7 +74,6 @@ void GameEnginePhysXComponent::SetWorldPosition(const float4& _Pos)
 	physx::PxVec3 Pos = { _Pos.X, _Pos.Y , _Pos.Z };
 
 	float4 WorldDeg = Transform.GetWorldRotationEuler();
-	// WorldDeg.Z += physx::PxHalfPi * GameEngineMath::R2D;
 	float4 WorldQuat = WorldDeg.EulerDegToQuaternion();
 	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
 
@@ -82,7 +88,6 @@ void GameEnginePhysXComponent::SetWorldRotation(const float4& _Degree)
 	SetDir(WorldDeg.Y);
 
 	physx::PxTransform Transform = ComponentActor->getGlobalPose();
-	// WorldDeg.Z += physx::PxHalfPi * GameEngineMath::R2D;
 	float4 WorldQuat = WorldDeg.EulerDegToQuaternion();
 	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
 
@@ -117,4 +122,26 @@ void GameEnginePhysXComponent::AddWorldRotation(const float4& _Degree)
 	Quat = physx::PxQuat(WorldDeg.X, WorldDeg.Y, WorldDeg.Z, WorldDeg.W);
 	Transform.q = Quat;
 	ComponentActor->setGlobalPose(Transform);
+}
+
+void GameEnginePhysXComponent::ResetMove(int _Axies)
+{
+	physx::PxVec3 CurLV = ComponentActor->getLinearVelocity();
+
+	if (Enum_Axies::X & _Axies)
+	{
+		CurLV.x = 0.0f;
+	}
+
+	if (Enum_Axies::Y & _Axies)
+	{
+		CurLV.y = 0.0f;
+	}
+
+	if (Enum_Axies::Z & _Axies)
+	{
+		CurLV.z = 0.0f;
+	}
+
+	ComponentActor->setLinearVelocity({ CurLV.x, CurLV.y, CurLV.z });
 }
