@@ -17,10 +17,15 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 	int AniIndex = 0;
 
-	if (0 == AniNames.capacity())
+	if (0 == AniNames.size())
 	{
 		std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& AniInfo = Linked_Boss->BossFBXRenderer->GetAnimationInfos();
-		AniNames.reserve(AniInfo.size());
+
+		if (0 == AniNames.capacity())
+		{
+			AniNames.reserve(AniInfo.size());
+		}
+
 		for (std::pair<const std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& _Pair : AniInfo)
 		{
 			AniNames.push_back(_Pair.first.data());
@@ -137,6 +142,15 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		}
 		ImGui::Text(Gravity.c_str());
 	}
+}
+
+void Boss_State_GUI::Reset()
+{
+	AniNames.clear();
+	Linked_Boss = nullptr;
+	IsChasingCamera = false;
+	ChasingFront = false;
+	ChasingCameraPos = float4(0.f, 100.f, -1200.f);
 }
 
 Boss_Vordt::Boss_Vordt()
@@ -283,8 +297,14 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	Capsule->PhysXComponentInit(100.0f, 50.0f);
 	Capsule->SetPositioningComponent();
 
-	GUI = GameEngineGUI::CreateGUIWindow<Boss_State_GUI>("Boss_State");
+	if (nullptr == GameEngineGUI::FindGUIWindow<Boss_State_GUI>("Boss_State"))
+	{
+		GameEngineGUI::CreateGUIWindow<Boss_State_GUI>("Boss_State");
+	}
+
+	GUI = GameEngineGUI::FindGUIWindow<Boss_State_GUI>("Boss_State");
 	GUI->Linked_Boss = this;
+	GUI->On();
 
 	// State
 	{
@@ -539,7 +559,8 @@ void Boss_Vordt::Release()
 
 	if (nullptr != GUI)
 	{
-		GUI->Death();
+		GUI->Reset();
+		GUI->Off();
 		GUI = nullptr;
 	}
 }

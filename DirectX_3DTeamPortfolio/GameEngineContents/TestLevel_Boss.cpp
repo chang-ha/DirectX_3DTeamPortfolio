@@ -16,12 +16,51 @@ TestLevel_Boss::~TestLevel_Boss()
 
 void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 {
+	if (nullptr == Boss_Object)
+	{
+		Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
+		Boss_Object->Transform.SetLocalPosition({ 0.f, 0.f, 1000.f });
+	}
 
+	// Light
+	if (nullptr == Test_Light)
+	{
+		Test_Light = CreateActor<ContentsLight>(0);
+		Test_Light->SetLightType(Enum_LightType::Directional);
+		Test_Light->IsDebugValue = true;
+		LightData Data = Test_Light->GetLightData();
+
+		Data.DifLightPower = 5.0f;
+		Data.SpcPow = 50.0f;
+		Data.AmbientLight = float4(0.4f);
+
+		Test_Light->SetLightData(Data);
+	}
+
+	// Building
+	//if (nullptr == TestObj)
+	//{
+	//	TestObj = CreateActor<TestObject>(0, "TestObj");
+	//	TestObj->Transform.SetLocalPosition({ 0.0f, 0.0f, -2000.0f });
+	//}
+
+	GetMainCamera()->Transform.SetLocalPosition(float4::ZERO);
+	GetMainCamera()->Transform.SetLocalRotation(float4::ZERONULL);
 }
 
 void TestLevel_Boss::LevelEnd(GameEngineLevel* _NextLevel)
 {
+	if (nullptr != Boss_Object)
+	{
+		Boss_Object->Death();
+		Boss_Object = nullptr;
+	}
 
+	if (nullptr != TestObj)
+	{
+		TestObj->Death();
+		TestObj = nullptr;
+	}
 }
 
 void TestLevel_Boss::Start()
@@ -33,24 +72,6 @@ void TestLevel_Boss::Start()
 	physx::PxMaterial* mMaterial = GameEnginePhysX::GetDefaultMaterial();
 	physx::PxRigidStatic* groundPlane = PxCreatePlane(*Physics, physx::PxPlane(0, 1, 0, 50), *mMaterial);
 	Scene->addActor(*groundPlane);
-
-	Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
-	Boss_Object->Transform.SetLocalPosition({0.f, 0.f, 1000.f});
-	{
-		std::shared_ptr<ContentsLight> Test_Light1 = CreateActor<ContentsLight>(0);
-		Test_Light1->SetLightType(Enum_LightType::Directional);
-		Test_Light1->IsDebugValue = true;
-		LightData Data = Test_Light1->GetLightData();
-
-		Data.DifLightPower = 3.0f;
-		Data.SpcPow = 50.0f;
-		Data.AmbientLight = float4(0.4f);
-
-		Test_Light1->SetLightData(Data);
-	}
-
-	// TestObj = CreateActor<TestObject>(0, "TestObj");
-	// TestObj->Transform.SetLocalPosition({ 0.0f, 0.0f, -2000.0f });
 }
 
 void TestLevel_Boss::Update(float _Delta)
