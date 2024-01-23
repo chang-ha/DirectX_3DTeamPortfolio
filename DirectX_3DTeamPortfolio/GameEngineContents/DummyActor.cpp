@@ -20,6 +20,7 @@ void DummyActor::Start()
 	FbxRenderer->Transform.SetLocalPosition(float4(0,50,0));
 
 	DummyCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Dummy);
+	DummyCollision->SetCollisionType(ColType::SPHERE3D);
 }
 
 void DummyActor::Update(float _Delta)

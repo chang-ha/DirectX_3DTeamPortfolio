@@ -66,21 +66,21 @@ void Monster_LothricKn::Start()
 	CreateSocketCollision(Enum_CollisionOrder::Monster, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
 
 	AggroCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
-	AggroCollision->Transform.SetLocalScale(float4(500,500,500));
-	AggroCollision->SetCollisionType(ColType::AABBBOX3D);
+	AggroCollision->Transform.SetWorldScale(float4(500, 500, 500));
+	AggroCollision->SetCollisionType(ColType::SPHERE3D);
 
 	CreateFSM();
 
 	if (true)
 	{
-		AddFlag(Enum_MonsterStatus::JumpPossible);
-		AddFlag(Enum_MonsterStatus::JumpPossible);
-		SubFlag(Enum_MonsterStatus::JumpPossible);
-		SubFlag(Enum_MonsterStatus::JumpPossible);
-		SetFlag(Enum_MonsterStatus::JumpPossible, true);
+		AddFlag(Enum_ActorStatus::JumpPossible);
+		AddFlag(Enum_ActorStatus::JumpPossible);
+		SubFlag(Enum_ActorStatus::JumpPossible);
+		SubFlag(Enum_ActorStatus::JumpPossible);
+		SetFlag(Enum_ActorStatus::JumpPossible, true);
 
-		AddFlag(Enum_MonsterStatus::GaurdingValue);
-		AddFlag(Enum_MonsterStatus::ParryPossible);
+		AddFlag(Enum_ActorStatus::GaurdingValue);
+		AddFlag(Enum_ActorStatus::ParryPossible);
 
 		DebugFlag();
 	}
@@ -90,7 +90,7 @@ void Monster_LothricKn::Update(float _Delta)
 {
 	BaseMonster::Update(_Delta);
 
-	if (false == wpDummy.expired())
+	if (true == wpDummy.expired())
 	{
 		wpDummy = FindDummyByCollision();
 	}
@@ -121,7 +121,7 @@ std::shared_ptr<GameEngineActor> Monster_LothricKn::FindDummyByCollision()
 					return;
 				}
 
-				pActor = pCol->GetDynamic_Cast_This<GameEngineActor>();
+				pActor = pCol->GetActor()->GetDynamic_Cast_This<GameEngineActor>();
 				break;
 			}
 		});

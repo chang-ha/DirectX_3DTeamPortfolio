@@ -82,4 +82,3 @@ private:
 	std::weak_ptr<GameEngineActor> wpDummy;
 	
 };
-

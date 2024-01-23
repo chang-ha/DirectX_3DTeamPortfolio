@@ -155,6 +155,13 @@ public:
 				return Left.Intersects(Right);
 			};
 
+		ArrColFunction[static_cast<int>(ColType::SPHERE3D)][static_cast<int>(ColType::SPHERE3D)] = [](const CollisionParameter& _Data)
+			{
+				DirectX::BoundingSphere Left = _Data.Left.SPHERE;
+				DirectX::BoundingSphere Right = _Data.Right.SPHERE;
+				return Left.Intersects(Right);
+			};
+
 	}
 };
 
