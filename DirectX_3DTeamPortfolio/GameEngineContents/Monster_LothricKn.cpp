@@ -6,7 +6,7 @@
 
 Monster_LothricKn::Monster_LothricKn() 
 {
-	SetID(Type);
+	SetID(Enum_ActorType::LothricKn);
 }
 
 Monster_LothricKn::~Monster_LothricKn() 
@@ -20,8 +20,8 @@ void Monster_LothricKn::Start()
 
 	GameEngineInput::AddInputObject(this);
 
-	SetBoneIndex(Enum_BoneType::B_01_RightHand, 78);
-	SetBoneIndex(Enum_BoneType::B_01_LeftHand, 47);
+	AddBoneIndex(Enum_BoneType::B_01_RightHand, 78);
+	AddBoneIndex(Enum_BoneType::B_01_LeftHand, 47);
 
 
 	MainRenderer->SetFBXMesh("c1280.fbx", "FBXAnimationTexture");
@@ -64,16 +64,67 @@ void Monster_LothricKn::Start()
 	MainRenderer->CreateFBXAnimation("Hit_Mid", "c1280_003009.fbx");
 
 	CreateSocketCollision(Enum_CollisionOrder::Monster, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
+
+	AggroCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
+	AggroCollision->Transform.SetWorldScale(float4(500, 500, 500));
+	AggroCollision->SetCollisionType(ColType::SPHERE3D);
+
 	CreateFSM();
+
+	if (true)
+	{
+		AddFlag(Enum_ActorStatus::JumpPossible);
+		AddFlag(Enum_ActorStatus::JumpPossible);
+		SubFlag(Enum_ActorStatus::JumpPossible);
+		SubFlag(Enum_ActorStatus::JumpPossible);
+		SetFlag(Enum_ActorStatus::JumpPossible, true);
+
+		AddFlag(Enum_ActorStatus::GaurdingValue);
+		AddFlag(Enum_ActorStatus::ParryPossible);
+
+		DebugFlag();
+	}
 }
 
 void Monster_LothricKn::Update(float _Delta)
 {
 	BaseMonster::Update(_Delta);
+
+	if (true == wpDummy.expired())
+	{
+		wpDummy = FindDummyByCollision();
+	}
 }
 
 
 void Monster_LothricKn::Release()
 {
 	BaseMonster::Release();
+}
+
+std::shared_ptr<GameEngineActor> Monster_LothricKn::FindDummyByCollision()
+{
+	if (false == wpDummy.expired())
+	{
+		return nullptr;
+	}
+
+	std::shared_ptr<GameEngineActor> pActor;
+
+	AggroCollision->Collision(Enum_CollisionOrder::Dummy, [&pActor](std::vector<GameEngineCollision*>& _Other)
+		{
+			for (GameEngineCollision* pCol : _Other)
+			{
+				if (nullptr == pCol)
+				{
+					MsgBoxAssert("충돌체를 가지고 있는 액터가 존재하지 않습니다.");
+					return;
+				}
+
+				pActor = pCol->GetActor()->GetDynamic_Cast_This<GameEngineActor>();
+				break;
+			}
+		});
+
+	return pActor;
 }

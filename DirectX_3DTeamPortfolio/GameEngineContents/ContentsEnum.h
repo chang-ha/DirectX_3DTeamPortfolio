@@ -18,6 +18,8 @@ enum class Enum_CollisionOrder
 	Player,
 	Monster,
 	MonsterAttack,
+	Detect,
+	Dummy,
 };
 
 enum class Enum_RenderDepth

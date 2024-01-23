@@ -1,11 +1,11 @@
 #include "PreCompile.h"
 #include "TurnSpeedFrameEvent.h"
 
-#include "BaseMonster.h"
+#include "BaseActor.h"
 
 TurnSpeedFrameEvent::TurnSpeedFrameEvent()
 {
-	SetEventID(static_cast<int>(Type));
+	SetEventID(Enum_FrameEventType::TurnSpeed);
 }
 
 TurnSpeedFrameEvent::~TurnSpeedFrameEvent()
@@ -46,5 +46,5 @@ int TurnSpeedFrameEvent::UpdateEvent(float _Delta)
 
 void TurnSpeedFrameEvent::Init()
 {
-	pParentActor = GetDynamicCastParentActor<BaseMonster>().get();
+	pParentActor = GetDynamicCastParentActor<BaseActor>().get();
 }

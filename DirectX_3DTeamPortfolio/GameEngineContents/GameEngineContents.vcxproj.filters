@@ -143,6 +143,12 @@
     <ClCompile Include="LightGUI.cpp">
       <Filter>ImGui\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="DummyActor.cpp">
+      <Filter>Monster\LothricKnight</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseActor.cpp">
+      <Filter>Monster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -283,6 +289,12 @@
     </ClInclude>
     <ClInclude Include="AnimationInfoGUI.h">
       <Filter>ImGui\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyActor.h">
+      <Filter>Monster\LothricKnight</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseActor.h">
+      <Filter>Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

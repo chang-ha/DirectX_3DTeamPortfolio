@@ -100,7 +100,7 @@ protected:
 	void Release() override;
 
 private:
-	ColType CollisionType = ColType::SPHERE2D;
+	ColType CollisionType = ColType::SPHERE3D;
 	std::set<GameEngineCollision*> Others;
 };
 
