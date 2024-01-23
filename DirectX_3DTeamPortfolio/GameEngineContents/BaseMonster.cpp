@@ -6,6 +6,36 @@
 #include "FrameEventHelper.h"
 #include "BoneSocketCollision.h"
 
+class MonsterInitial
+{
+private:
+	MonsterInitial() 
+	{
+		Init(); 
+	}
+
+	~MonsterInitial() {}
+
+	void Init();
+
+private:
+	static MonsterInitial s_MonsterInit;
+
+};
+
+void MonsterInitial::Init()
+{
+	BaseMonster::FlagIndex.insert(std::make_pair(Enum_MonsterStatus::HitValue, Enum_MonsterFlag::HitValue));
+	BaseMonster::FlagIndex.insert(std::make_pair(Enum_MonsterStatus::GaurdingValue, Enum_MonsterFlag::GaurdingValue));
+	BaseMonster::FlagIndex.insert(std::make_pair(Enum_MonsterStatus::DeathValue, Enum_MonsterFlag::DeathValue));
+	BaseMonster::FlagIndex.insert(std::make_pair(Enum_MonsterStatus::JumpPossible, Enum_MonsterFlag::JumpPossible));
+	BaseMonster::FlagIndex.insert(std::make_pair(Enum_MonsterStatus::ParryPossible, Enum_MonsterFlag::ParryPossible));
+}
+
+
+
+std::unordered_map<Enum_MonsterStatus, Enum_MonsterFlag> BaseMonster::FlagIndex;
+MonsterInitial MonsterInitial::s_MonsterInit;
 BaseMonster::BaseMonster() 
 {
 }
@@ -30,7 +60,7 @@ void BaseMonster::Update(float _Delta)
 void BaseMonster::Release()
 {
 	MainRenderer = nullptr;
-	Collisions.clear();
+	SocketCollisions.clear();
 }
 
 
@@ -50,33 +80,54 @@ float BaseMonster::GetWDirection() const
 	return Transform.GetWorldRotationEuler().Z;
 }
 
-bool BaseMonster::IsOnFlag(Enum_StatusFlag _Flag) const
+
+int BaseMonster::FindFlag(Enum_MonsterStatus _Status) const
 {
-	return (Flags / _Flag) % 2;
+	if (auto FindIter = FlagIndex.find(_Status); FindIter != FlagIndex.end())
+	{
+		return static_cast<int>(FindIter->second);
+	}
+
+	return static_cast<int>(Enum_MonsterFlag::None);
 }
 
-void BaseMonster::SetFlag(Enum_StatusFlag _Flag, bool _Value)
+bool BaseMonster::GetFlag(Enum_MonsterStatus _Flag) const
+{
+	return (Flags / FindFlag(_Flag)) % 2;
+}
+
+void BaseMonster::SetFlag(Enum_MonsterStatus _Flag, bool _Value)
 {
 	AddFlag(_Flag);
 
 	if (false == _Value)
 	{
-		Flags -= _Flag;
+		Flags -= FindFlag(_Flag);
 	}
 }
 
-void BaseMonster::AddFlag(Enum_StatusFlag _Flag)
+void BaseMonster::AddFlag(Enum_MonsterStatus _Flag)
 {
-	Flags |= _Flag;
+	Flags |= FindFlag(_Flag);
 }
 
-void BaseMonster::SubFlag(Enum_StatusFlag _Flag)
+void BaseMonster::SubFlag(Enum_MonsterStatus _Flag)
 {
 	SetFlag(_Flag, false);
 }
 
+void BaseMonster::DebugFlag()
+{
+	bool HitValue = GetFlag(Enum_MonsterStatus::HitValue);
+	bool GaurdingValue = GetFlag(Enum_MonsterStatus::GaurdingValue);
+	bool DeathValue = GetFlag(Enum_MonsterStatus::DeathValue);
+	bool JumpPossible = GetFlag(Enum_MonsterStatus::JumpPossible);
+	bool ParryPossible = GetFlag(Enum_MonsterStatus::ParryPossible);
+	int a = 0;
+}
 
-void BaseMonster::SetBoneIndex(Enum_BoneType _BoneType, int _BoneNum)
+
+void BaseMonster::AddBoneIndex(Enum_BoneType _BoneType, int _BoneNum)
 {
 	BoneIndex.insert(std::make_pair(_BoneType, _BoneNum));
 }
@@ -103,28 +154,10 @@ float4x4& BaseMonster::GetBoneMatrixToType(Enum_BoneType _BoneType)
 	return BoneMats[GetBoneIndex(Enum_BoneType::B_01_RightHand)];
 }
 
-
-std::shared_ptr<BoneSocketCollision> BaseMonster::FindAndCreateSocketCollision(int _Order, Enum_BoneType _Type)
-{
-	int SocketIndex = GetBoneIndex(_Type);
-	if (auto FindIter = Collisions.find(SocketIndex); FindIter != Collisions.end())
-	{
-		return FindIter->second;
-	}
-
-	std::shared_ptr<BoneSocketCollision> NewCol = CreateComponent<BoneSocketCollision>(_Order);
-	NewCol->SetName(std::to_string(SocketIndex));
-	NewCol->SetBoneIndex(SocketIndex);
-	NewCol->SetSocket(&GetBoneMatrixToType(_Type));
-	NewCol->Off();
-	Collisions.insert(std::make_pair(SocketIndex, NewCol));
-	return NewCol;
-}
-
 std::shared_ptr<BoneSocketCollision> BaseMonster::CreateSocketCollision(int _Order, Enum_BoneType _Type, std::string _ColName)
 {
 	int SocketIndex = GetBoneIndex(_Type);
-	if (auto FindIter = Collisions.find(SocketIndex); FindIter != Collisions.end())
+	if (auto FindIter = SocketCollisions.find(SocketIndex); FindIter != SocketCollisions.end())
 	{
 		MsgBoxAssert("이미 존재하는 충돌체를 생성하려 했습니다.");
 		return nullptr;
@@ -135,13 +168,13 @@ std::shared_ptr<BoneSocketCollision> BaseMonster::CreateSocketCollision(int _Ord
 	NewCol->SetBoneIndex(SocketIndex);
 	NewCol->SetSocket(&GetBoneMatrixToType(_Type));
 	NewCol->Off();
-	Collisions.insert(std::make_pair(SocketIndex, NewCol));
+	SocketCollisions.insert(std::make_pair(SocketIndex, NewCol));
 	return NewCol;
 }
 
 std::shared_ptr<BoneSocketCollision> BaseMonster::GetSocketCollision(int _Index)
 {
-	if (auto FindIter = Collisions.find(_Index); FindIter != Collisions.end())
+	if (auto FindIter = SocketCollisions.find(_Index); FindIter != SocketCollisions.end())
 	{
 		return FindIter->second;
 	}

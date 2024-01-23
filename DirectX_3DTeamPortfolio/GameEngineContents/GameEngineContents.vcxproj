@@ -210,6 +210,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="DummyActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FrameEventHelper.cpp" />
     <ClCompile Include="FrameEventObject.cpp" />
     <ClCompile Include="FXAAEffect.cpp">
@@ -350,6 +354,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ContentsMath.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DummyActor.h">
       <SubType>
       </SubType>
     </ClInclude>

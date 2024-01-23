@@ -55,7 +55,6 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 		return;
 	}
 
-
 	IsEnd = false;
 
 	if (false == bOnceStart)
@@ -483,7 +482,11 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 
 	if (nullptr != CurAnimation)
 	{
-		BlendBoneMatrixs = AnimationBoneNotOffset;
+		if (0.0f != CurAnimation->PlayTime)
+		{
+			BlendBoneMatrixs = AnimationBoneNotOffset;
+		}
+
 		CurAnimation->Reset();
 	}
 

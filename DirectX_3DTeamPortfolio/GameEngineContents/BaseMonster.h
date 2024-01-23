@@ -8,6 +8,29 @@ enum class Enum_MonsterType
 	LothricKn = 1280,
 };
 
+// 상태 Enum 
+// 최대 31개까지 bool값 지원
+// 만든 목적은 에디터에서 몬스터의 Flag 수치를 변경하기 위해 만들었습니다.
+enum class Enum_MonsterStatus
+{
+	None = 0,
+	HitValue,
+	GaurdingValue,
+	JumpPossible,
+	ParryPossible,
+	DeathValue,
+};
+
+// 실제 상태 비트값
+enum class Enum_MonsterFlag
+{
+	None = 0,
+	HitValue = (1 << 0),
+	GaurdingValue = (1 << 3),
+	DeathValue = (1 << 4),
+	JumpPossible = (1 << 29),
+	ParryPossible = (1 << 30),
+};
 
 // Collision, BoneIndex
 enum class Enum_BoneType
@@ -30,6 +53,19 @@ namespace std
 	};
 }
 
+namespace std
+{
+	template<>
+	class hash<Enum_MonsterStatus>
+	{
+	public:
+		int operator()(Enum_MonsterStatus _Type) const
+		{
+			return static_cast<int>(_Type);
+		}
+	};
+}
+
 
 
 
@@ -37,15 +73,6 @@ namespace std
 class BoneSocketCollision;
 class BaseMonster : public GameEngineActor
 {
-protected:
-	enum Enum_StatusFlag
-	{
-		None = 0,
-		IsHit = (1 << 0),
-		IsAbleJump = (1 << 1),
-		IsGaurding = (1 << 2)
-	};
-
 private:
 	friend class MonsterInitial;
 
@@ -60,19 +87,22 @@ public:
 	BaseMonster& operator=(const BaseMonster& _Other) = delete;
 	BaseMonster& operator=(BaseMonster&& _Other) noexcept = delete;
 
+	// Path
 	static std::string GetEventPath(int _ID);
 	static bool LoadEvent(int _ID);
 
+	// ID
 	inline void SetID(Enum_MonsterType _Type) { ActorID = static_cast<int>(_Type); }
 	inline int GetID() const { return ActorID; }
 
-	inline std::shared_ptr<GameContentsFBXRenderer>& GetFBXRenderer() { return MainRenderer; }
-	inline std::map<int, std::shared_ptr<BoneSocketCollision>>& GetCollisions() { return Collisions; }
 
 	void AddWDirection(float _Degree);
 	void SetWDirection(float _Degree);
 	float GetWDirection() const;
 
+	// Getter
+	inline std::shared_ptr<GameContentsFBXRenderer>& GetFBXRenderer() { return MainRenderer; }
+	inline std::map<int, std::shared_ptr<BoneSocketCollision>>& GetCollisions() { return SocketCollisions; }
 	std::shared_ptr<BoneSocketCollision> GetSocketCollision(int _Index);
 
 protected:
@@ -83,7 +113,7 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 	
-
+	// Mesh
 	template<typename EnumType>
 	void MeshOnOffSwitch(EnumType _MeshIndex)
 	{
@@ -102,32 +132,20 @@ protected:
 		MainRenderer->GetRenderUnits().at(static_cast<int>(_MeshIndex))[0]->Off();
 	}
 
-	bool IsOnFlag(Enum_StatusFlag _Flag) const;
-	void SetFlag(Enum_StatusFlag _Flag, bool _Value);
-	void AddFlag(Enum_StatusFlag _Flag);
-	void SubFlag(Enum_StatusFlag _Flag);
 
-	void SetBoneIndex(Enum_BoneType _BoneType, int _BoneNum);
+	// Flag
+	bool GetFlag(Enum_MonsterStatus _Flag) const;
+	void SetFlag(Enum_MonsterStatus _Flag, bool _Value);
+	void AddFlag(Enum_MonsterStatus _Flag);
+	void SubFlag(Enum_MonsterStatus _Flag);
+	void DebugFlag();
+
+	// BoneIndex
+	void AddBoneIndex(Enum_BoneType _BoneType, int _BoneNum);
 	int GetBoneIndex(Enum_BoneType _BoneType);
 	float4x4& GetBoneMatrixToType(Enum_BoneType _BoneType);
 
-	/// <summary>
-	/// 본 소켓 행렬로 자동으로 콜리전 Model행렬 업데이트를 수행하는 콜리전
-	/// map 컨테이너에 있다면 ReturnType이 반환되며, 없으면 만들어서 반환됩니다.
-	/// </summary>
-	/// <typeparam name="MonsterType">콜리전 오더 타입</typeparam>
-	/// <param name="_Order">콜리전 오더</param>
-	/// <param name="_Index">본 해시 값</param>
-	/// <returns>Collision 공유 포인터</returns>
-	/// <list>이 함수는 각 클래스에 본소켓과 매핑된 BoneIndex를 사용하기 때문에 정의하지 않으면 사용할 수 없음 </list>
-	template<typename OrderType>
-	std::shared_ptr<BoneSocketCollision> FindAndCreateSocketCollision(OrderType _Order, Enum_BoneType _Type)
-	{
-		return FindAndCreateSocketCollision(static_cast<int>(_Order), _Type);
-	}
-
-	std::shared_ptr<BoneSocketCollision> FindAndCreateSocketCollision(int _Order, Enum_BoneType _Type);
-
+	// SocketCollision
 	template<typename OrderType>
 	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(OrderType _Order, Enum_BoneType _Type, std::string ColName = "")
 	{
@@ -138,9 +156,12 @@ protected:
 
 	std::shared_ptr<BoneSocketCollision> FindSocketCollision(Enum_BoneType _Type);
 
+private:
+	int FindFlag(Enum_MonsterStatus _Status) const;
+
 protected:
 	std::shared_ptr<GameContentsFBXRenderer> MainRenderer;
-	std::map<int, std::shared_ptr<BoneSocketCollision>> Collisions;
+	std::map<int, std::shared_ptr<BoneSocketCollision>> SocketCollisions;
 	std::shared_ptr<class GameEnginePhysXCapsule> Capsule;
 
 	GameEngineState MainState;
@@ -149,6 +170,8 @@ protected:
 
 private:
 	std::unordered_map<Enum_BoneType, int> BoneIndex;
+
+	static std::unordered_map<Enum_MonsterStatus, Enum_MonsterFlag> FlagIndex;
 
 	int ActorID = EMPTY_ID;
 

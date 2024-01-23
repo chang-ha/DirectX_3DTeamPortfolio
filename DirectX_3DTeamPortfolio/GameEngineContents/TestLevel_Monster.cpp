@@ -3,6 +3,7 @@
 
 #include "Monster_LothricKn.h"
 #include "Monster_Hollow_Unarmed.h"
+#include "DummyActor.h"
 
 
 TestLevel_Monster::TestLevel_Monster() 
@@ -32,10 +33,15 @@ void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 
 	std::shared_ptr<Monster_Hollow_Unarmed> Hollow = CreateActor<Monster_Hollow_Unarmed>(static_cast<int>(Enum_UpdateOrder::Monster), "Hollow");
 	Hollow->SetStatePray1();
+
+
+	std::shared_ptr<DummyActor> pDummy = CreateActor<DummyActor>(Enum_UpdateOrder::Monster);
+	pDummy->Transform.SetWorldPosition(float4(300, 0, 300));;
 }
 
 void TestLevel_Monster::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	AllDeathObjectGroupConvert<Monster_LothricKn>(Enum_UpdateOrder::Monster);
 	AllDeathObjectGroupConvert<Monster_Hollow_Unarmed>(Enum_UpdateOrder::Monster);
+	AllDeathObjectGroupConvert<DummyActor>(Enum_UpdateOrder::Monster);
 }
