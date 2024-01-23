@@ -371,16 +371,19 @@ float4 GameEngineCamera::GetScreenPos(GameEngineTransform& _TargetTransform)
 		RayStartViewRectSpace.Y = -NormalizedY * Scale.Y;
 
 		Result = RayStartViewRectSpace;
+
+		Result -= float4{ Scale.X / 2, -Scale.Y / 2 }; 
 	}
 		break;
 	case EPROJECTIONTYPE::Orthographic:
 	{
-		float4 ScreenPos = TargetTransformData.WorldPosition;
-		ScreenPos *= TargetTransformData.ViewMatrix;
-		ScreenPos *= TargetTransformData.ProjectionMatrix;
-		ScreenPos *= ViewPort;
-		
-		Result = ScreenPos;
+		float4 screenpos = TargetTransformData.WorldPosition;
+		screenpos *= TargetTransformData.ViewMatrix;
+		screenpos *= TargetTransformData.ProjectionMatrix;
+		screenpos *= ViewPort;
+
+		Result = screenpos;
+	}
 
 		//Result -= float4{ Scale.X / 2, -Scale.Y / 2 }; 
 	}
