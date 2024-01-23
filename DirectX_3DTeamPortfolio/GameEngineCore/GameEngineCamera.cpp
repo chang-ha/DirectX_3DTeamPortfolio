@@ -384,15 +384,10 @@ float4 GameEngineCamera::GetScreenPos(GameEngineTransform& _TargetTransform)
 
 		Result = screenpos;
 	}
-
-		//Result -= float4{ Scale.X / 2, -Scale.Y / 2 }; 
-	}
 		break;
 	default:
 		break;
 	}
-
-	
 
 	return Result;
 }
