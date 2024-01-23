@@ -28,18 +28,13 @@ void TestLevel_Boss::Start()
 {
 	ContentLevel::Start();
 
-	// GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, 3000.0f });
-	// GetMainCamera()->Transform.AddWorldRotation({ 0.f, 180.f, 0.f });
-
-	Scene->setVisualizationParameter(physx::PxVisualizationParameter::eACTOR_AXES, 0.0f);
-
 	// Test Ground
 	physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
 	physx::PxMaterial* mMaterial = GameEnginePhysX::GetDefaultMaterial();
 	physx::PxRigidStatic* groundPlane = PxCreatePlane(*Physics, physx::PxPlane(0, 1, 0, 50), *mMaterial);
 	Scene->addActor(*groundPlane);
 
-	Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
+	Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
 	Boss_Object->Transform.SetLocalPosition({0.f, 0.f, 1000.f});
 	{
 		std::shared_ptr<ContentsLight> Test_Light1 = CreateActor<ContentsLight>(0);

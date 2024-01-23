@@ -11,6 +11,7 @@ public:
 protected:
 
 private:
+	std::vector<const char*> AniNames;
 	Boss_Vordt* Linked_Boss = nullptr;
 	bool IsChasingCamera = false;
 	bool ChasingFront = false;
@@ -21,6 +22,7 @@ enum class Enum_BossState
 {
 	Idle,
 	Move,
+	Hit_Down_004,
 };
 
 class Boss_Vordt : public GameEngineActor
@@ -55,7 +57,16 @@ private:
 
 	// State
 	GameEngineState BossState;
-	void IdleStart();
-	void IdleUpdate(float _Delta);
-	void IdleEnd();
+	// Howling
+	void Idle_Start();
+	void Idle_Update(float _Delta);
+	void Idle_End();
+	// Idle
+
+	// Walk
+
+	//
+	void Hit_Down_004_Start();
+	void Hit_Down_004_Update(float _Delta);
+	void Hit_Down_004_End();
 };

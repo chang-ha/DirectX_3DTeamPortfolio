@@ -17,12 +17,14 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 	int AniIndex = 0;
 
-	std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& AniInfo = Linked_Boss->BossFBXRenderer->GetAnimationInfos();
-	std::vector<const char*> AniNames;
-	AniNames.reserve(AniInfo.size());
-	for (std::pair<const std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& _Pair : AniInfo)
+	if (0 == AniNames.capacity())
 	{
-		AniNames.push_back(_Pair.first.data());
+		std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& AniInfo = Linked_Boss->BossFBXRenderer->GetAnimationInfos();
+		AniNames.reserve(AniInfo.size());
+		for (std::pair<const std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& _Pair : AniInfo)
+		{
+			AniNames.push_back(_Pair.first.data());
+		}
 	}
 
 	{
@@ -181,6 +183,14 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 			GameEngineFBXAnimation::Load(Files[i].GetStringPath());
 		}
 
+		BossFBXRenderer->CreateFBXAnimation("Howling", "Howling.FBX", { BOSS_ANI_SPEED, true });
+		BossFBXRenderer->CreateFBXAnimation("Idle", "Idle.FBX", { BOSS_ANI_SPEED, true });
+		BossFBXRenderer->CreateFBXAnimation("Walk_Front", "Walk_Front.FBX", { BOSS_ANI_SPEED, true });
+		BossFBXRenderer->CreateFBXAnimation("Walk_Left", "Walk_Left.FBX", { BOSS_ANI_SPEED, true });
+		BossFBXRenderer->CreateFBXAnimation("Walk_Right", "Walk_Right.FBX", { BOSS_ANI_SPEED, true });
+		BossFBXRenderer->CreateFBXAnimation("Jump_Back", "Jump_Back.FBX", { BOSS_ANI_SPEED, true });
+		BossFBXRenderer->CreateFBXAnimation("Jump_Left", "Jump_Left.FBX", { BOSS_ANI_SPEED, true });
+		BossFBXRenderer->CreateFBXAnimation("Jump_Right", "Jump_Right.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Breath", "Breath.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Combo1_Step1", "Combo1_Step1.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Combo1_Step2", "Combo1_Step2.FBX", { BOSS_ANI_SPEED, true });
@@ -202,11 +212,6 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BossFBXRenderer->CreateFBXAnimation("Hit_Down_005", "Hit_Down_005.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Hit_Down_006", "Hit_Down_006.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Hit_Groggy", "Hit_Groggy.FBX", { BOSS_ANI_SPEED, true });
-		BossFBXRenderer->CreateFBXAnimation("Howling", "Howling.FBX", { BOSS_ANI_SPEED, true });
-		BossFBXRenderer->CreateFBXAnimation("Idle", "Idle.FBX", { BOSS_ANI_SPEED, true });
-		BossFBXRenderer->CreateFBXAnimation("Jump_Back", "Jump_Back.FBX", { BOSS_ANI_SPEED, true });
-		BossFBXRenderer->CreateFBXAnimation("Jump_Left", "Jump_Left.FBX", { BOSS_ANI_SPEED, true });
-		BossFBXRenderer->CreateFBXAnimation("Jump_Right", "Jump_Right.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Rush&Hit&Turn&Rush", "Rush&Hit&Turn&Rush.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Rush&Hit&Turn", "Rush&Hit&Turn.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Rush&Turn", "Rush&Turn.FBX", { BOSS_ANI_SPEED, true });
@@ -221,10 +226,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BossFBXRenderer->CreateFBXAnimation("Turn_Left_Twice", "Turn_Left_Twice.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Turn_Right", "Turn_Right.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Turn_Right_Twice", "Turn_Right_Twice.FBX", { BOSS_ANI_SPEED, true });
-		BossFBXRenderer->CreateFBXAnimation("Walk_Front", "Walk_Front.FBX", { BOSS_ANI_SPEED, true });
-		BossFBXRenderer->CreateFBXAnimation("Walk_Left", "Walk_Left.FBX", { BOSS_ANI_SPEED, true });
-		BossFBXRenderer->CreateFBXAnimation("Walk_Right", "Walk_Right.FBX", { BOSS_ANI_SPEED, true });
-		BossFBXRenderer->ChangeAnimation("Idle");
+		BossFBXRenderer->ChangeAnimation("Hit_Down_004");
 	}
 
 	// Root Motion
@@ -251,10 +253,10 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	BossFBXRenderer->SetRootMotion("Hit_Down_006");
 	BossFBXRenderer->SetRootMotion("Hit_Groggy");
 	BossFBXRenderer->SetRootMotion("Howling");
-	BossFBXRenderer->SetRootMotion("Idle");
-	BossFBXRenderer->SetRootMotion("Jump_Back");
-	BossFBXRenderer->SetRootMotion("Jump_Left");
-	BossFBXRenderer->SetRootMotion("Jump_Right");
+	BossFBXRenderer->SetRootMotion("Idle", "", Enum_RootMotionMode::RealTimeDir);
+	BossFBXRenderer->SetRootMotion("Jump_Back", "", Enum_RootMotionMode::RealTimeDir);
+	BossFBXRenderer->SetRootMotion("Jump_Left", "", Enum_RootMotionMode::RealTimeDir);
+	BossFBXRenderer->SetRootMotion("Jump_Right", "", Enum_RootMotionMode::RealTimeDir);
 	BossFBXRenderer->SetRootMotion("Rush&Hit&Turn&Rush");
 	BossFBXRenderer->SetRootMotion("Rush&Hit&Turn");
 	BossFBXRenderer->SetRootMotion("Rush&Turn");
@@ -290,12 +292,18 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	GUI->Linked_Boss = this;
 
 	CreateStateParameter Idle;
-	Idle.Start = std::bind(&Boss_Vordt::IdleStart, this);
-	Idle.Stay = std::bind(&Boss_Vordt::IdleUpdate, this, std::placeholders::_1);
-	Idle.End = std::bind(&Boss_Vordt::IdleEnd, this);
+	Idle.Start = std::bind(&Boss_Vordt::Idle_Start, this);
+	Idle.Stay = std::bind(&Boss_Vordt::Idle_Update, this, std::placeholders::_1);
+	Idle.End = std::bind(&Boss_Vordt::Idle_End, this);
+
+	CreateStateParameter Hit_Down_004;
+	Hit_Down_004.Start = std::bind(&Boss_Vordt::Hit_Down_004_Start, this);
+	Hit_Down_004.Stay = std::bind(&Boss_Vordt::Hit_Down_004_Update, this, std::placeholders::_1);
+	Hit_Down_004.End = std::bind(&Boss_Vordt::Hit_Down_004_End, this);
 
 	BossState.CreateState(Enum_BossState::Idle, Idle);
-	BossState.ChangeState(Enum_BossState::Idle);
+	BossState.CreateState(Enum_BossState::Hit_Down_004, Hit_Down_004);
+	BossState.ChangeState(Enum_BossState::Hit_Down_004);
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
@@ -379,9 +387,6 @@ void Boss_Vordt::Update(float _Delta)
 		Capsule->CollisionOff();
 		Capsule->ResetMove(Enum_Axies::All);
 	}
-
-	float* Dir = Capsule->GetDirPtr();
-	*Dir += 1.0f;
 }
 
 void Boss_Vordt::Release()
