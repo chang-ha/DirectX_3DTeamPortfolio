@@ -18,6 +18,7 @@ GameEngineCamera::~GameEngineCamera()
 {
 }
 
+
 void GameEngineCamera::Start()
 {
 	GameEngineActor::Start();
@@ -324,4 +325,71 @@ void GameEngineCamera::CameraUpdate(float _DeltaTime)
 		break;
 	}
 
+}
+
+
+float4 GameEngineCamera::GetScreenPos(GameEngineTransform& _TargetTransform)
+{
+
+
+	// 투영행렬 계산
+	_TargetTransform.CalculationViewAndProjection(Transform.GetConstTransformDataRef());
+
+	const TransformData& TargetTransformData = _TargetTransform.GetConstTransformDataRef();
+
+	// 스크린 좌표 계산
+
+	float4x4 ViewPort;
+	float4 Scale = GameEngineCore::MainWindow.GetScale();
+	ViewPort.ViewPort(Scale.X, Scale.Y, 0, 0);
+
+	float4 Result;
+
+	switch (ProjectionType)
+	{
+	case EPROJECTIONTYPE::Perspective:
+
+		float4 ScreenPos = TargetTransformData.WorldPosition;
+
+
+		float4x4 VM = TargetTransformData.ViewMatrix;
+		float4x4 PM = TargetTransformData.ProjectionMatrix;
+
+		ScreenPos *= VM;
+		ScreenPos *= PM;
+
+
+		const float RHW = 1.0f / ScreenPos.W;
+
+		float4 PosInScreenSpace = float4(ScreenPos.X * RHW, ScreenPos.Y * RHW, ScreenPos.Z * RHW, ScreenPos.W);
+		const float NormalizedX = (PosInScreenSpace.X / 2.f) + 0.5f;
+		const float NormalizedY = 1.f - (PosInScreenSpace.Y / 2.f) - 0.5f;
+
+		float4 RayStartViewRectSpace;
+
+		RayStartViewRectSpace.X = NormalizedX * Scale.X;
+		RayStartViewRectSpace.Y = -NormalizedY * Scale.Y;
+
+		Result = RayStartViewRectSpace;
+
+		break;
+	case EPROJECTIONTYPE::Orthographic:
+
+		float4 ScreenPos = TargetTransformData.WorldPosition;
+		ScreenPos *= TargetTransformData.ViewMatrix;
+		ScreenPos *= TargetTransformData.ProjectionMatrix;
+		ScreenPos *= ViewPort;
+		
+		Result = ScreenPos;
+
+		//Result -= float4{ Scale.X / 2, -Scale.Y / 2 }; 
+
+		break;
+	default:
+		break;
+	}
+
+	
+
+	return Result;
 }
