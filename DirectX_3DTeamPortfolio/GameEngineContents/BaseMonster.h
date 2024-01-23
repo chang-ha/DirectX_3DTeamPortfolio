@@ -130,7 +130,6 @@ protected:
 	std::shared_ptr<GameContentsFBXRenderer> MainRenderer;
 	std::map<int, std::shared_ptr<BoneSocketCollision>> Collisions;
 	std::shared_ptr<class GameEnginePhysXCapsule> Capsule;
-
 	GameEngineState MainState;
 
 	int Flags = 0;

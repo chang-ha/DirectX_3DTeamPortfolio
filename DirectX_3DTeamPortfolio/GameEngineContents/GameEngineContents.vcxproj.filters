@@ -143,6 +143,7 @@
     <ClCompile Include="LightGUI.cpp">
       <Filter>ImGui\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="BasePlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -284,6 +285,7 @@
     <ClInclude Include="AnimationInfoGUI.h">
       <Filter>ImGui\Editor</Filter>
     </ClInclude>
+    <ClInclude Include="BasePlayer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
