@@ -154,11 +154,68 @@ public:
 				Right.Center.z = 0.0f;
 				return Left.Intersects(Right);
 			};
+		
+		ArrColFunction[static_cast<int>(ColType::AABBBOX3D)][static_cast<int>(ColType::AABBBOX3D)] = [](const CollisionParameter& _Data)
+		{
+			DirectX::BoundingBox Left = _Data.Left.AABB;
+			DirectX::BoundingBox Right = _Data.Right.AABB;
+			return Left.Intersects(Right);
+		};
+
+		ArrColFunction[static_cast<int>(ColType::AABBBOX3D)][static_cast<int>(ColType::SPHERE3D)] = [](const CollisionParameter& _Data)
+			{
+				DirectX::BoundingBox Left = _Data.Left.AABB;
+				DirectX::BoundingSphere Right = _Data.Right.SPHERE;
+				return Left.Intersects(Right);
+			};
+
+		ArrColFunction[static_cast<int>(ColType::AABBBOX3D)][static_cast<int>(ColType::OBBBOX3D)] = [](const CollisionParameter& _Data)
+			{
+				DirectX::BoundingBox Left = _Data.Left.AABB;
+				DirectX::BoundingOrientedBox Right = _Data.Right.OBB;
+				return Left.Intersects(Right);
+			};
+
+		ArrColFunction[static_cast<int>(ColType::SPHERE3D)][static_cast<int>(ColType::AABBBOX3D)] = [](const CollisionParameter& _Data)
+			{
+				DirectX::BoundingSphere Left = _Data.Left.SPHERE;
+				DirectX::BoundingBox Right = _Data.Right.AABB;
+				return Left.Intersects(Right);
+			};
 
 		ArrColFunction[static_cast<int>(ColType::SPHERE3D)][static_cast<int>(ColType::SPHERE3D)] = [](const CollisionParameter& _Data)
 			{
 				DirectX::BoundingSphere Left = _Data.Left.SPHERE;
 				DirectX::BoundingSphere Right = _Data.Right.SPHERE;
+				return Left.Intersects(Right);
+			};
+
+		ArrColFunction[static_cast<int>(ColType::SPHERE3D)][static_cast<int>(ColType::OBBBOX3D)] = [](const CollisionParameter& _Data)
+			{
+				DirectX::BoundingSphere Left = _Data.Left.SPHERE;
+				DirectX::BoundingOrientedBox Right = _Data.Right.OBB;
+				return Left.Intersects(Right);
+			};
+
+
+		ArrColFunction[static_cast<int>(ColType::OBBBOX3D)][static_cast<int>(ColType::AABBBOX3D)] = [](const CollisionParameter& _Data)
+			{
+				DirectX::BoundingOrientedBox Left = _Data.Left.OBB;
+				DirectX::BoundingBox Right = _Data.Right.AABB;
+				return Left.Intersects(Right);
+			};
+
+		ArrColFunction[static_cast<int>(ColType::OBBBOX3D)][static_cast<int>(ColType::SPHERE3D)] = [](const CollisionParameter& _Data)
+			{
+				DirectX::BoundingOrientedBox Left = _Data.Left.OBB;
+				DirectX::BoundingSphere Right = _Data.Right.SPHERE;
+				return Left.Intersects(Right);
+			};
+
+		ArrColFunction[static_cast<int>(ColType::OBBBOX3D)][static_cast<int>(ColType::OBBBOX3D)] = [](const CollisionParameter& _Data)
+			{
+				DirectX::BoundingOrientedBox Left = _Data.Left.OBB;
+				DirectX::BoundingOrientedBox Right = _Data.Right.OBB;
 				return Left.Intersects(Right);
 			};
 
