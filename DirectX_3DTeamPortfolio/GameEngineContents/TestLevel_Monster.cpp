@@ -36,7 +36,7 @@ void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 	std::shared_ptr<DummyActor> pDummy = CreateActor<DummyActor>(Enum_UpdateOrder::Monster);
-	pDummy->Transform.SetWorldPosition(float4(300, 0, 300));;
+	pDummy->Transform.SetWorldPosition(float4(300, 0, 300));
 }
 
 void TestLevel_Monster::LevelEnd(GameEngineLevel* _NextLevel)
