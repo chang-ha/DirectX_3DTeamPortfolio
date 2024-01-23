@@ -267,7 +267,10 @@ void GameContentsFBXAnimationInfo::RootMotionUpdate(float _Delta)
 	MotionVector.Y *= 10000.f;
 	MotionVector.Z *= 10000.f;
 
-	ParentRenderer->RootMotionComponent->AddWorldRotation(float4(0.f, MotionVector.W * GameEngineMath::R2D, 0.f, 0.f));
+	if (true == mRootMotionData.IsRotation)
+	{
+		ParentRenderer->RootMotionComponent->AddWorldRotation(float4(0.f, MotionVector.W * GameEngineMath::R2D, 0.f, 0.f));
+	}
 
 	switch (mRootMotionData.RootMotionMode)
 	{

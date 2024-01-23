@@ -35,13 +35,33 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	ImGui::NewLine();
 
 	{
-		ImGui::Checkbox("ChasingCamera", &IsChasingCamera);
+		if (true == ImGui::Checkbox("ChasingCamera", &IsChasingCamera) && true == ChasingFront)
+		{
+			Linked_Boss->GetLevel()->GetMainCamera()->Transform.SetWorldRotation(float4(0.f, 0.f, 0.f));
+			ChasingCameraPos = float4(0.f, 100.f, -1200.f);
+			ChasingFront = false;
+			Linked_Boss->GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Linked_Boss->Transform.GetWorldPosition() + Linked_Boss->GUI->ChasingCameraPos);
+		}
+	}
+
+	if (true == IsChasingCamera)
+	{
+		ImGui::Dummy(ImVec2(15.f, 20.f));
+		ImGui::SameLine();
+		{
+			if (true == ImGui::Checkbox("ChasingFront", &ChasingFront))
+			{
+				Linked_Boss->GetLevel()->GetMainCamera()->Transform.AddWorldRotation(float4(0.f, 180.f, 0.f));
+				ChasingCameraPos.Z *= -1.f;
+			}
+		}
 	}
 
 	ImGui::NewLine();
 
+	if (true == ImGui::Checkbox("RootMotionRot", &IsRotation))
 	{
-		ImGui::Checkbox("ChasingFront", &ChasingFront);
+		Linked_Boss->BossFBXRenderer->GetCurAnimation()->SwitchRootMotionRot();
 	}
 
 	ImGui::NewLine();
@@ -83,10 +103,19 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	ImGui::NewLine();
 
 	{
-		float Dir = Linked_Boss->Capsule->GetDir();
-		std::string String = "Z Angle\n";
-		String += "Z Angle : " + std::to_string(Dir) + "\n";
+		ImGui::DragFloat("Z Dir", Linked_Boss->Capsule->GetDirPtr(), 0.1f, -180.f, 180.f);
+	}
+
+	ImGui::NewLine();
+
+	{
+		std::string String = "Z Rotation\n";
 		ImGui::Text(String.c_str());
+		float4 Rot = Linked_Boss->Transform.GetWorldRotationEuler();
+		if (true == ImGui::DragFloat("Z Rot", &Rot.Y, 0.1f, -180.f, 180.f))
+		{
+			Linked_Boss->Capsule->SetWorldRotation(Rot);
+		}
 	}
 
 	ImGui::NewLine();
@@ -194,7 +223,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BossFBXRenderer->CreateFBXAnimation("Walk_Front", "Walk_Front.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Walk_Left", "Walk_Left.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Walk_Right", "Walk_Right.FBX", { BOSS_ANI_SPEED, true });
-		BossFBXRenderer->ChangeAnimation("Thrust");
+		BossFBXRenderer->ChangeAnimation("Idle");
 	}
 
 	// Root Motion
@@ -239,8 +268,8 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	BossFBXRenderer->SetRootMotion("Turn_Left_Twice");
 	BossFBXRenderer->SetRootMotion("Turn_Right");
 	BossFBXRenderer->SetRootMotion("Turn_Right_Twice");
-	BossFBXRenderer->SetRootMotion("Walk_Front");
-	BossFBXRenderer->SetRootMotion("Walk_Left");
+	BossFBXRenderer->SetRootMotion("Walk_Front", "", Enum_RootMotionMode::RealTimeDir);
+	BossFBXRenderer->SetRootMotion("Walk_Left", "", Enum_RootMotionMode::RealTimeDir);
 	BossFBXRenderer->SetRootMotion("Walk_Right", "", Enum_RootMotionMode::RealTimeDir);
 
 	//// Boss Collision
@@ -301,33 +330,7 @@ void Boss_Vordt::Update(float _Delta)
 
 	if (true == GUI->IsChasingCamera)
 	{
-		if (true == GUI->ChasingFront)
-		{
-			GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Transform.GetWorldPosition() + float4(0.f, 100.f, 1200.f));
-			GetLevel()->GetMainCamera()->Transform.SetWorldRotation(float4(0.f, 180.f, 0.f));
-		}
-		else
-		{
-			GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Transform.GetWorldPosition() + float4(0.f, 100.f, -1200.f));
-			GetLevel()->GetMainCamera()->Transform.SetWorldRotation(float4(0.f, 0.0f, 0.f));
-		}
-	}
-
-	if (true == GUI->ChasingFront)
-	{
-		GetLevel()->GetMainCamera()->Transform.SetWorldRotation(float4(0.f, 180.f, 0.f));
-	}
-	else
-	{
-		GetLevel()->GetMainCamera()->Transform.SetWorldRotation(float4(0.f, 0.0f, 0.f));
-	}
-
-	if (false == GameEngineInput::IsPress('W', this)
-		&& false == GameEngineInput::IsPress('A', this)
-		&& false == GameEngineInput::IsPress('S', this)
-		&& false == GameEngineInput::IsPress('D', this))
-	{
-		// Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z);
+		GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Transform.GetWorldPosition() + GUI->ChasingCameraPos);
 	}
 
 	if (true == GameEngineInput::IsPress('W', this))
@@ -376,6 +379,8 @@ void Boss_Vordt::Update(float _Delta)
 		Capsule->ResetMove(Enum_Axies::All);
 	}
 
+	float* Dir = Capsule->GetDirPtr();
+	*Dir += 1.0f;
 }
 
 void Boss_Vordt::Release()
