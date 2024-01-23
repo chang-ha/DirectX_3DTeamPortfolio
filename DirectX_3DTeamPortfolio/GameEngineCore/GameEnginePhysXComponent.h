@@ -58,6 +58,11 @@ public:
 		return Dir;
 	}
 
+	inline float* GetDirPtr()
+	{
+		return &Dir;
+	}
+
 	void ResetMove(Enum_Axies _Axies)
 	{
 		ResetMove(static_cast<int>(_Axies));

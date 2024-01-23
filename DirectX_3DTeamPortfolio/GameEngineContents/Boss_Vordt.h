@@ -15,7 +15,6 @@ private:
 	bool IsChasingCamera = false;
 	bool ChasingFront = false;
 	float4 ChasingCameraPos = float4(0.f, 100.f, -1200.f);
-	bool IsRotation = true;
 };
 
 enum class Enum_BossState

@@ -59,6 +59,7 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 	ImGui::NewLine();
 
+	bool IsRotation = Linked_Boss->BossFBXRenderer->GetCurAnimation()->IsRootMotionRot();
 	if (true == ImGui::Checkbox("RootMotionRot", &IsRotation))
 	{
 		Linked_Boss->BossFBXRenderer->GetCurAnimation()->SwitchRootMotionRot();

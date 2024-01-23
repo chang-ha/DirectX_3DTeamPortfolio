@@ -55,6 +55,11 @@ public:
 	// RootMotion
 	RootMotionData mRootMotionData;
 
+	inline bool IsRootMotion()
+	{
+		return mRootMotionData.RootMotion;
+	}
+
 	inline void RootMotionOn()
 	{
 		mRootMotionData.RootMotion = true;
@@ -68,6 +73,11 @@ public:
 	inline void SwitchRootMotion()
 	{
 		mRootMotionData.RootMotion = !mRootMotionData.RootMotion;
+	}
+
+	inline bool IsRootMotionRot()
+	{
+		return mRootMotionData.IsRotation;
 	}
 
 	inline void RootMotionRotOn()
