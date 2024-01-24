@@ -311,7 +311,7 @@ void GameEngineFBXMesh::BigFBXLoad(size_t _Num, std::string_view _Name)
 
 	std::string ExtensionName = "FBX";
 
-	int FileNum = _Num;
+	int FileNum = static_cast<int>(_Num);
 
 	ExtensionName += std::to_string(FileNum);
 

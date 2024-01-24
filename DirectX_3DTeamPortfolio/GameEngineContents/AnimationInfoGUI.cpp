@@ -58,7 +58,13 @@ void AnimationInfoGUI::ShowActorList(GameEngineLevel* _Level)
 
 		for (const std::shared_ptr<GameEngineObject>& Object : ObjectGroup)
 		{
-			ActorNames.push_back(Object->GetName());
+			std::string ObjectName = Object->GetName();
+			if (ObjectName.empty())
+			{
+				continue;
+			}
+
+			ActorNames.push_back(ObjectName);
 			CObjectNames.push_back(ActorNames[Cnt].c_str());
 			Cnt++;
 		}

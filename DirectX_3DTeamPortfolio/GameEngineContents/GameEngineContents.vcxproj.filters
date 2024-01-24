@@ -149,6 +149,13 @@
     <ClCompile Include="BaseActor.cpp">
       <Filter>Monster</Filter>
     </ClCompile>
+    <ClCompile Include="SwitchFlagFrameEvent.cpp" />
+    <ClCompile Include="ContentsDebug.cpp">
+      <Filter>Monster\LothricKnight</Filter>
+    </ClCompile>
+    <ClCompile Include="DummyPath.cpp">
+      <Filter>Monster\LothricKnight</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -295,6 +302,13 @@
     </ClInclude>
     <ClInclude Include="BaseActor.h">
       <Filter>Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="SwitchFlagFrameEvent.h" />
+    <ClInclude Include="ContentsDebug.h">
+      <Filter>Monster\LothricKnight</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyPath.h">
+      <Filter>Monster\LothricKnight</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
