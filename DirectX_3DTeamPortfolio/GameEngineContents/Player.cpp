@@ -67,7 +67,7 @@ void Player::Start()
 	FBXRenderer->CreateFBXAnimation("Walk_Left", "020103.FBX", { Frame, true });
 	FBXRenderer->CreateFBXAnimation("Slow_Shield_Move", "020140.FBX", { Frame, true });
 	FBXRenderer->CreateFBXAnimation("Run", "020200.FBX", { Frame, true });
-	FBXRenderer->CreateFBXAnimation("Shield_Move", "023050.FBX", { Frame, true });
+	//FBXRenderer->CreateFBXAnimation("Shield_Move", "023050.FBX", { Frame, true });
 	FBXRenderer->CreateFBXAnimation("Back_Step", "027000.FBX", { Frame, true });
 	FBXRenderer->CreateFBXAnimation("Roll_Behind", "027101.FBX", { Frame, true });
 	FBXRenderer->CreateFBXAnimation("Roll_Right", "027102.FBX", { Frame, true });
@@ -89,7 +89,7 @@ void Player::Start()
 
 	FBXRenderer->CreateFBXAnimation("Parrying_Attack", "030400.FBX", { Frame, true });
 	FBXRenderer->CreateFBXAnimation("DownAttack", "030810.FBX", { Frame, true });
-	FBXRenderer->CreateFBXAnimation("Parrying", "032100.FBX", { Frame, true });
+	FBXRenderer->CreateFBXAnimation("Parrying", "032100.FBX", { Frame, false });
 	FBXRenderer->CreateFBXAnimation("Portion_Drink_01", "050110.FBX", { Frame, false });
 	FBXRenderer->CreateFBXAnimation("Portion_Drink_02", "050111.FBX", { Frame, false });
 	FBXRenderer->CreateFBXAnimation("Portion_Drink_03", "050112.FBX", { Frame, false });
@@ -110,8 +110,11 @@ void Player::Start()
 	FBXRenderer->CreateFBXAnimation("Behind_Stop", "022101.FBX", { Frame, false }); // µÚ ¸ØÃã 
 	FBXRenderer->CreateFBXAnimation("Right_Stop", "022103.FBX", { Frame, false }); // ¿À¸¥ÂÊ ¸ØÃã 
 	FBXRenderer->CreateFBXAnimation("Forward_Stop", "022200.FBX", { Frame, false }); // ¾Õ ¸ØÃã 
-
+	FBXRenderer->CreateFBXAnimation("Shield_Move", "023100.FBX", { Frame, true }); // ½¯µå ¿òÁ÷ÀÓ ¾ÈµÊ 
 	FBXRenderer->ChangeAnimation("Shield_Idle");
+	
+
+
 
 	GameEngineInput::AddInputObject(this);
 

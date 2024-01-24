@@ -28,7 +28,9 @@ enum class PlayerState
 	Roll_Right,
 	Roll_Left,
 	Back_Step,
-	
+	Shield_Idle, 
+	Shield_Move,
+	Parrying,
 
 };
 
