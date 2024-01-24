@@ -28,12 +28,14 @@
     </FxCompile>
     <FxCompile Include="DebugColorShader.fx" />
     <FxCompile Include="DebugLineShader.fx" />
-    <FxCompile Include="DeferredRender.fx" />
+    <FxCompile Include="DeferredLightRender.fx" />
+    <FxCompile Include="DeferredMergeRender.fx" />
     <FxCompile Include="FadePostEffect.fx" />
     <FxCompile Include="FBXAnimation.fx" />
     <FxCompile Include="FBXAnimationColorShader.fx" />
     <FxCompile Include="FBXAnimationTextureShader.fx" />
     <FxCompile Include="FBXDeferredAnimationShader.fx" />
+    <FxCompile Include="FBXDeferredStaticShader.fx" />
     <FxCompile Include="FBXStaticColorShader.fx" />
     <FxCompile Include="FBXStaticTextureShader.fx" />
     <FxCompile Include="Function.fx" />
@@ -43,6 +45,7 @@
     <FxCompile Include="ParticleUpdate.fx" />
     <FxCompile Include="Random.fx" />
     <FxCompile Include="RenderBase.fx" />
+    <FxCompile Include="Shadow.fx" />
     <FxCompile Include="TargetMerge.fx" />
     <FxCompile Include="TextureShader.fx" />
     <FxCompile Include="Transform.fx" />
