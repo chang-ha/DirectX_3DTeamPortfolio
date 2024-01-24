@@ -156,9 +156,16 @@ void ContentResources::ContentResourcesInit()
 	//Defferd
 
 
+
 	{
-		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("ContentsDeferredRender");
-		Mat->SetVertexShader("ContentsDeferredRender_VS");
-		Mat->SetPixelShader("ContentsDeferredRender_PS");
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("ContentsDeferredLightRender");
+		Mat->SetVertexShader("ContentsDeferredLightRender_VS");
+		Mat->SetPixelShader("ContentsDeferredLightRender_PS");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("ContentsDeferredMergeRender");
+		Mat->SetVertexShader("ContentsDeferredMergeRender_VS");
+		Mat->SetPixelShader("ContentsDeferredMergeRender_PS");
 	}
 }

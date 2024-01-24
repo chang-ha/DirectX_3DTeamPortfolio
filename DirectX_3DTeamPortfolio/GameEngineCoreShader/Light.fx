@@ -36,6 +36,11 @@ cbuffer LightDatas : register(b12)
     LightData AllLight[64];
 };
 
+cbuffer OneLightData : register(b13)
+{
+    LightData LightDataValue;
+};
+
 float4 CalDiffuseLight(float4 _Normal, LightData _Data)
 {
     // 0~1

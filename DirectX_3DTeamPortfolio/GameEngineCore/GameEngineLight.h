@@ -3,6 +3,7 @@
 
 struct LightData
 {
+    // 그림자 그리려고.
     float4x4 LightViewMatrix;
     float4x4 LightViewInverseMatrix;
     float4x4 LightProjectionMatrix;
@@ -65,13 +66,22 @@ public:
         LightDataValue = _LightData;
     }
 
+    std::shared_ptr<class GameEngineRenderTarget> GetShadowTarget()
+    {
+        return ShadowTarget;
+    }
+
+    void ShadowTargetSetting();
+
 
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
-	LightData LightDataValue;
 
 private:
-	float4 ShadowRange;
+	LightData LightDataValue;
+    // 그림자의 디테일을 계산할수 있다.
+    float4 ShadowRange = { 1024, 1024};
+    std::shared_ptr<class GameEngineRenderTarget> ShadowTarget = nullptr;
 };
 

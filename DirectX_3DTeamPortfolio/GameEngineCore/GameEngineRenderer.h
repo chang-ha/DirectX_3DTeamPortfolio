@@ -33,7 +33,7 @@ struct RenderBaseInfo
 	int IsLight = 1;
 	int IsNormal = 0;
 	int IsDiffuse = 0;
-	int Temp2 = 0;
+	int IsShadow = 1;
 };
 
 // 설명 : GameEngineRenderer에게 Order는 랜더링 되는 순서를 의미합니다.

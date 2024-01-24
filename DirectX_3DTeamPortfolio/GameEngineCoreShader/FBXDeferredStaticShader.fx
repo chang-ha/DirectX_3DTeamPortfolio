@@ -1,5 +1,4 @@
 #include "Transform.fx"
-#include "FBXAnimation.fx"
 #include "RenderBase.fx"
 #include "Light.fx"
 
@@ -26,7 +25,7 @@ struct PixelOutPut
     float4 VIEWBINORMAL : BINORMAL;
 };
 
-PixelOutPut FBXAnimationShaderDeferred_VS(GameEngineVertex _Input)
+PixelOutPut FBXStaticShaderDeferred_VS(GameEngineVertex _Input)
 {
     // _Input 0.5 0.5
     
@@ -34,13 +33,7 @@ PixelOutPut FBXAnimationShaderDeferred_VS(GameEngineVertex _Input)
     PixelOutPut Result = (PixelOutPut)0;
     _Input.POSITION.w = 1.0f;
     _Input.NORMAL.w = 0.0f;
-    
-    if (0 != IsAnimation)
-    {
-        Skinning(_Input.POSITION, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
-        SkinningNormal(_Input.NORMAL, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
-    }
-    
+
     _Input.POSITION.w = 1.0f;
     _Input.NORMAL.w = 0.0f;
 
@@ -95,7 +88,7 @@ SamplerState DiffuseTextureSampler : register(s0);
 Texture2D NormalTexture : register(t2);
 SamplerState NormalTextureSAMPLER : register(s2);
 
-DeferrdOut FBXAnimationShaderDeferred_PS(PixelOutPut _Input)
+DeferrdOut FBXStaticShaderDeferred_PS(PixelOutPut _Input)
 {
     DeferrdOut Result = (DeferrdOut) 0.0f;
     float4 Color = BaseColor;

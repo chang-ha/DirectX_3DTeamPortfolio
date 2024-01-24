@@ -36,6 +36,6 @@ cbuffer RenderBaseInfo : register(b11)
     int IsLight;
     int IsNormal;
     int IsDiffuse;
-    int Temp02;
+    int IsShadow;
 };
 

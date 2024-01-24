@@ -51,12 +51,15 @@
     <FxCompile Include="BloomBright.fx">
       <Filter>PostEffect</Filter>
     </FxCompile>
+    <FxCompile Include="ContentsDeferredLightRenderer.fx">
+      <Filter>Deferred</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BloomCombine.fx">
       <Filter>PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="ContentsDeferredRenderer.fx">
+    <ClCompile Include="ContentsDeferredMergeRenderer.fx">
       <Filter>Deferred</Filter>
     </ClCompile>
   </ItemGroup>

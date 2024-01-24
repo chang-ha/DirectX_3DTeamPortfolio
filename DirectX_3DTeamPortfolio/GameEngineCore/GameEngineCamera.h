@@ -20,6 +20,15 @@ enum class RenderPath
 	Debug,
 };
 
+struct ShadowAniInfo
+{
+	int IsShadowAnimation;
+	int Temp0;
+	int Temp1;
+	int Temp2;
+	float4x4 WorldViewProjectionMatrix;
+};
+
 // 설명 :
 class GameEngineCamera : public GameEngineActor
 {
@@ -127,6 +136,11 @@ public:
 	{
 		return DeferredTarget;
 	}
+
+	std::shared_ptr<class GameEngineRenderTarget> GetCameraDeferredLightTarget()
+	{
+		return DeferredLightTarget;
+	}
 	
 	std::shared_ptr<class GameEngineRenderTarget> GetCameraHBAOTarget()
 	{
@@ -223,9 +237,16 @@ private:
 
 	GameEngineAO HBAO;
 
-	GameEngineRenderUnit DeferredRenderUnit;
+	GameEngineRenderUnit DeferredLightRenderUnit;
 	// 디퍼드의 빛 결과물
+	std::shared_ptr<class GameEngineRenderTarget> DeferredLightTarget;
+
+	GameEngineRenderUnit DeferredMergeUnit;
+
 	std::shared_ptr<class GameEngineRenderTarget> DeferredTarget;
+
+	ShadowAniInfo ShadowAniInfoValue;
+	GameEngineRenderUnit ShadowRenderUnit;
 
 	void CameraUpdate(float _DeltaTime);
 };

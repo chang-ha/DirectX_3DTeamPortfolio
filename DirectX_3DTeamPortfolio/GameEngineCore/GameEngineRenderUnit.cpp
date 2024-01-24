@@ -278,6 +278,32 @@ void GameEngineRenderUnit::SetMaterial(std::shared_ptr<GameEngineMaterial> _Mate
 
 }
 
+void GameEngineRenderUnit::ShadowOn()
+{
+	if (1 == ParentRenderer->RenderBaseInfoValue.IsAnimation)
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Find("ShadowAni");
+
+		if (nullptr == ShadowLayOut && nullptr != Material)
+		{
+			ShadowLayOut = std::make_shared<GameEngineInputLayOut>();
+			ShadowLayOut->ResCreate(Mesh->GetVertexBuffer(), Mat->GetVertexShader());
+		}
+	}
+	else
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Find("ShadowStatic");
+
+		if (nullptr == ShadowLayOut && nullptr != Material)
+		{
+			ShadowLayOut = std::make_shared<GameEngineInputLayOut>();
+			ShadowLayOut->ResCreate(Mesh->GetVertexBuffer(), Mat->GetVertexShader());
+		}
+	}
+
+
+}
+
 void GameEngineRenderUnit::Render()
 {
 	if (nullptr == Mesh)

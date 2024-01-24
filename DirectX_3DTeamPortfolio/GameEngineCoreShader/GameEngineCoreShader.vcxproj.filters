@@ -62,16 +62,16 @@
     <FxCompile Include="DeferredMergeRender.fx">
       <Filter>Deferrd</Filter>
     </FxCompile>
-    <FxCompile Include="FBXDeferredAnimationShader.fx">
-      <Filter>Deferrd</Filter>
-    </FxCompile>
-    <FxCompile Include="FBXDeferredStaticShader.fx">
-      <Filter>Deferrd</Filter>
-    </FxCompile>
     <FxCompile Include="Shadow.fx">
       <Filter>Deferrd</Filter>
     </FxCompile>
     <FxCompile Include="FBXStaticTextureShader.fx">
+      <Filter>3D</Filter>
+    </FxCompile>
+    <FxCompile Include="FBXDeferredAnimationShader.fx">
+      <Filter>3D</Filter>
+    </FxCompile>
+    <FxCompile Include="FBXDeferredStaticShader.fx">
       <Filter>3D</Filter>
     </FxCompile>
   </ItemGroup>

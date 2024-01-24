@@ -2,7 +2,7 @@
 
 
 
-float4 CalSpacularLightContents(float4 _Pos, float4 _Normal, LightData _Data, float3 _SpecColor)
+float4 CalSpacularLightContents(float4 _Pos, float4 _Normal, LightData _Data/*, float3 _SpecColor*/)
 {
     // 0~1
     float4 ResultRatio = 0.0f;
@@ -32,7 +32,7 @@ float4 CalSpacularLightContents(float4 _Pos, float4 _Normal, LightData _Data, fl
     
     ResultRatio.xyzw = pow(Result, _Data.SpcPow);
     
-    ResultRatio.xyz *= _SpecColor;
+    //ResultRatio.xyz *= _SpecColor;
     //ResultRatio.w = 1.0f;
    // float SpecIntensity = pow(Result, _Data.SpcPow);
    
@@ -60,7 +60,7 @@ float4 CalDiffuseLightContents(float4 _Normal, float4 _Pos, LightData _Data)
         L.xyz = normalize(_Data.ViewLightPos.xyz - _Pos.xyz);
     }
     
-    ResultRatio.xyz = max(0.0f, dot(N.xyz, L.xyz));
+    ResultRatio.xyzw = max(0.0f, dot(N.xyz, L.xyz));
     return ResultRatio * _Data.DifLightPower;
 }
 

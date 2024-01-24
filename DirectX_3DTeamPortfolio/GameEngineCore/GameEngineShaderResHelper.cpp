@@ -715,7 +715,7 @@ void GameEngineShaderResHelper::SetStructedBufferChange(std::string_view _Name, 
 	}
 }
 
-std::shared_ptr<GameEngineStructuredBuffer> GameEngineShaderResHelper::GetStructedBuffer(std::string_view _Name, ShaderType Type)
+GameEngineStructedBufferSetter* GameEngineShaderResHelper::GetStructedBufferSetter(std::string_view _Name, ShaderType Type)
 {
 	if (false == IsStructedBuffer(_Name))
 	{
@@ -736,11 +736,23 @@ std::shared_ptr<GameEngineStructuredBuffer> GameEngineShaderResHelper::GetStruct
 
 		if (Setter.ParentShader->GetShaderType() == Type)
 		{
-			return Setter.Res;
+			return &Setter;
 		}
 	}
 
 	return nullptr;
+}
+
+std::shared_ptr<GameEngineStructuredBuffer> GameEngineShaderResHelper::GetStructedBuffer(std::string_view _Name, ShaderType Type)
+{
+	GameEngineStructedBufferSetter* Setter = GetStructedBufferSetter(_Name, Type);
+
+	if (nullptr == Setter)
+	{
+		return nullptr;
+	}
+
+	return Setter->Res;
 }
 
 void GameEngineShaderResHelper::ResClear()

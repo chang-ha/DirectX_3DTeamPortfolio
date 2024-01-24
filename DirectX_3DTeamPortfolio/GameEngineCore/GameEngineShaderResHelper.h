@@ -164,6 +164,7 @@ public:
 	void SetStructedBufferChange(std::string_view _Name, std::shared_ptr<GameEngineStructuredBuffer> _Buffer);
 
 	std::shared_ptr<GameEngineStructuredBuffer> GetStructedBuffer(std::string_view _Name, ShaderType Type);
+	GameEngineStructedBufferSetter* GetStructedBufferSetter(std::string_view _Name, ShaderType Type);
 
 protected:
 

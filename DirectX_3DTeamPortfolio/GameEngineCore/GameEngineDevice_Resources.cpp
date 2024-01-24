@@ -552,6 +552,22 @@ void GameEngineDevice::ResourcesInit()
 
 
 	{
+		D3D11_BLEND_DESC Desc = {};
+
+		Desc.IndependentBlendEnable = false;
+		Desc.RenderTarget[0].BlendEnable = true;
+		Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_MIN;
+		Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE; // src팩터
+		Desc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
+		Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_MAX;
+		Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+		Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+		std::shared_ptr<GameEngineBlend> Blend = GameEngineBlend::Create("MinBlend", Desc);
+	}
+
+
+	{
 
 		D3D11_SAMPLER_DESC Desc = {};
 		// 일반적인 보간형식 <= 뭉개진다.
@@ -722,10 +738,12 @@ void GameEngineDevice::ResourcesInit()
 		Mat->SetPixelShader("FBXStaticColorShader_PS");
 	}
 
+	
+
 	{
-		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBXDeferredAnimation");
-		Mat->SetVertexShader("FBXTextureShaderDeferred_VS");
-		Mat->SetPixelShader("FBXTextureShaderDeferred_PS");
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("DeferredLightRender");
+		Mat->SetVertexShader("DeferredLightRender_VS");
+		Mat->SetPixelShader("DeferredLightRender_PS");
 	}
 
 	{
@@ -733,6 +751,25 @@ void GameEngineDevice::ResourcesInit()
 		Mat->SetVertexShader("DeferredRender_VS");
 		Mat->SetPixelShader("DeferredRender_PS");
 	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("Shadow");
+		Mat->SetVertexShader("Shadow_VS");
+		Mat->SetPixelShader("Shadow_PS");
+		Mat->SetBlendState("MinBlend");
+	}
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBXDeferredAnimation");
+		Mat->SetVertexShader("FBXAnimationShaderDeferred_VS");
+		Mat->SetPixelShader("FBXAnimationShaderDeferred_PS");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBXDeferredStatic");
+		Mat->SetVertexShader("FBXStaticShaderDeferred_VS");
+		Mat->SetPixelShader("FBXStaticShaderDeferred_PS");
+	}
+
 
 
 	GameEngineRenderTarget::MergeRenderUnitInit();

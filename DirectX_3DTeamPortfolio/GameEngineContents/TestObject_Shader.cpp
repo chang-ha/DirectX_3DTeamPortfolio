@@ -14,7 +14,7 @@ void TestObject_Shader::Start()
 	BaseMonster::Start();
 	{
 		//MainRenderer = CreateComponent<GameEngineFBXRenderer>();
-		MainRenderer->SetFBXMesh("c1100.FBX", "FBX_Static"); // Bone 136
+		MainRenderer->SetFBXMesh("c1100.FBX", "FBX_Animation"); // Bone 136
 		//MainRenderer->Transform.SetLocalScale({ 50.0f, 50.0f, 50.0f });
 		//MainRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
 
@@ -56,6 +56,7 @@ void TestObject_Shader::Start()
 		MainRenderer->CreateFBXAnimation("c1100_Walk_Right", "c1100_Walk_Right.FBX", { 0.1f, true });
 		MainRenderer->CreateFBXAnimation("c1100_Walk_Right3", "c1100_Walk_Right3.FBX", { 0.1f, true });
 		MainRenderer->ChangeAnimation("c1100_Idle1");
+		MainRenderer->RenderBaseInfoValue.IsShadow = 1;
 
 	}
 }
