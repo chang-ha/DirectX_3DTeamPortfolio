@@ -16,6 +16,7 @@ class RootMotionData
 	float RootMotion_StartDir = 0.f;
 	float MoveFrameTime = 0.f;
 	Enum_RootMotionMode RootMotionMode = Enum_RootMotionMode::StartDir;
+	bool IsRotation = true;
 };
 
 class FbxExAniData;
@@ -54,6 +55,11 @@ public:
 	// RootMotion
 	RootMotionData mRootMotionData;
 
+	inline bool IsRootMotion()
+	{
+		return mRootMotionData.RootMotion;
+	}
+
 	inline void RootMotionOn()
 	{
 		mRootMotionData.RootMotion = true;
@@ -62,6 +68,31 @@ public:
 	inline void RootMotionOff()
 	{
 		mRootMotionData.RootMotion = false;
+	}
+
+	inline void SwitchRootMotion()
+	{
+		mRootMotionData.RootMotion = !mRootMotionData.RootMotion;
+	}
+
+	inline bool IsRootMotionRot()
+	{
+		return mRootMotionData.IsRotation;
+	}
+
+	inline void RootMotionRotOn()
+	{
+		mRootMotionData.IsRotation = true;
+	}
+
+	inline void RootMotionRotOff()
+	{
+		mRootMotionData.IsRotation = false;
+	}
+
+	inline void SwitchRootMotionRot()
+	{
+		mRootMotionData.IsRotation = !mRootMotionData.IsRotation;
 	}
 
 	void RootMotionUpdate(float _Delta);

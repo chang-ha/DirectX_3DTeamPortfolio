@@ -139,7 +139,7 @@ void ContentResources::ContentResourcesInit()
 	}
 
 
-	BaseMonster::LoadEvent(static_cast<int>(Monster_LothricKn::Type));
+	BaseActor::LoadEvent(static_cast<int>(Enum_ActorType::LothricKn));
 
 	{
 		GameEngineDirectory Dir;

@@ -45,11 +45,9 @@ public:
 protected:
 
 private:
-	static const Enum_FrameEventType Type = Enum_FrameEventType::TurnSpeed;
-
 	int EndFrame = -1;
 	float TurnSpeed = 0.0f;
 
-	class BaseMonster* pParentActor = nullptr;
+	class BaseActor* pParentActor = nullptr;
 
 };

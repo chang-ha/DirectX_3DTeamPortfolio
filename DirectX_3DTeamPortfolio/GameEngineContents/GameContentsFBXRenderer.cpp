@@ -55,7 +55,6 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 		return;
 	}
 
-
 	IsEnd = false;
 
 	if (false == bOnceStart)
@@ -267,7 +266,10 @@ void GameContentsFBXAnimationInfo::RootMotionUpdate(float _Delta)
 	MotionVector.Y *= 10000.f;
 	MotionVector.Z *= 10000.f;
 
-	ParentRenderer->RootMotionComponent->AddWorldRotation(float4(0.f, MotionVector.W * GameEngineMath::R2D, 0.f, 0.f));
+	if (true == mRootMotionData.IsRotation)
+	{
+		ParentRenderer->RootMotionComponent->AddWorldRotation(float4(0.f, MotionVector.W * GameEngineMath::R2D, 0.f, 0.f));
+	}
 
 	switch (mRootMotionData.RootMotionMode)
 	{
@@ -570,7 +572,11 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 
 	if (nullptr != CurAnimation)
 	{
-		BlendBoneMatrixs = AnimationBoneNotOffset;
+		if (0.0f != CurAnimation->PlayTime)
+		{
+			BlendBoneMatrixs = AnimationBoneNotOffset;
+		}
+
 		CurAnimation->Reset();
 	}
 

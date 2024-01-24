@@ -31,7 +31,6 @@ void GameEnginePhysXComponent::Start()
 		return;
 	}
 
-	// Scene = GameEnginePhysX::FindScene(GetLevel()->GetName());
 	Scene = CurPhysXLevel->GetScene();
 	ParentActor = GetActor();
 }
@@ -75,7 +74,6 @@ void GameEnginePhysXComponent::SetWorldPosition(const float4& _Pos)
 	physx::PxVec3 Pos = { _Pos.X, _Pos.Y , _Pos.Z };
 
 	float4 WorldDeg = Transform.GetWorldRotationEuler();
-	// WorldDeg.Z += physx::PxHalfPi * GameEngineMath::R2D;
 	float4 WorldQuat = WorldDeg.EulerDegToQuaternion();
 	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
 
@@ -90,7 +88,6 @@ void GameEnginePhysXComponent::SetWorldRotation(const float4& _Degree)
 	SetDir(WorldDeg.Y);
 
 	physx::PxTransform Transform = ComponentActor->getGlobalPose();
-	// WorldDeg.Z += physx::PxHalfPi * GameEngineMath::R2D;
 	float4 WorldQuat = WorldDeg.EulerDegToQuaternion();
 	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
 
@@ -147,5 +144,4 @@ void GameEnginePhysXComponent::ResetMove(int _Axies)
 	}
 
 	ComponentActor->setLinearVelocity({ CurLV.x, CurLV.y, CurLV.z });
-	// ComponentActor->clearForce(physx::PxForceMode::eFORCE);
 }
