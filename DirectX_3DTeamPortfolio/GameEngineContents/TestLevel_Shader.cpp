@@ -68,8 +68,8 @@ void TestLevel_Shader::Start()
 	HollowSoldier->Transform.AddLocalPosition({ -100.0f,0.0f,10.0f });
 
 
-	Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
-	Boss_Object->Transform.SetLocalPosition({ 300.f, 0.f, 0.f });
+	//Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
+	//Boss_Object->Transform.SetLocalPosition({ 300.f, 0.f, 0.f });
 
 
 	{

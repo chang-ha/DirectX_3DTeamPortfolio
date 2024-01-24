@@ -14,7 +14,7 @@ void TestObject_Shader::Start()
 	BaseMonster::Start();
 	{
 		//MainRenderer = CreateComponent<GameEngineFBXRenderer>();
-		MainRenderer->SetFBXMesh("c1100.FBX", "FBX_Animation"); // Bone 136
+		MainRenderer->SetFBXMesh("c1100.FBX", "FBX_Static"); // Bone 136
 		//MainRenderer->Transform.SetLocalScale({ 50.0f, 50.0f, 50.0f });
 		//MainRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
 

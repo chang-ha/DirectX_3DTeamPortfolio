@@ -78,7 +78,7 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout DeferrdOut _Result)
     
     float3 SpecularColor = SpecularTexture.Sample(SpecularTextureSAMPLER, _Input.TEXCOORD.xy).rgb;
     
-    if (0.0f >= Color.a)
+    if (0.7f >= Color.a)
     {
         clip(-1);
     }
