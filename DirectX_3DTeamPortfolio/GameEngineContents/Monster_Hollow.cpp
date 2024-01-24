@@ -65,9 +65,13 @@ void Monster_Hollow::Start()
 		MainRenderer->CreateFBXAnimation("c1100_PrayToBeScared3", "c1100_PrayToBeScared3.FBX", { 0.1f, false });
 		MainRenderer->CreateFBXAnimation("c1100_BeScaredToIdle", "c1100_BeScaredToIdle.FBX", { 0.1f, false });
 		MainRenderer->CreateFBXAnimation("c1100_BeScared", "c1100_BeScared.FBX", { 0.1f, true });
+		MainRenderer->CreateFBXAnimation("c1100_Hit_Front", "c1100_Hit_Front.FBX", { 0.1f, false });
+		MainRenderer->CreateFBXAnimation("c1100_Hit_Back", "c1100_Hit_Back.FBX", { 0.1f, false });
+		MainRenderer->CreateFBXAnimation("c1100_Hit_Left", "c1100_Hit_Left.FBX", { 0.1f, false });
+		MainRenderer->CreateFBXAnimation("c1100_Hit_Right", "c1100_Hit_Right.FBX", { 0.1f, false });
 		//MainRenderer->CreateFBXAnimation("c1100_AttackFail", "c1100_AttackFail.FBX", { 0.1f, false });
-		//MainRenderer->CreateFBXAnimation("c1100_HitToDeath", "c1100_HitToDeath.FBX", { 0.1f, false });
-		//MainRenderer->CreateFBXAnimation("c1100_Death", "c1100_Death.FBX", { 0.1f, true });
+		MainRenderer->CreateFBXAnimation("c1100_HitToDeath", "c1100_HitToDeath.FBX", { 0.1f, false });
+		MainRenderer->CreateFBXAnimation("c1100_Death", "c1100_Death.FBX", { 0.1f, true });
 		//MainRenderer->CreateFBXAnimation("c1100_Guard", "c1100_Guard.FBX", { 0.1f, false });
 		
 		MainRenderer->ChangeAnimation("c1100_Idle1");
