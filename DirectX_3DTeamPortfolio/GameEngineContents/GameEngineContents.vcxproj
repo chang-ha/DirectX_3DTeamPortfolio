@@ -175,6 +175,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BasePlayer.cpp" />
     <ClCompile Include="BloomEffect.cpp" />
     <ClCompile Include="BoneSocketCollision.cpp">
       <SubType>
@@ -342,6 +343,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BasePlayer.h" />
     <ClInclude Include="BloomEffect.h" />
     <ClInclude Include="BoneSocketCollision.h">
       <SubType>
