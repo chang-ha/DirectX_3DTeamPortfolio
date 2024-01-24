@@ -64,10 +64,11 @@ protected:
 	// void Smoke_Stay()
 
 private:
+	float Mouse_Pos = 0.0f;
 	bool TimeCheck = false;
 	bool Attack_Check = false;
 	float Time = 0.0f;
-	float Speed = 0.0f;
+	float Speed = 1.0f;
 	float MoveSpeed = 0.0f;
 	float DeltaTime = 0.0f;
 };

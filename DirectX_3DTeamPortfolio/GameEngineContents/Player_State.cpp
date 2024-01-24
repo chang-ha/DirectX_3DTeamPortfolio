@@ -220,14 +220,14 @@ void Player::Player_State()
 				if (true == GameEngineInput::IsPress('W', this))
 				{
 					//Capsule->MoveForce({ 0.0f, 0.0f, 100, 0.0f });
-					GetFBXRenderer()->Transform.AddLocalPosition({ float4::UP * Speed });
+					GetFBXRenderer()->Transform.AddLocalPosition({ float4::FORWARD * Speed });
 				
 				}
 
 				if (true == GameEngineInput::IsPress('S', this))
 				{
 					//Capsule->MoveForce({ 0.0f, 0.0f, -100, 0.0f });
-					GetFBXRenderer()->Transform.AddLocalPosition({ float4::DOWN * Speed });
+					GetFBXRenderer()->Transform.AddLocalPosition({ float4::BACKWARD * Speed });
 				
 				}
 

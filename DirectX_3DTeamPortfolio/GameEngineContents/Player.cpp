@@ -20,6 +20,8 @@ Player::~Player()
 
 void Player::Start()
 {
+	
+
 	Main_Player = this; 
 
 	FBXRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
@@ -160,12 +162,19 @@ void Player::Start()
 
 
 	//Capsule = CreateComponent<GameEnginePhysXCapsule>();
-	
+	//GameEngineCore::MainWindow.GetScale(
+
+	GameEngineCore::MainWindow.SetMousePos(GameEngineCore::MainWindow.Get_Display_Size().X/2, GameEngineCore::MainWindow.Get_Display_Size().Y / 2);
 	Player_State();
 }
 
 void Player::Update(float _Delta)
 {
+	
+	Mouse_Pos = GameEngineCore::MainWindow.GetMousePos().X;
+
+	
+	Transform.SetLocalRotation({ 0.0f,Mouse_Pos,0.0f });
 
 
 
