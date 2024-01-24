@@ -111,6 +111,8 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	ImGui::NewLine();
 
 	{
+		std::string String = "Z Dir\n";
+		ImGui::Text(String.c_str());
 		ImGui::DragFloat("Z Dir", Linked_Boss->Capsule->GetDirPtr(), 0.1f, -180.f, 180.f);
 	}
 
@@ -141,6 +143,36 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			break;
 		}
 		ImGui::Text(Gravity.c_str());
+	}
+
+	ImGui::NewLine();
+
+	{
+		float Angle = Linked_Boss->TargetAngle;
+		std::string cAngle = "Target Angle : ";
+		cAngle += std::to_string(Angle);
+		ImGui::Text(cAngle.c_str());
+
+		Enum_RotDir Dir = Linked_Boss->RotDir;
+		std::string cDir = "Rotation Dir : ";
+
+		switch (Dir)
+		{
+		case Enum_RotDir::Not_Rot:
+			cDir += "Not_Rot";
+			break;
+		case Enum_RotDir::Left:
+			cDir += "Left";
+			break;
+		case Enum_RotDir::Right:
+			cDir += "Right";
+			break;
+		default:
+			MsgBoxAssert("존재하지 않는 회전방향입니다.");
+			break;
+		}
+
+		ImGui::Text(cDir.c_str());
 	}
 }
 
@@ -425,6 +457,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		Rush_Hit_Turn_Rush.Stay = std::bind(&Boss_Vordt::Rush_Hit_Turn_Rush_Update, this, std::placeholders::_1);
 		Rush_Hit_Turn_Rush.End = std::bind(&Boss_Vordt::Rush_Hit_Turn_Rush_End, this);
 
+		// Move & Others
 		BossState.CreateState(Enum_BossState::Howling, Howling);
 		BossState.CreateState(Enum_BossState::Idle, Idle);
 		BossState.CreateState(Enum_BossState::Walk, Walk);
@@ -432,7 +465,8 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BossState.CreateState(Enum_BossState::Turn, Turn);
 		BossState.CreateState(Enum_BossState::Hitten, Hitten);
 		BossState.CreateState(Enum_BossState::Death, Death);
-
+		
+		// Attack
 		BossState.CreateState(Enum_BossState::Breath, Breath);
 		BossState.CreateState(Enum_BossState::Combo1, Combo1);
 		BossState.CreateState(Enum_BossState::Combo2, Combo2);
@@ -484,6 +518,7 @@ void Boss_Vordt::Start()
 void Boss_Vordt::Update(float _Delta)
 {
 	BossState.Update(_Delta);
+	CalcuTargetAngle();
 
 	if (true == GUI->IsChasingCamera)
 	{
@@ -562,5 +597,40 @@ void Boss_Vordt::Release()
 		GUI->Reset();
 		GUI->Off();
 		GUI = nullptr;
+	}
+}
+
+void Boss_Vordt::CalcuTargetAngle()
+{
+	if (nullptr == Target)
+	{
+		return;
+	}
+
+	float4 TargetPos = Target->Transform.GetWorldPosition();
+	float4 MyPos = Transform.GetWorldPosition();
+
+	// Y축 고려 X
+	TargetPos.Y = MyPos.Y = 0.f;
+
+	float4 FrontVector = float4(0.f, 0.f, 1.f, 0.f);
+	FrontVector.VectorRotationToDegY(Capsule->GetDir());
+
+	float4 LocationVector = (TargetPos - MyPos).NormalizeReturn();
+	
+	float4 Angle = DirectX::XMVector3AngleBetweenNormals(FrontVector.DirectXVector, LocationVector.DirectXVector);
+
+
+	float4 RotationDir = DirectX::XMVector3Cross(FrontVector.DirectXVector, LocationVector.DirectXVector);
+
+	TargetAngle = Angle.X * GameEngineMath::R2D;
+	if (0.0f <= RotationDir.Y)
+	{
+		RotDir = Enum_RotDir::Right;
+	}
+	else
+	{
+		RotDir = Enum_RotDir::Left;
+		TargetAngle *= -1.f;
 	}
 }

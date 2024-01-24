@@ -4,6 +4,9 @@
 #include "ContentsLight.h"
 #include "TestObject.h"
 
+// Test code
+#include "Player.h"
+
 TestLevel_Boss::TestLevel_Boss()
 {
 
@@ -43,6 +46,11 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 	//	TestObj = CreateActor<TestObject>(0, "TestObj");
 	//	TestObj->Transform.SetLocalPosition({ 0.0f, 0.0f, -2000.0f });
 	//}
+
+	{
+		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
+		Boss_Object->SetTargeting(Object.get());
+	}
 
 	GetMainCamera()->Transform.SetLocalPosition(float4::ZERO);
 	GetMainCamera()->Transform.SetLocalRotation(float4::ZERONULL);

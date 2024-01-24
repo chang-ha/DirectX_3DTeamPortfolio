@@ -1,6 +1,11 @@
 #include "PreCompile.h"
 #include "Boss_Vordt.h"
 
+// 타켓과 나의 각도 구함
+// 내 현재 방향과 해당 각도를 외적해서 회전할 방향을 결정
+// 각도가 어느정도 적어지면 회전 X
+// 회전 속도는 Event를 사용해서 조절
+
 ////////////////////////// Move & Others
 
 void Boss_Vordt::Howling_Start()
