@@ -1,6 +1,8 @@
 #pragma once
 #include "BaseActor.h"
 
+#include "ContentsDebug.h"
+
 class BaseMonster : public BaseActor
 {
 public:
@@ -44,5 +46,5 @@ protected:
 
 private:
 
-
 };
+

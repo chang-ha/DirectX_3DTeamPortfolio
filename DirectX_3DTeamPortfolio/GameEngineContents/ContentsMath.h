@@ -7,6 +7,8 @@ public:
 	static float GetDegreeTo2f(float _X, float _Y);
 	static float GetDegreeTo2f(const float4& _Vec);
 
+	static float4 GetVectorToOther(const float4& _MyPos, const float4& _OtherPos);
+
 protected:
 
 private:

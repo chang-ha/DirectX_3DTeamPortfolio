@@ -23,6 +23,9 @@ void Monster_LothricKn::Start()
 	AddBoneIndex(Enum_BoneType::B_01_RightHand, 78);
 	AddBoneIndex(Enum_BoneType::B_01_LeftHand, 47);
 
+	Capsule = CreateComponent<GameEnginePhysXCapsule>();
+	Capsule->PhysXComponentInit(100.0f, 50.0f);
+	// Capsule->SetPositioningComponent();
 
 	MainRenderer->SetFBXMesh("c1280.fbx", "FBXAnimationTexture");
 
@@ -62,6 +65,9 @@ void Monster_LothricKn::Start()
 	MainRenderer->CreateFBXAnimation("DH_Fence", "c1280_003007.fbx");
 	MainRenderer->CreateFBXAnimation("DH_Strike", "c1280_003008.fbx");
 	MainRenderer->CreateFBXAnimation("Hit_Mid", "c1280_003009.fbx");
+	MainRenderer->CreateFBXAnimation("RH_SwordDownAttack", "c1280_003010.fbx");
+	MainRenderer->CreateFBXAnimation("LH_ShieldAttack", "c1280_003013.fbx");
+	MainRenderer->CreateFBXAnimation("RH_CAttack", "c1280_003014.fbx");
 
 	CreateSocketCollision(Enum_CollisionOrder::Monster, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
 
@@ -89,6 +95,8 @@ void Monster_LothricKn::Start()
 void Monster_LothricKn::Update(float _Delta)
 {
 	BaseMonster::Update(_Delta);
+
+	float Dir = Capsule->GetDir();
 
 	if (true == wpDummy.expired())
 	{

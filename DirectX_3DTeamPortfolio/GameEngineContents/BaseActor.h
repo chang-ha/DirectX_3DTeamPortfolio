@@ -14,22 +14,24 @@ enum class Enum_ActorType
 enum class Enum_ActorStatus
 {
 	None = 0,
+	WakeValue,
+	DeathValue,
 	HitValue,
 	GaurdingValue,
-	JumpPossible,
 	ParryPossible,
-	DeathValue,
+	JumpPossible,
 };
 
 // 실제 상태 비트값
 enum class Enum_ActorFlag
 {
 	None = 0,
-	HitValue = (1 << 0),
-	GaurdingValue = (1 << 3),
-	DeathValue = (1 << 4),
-	JumpPossible = (1 << 29),
-	ParryPossible = (1 << 30),
+	WakeValue = (1 << 0),
+	DeathValue = (1 << 1),
+	HitValue = (1 << 11),
+	GaurdingValue = (1 << 21),
+	ParryPossible = (1 << 22),
+	JumpPossible = (1 << 26),
 };
 
 // Collision, BoneIndex
@@ -114,7 +116,7 @@ protected:
 
 
 	// Flag
-	bool GetFlag(Enum_ActorStatus _Flag) const;
+	bool IsFlag(Enum_ActorStatus _Flag) const;
 	void SetFlag(Enum_ActorStatus _Flag, bool _Value);
 	void AddFlag(Enum_ActorStatus _Flag);
 	void SubFlag(Enum_ActorStatus _Flag);

@@ -46,7 +46,6 @@
     <ClCompile Include="GameContentsFBXRenderer.cpp">
       <Filter>Resource\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="ContentsControlWindow.cpp" />
     <ClCompile Include="BaseMonster.cpp">
       <Filter>Monster</Filter>
     </ClCompile>
@@ -149,7 +148,21 @@
     <ClCompile Include="BaseActor.cpp">
       <Filter>Monster</Filter>
     </ClCompile>
-    <ClCompile Include="BasePlayer.cpp" />
+    <ClCompile Include="ContentsDebug.cpp">
+      <Filter>Monster\LothricKnight</Filter>
+    </ClCompile>
+    <ClCompile Include="DummyPath.cpp">
+      <Filter>Monster\LothricKnight</Filter>
+    </ClCompile>
+    <ClCompile Include="SwitchFlagFrameEvent.cpp">
+      <Filter>ImGui\Editor\FrameEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="BasePlayer.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsControlWindow.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -194,7 +207,6 @@
     <ClInclude Include="TestMap.h">
       <Filter>Map</Filter>
     </ClInclude>
-    <ClInclude Include="ContentsControlWindow.h" />
     <ClInclude Include="BaseMonster.h">
       <Filter>Monster</Filter>
     </ClInclude>
@@ -297,7 +309,21 @@
     <ClInclude Include="BaseActor.h">
       <Filter>Monster</Filter>
     </ClInclude>
-    <ClInclude Include="BasePlayer.h" />
+    <ClInclude Include="ContentsDebug.h">
+      <Filter>Monster\LothricKnight</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyPath.h">
+      <Filter>Monster\LothricKnight</Filter>
+    </ClInclude>
+    <ClInclude Include="SwitchFlagFrameEvent.h">
+      <Filter>ImGui\Editor\FrameEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="BasePlayer.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsControlWindow.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">

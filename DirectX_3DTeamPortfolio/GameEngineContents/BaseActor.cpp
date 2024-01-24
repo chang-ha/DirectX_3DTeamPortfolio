@@ -92,7 +92,7 @@ int BaseActor::FindFlag(Enum_ActorStatus _Status) const
 	return static_cast<int>(Enum_ActorFlag::None);
 }
 
-bool BaseActor::GetFlag(Enum_ActorStatus _Flag) const
+bool BaseActor::IsFlag(Enum_ActorStatus _Flag) const
 {
 	return (Flags / FindFlag(_Flag)) % 2;
 }
@@ -119,11 +119,11 @@ void BaseActor::SubFlag(Enum_ActorStatus _Flag)
 
 void BaseActor::DebugFlag()
 {
-	bool HitValue = GetFlag(Enum_ActorStatus::HitValue);
-	bool GaurdingValue = GetFlag(Enum_ActorStatus::GaurdingValue);
-	bool DeathValue = GetFlag(Enum_ActorStatus::DeathValue);
-	bool JumpPossible = GetFlag(Enum_ActorStatus::JumpPossible);
-	bool ParryPossible = GetFlag(Enum_ActorStatus::ParryPossible);
+	bool HitValue = IsFlag(Enum_ActorStatus::HitValue);
+	bool GaurdingValue = IsFlag(Enum_ActorStatus::GaurdingValue);
+	bool DeathValue = IsFlag(Enum_ActorStatus::DeathValue);
+	bool JumpPossible = IsFlag(Enum_ActorStatus::JumpPossible);
+	bool ParryPossible = IsFlag(Enum_ActorStatus::ParryPossible);
 	int a = 0;
 }
 

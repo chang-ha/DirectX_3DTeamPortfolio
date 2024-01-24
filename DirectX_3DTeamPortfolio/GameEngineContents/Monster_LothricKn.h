@@ -13,8 +13,10 @@ class Monster_LothricKn : public BaseMonster
 		Attack11,
 		Attack12,
 		Attack13,
-
-	};
+		RH_SwordDownAttack,
+		LH_ShieldAttack,
+		RH_CAttack,
+	};	
 
 public:
 	// constrcuter destructer
@@ -36,7 +38,6 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 private:
-	void ResourcesLoad();
 	void CreateFSM();
 
 	// Start
@@ -46,6 +47,9 @@ private:
 	void StartRH_Attack11(GameEngineState* _State);
 	void StartRH_Attack12(GameEngineState* _State);
 	void StartRH_Attack13(GameEngineState* _State);
+	void StartRH_SwordDownAttack(GameEngineState* _State);
+	void StartLH_ShieldAttack(GameEngineState* _State);
+	void StartRH_CAttack(GameEngineState* _State);
 
 	// Update
 	void UpdateSleep(float _DeltaTime, GameEngineState* _State);
@@ -54,10 +58,14 @@ private:
 	void UpdateRH_Attack11(float _DeltaTime, GameEngineState* _State);
 	void UpdateRH_Attack12(float _DeltaTime, GameEngineState* _State);
 	void UpdateRH_Attack13(float _DeltaTime, GameEngineState* _State);
+	void UpdateRH_SwordDownAttack(float _DeltaTime, GameEngineState* _State);
+	void UpdateLH_ShieldAttack(float _DeltaTime, GameEngineState* _State);
+	void UpdateRH_CAttack(float _DeltaTime, GameEngineState* _State);
 
 	// State Func
 	bool IsFrame(int _StartFrame, int _EndFrame = -1) const;
-	void DebugCheck(float _Distance) const;
+	float GetDirByDot(const float4& _OtherPos) const;
+	
 
 	// Collision
 	template <typename EnumType, typename ActorType>
@@ -80,5 +88,7 @@ private:
 	std::shared_ptr<GameEngineCollision> AggroCollision;
 
 	std::weak_ptr<GameEngineActor> wpDummy;
+
+	const float FoV = 30.0f;
 	
 };
