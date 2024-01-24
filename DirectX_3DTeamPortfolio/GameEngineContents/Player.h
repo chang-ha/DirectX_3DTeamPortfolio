@@ -1,7 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineCore/GameEngineState.h>
-
+#include "BasePlayer.h"
 // 서버용
 #include <GameEngineBase/GameEngineNetObject.h>
 #include "ConnectIDPacket.h"
@@ -22,20 +22,26 @@ enum class PlayerState
 	Portion_02,
 	Portion_03,
 	Portion_04, 
-
+	
+	Roll_Forward,
 	Roll_Behind,
 	Roll_Right,
 	Roll_Left,
 	Back_Step,
-
+	Shield_Idle, 
+	Shield_Move,
+	Parrying,
 
 };
 
 // 설명 :
-class Player : public GameEngineActor, public GameEngineNetObject // 서버용 
+class Player :  public GameEngineNetObject , public BasePlayer
 {
 public:
 	// constrcuter destructer
+
+	static Player* Main_Player;
+
 	Player();
 	~Player();
 
@@ -62,12 +68,6 @@ private:
 	bool Attack_Check = false;
 	float Time = 0.0f;
 	float Speed = 0.0f;
-	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer;
-	std::shared_ptr<GameContentsFBXRenderer> Weapon;
-	std::shared_ptr<GameEnginePhysXCapsule> Capsule;
-	std::shared_ptr<GameEngineCollision> Col;
-	GameEngineState PlayerState;
 	float MoveSpeed = 0.0f;
-	EventParameter Mini_Event;
 	float DeltaTime = 0.0f;
 };
