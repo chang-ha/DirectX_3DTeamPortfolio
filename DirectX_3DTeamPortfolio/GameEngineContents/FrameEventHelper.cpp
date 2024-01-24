@@ -57,21 +57,21 @@ void FrameEventHelper::Initialze(GameContentsFBXAnimationInfo* _AnimationInfo)
 
 		switch (static_cast<Enum_FrameEventType>(TypeNum))
 		{
-		case None:
+		case Enum_FrameEventType::None:
 			break;
-		case Sound:
+		case Enum_FrameEventType::Sound:
 		{
 			NewEvent = std::make_shared<SoundFrameEvent>();
 		}
 			break;
-		case CollisionUpdate:
+		case Enum_FrameEventType::CollisionUpdate:
 		{
 			NewEvent = std::make_shared<CollisionUpdateFrameEvent>();
 		}
 			break;
-		case Transfrom:
+		case Enum_FrameEventType::Transfrom:
 			break;
-		case TurnSpeed:
+		case Enum_FrameEventType::TurnSpeed:
 		{
 			NewEvent = std::make_shared<TurnSpeedFrameEvent>();
 		}

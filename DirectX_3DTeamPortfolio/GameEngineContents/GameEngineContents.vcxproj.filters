@@ -80,9 +80,6 @@
     <ClCompile Include="TestObject.cpp">
       <Filter>Monster\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="Monster_LothricKn_Resources.cpp">
-      <Filter>Monster\LothricKnight</Filter>
-    </ClCompile>
     <ClCompile Include="Monster_LothricKn_State.cpp">
       <Filter>Monster\LothricKnight</Filter>
     </ClCompile>
@@ -134,9 +131,6 @@
     <ClCompile Include="FrameEventObject.cpp">
       <Filter>ImGui\Editor\FrameEvent</Filter>
     </ClCompile>
-    <ClCompile Include="SetFlagFrameEvent.cpp">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
-    </ClCompile>
     <ClCompile Include="SoundFrameEvent.cpp">
       <Filter>ImGui\Editor\FrameEvent</Filter>
     </ClCompile>
@@ -149,9 +143,13 @@
     <ClCompile Include="LightGUI.cpp">
       <Filter>ImGui\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="HBAOGUI.cpp">
-      <Filter>ImGui\Editor</Filter>
+    <ClCompile Include="DummyActor.cpp">
+      <Filter>Monster\LothricKnight</Filter>
     </ClCompile>
+    <ClCompile Include="BaseActor.cpp">
+      <Filter>Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="BasePlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -284,9 +282,6 @@
     <ClInclude Include="FrameEventObject.h">
       <Filter>ImGui\Editor\FrameEvent</Filter>
     </ClInclude>
-    <ClInclude Include="SetFlagFrameEvent.h">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
-    </ClInclude>
     <ClInclude Include="SoundFrameEvent.h">
       <Filter>ImGui\Editor\FrameEvent</Filter>
     </ClInclude>
@@ -296,9 +291,13 @@
     <ClInclude Include="AnimationInfoGUI.h">
       <Filter>ImGui\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="HBAOGUI.h">
-      <Filter>ImGui\Editor</Filter>
+    <ClInclude Include="DummyActor.h">
+      <Filter>Monster\LothricKnight</Filter>
     </ClInclude>
+    <ClInclude Include="BaseActor.h">
+      <Filter>Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="BasePlayer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">

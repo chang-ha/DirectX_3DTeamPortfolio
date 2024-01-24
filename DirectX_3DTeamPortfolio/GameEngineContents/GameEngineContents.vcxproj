@@ -171,6 +171,11 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BaseActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BasePlayer.cpp" />
     <ClCompile Include="BloomEffect.cpp" />
     <ClCompile Include="BoneSocketCollision.cpp">
       <SubType>
@@ -207,6 +212,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="ContentsMath.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="DummyActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SwitchFlagFrameEvent.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -256,7 +269,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Monster_LothricKn_Resources.cpp" />
     <ClCompile Include="Monster_LothricKn_State.cpp" />
     <ClCompile Include="ObjectPacket.cpp" />
     <ClCompile Include="Player.cpp">
@@ -273,10 +285,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="SetFlagFrameEvent.cpp">
-      <SubType>
-      </SubType>
     </ClCompile>
     <ClCompile Include="SoundFrameEvent.cpp">
       <SubType>
@@ -323,10 +331,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BaseActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="BaseMonster.h">
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BasePlayer.h" />
     <ClInclude Include="BloomEffect.h" />
     <ClInclude Include="BoneSocketCollision.h">
       <SubType>
@@ -359,6 +372,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ContentsMath.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DummyActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SwitchFlagFrameEvent.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -422,10 +443,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="PreCompile.h" />
-    <ClInclude Include="SetFlagFrameEvent.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="SoundFrameEvent.h">
       <SubType>
       </SubType>

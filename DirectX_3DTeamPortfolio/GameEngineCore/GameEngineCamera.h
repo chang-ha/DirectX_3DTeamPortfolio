@@ -186,6 +186,8 @@ public:
 		return Result;
 	}
 
+	float4 GetScreenPos(GameEngineTransform& Transform);
+
 protected:
 	void Start() override;
 

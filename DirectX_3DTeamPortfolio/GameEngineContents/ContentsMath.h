@@ -22,3 +22,24 @@ private:
 
 };
 
+class BitMethod
+{
+public:
+	
+	static bool IsOnFlag(int _Flag, int _iValue);
+	static void SetFlag(int* _pFlag, int _iValue, bool _bOn);
+	static void AddFlag(int* _pFlag, int _iValue);
+	static void SubFlag(int* _pFlag, int _iValue);
+
+private:
+	BitMethod() {}
+	~BitMethod() {}
+
+	// delete Function
+	BitMethod(const BitMethod& _Other) = delete;
+	BitMethod(BitMethod&& _Other) noexcept = delete;
+	BitMethod& operator=(const BitMethod& _Other) = delete;
+	BitMethod& operator=(BitMethod&& _Other) noexcept = delete;
+
+};
+

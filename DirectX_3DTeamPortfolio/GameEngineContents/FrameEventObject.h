@@ -8,11 +8,12 @@
 #define EVENT_PLAY 1
 
 
-enum Enum_FrameEventType
+enum class Enum_FrameEventType
 {
 	None,
 	Sound,
 	CollisionUpdate = 11,
+	SwitchFlag = 16,
 	Transfrom = 21,
 	TurnSpeed = 22,
 
@@ -62,6 +63,12 @@ public:
 	inline void SetParentHelper(FrameEventHelper* _Parent) { ParentHelper = _Parent; }
 
 protected:
+	template<typename EnumType>
+	void SetEventID(EnumType _ID) 
+	{ 
+		SetEventID(static_cast<int>(_ID));
+	}
+
 	inline void SetEventID(int _ID) { EventID = _ID; }
 	int GetCurFrame();
 	

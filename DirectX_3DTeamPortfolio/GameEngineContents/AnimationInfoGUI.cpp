@@ -7,6 +7,7 @@
 
 #include "SoundFrameEvent.h"
 #include "CollisionUpdateFrameEvent.h"
+#include "TurnSpeedFrameEvent.h"
 
 AnimationInfoGUI::AnimationInfoGUI() 
 {
@@ -22,27 +23,23 @@ void AnimationInfoGUI::Start()
 	CreateEventTree<TotalEventTree>("Total Events");
 	CreateEventTree<SoundEventTree>("Sound");
 	CreateEventTree<CollisionEventTree>("Collision Switch");
+	CreateEventTree<TurnSpeedEventTree>("Turn Speed");
 }
 
 void AnimationInfoGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
 	ShowActorList(_Level);
 	TransformEditor();
-	AnimationList();
+	AnimationList( _Level, _DeltaTime);
 	BoneEditor();
-	EventEditor(_Level, _DeltaTime);
 }
 
 void AnimationInfoGUI::LevelEnd()
 {
 	SelectActor = nullptr;
-	SelectAnimation = nullptr;
 	ActorNames.clear();
 	CObjectNames.clear();
-	AnimationNames.clear();
-	CAnimationNames.clear();
-	BoneNames.clear();
-	CBoneNames.clear();
+	ActorChange();
 }
 
 void AnimationInfoGUI::ShowActorList(GameEngineLevel* _Level)
@@ -144,7 +141,7 @@ void AnimationInfoGUI::TransformEditor()
 	}
 }
 
-void AnimationInfoGUI::AnimationList()
+void AnimationInfoGUI::AnimationList(class GameEngineLevel* _Level, float _DeltaTime)
 {
 	if (nullptr == SelectActor)
 	{
@@ -176,6 +173,8 @@ void AnimationInfoGUI::AnimationList()
 			SelectActor->GetFBXRenderer()->ChangeAnimation(SelectAnimationName);
 			SelectAnimation = SelectActor->GetFBXRenderer()->GetCurAnimation();
 		}
+
+		EventEditor(_Level, _DeltaTime);
 
 		ImGui::TreePop();
 	}
@@ -292,7 +291,7 @@ void TotalEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 		for (const std::shared_ptr<FrameEventObject>& Object : EventGroup)
 		{
 			++Cnt;
-			std::string EventName = std::string("Frame:") + std::to_string(Object->GetFrame()) + " " + Object->GetTypeString();
+			std::string EventName = std::string("Frame:") + std::to_string(Object->GetFrame()) + " / " + Object->GetTypeString();
 			if (ImGui::Button(EventName.c_str()))
 			{
 				SelectObject = Object;
@@ -397,13 +396,43 @@ void CollisionEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 		}
 		else
 		{
-			OutputDebugStringA("시작 프레임이 끝 프레임보다 크거나 같으면 이벤트를 생성할 수 없습니다.");
+			OutputDebugStringA("시작 프레임이 끝 프레임보다 크거나 같으면 이벤트를 생성할 수 없습니다. \n");
 		}
 	}
 }
 
 void CollisionEventTree::ChangeActor()
 {
+	ColNames.clear();
 	CColNames.clear();
-	CColNames.clear();
+}
+
+void TurnSpeedEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
+{
+	static std::vector<int> SelectFrames;
+	if (SelectFrames.empty())
+	{
+		SelectFrames.resize(2);
+	}
+
+	int StartFrame = static_cast<int>(Parent->SelectAnimation->Start);
+	int EndFrame = static_cast<int>(Parent->SelectAnimation->End);
+
+	ImGui::SliderInt2("Start To End Frame", &SelectFrames[0], StartFrame, EndFrame);
+	ImGui::InputInt("Turn Speed", &TurnSpeedValue);
+
+	if (ImGui::Button("Create Event"))
+	{
+		bool IsFrameOk = (SelectFrames[0] < SelectFrames[1]);
+		if (IsFrameOk)
+		{
+			FrameEventHelper* EventHelper = Parent->SelectAnimation->EventHelper;
+			std::shared_ptr<TurnSpeedFrameEvent> Event = TurnSpeedFrameEvent::CreateEventObject(SelectFrames[0], SelectFrames[1], static_cast<float>(TurnSpeedValue));
+			EventHelper->SetEvent(Event);
+		}
+		else
+		{
+			OutputDebugStringA("시작 프레임이 끝 프레임보다 크거나 같으면 이벤트를 생성할 수 없습니다. \n");
+		}
+	}
 }

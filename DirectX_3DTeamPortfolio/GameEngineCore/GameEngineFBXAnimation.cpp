@@ -341,7 +341,7 @@ bool GameEngineFBXAnimation::AnimationLoad(std::shared_ptr <GameEngineFBXMesh> _
 			for (fbxsdk::FbxLongLong j = startTime; j <= endTime; ++j)
 			{
 				fixIndex = j - startTime;
-
+				
 				FbxExBoneFrameData& FrameData = Frame.BoneMatData[fixIndex];
 
 				currTime.SetFrame(fixIndex, timeMode);

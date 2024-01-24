@@ -16,16 +16,19 @@ std::string FrameEventObject::GetTypeString() const
 	std::string ReturnValue;
 	switch (static_cast<Enum_FrameEventType>(EventID))
 	{
-	case None:
+	case Enum_FrameEventType::None:
 		break;
-	case Sound:
+	case Enum_FrameEventType::Sound:
 		ReturnValue = "Sound";
 		break;
-	case CollisionUpdate:
+	case Enum_FrameEventType::CollisionUpdate:
 		ReturnValue = "CollisionUpdate";
 		break;
-	case Transfrom:
+	case Enum_FrameEventType::Transfrom:
 		ReturnValue = "Transfrom";
+		break;
+	case Enum_FrameEventType::TurnSpeed:
+		ReturnValue = "TurnSpeed";
 		break;
 	default:
 		break;

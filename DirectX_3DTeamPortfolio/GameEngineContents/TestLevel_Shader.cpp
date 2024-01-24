@@ -66,7 +66,8 @@ void TestLevel_Shader::Start()
 	HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,100.0f });
 
 	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
-	HollowSoldier->Transform.AddLocalPosition({ -100.0f,0.0f,10.0f });
+	HollowSoldier->Transform.AddLocalPosition({ -300.0f,0.0f,10.0f });
+	HollowSoldier->Transform.SetLocalScale({ 5.0f,5.0f,5.0f });
 
 
 	//Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
@@ -175,6 +176,10 @@ void TestLevel_Shader::Update(float _Delta)
 		GameEngineGUI::AllWindowOff();
 	}
 
+
+	float4 Pos = GetMainCamera()->GetScreenPos(HollowSoldier->Transform);
+
+	int a = 0;
 }
 
 void TestLevel_Shader::Release()

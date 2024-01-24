@@ -24,6 +24,5 @@ protected:
 	void Release() override;
 
 private:
-	physx::PxRigidDynamic* ComponentActor = nullptr;
 };
 

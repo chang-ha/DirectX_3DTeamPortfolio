@@ -1,7 +1,23 @@
 #pragma once
 #include <GameEngineCore/GameEngineRenderer.h>
 
+enum class Enum_RootMotionMode
+{
+	StartDir,
+	RealTimeDir,
+};
 
+class RootMotionData
+{
+	friend class GameContentsFBXAnimationInfo;
+	friend class GameContentsFBXRenderer;
+
+	bool RootMotion = false;
+	float RootMotion_StartDir = 0.f;
+	float MoveFrameTime = 0.f;
+	Enum_RootMotionMode RootMotionMode = Enum_RootMotionMode::StartDir;
+	bool IsRotation = true;
+};
 
 class FbxExAniData;
 class FrameEventHelper;
@@ -26,18 +42,62 @@ public:
 	float Inter = 0.1f;
 
 	std::vector<unsigned int> Frames;
+	std::vector<float4> RootMotionFrames;
 	UINT CurFrame = 0;
 	UINT Start = -1;
 	UINT End = -1;
 
 	bool bOnceStart = true;
 	bool bOnceEnd = true;
-	bool IsStart = true;
 	bool Loop = true;
 	bool IsEnd = false;
 
-	float BlendIn = 0.2f;
+	// RootMotion
+	RootMotionData mRootMotionData;
 
+	inline bool IsRootMotion()
+	{
+		return mRootMotionData.RootMotion;
+	}
+
+	inline void RootMotionOn()
+	{
+		mRootMotionData.RootMotion = true;
+	}
+
+	inline void RootMotionOff()
+	{
+		mRootMotionData.RootMotion = false;
+	}
+
+	inline void SwitchRootMotion()
+	{
+		mRootMotionData.RootMotion = !mRootMotionData.RootMotion;
+	}
+
+	inline bool IsRootMotionRot()
+	{
+		return mRootMotionData.IsRotation;
+	}
+
+	inline void RootMotionRotOn()
+	{
+		mRootMotionData.IsRotation = true;
+	}
+
+	inline void RootMotionRotOff()
+	{
+		mRootMotionData.IsRotation = false;
+	}
+
+	inline void SwitchRootMotionRot()
+	{
+		mRootMotionData.IsRotation = !mRootMotionData.IsRotation;
+	}
+
+	void RootMotionUpdate(float _Delta);
+
+	float BlendIn = 0.2f;
 
 	void Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index);
 	void Reset();
@@ -119,6 +179,17 @@ public:
 
 	void BlendReset();
 
+	// Root Motion
+
+	void SetRootMotionComponent(GameEnginePhysXComponent* _RootMotionComponent)
+	{
+		// TriMesh는 아직 구현 안했습니다. 필요시 우창하에게 문의
+		RootMotionComponent = _RootMotionComponent;
+	}
+
+	void SetRootMotion(std::string_view _AniName, std::string_view _FileName = "", Enum_RootMotionMode _Mode = Enum_RootMotionMode::StartDir, bool _RootMotion = true);
+	void SetRootMotionMode(std::string_view _AniName, Enum_RootMotionMode _Mode);
+
 protected:
 	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> RenderUnits;
 
@@ -133,5 +204,8 @@ private:
 	std::vector<float4x4> AnimationBoneNotOffset;
 	std::vector<float4x4> BlendBoneMatrixs;
 	std::vector<AnimationBoneData> AnimationBoneDatas;
+
+	// Root Motion
+	GameEnginePhysXComponent* RootMotionComponent = nullptr;
 };
 

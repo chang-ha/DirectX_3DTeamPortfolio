@@ -68,12 +68,29 @@ private:
 
 };
 
+
+class TurnSpeedEventTree : public EventTree
+{
+	friend class AnimationInfoGUI;
+
+public:
+
+private:
+	void Start() override {}
+	void OnGUI(GameEngineLevel* _Level, float _Delta) override;
+
+private:
+	int TurnSpeedValue = 0;
+
+};
+
 // Ό³Έν :
 class AnimationInfoGUI : public TreeObject
 {
 	friend class SoundEventTree;
 	friend class TotalEventTree;
 	friend class CollisionEventTree;
+	friend class TurnSpeedEventTree;
 
 public:
 	// constrcuter destructer
@@ -89,7 +106,7 @@ public:
 	void ShowActorList(class GameEngineLevel* _Level);
 	void ActorChange();
 	void TransformEditor();
-	void AnimationList();
+	void AnimationList(class GameEngineLevel* _Level, float _DeltaTime);
 	void BoneEditor();
 	void EventEditor(class GameEngineLevel* _Level, float _DeltaTime);
 

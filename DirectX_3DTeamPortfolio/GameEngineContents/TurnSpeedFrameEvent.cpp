@@ -1,11 +1,11 @@
 #include "PreCompile.h"
 #include "TurnSpeedFrameEvent.h"
 
-#include "BaseMonster.h"
+#include "BaseActor.h"
 
 TurnSpeedFrameEvent::TurnSpeedFrameEvent()
 {
-	SetEventID(static_cast<int>(Type));
+	SetEventID(Enum_FrameEventType::TurnSpeed);
 }
 
 TurnSpeedFrameEvent::~TurnSpeedFrameEvent()
@@ -18,13 +18,13 @@ std::shared_ptr<TurnSpeedFrameEvent> TurnSpeedFrameEvent::CreateEventObject(int 
 	std::shared_ptr<TurnSpeedFrameEvent> TsEvent = std::make_shared<TurnSpeedFrameEvent>();
 	TsEvent->StartFrame = _SFrame;
 	TsEvent->EndFrame = _EFrame;
-	TsEvent->pMonster = TsEvent->GetDynamicCastParentActor<BaseMonster>().get();
+	TsEvent->TurnSpeed = _TurnSpeed;
 	return TsEvent;
 }
 
 void TurnSpeedFrameEvent::PlayEvent()
 {
-	if (nullptr == pMonster)
+	if (nullptr == pParentActor)
 	{
 		Init();
 	}
@@ -37,7 +37,7 @@ int TurnSpeedFrameEvent::UpdateEvent(float _Delta)
 	if (GetCurFrame() >= EndFrame)
 	{
 		// ½ÇÇà
-
+		int a = 0;
 		return EVENT_DONE;
 	}
 
@@ -46,5 +46,5 @@ int TurnSpeedFrameEvent::UpdateEvent(float _Delta)
 
 void TurnSpeedFrameEvent::Init()
 {
-	pMonster = GetDynamicCastParentActor<BaseMonster>().get();
+	pParentActor = GetDynamicCastParentActor<BaseActor>().get();
 }
