@@ -22,7 +22,8 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 	if (nullptr == Boss_Object)
 	{
 		Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
-		Boss_Object->Transform.SetLocalPosition({ 0.f, 0.f, 1000.f });
+		Boss_Object->Transform.SetWorldPosition({ 0.f, 0.f, 3000.f });
+		Boss_Object->Transform.SetWorldRotation({0.f, 180.f, 0.f});
 	}
 
 	// Light
@@ -41,19 +42,20 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	// Building
-	//if (nullptr == TestObj)
-	//{
-	//	TestObj = CreateActor<TestObject>(0, "TestObj");
-	//	TestObj->Transform.SetLocalPosition({ 0.0f, 0.0f, -2000.0f });
-	//}
-
+	if (nullptr == TestObj)
 	{
-		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
-		Boss_Object->SetTargeting(Object.get());
+		// TestObj = CreateActor<TestObject>(0, "TestObj");
+		// TestObj->Transform.SetLocalPosition({ 0.0f, 0.0f, -2000.0f });
 	}
 
-	GetMainCamera()->Transform.SetLocalPosition(float4::ZERO);
-	GetMainCamera()->Transform.SetLocalRotation(float4::ZERONULL);
+	//{
+	//	std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
+	//	Object->Transform.SetWorldPosition({0.f, 0.f, 500.f});
+	//	Boss_Object->SetTargeting(Object.get());
+	//}
+
+	GetMainCamera()->Transform.SetLocalPosition({0.f, 500.f, 0.f});
+	GetMainCamera()->Transform.SetLocalRotation({10.f, 0.f, 0.f});
 }
 
 void TestLevel_Boss::LevelEnd(GameEngineLevel* _NextLevel)

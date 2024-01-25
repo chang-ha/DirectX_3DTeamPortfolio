@@ -22,6 +22,7 @@
     <FxCompile Include="BloomBlur.fx" />
     <FxCompile Include="BloomBright.fx" />
     <FxCompile Include="ContentsAnimationMesh.fx" />
+    <FxCompile Include="ContentsDeferredLightRenderer.fx" />
     <FxCompile Include="ContentsStaticMesh.fx" />
     <FxCompile Include="FBXAnimation.fx" />
     <FxCompile Include="Function.fx" />
@@ -34,6 +35,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BloomCombine.fx" />
+    <ClCompile Include="ContentsDeferredMergeRenderer.fx" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

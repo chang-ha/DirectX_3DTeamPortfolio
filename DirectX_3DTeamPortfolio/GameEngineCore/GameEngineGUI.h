@@ -73,10 +73,21 @@ public:
 		return FindIter->second;
 	}
 
+	static void AllWindowOff()
+	{
+		AllWindowOnOff = false;
+	}
+
+	static void AllWindowOn()
+	{
+		AllWindowOnOff = true;
+	}
+
 
 protected:
 
 private:
+	static bool AllWindowOnOff;
 	static std::map<std::string, std::shared_ptr<GameEngineGUIWindow>> GUIWindows;
 
 };

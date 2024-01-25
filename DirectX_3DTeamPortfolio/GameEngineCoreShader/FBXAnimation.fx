@@ -22,6 +22,7 @@ void Skinning(inout float4 _Pos, float4 _Weight, int4 _Index, StructuredBuffer<A
     _Pos = CalPos;
     _Pos.w = 1.0f;
 }
+    
 
 void SkinningNormal(inout float4 _Normal, inout float4 _Weight, inout int4 _Index, StructuredBuffer<AniMat> _ArrMatrix)
 {
@@ -34,7 +35,7 @@ void SkinningNormal(inout float4 _Normal, inout float4 _Weight, inout int4 _Inde
     for (int i = 0; i < 4; ++i)
     {
         AniMat Mat = _ArrMatrix[_Index[i]];
-        CalNormal += _Weight[i] * mul(_Normal, Mat.Mat);
+        CalNormal.xyz += _Weight[i] * mul(_Normal, Mat.Mat);
     }
     
     _Normal = CalNormal;
@@ -42,4 +43,3 @@ void SkinningNormal(inout float4 _Normal, inout float4 _Weight, inout int4 _Inde
     _Normal.w = 0.0f;
 
 }
-    

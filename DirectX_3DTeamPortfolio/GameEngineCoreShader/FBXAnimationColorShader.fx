@@ -32,6 +32,7 @@ PixelOutPut FBXColorShader_VS(GameEngineVertex2D _Input)
     if (0 != IsAnimation)
     {
         Skinning(_Input.POSITION, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
+        SkinningNormal(_Input.NORMAL, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
     }
     
     // 버텍스 쉐이더에서 계산하면
@@ -40,13 +41,13 @@ PixelOutPut FBXColorShader_VS(GameEngineVertex2D _Input)
     // float4x4 ViewMat = WorldMatrix * ViewMatrix;
     
     _Input.POSITION.w = 1.0f;
-    Result.VIEWPOSITION = mul(_Input.POSITION, WorldMatrix);
+    Result.VIEWPOSITION = mul(_Input.POSITION, WorldViewMatrix);
     // Result.VIEWPOSITION = _Input.POSITION;
     Result.VIEWPOSITION.w = 1.0f;
     
     _Input.NORMAL.w = 0.0f;
     // Result.VIEWNORMAL = mul(_Input.NORMAL, WorldViewMatrix);
-    Result.VIEWNORMAL = mul(_Input.NORMAL, WorldMatrix);
+    Result.VIEWNORMAL = mul(_Input.NORMAL, WorldViewMatrix);
     Result.VIEWNORMAL.w = 0.0f;
     
     Result.POSITION = mul(_Input.POSITION, WorldViewProjectionMatrix);
@@ -89,18 +90,23 @@ PixelOut FBXColorShader_PS(PixelOutPut _Input) : SV_Target0
     Color.a = 1;
     
     float4 DiffuseRatio = (float4) 0.0f;
-    
+    float4 SpacularRatio = (float4) 0.0f;
+    float4 AmbientRatio = (float4) 0.0f;
+
     if (1 == IsLight)
     {
         for (int i = 0; i < LightCount; ++i)
         {
             DiffuseRatio += CalDiffuseLight(_Input.VIEWNORMAL, AllLight[i]);
+            SpacularRatio += CalSpacularLight(_Input.VIEWPOSITION, _Input.VIEWNORMAL, AllLight[i]);
+            AmbientRatio += CalAmbientLight(AllLight[i]);
         }
         
         float A = Color.w;
-        Color.xyz = Color.xyz * (DiffuseRatio.xyz);
+        Color.xyz = Color.xyz * (DiffuseRatio.xyz + SpacularRatio.xyz + AmbientRatio.xyz);
         Color.a = A;
     }
+
     
     // 버텍스 쉐이더에서 계산하면
     // 퐁쉐이딩.

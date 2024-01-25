@@ -56,6 +56,7 @@ void TestObject_Shader::Start()
 		MainRenderer->CreateFBXAnimation("c1100_Walk_Right", "c1100_Walk_Right.FBX", { 0.1f, true });
 		MainRenderer->CreateFBXAnimation("c1100_Walk_Right3", "c1100_Walk_Right3.FBX", { 0.1f, true });
 		MainRenderer->ChangeAnimation("c1100_Idle1");
+		MainRenderer->RenderBaseInfoValue.IsShadow = 1;
 
 	}
 }

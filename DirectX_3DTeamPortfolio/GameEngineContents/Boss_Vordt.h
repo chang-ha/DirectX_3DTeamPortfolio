@@ -49,11 +49,11 @@ enum class Enum_BossState
 	Rush_Hit_Turn_Rush,
 };
 
-enum class Enum_RotDir
+enum Enum_RotDir
 {
-	Not_Rot,
-	Left,
-	Right,
+	Not_Rot = 0,
+	Left = -1,
+	Right = 1,
 };
 
 class Boss_Vordt : public GameEngineActor

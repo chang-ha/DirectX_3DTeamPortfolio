@@ -5,6 +5,8 @@
 #include "imgui_impl_dx11.h"
 #include "GameEngineRenderTarget.h"
 
+bool GameEngineGUI::AllWindowOnOff = true;
+
 void GameEngineGUIWindow::Begin()
 {
     ImGui::Begin(GetName().c_str());
@@ -85,6 +87,8 @@ void GameEngineGUI::WindowInit(GameEngineGUIWindow* _NewWindow)
 
 void GameEngineGUI::GUIRender(GameEngineLevel* _Level, float _DeltaTime)
 {
+
+
     // Start the Dear ImGui frame
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
@@ -103,6 +107,11 @@ void GameEngineGUI::GUIRender(GameEngineLevel* _Level, float _DeltaTime)
 
     for (std::pair<const std::string, std::shared_ptr<GameEngineGUIWindow>> Pair : GUIWindows)
     {
+        if (false == AllWindowOnOff)
+        {
+            continue;
+        }
+
         if (false == Pair.second->IsUpdate())
         {
             continue;

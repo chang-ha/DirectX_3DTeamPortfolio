@@ -28,9 +28,9 @@ PixelOutPut ContentsStaticMesh_VS(GameEngineVertex3D _Input)
 
 
 
-PixelOut ContentsStaticMesh_PS(PixelOutPut _Input) : SV_Target0
+DeferrdOut ContentsStaticMesh_PS(PixelOutPut _Input)
 {
-    PixelOut Result = (PixelOut) 0.0f;
+    DeferrdOut Result = (DeferrdOut) 0.0f;
   
     Mesh_PS_Update(_Input, Result);
     

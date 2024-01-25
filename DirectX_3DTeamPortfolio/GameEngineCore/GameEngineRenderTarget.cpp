@@ -41,7 +41,7 @@ void GameEngineRenderTarget::Clear()
 
 	if (nullptr != DSV)
 	{
-		GameEngineCore::GetContext()->ClearDepthStencilView(DSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+		GameEngineCore::GetContext()->ClearDepthStencilView(DSV, D3D11_CLEAR_DEPTH , 1.0f, 0);
 	}
 }
 
@@ -125,7 +125,7 @@ void GameEngineRenderTarget::CreateDepthTexture(int _Index/* = 0*/)
 	// 0~부터 1사이의 float이기 때문에. 
 	// 1바이트를 남기고 24비트 float을 만듭니다.
 	// 남은 8비트를 스텐실이라는 것으로 사용하는데 내일 설명드리겠습니다.
-	Desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	Desc.Format = DXGI_FORMAT_R24G8_TYPELESS;
 
 	Desc.SampleDesc.Count = 1;
 	Desc.SampleDesc.Quality = 0;
@@ -135,7 +135,7 @@ void GameEngineRenderTarget::CreateDepthTexture(int _Index/* = 0*/)
 	Desc.Usage = D3D11_USAGE_DEFAULT;
 
 	Desc.CPUAccessFlags = 0;
-	Desc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL;
+	Desc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE;
 	DepthTexture = GameEngineTexture::Create(Desc);
 }
 

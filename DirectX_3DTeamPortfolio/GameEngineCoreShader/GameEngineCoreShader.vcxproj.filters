@@ -56,6 +56,24 @@
     <FxCompile Include="FBXStaticColorShader.fx">
       <Filter>3D</Filter>
     </FxCompile>
+    <FxCompile Include="DeferredLightRender.fx">
+      <Filter>Deferrd</Filter>
+    </FxCompile>
+    <FxCompile Include="DeferredMergeRender.fx">
+      <Filter>Deferrd</Filter>
+    </FxCompile>
+    <FxCompile Include="Shadow.fx">
+      <Filter>Deferrd</Filter>
+    </FxCompile>
+    <FxCompile Include="FBXStaticTextureShader.fx">
+      <Filter>3D</Filter>
+    </FxCompile>
+    <FxCompile Include="FBXDeferredAnimationShader.fx">
+      <Filter>3D</Filter>
+    </FxCompile>
+    <FxCompile Include="FBXDeferredStaticShader.fx">
+      <Filter>3D</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -78,6 +96,9 @@
     </Filter>
     <Filter Include="3D">
       <UniqueIdentifier>{1ceb1225-7aa7-4ad4-8f41-4767fb2d1787}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Deferrd">
+      <UniqueIdentifier>{26f2cbbe-e859-4d44-bfa9-720a1fc93b86}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

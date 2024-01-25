@@ -121,7 +121,7 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 
 	std::vector<float4x4>& AnimationBoneMatrix = ParentRenderer->AnimationBoneMatrixs;
 	std::vector<float4x4>& AnimationBoneNotOffSet = ParentRenderer->AnimationBoneNotOffset;
-	std::vector<AnimationBoneData>& AnimationBoneData = ParentRenderer->AnimationBoneDatas;
+	std::vector<AnimationBoneData>& AnimationBoneDatas = ParentRenderer->AnimationBoneDatas;
 
 	for (int i = 0; i < AnimationBoneMatrix.size(); i++)
 	{
@@ -139,29 +139,32 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 			continue;
 		}
 
-
 		FbxExBoneFrameData& CurData = FBXAnimationData->AniFrameData[i].BoneMatData[CurFrame];
 		FbxExBoneFrameData& NextData = FBXAnimationData->AniFrameData[i].BoneMatData[NextFrame];
 
 		float FrameRatio = CurFrameTime / Inter;
-		AnimationBoneData[i].Scale = float4::LerpClamp(CurData.S, NextData.S, FrameRatio);
-		AnimationBoneData[i].RotQuaternion = float4::SLerpQuaternionClamp(CurData.Q, NextData.Q, FrameRatio);
-		AnimationBoneData[i].Pos = float4::LerpClamp(CurData.T, NextData.T, FrameRatio);
+		AnimationBoneDatas[i].Scale = float4::LerpClamp(CurData.S, NextData.S, FrameRatio);
+		AnimationBoneDatas[i].RotQuaternion = float4::SLerpQuaternionClamp(CurData.Q, NextData.Q, FrameRatio);
+		AnimationBoneDatas[i].Pos = float4::LerpClamp(CurData.T, NextData.T, FrameRatio);
 
-		if (false == ParentRenderer->BlendBoneMatrixs.empty())
+		if (false == ParentRenderer->BlendBoneData.empty())
 		{
 			float BlendRatio = PlayTime / BlendIn;
 			if (BlendRatio < 1.0f)
 			{
-				float4x4& BoneData = ParentRenderer->BlendBoneMatrixs[i];
-				float4 BlendScale;
-				float4 BlendQuaternion;
-				float4 BlendPos;
-				BoneData.Decompose(BlendScale, BlendQuaternion, BlendPos);
+				AnimationBoneData& BoneData = ParentRenderer->BlendBoneData[i];
 
-				AnimationBoneData[i].Scale = float4::LerpClamp(BlendScale, AnimationBoneData[i].Scale, BlendRatio);
-				AnimationBoneData[i].RotQuaternion = float4::SLerpQuaternionClamp(BlendQuaternion, AnimationBoneData[i].RotQuaternion, BlendRatio);
-				AnimationBoneData[i].Pos = float4::LerpClamp(BlendPos, AnimationBoneData[i].Pos, BlendRatio);
+				AnimationBoneDatas[i].Scale = float4::LerpClamp(BoneData.Scale, AnimationBoneDatas[i].Scale, BlendRatio);
+				AnimationBoneDatas[i].RotQuaternion = float4::SLerpQuaternionClamp(BoneData.RotQuaternion, AnimationBoneDatas[i].RotQuaternion, BlendRatio);
+				AnimationBoneDatas[i].Pos = float4::LerpClamp(BoneData.Pos, AnimationBoneDatas[i].Pos, BlendRatio);
+
+				if (true && i == 4)
+				{
+					if ("Boss_Vordt" == ParentRenderer->GetActor()->GetName())
+					{
+						ParentRenderer->BlendDebug();
+					}
+				}
 			}
 			else
 			{
@@ -169,8 +172,8 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 			}
 		}
 
-		float4x4 Mat = float4x4::Affine(AnimationBoneData[i].Scale, AnimationBoneData[i].RotQuaternion, AnimationBoneData[i].Pos);
-
+		float4x4 Mat = float4x4::Affine(AnimationBoneDatas[i].Scale, AnimationBoneDatas[i].RotQuaternion, AnimationBoneDatas[i].Pos);
+		                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 		AnimationBoneNotOffSet[i] = Mat;
 		AnimationBoneMatrix[i] = BoneData->BonePos.Offset * Mat;
 	}
@@ -574,7 +577,7 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 	{
 		if (0.0f != CurAnimation->PlayTime)
 		{
-			BlendBoneMatrixs = AnimationBoneNotOffset;
+			BlendBoneData = AnimationBoneDatas;
 		}
 
 		CurAnimation->Reset();
@@ -778,7 +781,13 @@ void GameContentsFBXRenderer::TestSetBigFBXMesh(std::string_view _Name, std::str
 
 void GameContentsFBXRenderer::BlendReset()
 {
-	BlendBoneMatrixs.clear();
+	BlendBoneData.clear();
+}
+
+void GameContentsFBXRenderer::BlendDebug()
+{
+
+	int a = 0;
 }
 
 void GameContentsFBXRenderer::SetRootMotion(std::string_view _AniName, std::string_view _FileName, Enum_RootMotionMode _Mode, bool _RootMotion)
@@ -855,7 +864,7 @@ void GameContentsFBXRenderer::SetRootMotion(std::string_view _AniName, std::stri
 			case 0:
 				ValueEnd = DataString.find(" ", ValueStart);
 				Value = std::string(DataString, ValueStart, ValueEnd - ValueStart);
-				RootMotionVector.X = std::stof(Value);
+				RootMotionVector.X = -std::stof(Value);
 				ValueStart = ValueEnd + 1;
 				break;
 			case 1:
