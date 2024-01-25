@@ -35,7 +35,7 @@ cbuffer RenderBaseInfo : register(b11)
     int Target7;
     int IsLight;
     int IsNormal;
-    int Temp01;
-    int Temp02;
+    int IsDiffuse;
+    int IsShadow;
 };
 

@@ -83,12 +83,20 @@ void GameEngineDevice::ResourcesInit()
 		std::vector<GameEngineVertex> Vertex;
 		Vertex.resize(4 * 6);
 
+		//float4 POSITION;
+		//float4 TEXCOORD;
+		//float4 COLOR;
+		//float4 NORMAL;
+		//float4 BINORMAL;
+		//float4 TANGENT;
+		//float4 WEIGHT;
+
 		GameEngineVertex BaseVertexs[4];
 
-		BaseVertexs[0] = { { -0.5f, 0.5f, 0.5f, 1.0f } , float4(0.0f, 0.0f), float4::RED, float4(0.0f, 0.0f, 1.0f)};
-		BaseVertexs[1] = { { 0.5f, 0.5f, 0.5f, 1.0f } , float4(1.0f, 0.0f), float4::RED, float4(0.0f, 0.0f, 1.0f) };
-		BaseVertexs[2] = { { 0.5f, -0.5f, 0.5f, 1.0f } , float4(1.0f, 1.0f), float4::RED, float4(0.0f, 0.0f, 1.0f) };
-		BaseVertexs[3] = { { -0.5f, -0.5f, 0.5f, 1.0f } , float4(0.0f, 1.0f), float4::RED, float4(0.0f, 0.0f, 1.0f) };
+		BaseVertexs[0] = { { -0.5f, 0.5f, 0.5f, 1.0f } , float4(0.0f, 0.0f), float4::RED, float4(0.0f, 0.0f, 1.0f, 0.0f), float4(0.0f, 1.0f, 0.0f, 0.0f), float4(-1.0f, 0.0f, 0.0f, 0.0f) };
+		BaseVertexs[1] = { { 0.5f, 0.5f, 0.5f, 1.0f } , float4(1.0f, 0.0f), float4::RED, float4(0.0f, 0.0f, 1.0f, 0.0f), float4(0.0f, 1.0f, 0.0f, 0.0f), float4(-1.0f, 0.0f, 0.0f, 0.0f) };
+		BaseVertexs[2] = { { 0.5f, -0.5f, 0.5f, 1.0f } , float4(1.0f, 1.0f), float4::RED, float4(0.0f, 0.0f, 1.0f, 0.0f), float4(0.0f, 1.0f, 0.0f, 0.0f), float4(-1.0f, 0.0f, 0.0f, 0.0f) };
+		BaseVertexs[3] = { { -0.5f, -0.5f, 0.5f, 1.0f } , float4(0.0f, 1.0f), float4::RED, float4(0.0f, 0.0f, 1.0f, 0.0f), float4(0.0f, 1.0f, 0.0f, 0.0f), float4(-1.0f, 0.0f, 0.0f, 0.0f) };
 		// 앞면
 
 		for (size_t i = 0; i < 6; i++)
@@ -111,26 +119,51 @@ void GameEngineDevice::ResourcesInit()
 		Vertex[5].NORMAL = float4::VectorRotationToDegX(BaseVertexs[1].NORMAL, 180.0f);
 		Vertex[6].NORMAL = float4::VectorRotationToDegX(BaseVertexs[2].NORMAL, 180.0f);
 		Vertex[7].NORMAL = float4::VectorRotationToDegX(BaseVertexs[3].NORMAL, 180.0f);
+		Vertex[4].TANGENT = float4::VectorRotationToDegX(BaseVertexs[0].TANGENT, 180.0f);
+		Vertex[5].TANGENT = float4::VectorRotationToDegX(BaseVertexs[1].TANGENT, 180.0f);
+		Vertex[6].TANGENT = float4::VectorRotationToDegX(BaseVertexs[2].TANGENT, 180.0f);
+		Vertex[7].TANGENT = float4::VectorRotationToDegX(BaseVertexs[3].TANGENT, 180.0f);
+		Vertex[4].BINORMAL = float4::VectorRotationToDegX(BaseVertexs[0].BINORMAL, 180.0f);
+		Vertex[5].BINORMAL = float4::VectorRotationToDegX(BaseVertexs[1].BINORMAL, 180.0f);
+		Vertex[6].BINORMAL = float4::VectorRotationToDegX(BaseVertexs[2].BINORMAL, 180.0f);
+		Vertex[7].BINORMAL = float4::VectorRotationToDegX(BaseVertexs[3].BINORMAL, 180.0f);
 
 		// 왼쪽이나 오른쪽
-		Vertex[8 ].POSITION = float4::VectorRotationToDegY(BaseVertexs[0].POSITION, 90.0f);
-		Vertex[9 ].POSITION = float4::VectorRotationToDegY(BaseVertexs[1].POSITION, 90.0f);
+		Vertex[8].POSITION = float4::VectorRotationToDegY(BaseVertexs[0].POSITION, 90.0f);
+		Vertex[9].POSITION = float4::VectorRotationToDegY(BaseVertexs[1].POSITION, 90.0f);
 		Vertex[10].POSITION = float4::VectorRotationToDegY(BaseVertexs[2].POSITION, 90.0f);
 		Vertex[11].POSITION = float4::VectorRotationToDegY(BaseVertexs[3].POSITION, 90.0f);
-		Vertex[8 ].NORMAL = float4::VectorRotationToDegX(BaseVertexs[0].NORMAL, 90.0f);
-		Vertex[9 ].NORMAL = float4::VectorRotationToDegX(BaseVertexs[1].NORMAL, 90.0f);
-		Vertex[10].NORMAL = float4::VectorRotationToDegX(BaseVertexs[2].NORMAL, 90.0f);
-		Vertex[11].NORMAL = float4::VectorRotationToDegX(BaseVertexs[3].NORMAL, 90.0f);
+		Vertex[8].NORMAL = float4::VectorRotationToDegY(BaseVertexs[0].NORMAL, 90.0f);
+		Vertex[9].NORMAL = float4::VectorRotationToDegY(BaseVertexs[1].NORMAL, 90.0f);
+		Vertex[10].NORMAL = float4::VectorRotationToDegY(BaseVertexs[2].NORMAL, 90.0f);
+		Vertex[11].NORMAL = float4::VectorRotationToDegY(BaseVertexs[3].NORMAL, 90.0f);
+		Vertex[8].TANGENT = float4::VectorRotationToDegY(BaseVertexs[0].TANGENT, 90.0f);
+		Vertex[9].TANGENT = float4::VectorRotationToDegY(BaseVertexs[1].TANGENT, 90.0f);
+		Vertex[10].TANGENT = float4::VectorRotationToDegY(BaseVertexs[2].TANGENT, 90.0f);
+		Vertex[11].TANGENT = float4::VectorRotationToDegY(BaseVertexs[3].TANGENT, 90.0f);
+		Vertex[8].BINORMAL = float4::VectorRotationToDegY(BaseVertexs[0].BINORMAL, 90.0f);
+		Vertex[9].BINORMAL = float4::VectorRotationToDegY(BaseVertexs[1].BINORMAL, 90.0f);
+		Vertex[10].BINORMAL = float4::VectorRotationToDegY(BaseVertexs[2].BINORMAL, 90.0f);
+		Vertex[11].BINORMAL = float4::VectorRotationToDegY(BaseVertexs[3].BINORMAL, 90.0f);
+
 
 		// 왼쪽이나 오른쪽
 		Vertex[12].POSITION = float4::VectorRotationToDegY(BaseVertexs[0].POSITION, -90.0f);
 		Vertex[13].POSITION = float4::VectorRotationToDegY(BaseVertexs[1].POSITION, -90.0f);
 		Vertex[14].POSITION = float4::VectorRotationToDegY(BaseVertexs[2].POSITION, -90.0f);
 		Vertex[15].POSITION = float4::VectorRotationToDegY(BaseVertexs[3].POSITION, -90.0f);
-		Vertex[12].NORMAL = float4::VectorRotationToDegX(BaseVertexs[0].NORMAL, -90.0f);
-		Vertex[13].NORMAL = float4::VectorRotationToDegX(BaseVertexs[1].NORMAL, -90.0f);
-		Vertex[14].NORMAL = float4::VectorRotationToDegX(BaseVertexs[2].NORMAL, -90.0f);
-		Vertex[15].NORMAL = float4::VectorRotationToDegX(BaseVertexs[3].NORMAL, -90.0f);
+		Vertex[12].NORMAL = float4::VectorRotationToDegY(BaseVertexs[0].NORMAL, -90.0f);
+		Vertex[13].NORMAL = float4::VectorRotationToDegY(BaseVertexs[1].NORMAL, -90.0f);
+		Vertex[14].NORMAL = float4::VectorRotationToDegY(BaseVertexs[2].NORMAL, -90.0f);
+		Vertex[15].NORMAL = float4::VectorRotationToDegY(BaseVertexs[3].NORMAL, -90.0f);
+		Vertex[12].TANGENT = float4::VectorRotationToDegY(BaseVertexs[0].TANGENT, -90.0f);
+		Vertex[13].TANGENT = float4::VectorRotationToDegY(BaseVertexs[1].TANGENT, -90.0f);
+		Vertex[14].TANGENT = float4::VectorRotationToDegY(BaseVertexs[2].TANGENT, -90.0f);
+		Vertex[15].TANGENT = float4::VectorRotationToDegY(BaseVertexs[3].TANGENT, -90.0f);
+		Vertex[12].BINORMAL = float4::VectorRotationToDegY(BaseVertexs[0].BINORMAL, -90.0f);
+		Vertex[13].BINORMAL = float4::VectorRotationToDegY(BaseVertexs[1].BINORMAL, -90.0f);
+		Vertex[14].BINORMAL = float4::VectorRotationToDegY(BaseVertexs[2].BINORMAL, -90.0f);
+		Vertex[15].BINORMAL = float4::VectorRotationToDegY(BaseVertexs[3].BINORMAL, -90.0f);
 
 		// 위거나 아래
 		Vertex[16].POSITION = float4::VectorRotationToDegX(BaseVertexs[0].POSITION, 90.0f);
@@ -141,6 +174,15 @@ void GameEngineDevice::ResourcesInit()
 		Vertex[17].NORMAL = float4::VectorRotationToDegX(BaseVertexs[1].NORMAL, 90.0f);
 		Vertex[18].NORMAL = float4::VectorRotationToDegX(BaseVertexs[2].NORMAL, 90.0f);
 		Vertex[19].NORMAL = float4::VectorRotationToDegX(BaseVertexs[3].NORMAL, 90.0f);
+		Vertex[16].TANGENT = float4::VectorRotationToDegX(BaseVertexs[0].TANGENT, 90.0f);
+		Vertex[17].TANGENT = float4::VectorRotationToDegX(BaseVertexs[1].TANGENT, 90.0f);
+		Vertex[18].TANGENT = float4::VectorRotationToDegX(BaseVertexs[2].TANGENT, 90.0f);
+		Vertex[19].TANGENT = float4::VectorRotationToDegX(BaseVertexs[3].TANGENT, 90.0f);
+		Vertex[16].BINORMAL = float4::VectorRotationToDegX(BaseVertexs[0].BINORMAL, 90.0f);
+		Vertex[17].BINORMAL = float4::VectorRotationToDegX(BaseVertexs[1].BINORMAL, 90.0f);
+		Vertex[18].BINORMAL = float4::VectorRotationToDegX(BaseVertexs[2].BINORMAL, 90.0f);
+		Vertex[19].BINORMAL = float4::VectorRotationToDegX(BaseVertexs[3].BINORMAL, 90.0f);
+
 
 		Vertex[20].POSITION = float4::VectorRotationToDegX(BaseVertexs[0].POSITION, -90.0f);
 		Vertex[21].POSITION = float4::VectorRotationToDegX(BaseVertexs[1].POSITION, -90.0f);
@@ -150,6 +192,14 @@ void GameEngineDevice::ResourcesInit()
 		Vertex[21].NORMAL = float4::VectorRotationToDegX(BaseVertexs[1].NORMAL, -90.0f);
 		Vertex[22].NORMAL = float4::VectorRotationToDegX(BaseVertexs[2].NORMAL, -90.0f);
 		Vertex[23].NORMAL = float4::VectorRotationToDegX(BaseVertexs[3].NORMAL, -90.0f);
+		Vertex[20].TANGENT = float4::VectorRotationToDegX(BaseVertexs[0].TANGENT, -90.0f);
+		Vertex[21].TANGENT = float4::VectorRotationToDegX(BaseVertexs[1].TANGENT, -90.0f);
+		Vertex[22].TANGENT = float4::VectorRotationToDegX(BaseVertexs[2].TANGENT, -90.0f);
+		Vertex[23].TANGENT = float4::VectorRotationToDegX(BaseVertexs[3].TANGENT, -90.0f);
+		Vertex[20].BINORMAL = float4::VectorRotationToDegX(BaseVertexs[0].BINORMAL, -90.0f);
+		Vertex[21].BINORMAL = float4::VectorRotationToDegX(BaseVertexs[1].BINORMAL, -90.0f);
+		Vertex[22].BINORMAL = float4::VectorRotationToDegX(BaseVertexs[2].BINORMAL, -90.0f);
+		Vertex[23].BINORMAL = float4::VectorRotationToDegX(BaseVertexs[3].BINORMAL, -90.0f);
 
 		GameEngineVertexBuffer::Create("Box", Vertex);
 
@@ -170,6 +220,7 @@ void GameEngineDevice::ResourcesInit()
 
 		GameEngineMesh::Create("Box");
 	}
+
 
 
 	// Sphere
@@ -395,7 +446,7 @@ void GameEngineDevice::ResourcesInit()
 		// 깊이 테스트만 하고 안쓸수도 있다.
 		// Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ZERO;
 		Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
-		Desc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS;
+		Desc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS_EQUAL;
 		Desc.StencilEnable = false;
 		std::shared_ptr<GameEngineDepthStencil> Rasterizer = GameEngineDepthStencil::Create("EngineDepth", Desc);
 	}
@@ -501,6 +552,22 @@ void GameEngineDevice::ResourcesInit()
 
 
 	{
+		D3D11_BLEND_DESC Desc = {};
+
+		Desc.IndependentBlendEnable = false;
+		Desc.RenderTarget[0].BlendEnable = true;
+		Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_MIN;
+		Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE; // src팩터
+		Desc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
+		Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_MAX;
+		Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+		Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+		std::shared_ptr<GameEngineBlend> Blend = GameEngineBlend::Create("MinBlend", Desc);
+	}
+
+
+	{
 
 		D3D11_SAMPLER_DESC Desc = {};
 		// 일반적인 보간형식 <= 뭉개진다.
@@ -526,7 +593,7 @@ void GameEngineDevice::ResourcesInit()
 		// 일반적인 보간형식 <= 뭉개진다.
 		// D3D11_FILTER_MIN_MAG_MIP_
 		// 그 밉맵에서 색상가져올때 다 뭉개는 방식으로 가져오겠다.
-		Desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+		Desc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
 		Desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 		Desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 		Desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
@@ -670,6 +737,39 @@ void GameEngineDevice::ResourcesInit()
 		Mat->SetVertexShader("FBXStaticColorShader_VS");
 		Mat->SetPixelShader("FBXStaticColorShader_PS");
 	}
+
+	
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("DeferredLightRender");
+		Mat->SetVertexShader("DeferredLightRender_VS");
+		Mat->SetPixelShader("DeferredLightRender_PS");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("DeferredRender");
+		Mat->SetVertexShader("DeferredRender_VS");
+		Mat->SetPixelShader("DeferredRender_PS");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("Shadow");
+		Mat->SetVertexShader("Shadow_VS");
+		Mat->SetPixelShader("Shadow_PS");
+		Mat->SetBlendState("MinBlend");
+	}
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBXDeferredAnimation");
+		Mat->SetVertexShader("FBXAnimationShaderDeferred_VS");
+		Mat->SetPixelShader("FBXAnimationShaderDeferred_PS");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBXDeferredStatic");
+		Mat->SetVertexShader("FBXStaticShaderDeferred_VS");
+		Mat->SetPixelShader("FBXStaticShaderDeferred_PS");
+	}
+
 
 
 	GameEngineRenderTarget::MergeRenderUnitInit();

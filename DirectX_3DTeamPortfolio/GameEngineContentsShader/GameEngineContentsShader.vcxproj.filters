@@ -10,6 +10,9 @@
     <Filter Include="PostEffect">
       <UniqueIdentifier>{47fc2ad3-e0ed-44e9-8f71-51843b1f9268}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Deferred">
+      <UniqueIdentifier>{51412e17-0f76-4764-95c6-c91160b95aab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ContentsAnimationMesh.fx">
@@ -48,10 +51,16 @@
     <FxCompile Include="BloomBright.fx">
       <Filter>PostEffect</Filter>
     </FxCompile>
+    <FxCompile Include="ContentsDeferredLightRenderer.fx">
+      <Filter>Deferred</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BloomCombine.fx">
       <Filter>PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsDeferredMergeRenderer.fx">
+      <Filter>Deferred</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

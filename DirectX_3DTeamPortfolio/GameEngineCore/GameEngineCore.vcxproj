@@ -73,7 +73,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;..\GameEngineCore\ThirdParty\PhysX\inc;..\GameEngineCore\ThirdParty\Fbx\inc;</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;..\GameEngineCore\ThirdParty\PhysX\inc;..\GameEngineCore\ThirdParty\Fbx\inc;..\GameEngineCore\ThirdParty\HBAO\inc</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)Bin\$(Platform)\$(Configuration)\;..\;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -91,7 +91,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;..\GameEngineCore\ThirdParty\PhysX\inc;..\GameEngineCore\ThirdParty\Fbx\inc;</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;..\GameEngineCore\ThirdParty\PhysX\inc;..\GameEngineCore\ThirdParty\Fbx\inc;..\GameEngineCore\ThirdParty\HBAO\inc</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)Bin\$(Platform)\$(Configuration)\;..\;</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -175,6 +175,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineAO.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -384,6 +388,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GFSDK_SSAO.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
     <ClInclude Include="imgui_impl_dx11.h" />
@@ -397,6 +402,7 @@
     <ClInclude Include="ThirdParty\DirectXTex\inc\DirectXTex.h" />
     <ClInclude Include="ThirdParty\Fbx\inc\fbxsdk.h" />
     <ClInclude Include="ThirdParty\FW1FontWrapper\inc\FW1FontWrapper.h" />
+    <ClInclude Include="ThirdParty\HBAO\inc\GFSDK_SSAO.h" />
     <ClInclude Include="ThirdParty\PhysX\inc\characterkinematic\PxBoxController.h" />
     <ClInclude Include="ThirdParty\PhysX\inc\characterkinematic\PxCapsuleController.h" />
     <ClInclude Include="ThirdParty\PhysX\inc\characterkinematic\PxController.h" />
@@ -593,6 +599,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineAO.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -1013,6 +1023,15 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </CopyFileToFolders>
+    <Library Include="ThirdParty\HBAO\lib\GFSDK_SSAO_D3D11.win64.lib">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+    </Library>
+    <Library Include="ThirdParty\HBAO\lib\GFSDK_SSAO_D3D11_UWP.win64.lib">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </Library>
     <None Include="ThirdParty\DirectXTex\inc\DirectXTex.inl" />
     <Library Include="ThirdParty\DirectXTex\lib\Debug\DirectXTex.pdb">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -1065,6 +1084,15 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\HBAO\lib\GFSDK_SSAO_D3D11.win64.dll">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\HBAO\lib\GFSDK_SSAO_D3D11_UWP.win64.dll">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>

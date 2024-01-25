@@ -1,5 +1,7 @@
 #include "PreCompile.h"
 #include "Monster_Hollow.h"
+#include "BasePlayer.h"
+
 
 Monster_Hollow::Monster_Hollow()
 {
@@ -75,7 +77,7 @@ void Monster_Hollow::Start()
 
 void Monster_Hollow::Update(float _Delta)
 {
-
+	
 }
 
 void Monster_Hollow::Release()

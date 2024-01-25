@@ -10,6 +10,7 @@
 #include "GameEngineGeometryShader.h"
 #include "GameEngineRenderer.H"
 #include "GameEngineLevel.h"
+#include "GameEngineCamera.h"
 
 
 GameEngineRenderUnit::GameEngineRenderUnit() 
@@ -186,6 +187,29 @@ void GameEngineRenderUnit::SetMaterial(std::string_view _Name)
 	Material = GameEngineMaterial::Find(_Name);
 
 	SetMaterial(Material);
+
+	if (nullptr != ParentRenderer)
+	{
+		GameEngineCamera* Camera = ParentRenderer->GetCamera();
+		int CameraOrder = ParentRenderer->GetCamera()->GetOrder();
+
+		std::shared_ptr<GameEngineRenderUnit> Unit = shared_from_this();
+
+		if (false == Material->GetPixelShader()->IsDeferred())
+		{
+			Camera->Units[RenderPath::Forward][Camera->GetOrder()].push_back(Unit);
+		}
+		else 
+		{
+			Camera->Units[RenderPath::Deferred][Camera->GetOrder()].push_back(Unit);
+		}
+
+
+
+		// int CameraOrder = ParentRenderer->
+	}
+
+
 }
 
 void GameEngineRenderUnit::SetMesh(std::shared_ptr<GameEngineMesh> _Mesh)
@@ -213,7 +237,7 @@ void GameEngineRenderUnit::SetMaterial(std::shared_ptr<GameEngineMaterial> _Mate
 
 	if (nullptr == Material)
 	{
-		MsgBoxAssert("존재하지 않는 매쉬를 세팅하려고 했습니다.");
+		MsgBoxAssert("존재하지 않는 머티리얼을 세팅하려고 했습니다.");
 	}
 
 	if (nullptr == LayOut && nullptr != Mesh)
@@ -254,9 +278,46 @@ void GameEngineRenderUnit::SetMaterial(std::shared_ptr<GameEngineMaterial> _Mate
 
 }
 
+void GameEngineRenderUnit::ShadowOn()
+{
+	if (1 == ParentRenderer->RenderBaseInfoValue.IsAnimation)
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Find("ShadowAni");
+
+		if (nullptr == ShadowLayOut && nullptr != Material)
+		{
+			ShadowLayOut = std::make_shared<GameEngineInputLayOut>();
+			ShadowLayOut->ResCreate(Mesh->GetVertexBuffer(), Mat->GetVertexShader());
+		}
+	}
+	else
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Find("ShadowStatic");
+
+		if (nullptr == ShadowLayOut && nullptr != Material)
+		{
+			ShadowLayOut = std::make_shared<GameEngineInputLayOut>();
+			ShadowLayOut->ResCreate(Mesh->GetVertexBuffer(), Mat->GetVertexShader());
+		}
+	}
+
+
+}
+
 void GameEngineRenderUnit::Render()
 {
+	if (nullptr == Mesh)
+	{
+		MsgBoxAssert("매쉬가 세팅되지 않았습니다.");
+	}
+
+	if (nullptr == Material)
+	{
+		MsgBoxAssert("머티리얼이 세팅되지 않았습니다.");
+	}
+
 	ResSetting();
 	Draw();
+	ResReset();
 	// ShaderResHelper.AllShaderResourcesReset();
 }

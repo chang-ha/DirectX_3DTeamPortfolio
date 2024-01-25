@@ -64,6 +64,11 @@ public:
 		return Textures[_Index];
 	}
 
+	inline std::shared_ptr<GameEngineTexture> GetDepthTexture()
+	{
+		return DepthTexture;
+	}
+
 	void Clear();
 	void Setting();
 
@@ -97,6 +102,7 @@ public:
 	}
 
 	std::shared_ptr<GameEngineRenderTarget> CreateChildRenderTarget(std::vector<int> _Index);
+
 
 protected:
 
