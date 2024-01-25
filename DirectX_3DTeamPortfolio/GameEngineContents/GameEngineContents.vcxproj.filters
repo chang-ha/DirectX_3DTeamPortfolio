@@ -163,6 +163,13 @@
     <ClCompile Include="ContentsControlWindow.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="HBAOGUI.cpp" />
+    <ClCompile Include="TitleLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLogo.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -323,6 +330,13 @@
     </ClInclude>
     <ClInclude Include="ContentsControlWindow.h">
       <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="HBAOGUI.h" />
+    <ClInclude Include="TitleLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLogo.h">
+      <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
