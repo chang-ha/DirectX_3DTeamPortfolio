@@ -10,10 +10,13 @@ PixelOutPut ContentsAnimationMesh_VS(GameEngineVertex3D _Input)
     // 쉐이더 문법 모두 0인 자료형으로 초기화 하는것
     PixelOutPut Result = (PixelOutPut)0;
     _Input.POSITION.w = 1.0f;
+    _Input.NORMAL.w = 0.0f;
     
     if (0 != IsAnimation)
     {
         Skinning(_Input.POSITION, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
+        
+        SkinningNormal(_Input.NORMAL, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
     }
     
     Mesh_VS_Update(_Input, Result);
@@ -34,9 +37,9 @@ PixelOutPut ContentsAnimationMesh_VS(GameEngineVertex3D _Input)
 
 
 
-PixelOut ContentsAnimationMesh_PS(PixelOutPut _Input) : SV_Target0
+DeferrdOut ContentsAnimationMesh_PS(PixelOutPut _Input)
 {
-    PixelOut Result = (PixelOut)0.0f;
+    DeferrdOut Result = (DeferrdOut) 0.0f;
   
     Mesh_PS_Update(_Input, Result);
     

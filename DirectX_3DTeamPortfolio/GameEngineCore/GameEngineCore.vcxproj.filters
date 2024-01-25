@@ -91,9 +91,6 @@
     <Filter Include="Rendering\Light">
       <UniqueIdentifier>{2cc84acd-88db-4f98-af6b-241632fbe373}</UniqueIdentifier>
     </Filter>
-    <Filter Include="PhysX">
-      <UniqueIdentifier>{e30a7a24-cb8c-4c8d-89c6-761e05c091a4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ThirdParty\PhysX">
       <UniqueIdentifier>{f9724a91-c025-4235-a11e-8fd4f402f19e}</UniqueIdentifier>
     </Filter>
@@ -162,6 +159,9 @@
     </Filter>
     <Filter Include="ThirdParty\PhysX\lib\Debug">
       <UniqueIdentifier>{8a1c8ac6-6fba-4c75-8e8a-790ca1e2973e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PhysX">
+      <UniqueIdentifier>{e30a7a24-cb8c-4c8d-89c6-761e05c091a4}</UniqueIdentifier>
     </Filter>
     <Filter Include="PhysX\Component">
       <UniqueIdentifier>{fdd8ce92-daa4-4af0-b9cf-f14560ef5036}</UniqueIdentifier>

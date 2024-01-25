@@ -1,0 +1,47 @@
+#pragma once
+
+// Ό³Έν :
+class ContentsMath
+{
+public:
+	static float GetDegreeTo2f(float _X, float _Y);
+	static float GetDegreeTo2f(const float4& _Vec);
+
+	static float4 GetVectorToOther(const float4& _MyPos, const float4& _OtherPos);
+
+protected:
+
+private:
+	// constrcuter destructer
+	ContentsMath();
+	~ContentsMath();
+
+	// delete Function
+	ContentsMath(const ContentsMath& _Other) = delete;
+	ContentsMath(ContentsMath&& _Other) noexcept = delete;
+	ContentsMath& operator=(const ContentsMath& _Other) = delete;
+	ContentsMath& operator=(ContentsMath&& _Other) noexcept = delete;
+
+};
+
+class BitMethod
+{
+public:
+	
+	static bool IsOnFlag(int _Flag, int _iValue);
+	static void SetFlag(int* _pFlag, int _iValue, bool _bOn);
+	static void AddFlag(int* _pFlag, int _iValue);
+	static void SubFlag(int* _pFlag, int _iValue);
+
+private:
+	BitMethod() {}
+	~BitMethod() {}
+
+	// delete Function
+	BitMethod(const BitMethod& _Other) = delete;
+	BitMethod(BitMethod&& _Other) noexcept = delete;
+	BitMethod& operator=(const BitMethod& _Other) = delete;
+	BitMethod& operator=(BitMethod&& _Other) noexcept = delete;
+
+};
+

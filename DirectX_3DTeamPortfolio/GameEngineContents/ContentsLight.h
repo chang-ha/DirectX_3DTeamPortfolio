@@ -27,7 +27,11 @@ public:
 
 	inline void SetLightType(Enum_LightType _Type)
 	{
-		LightDataValue.LightType = static_cast<int>(_Type);
+		LightData Data = GetLightData();
+
+		Data.LightType = static_cast<int>(_Type);
+
+		SetLightData(Data);
 	}
 
 protected:

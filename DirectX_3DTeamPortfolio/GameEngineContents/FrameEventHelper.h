@@ -1,9 +1,8 @@
 #pragma once
-#include "SoundFrameEvent.h"
 #include <GameEngineCore/GameEngineResources.h>
 
-
 // Ό³Έν :
+class FrameEventObject;
 class FrameEventHelper : public GameEngineResources<FrameEventHelper>
 {
 public:
@@ -24,9 +23,15 @@ public:
 
 	static std::string GetConvertFileName(std::string_view _AnimationName);
 
-	static std::shared_ptr<FrameEventHelper> CreateTempRes()
+	static std::shared_ptr<FrameEventHelper> CreateTempRes(std::string_view _TempPath, GameContentsFBXAnimationInfo* _AnimationInfo)
 	{
-		return CreateRes();
+		int FrameCnt = static_cast<int>(_AnimationInfo->FBXAnimationData->FrameCount + 1);
+
+		std::shared_ptr<FrameEventHelper> Helper = Load(_TempPath);
+		Helper->ParentInfo = _AnimationInfo;
+		Helper->EventInfo.resize(FrameCnt);
+		Helper->FrameCount = FrameCnt;
+		return Helper;
 	}
 
 	static std::shared_ptr<FrameEventHelper> Load(std::string_view _Path)
@@ -42,30 +47,45 @@ public:
 		return Helper;
 	}
 
-
-
-	void Initialze();
-	void SaveFile(std::string_view _Path);
-
+	void Initialze(GameContentsFBXAnimationInfo* _AnimationInfo);
+	void SaveFile();
 
 	void PlayEvents(int _Frame);
-	void EventReset() {}
+	void PushPlayingEvent(FrameEventObject* _Object);
+	void UpdateEvent(float _Delta);
+	void EventReset();
 
-	std::vector<std::list<FrameEventObject*>>& GetAllEvents() { return Events; }
-	std::list<std::shared_ptr<SoundFrameEvent>>& GetSoundEvents() { return SoundEvents; }
+	int GetEventSize();
+
+	void SetEvent(std::shared_ptr<FrameEventObject> _EventObject);
+	void PopEvent(const std::shared_ptr<FrameEventObject>& _Event);
+
+	inline class GameContentsFBXAnimationInfo* GetAnimationInfo() { return ParentInfo; }
+	inline std::vector<std::list<FrameEventObject*>>& GetEventInfo() { return EventInfo; }
+	inline std::map<int, std::list<std::shared_ptr<FrameEventObject>>>& GetAllEvents() { return Events; }
+
+	template<typename _EventType>
+	std::list<std::shared_ptr<FrameEventObject>>& GetEventGroup(_EventType _Type)
+	{
+		return GetEventGroup(static_cast<int>(_Type));
+	}
+
+	inline std::list<std::shared_ptr<FrameEventObject>>& GetEventGroup(int _Type);
 
 protected:
 	void PushEventData();
 
 private:
+	static std::string ExtName;
+
 	std::string Path;
 	std::string AnimationName;
-	static std::string ExtName;
-	int FrameCount = 0;
-	int EventCount = 0;
-	std::vector<std::list<FrameEventObject*>> Events;
-	std::list<FrameEventObject*> PlayingEvents;
-	std::list<std::shared_ptr<SoundFrameEvent>> SoundEvents;
 
+	int FrameCount = 0;
+
+	class GameContentsFBXAnimationInfo* ParentInfo = nullptr;
+	std::vector<std::list<FrameEventObject*>> EventInfo;
+	std::list<FrameEventObject*> PlayingEvents;
+	std::map<int, std::list<std::shared_ptr<FrameEventObject>>> Events;
 
 };

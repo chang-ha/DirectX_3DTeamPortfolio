@@ -187,7 +187,14 @@ bool GameEngineFBXAnimation::AnimationLoad(std::shared_ptr <GameEngineFBXMesh> _
 	int deformerCount = pCurrMesh->GetDeformerCount();
 	fbxsdk::FbxAMatrix geometryTransform = GetGeometryTransformation(_Node);
 
+	// Dark Souls 3 geometry
+	fbxsdk::FbxAMatrix D3AniTransform;
+	float4 Degree = float4(0.f, 0.f, 90.f, 0.f);
+	float4 Quat = Degree.EulerDegToQuaternion();
+	D3AniTransform.SetQ(FbxQuaternion(Quat.X, Quat.Y, Quat.Z, Quat.W));
+	D3AniTransform.SetS(FbxVector4(-1.0, 1.0, 1.0));
 
+	geometryTransform *= D3AniTransform;
 
 	fbxsdk::FbxTakeInfo* takeInfo = Scene->GetTakeInfo(AnimationDatas[AnimationIndex].AniName.c_str());
 	fbxsdk::FbxTime start = takeInfo->mReferenceTimeSpan.GetStart();
@@ -341,7 +348,7 @@ bool GameEngineFBXAnimation::AnimationLoad(std::shared_ptr <GameEngineFBXMesh> _
 			for (fbxsdk::FbxLongLong j = startTime; j <= endTime; ++j)
 			{
 				fixIndex = j - startTime;
-
+				
 				FbxExBoneFrameData& FrameData = Frame.BoneMatData[fixIndex];
 
 				currTime.SetFrame(fixIndex, timeMode);

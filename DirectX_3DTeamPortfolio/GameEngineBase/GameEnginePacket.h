@@ -46,7 +46,7 @@ public:
 	}
 
 	template<typename EnumType>
-	EnumType GetPacktID(){
+	EnumType GetPacketID() {
 		return static_cast<EnumType>(PacketID);
 	}
 
@@ -83,6 +83,19 @@ public:
 		int* SizePtr = _Ser.GetDataPtr<int*>();
 		*SizePtr = Size;
 	}
+
+	void DeSerializePacket(GameEngineSerializer& _Ser)
+	{
+		DeSerialize(_Ser);
+	}
+
+	virtual void DeSerialize(GameEngineSerializer& _Ser)
+	{
+		_Ser >> Size;
+		_Ser >> PacketID;
+		_Ser >> ObjectID;
+	}
+
 
 protected:
 

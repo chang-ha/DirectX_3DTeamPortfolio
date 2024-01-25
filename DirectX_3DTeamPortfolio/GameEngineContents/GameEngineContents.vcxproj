@@ -73,7 +73,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;..\GameEngineCore\ThirdParty\PhysX\inc;..\GameEngineCore\ThirdParty\Fbx\inc;</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;..\GameEngineCore\ThirdParty\PhysX\inc;..\GameEngineCore\ThirdParty\Fbx\inc;..\GameEngineCore\ThirdParty\HBAO\inc</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)Bin\$(Platform)\$(Configuration)\;..\;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -91,7 +91,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;..\GameEngineCore\ThirdParty\PhysX\inc;..\GameEngineCore\ThirdParty\Fbx\inc;</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;..\GameEngineCore\ThirdParty\PhysX\inc;..\GameEngineCore\ThirdParty\Fbx\inc;..\GameEngineCore\ThirdParty\HBAO\inc</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)Bin\$(Platform)\$(Configuration)\;..\;</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -167,7 +167,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CommonMonster.cpp">
+    <ClCompile Include="AnimationInfoGUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BaseActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BasePlayer.cpp" />
+    <ClCompile Include="BloomEffect.cpp" />
+    <ClCompile Include="BoneSocketCollision.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Boss_Vordt_State.cpp" />
+    <ClCompile Include="BaseMonster.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CollisionUpdateFrameEvent.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -188,7 +207,27 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ContentsDebug.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ContentsLight.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ContentsMath.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="DummyActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="DummyPath.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SwitchFlagFrameEvent.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -207,23 +246,44 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="MonsterGUI.cpp">
+    <ClCompile Include="HBAOGUI.cpp">
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="LightGUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Monster_Hollow.cpp" />
     <ClCompile Include="Monster_HollowSoldier.cpp">
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Monster_HollowSoldier_Lantern.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Monster_HollowSoldier_Sword.cpp" />
+    <ClCompile Include="Monster_Hollow_NonFirstAttack.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Monster_Hollow_RaggedRobes.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Monster_Hollow_Unarmed.cpp" />
     <ClCompile Include="Monster_LothricKn.cpp">
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Monster_LothricKn_State.cpp" />
     <ClCompile Include="ObjectPacket.cpp" />
     <ClCompile Include="Player.cpp">
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Player_State.cpp" />
     <ClCompile Include="PlayLevel.cpp">
       <SubType>
       </SubType>
@@ -260,9 +320,40 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TestMap.cpp" />
+    <ClCompile Include="TestObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TestObject_Shader.cpp" />
+    <ClCompile Include="TreeWindow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TurnSpeedFrameEvent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CommonMonster.h">
+    <ClInclude Include="AnimationInfoGUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BaseActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BaseMonster.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BasePlayer.h" />
+    <ClInclude Include="BloomEffect.h" />
+    <ClInclude Include="BoneSocketCollision.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CollisionUpdateFrameEvent.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -283,8 +374,28 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ContentsDebug.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="ContentsLight.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentsMath.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DummyActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DummyPath.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SwitchFlagFrameEvent.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -303,14 +414,33 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="MonsterGUI.h">
+    <ClInclude Include="HBAOGUI.h">
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="LightGUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Monster_Hollow.h" />
     <ClInclude Include="Monster_HollowSoldier.h">
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Monster_HollowSoldier_Lantern.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Monster_HollowSoldier_Sword.h" />
+    <ClInclude Include="Monster_Hollow_NonFirstAttack.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Monster_Hollow_RaggedRobes.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Monster_Hollow_Unarmed.h" />
     <ClInclude Include="Monster_LothricKn.h">
       <SubType>
       </SubType>
@@ -355,6 +485,19 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TestMap.h" />
+    <ClInclude Include="TestObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TestObject_Shader.h" />
+    <ClInclude Include="TreeWindow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TurnSpeedFrameEvent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -25,7 +25,6 @@ void GameEnginePhysXBox::LevelEnd(GameEngineLevel* _NextLevel)
 void GameEnginePhysXBox::Start()
 {
 	GameEnginePhysXComponent::Start();
-	ParentActor = GetActor();
 }
 
 void GameEnginePhysXBox::Update(float _Delta)

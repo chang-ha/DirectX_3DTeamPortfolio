@@ -19,7 +19,7 @@ enum class RenderMode
 	Instancing,
 };
 
-class GameEngineRenderUnit final : public GameEngineObjectBase, std::enable_shared_from_this<GameEngineRenderUnit>
+class GameEngineRenderUnit final : public GameEngineObjectBase, public std::enable_shared_from_this<GameEngineRenderUnit>
 {
 public:
 	// constrcuter destructer
@@ -43,6 +43,14 @@ public:
 	void Draw();
 
 	void Render();
+
+
+	void ShadowOn();
+
+	std::shared_ptr<GameEngineMesh> GetMesh()
+	{
+		return Mesh;
+	}
 
 	void SetParentRenderer(class GameEngineRenderer* _Renderer)
 	{
@@ -83,6 +91,7 @@ private:
 	// 최적화 대상이 될수 있다.
 	// 이걸 어떻게든 관리할 방법을 찾는게 맞다.
 	std::shared_ptr<class GameEngineInputLayOut> LayOut = nullptr;
+	std::shared_ptr<class GameEngineInputLayOut> ShadowLayOut = nullptr;
 
 
 	std::shared_ptr<class GameEngineMesh> Mesh = nullptr;

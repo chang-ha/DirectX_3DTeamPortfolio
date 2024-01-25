@@ -32,12 +32,22 @@ public:
 
 	void Setting();
 
+	void DeferredOn()
+	{
+		IsDeferredValue = true;
+	}
+
+	bool IsDeferred()
+	{
+		return IsDeferredValue;
+	}
+
 protected:
 
 private:
+	bool IsDeferredValue = false;
+
 	ID3D11PixelShader* ShaderPtr = nullptr;
-
 	void ShaderLoad(std::string_view _Path, std::string_view _EntryPoint, UINT _VersionHight = 5, UINT _VersionLow = 0);
-
 };
 

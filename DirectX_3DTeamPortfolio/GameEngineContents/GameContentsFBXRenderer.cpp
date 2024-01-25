@@ -7,18 +7,20 @@ void GameContentsFBXAnimationInfo::Reset()
 	CurFrameTime = 0.0f;
 	CurFrame = 0;
 	PlayTime = 0.0f;
-	IsStart = false;
-	// Start = 0;
+	bOnceStart = false;
+	IsEnd = false;
+
+
+	if (nullptr != EventHelper)
+	{
+		EventHelper->EventReset();
+	}
 }
 
 void GameContentsFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index)
 {
-	// GameENgineFBXAnimation의 행렬 정보가 완전해지는것은 
-	// CalFbxExBoneFrameTransMatrix가 호출되고 난 후입니다.
-	// 애니메이션의 행렬이 계산되는겁니다.
-
 	_Animation->AnimationMatrixLoad(_Mesh, _Name, _Index);
-	Aniamtion = _Animation; 
+	Aniamtion = _Animation;
 	FBXAnimationData = Aniamtion->GetAnimationData(_Index);
 	Start = static_cast<UINT>(FBXAnimationData->TimeStartCount);
 	End = static_cast<UINT>(FBXAnimationData->TimeEndCount);
@@ -28,82 +30,98 @@ void GameContentsFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh
 	Start = 0;
 	End = static_cast<unsigned int>(FBXAnimationData->TimeEndCount);
 
+	float TotalTime = static_cast<float>(End) * Inter;
+	if (BlendIn > TotalTime)
+	{
+		BlendIn = TotalTime;
+	}
 
 	std::string EventName = FrameEventHelper::GetConvertFileName(_Animation->GetName());
 	std::shared_ptr<FrameEventHelper> pEventHelper = FrameEventHelper::Find(EventName);
 	if (nullptr != pEventHelper)
 	{
+		pEventHelper->Initialze(this);
 		EventHelper = pEventHelper.get();
-		EventHelper->Initialze();
 		return;
 	}
 }
 
 void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 {
-	if (false == ParentRenderer->Pause)
+	bool PauseCheck = ParentRenderer->Pause;
+	bool NotLoopEndCheck = IsEnd && !Loop;
+	if (PauseCheck || NotLoopEndCheck)
 	{
-		if (false == IsStart)
-		{
-			if (nullptr != EventHelper)
-			{
-				EventHelper->PlayEvents(CurFrame);
-			}
+		return;
+	}
 
-			IsStart = true;
+	IsEnd = false;
+
+	if (false == bOnceStart)
+	{
+		if (nullptr != EventHelper)
+		{
+			EventHelper->PlayEvents(CurFrame);
 		}
 
-		// 0.1초짜리 
-		CurFrameTime += _DeltaTime;
-		PlayTime += _DeltaTime;
+		bOnceStart = true;
+	}
 
-		while (CurFrameTime >= Inter)
+	// 0.1초짜리 
+	CurFrameTime += _DeltaTime;
+	PlayTime += _DeltaTime;
+	RootMotionUpdate(_DeltaTime);
+
+	while (CurFrameTime >= Inter)
+	{
+		//   2.0         0.1
+		CurFrameTime -= Inter;
+		++CurFrame;
+
+		if (false == bOnceStart && CurFrame == 0)
 		{
-			//   2.0         0.1
-			CurFrameTime -= Inter;
-			++CurFrame;
+			bOnceStart = true;
+			bOnceEnd = false;
+		}
 
-			if (false == bOnceStart && CurFrame == 0)
-			{
-				bOnceStart = true;
-				bOnceEnd = false;
-			}
+		bool DoneCheck = false;
 
-			if (CurFrame >= End)
-			{
-				if (true == Loop)
-				{
-					CurFrame = Start;
-				}
-				else
-				{
-					--CurFrame;
-				}
-			}
+		if (CurFrame > End)
+		{
+			IsEnd = true;
 
-			if (nullptr != EventHelper)
+			if (true == Loop)
 			{
-				EventHelper->PlayEvents(CurFrame);
+				CurFrame = Start;
 			}
+			else
+			{
+				--CurFrame;
+			}
+		}
+
+		if (nullptr != EventHelper)
+		{
+			EventHelper->PlayEvents(CurFrame);
 		}
 	}
 
 	unsigned int NextFrame = CurFrame;
 	++NextFrame;
 
-	if (NextFrame >= End)
+	if (NextFrame > End)
 	{
-		NextFrame = 0;
-	}
+		NextFrame = Start;
 
-	if (CurFrame >= End)
-	{
-		CurFrame = 0;
+		if (Loop == false)
+		{
+			NextFrame = End;
+		}
 	}
 
 	std::vector<float4x4>& AnimationBoneMatrix = ParentRenderer->AnimationBoneMatrixs;
 	std::vector<float4x4>& AnimationBoneNotOffSet = ParentRenderer->AnimationBoneNotOffset;
-	std::vector<AnimationBoneData>& AnimationBoneData = ParentRenderer->AnimationBoneDatas;
+	std::vector<AnimationBoneData>& AnimationBoneDatas = ParentRenderer->AnimationBoneDatas;
 
 	for (int i = 0; i < AnimationBoneMatrix.size(); i++)
 	{
@@ -124,19 +142,154 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 		FbxExBoneFrameData& CurData = FBXAnimationData->AniFrameData[i].BoneMatData[CurFrame];
 		FbxExBoneFrameData& NextData = FBXAnimationData->AniFrameData[i].BoneMatData[NextFrame];
 
-		// CurFrameTime 분명히 잘못되었다.
 		float FrameRatio = CurFrameTime / Inter;
-		AnimationBoneData[i].Scale = float4::LerpClamp(CurData.S, NextData.S, FrameRatio);
-		AnimationBoneData[i].RotQuaternion = float4::SLerpQuaternionClamp(CurData.Q, NextData.Q, FrameRatio);
-		AnimationBoneData[i].Pos = float4::LerpClamp(CurData.T, NextData.T, FrameRatio);
+		AnimationBoneDatas[i].Scale = float4::LerpClamp(CurData.S, NextData.S, FrameRatio);
+		AnimationBoneDatas[i].RotQuaternion = float4::SLerpQuaternionClamp(CurData.Q, NextData.Q, FrameRatio);
+		AnimationBoneDatas[i].Pos = float4::LerpClamp(CurData.T, NextData.T, FrameRatio);
 
-		float4x4 Mat = float4x4::Affine(AnimationBoneData[i].Scale, AnimationBoneData[i].RotQuaternion, AnimationBoneData[i].Pos);
+		if (false == ParentRenderer->BlendBoneData.empty())
+		{
+			float BlendRatio = PlayTime / BlendIn;
+			if (BlendRatio < 1.0f)
+			{
+				AnimationBoneData& BoneData = ParentRenderer->BlendBoneData[i];
 
+				AnimationBoneDatas[i].Scale = float4::LerpClamp(BoneData.Scale, AnimationBoneDatas[i].Scale, BlendRatio);
+				AnimationBoneDatas[i].RotQuaternion = float4::SLerpQuaternionClamp(BoneData.RotQuaternion, AnimationBoneDatas[i].RotQuaternion, BlendRatio);
+				AnimationBoneDatas[i].Pos = float4::LerpClamp(BoneData.Pos, AnimationBoneDatas[i].Pos, BlendRatio);
+
+				if (true && i == 4)
+				{
+					if ("Boss_Vordt" == ParentRenderer->GetActor()->GetName())
+					{
+						ParentRenderer->BlendDebug();
+					}
+				}
+			}
+			else
+			{
+				ParentRenderer->BlendReset();
+			}
+		}
+
+		float4x4 Mat = float4x4::Affine(AnimationBoneDatas[i].Scale, AnimationBoneDatas[i].RotQuaternion, AnimationBoneDatas[i].Pos);
+		                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 		AnimationBoneNotOffSet[i] = Mat;
 		AnimationBoneMatrix[i] = BoneData->BonePos.Offset * Mat;
 	}
 
+
+	if (nullptr != EventHelper)
+	{
+		EventHelper->UpdateEvent(_DeltaTime);
+	}
 }
+
+void GameContentsFBXAnimationInfo::RootMotionUpdate(float _Delta)
+{
+	// Root Motion
+	if (false == mRootMotionData.RootMotion)
+	{
+		return;
+	}
+
+	if (nullptr == ParentRenderer->RootMotionComponent)
+	{
+		return;
+	}
+
+	if (0 == CurFrame)
+	{
+		mRootMotionData.RootMotion_StartDir = ParentRenderer->RootMotionComponent->GetDir();
+	}
+	int tCurFrame = CurFrame;
+	int NextFrame = CurFrame + 1;
+
+	if (CurFrame == End)
+	{
+		return;
+	}
+
+	float4 CurFramePos = RootMotionFrames[tCurFrame];
+	float4 NextFramePos = RootMotionFrames[NextFrame];
+	float4 LerpStart = float4::ZERONULL;
+	float4 DifPos = float4::ZERONULL; // operator내부에서 w값을 바꿔버림
+	float4 MotionVector = float4::ZERONULL;
+	float4 LerpVector = float4::ZERONULL;
+
+	float CurFrameTimeValue = _Delta;
+
+	if (Inter <= CurFrameTimeValue + mRootMotionData.MoveFrameTime)
+	{
+		DifPos = NextFramePos - CurFramePos;
+		DifPos.W = NextFramePos.W - CurFramePos.W;
+
+		LerpVector = float4::LerpClamp(LerpStart, DifPos, (Inter - mRootMotionData.MoveFrameTime) / Inter);
+		MotionVector += LerpVector;
+		MotionVector.W += LerpVector.W;
+
+		CurFrameTimeValue -= (Inter - mRootMotionData.MoveFrameTime);
+
+		++tCurFrame;
+		CurFramePos = RootMotionFrames[tCurFrame];
+		++NextFrame;
+		NextFramePos = RootMotionFrames[NextFrame];
+	}
+
+	while (Inter <= CurFrameTimeValue)
+	{
+		DifPos = NextFramePos - CurFramePos;
+		DifPos.W = NextFramePos.W - CurFramePos.W;
+
+		LerpVector = float4::LerpClamp(LerpStart, DifPos, 1.0f);
+		MotionVector += LerpVector;
+		MotionVector.W += LerpVector.W;
+
+		CurFrameTimeValue -= Inter;
+
+		++tCurFrame;
+		CurFramePos = RootMotionFrames[tCurFrame];
+		++NextFrame;
+		NextFramePos = RootMotionFrames[NextFrame];
+
+		if (NextFrame == End)
+		{
+			CurFrameTimeValue = 0.f;
+		}
+	}
+
+	DifPos = NextFramePos - CurFramePos;
+	DifPos.W = NextFramePos.W - CurFramePos.W;
+
+	LerpVector = float4::LerpClamp(LerpStart, DifPos, CurFrameTimeValue / Inter);
+	MotionVector += LerpVector;
+	MotionVector.W += LerpVector.W;
+
+	MotionVector.X *= 10000.f;
+	MotionVector.Y *= 10000.f;
+	MotionVector.Z *= 10000.f;
+
+	if (true == mRootMotionData.IsRotation)
+	{
+		ParentRenderer->RootMotionComponent->AddWorldRotation(float4(0.f, MotionVector.W * GameEngineMath::R2D, 0.f, 0.f));
+	}
+
+	switch (mRootMotionData.RootMotionMode)
+	{
+	case Enum_RootMotionMode::StartDir:
+		ParentRenderer->RootMotionComponent->MoveForce(MotionVector, mRootMotionData.RootMotion_StartDir, true);
+		break;
+	case Enum_RootMotionMode::RealTimeDir:
+		ParentRenderer->RootMotionComponent->MoveForce(MotionVector, true);
+		break;
+	default:
+		MsgBoxAssert("존재하지 않는 루트모션 모드입니다.");
+		break;
+	}
+
+	mRootMotionData.MoveFrameTime = CurFrameTimeValue;
+}
+
 
 GameContentsFBXRenderer::GameContentsFBXRenderer()
 {
@@ -294,6 +447,58 @@ std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetFBXMesh(std::s
 		Unit->ShaderResHelper.SetTexture("DiffuseTexture", DifTex);
 	}
 
+	if (Unit->ShaderResHelper.IsTexture("NormalTexture"))
+	{
+		const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(_RenderUnitInfoIndex, _SubSetIndex);
+
+		if ("" == MatData.NorTextureName)
+		{
+			MsgBoxAssert("텍스처 정보가 없는 FBX매쉬에 텍스처를 사용하는 머티리얼을 사용했습니다.");
+		}
+
+		if (nullptr == GameEngineTexture::Find(MatData.NorTextureName))
+		{
+			GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
+			std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.NorTextureName;
+			GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
+		}
+
+		std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find(MatData.NorTextureName);
+
+		if (nullptr == Tex)
+		{
+			MsgBoxAssert("FBX매쉬에 텍스처 정보 로드에 실패했습니다.");
+		}
+
+		Unit->ShaderResHelper.SetTexture("NormalTexture", Tex);
+	}
+
+	if (Unit->ShaderResHelper.IsTexture("SpecularTexture"))
+	{
+		const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(_RenderUnitInfoIndex, _SubSetIndex);
+
+		if ("" == MatData.NorTextureName)
+		{
+			MsgBoxAssert("텍스처 정보가 없는 FBX매쉬에 텍스처를 사용하는 머티리얼을 사용했습니다.");
+		}
+
+		if (nullptr == GameEngineTexture::Find(MatData.SpcTextureName))
+		{
+			GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
+			std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.NorTextureName;
+			GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
+		}
+
+		std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find(MatData.NorTextureName);
+
+		if (nullptr == Tex)
+		{
+			MsgBoxAssert("FBX매쉬에 텍스처 정보 로드에 실패했습니다.");
+		}
+
+		Unit->ShaderResHelper.SetTexture("SpecularTexture", Tex);
+	}
+
 	return Unit;
 }
 
@@ -333,10 +538,16 @@ void GameContentsFBXRenderer::CreateFBXAnimation(const std::string_view _Animati
 	}
 
 	std::shared_ptr<GameContentsFBXAnimationInfo> NewAnimation = std::make_shared<GameContentsFBXAnimationInfo>();
-	// 이때 애니메이션을 진짜 로드 한다.
-	NewAnimation->Init(FBXMesh, AnimationFBX, _AnimationName, _Index);
 	NewAnimation->ParentRenderer = this;
-	NewAnimation->Inter = _Params.Inter;
+	NewAnimation->Init(FBXMesh, AnimationFBX, _AnimationName, _Index);
+	if (0.0f == _Params.Inter)
+	{
+		NewAnimation->Inter = 1.0f / 30.0f;
+	}
+	else
+	{
+		NewAnimation->Inter = _Params.Inter;
+	}
 	NewAnimation->Loop = _Params.Loop;
 	NewAnimation->Reset();
 
@@ -364,6 +575,11 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 
 	if (nullptr != CurAnimation)
 	{
+		if (0.0f != CurAnimation->PlayTime)
+		{
+			BlendBoneData = AnimationBoneDatas;
+		}
+
 		CurAnimation->Reset();
 	}
 
@@ -376,11 +592,6 @@ void GameContentsFBXRenderer::Update(float _DeltaTime)
 	{
 		CurAnimation->Update(_DeltaTime);
 	}
-}
-
-std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& GameContentsFBXRenderer::GetAnimationInfos()
-{
-	return Animations;
 }
 
 
@@ -475,6 +686,58 @@ std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetMapFBXMesh(std
 		Unit->ShaderResHelper.SetTexture("DiffuseTexture", DifTex);
 	}
 
+	if (Unit->ShaderResHelper.IsTexture("NormalTexture"))
+	{
+		const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(_RenderUnitInfoIndex, _SubSetIndex);
+
+		if ("" == MatData.NorTextureName)
+		{
+			MsgBoxAssert("텍스처 정보가 없는 FBX매쉬에 텍스처를 사용하는 머티리얼을 사용했습니다.");
+		}
+
+		if (nullptr == GameEngineTexture::Find(MatData.NorTextureName))
+		{
+			GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
+			std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.NorTextureName;
+			GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
+		}
+
+		std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find(MatData.NorTextureName);
+
+		if (nullptr == Tex)
+		{
+			MsgBoxAssert("FBX매쉬에 텍스처 정보 로드에 실패했습니다.");
+		}
+
+		Unit->ShaderResHelper.SetTexture("NormalTexture", Tex);
+	}
+
+	if (Unit->ShaderResHelper.IsTexture("SpecularTexture"))
+	{
+		const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(_RenderUnitInfoIndex, _SubSetIndex);
+
+		if ("" == MatData.NorTextureName)
+		{
+			MsgBoxAssert("텍스처 정보가 없는 FBX매쉬에 텍스처를 사용하는 머티리얼을 사용했습니다.");
+		}
+
+		if (nullptr == GameEngineTexture::Find(MatData.SpcTextureName))
+		{
+			GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
+			std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.NorTextureName;
+			GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
+		}
+
+		std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find(MatData.NorTextureName);
+
+		if (nullptr == Tex)
+		{
+			MsgBoxAssert("FBX매쉬에 텍스처 정보 로드에 실패했습니다.");
+		}
+
+		Unit->ShaderResHelper.SetTexture("SpecularTexture", Tex);
+	}
+
 	return Unit;
 }
 
@@ -514,4 +777,133 @@ void GameContentsFBXRenderer::TestSetBigFBXMesh(std::string_view _Name, std::str
 	{
 		SetFBXMesh(Name, _Material, UnitCount);
 	}
+}
+
+void GameContentsFBXRenderer::BlendReset()
+{
+	BlendBoneData.clear();
+}
+
+void GameContentsFBXRenderer::BlendDebug()
+{
+
+	int a = 0;
+}
+
+void GameContentsFBXRenderer::SetRootMotion(std::string_view _AniName, std::string_view _FileName, Enum_RootMotionMode _Mode, bool _RootMotion)
+{
+	// 추후 직렬화로 자체포멧 추가 예정
+
+	std::string UpperName = GameEngineString::ToUpperReturn(_AniName.data());
+	if (false == Animations.contains(UpperName))
+	{
+		MsgBoxAssert("존재하지 않는 애니메이션에 루트 모션을 세팅할 수 없습니다.");
+	}
+
+	GameEngineFile File;
+	std::shared_ptr<GameContentsFBXAnimationInfo> AniInfo = Animations[UpperName];
+	File = GameEngineFile(AniInfo->Aniamtion->GetPath());
+	if ("" == _FileName.data())
+	{
+		File.ChangeExtension("XML");
+	}
+	else
+	{
+		File.MoveParent();
+		File.MoveChild(_FileName.data());
+	}
+
+	if (false == File.IsExits())
+	{
+		MsgBoxAssert("루트모션 경로가 잘못되었습니다. 애니메이션 파일과 같은 경로에 놔주세요.");
+	}
+
+	AniInfo->mRootMotionData.RootMotion = _RootMotion;
+	AniInfo->mRootMotionData.RootMotionMode = _Mode;
+
+	File.Open(FileOpenType::Read, FileDataType::Text);
+
+	GameEngineSerializer Serial;
+	File.DataAllRead(Serial);
+
+	std::string DataString = Serial.GetDataPtr<const char*>();
+	size_t DataPos = DataString.rfind("hkaDefaultAnimatedReferenceFrame");
+	if (std::string::npos == DataPos)
+	{
+		MsgBoxAssert("RootMotion이 존재하지 않는 애니메이션 입니다.");
+	}
+
+	size_t NumStartIndex = DataString.find("numelements", DataPos);
+
+	size_t NumEndIndex = DataString.find("\"", NumStartIndex + 13);
+
+	std::string NumberString = std::string(DataString, NumStartIndex + 13, NumEndIndex - (NumStartIndex + 13));
+
+	int FrameCount = std::stoi(NumberString);
+
+	if (AniInfo->FBXAnimationData->AniFrameData[0].BoneMatData.size() != FrameCount)
+	{
+		MsgBoxAssert("애니메이션 프레임수가 일치하지 않습니다. 잘못된 애니메이션일 수 있습니다.");
+	}
+
+	size_t VectorStart = DataString.find("(", NumEndIndex);
+
+	AniInfo->RootMotionFrames.reserve(FrameCount);
+
+	size_t ValueStart = VectorStart + 1;
+	size_t ValueEnd = 0;
+	for (int i = 0; i < FrameCount; i++)
+	{
+		float4 RootMotionVector = float4::ZERO;
+		for (int j = 0; j < 4; j++)
+		{
+			std::string Value = "";
+
+			switch (j)
+			{
+			case 0:
+				ValueEnd = DataString.find(" ", ValueStart);
+				Value = std::string(DataString, ValueStart, ValueEnd - ValueStart);
+				RootMotionVector.X = -std::stof(Value);
+				ValueStart = ValueEnd + 1;
+				break;
+			case 1:
+				ValueEnd = DataString.find(" ", ValueStart);
+				Value = std::string(DataString, ValueStart, ValueEnd - ValueStart);
+				RootMotionVector.Y = std::stof(Value);
+				ValueStart = ValueEnd + 1;
+				break;
+			case 2:
+				ValueEnd = DataString.find(" ", ValueStart);
+				Value = std::string(DataString, ValueStart, ValueEnd - ValueStart);
+				RootMotionVector.Z = -std::stof(Value);
+				ValueStart = ValueEnd + 1;
+				break;
+			case 3:
+				ValueEnd = DataString.find(")", ValueStart);
+				Value = std::string(DataString, ValueStart, ValueEnd - ValueStart);
+				RootMotionVector.W = std::stof(Value);
+				ValueStart = DataString.find("(", ValueEnd) + 1;
+				AniInfo->RootMotionFrames.push_back(RootMotionVector);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+
+	File.Close();
+}
+
+void GameContentsFBXRenderer::SetRootMotionMode(std::string_view _AniName, Enum_RootMotionMode _Mode)
+{
+	std::string UpperName = GameEngineString::ToUpperReturn(_AniName.data());
+	if (false == Animations.contains(UpperName))
+	{
+		MsgBoxAssert("존재하지 않는 애니메이션에 루트 모션모드를 세팅할 수 없습니다.");
+	}
+
+	std::shared_ptr<GameContentsFBXAnimationInfo> AniInfo = Animations[UpperName];
+	AniInfo->mRootMotionData.RootMotionMode = _Mode;
 }
