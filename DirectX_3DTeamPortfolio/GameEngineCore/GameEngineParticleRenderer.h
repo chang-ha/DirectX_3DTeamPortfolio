@@ -59,7 +59,7 @@ public:
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
-	void Render(GameEngineCamera* _Camera, float _Delta) override;
+	//void Render(GameEngineCamera* _Camera, float _Delta) override;
 
 private:
 	ParticleUpdateInfo ParticleUpdateInfoValue;
