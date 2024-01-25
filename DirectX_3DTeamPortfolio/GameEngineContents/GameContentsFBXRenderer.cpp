@@ -151,6 +151,9 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 		if (false == ParentRenderer->BlendBoneMatrixs.empty())
 		{
 			float BlendRatio = PlayTime / BlendIn;
+
+			
+		   
 			if (BlendRatio < 1.0f)
 			{
 				float4x4& BoneData = ParentRenderer->BlendBoneMatrixs[i];
@@ -161,8 +164,22 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 
 				AnimationBoneData[i].Scale = float4::LerpClamp(BlendScale, AnimationBoneData[i].Scale, BlendRatio);
 				AnimationBoneData[i].RotQuaternion = float4::SLerpQuaternionClamp(BlendQuaternion, AnimationBoneData[i].RotQuaternion, BlendRatio);
+
+			
+				
+				
 				AnimationBoneData[i].Pos = float4::LerpClamp(BlendPos, AnimationBoneData[i].Pos, BlendRatio);
+				
+				
+				
+				
+				
+				
+
+				
+
 			}
+			
 			else
 			{
 				ParentRenderer->BlendReset();

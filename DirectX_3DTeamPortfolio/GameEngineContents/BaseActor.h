@@ -141,6 +141,7 @@ private:
 
 protected:
 	std::shared_ptr<GameContentsFBXRenderer> MainRenderer;
+	std::shared_ptr<GameContentsFBXRenderer> test_Render;
 	std::map<int, std::shared_ptr<BoneSocketCollision>> SocketCollisions;
 	std::shared_ptr<class GameEnginePhysXCapsule> Capsule;
 

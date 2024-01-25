@@ -185,6 +185,7 @@ public:
 
 	AnimationBoneData GetBoneData(int _Index)
 	{
+
 		AnimationBoneData Data = AnimationBoneDatas[_Index];
 
 		Data.Pos *= Transform.GetConstTransformDataRef().WorldMatrix;

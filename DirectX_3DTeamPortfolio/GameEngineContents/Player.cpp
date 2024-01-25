@@ -21,16 +21,15 @@ Player::~Player()
 
 void Player::Start()
 {
-	//Transform.AddLocalPosition({ 0.0f,-200.0f });
+	
 	Main_Player = this;
 
 
-
+	
 	
 
-	MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
+	MainRenderer = CreateComponent<GameContentsFBXRenderer>(0);
 	MainRenderer->Transform.SetLocalScale({ 400.0f, 400.0f, 400.0f });
-	//MainRenderer->Transform.SetLocalPosition({ 0.0f, -300.0f, 0.0f });
 	MainRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
 
 
@@ -40,7 +39,7 @@ void Player::Start()
 	
 	MainRenderer->SetFBXMesh("c0010.FBX", "FBXAnimationTexture"); // Bone 136
 	MainRenderer->Transform.SetLocalScale({ 400.0f, 400.0f, 400.0f });
-	MainRenderer->Transform.SetLocalPosition({ 0.0f, -300.0f, 0.0f });
+	//MainRenderer->Transform.SetLocalPosition({ 0.0f, -300.0f, 0.0f });
 	MainRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
 	//	FBXRenderer->CreateFBXAnimation("Idle", "c0000.FBX", { 0.1f, true });
 	MainRenderer->CreateFBXAnimation("Idle", "00000.FBX", { Frame, true });
@@ -130,13 +129,12 @@ void Player::Start()
 		SwordActor = GetLevel()->CreateActor<GameEngineActor>();
 		Weapon = SwordActor->CreateComponent<GameContentsFBXRenderer>();
 		Weapon->SetFBXMesh("WP_A_0221.FBX", "FBXAnimationTexture");
+
 		Weapon->Transform.SetLocalScale({ 400.0f, 400.0f, 400.0f });
-		// Weapon->Transform.SetLocalPosition({ 0.0f, 0.0f, 0.0f });
+	/*	Weapon->Transform.SetLocalPosition({ -4.0f, -152.0f, 165.0f });
+		Weapon->Transform.SetLocalRotation({ 0.0f, 0.0f, 180.0f });*/
 	}
 
-
-	/*Capsule = CreateComponent<GameEnginePhysXCapsule>();
-	Capsule->Transform.SetLocalScale({ 200.0f,200.0f });*/
 	{
 		Col = CreateComponent<GameEngineCollision>();
 		Col->Transform.SetLocalScale({ 200.0f,200.0f });
@@ -166,24 +164,31 @@ void Player::Start()
 		};
 
 
-	//Capsule = CreateComponent<GameEnginePhysXCapsule>();
-	//GameEngineCore::MainWindow.GetScale(
-
-	GameEngineCore::MainWindow.SetMousePos(GameEngineCore::MainWindow.Get_Display_Size().X/2, GameEngineCore::MainWindow.Get_Display_Size().Y / 2);
+	
 	Player_State();
+
+	//Transform.AddLocalPosition({ 0.0f,-300.0f });
+	
+
 }
 
 void Player::Update(float _Delta)
 {
+	if (GameEngineInput::IsDown('Q', this))
+	{
+		Weapon->SwitchPause();
+	}
+
 	AnimationBoneData Data = MainRenderer->GetBoneData(Bone_index_01);
 
 	SwordActor->Transform.SetLocalRotation(Data.RotQuaternion.QuaternionToEulerDeg());
-	SwordActor->Transform.SetLocalPosition(Data.Pos);
+	SwordActor->Transform.SetWorldPosition(Data.Pos+Transform.GetWorldPosition());
 
-	//Mouse_Pos = GameEngineCore::MainWindow.GetMousePos().X;
+
+	Mouse_Pos = GameEngineCore::MainWindow.GetMousePos().X;
 	//Camera_Pos -= Mouse_Pos; 
 	//GetLevel()->GetMainCamera()->Transform.SetLocalRotation({ 0.0f,Mouse_Pos,0.0f }); 
-	////Transform.SetLocalRotation({ 0.0f,Mouse_Pos,0.0f });
+	Transform.SetLocalRotation({ 0.0f,Mouse_Pos,0.0f });
 
 	//float a = pow(Mouse_Pos, 2);
 	//float b = -a + pow(750,2);
