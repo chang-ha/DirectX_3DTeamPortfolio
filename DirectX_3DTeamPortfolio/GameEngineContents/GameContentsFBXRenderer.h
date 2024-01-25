@@ -181,6 +181,25 @@ public:
 
 	// Root Motion
 
+	AnimationBoneData GetBoneData(std::string_view _Name);
+
+	AnimationBoneData GetBoneData(int _Index)
+	{
+		AnimationBoneData Data = AnimationBoneDatas[_Index];
+
+		Data.Pos *= Transform.GetConstTransformDataRef().WorldMatrix;
+		//float4x4 Rot0 = Data.RotQuaternion.QuaternionToMatrix();
+		//float4x4 Rot0 = Data.RotQuaternion.QuaternionToMatrix();
+
+		float4 NewRot = Data.RotQuaternion.QuaternionMulQuaternion(Transform.GetConstTransformDataRef().WorldQuaternion);
+		// float4 NewRot = Data.RotQuaternion.QuaternionMulQuaternion(Transform.GetConstTransformDataRef().LocalQuaternion);
+		Data.RotQuaternion = NewRot;
+
+
+		return Data;
+	}
+
+
 	void SetRootMotionComponent(GameEnginePhysXComponent* _RootMotionComponent)
 	{
 		// TriMesh는 아직 구현 안했습니다. 필요시 우창하에게 문의

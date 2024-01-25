@@ -46,6 +46,22 @@ public:
 	{
 	}
 };
+
+class TestTabB : public Tab
+{
+	// TestLevelMemeber
+	int Select = 0;
+	std::shared_ptr<GameEngineObject> SelectObject = nullptr;
+
+	void OnGUI(GameEngineLevel* _Level, float _DeltaTime);
+
+public:
+	TestTabB(std::string_view _Name)
+		: Tab(_Name)
+	{
+	}
+};
+
 class MapEditorTab : public Tab
 {
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime)

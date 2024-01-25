@@ -1,6 +1,6 @@
 #include "PreCompile.h"
 #include "Player.h"
-
+#include "BaseActor.h"
 void Player::Player_State()
 {
 	{
@@ -15,7 +15,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				FBXRenderer->ChangeAnimation("Idle");
+				MainRenderer->ChangeAnimation("Idle");
 			};
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
@@ -29,7 +29,7 @@ void Player::Player_State()
 
 				if (GameEngineInput::IsPress('A', this) && GameEngineInput::IsPress('C', this))
 				{
-					FBXRenderer->ChangeAnimation("Slow_Walk_Left");
+					MainRenderer->ChangeAnimation("Slow_Walk_Left");
 					_Parent->ChangeState(PlayerState::Slow_Walk);
 					return;
 				}
@@ -37,14 +37,14 @@ void Player::Player_State()
 
 				if (GameEngineInput::IsPress('D', this) && GameEngineInput::IsPress('C', this))
 				{
-					FBXRenderer->ChangeAnimation("Slow_Walk_Right");
+					MainRenderer->ChangeAnimation("Slow_Walk_Right");
 					_Parent->ChangeState(PlayerState::Slow_Walk);
 					return;
 				}
 
 				if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress('C', this))
 				{
-					FBXRenderer->ChangeAnimation("Slow_Walk_Forward");
+					MainRenderer->ChangeAnimation("Slow_Walk_Forward");
 					_Parent->ChangeState(PlayerState::Slow_Walk);
 					return;
 				}
@@ -52,7 +52,7 @@ void Player::Player_State()
 
 				if (GameEngineInput::IsPress('S', this) && GameEngineInput::IsPress('C', this))
 				{
-					FBXRenderer->ChangeAnimation("Slow_Walk_Behind");
+					MainRenderer->ChangeAnimation("Slow_Walk_Behind");
 					_Parent->ChangeState(PlayerState::Slow_Walk);
 					return;
 				}
@@ -61,7 +61,7 @@ void Player::Player_State()
 
 				if (GameEngineInput::IsPress('A', this))
 				{
-					FBXRenderer->ChangeAnimation("Walk_Left");
+					MainRenderer->ChangeAnimation("Walk_Left");
 					_Parent->ChangeState(PlayerState::Move);
 					return;
 				}
@@ -69,21 +69,21 @@ void Player::Player_State()
 
 				if (GameEngineInput::IsPress('D', this))
 				{
-					FBXRenderer->ChangeAnimation("Walk_Right");
+					MainRenderer->ChangeAnimation("Walk_Right");
 					_Parent->ChangeState(PlayerState::Move);
 					return;
 				}
 
 				if (GameEngineInput::IsPress('W', this))
 				{
-					FBXRenderer->ChangeAnimation("Walk_Forward");
+					MainRenderer->ChangeAnimation("Walk_Forward");
 					_Parent->ChangeState(PlayerState::Move);
 					return;
 				}
 
 				if (GameEngineInput::IsPress('S', this))
 				{
-					FBXRenderer->ChangeAnimation("Walk_Behind");
+					MainRenderer->ChangeAnimation("Walk_Behind");
 					_Parent->ChangeState(PlayerState::Move);
 					return;
 				}
@@ -95,7 +95,7 @@ void Player::Player_State()
 
 				if (GameEngineInput::IsPress('R', this))
 				{
-					FBXRenderer->ChangeAnimation("Portion_Drink_01");
+					MainRenderer->ChangeAnimation("Portion_Drink_01");
 					_Parent->ChangeState(PlayerState::Portion_01);
 					return;
 				}
@@ -174,28 +174,28 @@ void Player::Player_State()
 				}
 				if (true == GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress('C', this))
 				{
-					FBXRenderer->ChangeAnimation("Slow_Walk_Forward");
+					MainRenderer->ChangeAnimation("Slow_Walk_Forward");
 					PlayerState.ChangeState(PlayerState::Slow_Walk);
 					return;
 				}
 
 				if (true == GameEngineInput::IsPress('S', this) && GameEngineInput::IsPress('C', this))
 				{
-					FBXRenderer->ChangeAnimation("Slow_Walk_Behind");
+					MainRenderer->ChangeAnimation("Slow_Walk_Behind");
 					PlayerState.ChangeState(PlayerState::Slow_Walk);
 					return;
 				}
 
 				if (true == GameEngineInput::IsPress('A', this) && GameEngineInput::IsPress('C', this))
 				{
-					FBXRenderer->ChangeAnimation("Slow_Walk_Left");
+					MainRenderer->ChangeAnimation("Slow_Walk_Left");
 					PlayerState.ChangeState(PlayerState::Slow_Walk);
 					return;
 				}
 
 				if (true == GameEngineInput::IsPress('D', this) && GameEngineInput::IsPress('C', this))
 				{
-					FBXRenderer->ChangeAnimation("Slow_Walk_Right");
+					MainRenderer->ChangeAnimation("Slow_Walk_Right");
 					PlayerState.ChangeState(PlayerState::Slow_Walk);
 					return;
 				}
@@ -257,25 +257,25 @@ void Player::Player_State()
 				}
 				if (GameEngineInput::IsUp('A', this))
 				{
-					FBXRenderer->ChangeAnimation("Left_Stop");
+					MainRenderer->ChangeAnimation("Left_Stop");
 					PlayerState.ChangeState(PlayerState::Move_Stop);
 					return;
 				}
 				else if (GameEngineInput::IsUp('D', this))
 				{
-					FBXRenderer->ChangeAnimation("Right_Stop");
+					MainRenderer->ChangeAnimation("Right_Stop");
 					PlayerState.ChangeState(PlayerState::Move_Stop);
 					return;
 				}
 				else if (GameEngineInput::IsUp('W', this))
 				{
-					FBXRenderer->ChangeAnimation("Forward_Stop");
+					MainRenderer->ChangeAnimation("Forward_Stop");
 					PlayerState.ChangeState(PlayerState::Move_Stop);
 					return;
 				}
 				else if (GameEngineInput::IsUp('S', this))
 				{
-					FBXRenderer->ChangeAnimation("Behind_Stop");
+					MainRenderer->ChangeAnimation("Behind_Stop");
 					PlayerState.ChangeState(PlayerState::Move_Stop);
 					return;
 				}
@@ -308,32 +308,32 @@ void Player::Player_State()
 					return;
 				}
 			
-				if (FBXRenderer->GetCurAnimationFrame() >= 35)
+				if (MainRenderer->GetCurAnimationFrame() >= 35)
 				{
 					PlayerState.ChangeState(PlayerState::Idle);
 					return;
 				}
 				else if (GameEngineInput::IsPress('A', this))
 				{
-					FBXRenderer->ChangeAnimation("Walk_Left");
+					MainRenderer->ChangeAnimation("Walk_Left");
 					PlayerState.ChangeState(PlayerState::Move);
 					return;
 				}
 				else if (GameEngineInput::IsPress('D', this))
 				{
-					FBXRenderer->ChangeAnimation("Walk_Right");
+					MainRenderer->ChangeAnimation("Walk_Right");
 					PlayerState.ChangeState(PlayerState::Move);
 					return;
 				}
 				else if (GameEngineInput::IsPress('W', this))
 				{
-					FBXRenderer->ChangeAnimation("Walk_Forward");
+					MainRenderer->ChangeAnimation("Walk_Forward");
 					PlayerState.ChangeState(PlayerState::Move);
 					return;
 				}
 				else if (GameEngineInput::IsPress('S', this))
 				{
-					FBXRenderer->ChangeAnimation("Walk_Behind");
+					MainRenderer->ChangeAnimation("Walk_Behind");
 					PlayerState.ChangeState(PlayerState::Move);
 					return;
 				}
@@ -397,25 +397,25 @@ void Player::Player_State()
 
 				if (GameEngineInput::IsPress('W', this))
 				{
-					FBXRenderer->ChangeAnimation("Walk_Forward");
+					MainRenderer->ChangeAnimation("Walk_Forward");
 					PlayerState.ChangeState(PlayerState::Move);
 					return;
 				}
 				if (GameEngineInput::IsPress('A', this))
 				{
-					FBXRenderer->ChangeAnimation("Walk_Left");
+					MainRenderer->ChangeAnimation("Walk_Left");
 					PlayerState.ChangeState(PlayerState::Move);
 					return;
 				}
 				if (GameEngineInput::IsPress('S', this))
 				{
-					FBXRenderer->ChangeAnimation("Walk_Behind");
+					MainRenderer->ChangeAnimation("Walk_Behind");
 					PlayerState.ChangeState(PlayerState::Move);
 					return;
 				}
 				if (GameEngineInput::IsPress('D', this))
 				{
-					FBXRenderer->ChangeAnimation("Walk_Right");
+					MainRenderer->ChangeAnimation("Walk_Right");
 					PlayerState.ChangeState(PlayerState::Move);
 					return;
 				}
@@ -455,7 +455,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 		{
-			FBXRenderer->ChangeAnimation("Run");
+				MainRenderer->ChangeAnimation("Run");
 		};
 
 
@@ -471,14 +471,14 @@ void Player::Player_State()
 
 			if (GameEngineInput::IsUp('W', this) )
 			{
-				FBXRenderer->ChangeAnimation("Forward_Stop");
+				MainRenderer->ChangeAnimation("Forward_Stop");
 				PlayerState.ChangeState(PlayerState::Move_Stop);
 				return; 
 			}
 
 			if (GameEngineInput::IsUp(VK_SHIFT, this))
 			{
-				FBXRenderer->ChangeAnimation("Forward_Stop");
+				MainRenderer->ChangeAnimation("Forward_Stop");
 				PlayerState.ChangeState(PlayerState::Move);
 				return;
 			}
@@ -493,7 +493,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				FBXRenderer->ChangeAnimation("Run");
+				MainRenderer->ChangeAnimation("Run");
 			};
 
 
@@ -507,14 +507,14 @@ void Player::Player_State()
 
 				if (GameEngineInput::IsUp('W', this))
 				{
-					FBXRenderer->ChangeAnimation("Forward_Stop");
+					MainRenderer->ChangeAnimation("Forward_Stop");
 					PlayerState.ChangeState(PlayerState::Move_Stop);
 					return;
 				}
 
 				if (GameEngineInput::IsUp(VK_SHIFT, this))
 				{
-					FBXRenderer->ChangeAnimation("Forward_Stop");
+					MainRenderer->ChangeAnimation("Forward_Stop");
 					PlayerState.ChangeState(PlayerState::Move);
 					return;
 				}
@@ -529,13 +529,13 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				FBXRenderer->ChangeAnimation("Attack_01");
+				MainRenderer->ChangeAnimation("Attack_01");
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 		{
-				if (FBXRenderer->GetCurAnimationFrame() < 30)
+				if (MainRenderer->GetCurAnimationFrame() < 30)
 				{
 					if (GameEngineInput::IsDown(VK_LBUTTON, this))
 					{
@@ -543,45 +543,45 @@ void Player::Player_State()
 					}
 				}	
 
-				if (FBXRenderer->GetCurAnimationFrame() > 20)
+				if (MainRenderer->GetCurAnimationFrame() > 20)
 				{
 					if (true == GameEngineInput::IsPress('W', this))
 					{
-						FBXRenderer->ChangeAnimation("Walk_Forward");
+						MainRenderer->ChangeAnimation("Walk_Forward");
 						PlayerState.ChangeState(PlayerState::Move);
 						return;
 					}
 
 					if (true == GameEngineInput::IsPress('S', this))
 					{
-						FBXRenderer->ChangeAnimation("Walk_Behind");
+						MainRenderer->ChangeAnimation("Walk_Behind");
 						PlayerState.ChangeState(PlayerState::Move);
 						return;
 					}
 
 					if (true == GameEngineInput::IsPress('A', this))
 					{
-						FBXRenderer->ChangeAnimation("Walk_Left");
+						MainRenderer->ChangeAnimation("Walk_Left");
 						PlayerState.ChangeState(PlayerState::Move);
 						return;
 					}
 
 					if (true == GameEngineInput::IsPress('D', this))
 					{
-						FBXRenderer->ChangeAnimation("Walk_Right");
+						MainRenderer->ChangeAnimation("Walk_Right");
 						PlayerState.ChangeState(PlayerState::Move);
 						return;
 					}
 
 				}
-				if (Attack_Check == false && FBXRenderer->IsCurAnimationEnd())
+				if (Attack_Check == false && MainRenderer->IsCurAnimationEnd())
 				{
 					Attack_Check = false;
 					PlayerState.ChangeState(PlayerState::Idle);
 					return;
 				}
 
-				else if (Attack_Check == true && FBXRenderer->GetCurAnimationFrame() > 20)
+				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 20)
 				{
 					Attack_Check = false;
 					PlayerState.ChangeState(PlayerState::Attack_02);
@@ -597,13 +597,13 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				FBXRenderer->ChangeAnimation("Attack_02");
+				MainRenderer->ChangeAnimation("Attack_02");
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				if (FBXRenderer->GetCurAnimationFrame() < 30)
+				if (MainRenderer->GetCurAnimationFrame() < 30)
 				{
 					if (GameEngineInput::IsDown(VK_LBUTTON, this))
 					{
@@ -611,45 +611,45 @@ void Player::Player_State()
 					}
 				}
 
-				if (FBXRenderer->GetCurAnimationFrame() > 20)
+				if (MainRenderer->GetCurAnimationFrame() > 20)
 				{
 					if (true == GameEngineInput::IsPress('W', this))
 					{
-						FBXRenderer->ChangeAnimation("Walk_Forward");
+						MainRenderer->ChangeAnimation("Walk_Forward");
 						PlayerState.ChangeState(PlayerState::Move);
 						return;
 					}
 
 					if (true == GameEngineInput::IsPress('S', this))
 					{
-						FBXRenderer->ChangeAnimation("Walk_Behind");
+						MainRenderer->ChangeAnimation("Walk_Behind");
 						PlayerState.ChangeState(PlayerState::Move);
 						return;
 					}
 
 					if (true == GameEngineInput::IsPress('A', this))
 					{
-						FBXRenderer->ChangeAnimation("Walk_Left");
+						MainRenderer->ChangeAnimation("Walk_Left");
 						PlayerState.ChangeState(PlayerState::Move);
 						return;
 					}
 
 					if (true == GameEngineInput::IsPress('D', this))
 					{
-						FBXRenderer->ChangeAnimation("Walk_Right");
+						MainRenderer->ChangeAnimation("Walk_Right");
 						PlayerState.ChangeState(PlayerState::Move);
 						return;
 					}
 
 				}
-				if (Attack_Check == false && FBXRenderer->IsCurAnimationEnd())
+				if (Attack_Check == false && MainRenderer->IsCurAnimationEnd())
 				{
 					Attack_Check = false;
 					PlayerState.ChangeState(PlayerState::Idle);
 					return;
 				}
 
-				else if (Attack_Check == true && FBXRenderer->GetCurAnimationFrame() > 20)
+				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 20)
 				{
 					Attack_Check = false;
 					PlayerState.ChangeState(PlayerState::Attack_03);
@@ -665,13 +665,13 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				FBXRenderer->ChangeAnimation("Attack_03");
+				MainRenderer->ChangeAnimation("Attack_03");
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				if (FBXRenderer->GetCurAnimationFrame() < 30)
+				if (MainRenderer->GetCurAnimationFrame() < 30)
 				{
 					if (GameEngineInput::IsDown(VK_LBUTTON, this))
 					{
@@ -679,38 +679,38 @@ void Player::Player_State()
 					}
 				}
 
-				if (FBXRenderer->GetCurAnimationFrame() > 20)
+				if (MainRenderer->GetCurAnimationFrame() > 20)
 				{
 					if (true == GameEngineInput::IsPress('W', this))
 					{
-						FBXRenderer->ChangeAnimation("Walk_Forward");
+						MainRenderer->ChangeAnimation("Walk_Forward");
 						PlayerState.ChangeState(PlayerState::Move);
 						return;
 					}
 
 					if (true == GameEngineInput::IsPress('S', this))
 					{
-						FBXRenderer->ChangeAnimation("Walk_Behind");
+						MainRenderer->ChangeAnimation("Walk_Behind");
 						PlayerState.ChangeState(PlayerState::Move);
 						return;
 					}
 
 					if (true == GameEngineInput::IsPress('A', this))
 					{
-						FBXRenderer->ChangeAnimation("Walk_Left");
+						MainRenderer->ChangeAnimation("Walk_Left");
 						PlayerState.ChangeState(PlayerState::Move);
 						return;
 					}
 
 					if (true == GameEngineInput::IsPress('D', this))
 					{
-						FBXRenderer->ChangeAnimation("Walk_Right");
+						MainRenderer->ChangeAnimation("Walk_Right");
 						PlayerState.ChangeState(PlayerState::Move);
 						return;
 					}
 
 				}
-				if (Attack_Check == false && FBXRenderer->IsCurAnimationEnd())
+				if (Attack_Check == false && MainRenderer->IsCurAnimationEnd())
 				{
 					Attack_Check = false;
 					PlayerState.ChangeState(PlayerState::Idle);
@@ -718,7 +718,7 @@ void Player::Player_State()
 				}
 
 
-				else if (Attack_Check == true && FBXRenderer->GetCurAnimationFrame() > 20)
+				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 20)
 				{
 					Attack_Check = false;
 					PlayerState.ChangeState(PlayerState::Attack_04);
@@ -734,13 +734,13 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				FBXRenderer->ChangeAnimation("Attack_04");
+				MainRenderer->ChangeAnimation("Attack_04");
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				if (FBXRenderer->GetCurAnimationFrame() < 30)
+				if (MainRenderer->GetCurAnimationFrame() < 30)
 				{
 					if (GameEngineInput::IsDown(VK_LBUTTON, this))
 					{
@@ -748,46 +748,46 @@ void Player::Player_State()
 					}
 				}
 
-				if (FBXRenderer->GetCurAnimationFrame() > 20)
+				if (MainRenderer->GetCurAnimationFrame() > 20)
 				{
 					if (true == GameEngineInput::IsPress('W', this))
 					{
-						FBXRenderer->ChangeAnimation("Walk_Forward");
+						MainRenderer->ChangeAnimation("Walk_Forward");
 						PlayerState.ChangeState(PlayerState::Move);
 						return;
 					}
 
 					if (true == GameEngineInput::IsPress('S', this))
 					{
-						FBXRenderer->ChangeAnimation("Walk_Behind");
+						MainRenderer->ChangeAnimation("Walk_Behind");
 						PlayerState.ChangeState(PlayerState::Move);
 						return;
 					}
 
 					if (true == GameEngineInput::IsPress('A', this))
 					{
-						FBXRenderer->ChangeAnimation("Walk_Left");
+						MainRenderer->ChangeAnimation("Walk_Left");
 						PlayerState.ChangeState(PlayerState::Move);
 						return;
 					}
 
 					if (true == GameEngineInput::IsPress('D', this))
 					{
-						FBXRenderer->ChangeAnimation("Walk_Right");
+						MainRenderer->ChangeAnimation("Walk_Right");
 						PlayerState.ChangeState(PlayerState::Move);
 						return;
 					}
 
 				}
 
-				if (Attack_Check == false && FBXRenderer->IsCurAnimationEnd())
+				if (Attack_Check == false && MainRenderer->IsCurAnimationEnd())
 				{
 					Attack_Check = false;
 					PlayerState.ChangeState(PlayerState::Idle);
 					return;
 				}
 
-				else if (Attack_Check == true && FBXRenderer->GetCurAnimationFrame() > 30)
+				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 30)
 				{
 					Attack_Check = false;
 					PlayerState.ChangeState(PlayerState::Attack_01);
@@ -803,13 +803,13 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				FBXRenderer->ChangeAnimation("Portion_Drink_01");
+				MainRenderer->ChangeAnimation("Portion_Drink_01");
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				if (FBXRenderer->IsCurAnimationEnd())
+				if (MainRenderer->IsCurAnimationEnd())
 				{
 					PlayerState.ChangeState(PlayerState::Portion_02);
 					return;
@@ -824,13 +824,13 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				FBXRenderer->ChangeAnimation("Portion_Drink_02");
+				MainRenderer->ChangeAnimation("Portion_Drink_02");
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				if (FBXRenderer->IsCurAnimationEnd())
+				if (MainRenderer->IsCurAnimationEnd())
 				{
 					PlayerState.ChangeState(PlayerState::Portion_03);
 					return;
@@ -845,13 +845,13 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				FBXRenderer->ChangeAnimation("Portion_Drink_03");
+				MainRenderer->ChangeAnimation("Portion_Drink_03");
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				if (FBXRenderer->IsCurAnimationEnd())
+				if (MainRenderer->IsCurAnimationEnd())
 				{
 					PlayerState.ChangeState(PlayerState::Idle);
 					return;
@@ -869,13 +869,13 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				FBXRenderer->ChangeAnimation("Portion_Drink_01");
+				MainRenderer->ChangeAnimation("Portion_Drink_01");
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				if (FBXRenderer->IsCurAnimationEnd())
+				if (MainRenderer->IsCurAnimationEnd())
 				{
 					PlayerState.ChangeState(PlayerState::Portion_02);
 					return;
@@ -890,13 +890,13 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				FBXRenderer->ChangeAnimation("Portion_Drink_02");
+				MainRenderer->ChangeAnimation("Portion_Drink_02");
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				if (FBXRenderer->IsCurAnimationEnd())
+				if (MainRenderer->IsCurAnimationEnd())
 				{
 					PlayerState.ChangeState(PlayerState::Portion_03);
 					return;
@@ -911,13 +911,13 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				FBXRenderer->ChangeAnimation("Portion_Drink_03");
+				MainRenderer->ChangeAnimation("Portion_Drink_03");
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				if (FBXRenderer->IsCurAnimationEnd())
+				if (MainRenderer->IsCurAnimationEnd())
 				{
 					PlayerState.ChangeState(PlayerState::Idle);
 					return;
@@ -933,14 +933,14 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				FBXRenderer->ChangeAnimation("Roll_Behind");
+				MainRenderer->ChangeAnimation("Roll_Behind");
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
 			
-				if (FBXRenderer->GetCurAnimationFrame() > 30)
+				if (MainRenderer->GetCurAnimationFrame() > 30)
 				{
 					PlayerState.ChangeState(PlayerState::Idle);
 					return;
@@ -955,13 +955,13 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				FBXRenderer->ChangeAnimation("Roll_Forward");
+				MainRenderer->ChangeAnimation("Roll_Forward");
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				if (FBXRenderer->GetCurAnimationFrame() > 30)
+				if (MainRenderer->GetCurAnimationFrame() > 30)
 				{
 					PlayerState.ChangeState(PlayerState::Idle);
 					return;
@@ -976,13 +976,13 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				FBXRenderer->ChangeAnimation("Roll_Left");
+				MainRenderer->ChangeAnimation("Roll_Left");
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				if (FBXRenderer->GetCurAnimationFrame() > 30)
+				if (MainRenderer->GetCurAnimationFrame() > 30)
 				{
 					PlayerState.ChangeState(PlayerState::Idle);
 					return;
@@ -997,13 +997,13 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				FBXRenderer->ChangeAnimation("Roll_Right");
+				MainRenderer->ChangeAnimation("Roll_Right");
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				if (FBXRenderer->GetCurAnimationFrame() > 30)
+				if (MainRenderer->GetCurAnimationFrame() > 30)
 				{
 					PlayerState.ChangeState(PlayerState::Idle);
 					return;
@@ -1018,13 +1018,13 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				FBXRenderer->ChangeAnimation("Back_Step");
+				MainRenderer->ChangeAnimation("Back_Step");
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				if (FBXRenderer->GetCurAnimationFrame() > 20)
+				if (MainRenderer->GetCurAnimationFrame() > 20)
 				{
 					PlayerState.ChangeState(PlayerState::Idle);
 					return;
@@ -1039,7 +1039,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				FBXRenderer->ChangeAnimation("Shield_Idle");
+				MainRenderer->ChangeAnimation("Shield_Idle");
 			};
 
 
@@ -1091,7 +1091,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				FBXRenderer->ChangeAnimation("Shield_Move");
+				MainRenderer->ChangeAnimation("Shield_Move");
 			};
 
 
@@ -1105,7 +1105,7 @@ void Player::Player_State()
 
 				 if (true == GameEngineInput::IsUp(VK_RBUTTON, this))
 				{
-					 FBXRenderer->ChangeAnimation("Walk_Forward");
+					 MainRenderer->ChangeAnimation("Walk_Forward");
 				    PlayerState.ChangeState(PlayerState::Move);
 					return;
 				}
@@ -1125,14 +1125,14 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				FBXRenderer->ChangeAnimation("Parrying");
+				MainRenderer->ChangeAnimation("Parrying");
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
 				//if(GameEngineInput::)
-				if (FBXRenderer->IsCurAnimationEnd())
+				if (MainRenderer->IsCurAnimationEnd())
 				{
 					PlayerState.ChangeState(PlayerState::Idle);
 					return; 

@@ -898,3 +898,21 @@ void GameContentsFBXRenderer::SetRootMotionMode(std::string_view _AniName, Enum_
 	std::shared_ptr<GameContentsFBXAnimationInfo> AniInfo = Animations[UpperName];
 	AniInfo->mRootMotionData.RootMotionMode = _Mode;
 }
+
+AnimationBoneData GameContentsFBXRenderer::GetBoneData(std::string_view _Name)
+{
+	Bone* Ptr = FBXMesh->FindBone(_Name);
+
+	AnimationBoneData Data;
+
+	if (nullptr == Ptr)
+	{
+		MsgBoxAssert(std::string(_Name) + "존재하지 않는 본의 데이터를 찾으려고 했습니다");
+		return Data;
+	}
+
+	// 애니메이션의 로컬공간의 데이터이다.
+	Data = GetBoneData(Ptr->Index);
+
+	return Data;
+}
