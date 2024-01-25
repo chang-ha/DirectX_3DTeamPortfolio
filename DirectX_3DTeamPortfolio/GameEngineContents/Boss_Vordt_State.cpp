@@ -15,7 +15,10 @@ void Boss_Vordt::Howling_Start()
 
 void Boss_Vordt::Howling_Update(float _Delta)
 {
-	
+	if (true == BossFBXRenderer->IsCurAnimationEnd())
+	{
+		// BossState.ChangeState(Enum_BossState::Idle);
+	}
 }
 
 void Boss_Vordt::Howling_End()
@@ -41,15 +44,24 @@ void Boss_Vordt::Idle_End()
 void Boss_Vordt::Walk_Start()
 {
 	// 플레이어 위치에 따라 조정
-	BossFBXRenderer->ChangeAnimation("Walk_Front");
+	// BossFBXRenderer->ChangeAnimation("Walk_Front");
 	// 좌우
 	// BossFBXRenderer->ChangeAnimation("Walk_Left");
 	// BossFBXRenderer->ChangeAnimation("Walk_Right");
+	BossFBXRenderer->ChangeAnimation("Walk_Right");
 }
 
 void Boss_Vordt::Walk_Update(float _Delta)
 {
-	
+	//if (0 <= TargetAngle)
+	//{
+	//	BossFBXRenderer->ChangeAnimation("Walk_Right");
+	//}
+	//else
+	//{
+	//	BossFBXRenderer->ChangeAnimation("Walk_Left");
+	//}
+	// Capsule->AddWorldRotation(float4(0.f, -10.f * _Delta, 0.f));
 }
 
 void Boss_Vordt::Walk_End()

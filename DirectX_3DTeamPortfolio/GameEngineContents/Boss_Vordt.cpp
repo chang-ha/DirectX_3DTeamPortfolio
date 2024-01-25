@@ -1,7 +1,7 @@
 ﻿#include "PreCompile.h"
 #include "Boss_Vordt.h"
 
-#define BOSS_ANI_SPEED 0.033f
+#define BOSS_ANI_SPEED 0.033333f
 
 void Boss_State_GUI::Start()
 {
@@ -214,7 +214,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 		BossFBXRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBX_Animation"); // Bone 136
 		BossFBXRenderer->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
-		BossFBXRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
+		BossFBXRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.f });
 	}
 
 	// Boss Animation
@@ -229,6 +229,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 			GameEngineFBXAnimation::Load(Files[i].GetStringPath());
 		}
 
+		// Animation
 		BossFBXRenderer->CreateFBXAnimation("Howling", "Howling.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Idle", "Idle.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Walk_Front", "Walk_Front.FBX", { BOSS_ANI_SPEED, true });
@@ -272,57 +273,58 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BossFBXRenderer->CreateFBXAnimation("Turn_Left_Twice", "Turn_Left_Twice.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Turn_Right", "Turn_Right.FBX", { BOSS_ANI_SPEED, true });
 		BossFBXRenderer->CreateFBXAnimation("Turn_Right_Twice", "Turn_Right_Twice.FBX", { BOSS_ANI_SPEED, true });
-	}
 
-	// Root Motion
-	BossFBXRenderer->SetRootMotionComponent(Capsule.get());
-	BossFBXRenderer->SetRootMotion("Breath");
-	BossFBXRenderer->SetRootMotion("Combo1_Step1");
-	BossFBXRenderer->SetRootMotion("Combo1_Step2");
-	BossFBXRenderer->SetRootMotion("Combo1_Step3");
-	BossFBXRenderer->SetRootMotion("Combo2_Step1");
-	BossFBXRenderer->SetRootMotion("Combo2_Step2");
-	BossFBXRenderer->SetRootMotion("Death");
-	BossFBXRenderer->SetRootMotion("Death_Groggy");
-	BossFBXRenderer->SetRootMotion("Hit&Sweep");
-	BossFBXRenderer->SetRootMotion("Hit_001");
-	BossFBXRenderer->SetRootMotion("Hit_002");
-	BossFBXRenderer->SetRootMotion("Hit_003_Left");
-	BossFBXRenderer->SetRootMotion("Hit_003_Right");
-	BossFBXRenderer->SetRootMotion("Hit_004_Groggy");
-	BossFBXRenderer->SetRootMotion("Hit_Groggy");
-	BossFBXRenderer->SetRootMotion("Hit_Down_001");
-	BossFBXRenderer->SetRootMotion("Hit_Down_002");
-	BossFBXRenderer->SetRootMotion("Hit_Down_003");
-	BossFBXRenderer->SetRootMotion("Hit_Down_004");
-	BossFBXRenderer->SetRootMotion("Hit_Down_005");
-	BossFBXRenderer->SetRootMotion("Hit_Down_006");
-	BossFBXRenderer->SetRootMotion("Howling");
-	BossFBXRenderer->SetRootMotion("Idle", "", Enum_RootMotionMode::RealTimeDir);
-	BossFBXRenderer->SetRootMotion("Jump_Back", "", Enum_RootMotionMode::RealTimeDir);
-	BossFBXRenderer->SetRootMotion("Jump_Left", "", Enum_RootMotionMode::RealTimeDir);
-	BossFBXRenderer->SetRootMotion("Jump_Right", "", Enum_RootMotionMode::RealTimeDir);
-	BossFBXRenderer->SetRootMotion("Rush&Hit&Turn&Rush");
-	BossFBXRenderer->SetRootMotion("Rush&Hit&Turn");
-	BossFBXRenderer->SetRootMotion("Rush&Turn");
-	BossFBXRenderer->SetRootMotion("Rush_Attack");
-	BossFBXRenderer->SetRootMotion("Rush_Attack_002");
-	BossFBXRenderer->SetRootMotion("Rush_Front");
-	BossFBXRenderer->SetRootMotion("Sweep&Sweep");
-	BossFBXRenderer->SetRootMotion("Sweep_001");
-	BossFBXRenderer->SetRootMotion("Sweep_002");
-	BossFBXRenderer->SetRootMotion("Thrust");
-	BossFBXRenderer->SetRootMotion("Turn_Left");
-	BossFBXRenderer->SetRootMotion("Turn_Left_Twice");
-	BossFBXRenderer->SetRootMotion("Turn_Right");
-	BossFBXRenderer->SetRootMotion("Turn_Right_Twice");
-	BossFBXRenderer->SetRootMotion("Walk_Front", "", Enum_RootMotionMode::RealTimeDir);
-	BossFBXRenderer->SetRootMotion("Walk_Left", "", Enum_RootMotionMode::RealTimeDir);
-	BossFBXRenderer->SetRootMotion("Walk_Right", "", Enum_RootMotionMode::RealTimeDir);
+		// Root Motion
+		BossFBXRenderer->SetRootMotionComponent(Capsule.get());
+		BossFBXRenderer->SetRootMotion("Breath");
+		BossFBXRenderer->SetRootMotion("Combo1_Step1");
+		BossFBXRenderer->SetRootMotion("Combo1_Step2");
+		BossFBXRenderer->SetRootMotion("Combo1_Step3");
+		BossFBXRenderer->SetRootMotion("Combo2_Step1");
+		BossFBXRenderer->SetRootMotion("Combo2_Step2");
+		BossFBXRenderer->SetRootMotion("Death");
+		BossFBXRenderer->SetRootMotion("Death_Groggy");
+		BossFBXRenderer->SetRootMotion("Hit&Sweep");
+		BossFBXRenderer->SetRootMotion("Hit_001");
+		BossFBXRenderer->SetRootMotion("Hit_002");
+		BossFBXRenderer->SetRootMotion("Hit_003_Left");
+		BossFBXRenderer->SetRootMotion("Hit_003_Right");
+		BossFBXRenderer->SetRootMotion("Hit_004_Groggy");
+		BossFBXRenderer->SetRootMotion("Hit_Groggy");
+		BossFBXRenderer->SetRootMotion("Hit_Down_001");
+		BossFBXRenderer->SetRootMotion("Hit_Down_002");
+		BossFBXRenderer->SetRootMotion("Hit_Down_003");
+		BossFBXRenderer->SetRootMotion("Hit_Down_004");
+		BossFBXRenderer->SetRootMotion("Hit_Down_005");
+		BossFBXRenderer->SetRootMotion("Hit_Down_006");
+		BossFBXRenderer->SetRootMotion("Howling");
+		BossFBXRenderer->SetRootMotion("Idle", "", Enum_RootMotionMode::RealTimeDir);
+		BossFBXRenderer->SetRootMotion("Jump_Back", "", Enum_RootMotionMode::RealTimeDir);
+		BossFBXRenderer->SetRootMotion("Jump_Left", "", Enum_RootMotionMode::RealTimeDir);
+		BossFBXRenderer->SetRootMotion("Jump_Right", "", Enum_RootMotionMode::RealTimeDir);
+		BossFBXRenderer->SetRootMotion("Rush&Hit&Turn&Rush");
+		BossFBXRenderer->SetRootMotion("Rush&Hit&Turn");
+		BossFBXRenderer->SetRootMotion("Rush&Turn");
+		BossFBXRenderer->SetRootMotion("Rush_Attack");
+		BossFBXRenderer->SetRootMotion("Rush_Attack_002");
+		BossFBXRenderer->SetRootMotion("Rush_Front");
+		BossFBXRenderer->SetRootMotion("Sweep&Sweep");
+		BossFBXRenderer->SetRootMotion("Sweep_001");
+		BossFBXRenderer->SetRootMotion("Sweep_002");
+		BossFBXRenderer->SetRootMotion("Thrust");
+		BossFBXRenderer->SetRootMotion("Turn_Left");
+		BossFBXRenderer->SetRootMotion("Turn_Left_Twice");
+		BossFBXRenderer->SetRootMotion("Turn_Right");
+		BossFBXRenderer->SetRootMotion("Turn_Right_Twice");
+		BossFBXRenderer->SetRootMotion("Walk_Front", "", Enum_RootMotionMode::RealTimeDir);
+		BossFBXRenderer->SetRootMotion("Walk_Left", "", Enum_RootMotionMode::RealTimeDir);
+		BossFBXRenderer->SetRootMotion("Walk_Right", "", Enum_RootMotionMode::RealTimeDir);
+	}
 
 	//// Boss Collision
 	{
 		BossCollision->SetCollisionType(ColType::SPHERE3D);
+		BossCollision->Transform.SetLocalPosition({ 0.0f, 100.0f, 0.0f });
 		BossCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
 	}
 
@@ -484,7 +486,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BossState.CreateState(Enum_BossState::Rush_Hit_Turn, Rush_Hit_Turn);
 		BossState.CreateState(Enum_BossState::Rush_Hit_Turn_Rush, Rush_Hit_Turn_Rush);
 
-		BossState.ChangeState(Enum_BossState::Hit_Down_004);
+		BossState.ChangeState(Enum_BossState::Howling);
 	}
 }
 
@@ -604,6 +606,8 @@ void Boss_Vordt::CalcuTargetAngle()
 {
 	if (nullptr == Target)
 	{
+		TargetAngle = 0.f;
+		RotDir = Enum_RotDir::Not_Rot;
 		return;
 	}
 

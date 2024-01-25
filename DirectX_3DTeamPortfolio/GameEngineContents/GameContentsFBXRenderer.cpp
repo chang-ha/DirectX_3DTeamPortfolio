@@ -139,7 +139,6 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 			continue;
 		}
 
-
 		FbxExBoneFrameData& CurData = FBXAnimationData->AniFrameData[i].BoneMatData[CurFrame];
 		FbxExBoneFrameData& NextData = FBXAnimationData->AniFrameData[i].BoneMatData[NextFrame];
 
@@ -855,7 +854,7 @@ void GameContentsFBXRenderer::SetRootMotion(std::string_view _AniName, std::stri
 			case 0:
 				ValueEnd = DataString.find(" ", ValueStart);
 				Value = std::string(DataString, ValueStart, ValueEnd - ValueStart);
-				RootMotionVector.X = std::stof(Value);
+				RootMotionVector.X = -std::stof(Value);
 				ValueStart = ValueEnd + 1;
 				break;
 			case 1:
