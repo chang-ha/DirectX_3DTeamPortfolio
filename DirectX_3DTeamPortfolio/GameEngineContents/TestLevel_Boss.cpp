@@ -48,11 +48,11 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 		// TestObj->Transform.SetLocalPosition({ 0.0f, 0.0f, -2000.0f });
 	}
 
-	{
-		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
-		Object->Transform.SetWorldPosition({0.f, 0.f, 500.f});
-		Boss_Object->SetTargeting(Object.get());
-	}
+	//{
+	//	std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
+	//	Object->Transform.SetWorldPosition({0.f, 0.f, 500.f});
+	//	Boss_Object->SetTargeting(Object.get());
+	//}
 
 	GetMainCamera()->Transform.SetLocalPosition({0.f, 500.f, 0.f});
 	GetMainCamera()->Transform.SetLocalRotation({10.f, 0.f, 0.f});

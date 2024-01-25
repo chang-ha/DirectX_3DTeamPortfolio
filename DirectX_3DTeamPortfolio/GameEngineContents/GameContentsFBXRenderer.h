@@ -117,6 +117,14 @@ public:
 	}
 };
 
+struct BlendData
+{
+public:
+	float4 S;
+	float4 R;
+	float4 T;
+};
+
 // Ό³Έν : 
 class GameContentsFBXRenderer : public GameEngineRenderer
 {
@@ -178,6 +186,7 @@ public:
 	inline std::vector<float4x4>& GetBoneSockets() { return AnimationBoneNotOffset; }
 
 	void BlendReset();
+	void BlendDebug();
 
 	// Root Motion
 
@@ -202,7 +211,7 @@ private:
 
 	std::vector<float4x4> AnimationBoneMatrixs;
 	std::vector<float4x4> AnimationBoneNotOffset;
-	std::vector<float4x4> BlendBoneMatrixs;
+	std::vector<AnimationBoneData> BlendBoneData;
 	std::vector<AnimationBoneData> AnimationBoneDatas;
 
 	// Root Motion
