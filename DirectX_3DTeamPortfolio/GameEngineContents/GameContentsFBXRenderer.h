@@ -65,15 +65,9 @@ public:
 		mRootMotionData.RootMotion = true;
 	}
 
-	inline void RootMotionOff()
-	{
-		mRootMotionData.RootMotion = false;
-	}
+	void RootMotionOff();
 
-	inline void SwitchRootMotion()
-	{
-		mRootMotionData.RootMotion = !mRootMotionData.RootMotion;
-	}
+	void SwitchRootMotion();
 
 	inline bool IsRootMotionRot()
 	{

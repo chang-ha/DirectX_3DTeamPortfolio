@@ -1,4 +1,5 @@
 #pragma once
+#include "BaseActor.h"
 
 // Ό³Έν :
 class Boss_State_GUI : public GameEngineGUIWindow
@@ -14,8 +15,9 @@ private:
 	std::vector<const char*> AniNames;
 	Boss_Vordt* Linked_Boss = nullptr;
 	bool IsChasingCamera = false;
-	bool ChasingFront = false;
 	float4 ChasingCameraPos = float4(0.f, 100.f, -1200.f);
+	float4 ChasingCameraRot = float4::ZERONULL;
+	float4 PrevCameraPos = float4::ZERO;
 
 	void Reset();
 };
@@ -56,7 +58,7 @@ enum Enum_RotDir
 	Right = 1,
 };
 
-class Boss_Vordt : public GameEngineActor
+class Boss_Vordt : public BaseActor
 {
 	friend Boss_State_GUI;
 public:
@@ -84,7 +86,6 @@ protected:
 	void Release() override;
 
 private:
-	std::shared_ptr<GameContentsFBXRenderer> BossFBXRenderer;
 	std::shared_ptr<GameEngineCollision> BossCollision;
 	std::shared_ptr<class GameEnginePhysXCapsule> Capsule;
 	std::shared_ptr<Boss_State_GUI> GUI = nullptr;

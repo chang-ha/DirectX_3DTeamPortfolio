@@ -2,6 +2,18 @@
 #include "GameContentsFBXRenderer.h"
 #include "FrameEventHelper.h"
 
+void GameContentsFBXAnimationInfo::RootMotionOff()
+{
+	mRootMotionData.RootMotion = false;
+	ParentRenderer->RootMotionComponent->ResetMove(Enum_Axies::All);
+}
+
+void GameContentsFBXAnimationInfo::SwitchRootMotion()
+{
+	mRootMotionData.RootMotion = !mRootMotionData.RootMotion;
+	ParentRenderer->RootMotionComponent->ResetMove(Enum_Axies::All);
+}
+
 void GameContentsFBXAnimationInfo::Reset()
 {
 	CurFrameTime = 0.0f;
