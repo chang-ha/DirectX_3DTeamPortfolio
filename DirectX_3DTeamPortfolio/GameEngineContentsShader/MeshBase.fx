@@ -78,10 +78,10 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout DeferrdOut _Result)
     
     
     
-    if (0.7f >= Color.a)
-    {
-        clip(-1);
-    }
+    //if (0.7f >= Color.a)
+    //{
+    //    //clip(-1);
+    //}
      
     Color.w = 1.0f;
     
@@ -92,11 +92,13 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout DeferrdOut _Result)
     
     if(0 != IsSpecular)
     {
-        _Result.SpcColor = float4(SpecularTexture.Sample(SpecularTextureSAMPLER, _Input.TEXCOORD.xy).rgb, 1.0f);
+        _Result.DifColor.w = float4(SpecularTexture.Sample(SpecularTextureSAMPLER, _Input.TEXCOORD.xy).rgb, 1.0f).x;
+        _Result.SpcColor = float4(1.f, 0.f, 0.f, 1.f);
     }
     else
     {
-        _Result.SpcColor = float4(1.f, 1.f, 1.f,1.f);
+        //_Result.SpcColor = float4(1.f, 1.f, 1.f,1.f);
+        _Result.SpcColor = float4(0.f, 0.f, 1.f,1.f);
 
     }
     
