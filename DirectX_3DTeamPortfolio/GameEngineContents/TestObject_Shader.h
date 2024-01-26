@@ -30,5 +30,8 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 private:
 
+
+	std::shared_ptr<class GameEngineUIRenderer> HpBar;
+
 };
 

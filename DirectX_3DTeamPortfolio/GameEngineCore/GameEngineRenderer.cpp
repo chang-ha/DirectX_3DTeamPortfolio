@@ -18,12 +18,12 @@
 #include "GameEngineBlend.h"
 #include "GameEngineConstantBuffer.h"
 
-GameEngineRenderer::GameEngineRenderer() 
+GameEngineRenderer::GameEngineRenderer()
 {
 	RenderBaseInfoValue.ScreenSize = GameEngineCore::MainWindow.GetScale();
 }
 
-GameEngineRenderer::~GameEngineRenderer() 
+GameEngineRenderer::~GameEngineRenderer()
 {
 }
 
@@ -69,28 +69,44 @@ void GameEngineRenderer::SetViewCameraSelect(int _Order)
 	if (nullptr != Camera)
 	{
 		Camera->Renderers[GetOrder()].remove(GetDynamic_Cast_This<GameEngineRenderer>());
+
+		for (size_t i = 0; i < Units.size(); i++)
+		{
+			std::shared_ptr <GameEngineRenderUnit> RenderUnit = Units[i];
+
+			RenderPath Path = Units[i]->GetPath();
+
+			std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& PathMap = Camera->Units[Path];
+			PathMap[Units[i]->GetOrder()].remove(Units[i]);
+
+			int a = 0;
+		}
 	}
 
 	Camera = FindCamera.get();
 	Camera->Renderers[GetOrder()].push_back(GetDynamic_Cast_This<GameEngineRenderer>());
-	// ViewInfo[Camera.get()] = _Order;
-}
 
-void GameEngineRenderer::Render(GameEngineCamera* _Camera, float _Delta)
-{
-	RenderBaseInfoValue.RendererScreenPos = GetScreenPosition();
 
 	for (size_t i = 0; i < Units.size(); i++)
 	{
-		if (false == Units[i]->IsUpdate())
-		{
-			continue;
-		}
-		Units[i]->ResSetting();
-		Units[i]->Draw();
-		Units[i]->ResReset();
+		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& PathMap = Camera->Units[Units[i]->GetPath()];
+		PathMap[Units[i]->GetOrder()].push_back(Units[i]);
 	}
+
+	// ViewInfo[Camera.get()] = _Order;
 }
+//
+//void GameEngineRenderer::Render(GameEngineCamera* _Camera, float _Delta)
+//{
+//	RenderBaseInfoValue.RendererScreenPos = GetScreenPosition();
+//
+//	for (size_t i = 0; i < Units.size(); i++)
+//	{
+//		Units[i]->ResSetting();
+//		Units[i]->Draw();
+//		Units[i]->ResReset();
+//	}
+//}
 
 void GameEngineRenderer::Update(float _Delta)
 {

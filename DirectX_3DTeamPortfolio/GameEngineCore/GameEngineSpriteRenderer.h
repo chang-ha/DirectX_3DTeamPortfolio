@@ -239,11 +239,11 @@ public:
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
-	void Render(GameEngineCamera* _Camera, float _Delta) override;
+	//void Render(GameEngineCamera* _Camera, float _Delta) override;
 	void SetMaterialEvent(std::string_view _Name, int _Index) override;
 
 	int Index = 0;
-	
+
 
 private:
 	// 부모인 actor를 기준으로한

@@ -276,3 +276,9 @@ void GameEngineWindow::CursorOff()
 {
 	ShowCursor(FALSE);
 }
+
+void GameEngineWindow::SetMousePos(int _X, int _Y)
+{
+	SetCursorPos(_X, _Y);
+
+}

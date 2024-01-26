@@ -27,3 +27,16 @@ enum class ShaderType
 	Compute,
 	Max, // max는 for문돌리거나 할때 필요하니까.
 };
+
+
+enum class RenderPath
+{
+	None,
+	CoustomForward,
+	Forward,
+	CoustomDeferred,
+	Deferred,
+	CoustomAlpha,
+	Alpha,
+	Debug,
+};

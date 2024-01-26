@@ -233,7 +233,6 @@ void GameEngineCamera::SetCameraOrder(int _Order)
 
 void GameEngineCamera::Render(float _DeltaTime)
 {
-	// CameraUpdate(_DeltaTime);
 
 //  랜더러가 없으면 continue;
 	if (true == Renderers.empty())
@@ -269,6 +268,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 		for (std::shared_ptr<class GameEngineRenderer>& Renderer : RendererList)
 		{
 			Renderer->Transform.CalculationViewAndProjection(Transform.GetConstTransformDataRef());
+			int a = 0;
 		}
 
 	}
@@ -289,6 +289,8 @@ void GameEngineCamera::Render(float _DeltaTime)
 	}
 
 	AllRenderTarget->Setting();
+
+	bool IsDeferredResult = false;
 	// 디퍼드 그리고
 	{
 		// std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPath = Units[RenderPath::Deferred];
@@ -301,6 +303,8 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 				for (std::shared_ptr<class GameEngineRenderUnit> Unit : UnitList)
 				{
+
+					DebugCheck();
 					Unit->Render();
 				}
 			}
@@ -327,6 +331,15 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 			for (std::pair<const RenderPath, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>& RenderPath : Units)
 			{
+				if (RenderPath.first == RenderPath::Forward)
+				{
+					
+					continue;
+				}
+				else {
+					IsDeferredResult = true;
+				}
+
 				for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPair : RenderPath.second)
 				{
 					std::list<std::shared_ptr<class GameEngineRenderUnit>>& UnitList = RenderPair.second;
@@ -380,28 +393,30 @@ void GameEngineCamera::Render(float _DeltaTime)
 		}
 
 
-		
-		AllRenderTarget->RenderTargetReset();
-
-
-		if (ProjectionType == EPROJECTIONTYPE::Perspective)
+		if (true == IsDeferredResult)
 		{
-			HBAO.DrawHBAO(AllRenderTarget, Transform.GetConstTransformDataRef());
-		}
-		DeferredLightTarget->Clear();
+			AllRenderTarget->RenderTargetReset();
 
-		for (std::shared_ptr<GameEngineLight> Light : Lights)
-		{
-			DeferredLightRenderUnit.ShaderResHelper.SetTexture("ShadowTex", Light->GetShadowTarget()->GetTexture(0));
-			DeferredLightRenderUnit.ShaderResHelper.SetConstantBufferLink("OneLightData", Light->GetLightData());
-			DeferredLightTarget->Setting();
-			DeferredLightRenderUnit.Render();
-		}
 
-		DeferredLightTarget->RenderTargetReset();
-		DeferredTarget->Clear();
-		DeferredTarget->Setting();
-		DeferredMergeUnit.Render();
+			if (ProjectionType == EPROJECTIONTYPE::Perspective)
+			{
+				HBAO.DrawHBAO(AllRenderTarget, Transform.GetConstTransformDataRef());
+			}
+			DeferredLightTarget->Clear();
+
+			for (std::shared_ptr<GameEngineLight> Light : Lights)
+			{
+				DeferredLightRenderUnit.ShaderResHelper.SetTexture("ShadowTex", Light->GetShadowTarget()->GetTexture(0));
+				DeferredLightRenderUnit.ShaderResHelper.SetConstantBufferLink("OneLightData", Light->GetLightData());
+				DeferredLightTarget->Setting();
+				DeferredLightRenderUnit.Render();
+			}
+
+			DeferredLightTarget->RenderTargetReset();
+			DeferredTarget->Clear();
+			DeferredTarget->Setting();
+			DeferredMergeUnit.Render();
+		}
 	}
 
 
@@ -421,7 +436,10 @@ void GameEngineCamera::Render(float _DeltaTime)
 	// 포워드로 그려진 모든것 병합
 	GetLevel()->LevelRenderTarget->Merge(0, ForwardTarget, 0);
 	// 디퍼드로 그려진 모든것 병합
-	GetLevel()->LevelRenderTarget->Merge(0, DeferredTarget, 0);
+	if (true == IsDeferredResult)
+	{
+		GetLevel()->LevelRenderTarget->Merge(0, DeferredTarget, 0);
+	}
 }
 
 void GameEngineCamera::AllReleaseCheck()

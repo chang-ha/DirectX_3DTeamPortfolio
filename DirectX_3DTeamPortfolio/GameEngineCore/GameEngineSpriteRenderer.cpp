@@ -129,6 +129,30 @@ void GameEngineSpriteRenderer::Update(float _Delta)
 	}
 
 	RenderBaseInfoValue.RenderScreenScale = CurSprite.GetScale();
+
+	float4 ParentScale = Transform.GetLocalScale();
+	float4 Scale = ImageTransform.GetLocalScale();
+
+	float4 CalPivot = Pivot;
+	CalPivot.X -= 0.5f;
+	CalPivot.Y -= 0.5f;
+
+	float4 PivotPos;
+	PivotPos.X = Scale.X * CalPivot.X;
+	PivotPos.Y = Scale.Y * CalPivot.Y;
+
+	
+
+	ImageTransform.SetLocalPosition(PivotPos);
+
+	ImageTransform.TransformUpdate();
+
+	Transform.CalculationViewAndProjection(GetCamera()->Transform.GetConstTransformDataRef());
+
+	ImageTransform.CalculationViewAndProjection(Transform.GetConstTransformDataRef());
+
+	GetShaderResHelper().SetTexture("DiffuseTex", CurSprite.Texture, IsUserSampler);
+
 }
 
 void GameEngineSpriteRenderer::SetImageScale(const float4& _Scale)
@@ -141,30 +165,13 @@ void GameEngineSpriteRenderer::AddImageScale(const float4& _Scale)
 	ImageTransform.AddLocalScale(_Scale);
 }
 
-
-void GameEngineSpriteRenderer::Render(GameEngineCamera* _Camera, float _Delta)
-{
-	float4 ParentScale = Transform.GetLocalScale();
-	float4 Scale = ImageTransform.GetLocalScale();
-
-	float4 CalPivot = Pivot;
-	CalPivot.X -= 0.5f;
-	CalPivot.Y -= 0.5f;
-
-	float4 PivotPos;
-	PivotPos.X = Scale.X * CalPivot.X;
-	PivotPos.Y = Scale.Y * CalPivot.Y;
-
-	ImageTransform.SetLocalPosition(PivotPos);
-
-	ImageTransform.TransformUpdate();
-	ImageTransform.CalculationViewAndProjection(Transform.GetConstTransformDataRef());
-
-	GetShaderResHelper().SetTexture("DiffuseTex", CurSprite.Texture, IsUserSampler);
-
-	GameEngineRenderer::Render(_Camera, _Delta);
-
-}
+//
+//void GameEngineSpriteRenderer::Render(GameEngineCamera* _Camera, float _Delta)
+//{
+//
+//	// GameEngineRenderer::Render(_Camera, _Delta);
+//
+//}
 
 void GameEngineSpriteRenderer::SetSprite(std::string_view _Name, unsigned int index /*= 0*/)
 {
