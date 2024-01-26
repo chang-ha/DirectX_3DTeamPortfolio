@@ -1,11 +1,30 @@
 #include "PreCompile.h"
 #include "GameEnginePath.h"
 #include "GameEngineDebug.h"
+#include <fstream>
+#include "GameEngineString.h"
+//#include <stdio.h>
+//#include <io.h>
 
 std::string GameEnginePath::GetFileName(std::string_view _Path)
 {
 	std::filesystem::path ReturnPath = _Path.data();
 	return ReturnPath.filename().string();
+}
+
+bool GameEnginePath::IsFileExist(std::string_view _Path)
+{
+	GameEnginePath NewPath = _Path;
+
+	std::string Ext = GameEngineString::ToUpperReturn(NewPath.GetExtension());
+
+
+	std::wstring wPath = GameEngineString::AnsiToUnicode(_Path);
+
+	std::ifstream infile(wPath);
+
+
+	return infile.good();
 }
 
 GameEnginePath::GameEnginePath() 
