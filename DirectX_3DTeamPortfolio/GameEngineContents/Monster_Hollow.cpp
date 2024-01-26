@@ -69,10 +69,17 @@ void Monster_Hollow::Start()
 		MainRenderer->CreateFBXAnimation("c1100_Hit_Back", "c1100_Hit_Back.FBX", { 0.1f, false });
 		MainRenderer->CreateFBXAnimation("c1100_Hit_Left", "c1100_Hit_Left.FBX", { 0.1f, false });
 		MainRenderer->CreateFBXAnimation("c1100_Hit_Right", "c1100_Hit_Right.FBX", { 0.1f, false });
-		//MainRenderer->CreateFBXAnimation("c1100_AttackFail", "c1100_AttackFail.FBX", { 0.1f, false });
+		MainRenderer->CreateFBXAnimation("c1100_AttackFail", "c1100_AttackFail.FBX", { 0.1f, false });
 		MainRenderer->CreateFBXAnimation("c1100_HitToDeath", "c1100_HitToDeath.FBX", { 0.1f, false });
-		MainRenderer->CreateFBXAnimation("c1100_Death", "c1100_Death.FBX", { 0.1f, true });
-		//MainRenderer->CreateFBXAnimation("c1100_Guard", "c1100_Guard.FBX", { 0.1f, false });
+		MainRenderer->CreateFBXAnimation("c1100_Death", "c1100_Death.FBX", { 0.1f, false });
+		MainRenderer->CreateFBXAnimation("c1100_Guard", "c1100_Guard.FBX", { 0.1f, false });
+		MainRenderer->CreateFBXAnimation("c1100_GuardBreak", "c1100_GuardBreak.FBX", { 0.1f, false });
+		MainRenderer->CreateFBXAnimation("c1100_AfterGuardBreakHit", "c1100_AfterGuardBreakHit.FBX", { 0.1f, false });
+		MainRenderer->CreateFBXAnimation("c1100_BackAttackHit", "c1100_BackAttackHit.FBX", { 0.1f, false });
+		MainRenderer->CreateFBXAnimation("c1100_BurnToDeath", "c1100_BurnToDeath.FBX", { 0.1f, false });
+		MainRenderer->CreateFBXAnimation("c1100_Parrying", "c1100_Parrying.FBX", { 0.1f, false });
+
+
 		
 		MainRenderer->ChangeAnimation("c1100_Idle1");
 	}
