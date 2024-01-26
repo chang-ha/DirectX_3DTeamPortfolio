@@ -17,9 +17,9 @@ void TestMap::Start()
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
 		FBXRenderer->SetMapFBXMesh("TestGround.FBX", "FBX_Static");
 
-		TriMesh = CreateComponent<GameEnginePhysXTriMesh>();
-		TriMesh->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.0f });
-		TriMesh->PhysXComponentInit("TestGround.FBX0");
+		//TriMesh = CreateComponent<GameEnginePhysXTriMesh>();
+		//TriMesh->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.0f });
+		//TriMesh->PhysXComponentInit("TestGround.FBX0");
 
 		//MapMesh = FBXRenderer->GetFBXMesh("WorldMap.FBX0");
 
