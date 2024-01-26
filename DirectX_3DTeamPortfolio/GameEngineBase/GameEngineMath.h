@@ -181,6 +181,10 @@ public:
 		ReturnValue.W = W;
 		return ReturnValue;
 	}
+	float4 QuaternionMulQuaternion(const float4& _Quaternion);
+
+	class float4x4 QuaternionToMatrix();
+	
 
 	float4 EulerDegToQuaternion()
 	{

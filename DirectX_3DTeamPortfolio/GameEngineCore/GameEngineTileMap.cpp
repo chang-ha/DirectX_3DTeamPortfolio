@@ -71,99 +71,99 @@ void GameEngineTileMap::SetTileIndex(const SetTileParameterIndex& _Parameter)
 
 	CurTile.Index = _Parameter.Index;
 }
-
-void GameEngineTileMap::Render(GameEngineCamera* _Camera, float _Delta)
-{
-
-	float4 CameraPos = _Camera->Transform.GetWorldPosition();
-	float4 WindowScale = GameEngineCore::MainWindow.GetScale();
-
-	float4 ScreenLeftTop;
-
-	ScreenLeftTop.X = CameraPos.X - WindowScale.hX();
-	ScreenLeftTop.Y = CameraPos.Y + WindowScale.hY();
-
-	int StartX = static_cast<int>(ScreenLeftTop.X / TileData.TileScale.X);
-	int StartY = static_cast<int>(-ScreenLeftTop.Y / TileData.TileScale.Y);
-	int EndX = StartX + static_cast<int>(WindowScale.X / TileData.TileScale.X) + TileMapExpansionSize;
-	int EndY = StartY + static_cast<int>(WindowScale.Y / TileData.TileScale.Y) + TileMapExpansionSize;
-	StartX -= TileMapExpansionSize;
-	StartY -= TileMapExpansionSize;
-
-	if (0 > StartX)
-	{
-		StartX = 0;
-	}
-
-	if (0 > StartY)
-	{
-		StartY = 0;
-	}
-
-	if (TileData.TileCountX < StartX)
-	{
-		StartX = static_cast<int>(TileData.TileCountX);
-	}
-
-	if (TileData.TileCountY < StartY)
-	{
-		StartY = static_cast<int>(TileData.TileCountY);
-	}
-
-	if (0 > EndX)
-	{
-		EndX = 0;
-	}
-
-	if (0 > EndY)
-	{
-		EndY = 0;
-	}
-
-	if (TileData.TileCountX < EndX)
-	{
-		EndX = static_cast<int>(TileData.TileCountX);
-	}
-
-	if (TileData.TileCountY < EndY)
-	{
-		EndY = static_cast<int>(TileData.TileCountY);
-	}
-
-	TransformData Data;
-	GetShaderResHelper().SetConstantBufferLink("TransformData", Data);
-
-	for (size_t y = StartY; y < EndY; y++)
-	{
-		for (size_t x = StartX; x < EndX; x++)
-		{
-
-			if (0 > Tiles[y][x].Index)
-			{
-				continue;
-			}
-
-			float4 Pos;
-			Pos = Transform.GetWorldPosition();
-			Pos.X += TileData.TileScale.X * x + TileData.TileScale.hX();
-			Pos.Y -= TileData.TileScale.Y * y + TileData.TileScale.hY();
-
-			Data = Transform.GetConstTransformDataRef();
-			Data.LocalPosition = Pos;
-
-			Data.LocalScale = TileData.TileScale;
-
-			Data.LocalCalculation(float4x4::Iden); // 로컬 월드 생성
-
-			Data.ParentMatrix = Transform.GetConstTransformDataRef().WorldMatrix;
-			Data.WorldMatrix = Data.LocalWorldMatrix * Data.ParentMatrix;
-			Data.WorldViewProjectionCalculation();
-
-			GetShaderResHelper().SetConstantBufferLink("SpriteData", Tiles[y][x].Data.SpritePivot);
-			SpriteData TileSprite = DefaultSprite->GetSpriteData(static_cast<unsigned int>(Tiles[y][x].Index));
-			GetShaderResHelper().SetTexture("DiffuseTex", TileSprite.Texture);
-
-			GameEngineRenderer::Render(_Camera, _Delta);
-		}
-	}
-}
+//
+//void GameEngineTileMap::Render(GameEngineCamera* _Camera, float _Delta)
+//{
+//
+//	float4 CameraPos = _Camera->Transform.GetWorldPosition();
+//	float4 WindowScale = GameEngineCore::MainWindow.GetScale();
+//
+//	float4 ScreenLeftTop;
+//
+//	ScreenLeftTop.X = CameraPos.X - WindowScale.hX();
+//	ScreenLeftTop.Y = CameraPos.Y + WindowScale.hY();
+//
+//	int StartX = static_cast<int>(ScreenLeftTop.X / TileData.TileScale.X);
+//	int StartY = static_cast<int>(-ScreenLeftTop.Y / TileData.TileScale.Y);
+//	int EndX = StartX + static_cast<int>(WindowScale.X / TileData.TileScale.X) + TileMapExpansionSize;
+//	int EndY = StartY + static_cast<int>(WindowScale.Y / TileData.TileScale.Y) + TileMapExpansionSize;
+//	StartX -= TileMapExpansionSize;
+//	StartY -= TileMapExpansionSize;
+//
+//	if (0 > StartX)
+//	{
+//		StartX = 0;
+//	}
+//
+//	if (0 > StartY)
+//	{
+//		StartY = 0;
+//	}
+//
+//	if (TileData.TileCountX < StartX)
+//	{
+//		StartX = static_cast<int>(TileData.TileCountX);
+//	}
+//
+//	if (TileData.TileCountY < StartY)
+//	{
+//		StartY = static_cast<int>(TileData.TileCountY);
+//	}
+//
+//	if (0 > EndX)
+//	{
+//		EndX = 0;
+//	}
+//
+//	if (0 > EndY)
+//	{
+//		EndY = 0;
+//	}
+//
+//	if (TileData.TileCountX < EndX)
+//	{
+//		EndX = static_cast<int>(TileData.TileCountX);
+//	}
+//
+//	if (TileData.TileCountY < EndY)
+//	{
+//		EndY = static_cast<int>(TileData.TileCountY);
+//	}
+//
+//	TransformData Data;
+//	GetShaderResHelper().SetConstantBufferLink("TransformData", Data);
+//
+//	for (size_t y = StartY; y < EndY; y++)
+//	{
+//		for (size_t x = StartX; x < EndX; x++)
+//		{
+//
+//			if (0 > Tiles[y][x].Index)
+//			{
+//				continue;
+//			}
+//
+//			float4 Pos;
+//			Pos = Transform.GetWorldPosition();
+//			Pos.X += TileData.TileScale.X * x + TileData.TileScale.hX();
+//			Pos.Y -= TileData.TileScale.Y * y + TileData.TileScale.hY();
+//
+//			Data = Transform.GetConstTransformDataRef();
+//			Data.LocalPosition = Pos;
+//
+//			Data.LocalScale = TileData.TileScale;
+//
+//			Data.LocalCalculation(float4x4::Iden); // 로컬 월드 생성
+//
+//			Data.ParentMatrix = Transform.GetConstTransformDataRef().WorldMatrix;
+//			Data.WorldMatrix = Data.LocalWorldMatrix * Data.ParentMatrix;
+//			Data.WorldViewProjectionCalculation();
+//
+//			GetShaderResHelper().SetConstantBufferLink("SpriteData", Tiles[y][x].Data.SpritePivot);
+//			SpriteData TileSprite = DefaultSprite->GetSpriteData(static_cast<unsigned int>(Tiles[y][x].Index));
+//			GetShaderResHelper().SetTexture("DiffuseTex", TileSprite.Texture);
+//
+//			GameEngineRenderer::Render(_Camera, _Delta);
+//		}
+//	}
+//}

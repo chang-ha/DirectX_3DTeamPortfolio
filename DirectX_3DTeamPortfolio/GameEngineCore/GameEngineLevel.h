@@ -64,6 +64,12 @@ public:
 		return Cameras[static_cast<int>(ECAMERAORDER::Main)];
 	}
 
+	template<typename EnumType>
+	std::shared_ptr<GameEngineCamera> GetCamera(EnumType _Select)
+	{
+		return GetCamera(static_cast<int>(_Select));
+	}
+
 	std::shared_ptr<GameEngineCamera> GetCamera(int _Select)
 	{
 		return Cameras[_Select];

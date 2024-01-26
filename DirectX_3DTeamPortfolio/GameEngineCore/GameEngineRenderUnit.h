@@ -74,6 +74,12 @@ public:
 		InstancingCount = _Count;
 	}
 
+
+	RenderPath GetPath()
+	{
+		return Path;
+	}
+
 private:
 	class GameEngineRenderer* ParentRenderer = nullptr;
 
@@ -84,6 +90,7 @@ private:
 	FW1_TEXT_FLAG FontFlag;
 
 	RenderMode Mode = RenderMode::Indexed;
+	RenderPath Path = RenderPath::None;
 
 	int InstancingCount = 0;
 

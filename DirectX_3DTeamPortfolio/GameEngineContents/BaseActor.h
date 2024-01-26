@@ -42,6 +42,13 @@ enum class Enum_BoneType
 	B_01_RightHand = 21,
 };
 
+enum Enum_RotDir
+{
+	Not_Rot = 0,
+	Left = -1,
+	Right = 1,
+};
+
 namespace std
 {
 	template<>
@@ -143,6 +150,7 @@ private:
 
 protected:
 	std::shared_ptr<GameContentsFBXRenderer> MainRenderer;
+	std::shared_ptr<GameContentsFBXRenderer> test_Render;
 	std::map<int, std::shared_ptr<BoneSocketCollision>> SocketCollisions;
 	std::shared_ptr<class GameEnginePhysXCapsule> Capsule;
 
@@ -155,6 +163,31 @@ private:
 	std::unordered_map<Enum_BoneType, int> BoneIndex;
 
 	int ActorID = EMPTY_ID;
+	
+// Targeting
+public:
+	inline void SetTargeting(GameEngineActor* _Target)
+	{
+		Target = _Target;
+	}
 
+	inline float GetTargetAngle()
+	{
+		return TargetAngle;
+	}
+
+	inline Enum_RotDir GetRotDir()
+	{
+		return RotDir;
+	}
+
+private:
+	float TargetAngle = 0.f;
+	GameEngineActor* Target = nullptr;
+
+	float RotSpeed = 0.f;
+	Enum_RotDir RotDir = Enum_RotDir::Not_Rot;
+
+	void CalcuTargetAngle();
 };
 

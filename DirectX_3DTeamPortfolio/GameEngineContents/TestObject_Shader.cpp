@@ -58,6 +58,14 @@ void TestObject_Shader::Start()
 		MainRenderer->ChangeAnimation("c1100_Idle1");
 		MainRenderer->RenderBaseInfoValue.IsShadow = 1;
 
+
+
+		
+
+		// MainUI¾×ÅÍ °°
+		//HpBar = CreateComponent<GameEngineUIRenderer>(30);
+		//HpBar->Transform.SetLocalPosition({400, 300});
+		//HpBar->SetImageScale({ 3000.0f, 3000.0f });
 	}
 }
 

@@ -197,11 +197,13 @@ void GameEngineRenderUnit::SetMaterial(std::string_view _Name)
 
 		if (false == Material->GetPixelShader()->IsDeferred())
 		{
-			Camera->Units[RenderPath::Forward][Camera->GetOrder()].push_back(Unit);
+			Path = RenderPath::Forward;
+			Camera->Units[RenderPath::Forward][Unit->GetOrder()].push_back(Unit);
 		}
 		else 
 		{
-			Camera->Units[RenderPath::Deferred][Camera->GetOrder()].push_back(Unit);
+			Path = RenderPath::Deferred;
+			Camera->Units[RenderPath::Deferred][Unit->GetOrder()].push_back(Unit);
 		}
 
 

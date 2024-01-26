@@ -2,6 +2,18 @@
 #include "GameContentsFBXRenderer.h"
 #include "FrameEventHelper.h"
 
+void GameContentsFBXAnimationInfo::RootMotionOff()
+{
+	mRootMotionData.RootMotion = false;
+	ParentRenderer->RootMotionComponent->ResetMove(Enum_Axies::All);
+}
+
+void GameContentsFBXAnimationInfo::SwitchRootMotion()
+{
+	mRootMotionData.RootMotion = !mRootMotionData.RootMotion;
+	ParentRenderer->RootMotionComponent->ResetMove(Enum_Axies::All);
+}
+
 void GameContentsFBXAnimationInfo::Reset()
 {
 	CurFrameTime = 0.0f;
@@ -150,6 +162,9 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 		if (false == ParentRenderer->BlendBoneData.empty())
 		{
 			float BlendRatio = PlayTime / BlendIn;
+
+			
+		   
 			if (BlendRatio < 1.0f)
 			{
 				AnimationBoneData& BoneData = ParentRenderer->BlendBoneData[i];
@@ -157,6 +172,17 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 				AnimationBoneDatas[i].Scale = float4::LerpClamp(BoneData.Scale, AnimationBoneDatas[i].Scale, BlendRatio);
 				AnimationBoneDatas[i].RotQuaternion = float4::SLerpQuaternionClamp(BoneData.RotQuaternion, AnimationBoneDatas[i].RotQuaternion, BlendRatio);
 				AnimationBoneDatas[i].Pos = float4::LerpClamp(BoneData.Pos, AnimationBoneDatas[i].Pos, BlendRatio);
+
+				if (false == ParentRenderer->NotBlendBoneIndexs.empty())
+				{
+					for (int Index : ParentRenderer->NotBlendBoneIndexs)
+					{
+						if (i == Index)
+						{
+							AnimationBoneDatas[i].Pos = float4::LerpClamp(ParentRenderer->Prev_BoneDate.Pos, AnimationBoneDatas[i].Pos, BlendRatio);
+						}
+					}
+				}
 			}
 			else
 			{
@@ -565,10 +591,16 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 		return;
 	}
 
+	
+
 	if (nullptr != CurAnimation)
 	{
+
 		if (0.0f != CurAnimation->PlayTime)
 		{
+			AnimationBoneData Data = AnimationBoneDatas[53];
+			Prev_BoneDate.Pos = Data.Pos;
+
 			BlendBoneData = AnimationBoneDatas;
 		}
 
@@ -776,6 +808,16 @@ void GameContentsFBXRenderer::BlendReset()
 	BlendBoneData.clear();
 }
 
+void GameContentsFBXRenderer::AddNotBlendBoneIndex(int _Index)
+{
+	if (NotBlendBoneIndexs.contains(_Index))
+	{
+		return;
+	}
+
+	NotBlendBoneIndexs.insert(_Index);
+}
+
 void GameContentsFBXRenderer::SetRootMotion(std::string_view _AniName, std::string_view _FileName, Enum_RootMotionMode _Mode, bool _RootMotion)
 {
 	// 추후 직렬화로 자체포멧 추가 예정
@@ -892,4 +934,22 @@ void GameContentsFBXRenderer::SetRootMotionMode(std::string_view _AniName, Enum_
 
 	std::shared_ptr<GameContentsFBXAnimationInfo> AniInfo = Animations[UpperName];
 	AniInfo->mRootMotionData.RootMotionMode = _Mode;
+}
+
+AnimationBoneData GameContentsFBXRenderer::GetBoneData(std::string_view _Name)
+{
+	Bone* Ptr = FBXMesh->FindBone(_Name);
+
+	AnimationBoneData Data;
+
+	if (nullptr == Ptr)
+	{
+		MsgBoxAssert(std::string(_Name) + "존재하지 않는 본의 데이터를 찾으려고 했습니다");
+		return Data;
+	}
+
+	// 애니메이션의 로컬공간의 데이터이다.
+	Data = GetBoneData(Ptr->Index);
+
+	return Data;
 }

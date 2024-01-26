@@ -8,17 +8,6 @@
 #include "GameEngineAO.h"
 
 
-enum class RenderPath
-{
-	None,
-	CoustomForward,
-	Forward,
-	CoustomDeferred,
-	Deferred,
-	CoustomAlpha,
-	Alpha,
-	Debug,
-};
 
 struct ShadowAniInfo
 {
@@ -30,7 +19,7 @@ struct ShadowAniInfo
 };
 
 // Ό³Έν :
-class GameEngineCamera : public GameEngineActor
+class GameEngineCamera : public GameEngineActor, public DebugObject
 {
 
 	friend class GameEngineRenderUnit;
