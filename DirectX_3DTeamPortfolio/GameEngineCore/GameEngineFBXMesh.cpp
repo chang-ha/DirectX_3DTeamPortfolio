@@ -1682,7 +1682,7 @@ Bone* GameEngineFBXMesh::FindBoneToIndex(int _Index)
 	return &AllBones[_Index];
 }
 
-Bone* GameEngineFBXMesh::FindBone(std::string _Name)
+Bone* GameEngineFBXMesh::FindBone(std::string_view _Name)
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_Name);
 

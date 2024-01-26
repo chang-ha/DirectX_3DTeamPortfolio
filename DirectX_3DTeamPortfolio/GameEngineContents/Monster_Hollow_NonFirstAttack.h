@@ -13,6 +13,7 @@ enum class Enum_Hollow_State
 	PrayToIdle1,
 	PrayToIdle2,
 	PrayToIdle3,
+	BeScaredToIdle,
 	Idle,
 	Hit,
 	Max,
@@ -34,17 +35,17 @@ public:
 
 	void SetStatePray1()
 	{
-		PrevState = Enum_Hollow_State::Pray1;
+		//PrevState = Enum_Hollow_State::Pray1;
 		ChangeState(Enum_Hollow_State::Pray1);
 	}
 	void SetStatePray2()
 	{
-		PrevState = Enum_Hollow_State::Pray2;
+		//PrevState = Enum_Hollow_State::Pray2;
 		ChangeState(Enum_Hollow_State::Pray2);
 	}
 	void SetStatePray3()
 	{
-		PrevState = Enum_Hollow_State::Pray3;
+		//PrevState = Enum_Hollow_State::Pray3;
 		ChangeState(Enum_Hollow_State::Pray3);
 	}
 
@@ -60,7 +61,7 @@ private:
 
 protected:
 	Enum_Hollow_State HollowState = Enum_Hollow_State::Max;
-	Enum_Hollow_State PrevState = Enum_Hollow_State::Max;
+	//Enum_Hollow_State PrevState = Enum_Hollow_State::Max;
 
 	void ChangeState(Enum_Hollow_State _State);
 	void StateUpdate(float _Delta);
@@ -97,6 +98,9 @@ protected:
 
 	void State_PrayToIdle3_Start();
 	void State_PrayToIdle3_Update(float _Delta);
+
+	void State_BeScaredToIdle_Start();
+	void State_BeScaredToIdle_Update(float _Delta);
 
 	void State_Idle_Start();
 	void State_Idle_Update(float _Delta);

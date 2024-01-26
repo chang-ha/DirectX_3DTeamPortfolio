@@ -56,6 +56,7 @@ void BaseActor::Start()
 void BaseActor::Update(float _Delta)
 {
 	MainState.Update(_Delta);
+	CalcuTargetAngle();
 }
 
 void BaseActor::Release()
@@ -225,4 +226,48 @@ bool BaseActor::LoadEvent(int _ID)
 	}
 
 	return true;
+}
+
+void BaseActor::CalcuTargetAngle()
+{
+	if (nullptr == Target)
+	{
+		TargetAngle = 0.f;
+		RotDir = Enum_RotDir::Not_Rot;
+		return;
+	}
+
+	if (nullptr == Capsule)
+	{
+		TargetAngle = 0.f;
+		RotDir = Enum_RotDir::Not_Rot;
+		return;
+	}
+
+	float4 TargetPos = Target->Transform.GetWorldPosition();
+	float4 MyPos = Transform.GetWorldPosition();
+
+	// YÃà °í·Á X
+	TargetPos.Y = MyPos.Y = 0.f;
+
+	float4 FrontVector = float4(0.f, 0.f, 1.f, 0.f);
+	FrontVector.VectorRotationToDegY(Capsule->GetDir());
+
+	float4 LocationVector = (TargetPos - MyPos).NormalizeReturn();
+
+	float4 Angle = DirectX::XMVector3AngleBetweenNormals(FrontVector.DirectXVector, LocationVector.DirectXVector);
+
+
+	float4 RotationDir = DirectX::XMVector3Cross(FrontVector.DirectXVector, LocationVector.DirectXVector);
+
+	TargetAngle = Angle.X * GameEngineMath::R2D;
+	if (0.0f <= RotationDir.Y)
+	{
+		RotDir = Enum_RotDir::Right;
+	}
+	else
+	{
+		RotDir = Enum_RotDir::Left;
+		TargetAngle *= -1.f;
+	}
 }

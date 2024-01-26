@@ -5,6 +5,7 @@
 // 서버용
 #include <GameEngineBase/GameEngineNetObject.h>
 #include "ConnectIDPacket.h"
+#include "BaseActor.h"
 
 enum class PlayerState
 {
@@ -35,13 +36,13 @@ enum class PlayerState
 };
 
 // 설명 :
-class Player :  public GameEngineNetObject , public BasePlayer
+class Player :  public GameEngineNetObject , public BaseActor
 {
 public:
 	// constrcuter destructer
 
 	static Player* Main_Player;
-
+	int Bone_index_01 = 53;
 	Player();
 	~Player();
 
@@ -52,6 +53,7 @@ public:
 	Player& operator=(Player&& _Other) noexcept = delete;
 	void Player_State();
 	bool check = false;
+	std::shared_ptr<GameContentsFBXRenderer> Weapon;
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -64,10 +66,18 @@ protected:
 	// void Smoke_Stay()
 
 private:
+	
+	GameEngineState PlayerState;
+	EventParameter Mini_Event;
+	std::string BoneName;
+	std::shared_ptr<GameEngineCollision> Col;
+	std::shared_ptr<GameEngineActor> SwordActor;
+	float Mouse_Pos = 0.0f;
+	float Camera_Pos = 0.0f; 
 	bool TimeCheck = false;
 	bool Attack_Check = false;
 	float Time = 0.0f;
-	float Speed = 0.0f;
+	float Speed = 1.0f;
 	float MoveSpeed = 0.0f;
 	float DeltaTime = 0.0f;
 };

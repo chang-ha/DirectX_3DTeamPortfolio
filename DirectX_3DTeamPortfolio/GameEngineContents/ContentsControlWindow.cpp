@@ -1,6 +1,6 @@
 #include "PreCompile.h"
 #include "ContentsControlWindow.h"
-
+#include "Player.h"
 
 void TestTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
@@ -69,6 +69,7 @@ void ContentsControlWindow::Start()
 	CurTab = Tabs[0];
 	Tabs.push_back(std::make_shared<TestTab>("Test"));
 	Tabs.push_back(std::make_shared<TestTabA>("ADAD"));
+	Tabs.push_back(std::make_shared<TestTabB>("Player"));
 	//Tabs.push_back(std::make_shared<MapEditorTab>("MapEditor"));
 	
 }
@@ -143,8 +144,6 @@ void TestTabA::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			std::list<std::shared_ptr<class GameEngineRenderer>>& RendererList = RendererPair.second;
 
 
-
-
 			for (std::shared_ptr<class GameEngineRenderer>& Renderer : RendererList)
 			{
 				if (Renderer->GetName() == CNames[Select])
@@ -179,5 +178,22 @@ void TestTabA::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			SelectObject->Off();
 		}
 	}
+
+}
+
+void TestTabB::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
+{
+	int BoneIndex = Player::Main_Player->Bone_index_01;
+	ImGui::InputInt("SPos", &BoneIndex);
+	Player::Main_Player->Bone_index_01 = BoneIndex;
+
+	float4 Pos = Player::Main_Player->Weapon->Transform.GetLocalPosition();
+	ImGui::DragFloat4("SPos", Pos.Arr1D);
+
+	float4 Rot = Player::Main_Player->Weapon->Transform.GetLocalRotationEuler();
+	ImGui::DragFloat4("SRot", Rot.Arr1D);
+
+	Player::Main_Player->Weapon->Transform.SetLocalPosition(Pos);
+	Player::Main_Player->Weapon->Transform.SetLocalRotation(Rot);
 
 }
