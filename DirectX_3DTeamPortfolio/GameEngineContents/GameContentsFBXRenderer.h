@@ -125,7 +125,7 @@ public:
 	// constrcuter destructer
 	GameContentsFBXRenderer();
 	~GameContentsFBXRenderer();
-
+	
 	// delete Function
 	GameContentsFBXRenderer(const GameContentsFBXRenderer& _Other) = delete;
 	GameContentsFBXRenderer(GameContentsFBXRenderer&& _Other) noexcept = delete;
@@ -180,7 +180,10 @@ public:
 	void BlendReset();
 
 	// Root Motion
-
+	AnimationBoneData Get_Prev_BoneDate()
+	{
+		return Prev_BoneDate; 
+	}
 	AnimationBoneData GetBoneData(std::string_view _Name);
 
 	AnimationBoneData GetBoneData(int _Index)
@@ -215,7 +218,7 @@ protected:
 
 private:
 	bool Pause = false;
-
+	AnimationBoneData Prev_BoneDate = {};
 	std::shared_ptr<GameEngineFBXMesh> FBXMesh;
 	std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>> Animations;
 	std::shared_ptr<GameContentsFBXAnimationInfo> CurAnimation;

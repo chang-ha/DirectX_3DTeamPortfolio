@@ -42,7 +42,7 @@ public:
 	// constrcuter destructer
 
 	static Player* Main_Player;
-	int Bone_index_01 = 37;
+	int Bone_index_01 = 53;
 	Player();
 	~Player();
 

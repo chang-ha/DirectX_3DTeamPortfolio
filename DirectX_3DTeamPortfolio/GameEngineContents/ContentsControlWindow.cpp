@@ -144,8 +144,6 @@ void TestTabA::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			std::list<std::shared_ptr<class GameEngineRenderer>>& RendererList = RendererPair.second;
 
 
-
-
 			for (std::shared_ptr<class GameEngineRenderer>& Renderer : RendererList)
 			{
 				if (Renderer->GetName() == CNames[Select])

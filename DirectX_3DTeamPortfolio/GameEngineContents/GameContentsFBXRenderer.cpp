@@ -168,10 +168,26 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 			
 				
 				
-				AnimationBoneData[i].Pos = float4::LerpClamp(BlendPos, AnimationBoneData[i].Pos, BlendRatio);
+				//AnimationBoneData[i].Pos = float4::LerpClamp(BlendPos, AnimationBoneData[i].Pos, BlendRatio);
 				
 				
-				
+				if ("Player" == ParentRenderer->GetActor()->GetName())
+				{
+					//ParentRenderer->GetBone(37); 
+					if (i == 53)
+					{
+						//date_01
+
+						AnimationBoneData[i].Pos = float4::LerpClamp(ParentRenderer->Prev_BoneDate.Pos, AnimationBoneData[i].Pos, BlendRatio);
+
+
+					}
+					else
+					{
+						AnimationBoneData[i].Pos = float4::LerpClamp(BlendPos, AnimationBoneData[i].Pos, BlendRatio);
+					}
+				}
+
 				
 				
 				
@@ -587,10 +603,15 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 		return;
 	}
 
+	
+
 	if (nullptr != CurAnimation)
 	{
 		if (0.0f != CurAnimation->PlayTime)
 		{
+			AnimationBoneData Data = AnimationBoneDatas[53];
+			Prev_BoneDate.Pos = Data.Pos;
+
 			BlendBoneMatrixs = AnimationBoneNotOffset;
 		}
 
