@@ -169,14 +169,6 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 				AnimationBoneDatas[i].Scale = float4::LerpClamp(BoneData.Scale, AnimationBoneDatas[i].Scale, BlendRatio);
 				AnimationBoneDatas[i].RotQuaternion = float4::SLerpQuaternionClamp(BoneData.RotQuaternion, AnimationBoneDatas[i].RotQuaternion, BlendRatio);
 				AnimationBoneDatas[i].Pos = float4::LerpClamp(BoneData.Pos, AnimationBoneDatas[i].Pos, BlendRatio);
-
-				if (true && i == 4)
-				{
-					if ("Boss_Vordt" == ParentRenderer->GetActor()->GetName())
-					{
-						ParentRenderer->BlendDebug();
-					}
-				}
 			}
 			else
 			{
@@ -794,12 +786,6 @@ void GameContentsFBXRenderer::TestSetBigFBXMesh(std::string_view _Name, std::str
 void GameContentsFBXRenderer::BlendReset()
 {
 	BlendBoneData.clear();
-}
-
-void GameContentsFBXRenderer::BlendDebug()
-{
-
-	int a = 0;
 }
 
 void GameContentsFBXRenderer::SetRootMotion(std::string_view _AniName, std::string_view _FileName, Enum_RootMotionMode _Mode, bool _RootMotion)
