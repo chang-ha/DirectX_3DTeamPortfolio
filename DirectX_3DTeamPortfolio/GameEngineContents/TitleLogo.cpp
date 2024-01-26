@@ -13,23 +13,14 @@ TitleLogo::~TitleLogo()
 
 void TitleLogo::Start()
 {
-	DarkBack = CreateComponent<GameEngineSpriteRenderer>();
-	DarkBack->SetSprite("Dark.Png");
-	DarkBack->AutoSpriteSizeOn();
-	DarkBack->SetAutoScaleRatio(2.0f);
-	DarkBack->Transform.SetLocalPosition({ 0.0f, 0.0f, 510.0f });
-
 	BanDaiNamco_Logo = CreateComponent<GameEngineSpriteRenderer>();
 	BanDaiNamco_Logo->SetSprite("BanDaiNaco_Logo.Png");
-	BanDaiNamco_Logo->AutoSpriteSizeOn();
 	BanDaiNamco_Logo->Transform.SetLocalPosition({ 0.0f, 0.0f, 500.0f });
 	BanDaiNamco_Logo->On();
 
 	FromSoft_Logo = CreateComponent<GameEngineSpriteRenderer>();
 	FromSoft_Logo->SetSprite("FromSoftLogo.Png");
-	FromSoft_Logo->AutoSpriteSizeOn();
-	FromSoft_Logo->Transform.SetLocalPosition({ 0.0f, 0.0f, 500.0f });
-	FromSoft_Logo->GetColorData().MulColor.A = 0.0f;
+	FromSoft_Logo->Transform.SetLocalPosition({ 0.0f, 0.0f, 300.0f });
 
 	DarkSouls_Logo = CreateComponent<GameEngineSpriteRenderer>();
 	DarkSouls_Logo->SetSprite("DarkSoulsLogo.Png");
@@ -60,65 +51,76 @@ void TitleLogo::Start()
 
 void TitleLogo::Update(float _Delta)
 {
-	Time += _Delta;
-	if (Time >= BanDaiLogoTime)
-	{
-		BanDaiNamco_Logo->GetColorData().MulColor.A -= _Delta * 0.5f;
-	}
+	//Time += _Delta;
+	//if (Time >= 2.0f)
+	//{
+	//	BanDaiNamco_Logo->GetColorData().MulColor.A -= _Delta * 0.5f;
+	//}
 
-	if (Time >= FromSoftLogoTime)
-	{
-		BanDaiNamco_Logo->Off();
-		FromSoft_Logo->GetColorData().MulColor.A += _Delta * 0.5f;
-	}
+	//if (Time >= FromSoftLogoTime)
+	//{
+	//	BanDaiNamco_Logo->Off();
+	//	FromSoft_Logo->GetColorData().MulColor.A += _Delta * 0.5f;
+	//}
 
-	if (Time >= 8.0f)
-	{
-		FromSoft_Logo->Off();
-		DarkSouls_Logo->GetColorData().MulColor.A += _Delta * 0.5f;
-	}
+	//if (Time >= 8.0f)
+	//{
+	//	FromSoft_Logo->Off();
+	//	DarkSouls_Logo->GetColorData().MulColor.A += _Delta * 0.5f;
+	//}
 
-	if (DarkSouls_Logo->GetColorData().MulColor.A >= 1.0f && AnyBack == false)
-	{
-		Inc_Logo->On();
-		FontRender->On();
-		AnyBack = true;
-	}
+	//if (DarkSouls_Logo->GetColorData().MulColor.A >= 1.0f && AnyBack == false)
+	//{
+	//	Inc_Logo->On();
+	//	FontRender->On();
+	//	AnyBack = true;
+	//}
 
-	if (AnyBack == true && AnyBackColor == false)
-	{
-		AnyButtonBack->GetColorData().MulColor.A += _Delta * 0.5f;
-	}
-	if (AnyBackColor == true)
-	{
-		AnyButtonBack->GetColorData().MulColor.A -= _Delta * 0.5f;
-	}
-	if (AnyButtonBack->GetColorData().MulColor.A >= 0.5f)
-	{
-		AnyBackColor = true;
-	}
-	if (AnyButtonBack->GetColorData().MulColor.A <= 0.0f)
-	{
-		AnyBackColor = false;
-	}
+	//if (AnyBack == true && AnyBackColor == false)
+	//{
+	//	AnyButtonBack->GetColorData().MulColor.A += _Delta * 0.5f;
+	//}
+	//if (AnyBackColor == true)
+	//{
+	//	AnyButtonBack->GetColorData().MulColor.A -= _Delta * 0.5f;
+	//}
+	//if (AnyButtonBack->GetColorData().MulColor.A >= 0.5f)
+	//{
+	//	AnyBackColor = true;
+	//}
+	//if (AnyButtonBack->GetColorData().MulColor.A <= 0.0f)
+	//{
+	//	AnyBackColor = false;
+	//}
 
 
 
-	if (DarkSouls_Logo->GetColorData().MulColor.A >= 1.0f && GameEngineInput::IsDown(VK_RETURN, this) && FontEnter == false)
-	{
-		FontEnter = true;
-	}
-	if (FontEnter == true)
-	{
-		FontScale += 5.0f * _Delta;
-		FontRender->SetText("OptimusBold", "PRESS ANY BUTTON", FontScale, float4{ 1, 1, 1, 1 }, FW1_CENTER);
-		AnyButtonBack->GetColorData().MulColor.A += _Delta * 0.5f;
-		AnyButtonBack->Transform.AddLocalScale(0.1f * _Delta);
-	}
+	//if (DarkSouls_Logo->GetColorData().MulColor.A >= 1.0f && GameEngineInput::IsDown(VK_RETURN, this) && FontEnter == false)
+	//{
+	//	FontEnter = true;
+	//}
+	//if (FontEnter == true)
+	//{
+	//	FontScale += 5.0f * _Delta;
+	//	FontRender->SetText("OptimusBold", "PRESS ANY BUTTON", FontScale, float4{ 1, 1, 1, 1 }, FW1_CENTER);
+	//	AnyButtonBack->GetColorData().MulColor.A += _Delta * 0.5f;
+	//	AnyButtonBack->Transform.AddLocalScale(0.1f * _Delta);
+	//}
 
-	if (FontScale >= 25.0f)
-	{
-		FontRender->Off();
-		GameEngineCore::ChangeLevel("PlayLevel");
-	}
+	//if (FontScale >= 25.0f)
+	//{
+	//	FontRender->Off();
+	//	GameEngineCore::ChangeLevel("PlayLevel");
+	//}
+}
+
+void TitleLogo::Release()
+{
+	DarkBack = nullptr;
+	BanDaiNamco_Logo = nullptr;
+	FromSoft_Logo = nullptr;
+	DarkSouls_Logo = nullptr;
+	Inc_Logo = nullptr;
+	FontRender = nullptr;
+	AnyButtonBack = nullptr;
 }

@@ -111,6 +111,7 @@ public:
 protected:
 	void Start();
 	void Update(float _Delta) override;
+	void Release() override;
 	//virtual void Render(class GameEngineCamera* _Camera, float _Delta);
 	virtual void SetMaterialEvent(std::string_view _Name, int _Index = 0);
 

@@ -233,14 +233,10 @@ void GameEngineCamera::SetCameraOrder(int _Order)
 
 void GameEngineCamera::Render(float _DeltaTime)
 {
-
-//  랜더러가 없으면 continue;
-	if (true == Renderers.empty())
+	if (true == Units.empty())
 	{
 		return;
 	}
-
-	// GameEngineCore::GetBackBufferRenderTarget()->Setting();
 
 	AllRenderTarget->Clear();
 	AllRenderTarget->Setting();
@@ -248,27 +244,9 @@ void GameEngineCamera::Render(float _DeltaTime)
 	for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderer>>>& RendererPair : Renderers)
 	{
 		std::list<std::shared_ptr<class GameEngineRenderer>>& RendererList = RendererPair.second;
-
-		if (true == ZSortMap.contains(RendererPair.first))
-		{
-			RendererList.sort([](std::shared_ptr<class GameEngineRenderer> _Left, std::shared_ptr<class GameEngineRenderer> _Right)
-				{
-					return _Left->Transform.GetWorldPosition().Z > _Right->Transform.GetWorldPosition().Z;
-				});
-		}
-
-		if (true == YSortMap.contains(RendererPair.first))
-		{
-			RendererList.sort([](std::shared_ptr<class GameEngineRenderer> _Left, std::shared_ptr<class GameEngineRenderer> _Right)
-				{
-					return _Left->Transform.GetWorldPosition().Y > _Right->Transform.GetWorldPosition().Y;
-				});
-		}
-
 		for (std::shared_ptr<class GameEngineRenderer>& Renderer : RendererList)
 		{
 			Renderer->Transform.CalculationViewAndProjection(Transform.GetConstTransformDataRef());
-			int a = 0;
 		}
 
 	}
@@ -353,6 +331,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 						if (nullptr == ParentRenderer)
 						{
 							MsgBoxAssert("랜더러가 존재하지 않는 유니티가 있습니다");
+							return;
 						}
 
 
@@ -467,6 +446,29 @@ void GameEngineCamera::AllReleaseCheck()
 			}
 
 			Start = Group.erase(Start);
+		}
+	}
+
+	for (std::pair<const RenderPath, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>& Path : Units)
+	{
+		for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPair : Path.second)
+		{
+			std::list<std::shared_ptr<class GameEngineRenderUnit>>& UnitList = RenderPair.second;
+
+			std::list<std::shared_ptr<class GameEngineRenderUnit>>::iterator StartIter = UnitList.begin();
+			std::list<std::shared_ptr<class GameEngineRenderUnit>>::iterator EndIter = UnitList.end();
+
+			for (; StartIter != EndIter;)
+			{
+				const std::shared_ptr<GameEngineRenderUnit>& RenderUnit = (*StartIter);
+				if (RenderUnit->GetParentRenderer()->IsDeath() || RenderUnit->IsDeath())
+				{
+					StartIter = UnitList.erase(StartIter);
+					continue;
+				}
+
+				++StartIter;
+			}
 		}
 	}
 }

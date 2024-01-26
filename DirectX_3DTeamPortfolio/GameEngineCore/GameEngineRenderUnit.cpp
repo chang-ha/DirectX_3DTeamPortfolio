@@ -308,6 +308,14 @@ void GameEngineRenderUnit::ShadowOn()
 
 void GameEngineRenderUnit::Render()
 {
+	if (nullptr != ParentRenderer)
+	{
+		if (false == ParentRenderer->IsUpdate() || false == IsUpdate())
+		{
+			return;
+		}
+	}
+
 	if (nullptr == Mesh)
 	{
 		MsgBoxAssert("매쉬가 세팅되지 않았습니다.");
@@ -321,5 +329,4 @@ void GameEngineRenderUnit::Render()
 	ResSetting();
 	Draw();
 	ResReset();
-	// ShaderResHelper.AllShaderResourcesReset();
 }

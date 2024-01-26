@@ -18,6 +18,7 @@ public:
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
+	void Release() override;
 
 private:
 	std::shared_ptr<class GameEngineSpriteRenderer> DarkBack = nullptr;
@@ -34,7 +35,6 @@ private:
 	bool FontEnter = false;
 
 	float Time = 0.0f;
-	float BanDaiLogoTime = 2.0f;
 	float FromSoftLogoTime = 5.0f;
 
 };

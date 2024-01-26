@@ -23,6 +23,8 @@ protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NetxLevel) override;
 
+	void TestClear();
+
 private:
 	std::shared_ptr<class GameEngineCoreWindow> CoreWindow;
 	std::shared_ptr<class GameEngineSpriteRenderer> DarkBack;

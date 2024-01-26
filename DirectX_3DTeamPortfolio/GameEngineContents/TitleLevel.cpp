@@ -5,7 +5,7 @@
 
 TitleLevel::TitleLevel()
 {
-
+	GameEngineInput::AddInputObject(this);
 }
 
 TitleLevel::~TitleLevel()
@@ -16,14 +16,19 @@ TitleLevel::~TitleLevel()
 void TitleLevel::Start()
 {
 	ContentLevel::Start();
-	GameEngineInput::AddInputObject(this);
+	
+	GetMainCamera()->GetCameraAllRenderTarget()->SetClearColor(float4::BLUE);
+	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
 	CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 }
 
 void TitleLevel::Update(float _Delta)
 {
-
+	if (GameEngineInput::IsDown('H', this))
+	{
+		TestClear();
+	}
 }
 
 void TitleLevel::LevelStart(GameEngineLevel* _PrevLevel)
@@ -35,19 +40,11 @@ void TitleLevel::LevelStart(GameEngineLevel* _PrevLevel)
 		Dir.MoveChild("ContentsResources");
 		Dir.MoveChild("UITexture");
 		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (size_t i = 0; i < Files.size(); i++)
+		for (GameEngineFile& pFiles : Files)
 		{
-			GameEngineFile& File = Files[i];
-			GameEngineTexture::Load(File.GetStringPath());
+			GameEngineTexture::Load(pFiles.GetStringPath());
+			GameEngineSprite::CreateSingle(pFiles.GetFileName());
 		}
-		GameEngineSprite::CreateSingle("Dark.png");
-		GameEngineSprite::CreateSingle("Textures.png");
-
-		GameEngineSprite::CreateSingle("BanDaiNaco_Logo.png");
-		GameEngineSprite::CreateSingle("FromSoftLogo.png");
-		GameEngineSprite::CreateSingle("DarkSoulsLogo.png");
-		GameEngineSprite::CreateSingle("Title_IncLogo.png");
-		GameEngineSprite::CreateSingle("AnyButtonBack.png");
 	}
 
 	Title_Logo = CreateActor<TitleLogo>();
@@ -55,16 +52,23 @@ void TitleLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 void TitleLevel::LevelEnd(GameEngineLevel* _NextLevle)
 {
+	TestClear();
+}
+
+void TitleLevel::TestClear()
+{
 	if (nullptr != GameEngineSprite::Find("Dark.Png"))
 	{
-		GameEngineSprite::Release("Dark.Png");
-		GameEngineSprite::Release("Textures.Png");
-
-		GameEngineSprite::Release("BanDaiNaco_Logo.png");
-		GameEngineSprite::Release("FromSoftLogo.png");
-		GameEngineSprite::Release("DarkSoulsLogo.png");
-		GameEngineSprite::Release("Title_IncLogo.png");
-		GameEngineSprite::Release("AnyButtonBack.png");
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources");
+		Dir.MoveChild("UITexture");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pFiles : Files)
+		{
+			GameEngineSprite::Release(pFiles.GetFileName());
+			GameEngineTexture::Release(pFiles.GetFileName());
+		}
 	}
 
 	if (nullptr != Title_Logo)
