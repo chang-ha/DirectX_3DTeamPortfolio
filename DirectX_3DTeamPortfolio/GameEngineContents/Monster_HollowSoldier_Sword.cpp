@@ -57,11 +57,17 @@ void Monster_HollowSoldier_Sword::ChangeState(Enum_HollowSoldier_Sword_State _St
 		case Enum_HollowSoldier_Sword_State::AttackFail:
 			State_AttackFail_Start();
 			break;
+		case Enum_HollowSoldier_Sword_State::Parrying:
+			State_Parrying_Start();
+			break;
 		case Enum_HollowSoldier_Sword_State::Hit:
 			State_Hit_Start();
 			break;
 		case Enum_HollowSoldier_Sword_State::HitToDeath:
 			State_HitToDeath_Start();
+			break;
+		case Enum_HollowSoldier_Sword_State::BackAttackHit:
+			State_BackAttackHit_Start();
 			break;
 		case Enum_HollowSoldier_Sword_State::Death:
 			State_Death_Start();
@@ -92,10 +98,14 @@ void Monster_HollowSoldier_Sword::StateUpdate(float _Delta)
 		return State_RH_TwinSlash_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::AttackFail:
 		return State_AttackFail_Update(_Delta);
+	case Enum_HollowSoldier_Sword_State::Parrying:
+		return State_Parrying_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::Hit:
 		return State_Hit_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::HitToDeath:
 		return State_HitToDeath_Update(_Delta);
+	case Enum_HollowSoldier_Sword_State::BackAttackHit:
+		return State_BackAttackHit_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::Death:
 		return State_Death_Update(_Delta);
 	default:
@@ -192,11 +202,19 @@ void Monster_HollowSoldier_Sword::State_RH_TwinSlash_Update(float _Delta)
 
 void Monster_HollowSoldier_Sword::State_AttackFail_Start() 
 {
-	// MainRenderer->ChangeAnimation("c1100_AttackFail");
+	MainRenderer->ChangeAnimation("c1100_AttackFail");
 
-	// 애니메이션 여러개라 보류
 }
 void Monster_HollowSoldier_Sword::State_AttackFail_Update(float _Delta)
+{
+
+}
+
+void Monster_HollowSoldier_Sword::State_Parrying_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Parrying");
+}
+void Monster_HollowSoldier_Sword::State_Parrying_Update(float _Delta)
 {
 
 }
@@ -226,6 +244,15 @@ void Monster_HollowSoldier_Sword::State_HitToDeath_Update(float _Delta)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Death);
 	}
+}
+
+void Monster_HollowSoldier_Sword::State_BackAttackHit_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_BackAttackHit");
+}
+void Monster_HollowSoldier_Sword::State_BackAttackHit_Update(float _Delta)
+{
+
 }
 
 void Monster_HollowSoldier_Sword::State_Death_Start()
