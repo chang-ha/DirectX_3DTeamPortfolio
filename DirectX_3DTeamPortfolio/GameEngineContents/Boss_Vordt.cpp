@@ -161,7 +161,7 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		cAngle += std::to_string(Angle);
 		ImGui::Text(cAngle.c_str());
 
-		Enum_RotDir Dir = Linked_Boss->GetRotDir();
+		Enum_RotDir Dir = Linked_Boss->GetRotDir_e();
 		std::string cDir = "Rotation Dir : ";
 
 		switch (Dir)
@@ -219,8 +219,9 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		// 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
 		//}
 
+#define RENDER_SCALE 150.f
 		MainRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBX_Animation"); // Bone 136
-		MainRenderer->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
+		MainRenderer->Transform.SetLocalScale({ RENDER_SCALE, RENDER_SCALE, RENDER_SCALE });
 		MainRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.f });
 	}
 
@@ -253,17 +254,17 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->CreateFBXAnimation("Combo2_Step2", "Combo2_Step2.FBX", { BOSS_ANI_SPEED, true });
 		MainRenderer->CreateFBXAnimation("Death", "Death.FBX", { BOSS_ANI_SPEED, true });
 		MainRenderer->CreateFBXAnimation("Death_Groggy", "Death_Groggy.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Hit&Sweep", "Hit&Sweep.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Sweep&Sweep", "Sweep&Sweep.FBX", { BOSS_ANI_SPEED, true });
+		MainRenderer->CreateFBXAnimation("Sweep&Sweep_Left", "Sweep&Sweep_Left.FBX", { BOSS_ANI_SPEED, true });
+		MainRenderer->CreateFBXAnimation("Sweep&Sweep_Right", "Sweep&Sweep_Right.FBX", { BOSS_ANI_SPEED, true });
 		MainRenderer->CreateFBXAnimation("Hit_001", "Hit_001.FBX", { BOSS_ANI_SPEED, true });
 		MainRenderer->CreateFBXAnimation("Hit_002", "Hit_002.FBX", { BOSS_ANI_SPEED, true });
 		MainRenderer->CreateFBXAnimation("Hit_003_Left", "Hit_003_Left.FBX", { BOSS_ANI_SPEED, true });
 		MainRenderer->CreateFBXAnimation("Hit_003_Right", "Hit_003_Right.FBX", { BOSS_ANI_SPEED, true });
 		MainRenderer->CreateFBXAnimation("Hit_004_Groggy", "Hit_004_Groggy.FBX", { BOSS_ANI_SPEED, true });
 		MainRenderer->CreateFBXAnimation("Hit_Groggy", "Hit_Groggy.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Hit_Down_001", "Hit_Down_001.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Hit_Down_002", "Hit_Down_002.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Hit_Down_003", "Hit_Down_003.FBX", { BOSS_ANI_SPEED, true });
+		MainRenderer->CreateFBXAnimation("Hit_Down_001_Front", "Hit_Down_001_Front.FBX", { BOSS_ANI_SPEED, true });
+		MainRenderer->CreateFBXAnimation("Hit_Down_001_Right", "Hit_Down_001_Right.FBX", { BOSS_ANI_SPEED, true });
+		MainRenderer->CreateFBXAnimation("Hit_Down_001_Left", "Hit_Down_001_Left.FBX", { BOSS_ANI_SPEED, true });
 		MainRenderer->CreateFBXAnimation("Hit_Down_004", "Hit_Down_004.FBX", { BOSS_ANI_SPEED, true });
 		MainRenderer->CreateFBXAnimation("Hit_Down_005", "Hit_Down_005.FBX", { BOSS_ANI_SPEED, true });
 		MainRenderer->CreateFBXAnimation("Hit_Down_006", "Hit_Down_006.FBX", { BOSS_ANI_SPEED, true });
@@ -293,16 +294,15 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->SetRootMotion("Combo2_Step2");
 		MainRenderer->SetRootMotion("Death");
 		MainRenderer->SetRootMotion("Death_Groggy");
-		MainRenderer->SetRootMotion("Hit&Sweep");
 		MainRenderer->SetRootMotion("Hit_001");
 		MainRenderer->SetRootMotion("Hit_002");
 		MainRenderer->SetRootMotion("Hit_003_Left");
 		MainRenderer->SetRootMotion("Hit_003_Right");
 		MainRenderer->SetRootMotion("Hit_004_Groggy");
 		MainRenderer->SetRootMotion("Hit_Groggy");
-		MainRenderer->SetRootMotion("Hit_Down_001");
-		MainRenderer->SetRootMotion("Hit_Down_002");
-		MainRenderer->SetRootMotion("Hit_Down_003");
+		MainRenderer->SetRootMotion("Hit_Down_001_Front");
+		MainRenderer->SetRootMotion("Hit_Down_001_Right");
+		MainRenderer->SetRootMotion("Hit_Down_001_Left");
 		MainRenderer->SetRootMotion("Hit_Down_004");
 		MainRenderer->SetRootMotion("Hit_Down_005");
 		MainRenderer->SetRootMotion("Hit_Down_006");
@@ -313,7 +313,8 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->SetRootMotion("Rush_Attack");
 		MainRenderer->SetRootMotion("Rush_Attack_002");
 		MainRenderer->SetRootMotion("Rush_Front");
-		MainRenderer->SetRootMotion("Sweep&Sweep");
+		MainRenderer->SetRootMotion("Sweep&Sweep_Left");
+		MainRenderer->SetRootMotion("Sweep&Sweep_Right");
 		MainRenderer->SetRootMotion("Sweep_001");
 		MainRenderer->SetRootMotion("Sweep_002");
 		MainRenderer->SetRootMotion("Thrust");
@@ -335,8 +336,17 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	//// Boss Collision
 	{
 		BossCollision->SetCollisionType(ColType::SPHERE3D);
-		BossCollision->Transform.SetLocalPosition({ 0.0f, 100.0f, 0.0f });
+		BossCollision->Transform.SetLocalPosition({ 0.0f, 200.f, 0.0f });
 		BossCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
+	}
+	
+	//// Detect Collision
+#define DETECT_SCALE 1500
+	{
+		DetectCollision->SetCollisionType(ColType::SPHERE3D);
+		DetectCollision->Transform.SetLocalPosition({0.f, 0.f, DETECT_SCALE  * 0.3f});
+		DetectCollision->Transform.SetLocalScale({ DETECT_SCALE, DETECT_SCALE, DETECT_SCALE });
+		// GameEngineDebug::DrawSphere2D(Transform, float4::GREEN, GetLevel()->GetMainCamera().get());
 	}
 
 	Capsule->PhysXComponentInit(100.0f, 50.0f);
@@ -510,6 +520,7 @@ void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
 
 void Boss_Vordt::Start()
 {
+	// BaseActor::Start();
 	GameEngineInput::AddInputObject(this);
 
 	if (nullptr == MainRenderer)
@@ -525,6 +536,11 @@ void Boss_Vordt::Start()
 	if (nullptr == BossCollision)
 	{
 		BossCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::MonsterAttack);
+	}
+
+	if (nullptr == DetectCollision)
+	{
+		DetectCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
 	}
 }
 

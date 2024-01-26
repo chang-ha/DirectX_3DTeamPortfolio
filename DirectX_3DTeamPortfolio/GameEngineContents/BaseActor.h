@@ -175,11 +175,15 @@ public:
 		return TargetAngle;
 	}
 
-	inline Enum_RotDir GetRotDir()
+	inline Enum_RotDir GetRotDir_e()
 	{
 		return RotDir;
 	}
 
+	float GetRotDir_f()
+	{
+		return static_cast<float>(RotDir);
+	}
 private:
 	float TargetAngle = 0.f;
 	GameEngineActor* Target = nullptr;

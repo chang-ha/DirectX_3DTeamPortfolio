@@ -17,7 +17,7 @@ void Boss_Vordt::Howling_Update(float _Delta)
 {
 	if (true == MainRenderer->IsCurAnimationEnd())
 	{
-		MainState.ChangeState(Enum_BossState::Idle);
+		MainState.ChangeState(Enum_BossState::Walk);
 	}
 }
 
@@ -33,7 +33,11 @@ void Boss_Vordt::Idle_Start()
 
 void Boss_Vordt::Idle_Update(float _Delta)
 {
-
+	if (0.3f > MainState.GetStateTime())
+	{
+		return;
+	}
+	MainState.ChangeState(Enum_BossState::Walk);
 }
 
 void Boss_Vordt::Idle_End()
@@ -48,7 +52,7 @@ void Boss_Vordt::Walk_Start()
 	// 좌우
 	// MainRenderer->ChangeAnimation("Walk_Left");
 	// MainRenderer->ChangeAnimation("Walk_Right");
-	MainRenderer->ChangeAnimation("Walk_Right");
+	MainRenderer->ChangeAnimation("Walk_Front");
 }
 
 void Boss_Vordt::Walk_Update(float _Delta)
@@ -61,6 +65,16 @@ void Boss_Vordt::Walk_Update(float _Delta)
 	//{
 	//	MainRenderer->ChangeAnimation("Walk_Left");
 	//}
+	float Angle = abs(GetTargetAngle());
+	if (5.f < Angle)
+	{
+		Capsule->AddWorldRotation(float4(0.f, 10.f * GetRotDir_f() * _Delta, 0.f));
+	}
+
+	if (true == DetectCollision->Collision(Enum_CollisionOrder::Player) && Angle)
+	{
+
+	}
 	// Capsule->AddWorldRotation(float4(0.f, -10.f * _Delta, 0.f));
 }
 
@@ -129,8 +143,8 @@ void Boss_Vordt::Hitten_End()
 
 void Boss_Vordt::Death_Start()
 {
-	// 그로기에서 죽으면 Death_Groggy
 	MainRenderer->ChangeAnimation("Death");
+	// 그로기에서 죽으면 Death_Groggy
 	// MainRenderer->ChangeAnimation("Death_Groggy");
 }
 
@@ -195,8 +209,8 @@ void Boss_Vordt::Sweap_Twice_Start()
 {
 	// 플레이어의 위치에 따라 다름
 	// 좌우
-	MainRenderer->ChangeAnimation("Hit&Sweep");
-	// MainRenderer->ChangeAnimation("Sweep&Sweep");
+	MainRenderer->ChangeAnimation("Sweep&Sweep_Left");
+	// MainRenderer->ChangeAnimation("Sweep&Sweep_Right");
 }
 
 void Boss_Vordt::Sweap_Twice_Update(float _Delta)
@@ -214,8 +228,8 @@ void Boss_Vordt::Hit_Down_001_Start()
 	// 플레이어의 위치에 따라 다름
 	MainRenderer->ChangeAnimation("Hit_Down_001");
 	// 좌우
-	// MainRenderer->ChangeAnimation("Hit_Down_002");
-	// MainRenderer->ChangeAnimation("Hit_Down_003");
+	// MainRenderer->ChangeAnimation("Hit_Down_001_Right");
+	// MainRenderer->ChangeAnimation("Hit_Down_001_Left");
 }
 
 void Boss_Vordt::Hit_Down_001_Update(float _Delta)
