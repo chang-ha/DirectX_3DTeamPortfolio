@@ -24,5 +24,7 @@ protected:
 
 private:
 	std::shared_ptr<class Boss_Vordt> Boss_Object;
+	std::shared_ptr<class ContentsLight> Test_Light;
+	std::shared_ptr<class TestObject> TestObj;
 };
 

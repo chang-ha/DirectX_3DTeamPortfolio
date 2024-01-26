@@ -47,7 +47,7 @@ PixelOutPut TextureShader_VS(GameEngineVertex2D _Input)
     // _Input 0.5 0.5
     
     // 쉐이더 문법 모두 0인 자료형으로 초기화 하는것
-    PixelOutPut Result = (PixelOutPut)0;
+    PixelOutPut Result = (PixelOutPut) 0;
     
     // 내가 원하는 값을 이안에 넣어줄수 있어야 한다.
     
@@ -130,7 +130,7 @@ struct PixelOut
 
 PixelOut TextureShader_PS(PixelOutPut _Input) : SV_Target0
 {
-    PixelOut Result = (PixelOut)0.0f;
+    PixelOut Result = (PixelOut) 0.0f;
     
     float4 Color = DiffuseTex.Sample(DiffuseTexSampler, _Input.TEXCOORD.xy);
     // 블랜드라는 작업을 해줘야 한다.
@@ -163,7 +163,7 @@ PixelOut TextureShader_PS(PixelOutPut _Input) : SV_Target0
     
     if (IsMask == 1 && MaskTex[ScreenPos].r <= 0.0f)
     {
-         clip(-1);
+        clip(-1);
     }
     
     if (0.0f >= Color.a)

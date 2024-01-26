@@ -102,7 +102,7 @@ void GameEngineParticleRenderer::Update(float _DeltaTime)
 	UpdateUnit.Excute();
 }
 
-void GameEngineParticleRenderer::Render(GameEngineCamera* _Camera, float _Delta)
-{
-	GameEngineRenderer::Render(_Camera, _Delta);
-}
+//void GameEngineParticleRenderer::Render(GameEngineCamera* _Camera, float _Delta)
+//{
+//	GameEngineRenderer::Render(_Camera, _Delta);
+//}

@@ -5,6 +5,7 @@
 #include <list>
 #include "GameEnginePacket.h"
 #include "GameEngineDebug.h"
+#include "GameEngineNet.h"
 
 enum class ControllType
 {
@@ -26,11 +27,28 @@ public:
 	GameEngineNetObject(GameEngineNetObject&& _Other) noexcept = delete;
 	GameEngineNetObject& operator = (const GameEngineNetObject& _Other) = delete;
 	GameEngineNetObject& operator = (GameEngineNetObject&& _Other) noexcept = delete;
+	
+	static bool IsNetObject(int _ObjectId);
+
+	static void PushNetObjectPacket(std::shared_ptr<GameEnginePacket> _Packet)
+	{
+		int Id = _Packet->GetObjectID();
+
+		if (false == AllNetObjects.contains(Id))
+		{
+			MsgBoxAssert("존재하지 않는 오브젝트에 패킷이 날아왔습니다.");
+		}
+
+		AllNetObjects[Id]->PushPacket(_Packet);
+	}
+
 
 	static int CreateServerObjectID()
 	{
 		return ++ServerObjectID;
 	}
+
+	void PushPacket(std::shared_ptr<GameEnginePacket> _Packet);
 
 	int GetPacketCount()
 	{
@@ -70,15 +88,25 @@ public:
 		ObjectID = _ObjectID;
 	}
 
+	int GetObjectID()
+	{
+		return ObjectID;
+	}
+
+
 	void SetContorllType(ControllType _Type)
 	{
 		Type = _Type;
 	}
 
+	void InitNetObject(int _ObjectId, GameEngineNet* _Net);
+
 private:
 	static std::atomic<int> ServerObjectID;
 	static std::mutex ObjectLock;
 	static std::map<int, GameEngineNetObject*> AllNetObjects;
+
+	GameEngineNet* Net = nullptr;
 
 	int ObjectID = -1;
 

@@ -37,9 +37,9 @@ public:
 	std::shared_ptr<class GameEngineCamera> CreateCamera(int _Order, int _CameraOrder);
 
 	template<typename ObjectType, typename EnumType>
-	std::shared_ptr<ObjectType> CreateActor(EnumType _Order)
+	std::shared_ptr<ObjectType> CreateActor(EnumType _Order, std::string_view _Name = "")
 	{
-		return CreateActor<ObjectType>(static_cast<int>(_Order));
+		return CreateActor<ObjectType>(static_cast<int>(_Order), _Name);
 	}
 
 	template<typename ObjectType>
@@ -62,6 +62,12 @@ public:
 	std::shared_ptr<GameEngineCamera> GetMainCamera()
 	{
 		return Cameras[static_cast<int>(ECAMERAORDER::Main)];
+	}
+
+	template<typename EnumType>
+	std::shared_ptr<GameEngineCamera> GetCamera(EnumType _Select)
+	{
+		return GetCamera(static_cast<int>(_Select));
 	}
 
 	std::shared_ptr<GameEngineCamera> GetCamera(int _Select)

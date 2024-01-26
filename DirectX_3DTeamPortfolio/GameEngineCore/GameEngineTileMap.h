@@ -89,7 +89,7 @@ public:
 
 protected:
 	void Start();
-	void Render(GameEngineCamera* _Camera, float _Delta) override;
+	//void Render(GameEngineCamera* _Camera, float _Delta) override;
 
 private:
 	CreateTileParameter TileData;

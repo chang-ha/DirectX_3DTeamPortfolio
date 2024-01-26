@@ -6,6 +6,7 @@
 #include "GameEngineGUI.h"
 #include "GameEnginePhysX.h"
 
+GameEngineNet* GameEngineCore::Net = nullptr;
 std::shared_ptr<GameEngineObject> GameEngineCore::CoreObject;
 GameEngineTime GameEngineCore::MainTime;
 GameEngineWindow GameEngineCore::MainWindow;
@@ -71,6 +72,13 @@ void GameEngineCore::Update()
 	else
 	{
 		GameEngineInput::Reset();
+	}
+	
+	if (nullptr != Net)
+	{
+		Net->RecvPacketProcess();
+		//std::lock_guard<std::mutex> Lock(Net->GetRecvPacketLock());
+		//
 	}
 
 	CurLevel->AddLiveTime(DeltaTime);

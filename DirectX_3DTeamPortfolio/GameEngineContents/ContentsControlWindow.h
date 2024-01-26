@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineGUI.h>
 
+
 class Tab
 {
 public:
@@ -81,5 +82,6 @@ public:
 
 	std::shared_ptr<Tab> CurTab = nullptr;
 	std::vector<std::shared_ptr<Tab>> Tabs;
+
 };
 
