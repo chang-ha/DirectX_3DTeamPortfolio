@@ -139,3 +139,13 @@ float4 float4::MatrixToQuaternion(const class float4x4& M)
 
 	return Return;
 }
+
+float4x4 float4::QuaternionToMatrix()
+{
+	return DirectX::XMMatrixRotationQuaternion(DirectXVector);
+}
+
+float4 float4::QuaternionMulQuaternion(const float4& _Quaternion)
+{
+	return DirectX::XMQuaternionMultiply(DirectXVector, _Quaternion.DirectXVector);
+}

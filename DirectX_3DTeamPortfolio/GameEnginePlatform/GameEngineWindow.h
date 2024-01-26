@@ -54,6 +54,8 @@ public:
 
 	float4 GetMousePos();
 
+
+
 	void SetPosAndScale(const float4& _Pos, const float4& _Scale);
 
 	static void WindowLoopOff() 
@@ -65,7 +67,7 @@ public:
 	void DoubleBuffering();
 
 	void CursorOff();
-
+	void SetMousePos(int _X, int _Y);
 	static bool IsFocus() 
 	{
 		return IsFocusValue;
@@ -85,6 +87,16 @@ public:
 	{
 		CopyRatio += _Ratio;
 	}
+
+	float4 Get_Display_Size()
+	{
+		int iScreenCx = GetSystemMetrics(SM_CXSCREEN);
+		int iScreenCy = GetSystemMetrics(SM_CYSCREEN);
+
+		return { static_cast<float>(iScreenCx) , static_cast<float>(iScreenCy) };
+	}
+
+	
 
 protected:
 

@@ -127,7 +127,7 @@ public:
 	// constrcuter destructer
 	GameContentsFBXRenderer();
 	~GameContentsFBXRenderer();
-
+	
 	// delete Function
 	GameContentsFBXRenderer(const GameContentsFBXRenderer& _Other) = delete;
 	GameContentsFBXRenderer(GameContentsFBXRenderer&& _Other) noexcept = delete;
@@ -182,6 +182,29 @@ public:
 	void BlendReset();
 
 	// Root Motion
+	AnimationBoneData Get_Prev_BoneDate()
+	{
+		return Prev_BoneDate; 
+	}
+	AnimationBoneData GetBoneData(std::string_view _Name);
+
+	AnimationBoneData GetBoneData(int _Index)
+	{
+
+		AnimationBoneData Data = AnimationBoneDatas[_Index];
+
+		Data.Pos *= Transform.GetConstTransformDataRef().WorldMatrix;
+		//float4x4 Rot0 = Data.RotQuaternion.QuaternionToMatrix();
+		//float4x4 Rot0 = Data.RotQuaternion.QuaternionToMatrix();
+
+		float4 NewRot = Data.RotQuaternion.QuaternionMulQuaternion(Transform.GetConstTransformDataRef().WorldQuaternion);
+		// float4 NewRot = Data.RotQuaternion.QuaternionMulQuaternion(Transform.GetConstTransformDataRef().LocalQuaternion);
+		Data.RotQuaternion = NewRot;
+
+
+		return Data;
+	}
+
 
 	void SetRootMotionComponent(GameEnginePhysXComponent* _RootMotionComponent)
 	{
@@ -197,7 +220,7 @@ protected:
 
 private:
 	bool Pause = false;
-
+	AnimationBoneData Prev_BoneDate = {};
 	std::shared_ptr<GameEngineFBXMesh> FBXMesh;
 	std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>> Animations;
 	std::shared_ptr<GameContentsFBXAnimationInfo> CurAnimation;

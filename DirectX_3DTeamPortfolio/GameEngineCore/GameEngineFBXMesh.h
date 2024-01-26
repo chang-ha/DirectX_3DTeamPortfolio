@@ -682,7 +682,7 @@ public:
 		return AllBones.size();
 	}
 
-	Bone* FindBone(std::string _Name);
+	Bone* FindBone(std::string_view _Name);
 
 	Bone* FindBoneToIndex(int _Index);
 
