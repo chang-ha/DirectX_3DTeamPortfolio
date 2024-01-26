@@ -114,6 +114,11 @@ void GameEngineRenderer::Update(float _Delta)
 	RenderBaseInfoValue.AccDeltaTime += _Delta;
 }
 
+void GameEngineRenderer::Release()
+{
+	Units.clear();
+}
+
 std::shared_ptr<GameEngineRenderUnit> GameEngineRenderer::CreateAndFindRenderUnit(int _Index)
 {
 	if (_Index == -1)

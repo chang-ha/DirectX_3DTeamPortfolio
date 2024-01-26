@@ -17,6 +17,7 @@ public:
 	//GameEnginePath& operator=(GameEnginePath&& _Other) noexcept = delete;
 
 	static std::string GetFileName(std::string_view _Path);
+	static bool IsFileExist(std::string_view _Path);
 
 	std::string GetFileName();
 

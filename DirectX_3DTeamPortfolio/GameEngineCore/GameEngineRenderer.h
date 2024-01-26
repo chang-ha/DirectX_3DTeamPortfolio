@@ -34,6 +34,10 @@ struct RenderBaseInfo
 	int IsNormal = 0;
 	int IsDiffuse = 0;
 	int IsShadow = 1;
+	int IsSpecular = 0;
+	int def1 = 0;
+	int def2 = 0;
+	int def3 = 0;
 };
 
 // 설명 : GameEngineRenderer에게 Order는 랜더링 되는 순서를 의미합니다.
@@ -111,6 +115,7 @@ public:
 protected:
 	void Start();
 	void Update(float _Delta) override;
+	void Release() override;
 	//virtual void Render(class GameEngineCamera* _Camera, float _Delta);
 	virtual void SetMaterialEvent(std::string_view _Name, int _Index = 0);
 

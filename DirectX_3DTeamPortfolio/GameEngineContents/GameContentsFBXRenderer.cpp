@@ -406,6 +406,8 @@ std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetFBXMesh(std::s
 			RenderUnits[i].resize(Count);
 		}
 	}
+
+
 	// _RenderUnitInfoIndex, int _SubSetIndex
 	if (nullptr == RenderUnits[_RenderUnitInfoIndex][_SubSetIndex])
 	{
@@ -462,6 +464,8 @@ std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetFBXMesh(std::s
 			MsgBoxAssert("FBX매쉬에 텍스처 정보 로드에 실패했습니다.");
 		}
 
+		RenderBaseInfoValue.IsDiffuse = 1;
+
 		Unit->ShaderResHelper.SetTexture("DiffuseTexture", DifTex);
 	}
 
@@ -471,50 +475,78 @@ std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetFBXMesh(std::s
 
 		if ("" == MatData.NorTextureName)
 		{
-			MsgBoxAssert("텍스처 정보가 없는 FBX매쉬에 텍스처를 사용하는 머티리얼을 사용했습니다.");
+			RenderBaseInfoValue.IsNormal = 0;
 		}
-
-		if (nullptr == GameEngineTexture::Find(MatData.NorTextureName))
+		else
 		{
-			GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
-			std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.NorTextureName;
-			GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
+			if (nullptr == GameEngineTexture::Find(MatData.NorTextureName))
+			{
+				GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
+				std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.NorTextureName;
+				if (GameEnginePath::IsFileExist(TexturePath))
+				{
+					GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
+				}
+			}
+			
+
+			std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find(MatData.NorTextureName);
+
+			if (nullptr == Tex)
+			{
+				//다크소울용 형식이 맞음에도 불구하고 텍스쳐가 없거나 불러올수 없는 경우
+				RenderBaseInfoValue.IsNormal = 0;
+			}
+			else
+			{
+
+				RenderBaseInfoValue.IsNormal = 1;
+
+				Unit->ShaderResHelper.SetTexture("NormalTexture", Tex);
+			}
 		}
 
-		std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find(MatData.NorTextureName);
 
-		if (nullptr == Tex)
-		{
-			MsgBoxAssert("FBX매쉬에 텍스처 정보 로드에 실패했습니다.");
-		}
 
-		Unit->ShaderResHelper.SetTexture("NormalTexture", Tex);
 	}
 
 	if (Unit->ShaderResHelper.IsTexture("SpecularTexture"))
 	{
 		const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(_RenderUnitInfoIndex, _SubSetIndex);
 
-		if ("" == MatData.NorTextureName)
+		if ("" == MatData.SpcTextureName)
 		{
-			MsgBoxAssert("텍스처 정보가 없는 FBX매쉬에 텍스처를 사용하는 머티리얼을 사용했습니다.");
+			RenderBaseInfoValue.IsSpecular = 0;
+		}
+		else
+		{
+
+			if (nullptr == GameEngineTexture::Find(MatData.NorTextureName))
+			{
+				GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
+				std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.NorTextureName;
+				if (GameEnginePath::IsFileExist(TexturePath))
+				{
+					GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
+				}
+			}
+
+			std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find(MatData.SpcTextureName);
+
+
+			if (nullptr == Tex)
+			{
+				//다크소울용 형식에 경로가 맞음에도 불구하고 텍스쳐가 없거나 불러올수 없는 경우
+				RenderBaseInfoValue.IsNormal = 0;
+			}
+			else
+			{
+				RenderBaseInfoValue.IsSpecular = 1;
+
+				Unit->ShaderResHelper.SetTexture("SpecularTexture", Tex);
+			}
 		}
 
-		if (nullptr == GameEngineTexture::Find(MatData.SpcTextureName))
-		{
-			GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
-			std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.NorTextureName;
-			GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
-		}
-
-		std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find(MatData.NorTextureName);
-
-		if (nullptr == Tex)
-		{
-			MsgBoxAssert("FBX매쉬에 텍스처 정보 로드에 실패했습니다.");
-		}
-
-		Unit->ShaderResHelper.SetTexture("SpecularTexture", Tex);
 	}
 
 	return Unit;
@@ -716,50 +748,76 @@ std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetMapFBXMesh(std
 
 		if ("" == MatData.NorTextureName)
 		{
-			MsgBoxAssert("텍스처 정보가 없는 FBX매쉬에 텍스처를 사용하는 머티리얼을 사용했습니다.");
+			RenderBaseInfoValue.IsNormal = 0;
 		}
-
-		if (nullptr == GameEngineTexture::Find(MatData.NorTextureName))
+		else
 		{
-			GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
-			std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.NorTextureName;
-			GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
+			if (nullptr == GameEngineTexture::Find(MatData.NorTextureName))
+			{
+				GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
+				std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.NorTextureName;
+				if (GameEnginePath::IsFileExist(TexturePath))
+				{
+					GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
+				}
+			}
+			
+
+			std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find(MatData.NorTextureName);
+
+			if (nullptr == Tex)
+			{
+				//다크소울용 형식이 맞음에도 불구하고 텍스쳐가 없거나 불러올수 없는 경우
+				RenderBaseInfoValue.IsNormal = 0;
+			}
+			else
+			{
+
+				RenderBaseInfoValue.IsNormal = 1;
+
+				Unit->ShaderResHelper.SetTexture("NormalTexture", Tex);
+			}
 		}
 
-		std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find(MatData.NorTextureName);
 
-		if (nullptr == Tex)
-		{
-			MsgBoxAssert("FBX매쉬에 텍스처 정보 로드에 실패했습니다.");
-		}
-
-		Unit->ShaderResHelper.SetTexture("NormalTexture", Tex);
 	}
 
 	if (Unit->ShaderResHelper.IsTexture("SpecularTexture"))
 	{
 		const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(_RenderUnitInfoIndex, _SubSetIndex);
 
-		if ("" == MatData.NorTextureName)
+		if ("" == MatData.SpcTextureName)
 		{
-			MsgBoxAssert("텍스처 정보가 없는 FBX매쉬에 텍스처를 사용하는 머티리얼을 사용했습니다.");
+			RenderBaseInfoValue.IsSpecular = 0;
 		}
-
-		if (nullptr == GameEngineTexture::Find(MatData.SpcTextureName))
+		else
 		{
-			GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
-			std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.NorTextureName;
-			GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
+
+			if (nullptr == GameEngineTexture::Find(MatData.NorTextureName))
+			{
+				GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
+				std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.NorTextureName;
+				if (GameEnginePath::IsFileExist(TexturePath))
+				{
+					GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
+				}
+			}
+
+			std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find(MatData.SpcTextureName);
+
+
+			if (nullptr == Tex)
+			{
+				//다크소울용 형식에 경로가 맞음에도 불구하고 텍스쳐가 없거나 불러올수 없는 경우
+				RenderBaseInfoValue.IsNormal = 0;
+			}
+			else
+			{
+				RenderBaseInfoValue.IsSpecular = 1;
+
+				Unit->ShaderResHelper.SetTexture("SpecularTexture", Tex);
+			}
 		}
-
-		std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find(MatData.NorTextureName);
-
-		if (nullptr == Tex)
-		{
-			MsgBoxAssert("FBX매쉬에 텍스처 정보 로드에 실패했습니다.");
-		}
-
-		Unit->ShaderResHelper.SetTexture("SpecularTexture", Tex);
 	}
 
 	return Unit;

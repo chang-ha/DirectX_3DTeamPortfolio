@@ -5,6 +5,7 @@
 #include "ContentsControlWindow.h"
 #include "TreeWindow.h"
 
+#include "TitleLevel.h"
 #include "PlayLevel.h"
 #include "ContentResources.h"
 #include "PlayLevel.h"
@@ -39,8 +40,8 @@ void ContentsCore::Start()
 	CoreGUIWindow = GameEngineGUI::CreateGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 	CoreGUIWindow->On();
 
-
-	
+	GameEngineFont::Load("OptimusBold");
+	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
 	GameEngineCore::CreateLevel<TestLevel_Boss>("TestLevel_Boss");
 	GameEngineCore::CreateLevel<TestLevel_Monster>("TestLevel_Monster");
 	GameEngineCore::CreateLevel<TestLevel_Shader>("TestLevel_Shader");

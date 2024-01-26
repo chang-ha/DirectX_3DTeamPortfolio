@@ -160,9 +160,17 @@
     <ClCompile Include="ContentsControlWindow.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="HBAOGUI.cpp" />
     <ClCompile Include="BaseActor.cpp">
       <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="HBAOGUI.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLogo.cpp">
+      <Filter>Actor\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -322,9 +330,17 @@
     <ClInclude Include="ContentsControlWindow.h">
       <Filter>ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="HBAOGUI.h" />
     <ClInclude Include="BaseActor.h">
       <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="HBAOGUI.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLogo.h">
+      <Filter>Actor\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -399,6 +415,9 @@
     </Filter>
     <Filter Include="Actor\Player">
       <UniqueIdentifier>{a161891d-57fb-4a2c-96bf-522529e04c95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI">
+      <UniqueIdentifier>{f286ce73-744d-4f73-98b1-957bff451289}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
