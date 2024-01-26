@@ -4,6 +4,7 @@
 #include "Player.h"
 
 #include "GameEngineNetWindow.h"
+#include "ContentsControlWindow.h"
 
 PlayLevel::PlayLevel()
 {
@@ -15,12 +16,15 @@ PlayLevel::~PlayLevel()
 
 void PlayLevel::Start()
 {
+
+
 	ContentLevel::Start();
 	GameEngineInput::AddInputObject(this);
 
 	GetMainCamera()->Transform.SetWorldRotation({ 0.0f,0.0f,0.0f });
 	GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, -1000.0f });
 
+	//GameEngineGUI::CreateGUIWindow<ContentsControlWindow>("Test");
 
 
 	//GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 1.0f,1.0f,1.0f,1.0f });
