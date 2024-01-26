@@ -76,7 +76,7 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout DeferrdOut _Result)
     //PixelOut Result = (PixelOut) 0.0f;
     float4 Color = DiffuseTexture.Sample(DiffuseTextureSampler, _Input.TEXCOORD.xy);
     
-    float3 SpecularColor = SpecularTexture.Sample(SpecularTextureSAMPLER, _Input.TEXCOORD.xy).rgb;
+    
     
     if (0.7f >= Color.a)
     {
@@ -87,7 +87,19 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout DeferrdOut _Result)
     
     _Result.DifColor = Color;
     _Result.PosColor = _Input.VIEWPOSITION;
-    _Result.SpcColor = float4(SpecularColor, 1.0f);
+   ///_Result.SpcColor = float4(SpecularColor, 1.0f);
+    
+    
+    if(0 != IsSpecular)
+    {
+        _Result.SpcColor = float4(SpecularTexture.Sample(SpecularTextureSAMPLER, _Input.TEXCOORD.xy).rgb, 1.0f);
+    }
+    else
+    {
+        _Result.SpcColor = float4(1.f, 1.f, 1.f,1.f);
+
+    }
+    
     
     
     if (0 != IsNormal)
