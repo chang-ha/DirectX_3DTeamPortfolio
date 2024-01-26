@@ -57,6 +57,9 @@ void Monster_HollowSoldier_Sword::ChangeState(Enum_HollowSoldier_Sword_State _St
 		case Enum_HollowSoldier_Sword_State::AttackFail:
 			State_AttackFail_Start();
 			break;
+		case Enum_HollowSoldier_Sword_State::Hit:
+			State_Hit_Start();
+			break;
 		case Enum_HollowSoldier_Sword_State::HitToDeath:
 			State_HitToDeath_Start();
 			break;
@@ -89,6 +92,8 @@ void Monster_HollowSoldier_Sword::StateUpdate(float _Delta)
 		return State_RH_TwinSlash_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::AttackFail:
 		return State_AttackFail_Update(_Delta);
+	case Enum_HollowSoldier_Sword_State::Hit:
+		return State_Hit_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::HitToDeath:
 		return State_HitToDeath_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::Death:
@@ -196,14 +201,27 @@ void Monster_HollowSoldier_Sword::State_AttackFail_Update(float _Delta)
 
 }
 
+void Monster_HollowSoldier_Sword::State_Hit_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Hit_Front");
+}
+void Monster_HollowSoldier_Sword::State_Hit_Update(float _Delta)
+{
+
+}
+
 void Monster_HollowSoldier_Sword::State_HitToDeath_Start()
 {
-	//MainRenderer->ChangeAnimation("c1100_HitToDeath");
-
-	// 애니메이션 여러개라 보류
+	MainRenderer->ChangeAnimation("c1100_HitToDeath");
 }
 void Monster_HollowSoldier_Sword::State_HitToDeath_Update(float _Delta)
 {
+	// 죽는 애니메이션 재생중 무기 Off
+	if (MainRenderer->GetCurAnimationFrame() >= 58)
+	{
+		MeshOff(Enum_Hollow_MeshIndex::Sword);
+	}
+
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Death);
@@ -212,9 +230,8 @@ void Monster_HollowSoldier_Sword::State_HitToDeath_Update(float _Delta)
 
 void Monster_HollowSoldier_Sword::State_Death_Start()
 {
-	//MainRenderer->ChangeAnimation("c1100_Death");
+	MainRenderer->ChangeAnimation("c1100_Death");
 
-	// HitToDeath 와 연관이 있어서 보류
 }
 void Monster_HollowSoldier_Sword::State_Death_Update(float _Delta) 
 {

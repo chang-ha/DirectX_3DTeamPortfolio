@@ -15,7 +15,16 @@ enum class Enum_Hollow_State
 	PrayToIdle3,
 	BeScaredToIdle,
 	Idle,
+	//Walk,
+	//Run,
+	RH_VerticalSlash,
+	RH_HorizontalSlash,
+	RH_ComboAttack,
+	RH_TwinSlash,
+	AttackFail,
 	Hit,
+	HitToDeath,
+	Death,
 	Max,
 };
 
@@ -105,7 +114,28 @@ protected:
 	void State_Idle_Start();
 	void State_Idle_Update(float _Delta);
 
+	void State_RH_VerticalSlash_Start();
+	void State_RH_VerticalSlash_Update(float _Delta);
+
+	void State_RH_HorizontalSlash_Start();
+	void State_RH_HorizontalSlash_Update(float _Delta);
+
+	void State_RH_ComboAttack_Start();
+	void State_RH_ComboAttack_Update(float _Delta);
+
+	void State_RH_TwinSlash_Start();
+	void State_RH_TwinSlash_Update(float _Delta);
+
+	void State_AttackFail_Start();
+	void State_AttackFail_Update(float _Delta);
+
 	void State_Hit_Start();
-	//void State_TakeHit_Update(float _Delta);
+	void State_Hit_Update(float _Delta);
+
+	void State_HitToDeath_Start();
+	void State_HitToDeath_Update(float _Delta);
+
+	void State_Death_Start();
+	void State_Death_Update(float _Delta);
 };
 

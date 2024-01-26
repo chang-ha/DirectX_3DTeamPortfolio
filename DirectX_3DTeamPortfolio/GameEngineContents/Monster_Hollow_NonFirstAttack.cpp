@@ -65,8 +65,29 @@ void Monster_Hollow_NonFirstAttack::ChangeState(Enum_Hollow_State _State)
 		case Enum_Hollow_State::Idle:
 			State_Idle_Start();
 			break;
+		case Enum_Hollow_State::RH_VerticalSlash:
+			State_RH_VerticalSlash_Start();
+			break;
+		case Enum_Hollow_State::RH_HorizontalSlash:
+			State_RH_HorizontalSlash_Start();
+			break;
+		case Enum_Hollow_State::RH_ComboAttack:
+			State_RH_ComboAttack_Start();
+			break;
+		case Enum_Hollow_State::RH_TwinSlash:
+			State_RH_TwinSlash_Start();
+			break;
+		case Enum_Hollow_State::AttackFail:
+			State_AttackFail_Start();
+			break;
 		case Enum_Hollow_State::Hit:
 			State_Hit_Start();
+			break;
+		case Enum_Hollow_State::HitToDeath:
+			State_HitToDeath_Start();
+			break;
+		case Enum_Hollow_State::Death:
+			State_Death_Start();
 			break;
 		default:
 			break;
@@ -103,8 +124,22 @@ void Monster_Hollow_NonFirstAttack::StateUpdate(float _Delta)
 		return State_BeScaredToIdle_Update(_Delta);
 	case Enum_Hollow_State::Idle:
 		return State_Idle_Update(_Delta);
+	case Enum_Hollow_State::RH_VerticalSlash:
+		return State_RH_VerticalSlash_Update(_Delta);
+	case Enum_Hollow_State::RH_HorizontalSlash:
+		return State_RH_HorizontalSlash_Update(_Delta);
+	case Enum_Hollow_State::RH_ComboAttack:
+		return State_RH_ComboAttack_Update(_Delta);
+	case Enum_Hollow_State::RH_TwinSlash:
+		return State_RH_TwinSlash_Update(_Delta);
+	case Enum_Hollow_State::AttackFail:
+		return State_AttackFail_Update(_Delta);
 	case Enum_Hollow_State::Hit:
-		return;
+		return State_Hit_Update(_Delta);
+	case Enum_Hollow_State::HitToDeath:
+		return State_HitToDeath_Update(_Delta);
+	case Enum_Hollow_State::Death:
+		return State_Death_Update(_Delta);
 	default:
 		break;
 	}
@@ -349,8 +384,85 @@ void Monster_Hollow_NonFirstAttack::State_Idle_Update(float _Delta)
 
 }
 
+void Monster_Hollow_NonFirstAttack::State_RH_VerticalSlash_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_RH_VerticalSlash");
+}
+void Monster_Hollow_NonFirstAttack::State_RH_VerticalSlash_Update(float _Delta)
+{
+
+}
+
+void Monster_Hollow_NonFirstAttack::State_RH_HorizontalSlash_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_RH_HorizontalSlash");
+}
+void Monster_Hollow_NonFirstAttack::State_RH_HorizontalSlash_Update(float _Delta)
+{
+
+}
+
+void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_RH_ComboAttack");
+}
+void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
+{
+
+}
+
+void Monster_Hollow_NonFirstAttack::State_RH_TwinSlash_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_RH_TwinSlash");
+}
+void Monster_Hollow_NonFirstAttack::State_RH_TwinSlash_Update(float _Delta)
+{
+
+}
+
+void Monster_Hollow_NonFirstAttack::State_AttackFail_Start()
+{
+	//MainRenderer->ChangeAnimation("c1100_AttackFail");
+}
+void Monster_Hollow_NonFirstAttack::State_AttackFail_Update(float _Delta)
+{
+
+}
+
 void Monster_Hollow_NonFirstAttack::State_Hit_Start()
 {
-	MeshOnOffSwitch(Enum_Hollow_MeshIndex::BrokenSword);
-	// MainRenderer->ChangeAnimation("");
+	// 무기가 없는 상태일때 맞았을때 꺼내야됨
+	MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
+	MainRenderer->ChangeAnimation("c1100_Hit_Front");
+}
+void Monster_Hollow_NonFirstAttack::State_Hit_Update(float _Delta)
+{
+
+}
+
+void Monster_Hollow_NonFirstAttack::State_HitToDeath_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_HitToDeath");
+}
+void Monster_Hollow_NonFirstAttack::State_HitToDeath_Update(float _Delta)
+{
+	// 죽는 애니메이션 재생중 무기 Off
+	if (MainRenderer->GetCurAnimationFrame() >= 58)
+	{
+		MeshOff(Enum_Hollow_MeshIndex::BrokenSword);
+	}
+
+	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
+	{
+		ChangeState(Enum_Hollow_State::Death);
+	}
+}
+
+void Monster_Hollow_NonFirstAttack::State_Death_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Death");
+}
+void Monster_Hollow_NonFirstAttack::State_Death_Update(float _Delta)
+{
+
 }
