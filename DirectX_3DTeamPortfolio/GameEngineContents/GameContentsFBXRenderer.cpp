@@ -163,12 +163,8 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 				BoneData.Decompose(BlendScale, BlendQuaternion, BlendPos);
 
 				AnimationBoneData[i].Scale = float4::LerpClamp(BlendScale, AnimationBoneData[i].Scale, BlendRatio);
-				AnimationBoneData[i].RotQuaternion = float4::SLerpQuaternionClamp(BlendQuaternion, AnimationBoneData[i].RotQuaternion, BlendRatio);
-
-			
+				AnimationBoneData[i].RotQuaternion = float4::SLerpQuaternionClamp(BlendQuaternion, AnimationBoneData[i].RotQuaternion, BlendRatio);		
 				
-				
-				//AnimationBoneData[i].Pos = float4::LerpClamp(BlendPos, AnimationBoneData[i].Pos, BlendRatio);
 				
 				
 				if ("Player" == ParentRenderer->GetActor()->GetName())
@@ -187,13 +183,13 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 						AnimationBoneData[i].Pos = float4::LerpClamp(BlendPos, AnimationBoneData[i].Pos, BlendRatio);
 					}
 				}
+				else
+				{
+					AnimationBoneData[i].Pos = float4::LerpClamp(BlendPos, AnimationBoneData[i].Pos, BlendRatio);
+				}
+
 
 				
-				
-				
-
-				
-
 			}
 			
 			else

@@ -131,8 +131,8 @@ void Player::Start()
 		Weapon->SetFBXMesh("WP_A_0221.FBX", "FBXAnimationTexture");
 
 		Weapon->Transform.SetLocalScale({ 400.0f, 400.0f, 400.0f });
-	/*	Weapon->Transform.SetLocalPosition({ -4.0f, -152.0f, 165.0f });
-		Weapon->Transform.SetLocalRotation({ 0.0f, 0.0f, 180.0f });*/
+		//Weapon->Transform.SetLocalPosition({ -4.0f, -152.0f, 165.0f });
+		Weapon->Transform.SetLocalRotation({ 0.0f, 0.0f, 180.0f });
 	}
 
 	{
