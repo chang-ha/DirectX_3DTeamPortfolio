@@ -173,27 +173,16 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 				AnimationBoneDatas[i].RotQuaternion = float4::SLerpQuaternionClamp(BoneData.RotQuaternion, AnimationBoneDatas[i].RotQuaternion, BlendRatio);
 				AnimationBoneDatas[i].Pos = float4::LerpClamp(BoneData.Pos, AnimationBoneDatas[i].Pos, BlendRatio);
 
-
-				if ("Player" == ParentRenderer->GetActor()->GetName())
+				if (false == ParentRenderer->NotBlendBoneIndexs.empty())
 				{
-
-					if (i == 53)
+					for (int Index : ParentRenderer->NotBlendBoneIndexs)
 					{
-						AnimationBoneDatas[i].Pos = float4::LerpClamp(ParentRenderer->Prev_BoneDate.Pos, AnimationBoneDatas[i].Pos, BlendRatio);
-					}
-					else
-					{
-						AnimationBoneDatas[i].Pos = float4::LerpClamp(BoneData.Pos, AnimationBoneDatas[i].Pos, BlendRatio);
+						if (i == Index)
+						{
+							AnimationBoneDatas[i].Pos = float4::LerpClamp(ParentRenderer->Prev_BoneDate.Pos, AnimationBoneDatas[i].Pos, BlendRatio);
+						}
 					}
 				}
-				else
-				{
-					AnimationBoneDatas[i].Pos = float4::LerpClamp(BoneData.Pos, AnimationBoneDatas[i].Pos, BlendRatio);
-				}
-
-
-
-
 			}
 			else
 			{
@@ -817,6 +806,16 @@ void GameContentsFBXRenderer::TestSetBigFBXMesh(std::string_view _Name, std::str
 void GameContentsFBXRenderer::BlendReset()
 {
 	BlendBoneData.clear();
+}
+
+void GameContentsFBXRenderer::AddNotBlendBoneIndex(int _Index)
+{
+	if (NotBlendBoneIndexs.contains(_Index))
+	{
+		return;
+	}
+
+	NotBlendBoneIndexs.insert(_Index);
 }
 
 void GameContentsFBXRenderer::SetRootMotion(std::string_view _AniName, std::string_view _FileName, Enum_RootMotionMode _Mode, bool _RootMotion)

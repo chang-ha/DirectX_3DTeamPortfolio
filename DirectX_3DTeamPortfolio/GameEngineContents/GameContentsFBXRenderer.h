@@ -180,6 +180,7 @@ public:
 	inline std::vector<float4x4>& GetBoneSockets() { return AnimationBoneNotOffset; }
 
 	void BlendReset();
+	void AddNotBlendBoneIndex(int _Index);
 
 	// Root Motion
 	AnimationBoneData Get_Prev_BoneDate()
@@ -220,6 +221,9 @@ protected:
 
 private:
 	bool Pause = false;
+
+	std::set<int> NotBlendBoneIndexs;
+
 	AnimationBoneData Prev_BoneDate = {};
 	std::shared_ptr<GameEngineFBXMesh> FBXMesh;
 	std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>> Animations;
