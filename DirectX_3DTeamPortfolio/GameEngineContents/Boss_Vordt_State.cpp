@@ -17,7 +17,7 @@ void Boss_Vordt::Howling_Update(float _Delta)
 {
 	if (true == MainRenderer->IsCurAnimationEnd())
 	{
-		BossState.ChangeState(Enum_BossState::Idle);
+		MainState.ChangeState(Enum_BossState::Idle);
 	}
 }
 

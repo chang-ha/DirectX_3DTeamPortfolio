@@ -51,13 +51,6 @@ enum class Enum_BossState
 	Rush_Hit_Turn_Rush,
 };
 
-enum Enum_RotDir
-{
-	Not_Rot = 0,
-	Left = -1,
-	Right = 1,
-};
-
 class Boss_Vordt : public BaseActor
 {
 	friend Boss_State_GUI;
@@ -72,11 +65,6 @@ public:
 	Boss_Vordt& operator=(const Boss_Vordt& _Other) = delete;
 	Boss_Vordt& operator=(Boss_Vordt&& _Other) noexcept = delete;
 
-	inline void SetTargeting(GameEngineActor* _Target)
-	{
-		Target = _Target;
-	}
-
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
@@ -87,21 +75,9 @@ protected:
 
 private:
 	std::shared_ptr<GameEngineCollision> BossCollision;
-	std::shared_ptr<class GameEnginePhysXCapsule> Capsule;
 	std::shared_ptr<Boss_State_GUI> GUI = nullptr;
 
-	// Targeting
-	float TargetAngle = 0.f;
-	GameEngineActor* Target = nullptr;
-
-	float RotSpeed = 0.f;
-	Enum_RotDir RotDir = Enum_RotDir::Not_Rot;
-
-	void CalcuTargetAngle();
-
 	// State
-	GameEngineState BossState;
-
 	////////////////////////// Move & Others
 	// Howling
 	void Howling_Start();

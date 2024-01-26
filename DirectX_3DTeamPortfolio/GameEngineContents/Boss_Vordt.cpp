@@ -156,12 +156,12 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	ImGui::NewLine();
 
 	{
-		float Angle = Linked_Boss->TargetAngle;
+		float Angle = Linked_Boss->GetTargetAngle();
 		std::string cAngle = "Target Angle : ";
 		cAngle += std::to_string(Angle);
 		ImGui::Text(cAngle.c_str());
 
-		Enum_RotDir Dir = Linked_Boss->RotDir;
+		Enum_RotDir Dir = Linked_Boss->GetRotDir();
 		std::string cDir = "Rotation Dir : ";
 
 		switch (Dir)
@@ -471,34 +471,34 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		Rush_Hit_Turn_Rush.End = std::bind(&Boss_Vordt::Rush_Hit_Turn_Rush_End, this);
 
 		// Move & Others
-		BossState.CreateState(Enum_BossState::Howling, Howling);
-		BossState.CreateState(Enum_BossState::Idle, Idle);
-		BossState.CreateState(Enum_BossState::Walk, Walk);
-		BossState.CreateState(Enum_BossState::Jump, Jump);
-		BossState.CreateState(Enum_BossState::Turn, Turn);
-		BossState.CreateState(Enum_BossState::Hitten, Hitten);
-		BossState.CreateState(Enum_BossState::Death, Death);
+		MainState.CreateState(Enum_BossState::Howling, Howling);
+		MainState.CreateState(Enum_BossState::Idle, Idle);
+		MainState.CreateState(Enum_BossState::Walk, Walk);
+		MainState.CreateState(Enum_BossState::Jump, Jump);
+		MainState.CreateState(Enum_BossState::Turn, Turn);
+		MainState.CreateState(Enum_BossState::Hitten, Hitten);
+		MainState.CreateState(Enum_BossState::Death, Death);
 		
 		// Attack
-		BossState.CreateState(Enum_BossState::Breath, Breath);
-		BossState.CreateState(Enum_BossState::Combo1, Combo1);
-		BossState.CreateState(Enum_BossState::Combo2, Combo2);
-		BossState.CreateState(Enum_BossState::Sweap_Twice, Sweap_Twice);
-		BossState.CreateState(Enum_BossState::Hit_Down_001, Hit_Down_001);
-		BossState.CreateState(Enum_BossState::Hit_Down_004, Hit_Down_004);
-		BossState.CreateState(Enum_BossState::Hit_Down_005, Hit_Down_005);
-		BossState.CreateState(Enum_BossState::Hit_Down_006, Hit_Down_006);
-		BossState.CreateState(Enum_BossState::Thrust, Thrust);
-		BossState.CreateState(Enum_BossState::Sweep_001, Sweep_001);
-		BossState.CreateState(Enum_BossState::Sweep_002, Sweep_002);
-		BossState.CreateState(Enum_BossState::Rush_Attack_001, Rush_Attack_001);
-		BossState.CreateState(Enum_BossState::Rush_Attack_002, Rush_Attack_002);
-		BossState.CreateState(Enum_BossState::Rush_Turn, Rush_Turn);
-		BossState.CreateState(Enum_BossState::Rush_Hit_Turn, Rush_Hit_Turn);
-		BossState.CreateState(Enum_BossState::Rush_Hit_Turn_Rush, Rush_Hit_Turn_Rush);
+		MainState.CreateState(Enum_BossState::Breath, Breath);
+		MainState.CreateState(Enum_BossState::Combo1, Combo1);
+		MainState.CreateState(Enum_BossState::Combo2, Combo2);
+		MainState.CreateState(Enum_BossState::Sweap_Twice, Sweap_Twice);
+		MainState.CreateState(Enum_BossState::Hit_Down_001, Hit_Down_001);
+		MainState.CreateState(Enum_BossState::Hit_Down_004, Hit_Down_004);
+		MainState.CreateState(Enum_BossState::Hit_Down_005, Hit_Down_005);
+		MainState.CreateState(Enum_BossState::Hit_Down_006, Hit_Down_006);
+		MainState.CreateState(Enum_BossState::Thrust, Thrust);
+		MainState.CreateState(Enum_BossState::Sweep_001, Sweep_001);
+		MainState.CreateState(Enum_BossState::Sweep_002, Sweep_002);
+		MainState.CreateState(Enum_BossState::Rush_Attack_001, Rush_Attack_001);
+		MainState.CreateState(Enum_BossState::Rush_Attack_002, Rush_Attack_002);
+		MainState.CreateState(Enum_BossState::Rush_Turn, Rush_Turn);
+		MainState.CreateState(Enum_BossState::Rush_Hit_Turn, Rush_Hit_Turn);
+		MainState.CreateState(Enum_BossState::Rush_Hit_Turn_Rush, Rush_Hit_Turn_Rush);
 
 		// Start State
-		BossState.ChangeState(Enum_BossState::Howling);
+		MainState.ChangeState(Enum_BossState::Howling);
 	}
 }
 
@@ -531,8 +531,7 @@ void Boss_Vordt::Start()
 #define SPEED 100.0f
 void Boss_Vordt::Update(float _Delta)
 {
-	BossState.Update(_Delta);
-	CalcuTargetAngle();
+	BaseActor::Update(_Delta);
 
 	if (true == GameEngineInput::IsPress('W', this))
 	{
@@ -607,48 +606,6 @@ void Boss_Vordt::Release()
 		GUI->Off();
 		GUI = nullptr;
 	}
-}
 
-void Boss_Vordt::CalcuTargetAngle()
-{
-	if (nullptr == Target)
-	{
-		TargetAngle = 0.f;
-		RotDir = Enum_RotDir::Not_Rot;
-		return;
-	}
-
-	if (nullptr == Capsule)
-	{
-		TargetAngle = 0.f;
-		RotDir = Enum_RotDir::Not_Rot;
-		return;
-	}
-
-	float4 TargetPos = Target->Transform.GetWorldPosition();
-	float4 MyPos = Transform.GetWorldPosition();
-
-	// Y축 고려 X
-	TargetPos.Y = MyPos.Y = 0.f;
-
-	float4 FrontVector = float4(0.f, 0.f, 1.f, 0.f);
-	FrontVector.VectorRotationToDegY(Capsule->GetDir());
-
-	float4 LocationVector = (TargetPos - MyPos).NormalizeReturn();
-	
-	float4 Angle = DirectX::XMVector3AngleBetweenNormals(FrontVector.DirectXVector, LocationVector.DirectXVector);
-
-
-	float4 RotationDir = DirectX::XMVector3Cross(FrontVector.DirectXVector, LocationVector.DirectXVector);
-
-	TargetAngle = Angle.X * GameEngineMath::R2D;
-	if (0.0f <= RotationDir.Y)
-	{
-		RotDir = Enum_RotDir::Right;
-	}
-	else
-	{
-		RotDir = Enum_RotDir::Left;
-		TargetAngle *= -1.f;
-	}
+	BaseActor::Release();
 }
