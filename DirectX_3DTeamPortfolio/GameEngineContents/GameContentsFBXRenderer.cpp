@@ -169,14 +169,10 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 				
 				if ("Player" == ParentRenderer->GetActor()->GetName())
 				{
-					//ParentRenderer->GetBone(37); 
+					
 					if (i == 53)
-					{
-						//date_01
-
+					{				
 						AnimationBoneData[i].Pos = float4::LerpClamp(ParentRenderer->Prev_BoneDate.Pos, AnimationBoneData[i].Pos, BlendRatio);
-
-
 					}
 					else
 					{
