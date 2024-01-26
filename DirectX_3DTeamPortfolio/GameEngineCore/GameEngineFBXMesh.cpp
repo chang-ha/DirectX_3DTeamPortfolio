@@ -573,6 +573,13 @@ void GameEngineFBXMesh::FbxRenderUnitInfoMaterialSetting(fbxsdk::FbxNode* _Node,
 std::string GameEngineFBXMesh::NorTexturePathSetting(std::string_view _str)
 {
 	std::string result = _str.data();
+
+	//if (result.find("30000000_") != std::string::npos)
+	//{
+	//	return "";
+	//}
+
+		
 	
 
 	char Type = result[result.size() - 5];
@@ -581,18 +588,32 @@ std::string GameEngineFBXMesh::NorTexturePathSetting(std::string_view _str)
 	{
 		result[result.size() - 7] = 'n';
 	}
-	else
+	else if (Type == 'a')
 	{
 		result[result.size() - 5] = 'n';
 	}
+	else
+	{
+		return "";
+	}
 
+	
 	return result;
+	
+	
+
+
+	
 }
 
 std::string GameEngineFBXMesh::SpcTexturePathSetting(std::string_view _str)
 {
 	std::string result = _str.data();
 
+	//if (result.find("30000000_") != std::string::npos)
+	//{
+	//	return "";
+	//}
 
 	char Type = result[result.size() - 5];
 
@@ -600,12 +621,19 @@ std::string GameEngineFBXMesh::SpcTexturePathSetting(std::string_view _str)
 	{
 		result[result.size() - 7] = 'r';
 	}
-	else
+	else if(Type == 'a')
 	{
 		result[result.size() - 5] = 'r';
 	}
+	else
+	{
+		// 형식에 맞지 않으면
+		return "";
+	}
 
+	
 	return result;
+	
 }
 
 

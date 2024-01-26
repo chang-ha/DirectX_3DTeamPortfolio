@@ -35,7 +35,10 @@ void TestLevel_Map::Start()
 
 	//float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 
-	GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, -1000.0f });
+	// 시작위치
+	GetMainCamera()->Transform.SetLocalPosition({ -1400.0f, 5101.0f, -5331.0f });
+	// 
+	//GetMainCamera()->Transform.SetLocalPosition({ -13921.0f, 3438.0f, -4173.0f });
 
 	// 빛
 	std::shared_ptr<ContentsLight> TestObject0 = CreateActor<ContentsLight>(0);

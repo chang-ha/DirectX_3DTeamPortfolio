@@ -157,6 +157,8 @@ void GameEngineTexture::ResLoad(std::string_view _Path)
 
 	std::wstring wPath = GameEngineString::AnsiToUnicode(_Path);
 
+	
+
 	// ±×·¡ÇÈ 
 	if (Ext == ".DDS")
 	{

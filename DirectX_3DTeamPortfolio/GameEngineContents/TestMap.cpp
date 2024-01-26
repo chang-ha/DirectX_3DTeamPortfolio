@@ -15,11 +15,11 @@ void TestMap::Start()
 {
 	{
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
-		FBXRenderer->SetMapFBXMesh("WorldMap.FBX", "FBX_Static");
+		FBXRenderer->SetMapFBXMesh("TestGround.FBX", "FBX_Static");
 
 		TriMesh = CreateComponent<GameEnginePhysXTriMesh>();
-		//TriMesh->Transform.SetLocalPosition({ 0.0f, 0.0f, 800.0f });
-		TriMesh->PhysXComponentInit("WorldMap.FBX0");
+		TriMesh->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.0f });
+		TriMesh->PhysXComponentInit("TestGround.FBX0");
 
 		//MapMesh = FBXRenderer->GetFBXMesh("WorldMap.FBX0");
 
@@ -51,6 +51,9 @@ void TestMap::Start()
 
 void TestMap::Update(float _Delta)
 {
+
+	float4 Pos = GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
+
 	//// 분할로드 보류
 	//for (size_t i = 3026; i < 3027/*MapDatas.size()*/; i++)
 	//{

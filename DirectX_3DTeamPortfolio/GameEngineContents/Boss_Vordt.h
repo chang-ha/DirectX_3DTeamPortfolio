@@ -75,6 +75,7 @@ protected:
 
 private:
 	std::shared_ptr<GameEngineCollision> BossCollision;
+	std::shared_ptr<GameEngineCollision> DetectCollision;
 	std::shared_ptr<Boss_State_GUI> GUI = nullptr;
 
 	// State
