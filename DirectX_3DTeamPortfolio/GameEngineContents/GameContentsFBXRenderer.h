@@ -186,7 +186,6 @@ public:
 	inline std::vector<float4x4>& GetBoneSockets() { return AnimationBoneNotOffset; }
 
 	void BlendReset();
-	void BlendDebug();
 
 	// Root Motion
 
