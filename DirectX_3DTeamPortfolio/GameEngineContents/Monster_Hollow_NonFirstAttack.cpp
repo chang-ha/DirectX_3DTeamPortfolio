@@ -59,6 +59,9 @@ void Monster_Hollow_NonFirstAttack::ChangeState(Enum_Hollow_State _State)
 		case Enum_Hollow_State::PrayToIdle3:
 			State_PrayToIdle3_Start();
 			break;
+		case Enum_Hollow_State::BeScaredToIdle:
+			State_BeScaredToIdle_Start();
+			break;
 		case Enum_Hollow_State::Idle:
 			State_Idle_Start();
 			break;
@@ -96,6 +99,8 @@ void Monster_Hollow_NonFirstAttack::StateUpdate(float _Delta)
 		return State_PrayToIdle2_Update(_Delta);
 	case Enum_Hollow_State::PrayToIdle3:
 		return State_PrayToIdle3_Update(_Delta);
+	case Enum_Hollow_State::BeScaredToIdle:
+		return State_BeScaredToIdle_Update(_Delta);
 	case Enum_Hollow_State::Idle:
 		return State_Idle_Update(_Delta);
 	case Enum_Hollow_State::Hit:
@@ -116,7 +121,7 @@ void Monster_Hollow_NonFirstAttack::State_Pray1_Update(float _Delta)
 	//StateTime += _Delta;
 	//if (StateTime > 3.0f)
 	//{
-	//	ChangeState(Enum_Hollow_State::PrayToIdle);
+	//	ChangeState(Enum_Hollow_State::PrayToBeScared1);
 	//}
 
 
@@ -234,10 +239,21 @@ void Monster_Hollow_NonFirstAttack::State_PrayToBeScared3_Update(float _Delta)
 void Monster_Hollow_NonFirstAttack::State_BeScared_Start()
 {
 	MainRenderer->ChangeAnimation("c1100_BeScared");
+	//StateTime = 0.0f;
 }
 void Monster_Hollow_NonFirstAttack::State_BeScared_Update(float _Delta)
 {
-	
+	/*StateTime += _Delta;
+	if (StateTime > 3.0f)
+	{
+		ChangeState(Enum_Hollow_State::BeScaredToIdle);
+	}*/
+
+	// 랜턴 효과 받았을때
+	if (false)
+	{
+		ChangeState(Enum_Hollow_State::BeScaredToIdle);
+	}
 }
 
 void Monster_Hollow_NonFirstAttack::State_PrayToIdle1_Start()
@@ -303,6 +319,23 @@ void Monster_Hollow_NonFirstAttack::State_PrayToIdle3_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
 	{
 		MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
+		ChangeState(Enum_Hollow_State::Idle);
+	}
+}
+
+void Monster_Hollow_NonFirstAttack::State_BeScaredToIdle_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_BeScaredToIdle");
+}
+void Monster_Hollow_NonFirstAttack::State_BeScaredToIdle_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 39)
+	{
+		MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
+	}
+
+	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
+	{
 		ChangeState(Enum_Hollow_State::Idle);
 	}
 }
