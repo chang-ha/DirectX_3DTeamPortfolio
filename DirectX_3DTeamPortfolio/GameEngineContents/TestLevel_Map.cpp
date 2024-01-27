@@ -18,6 +18,8 @@ void TestLevel_Map::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		std::shared_ptr<TestMap> Object = CreateActor<TestMap>(0, "TestMap");
 	}
+
+
 }
 
 void TestLevel_Map::LevelEnd(GameEngineLevel* _NextLevel)

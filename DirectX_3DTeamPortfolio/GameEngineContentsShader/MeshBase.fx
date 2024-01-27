@@ -92,11 +92,14 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout DeferrdOut _Result)
     
     if(0 != IsSpecular)
     {
+       
+        //_Result.SpcColor = float4(1.f, 0.f, 0.f, 1.f);
         _Result.SpcColor = float4(SpecularTexture.Sample(SpecularTextureSAMPLER, _Input.TEXCOORD.xy).rgb, 1.0f);
     }
     else
     {
         _Result.SpcColor = float4(1.f, 1.f, 1.f,1.f);
+        //_Result.SpcColor = float4(0.f, 0.f, 1.f,1.f);
 
     }
     
