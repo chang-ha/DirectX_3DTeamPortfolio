@@ -38,7 +38,7 @@ cbuffer RenderBaseInfo : register(b11)
     int IsDiffuse;
     int IsShadow;
     int IsSpecular;
-    int def1;
+    float AlphaValue;
     int def2;
     int def3;
 };

@@ -65,8 +65,8 @@ void TestLevel_Shader::Start()
 	GetCamera(ECAMERAORDER::UI)->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
 
-	//HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
-	//HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,10.0f });
+	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
+	HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,10.0f });
 	//HollowSoldier->GetMainRenderer()->RenderBaseInfoValue.IsNormal = 0;
 
 	//HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);

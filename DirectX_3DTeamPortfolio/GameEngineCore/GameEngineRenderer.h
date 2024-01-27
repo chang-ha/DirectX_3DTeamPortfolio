@@ -35,7 +35,7 @@ struct RenderBaseInfo
 	int IsDiffuse = 0;
 	int IsShadow = 1;
 	int IsSpecular = 0;
-	int def1 = 0;
+	float AlphaValue = 0.7f;
 	int def2 = 0;
 	int def3 = 0;
 };
