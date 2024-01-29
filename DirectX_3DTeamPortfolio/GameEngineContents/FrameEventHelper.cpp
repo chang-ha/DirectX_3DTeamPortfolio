@@ -184,7 +184,8 @@ void FrameEventHelper::UpdateEvent(float _Delta)
 	for (; StartIter != EndIter;)
 	{
 		FrameEventObject* pObject = (*StartIter);
-		if (EVENT_PLAY == pObject->UpdateEvent(_Delta))
+		int Result = pObject->UpdateEvent(_Delta);
+		if (EVENT_PLAY == Result)
 		{
 			++StartIter;
 			continue;
