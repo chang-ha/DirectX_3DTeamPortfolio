@@ -181,6 +181,10 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 						{
 							AnimationBoneDatas[i].Pos = float4::LerpClamp(ParentRenderer->Prev_BoneDate.Pos, AnimationBoneDatas[i].Pos, BlendRatio);
 						}
+						else
+						{
+							AnimationBoneDatas[i].Pos = float4::LerpClamp(BoneData.Pos, AnimationBoneDatas[i].Pos, BlendRatio);
+						}
 					}
 				}
 			}

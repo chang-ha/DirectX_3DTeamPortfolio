@@ -66,7 +66,7 @@ protected:
 	// void Smoke_Stay()
 
 private:
-	
+	float4 MoveDir;
 	GameEngineState PlayerState;
 	EventParameter Mini_Event;
 	std::string BoneName;
@@ -77,7 +77,7 @@ private:
 	bool TimeCheck = false;
 	bool Attack_Check = false;
 	float Time = 0.0f;
-	float Speed = 1.0f;
+	float Speed = 100.0f;
 	float MoveSpeed = 0.0f;
 	float DeltaTime = 0.0f;
 };

@@ -31,16 +31,16 @@ void Player::Start()
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(0);
 	MainRenderer->Transform.SetLocalScale({ 400.0f, 400.0f, 400.0f });
 	MainRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
-
+	//MainRenderer->Transform.SetLocalPosition({ 0.0f, -300.0f, 0.0f });
 
 	
 	BoneName = "R_Hand";
 
 	
 	MainRenderer->SetFBXMesh("c0010.FBX", "FBXAnimationTexture"); // Bone 136
-	MainRenderer->Transform.SetLocalScale({ 400.0f, 400.0f, 400.0f });
-	//MainRenderer->Transform.SetLocalPosition({ 0.0f, -300.0f, 0.0f });
-	MainRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
+	
+	
+	
 	//	FBXRenderer->CreateFBXAnimation("Idle", "c0000.FBX", { 0.1f, true });
 	MainRenderer->CreateFBXAnimation("Idle", "00000.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Shield_Idle", "00100.FBX", { Frame, true });
@@ -127,6 +127,7 @@ void Player::Start()
 
 	{
 		SwordActor = GetLevel()->CreateActor<GameEngineActor>();
+		//SwordActor->Transform.SetLocalPosition({ 0.0f - 300.0f });
 		Weapon = SwordActor->CreateComponent<GameContentsFBXRenderer>();
 		Weapon->SetFBXMesh("WP_A_0221.FBX", "FBXAnimationTexture");
 
@@ -162,9 +163,10 @@ void Player::Start()
 		{
 
 		};
-
-
 	
+	MainRenderer->AddNotBlendBoneIndex(53);
+
+	Transform.SetLocalPosition({ 0.0f,-300.0f });
 	Player_State();
 
 	//Transform.AddLocalPosition({ 0.0f,-300.0f });
@@ -176,7 +178,7 @@ void Player::Update(float _Delta)
 {
 	if (GameEngineInput::IsDown('Q', this))
 	{
-		Weapon->SwitchPause();
+		MainRenderer->SwitchPause();
 	}
 
 	AnimationBoneData Data = MainRenderer->GetBoneData(Bone_index_01);
@@ -186,15 +188,14 @@ void Player::Update(float _Delta)
 
 
 	Mouse_Pos = GameEngineCore::MainWindow.GetMousePos().X;
-	//Camera_Pos -= Mouse_Pos; 
-	//GetLevel()->GetMainCamera()->Transform.SetLocalRotation({ 0.0f,Mouse_Pos,0.0f }); 
+	
 	Transform.SetLocalRotation({ 0.0f,Mouse_Pos,0.0f });
 
-	//float a = pow(Mouse_Pos, 2);
-	//float b = -a + pow(750,2);
-	//float c = sqrt(b);
-	//float d = sqrt(a); 
-	//GetLevel()->GetMainCamera()->Transform.SetLocalPosition({ d,c,0.0f });
+	float4 date = Transform.GetWorldRotationEuler();
+
+	//date.Normalize();
+
+	MoveDir = date;
 
 
 
