@@ -249,9 +249,16 @@ void GameContentsFBXAnimationInfo::RootMotionUpdate(float _Delta)
 		CurFrameTimeValue -= (Inter - mRootMotionData.MoveFrameTime);
 
 		++tCurFrame;
-		CurFramePos = RootMotionFrames[tCurFrame];
-		++NextFrame;
-		NextFramePos = RootMotionFrames[NextFrame];
+		if (tCurFrame == End)
+		{
+			CurFrameTimeValue = 0.f;
+		}
+		else
+		{
+			CurFramePos = RootMotionFrames[tCurFrame];
+			++NextFrame;
+			NextFramePos = RootMotionFrames[NextFrame];
+		}
 	}
 
 	while (Inter <= CurFrameTimeValue)
@@ -266,13 +273,15 @@ void GameContentsFBXAnimationInfo::RootMotionUpdate(float _Delta)
 		CurFrameTimeValue -= Inter;
 
 		++tCurFrame;
-		CurFramePos = RootMotionFrames[tCurFrame];
-		++NextFrame;
-		NextFramePos = RootMotionFrames[NextFrame];
-
-		if (NextFrame == End)
+		if (tCurFrame == End)
 		{
 			CurFrameTimeValue = 0.f;
+		}
+		else
+		{
+			CurFramePos = RootMotionFrames[tCurFrame];
+			++NextFrame;
+			NextFramePos = RootMotionFrames[NextFrame];
 		}
 	}
 
