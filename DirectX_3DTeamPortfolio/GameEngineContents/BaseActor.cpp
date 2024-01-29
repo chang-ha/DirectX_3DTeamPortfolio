@@ -55,7 +55,7 @@ void BaseActor::Start()
 void BaseActor::Update(float _Delta)
 {
 	MainState.Update(_Delta);
-	if (true == Target->IsDeath())
+	if (nullptr != Target && true == Target->IsDeath())
 	{
 		Target = nullptr;
 	}
