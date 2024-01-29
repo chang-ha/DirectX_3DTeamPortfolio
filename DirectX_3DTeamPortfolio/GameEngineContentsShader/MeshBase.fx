@@ -5,7 +5,7 @@ struct DeferrdOut
 {
     float4 DifColor : SV_Target1;
     float4 PosColor : SV_Target2;
-    float4 NorColor : SV_Target3;
+    float4 NorColor : SV_Target3; //w´Â roughness
     float4 SpcColor : SV_Target4;
 };
 
@@ -40,8 +40,8 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout DeferrdOut _Result)
   
     _Result.NorColor = -NormalTexCalculate(NormalTexture, NormalTextureSAMPLER, _Input.TEXCOORD, _Input.VIEWTANGENT, _Input.VIEWBINORMAL, _Input.VIEWNORMAL);
 
-    
+    _Result.NorColor.w = (_Result.SpcColor.x + _Result.SpcColor.y + _Result.SpcColor.z) / 3.0f;
      
-    _Result.NorColor.w = 1.0f;
+    //_Result.NorColor.w = 1.0f;
     
 }

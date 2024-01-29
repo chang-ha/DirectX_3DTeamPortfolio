@@ -24,7 +24,7 @@ PixelOutPut ContentsDeferredLightRender_VS(GameEngineVertex2D _Input)
 
 // Texture2D DifColorTex : register(t0);
 Texture2D PositionTex : register(t0);
-Texture2D NormalTex : register(t1);
+Texture2D NormalTex : register(t1); //w´Â roughness 
 Texture2D ShadowTex : register(t2);
 SamplerState POINTWRAP : register(s0);
 

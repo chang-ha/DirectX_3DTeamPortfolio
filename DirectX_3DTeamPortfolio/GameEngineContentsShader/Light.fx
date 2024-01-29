@@ -1,6 +1,6 @@
 #include "../GameEngineCoreShader/Light.fx"
 
-
+#define PI 3.14159265358979323846264338327950288419716939937510f
 
 float4 CalSpacularLightContents(float4 _Pos, float4 _Normal, LightData _Data/*, float3 _SpecColor*/)
 {
@@ -9,6 +9,8 @@ float4 CalSpacularLightContents(float4 _Pos, float4 _Normal, LightData _Data/*, 
     
     float3 N = normalize(_Normal.xyz);
     //float3 L = normalize(_Data.ViewLightRevDir.xyz);
+    
+    float Roughness = _Normal.w;
     
     float3 L = (float3) 0;
     
@@ -38,7 +40,29 @@ float4 CalSpacularLightContents(float4 _Pos, float4 _Normal, LightData _Data/*, 
    
     //ResultRatio = float4(SpecIntensity * _SpecColor, 1.0f);
     
-    return ResultRatio * _Data.SpcLightPower;
+    return ResultRatio * _Data.LightColor * _Data.SpcLightPower;
+}
+
+float GGX_Distribution(float3 normal, float3 halfVector, float roughness)
+{
+    float NdotH = max(dot(normal, halfVector), 0.0f);
+    float roughnessSqr = roughness * roughness;
+    float a = roughnessSqr * roughnessSqr;
+    float denominator = (NdotH * NdotH * (a - 1.0f) + 1.0f);
+    return a / (3.14f * denominator * denominator);
+}
+
+float NormalDistributionGGXTR(float3 n, float3 h, float a)
+{
+    float a2 = a * a;
+    float NdotH = saturate(dot(n, h));
+    float NdotH2 = NdotH * NdotH;
+
+    float nom = a2;
+    float denom = (NdotH2 * (a2 - 1.0f) + 1.0f);
+    denom = PI * denom * denom;
+
+    return nom / denom;
 }
 
 float4 CalDiffuseLightContents(float4 _Normal, float4 _Pos, LightData _Data)
@@ -61,7 +85,7 @@ float4 CalDiffuseLightContents(float4 _Normal, float4 _Pos, LightData _Data)
     }
     
     ResultRatio.xyzw = max(0.0f, dot(N.xyz, L.xyz));
-    return ResultRatio * _Data.DifLightPower;
+    return ResultRatio * _Data.LightColor * _Data.DifLightPower;
 }
 
 

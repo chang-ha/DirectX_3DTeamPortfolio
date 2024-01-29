@@ -67,14 +67,14 @@ void TestLevel_Shader::Start()
 
 	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
 	HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,10.0f });
-	//HollowSoldier->GetMainRenderer()->RenderBaseInfoValue.IsNormal = 0;
+	
 
-	//HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
-	//HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,100.0f });
+	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
+	HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,100.0f });
 
-	//HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
-	//HollowSoldier->Transform.AddLocalPosition({ -300.0f,0.0f,10.0f });
-	////HollowSoldier->Transform.SetLocalScale({ 5.0f,5.0f,5.0f });
+	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
+	HollowSoldier->Transform.AddLocalPosition({ -300.0f,0.0f,10.0f });
+	//HollowSoldier->Transform.SetLocalScale({ 5.0f,5.0f,5.0f });
 
 
 	//Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
@@ -89,35 +89,42 @@ void TestLevel_Shader::Start()
 
 		Renderer->SetFBXMesh("m30_00_00_00_000901.FBX", "FBX_Static");
 		Renderer->Transform.SetLocalScale({ 50.f, 50.f, 50.f, 1.0f });
+
+		Renderer->RenderBaseInfoValue.AlphaValue = -10.0f;
+	}
+
+
+	{
+
+		Test_Light1 = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Direct");
+		Test_Light1->Transform.SetWorldRotation({ 0.0f, 70.0f, 0.0f });
+		LightData Data = Test_Light1->GetLightData();
+
+		Data.DifLightPower = 2.0f;
+		Data.AmbientLight = float4(0.3f, 0.3f, 0.3f, 1.0f);
+		Data.SpcPow = 50.0f;
+
+		Test_Light1->SetLightData(Data);
 	}
 
 	//{
 	//	Test_Light1 = CreateActor<ContentsLight>(static_cast<int>(Enum_UpdateOrder::Light),"MainLight");
-	//	//Test_Light1->SetLightType(Enum_LightType::Point);
+	//	Test_Light1->SetLightType(Enum_LightType::Point);
 	//	Test_Light1->IsDebugValue = true;
+	//	//Test_Light1->Transform.SetWorldScale(float4(100.f, 100.f, 100.f));
 	//	LightData Data = Test_Light1->GetLightData();
 	//	//Test_Light1->Transform.SetWorldRotation({ 90.0f, 0.0f, 0.0f });
-	//	Test_Light1->Transform.SetWorldPosition({ 0, 1000.0f, 0.0f });
+	//	//Test_Light1->Transform.SetWorldPosition({ 0, 1000.0f, 0.0f });
 
 	//	Data.DifLightPower = 2.0f;
 	//	Data.SpcLightPower = 1.0f;
 	//	Data.AmbientLight = float4::ONE * 0.1f;
-	//	Data.SpcPow = 10.0f;
+	//	Data.SpcPow = 50.0f;
+	//	Data.LightColor = { 1.0f,0.6f,0.0f };
 
 	//	Test_Light1->SetLightData(Data);
 	//}
 
-	{
-
-		std::shared_ptr<ContentsLight> TestObject0 = CreateActor<ContentsLight>(0);
-		LightData Data = TestObject0->GetLightData();
-
-		Data.DifLightPower = 0.1f;
-		Data.AmbientLight = float4(0.7f, 0.7f, 0.7f, 1.0f);
-		Data.SpcPow = 200.0f;
-
-		TestObject0->SetLightData(Data);
-	}
 
 
 	//{
@@ -168,34 +175,34 @@ void TestLevel_Shader::Update(float _Delta)
 	 
 	if (true == GameEngineInput::IsPress('A', this))
 	{
-		//Test_Light1->Transform.AddLocalPosition(float4::LEFT * _Delta * MoveSpeed);
+		Test_Light1->Transform.AddLocalPosition(float4::LEFT * _Delta * MoveSpeed);
 		GetMainCamera()->Transform.AddLocalPosition(float4::LEFT * _Delta * MoveSpeed);
 	}
 
 	if (true == GameEngineInput::IsPress('D', this))
 	{
-		//Test_Light1->Transform.AddLocalPosition(float4::RIGHT * _Delta * MoveSpeed);
+		Test_Light1->Transform.AddLocalPosition(float4::RIGHT * _Delta * MoveSpeed);
 		GetMainCamera()->Transform.AddLocalPosition(float4::RIGHT * _Delta * MoveSpeed);
 	}
 
 	if (true == GameEngineInput::IsPress('W', this))
 	{
-		//Test_Light1->Transform.AddLocalPosition(float4::FORWARD * _Delta * MoveSpeed);
+		Test_Light1->Transform.AddLocalPosition(float4::FORWARD * _Delta * MoveSpeed);
 		GetMainCamera()->Transform.AddLocalPosition(float4::FORWARD * _Delta * MoveSpeed);
 	}
 	if (true == GameEngineInput::IsPress('S', this))
 	{
-		//Test_Light1->Transform.AddLocalPosition(float4::BACKWARD * _Delta * MoveSpeed);
+		Test_Light1->Transform.AddLocalPosition(float4::BACKWARD * _Delta * MoveSpeed);
 		GetMainCamera()->Transform.AddLocalPosition(float4::BACKWARD * _Delta * MoveSpeed);
 	}
 	if (true == GameEngineInput::IsPress('Q', this))
 	{
-		//Test_Light1->Transform.AddLocalPosition(float4::UP * _Delta * MoveSpeed);
+		Test_Light1->Transform.AddLocalPosition(float4::UP * _Delta * MoveSpeed);
 		GetMainCamera()->Transform.AddLocalPosition(float4::UP * _Delta * MoveSpeed);
 	}
 	if (true == GameEngineInput::IsPress('E', this))
 	{
-		//Test_Light1->Transform.AddLocalPosition(float4::DOWN * _Delta * MoveSpeed);
+		Test_Light1->Transform.AddLocalPosition(float4::DOWN * _Delta * MoveSpeed);
 		GetMainCamera()->Transform.AddLocalPosition(float4::DOWN * _Delta * MoveSpeed);
 	}
 

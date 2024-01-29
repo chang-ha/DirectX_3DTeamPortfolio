@@ -46,23 +46,20 @@ float4 ContentsDeferredMergeRender_PS(PixelOutPut _Input) : SV_Target0
     float4 Shadow = ShadowTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
 	float3 SpecularColor = SpecularTex.Sample(POINTWRAP, _Input.TEXCOORD.xy).rgb;
     float3 HBAOTexColor = HBAOTex.Sample(POINTWRAP, _Input.TEXCOORD.xy).rgb;
-
-    if (0 >= DifColor.a)
-    {
-        clip(-1);
-    }
+    
     
     SpcLight.xyz *= SpecularColor;
     
     float A = DifColor.w;
-    Result.xyz = DifColor.xyz * (DifLight.xyz + SpcLight.xyz + AmbLight.xyz);
-	
-	
+    Result.xyz = DifColor.xyz * (DifLight.xyz + SpcLight.xyz );
+
     
     if (0.0f < Shadow.x)
     {
         Result.xyz *= 0.2f;
     }
+    
+    Result.xyz += DifColor.xyz * AmbLight.xyz;
     
     Result.xyz *= HBAOTexColor;
     Result.a = 1.0f;
