@@ -49,9 +49,9 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	{
-		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
-		Object->Transform.SetWorldPosition({0.f, 0.f, 500.f});
-		Boss_Object->SetTargeting(Object.get());
+		TestPlayer = CreateActor<Player>(0, "Player");
+		TestPlayer->Transform.SetWorldPosition({-250.f, 0.f, 500.f});
+		Boss_Object->SetTargeting(TestPlayer.get());
 	}
 
 	GetMainCamera()->Transform.SetLocalPosition({0.f, 500.f, 0.f});
@@ -70,6 +70,12 @@ void TestLevel_Boss::LevelEnd(GameEngineLevel* _NextLevel)
 	{
 		TestObj->Death();
 		TestObj = nullptr;
+	}
+
+	if (nullptr != TestPlayer)
+	{
+		TestPlayer->Death();
+		TestPlayer = nullptr;
 	}
 }
 

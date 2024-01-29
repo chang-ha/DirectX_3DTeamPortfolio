@@ -6,6 +6,7 @@ enum class Enum_ActorType
 {
 	None,
 	LothricKn = 1280,
+	Boss_Vordt = 2240,
 };
 
 // ป๓ลย Enum 
@@ -186,6 +187,17 @@ public:
 	{
 		return static_cast<float>(RotDir);
 	}
+
+	inline void SetRotSpeed(float _RotSpeed)
+	{
+		RotSpeed = _RotSpeed;
+	}
+
+	inline float GetRotSpeed()
+	{
+		return RotSpeed;
+	}
+
 private:
 	float TargetAngle = 0.f;
 	GameEngineActor* Target = nullptr;

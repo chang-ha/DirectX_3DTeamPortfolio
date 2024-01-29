@@ -55,6 +55,10 @@ void BaseActor::Start()
 void BaseActor::Update(float _Delta)
 {
 	MainState.Update(_Delta);
+	if (true == Target->IsDeath())
+	{
+		Target = nullptr;
+	}
 	CalcuTargetAngle();
 }
 
@@ -62,6 +66,7 @@ void BaseActor::Release()
 {
 	MainRenderer = nullptr;
 	SocketCollisions.clear();
+	Target = nullptr;
 }
 
 
