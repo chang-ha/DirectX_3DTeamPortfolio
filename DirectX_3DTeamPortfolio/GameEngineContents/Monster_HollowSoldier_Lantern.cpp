@@ -53,7 +53,7 @@ void Monster_HollowSoldier_Lantern::State_Idle_Update(float _Delta)
 
 void Monster_HollowSoldier_Lantern::State_LanternIdle_Start()
 {
-	//MainRenderer->ChangeAnimation("c1100_Lantern_Idle");
+	MainRenderer->ChangeAnimation("c1100_Lantern_Idle");
 }
 void Monster_HollowSoldier_Lantern::State_LanternIdle_Update(float _Delta)
 {
@@ -62,7 +62,7 @@ void Monster_HollowSoldier_Lantern::State_LanternIdle_Update(float _Delta)
 
 void Monster_HollowSoldier_Lantern::State_Scout_Start()
 {
-	//MainRenderer->ChangeAnimation("c1100_Lantern_Scout");
+	MainRenderer->ChangeAnimation("c1100_Lantern_Scout");
 }
 void Monster_HollowSoldier_Lantern::State_Scout_Update(float _Delta)
 {
@@ -75,7 +75,7 @@ void Monster_HollowSoldier_Lantern::State_Scout_Update(float _Delta)
 
 void Monster_HollowSoldier_Lantern::State_AwakeHollows_Start()
 {
-	//MainRenderer->ChangeAnimation("c1100_Lantern_AwakeHollows");
+	MainRenderer->ChangeAnimation("c1100_Lantern_AwakeHollows");
 }
 void Monster_HollowSoldier_Lantern::State_AwakeHollows_Update(float _Delta)
 {

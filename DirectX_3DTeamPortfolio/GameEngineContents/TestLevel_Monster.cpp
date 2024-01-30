@@ -4,7 +4,7 @@
 #include "ContentsLight.h"
 
 #include "Monster_LothricKn.h"
-#include "Monster_HollowSoldier_Sword.h"
+#include "Monster_Hollow_Unarmed.h"
 #include "DummyActor.h"
 
 
@@ -56,8 +56,9 @@ void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 	std::shared_ptr<Monster_LothricKn> LothricKn = CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn");
 	LothricKn->Transform.SetWorldPosition(float4(100.0f, 0.0f, 0.0f));
 
-	std::shared_ptr<Monster_HollowSoldier_Sword> Hollow = CreateActor<Monster_HollowSoldier_Sword>(static_cast<int>(Enum_UpdateOrder::Monster), "Hollow");
-	Hollow->SetStateIdle1();
+	std::shared_ptr<Monster_Hollow_Unarmed> Hollow = CreateActor<Monster_Hollow_Unarmed>(static_cast<int>(Enum_UpdateOrder::Monster), "Hollow");
+	Hollow->Transform.SetWorldPosition(float4(100.0f, 0.0f, 0.0f));
+	//Hollow->SetStateIdle1();
 
 
 	std::shared_ptr<DummyActor> pDummy = CreateActor<DummyActor>(Enum_UpdateOrder::Monster);
@@ -67,6 +68,6 @@ void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 void TestLevel_Monster::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	AllDeathObjectGroupConvert<Monster_LothricKn>(Enum_UpdateOrder::Monster);
-	AllDeathObjectGroupConvert<Monster_HollowSoldier_Sword>(Enum_UpdateOrder::Monster);
+	AllDeathObjectGroupConvert<Monster_Hollow_Unarmed>(Enum_UpdateOrder::Monster);
 	AllDeathObjectGroupConvert<DummyActor>(Enum_UpdateOrder::Monster);
 }
