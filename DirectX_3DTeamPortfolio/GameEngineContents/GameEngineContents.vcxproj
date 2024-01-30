@@ -227,6 +227,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MainUIActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayerValue.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="SwitchFlagFrameEvent.cpp">
       <SubType>
       </SubType>
@@ -400,6 +408,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="DummyPath.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MainUIActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayerValue.h">
       <SubType>
       </SubType>
     </ClInclude>

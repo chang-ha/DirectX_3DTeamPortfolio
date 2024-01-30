@@ -6,6 +6,8 @@
 #include "GameEngineNetWindow.h"
 #include "ContentsControlWindow.h"
 
+#include "MainUIActor.h"
+
 PlayLevel::PlayLevel()
 {
 }
@@ -58,6 +60,11 @@ void PlayLevel::Start()
 
 	{
 		std::shared_ptr<GameEngineLight> Object = CreateActor<GameEngineLight>(0);
+	}
+
+
+	{
+		std::shared_ptr<MainUIActor> MainUI = CreateActor<MainUIActor>();
 	}
 
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 1, 1, 1, 1 });
