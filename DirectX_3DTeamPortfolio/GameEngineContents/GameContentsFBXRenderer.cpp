@@ -653,6 +653,23 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 	}
 
 	CurAnimation = Ptr;
+
+	if (nullptr == RootMotionComponent)
+	{
+		return;
+	}
+
+	if (false == RootMotionComponent->IsInit())
+	{
+		return;
+	}
+
+	if (true == CurAnimation->IsRootMotion())
+	{
+		return;
+	}
+
+	RootMotionComponent->MoveForce(Enum_Axies::X | Enum_Axies::Z);
 }
 
 void GameContentsFBXRenderer::Update(float _DeltaTime)
