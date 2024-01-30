@@ -114,6 +114,7 @@ public:
 	inline std::map<int, std::shared_ptr<BoneSocketCollision>>& GetCollisions() { return SocketCollisions; }
 	std::shared_ptr<BoneSocketCollision> GetSocketCollision(int _Index);
 	inline int* GetFlagPointer() { return &Flags; }
+	inline class GameEnginePhysXCapsule* GetPhysxCapsulePointer() { return Capsule.get(); }
 
 protected:
 	void Start() override;

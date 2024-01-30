@@ -184,7 +184,8 @@ void FrameEventHelper::UpdateEvent(float _Delta)
 	for (; StartIter != EndIter;)
 	{
 		FrameEventObject* pObject = (*StartIter);
-		if (EVENT_PLAY == pObject->UpdateEvent(_Delta))
+		int Result = pObject->UpdateEvent(_Delta);
+		if (EVENT_PLAY == Result)
 		{
 			++StartIter;
 			continue;
@@ -214,6 +215,24 @@ void FrameEventHelper::SetEvent(std::shared_ptr<FrameEventObject> _EventObject)
 
 void FrameEventHelper::PopEvent(const std::shared_ptr<FrameEventObject>& _Event)
 {
+	if (false == PlayingEvents.empty())
+	{
+		std::list<FrameEventObject*>::iterator StartIter = PlayingEvents.begin();
+		std::list<FrameEventObject*>::iterator EndIter = PlayingEvents.end();
+
+		for (;StartIter != EndIter;)
+		{
+			if ((*StartIter) != _Event.get())
+			{
+				++StartIter;
+				continue;
+			}
+
+			PlayingEvents.erase(StartIter);
+			break;
+		}
+	}
+
 	EventInfo[_Event->GetFrame()].remove(_Event.get());
 	Events.at(_Event->GetEventID()).remove(_Event);
 }

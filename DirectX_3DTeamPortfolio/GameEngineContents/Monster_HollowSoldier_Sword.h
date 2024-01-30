@@ -6,12 +6,17 @@ enum class Enum_HollowSoldier_Sword_State
 	Idle1,
 	Idle2,
 	Scout,
+	//Walk,
+	//Run,
 	RH_VerticalSlash,
 	RH_HorizontalSlash,
 	RH_ComboAttack,
 	RH_TwinSlash,
 	AttackFail,
+	Parrying,
+	Hit,
 	HitToDeath,
+	BackAttackHit,
 	Death,
 	Max,
 };
@@ -84,8 +89,17 @@ protected:
 	void State_AttackFail_Start();
 	void State_AttackFail_Update(float _Delta);
 
+	void State_Parrying_Start();
+	void State_Parrying_Update(float _Delta);
+
+	void State_Hit_Start();
+	void State_Hit_Update(float _Delta);
+
 	void State_HitToDeath_Start();
 	void State_HitToDeath_Update(float _Delta);
+
+	void State_BackAttackHit_Start();
+	void State_BackAttackHit_Update(float _Delta);
 
 	void State_Death_Start();
 	void State_Death_Update(float _Delta);

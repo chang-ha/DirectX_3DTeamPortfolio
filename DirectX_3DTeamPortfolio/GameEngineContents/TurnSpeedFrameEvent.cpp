@@ -24,7 +24,7 @@ std::shared_ptr<TurnSpeedFrameEvent> TurnSpeedFrameEvent::CreateEventObject(int 
 
 void TurnSpeedFrameEvent::PlayEvent()
 {
-	if (nullptr == pParentActor)
+	if (nullptr == pComponent)
 	{
 		Init();
 	}
@@ -36,15 +36,23 @@ int TurnSpeedFrameEvent::UpdateEvent(float _Delta)
 {
 	if (GetCurFrame() >= EndFrame)
 	{
-		// 실행
-		int a = 0;
 		return EVENT_DONE;
 	}
+
+	pComponent->AddWorldRotation(float4(0.0f, TurnSpeed * _Delta));
 
 	return EVENT_PLAY;
 }
 
 void TurnSpeedFrameEvent::Init()
 {
-	pParentActor = GetDynamicCastParentActor<BaseActor>().get();
+
+	const std::shared_ptr<BaseActor>& pParentActor = GetDynamicCastParentActor<BaseActor>();
+	if (nullptr == pParentActor)
+	{
+		MsgBoxAssert("부모 액터가 존재하지 않습니다.");
+		return;
+	}
+
+	pComponent = pParentActor->GetPhysxCapsulePointer();
 }

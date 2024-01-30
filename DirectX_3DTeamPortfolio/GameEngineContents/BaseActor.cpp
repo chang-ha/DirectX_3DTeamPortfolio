@@ -50,13 +50,12 @@ void BaseActor::Start()
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
 
 	Transform.SetLocalScale(float4(50.0f, 50.0f, 50.0f));
-	Transform.SetLocalRotation(float4(0.0f, 0.0f, -90.0f));
 }
 
 void BaseActor::Update(float _Delta)
 {
 	MainState.Update(_Delta);
-	if (true == Target->IsDeath())
+	if (nullptr != Target && true == Target->IsDeath())
 	{
 		Target = nullptr;
 	}

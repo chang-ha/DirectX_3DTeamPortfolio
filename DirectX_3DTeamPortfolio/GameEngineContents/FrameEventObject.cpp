@@ -39,5 +39,6 @@ std::string FrameEventObject::GetTypeString() const
 
 int FrameEventObject::GetCurFrame()
 {
-	return static_cast<int>(ParentHelper->GetAnimationInfo()->CurFrame);
+	int CurFrame = static_cast<int>(ParentHelper->GetAnimationInfo()->CurFrame);
+	return CurFrame;
 }
