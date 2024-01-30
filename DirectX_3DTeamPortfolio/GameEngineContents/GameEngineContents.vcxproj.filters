@@ -175,6 +175,9 @@
     <ClCompile Include="ContentsControlInput.cpp">
       <Filter>Actor\Monster\LothricKnight</Filter>
     </ClCompile>
+    <ClCompile Include="Monster_HollowSoldier_RoundShield.cpp">
+      <Filter>Actor\Monster\Hollow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -347,6 +350,9 @@
     </ClInclude>
     <ClInclude Include="ContentsControlInput.h">
       <Filter>Actor\Monster\LothricKnight</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_HollowSoldier_RoundShield.h">
+      <Filter>Actor\Monster\Hollow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
