@@ -68,26 +68,10 @@ private:
 	
 
 	// Collision
-	template <typename EnumType, typename ActorType>
-	std::shared_ptr<ActorType> FindEnemy(EnumType _ColOrder)
-	{
-		return TempFindEnemy<ActorType>(static_cast<int>(_ColOrder));
-	}
-
-	template <typename ActorType> 
-	std::shared_ptr<ActorType> TempFindEnemy(int _ColOrder)
-	{
-
-
-		return;
-	}
-
-	std::shared_ptr<GameEngineActor> FindDummyByCollision();
+	std::shared_ptr<GameEngineActor> PatrolUpdate();
 
 private:
 	std::shared_ptr<GameEngineCollision> AggroCollision;
-
-	std::weak_ptr<GameEngineActor> wpDummy;
 
 	const float FoV = 30.0f;
 	

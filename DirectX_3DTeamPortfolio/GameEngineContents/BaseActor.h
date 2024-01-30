@@ -173,6 +173,16 @@ public:
 		Target = _Target;
 	}
 
+	inline bool IsTargeting() const
+	{
+		if (nullptr == Target)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 	inline float GetTargetAngle()
 	{
 		return TargetAngle;

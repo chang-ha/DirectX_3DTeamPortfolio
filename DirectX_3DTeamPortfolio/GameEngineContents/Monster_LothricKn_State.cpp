@@ -127,11 +127,6 @@ void Monster_LothricKn::UpdateScout(float _DeltaTime, GameEngineState* _State)
 
 void Monster_LothricKn::UpdateRH_Attack11(float _DeltaTime, GameEngineState* _State)
 {
-	if (false == wpDummy.expired())
-	{
-		
-	}
-
 	if (IsFrame(21))
 	{
 		// Idle

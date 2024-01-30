@@ -123,28 +123,24 @@ void Monster_LothricKn::Update(float _Delta)
 	BaseMonster::Update(_Delta);
 
 	float Dir = Capsule->GetDir();
-
-	if (true == wpDummy.expired())
-	{
-		wpDummy = FindDummyByCollision();
-	}
 }
 
 
 void Monster_LothricKn::Release()
 {
+	AggroCollision = nullptr;
 	BaseMonster::Release();
 }
 
-std::shared_ptr<GameEngineActor> Monster_LothricKn::FindDummyByCollision()
+std::shared_ptr<GameEngineActor> Monster_LothricKn::PatrolUpdate()
 {
-	if (false == wpDummy.expired())
+	if (true == IsTargeting())
 	{
 		return nullptr;
 	}
 
 	std::shared_ptr<GameEngineActor> pActor;
-
+	
 	AggroCollision->Collision(Enum_CollisionOrder::Dummy, [&pActor](std::vector<GameEngineCollision*>& _Other)
 		{
 			for (GameEngineCollision* pCol : _Other)

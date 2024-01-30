@@ -248,7 +248,6 @@ void GameEngineCamera::Render(float _DeltaTime)
 		{
 			Renderer->Transform.CalculationViewAndProjection(Transform.GetConstTransformDataRef());
 		}
-
 	}
 
 	// 포워드 그리고
