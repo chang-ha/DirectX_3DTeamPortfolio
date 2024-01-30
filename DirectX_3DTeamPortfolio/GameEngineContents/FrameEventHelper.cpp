@@ -208,6 +208,20 @@ void FrameEventHelper::EventReset()
 
 void FrameEventHelper::SetEvent(std::shared_ptr<FrameEventObject> _EventObject)
 {
+ 	int EventID =  _EventObject->EventID;
+
+	if (true == Events.contains(EventID))
+	{
+		std::list<std::shared_ptr<FrameEventObject>>& EventGroup = Events[EventID];
+		for (const std::shared_ptr<FrameEventObject>& EventObject : EventGroup)
+		{
+			if (EventObject->GetFrame() == _EventObject->GetFrame())
+			{
+				return;
+			}
+		}
+	}
+
 	_EventObject->SetParentHelper(this);
 	Events[_EventObject->GetEventID()].push_back(_EventObject);
 	EventInfo.at(_EventObject->GetFrame()).push_back(_EventObject.get());
