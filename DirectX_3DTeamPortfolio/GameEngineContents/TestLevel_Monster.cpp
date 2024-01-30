@@ -22,8 +22,6 @@ void TestLevel_Monster::Start()
 {
 	ContentLevel::Start();
 
-	Scene->setVisualizationParameter(physx::PxVisualizationParameter::eACTOR_AXES, 0.0f);
-
 	{
 		std::shared_ptr<ContentsLight> Test_Light1 = CreateActor<ContentsLight>(0);
 		Test_Light1->SetLightType(Enum_LightType::Directional);
@@ -36,6 +34,11 @@ void TestLevel_Monster::Start()
 
 		Test_Light1->SetLightData(Data);
 	}
+
+	physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
+	physx::PxMaterial* mMaterial = GameEnginePhysX::GetDefaultMaterial();
+	physx::PxRigidStatic* groundPlane = PxCreatePlane(*Physics, physx::PxPlane(0, 1, 0, 50), *mMaterial);
+	Scene->addActor(*groundPlane);
 
 	GetMainCamera()->GetCameraAllRenderTarget()->SetClearColor(float4::BLUE);
 	GetMainCamera()->Transform.SetLocalPosition({0.0f, 0.0f, -200.0f});
