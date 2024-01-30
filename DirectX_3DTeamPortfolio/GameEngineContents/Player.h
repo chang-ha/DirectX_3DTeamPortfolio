@@ -77,7 +77,7 @@ private:
 	bool TimeCheck = false;
 	bool Attack_Check = false;
 	float Time = 0.0f;
-	float Speed = 100.0f;
+	float Speed = 1000.0f;
 	float MoveSpeed = 0.0f;
 	float DeltaTime = 0.0f;
 };

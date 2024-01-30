@@ -16,6 +16,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Idle");
+				
 			};
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
@@ -134,6 +135,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+			
 			};
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
@@ -219,11 +221,10 @@ void Player::Player_State()
 
 				if (true == GameEngineInput::IsPress('W', this))
 				{
-					//Capsule->MoveForce({ 0.0f, 0.0f, 100, 0.0f });
-					float4 AD = { Mouse_Pos,0.0f,MoveDir.X};
-					AD.Normalize();
-					Transform.AddLocalPosition({ float4::FORWARD * Speed* _DeltaTime });
+					
+					//Capsule->MoveForce({ float4::FORWARD * Speed },Capsule->GetDir());
 				
+					int a = 0;
 				}
 
 				if (true == GameEngineInput::IsPress('S', this))
@@ -236,14 +237,14 @@ void Player::Player_State()
 				if (true == GameEngineInput::IsPress('A', this))
 				{
 					//Capsule->MoveForce({ -100, 0.0f, 0.0f, 0.0f });
-					Transform.AddLocalPosition({ float4::LEFT* Speed * _DeltaTime });
+					//Transform.AddLocalPosition({ float4::* Speed * _DeltaTime });
 				
 				}
 
 				if (true == GameEngineInput::IsPress('D', this))
 				{
 					//Capsule->MoveForce({ 100, 0.0f, 0.0f, 0.0f });
-					Transform.AddLocalPosition({ float4::RIGHT * Speed * _DeltaTime });
+					Transform.AddLocalPosition({ MoveDir.Y * Speed* _DeltaTime });
 					
 				}
 				if (GameEngineInput::IsPress(VK_CONTROL, this))
@@ -300,6 +301,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				//Capsule->ResetMove(Enum_Axies::All);
 			};
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
