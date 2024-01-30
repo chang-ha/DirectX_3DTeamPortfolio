@@ -24,7 +24,7 @@ std::shared_ptr<TurnSpeedFrameEvent> TurnSpeedFrameEvent::CreateEventObject(int 
 
 void TurnSpeedFrameEvent::PlayEvent()
 {
-	if (nullptr == pComponent)
+	if (nullptr == pParentActor)
 	{
 		Init();
 	}
@@ -39,20 +39,45 @@ int TurnSpeedFrameEvent::UpdateEvent(float _Delta)
 		return EVENT_DONE;
 	}
 
-	pComponent->AddWorldRotation(float4(0.0f, TurnSpeed * _Delta));
+	if (nullptr == pParentActor)
+	{
+		MsgBoxAssert("액터가 존재하지 않습니다.");
+		return EVENT_ERROR;
+	}
+
+	GameEnginePhysXCapsule* pComponent = pParentActor->GetPhysxCapsulePointer();
+	if (nullptr == pComponent)
+	{
+		MsgBoxAssert("피직스 컴포넌트가 존재하지 않습니다.");
+		return EVENT_ERROR;
+	}
+
+	GameEngineActor* pTarget = pParentActor->GetTargetPointer();
+	if (nullptr == pTarget)
+	{
+		return EVENT_PLAY;
+	}
+
+	float RotMinAngle = pParentActor->GetRotMinAngle();
+	float TargetAngle = pParentActor->GetTargetAngle();
+	float RotDir = pParentActor->GetRotDir_f();
+
+	if (std::fabs(RotMinAngle) < std::fabs(TargetAngle))
+	{
+		pComponent->AddWorldRotation(float4(0.0f, TurnSpeed * RotDir * _Delta));
+	}
 
 	return EVENT_PLAY;
 }
 
 void TurnSpeedFrameEvent::Init()
 {
-
-	const std::shared_ptr<BaseActor>& pParentActor = GetDynamicCastParentActor<BaseActor>();
-	if (nullptr == pParentActor)
+	std::shared_ptr<BaseActor> pObject = GetDynamicCastParentActor<BaseActor>();
+	if (nullptr == pObject)
 	{
-		MsgBoxAssert("부모 액터가 존재하지 않습니다.");
+		MsgBoxAssert("다이나믹 캐스팅에 실패했습니다,.");
 		return;
 	}
 
-	pComponent = pParentActor->GetPhysxCapsulePointer();
+	pParentActor = pObject.get();
 }

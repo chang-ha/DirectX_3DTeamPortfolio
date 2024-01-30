@@ -48,6 +48,6 @@ private:
 	int EndFrame = -1;
 	float TurnSpeed = 0.0f;
 
-	class GameEnginePhysXCapsule* pComponent = nullptr;
+	class BaseActor* pParentActor = nullptr;
 
 };
