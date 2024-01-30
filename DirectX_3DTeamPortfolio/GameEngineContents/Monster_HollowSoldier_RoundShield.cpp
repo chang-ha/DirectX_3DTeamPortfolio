@@ -1,3 +1,4 @@
+#include "PreCompile.h"
 #include "Monster_HollowSoldier_RoundShield.h"
 
 Monster_HollowSoldier_RoundShield::Monster_HollowSoldier_RoundShield()

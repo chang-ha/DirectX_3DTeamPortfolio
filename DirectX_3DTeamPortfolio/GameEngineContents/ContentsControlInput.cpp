@@ -31,7 +31,7 @@ float4 ContentsControlInput::DetectMovement()
 		{
 			if (Enum_VERTICAL_KEY_STATE::Down == VerticalInputKey)
 			{
-				return float4(0.0f,0.0f, -1.0f);0
+				return float4(0.0f,0.0f, -1.0f);
 			}
 			else
 			{
