@@ -172,6 +172,9 @@
     <ClCompile Include="TitleLogo.cpp">
       <Filter>Actor\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Monster_HollowSoldier_RoundShield.cpp">
+      <Filter>Actor\Monster\Hollow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -341,6 +344,9 @@
     </ClInclude>
     <ClInclude Include="TitleLogo.h">
       <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_HollowSoldier_RoundShield.h">
+      <Filter>Actor\Monster\Hollow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
