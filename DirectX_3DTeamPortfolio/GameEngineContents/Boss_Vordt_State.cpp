@@ -113,27 +113,24 @@ void Boss_Vordt::Jump_Back_Start()
 {
 	// 플레이어 위치에 따라 조정
 	MainRenderer->ChangeAnimation("Jump_Back", true);
-	// 좌우
-	// MainRenderer->ChangeAnimation("Jump_Left");
-	// MainRenderer->ChangeAnimation("Jump_Right");
 }
 
 void Boss_Vordt::Jump_Back_Update(float _Delta)
 {
-	//if (15 <= MainRenderer->GetCurAnimationFrame() &&
-	//	33 >= MainRenderer->GetCurAnimationFrame())
-	//{
-	//	SetRotSpeed(180.f);
-	//}
-	//else if (45 <= MainRenderer->GetCurAnimationFrame() &&
-	//	52 >= MainRenderer->GetCurAnimationFrame())
-	//{
-	//	MainRenderer->ChangeAnimation("Jump_Back", true);
-	//}
-	//else
-	//{
-	//	SetRotSpeed(0.f);
-	//}
+	if (15 <= MainRenderer->GetCurAnimationFrame() &&
+		33 >= MainRenderer->GetCurAnimationFrame())
+	{
+		SetRotSpeed(180.f);
+	}
+	else if (45 <= MainRenderer->GetCurAnimationFrame() &&
+		52 >= MainRenderer->GetCurAnimationFrame())
+	{
+		MainRenderer->ChangeAnimation("Jump_Back", true);
+	}
+	else
+	{
+		SetRotSpeed(0.f);
+	}
 }
 
 void Boss_Vordt::Jump_Back_End()
@@ -143,7 +140,7 @@ void Boss_Vordt::Jump_Back_End()
 
 void Boss_Vordt::Jump_Right_Start()
 {
-
+	MainRenderer->ChangeAnimation("Jump_Right");
 }
 
 void Boss_Vordt::Jump_Right_Update(float _Delta)
@@ -158,7 +155,7 @@ void Boss_Vordt::Jump_Right_End()
 
 void Boss_Vordt::Jump_Left_Start()
 {
-
+	MainRenderer->ChangeAnimation("Jump_Left");
 }
 
 void Boss_Vordt::Jump_Left_Update(float _Delta)
@@ -173,11 +170,7 @@ void Boss_Vordt::Jump_Left_End()
 
 void Boss_Vordt::Turn_Right_Start()
 {
-	// 플레이어와의 각도에 따라 다름
 	MainRenderer->ChangeAnimation("Turn_Right", true);
-	// MainRenderer->ChangeAnimation("Turn_Left_Twice");
-	// MainRenderer->ChangeAnimation("Turn_Right");
-	// MainRenderer->ChangeAnimation("Turn_Right_Twice");
 }
 
 void Boss_Vordt::Turn_Right_Update(float _Delta)
@@ -498,7 +491,7 @@ void Boss_Vordt::Rush_Attack_001_Update(float _Delta)
 
 }
 
-void Boss_Vordt::Rush_Attack_001_End()
+void Boss_Vordt::Rush_Attack_001_End()	
 {
 
 }
