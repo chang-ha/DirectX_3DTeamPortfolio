@@ -187,15 +187,21 @@ void Player::Update(float _Delta)
 	SwordActor->Transform.SetWorldPosition(Data.Pos+Transform.GetWorldPosition());
 
 
-	Mouse_Pos = GameEngineCore::MainWindow.GetMousePos().X;
+
+	/*Mouse_Pos = GameEngineCore::MainWindow.GetMousePos().X;
 	
 	Transform.SetLocalRotation({ 0.0f,Mouse_Pos,0.0f });
 
 	float4 date = Transform.GetWorldRotationEuler();
 
-	//date.Normalize();
 
-	MoveDir = date;
+	MoveDir = cosf(Transform.GetWorldRotationEuler().Y) * Mouse_Pos;*/
+
+	//MoveDir = { AD.X,Mouse_Pos };
+
+	//MoveDir.Normalize();
+
+	//MoveDir = date;
 
 
 
