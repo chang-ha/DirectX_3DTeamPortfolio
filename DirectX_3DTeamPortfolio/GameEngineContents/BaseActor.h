@@ -198,11 +198,22 @@ public:
 		return RotSpeed;
 	}
 
+	inline GameEngineActor* GetTargetPointer()
+	{
+		return Target;
+	}
+
+	inline float GetRotMinAngle()
+	{
+		return RotMinAngle;
+	}
+
 private:
 	float TargetAngle = 0.f;
 	GameEngineActor* Target = nullptr;
 
 	float RotSpeed = 0.f;
+	const float RotMinAngle = 5.f;
 	Enum_RotDir RotDir = Enum_RotDir::Not_Rot;
 
 	void CalcuTargetAngle();
