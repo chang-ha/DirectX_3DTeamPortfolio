@@ -39,6 +39,7 @@ enum class Enum_BossState
 	Turn_Left_Twice,
 	Hitten,
 	Death,
+
 	// Attack
 	Breath,
 	Combo1,

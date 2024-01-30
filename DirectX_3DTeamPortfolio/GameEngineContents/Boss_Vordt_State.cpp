@@ -24,7 +24,7 @@ void Boss_Vordt::Howling_Update(float _Delta)
 void Boss_Vordt::Howling_End()
 {
 
-}
+}	
 
 void Boss_Vordt::Idle_Start()
 {
@@ -120,20 +120,20 @@ void Boss_Vordt::Jump_Back_Start()
 
 void Boss_Vordt::Jump_Back_Update(float _Delta)
 {
-	if (15 <= MainRenderer->GetCurAnimationFrame() &&
-		33 >= MainRenderer->GetCurAnimationFrame())
-	{
-		SetRotSpeed(180.f);
-	}
-	else if (45 <= MainRenderer->GetCurAnimationFrame() &&
-		52 >= MainRenderer->GetCurAnimationFrame())
-	{
-		MainRenderer->ChangeAnimation("Jump_Back", true);
-	}
-	else
-	{
-		SetRotSpeed(0.f);
-	}
+	//if (15 <= MainRenderer->GetCurAnimationFrame() &&
+	//	33 >= MainRenderer->GetCurAnimationFrame())
+	//{
+	//	SetRotSpeed(180.f);
+	//}
+	//else if (45 <= MainRenderer->GetCurAnimationFrame() &&
+	//	52 >= MainRenderer->GetCurAnimationFrame())
+	//{
+	//	MainRenderer->ChangeAnimation("Jump_Back", true);
+	//}
+	//else
+	//{
+	//	SetRotSpeed(0.f);
+	//}
 }
 
 void Boss_Vordt::Jump_Back_End()
