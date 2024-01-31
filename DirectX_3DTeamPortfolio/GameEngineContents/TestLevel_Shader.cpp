@@ -65,36 +65,36 @@ void TestLevel_Shader::Start()
 	GetCamera(ECAMERAORDER::UI)->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
 
-	//HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
-	//HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,10.0f });
+	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
+	HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,10.0f });
 	
 
-	//HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
-	//HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,100.0f });
+	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
+	HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,100.0f });
 
-	//HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
-	//HollowSoldier->Transform.AddLocalPosition({ -300.0f,0.0f,10.0f });  
+	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
+	HollowSoldier->Transform.AddLocalPosition({ -300.0f,0.0f,10.0f });  
 
 
 	//Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
 	//Boss_Object->Transform.SetLocalPosition({ 300.f, 0.f, 0.f });
 
+	// 컬러 구체
+	//{
+	//	{
+	//		std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
+	//		std::shared_ptr<GameEngineRenderer> NewRenderer = Object->CreateComponent<GameEngineRenderer>();
+	//		NewRenderer->RenderBaseInfoValue.IsNormal = 1;
+	//		NewRenderer->SetMesh("Sphere");
+	//		NewRenderer->SetMaterial("FBX_Static_Color");
+	//		//NewRenderer->GetShaderResHelper().SetTexture("NormalTexture", "BumpNormal.gif");
+	//		NewRenderer->Transform.SetLocalPosition({ 0.0f, 0.0f, 0.0f });
+	//		NewRenderer->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
+	//		NewRenderer->RenderBaseInfoValue.BaseColor = float4::RED;
+	//	}
+	//}
 
 	{
-		{
-			std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
-			std::shared_ptr<GameEngineRenderer> NewRenderer = Object->CreateComponent<GameEngineRenderer>();
-			NewRenderer->RenderBaseInfoValue.IsNormal = 1;
-			NewRenderer->SetMesh("Sphere");
-			NewRenderer->SetMaterial("FBX_Static_Color");
-			//NewRenderer->GetShaderResHelper().SetTexture("NormalTexture", "BumpNormal.gif");
-			NewRenderer->Transform.SetLocalPosition({ 0.0f, 0.0f, 0.0f });
-			NewRenderer->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
-			NewRenderer->RenderBaseInfoValue.BaseColor = float4::RED;
-		}
-	}
-
-	/*{
 		std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
 
 		
@@ -104,17 +104,17 @@ void TestLevel_Shader::Start()
 		Renderer->Transform.SetLocalScale({ 50.f, 50.f, 50.f, 1.0f });
 
 		Renderer->RenderBaseInfoValue.AlphaValue = -10.0f;
-	}*/
+	}
 
 
 	{
 
 		Test_Light1 = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Direct");
-		Test_Light1->Transform.SetWorldRotation({ 0.0f, 70.0f, 0.0f });
+		Test_Light1->Transform.SetWorldRotation({ 0.0f, 0.0f, 0.0f });
 		LightData Data = Test_Light1->GetLightData();
 
-		Data.DifLightPower = 2.0f;
-		Data.AmbientLight = float4(0.0f, 0.0f, 0.0f, 1.0f);
+		Data.LightPower = 2.0f;
+		Data.AmbientLight = float4(0.1f, 0.1f, 0.1f, 1.0f);
 		Data.SpcPow = 50.0f;
 
 		Test_Light1->SetLightData(Data);

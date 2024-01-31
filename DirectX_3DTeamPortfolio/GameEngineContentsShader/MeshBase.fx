@@ -40,8 +40,30 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout DeferrdOut _Result)
     _Result.SpcColor = float4(SpecularTexture.Sample(SpecularTextureSAMPLER, _Input.TEXCOORD.xy).rgb, 1.0f);
   
     _Result.NorColor = -NormalTexCalculate(NormalTexture, NormalTextureSAMPLER, _Input.TEXCOORD, _Input.VIEWTANGENT, _Input.VIEWBINORMAL, _Input.VIEWNORMAL);
-
-    _Result.MatColor.w = (_Result.SpcColor.x + _Result.SpcColor.y + _Result.SpcColor.z) / 3.0f;
+    _Result.NorColor.w = 1.f;
+    
+    
+    if (Roughness < 0.0f)
+    {
+        _Result.MatColor.x = (_Result.SpcColor.x + _Result.SpcColor.y + _Result.SpcColor.z) / 3.0f; //Roughness
+    }
+    else
+    {
+        _Result.MatColor.x = Roughness;
+    }
+    
+    if (Metalic < 0.0f)
+    {
+        _Result.MatColor.y = 1.0f - _Result.MatColor.x; //Metalic
+    }
+    else
+    {
+        _Result.MatColor.y = Metalic;
+    }
+    _Result.MatColor.w = 1.0f;
+    
+    
+    
      
     //_Result.NorColor.w = 1.0f;
     

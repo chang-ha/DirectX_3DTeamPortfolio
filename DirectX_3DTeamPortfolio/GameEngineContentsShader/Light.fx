@@ -169,7 +169,7 @@ float4 CalSpacularLightContentsBRDF(float4 _Pos, float4 _Normal, float3 _Albedo,
     //ResultRatio = float4(specular, 1.0f);
     
     
-    return ResultRatio/* * _Data.LightColor * _Data.SpcLightPower*/;
+    return ResultRatio * _Data.LightColor * _Data.LightPower;
 }
 
 

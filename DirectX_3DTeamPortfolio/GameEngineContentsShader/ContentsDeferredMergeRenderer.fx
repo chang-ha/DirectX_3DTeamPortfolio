@@ -41,6 +41,8 @@ float4 ContentsDeferredMergeRender_PS(PixelOutPut _Input) : SV_Target0
     
     float4 DifColor = DifColorTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     
+    DifColor.xyz = pow(DifColor.xyz, 2.2f); //gamma
+    
     float4 DifLight = DifLightTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     float4 SpcLight = SpcLightTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     float4 AmbLight = AmbLightTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
@@ -59,7 +61,7 @@ float4 ContentsDeferredMergeRender_PS(PixelOutPut _Input) : SV_Target0
     
     if (0.0f < Shadow.x)
     {
-        Result.xyz *= 0.2f;
+        Result.xyz *= 0.1f;
     }
     
     Result.xyz += DifColor.xyz * AmbLight.xyz;

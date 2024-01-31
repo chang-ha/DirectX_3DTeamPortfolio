@@ -11,7 +11,7 @@ struct LightData
     float4x4 LightViewProjectionMatrix;
     float4x4 CameraViewInverseMatrix;
     float4 LightColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
-    float4 AmbientLight = float4(0.1f, 0.1f, 0.1f, 1.0f);
+    float4 AmbientLight = float4(0.3f, 0.3f, 0.3f, 1.0f);
     float4 LightPos;
     float4 LightDir;
     float4 LightRevDir;
@@ -29,7 +29,7 @@ struct LightData
     float SpcPow = 1.0f;
     int LightType = 0;
     float PointLightRange = 100.0f;
-    int Temp2;
+    float LightPower = 1.0f;
     int Temp3;
 };
 

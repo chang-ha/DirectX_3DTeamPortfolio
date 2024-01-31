@@ -36,9 +36,26 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout DeferrdOut _Result)
      
        
     _Result.NorColor = _Input.VIEWNORMAL;   
+    _Result.NorColor.w = 1.f;
     
     
-   
-    _Result.MatColor.w = 1.f;
+    if (Roughness < 0.0f)
+    {
+        _Result.MatColor.x = 0.5f; //Roughness
+    }
+    else
+    {
+        _Result.MatColor.x = Roughness;
+    }
+    
+    if (Metalic < 0.0f)
+    {
+        _Result.MatColor.y = 0.5f; //Metalic
+    }
+    else
+    {
+        _Result.MatColor.y = Metalic;
+    }
+    _Result.MatColor.w = 1.0f;
     
 }
