@@ -1,6 +1,11 @@
 #pragma once
 #include "Monster_Hollow.h"
 
+enum class Enum_Hollow_Assassin_State
+{
+	Max,
+};
+
 // Ό³Έν : 
 class Monster_Hollow_Assassin : public Monster_Hollow
 {
@@ -21,5 +26,10 @@ protected:
 
 private:
 
+protected:
+	Enum_Hollow_Assassin_State AssassinState = Enum_Hollow_Assassin_State::Max;
+
+	void ChangeState(Enum_Hollow_Assassin_State _State);
+	void StateUpdate(float _Delta);
 };
 

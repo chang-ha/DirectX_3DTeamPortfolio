@@ -1,6 +1,11 @@
 #pragma once
 #include "Monster_Hollow.h"
 
+enum class Enum_HollowSoldier_Spear_State
+{
+	Max,
+};
+
 // Ό³Έν : 
 class Monster_HollowSoldier_Spear : public Monster_Hollow
 {
@@ -21,5 +26,13 @@ protected:
 
 private:
 
+protected:
+	Enum_HollowSoldier_Spear_State SpearState = Enum_HollowSoldier_Spear_State::Max;
+
+	void ChangeState(Enum_HollowSoldier_Spear_State _State);
+	void StateUpdate(float _Delta);
+
+protected:
+	// State Function
 };
 

@@ -25,5 +25,14 @@ void Monster_HollowSoldier_Crossbow::Start()
 void Monster_HollowSoldier_Crossbow::Update(float _Delta)
 {
 	Monster_Hollow::Update(_Delta);
-	
+	StateUpdate(_Delta);
+}
+
+void Monster_HollowSoldier_Crossbow::ChangeState(Enum_HollowSoldier_Crossbow_State _State)
+{
+
+}
+void Monster_HollowSoldier_Crossbow::StateUpdate(float _Delta)
+{
+
 }
