@@ -231,7 +231,19 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Monster_HollowSoldier_Crossbow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Monster_HollowSoldier_RoundShield.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Monster_HollowSoldier_Spear.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Monster_Hollow_Assassin.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -415,7 +427,19 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Monster_HollowSoldier_Crossbow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Monster_HollowSoldier_RoundShield.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Monster_HollowSoldier_Spear.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Monster_Hollow_Assassin.h">
       <SubType>
       </SubType>
     </ClInclude>

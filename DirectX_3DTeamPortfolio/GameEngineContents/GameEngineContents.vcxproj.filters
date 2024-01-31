@@ -178,6 +178,15 @@
     <ClCompile Include="Monster_HollowSoldier_RoundShield.cpp">
       <Filter>Actor\Monster\Hollow</Filter>
     </ClCompile>
+    <ClCompile Include="Monster_HollowSoldier_Crossbow.cpp">
+      <Filter>Actor\Monster\Hollow</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_HollowSoldier_Spear.cpp">
+      <Filter>Actor\Monster\Hollow</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_Hollow_Assassin.cpp">
+      <Filter>Actor\Monster\Hollow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -352,6 +361,15 @@
       <Filter>Actor\Monster\LothricKnight</Filter>
     </ClInclude>
     <ClInclude Include="Monster_HollowSoldier_RoundShield.h">
+      <Filter>Actor\Monster\Hollow</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_HollowSoldier_Crossbow.h">
+      <Filter>Actor\Monster\Hollow</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_HollowSoldier_Spear.h">
+      <Filter>Actor\Monster\Hollow</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_Hollow_Assassin.h">
       <Filter>Actor\Monster\Hollow</Filter>
     </ClInclude>
   </ItemGroup>
