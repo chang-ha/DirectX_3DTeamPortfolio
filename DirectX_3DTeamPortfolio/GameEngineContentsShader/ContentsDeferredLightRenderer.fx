@@ -22,10 +22,11 @@ PixelOutPut ContentsDeferredLightRender_VS(GameEngineVertex2D _Input)
     return Result;
 }
 
-// Texture2D DifColorTex : register(t0);
 Texture2D PositionTex : register(t0);
 Texture2D NormalTex : register(t1); //w´Â roughness 
 Texture2D ShadowTex : register(t2);
+Texture2D DiffuseTexture : register(t3);
+Texture2D MaterialTexture : register(t4);
 SamplerState POINTWRAP : register(s0);
 
 struct DeferredRenderOutPut
@@ -37,6 +38,7 @@ struct DeferredRenderOutPut
     float4 AmbLight : SV_Target2;
     float4 LightColor : SV_Target3;
     float4 Shadow : SV_Target4;
+    float4 PBRLight : SV_Target5;
 };
 
 DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
@@ -46,6 +48,14 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
     // float4 Color = DifColorTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     float4 Pos = PositionTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     float4 Normal = NormalTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
+    float4 Albedo = DiffuseTexture.Sample(POINTWRAP, _Input.TEXCOORD.xy);
+    float4 Material = MaterialTexture.Sample(POINTWRAP, _Input.TEXCOORD.xy);
+    Albedo.xyz = pow(Albedo.xyz, 2.2f); //gamma
+    
+    
+    float Roughness = Material.x;
+    float Metalic = Material.y;
+    
     
     if (0.0f >= Pos.a)
     {
@@ -71,10 +81,18 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
         LightPower = attenuation;
     }
     
-    // Result.DifColor = Color;
+    //Result.DifColor = Color;
     Result.DifLight = CalDiffuseLightContents(Normal, Pos, LightDataValue) * LightPower;
-    Result.SpcLight = CalSpacularLightContents(Pos, Normal, LightDataValue) * LightPower;
-    Result.AmbLight = CalAmbientLight(LightDataValue) * LightPower;
+    Result.DifLight.w = 1.0f;
+    
+    Result.SpcLight = CalSpacularLightContents(Pos, Normal,LightDataValue) * LightPower;
+    Result.SpcLight.w = 1.0f;
+    
+    Result.PBRLight = CalSpacularLightContentsBRDF(Pos, Normal, Albedo.xyz, Metalic, Roughness, LightDataValue) * LightPower;
+    Result.PBRLight.w = 1.0f;
+    
+  
+    Result.AmbLight = CalAmbientLight(LightDataValue);
     
     
 

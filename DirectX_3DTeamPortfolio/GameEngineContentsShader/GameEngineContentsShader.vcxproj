@@ -30,6 +30,7 @@
     <FxCompile Include="FXAA.fx" />
     <FxCompile Include="Light.fx" />
     <FxCompile Include="MeshBase.fx" />
+    <FxCompile Include="MeshBase_Color.fx" />
     <FxCompile Include="MeshBase_NorX_SpcX.fx" />
     <FxCompile Include="MeshBase_SpcX.fx" />
     <FxCompile Include="MeshBase_Header.fx" />
@@ -41,6 +42,7 @@
   <ItemGroup>
     <ClCompile Include="BloomCombine.fx" />
     <ClCompile Include="ContentsDeferredMergeRenderer.fx" />
+    <ClCompile Include="ContentsStaticMesh_Color.fx" />
     <ClCompile Include="ContentsStaticMesh_SpcX.fx" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

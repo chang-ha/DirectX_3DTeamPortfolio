@@ -29,6 +29,7 @@ Texture2D AmbLightTex : register(t3);
 Texture2D ShadowTex : register(t4);
 Texture2D SpecularTex : register(t5);
 Texture2D HBAOTex : register(t6);
+Texture2D PBRTex : register(t7);
 SamplerState POINTWRAP : register(s0);
 
 
@@ -44,14 +45,16 @@ float4 ContentsDeferredMergeRender_PS(PixelOutPut _Input) : SV_Target0
     float4 SpcLight = SpcLightTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     float4 AmbLight = AmbLightTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     float4 Shadow = ShadowTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
+    float4 PBR = PBRTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
 	float3 SpecularColor = SpecularTex.Sample(POINTWRAP, _Input.TEXCOORD.xy).rgb;
     float3 HBAOTexColor = HBAOTex.Sample(POINTWRAP, _Input.TEXCOORD.xy).rgb;
     
     
-    SpcLight.xyz *= SpecularColor;
+    //SpcLight.xyz *= SpecularColor;
     
-    float A = DifColor.w;
-    Result.xyz = DifColor.xyz * (DifLight.xyz + SpcLight.xyz );
+    //float A = DifColor.w;
+    Result.xyz = PBR.xyz;
+    //Result.xyz = DifColor.xyz * (DifLight.xyz + SpcLight.xyz );
 
     
     if (0.0f < Shadow.x)
@@ -62,6 +65,7 @@ float4 ContentsDeferredMergeRender_PS(PixelOutPut _Input) : SV_Target0
     Result.xyz += DifColor.xyz * AmbLight.xyz;
     
     Result.xyz *= HBAOTexColor;
+    Result.xyz = pow(Result.xyz, 1.0f / 2.2f);
     Result.a = 1.0f;
     
     return Result;

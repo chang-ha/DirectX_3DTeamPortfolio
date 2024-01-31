@@ -421,6 +421,7 @@ std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetFBXMesh(std::s
 
 	//체크용 메테리얼
 	Unit->SetMaterial(_Material);
+	Unit->Camerapushback();
 
 
 	if (Unit->ShaderResHelper.IsStructedBuffer("ArrAniMationMatrix"))
@@ -537,7 +538,6 @@ std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetFBXMesh(std::s
 		MsgBoxAssert("색깔 놀이 텍스쳐를 사용하는 렌더 유닛입니다. 그에 맞는 노말 스펙큘러 텍스쳐를 만들어주세요. 그게 아니라면 유준상한테 연락주세요.");
 	}
 	Unit->SetMaterial(Matptr);
-	Unit->Camerapushback();
 
 	if (Unit->RenderUnitBaseInfoValue.IsAnimation == 1)
 	{

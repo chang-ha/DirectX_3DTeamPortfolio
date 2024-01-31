@@ -36,8 +36,12 @@ struct RenderBaseInfo
 	int IsShadow = 1;
 	int IsSpecular = 0;
 	float AlphaValue = 0.7f;
-	int def2 = 0;
-	int def3 = 0;
+	float UVMult = 0.0001f;
+	float Roughness = -1.0f; //0.0f밑이면 스펙큘러 텍스쳐에서 샘플링해서 사용된다.
+	float Metalic = -1.0f; //0.0f밑이면 스펙큘러 텍스쳐에서 샘플링해서 사용된다.
+	float Def2;
+	float Def3;
+	float Def4;
 };
 
 // 설명 : GameEngineRenderer에게 Order는 랜더링 되는 순서를 의미합니다.

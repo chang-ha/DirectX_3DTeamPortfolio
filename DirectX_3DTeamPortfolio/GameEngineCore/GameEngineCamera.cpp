@@ -79,6 +79,8 @@ void GameEngineCamera::Start()
 		DeferredLightTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
 		// ±×¸²ÀÚ
 		DeferredLightTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		// PBR
+		DeferredLightTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
 		//Texture2D DifColorTex : register(t0);
 		//Texture2D PositionTex : register(t1);
 		//Texture2D NormalTex : register(t2);
@@ -104,6 +106,8 @@ void GameEngineCamera::Start()
 		// DeferredRenderUnit.ShaderResHelper.SetTexture("DifColorTex", AllRenderTarget->GetTexture(1));
 		DeferredLightRenderUnit.ShaderResHelper.SetTexture("PositionTex", AllRenderTarget->GetTexture(2));
 		DeferredLightRenderUnit.ShaderResHelper.SetTexture("NormalTex", AllRenderTarget->GetTexture(3));
+		DeferredLightRenderUnit.ShaderResHelper.SetTexture("DiffuseTexture", AllRenderTarget->GetTexture(1));
+		DeferredLightRenderUnit.ShaderResHelper.SetTexture("MaterialTexture", AllRenderTarget->GetTexture(5));
 		DeferredLightRenderUnit.ShaderResHelper.SetSampler("POINTWRAP", "POINT");
 
 
@@ -120,12 +124,13 @@ void GameEngineCamera::Start()
 		//// Texture2D ShadowTex : register(t2);
 		//SamplerState POINTWRAP : register(s0);
 		DeferredMergeUnit.ShaderResHelper.SetTexture("DifColorTex", AllRenderTarget->GetTexture(1));
-		DeferredMergeUnit.ShaderResHelper.SetTexture("DifLightTex", DeferredLightTarget->GetTexture(0));
-		DeferredMergeUnit.ShaderResHelper.SetTexture("SpcLightTex", DeferredLightTarget->GetTexture(1));
+		//DeferredMergeUnit.ShaderResHelper.SetTexture("DifLightTex", DeferredLightTarget->GetTexture(0));
+		//DeferredMergeUnit.ShaderResHelper.SetTexture("SpcLightTex", DeferredLightTarget->GetTexture(1));
 		DeferredMergeUnit.ShaderResHelper.SetTexture("AmbLightTex", DeferredLightTarget->GetTexture(2));
 		DeferredMergeUnit.ShaderResHelper.SetTexture("ShadowTex", DeferredLightTarget->GetTexture(4));
-		DeferredMergeUnit.ShaderResHelper.SetTexture("SpecularTex", AllRenderTarget->GetTexture(4));
+		//DeferredMergeUnit.ShaderResHelper.SetTexture("SpecularTex", AllRenderTarget->GetTexture(4));
 		DeferredMergeUnit.ShaderResHelper.SetTexture("HBAOTex", HBAO.HBAOTarget->GetTexture());
+		DeferredMergeUnit.ShaderResHelper.SetTexture("PBRTex", DeferredLightTarget->GetTexture(5));
 		DeferredMergeUnit.ShaderResHelper.SetSampler("POINTWRAP", "POINT");
 	}
 

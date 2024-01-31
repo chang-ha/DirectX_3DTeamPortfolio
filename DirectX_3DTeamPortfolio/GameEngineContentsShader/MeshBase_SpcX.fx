@@ -8,6 +8,7 @@ struct DeferrdOut
     float4 PosColor : SV_Target2;
     float4 NorColor : SV_Target3;
     float4 SpcColor : SV_Target4;
+    float4 MatColor : SV_Target5;
 };
 
 
@@ -47,6 +48,6 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout DeferrdOut _Result)
     _Result.NorColor = -NormalTexCalculate(NormalTexture, NormalTextureSAMPLER, _Input.TEXCOORD, _Input.VIEWTANGENT, _Input.VIEWBINORMAL, _Input.VIEWNORMAL);
     
      
-    _Result.NorColor.w = 1.0f;
+    _Result.MatColor.w = 1.f;
     
 }

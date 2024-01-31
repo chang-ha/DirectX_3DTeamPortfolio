@@ -69,6 +69,9 @@
     <FxCompile Include="Normal.fx">
       <Filter>Header</Filter>
     </FxCompile>
+    <FxCompile Include="MeshBase_Color.fx">
+      <Filter>MeshShader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BloomCombine.fx">
@@ -78,6 +81,9 @@
       <Filter>Deferred</Filter>
     </ClCompile>
     <ClCompile Include="ContentsStaticMesh_SpcX.fx">
+      <Filter>MeshShader</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsStaticMesh_Color.fx">
       <Filter>MeshShader</Filter>
     </ClCompile>
   </ItemGroup>

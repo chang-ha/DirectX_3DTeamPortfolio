@@ -102,6 +102,12 @@ void ContentResources::ContentResourcesInit()
 		Mat->SetPixelShader("ContentsStaticMesh_SpcX_PS");
 	}
 
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBX_Static_Color");
+		Mat->SetVertexShader("ContentsStaticMesh_Color_VS");
+		Mat->SetPixelShader("ContentsStaticMesh_Color_PS");
+	}
+
 
 
 
