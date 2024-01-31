@@ -39,7 +39,7 @@ cbuffer RenderBaseInfo : register(b11)
     int IsShadow;
     int IsSpecular;
     float AlphaValue;
-    float UVMult;
+    float TEXCOORDMult;
     float Roughness;
     float Metalic;
     float Def2;
