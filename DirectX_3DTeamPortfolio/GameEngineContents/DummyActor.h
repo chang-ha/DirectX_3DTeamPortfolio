@@ -1,7 +1,11 @@
 #pragma once
+#include "BaseActor.h"
+
+#include "ContentsControlInput.h"
+
 
 // Ό³Έν :
-class DummyActor : public GameEngineActor
+class DummyActor : public BaseActor
 {
 public:
 	// constrcuter destructer
@@ -14,15 +18,22 @@ public:
 	DummyActor& operator=(const DummyActor& _Other) = delete;
 	DummyActor& operator=(DummyActor&& _Other) noexcept = delete;
 
+	float* GetSpeedPointer() { return &Speed; }
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
 
+
+	void MoveUpdate(float _Delta);
+
 private:
 	std::shared_ptr<GameEngineFBXRenderer> FbxRenderer;
-	std::shared_ptr<GameEngineCollision> DummyCollision;
+	std::shared_ptr<GameEngineCollision> BodyCollision;
+	class ContentsControlInput ControlInput;
 
+	float Speed = 10.0f;
 
 };
 

@@ -64,7 +64,7 @@ protected:
 
 	//void MeshOnOffSwitch(Enum_Hollow_MeshIndex _Index);
 
-
+	void LoadAnimation();
 
 private:
 

@@ -25,7 +25,7 @@ void Monster_LothricKn::Start()
 
 	Capsule = CreateComponent<GameEnginePhysXCapsule>();
 	Capsule->PhysXComponentInit(100.0f, 50.0f);
-	// Capsule->SetPositioningComponent();
+	Capsule->SetPositioningComponent();
 
 	MainRenderer->SetFBXMesh("c1280.fbx", "FBXAnimationTexture");
 
@@ -69,6 +69,46 @@ void Monster_LothricKn::Start()
 	MainRenderer->CreateFBXAnimation("LH_ShieldAttack", "c1280_003013.fbx");
 	MainRenderer->CreateFBXAnimation("RH_CAttack", "c1280_003014.fbx");
 
+	MainRenderer->SetRootMotionComponent(Capsule.get());
+	MainRenderer->SetRootMotion("Idle_Standing1");
+	MainRenderer->SetRootMotion("Idle_Standing2");
+	MainRenderer->SetRootMotion("Idle_Gaurding");
+	MainRenderer->SetRootMotion("Idle_Aiming");
+	MainRenderer->SetRootMotion("Idle_Sitting");
+	MainRenderer->SetRootMotion("RH_ShieldUp");
+	MainRenderer->SetRootMotion("RH_ShieldDown");
+	MainRenderer->SetRootMotion("DH_Aim");
+	MainRenderer->SetRootMotion("DH_UnAim");
+	MainRenderer->SetRootMotion("Standup");
+	MainRenderer->SetRootMotion("Stare_Forward");
+	MainRenderer->SetRootMotion("Stare_Backward");
+	MainRenderer->SetRootMotion("Stare_LeftSide");
+	MainRenderer->SetRootMotion("Stare_RightSide");
+	MainRenderer->SetRootMotion("StareGuard_Forward");
+	MainRenderer->SetRootMotion("StareGuard_Backward");
+	MainRenderer->SetRootMotion("StareGuard_LeftSide");
+	MainRenderer->SetRootMotion("StareGuard_RightSide");
+	MainRenderer->SetRootMotion("DH_Stare_Forward");
+	MainRenderer->SetRootMotion("DH_Stare_Backward");
+	MainRenderer->SetRootMotion("DH_Stare_LeftSide");
+	MainRenderer->SetRootMotion("DH_Stare_RightSide");
+	MainRenderer->SetRootMotion("Run_Chasing");
+	MainRenderer->SetRootMotion("RunGuard_Chasing");
+	MainRenderer->SetRootMotion("Scout");
+	MainRenderer->SetRootMotion("RH_Attack11");
+	MainRenderer->SetRootMotion("RH_Attack12");
+	MainRenderer->SetRootMotion("RH_Attack13");
+	MainRenderer->SetRootMotion("RH_Attack21");
+	MainRenderer->SetRootMotion("RH_Attack22");
+	MainRenderer->SetRootMotion("RH_Attack23");
+	MainRenderer->SetRootMotion("Shield_Attack");
+	MainRenderer->SetRootMotion("DH_Fence");
+	MainRenderer->SetRootMotion("DH_Strike");
+	MainRenderer->SetRootMotion("Hit_Mid");
+	MainRenderer->SetRootMotion("RH_SwordDownAttack");
+	MainRenderer->SetRootMotion("LH_ShieldAttack");
+	MainRenderer->SetRootMotion("RH_CAttack");
+
 	CreateSocketCollision(Enum_CollisionOrder::Monster, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
 
 	AggroCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
@@ -76,20 +116,6 @@ void Monster_LothricKn::Start()
 	AggroCollision->SetCollisionType(ColType::SPHERE3D);
 
 	CreateFSM();
-
-	if (true)
-	{
-		AddFlag(Enum_ActorStatus::JumpPossible);
-		AddFlag(Enum_ActorStatus::JumpPossible);
-		SubFlag(Enum_ActorStatus::JumpPossible);
-		SubFlag(Enum_ActorStatus::JumpPossible);
-		SetFlag(Enum_ActorStatus::JumpPossible, true);
-
-		AddFlag(Enum_ActorStatus::GaurdingValue);
-		AddFlag(Enum_ActorStatus::ParryPossible);
-
-		DebugFlag();
-	}
 }
 
 void Monster_LothricKn::Update(float _Delta)
@@ -97,28 +123,24 @@ void Monster_LothricKn::Update(float _Delta)
 	BaseMonster::Update(_Delta);
 
 	float Dir = Capsule->GetDir();
-
-	if (true == wpDummy.expired())
-	{
-		wpDummy = FindDummyByCollision();
-	}
 }
 
 
 void Monster_LothricKn::Release()
 {
+	AggroCollision = nullptr;
 	BaseMonster::Release();
 }
 
-std::shared_ptr<GameEngineActor> Monster_LothricKn::FindDummyByCollision()
+std::shared_ptr<GameEngineActor> Monster_LothricKn::PatrolUpdate()
 {
-	if (false == wpDummy.expired())
+	if (true == IsTargeting())
 	{
 		return nullptr;
 	}
 
 	std::shared_ptr<GameEngineActor> pActor;
-
+	
 	AggroCollision->Collision(Enum_CollisionOrder::Dummy, [&pActor](std::vector<GameEngineCollision*>& _Other)
 		{
 			for (GameEngineCollision* pCol : _Other)

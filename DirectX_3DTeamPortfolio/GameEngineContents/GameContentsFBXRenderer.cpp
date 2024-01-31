@@ -181,6 +181,10 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 						{
 							AnimationBoneDatas[i].Pos = float4::LerpClamp(ParentRenderer->Prev_BoneDate.Pos, AnimationBoneDatas[i].Pos, BlendRatio);
 						}
+						else
+						{
+							AnimationBoneDatas[i].Pos = float4::LerpClamp(BoneData.Pos, AnimationBoneDatas[i].Pos, BlendRatio);
+						}
 					}
 				}
 			}
@@ -249,9 +253,16 @@ void GameContentsFBXAnimationInfo::RootMotionUpdate(float _Delta)
 		CurFrameTimeValue -= (Inter - mRootMotionData.MoveFrameTime);
 
 		++tCurFrame;
-		CurFramePos = RootMotionFrames[tCurFrame];
-		++NextFrame;
-		NextFramePos = RootMotionFrames[NextFrame];
+		if (tCurFrame == End)
+		{
+			CurFrameTimeValue = 0.f;
+		}
+		else
+		{
+			CurFramePos = RootMotionFrames[tCurFrame];
+			++NextFrame;
+			NextFramePos = RootMotionFrames[NextFrame];
+		}
 	}
 
 	while (Inter <= CurFrameTimeValue)
@@ -266,13 +277,15 @@ void GameContentsFBXAnimationInfo::RootMotionUpdate(float _Delta)
 		CurFrameTimeValue -= Inter;
 
 		++tCurFrame;
-		CurFramePos = RootMotionFrames[tCurFrame];
-		++NextFrame;
-		NextFramePos = RootMotionFrames[NextFrame];
-
-		if (NextFrame == End)
+		if (tCurFrame == End)
 		{
 			CurFrameTimeValue = 0.f;
+		}
+		else
+		{
+			CurFramePos = RootMotionFrames[tCurFrame];
+			++NextFrame;
+			NextFramePos = RootMotionFrames[NextFrame];
 		}
 	}
 
@@ -695,6 +708,23 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 	}
 
 	CurAnimation = Ptr;
+
+	if (nullptr == RootMotionComponent)
+	{
+		return;
+	}
+
+	if (false == RootMotionComponent->IsInit())
+	{
+		return;
+	}
+
+	if (true == CurAnimation->IsRootMotion())
+	{
+		return;
+	}
+
+	RootMotionComponent->MoveForce(Enum_Axies::X | Enum_Axies::Z);
 }
 
 void GameContentsFBXRenderer::Update(float _DeltaTime)
