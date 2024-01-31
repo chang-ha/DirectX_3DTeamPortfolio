@@ -115,6 +115,11 @@ private:
 	void Walk_Left_Update(float _Delta);
 	void Walk_Left_End();
 
+	// Rush_Front
+	void Rush_Front_Start();
+	void Rush_Front_Update(float _Delta);
+	void Rush_Front_End();
+
 	// Jump
 	void Jump_Back_Start();
 	void Jump_Back_Update(float _Delta);

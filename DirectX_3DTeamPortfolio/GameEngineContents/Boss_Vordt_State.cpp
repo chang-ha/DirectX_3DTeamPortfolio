@@ -109,6 +109,21 @@ void Boss_Vordt::Walk_Left_End()
 
 }
 
+void Boss_Vordt::Rush_Front_Start()
+{
+	MainRenderer->ChangeAnimation("Rush_Front", true);
+}
+
+void Boss_Vordt::Rush_Front_Update(float _Delta)
+{
+	
+}
+
+void Boss_Vordt::Rush_Front_End()
+{
+
+}
+
 void Boss_Vordt::Jump_Back_Start()
 {
 	// 플레이어 위치에 따라 조정

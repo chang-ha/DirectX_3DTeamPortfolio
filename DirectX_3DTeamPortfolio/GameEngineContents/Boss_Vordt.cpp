@@ -19,23 +19,37 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 	if (0 == AniNames.size())
 	{
-		std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& AniInfo = Linked_Boss->MainRenderer->GetAnimationInfos();
+		const std::map<int, State>* AllStates = Linked_Boss->MainState.GetAllStates();
 
 		if (0 == AniNames.capacity())
 		{
-			AniNames.reserve(AniInfo.size());
+			AniNames.reserve(AllStates->size());
 		}
 
-		for (std::pair<const std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& _Pair : AniInfo)
+		std::map<int, State>::const_iterator StartIter = AllStates->begin();
+		std::map<int, State>::const_iterator EndIter = AllStates->end();
+		for (; StartIter != EndIter; ++StartIter)
 		{
-			AniNames.push_back(_Pair.first.data());
+			AniNames.push_back(StartIter->second.Name.c_str());
 		}
+
+		//std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& AniInfo = Linked_Boss->MainRenderer->GetAnimationInfos();
+
+		//if (0 == AniNames.capacity())
+		//{
+		//	AniNames.reserve(AniInfo.size());
+		//}
+
+		//for (std::pair<const std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& _Pair : AniInfo)
+		//{
+		//	AniNames.push_back(_Pair.first.data());
+		//}
 	}
 
 	{
-		if (ImGui::ListBox("Animation", &AniIndex, &AniNames[0], static_cast<int>(AniNames.size())))
+		if (ImGui::ListBox("State", &AniIndex, &AniNames[0], static_cast<int>(AniNames.size())))
 		{
-			Linked_Boss->MainRenderer->ChangeAnimation(AniNames[AniIndex]);
+			Linked_Boss->MainState.ChangeState(AniIndex);
 		}
 	}
 
@@ -396,6 +410,11 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		Walk_Left.Stay = std::bind(&Boss_Vordt::Walk_Left_Update, this, std::placeholders::_1);
 		Walk_Left.End = std::bind(&Boss_Vordt::Walk_Left_End, this);
 
+		CreateStateParameter Rush_Front;
+		Rush_Front.Start = std::bind(&Boss_Vordt::Rush_Front_Start, this);
+		Rush_Front.Stay = std::bind(&Boss_Vordt::Rush_Front_Update, this, std::placeholders::_1);
+		Rush_Front.End = std::bind(&Boss_Vordt::Rush_Front_End, this);
+
 		CreateStateParameter Jump_Back;
 		Jump_Back.Start = std::bind(&Boss_Vordt::Jump_Back_Start, this);
 		Jump_Back.Stay = std::bind(&Boss_Vordt::Jump_Back_Update, this, std::placeholders::_1);
@@ -538,44 +557,44 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		Rush_Hit_Turn_Rush.End = std::bind(&Boss_Vordt::Rush_Hit_Turn_Rush_End, this);
 
 		// Move & Others
-		MainState.CreateState(Enum_BossState::Howling, Howling);
-		MainState.CreateState(Enum_BossState::Idle, Idle);
-		MainState.CreateState(Enum_BossState::Walk_Front, Walk_Front);
-		MainState.CreateState(Enum_BossState::Walk_Right, Walk_Right);
-		MainState.CreateState(Enum_BossState::Walk_Left, Walk_Left);
-		MainState.CreateState(Enum_BossState::Jump_Back, Jump_Back);
-		MainState.CreateState(Enum_BossState::Jump_Right, Jump_Right);
-		MainState.CreateState(Enum_BossState::Jump_Left, Jump_Left);
-		MainState.CreateState(Enum_BossState::Turn_Right, Turn_Right);
-		MainState.CreateState(Enum_BossState::Turn_Left, Turn_Left);
-		MainState.CreateState(Enum_BossState::Turn_Right_Twice, Turn_Right_Twice);
-		MainState.CreateState(Enum_BossState::Turn_Left_Twice, Turn_Left_Twice);
-		MainState.CreateState(Enum_BossState::Hitten, Hitten);
-		MainState.CreateState(Enum_BossState::Death, Death);
+		MainState.CreateState(Enum_BossState::Howling, Howling, "Howling");
+		MainState.CreateState(Enum_BossState::Idle, Idle, "Idle");
+		MainState.CreateState(Enum_BossState::Walk_Front, Walk_Front, "Walk_Front");
+		MainState.CreateState(Enum_BossState::Walk_Right, Walk_Right, "Walk_Right");
+		MainState.CreateState(Enum_BossState::Walk_Left, Walk_Left, "Walk_Left");
+		MainState.CreateState(Enum_BossState::Jump_Back, Jump_Back, "Jump_Back");
+		MainState.CreateState(Enum_BossState::Jump_Right, Jump_Right, "Jump_Right");
+		MainState.CreateState(Enum_BossState::Jump_Left, Jump_Left, "Jump_Left");
+		MainState.CreateState(Enum_BossState::Turn_Right, Turn_Right, "Turn_Right");
+		MainState.CreateState(Enum_BossState::Turn_Left, Turn_Left, "Turn_Left");
+		MainState.CreateState(Enum_BossState::Turn_Right_Twice, Turn_Right_Twice, "Turn_Right_Twice");
+		MainState.CreateState(Enum_BossState::Turn_Left_Twice, Turn_Left_Twice, "Turn_Left_Twice");
+		MainState.CreateState(Enum_BossState::Hitten, Hitten, "Hitten");
+		MainState.CreateState(Enum_BossState::Death, Death, "Death");
 		
 		// Attack
-		MainState.CreateState(Enum_BossState::Breath, Breath);
-		MainState.CreateState(Enum_BossState::Combo1, Combo1);
-		MainState.CreateState(Enum_BossState::Combo2, Combo2);
-		MainState.CreateState(Enum_BossState::Sweap_Twice_Right, Sweap_Twice_Right);
-		MainState.CreateState(Enum_BossState::Sweap_Twice_Left, Sweap_Twice_Left);
-		MainState.CreateState(Enum_BossState::Hit_Down_001_Front, Hit_Down_001_Front);
-		MainState.CreateState(Enum_BossState::Hit_Down_001_Right, Hit_Down_001_Right);
-		MainState.CreateState(Enum_BossState::Hit_Down_001_Left, Hit_Down_001_Left);
-		MainState.CreateState(Enum_BossState::Hit_Down_004, Hit_Down_004);
-		MainState.CreateState(Enum_BossState::Hit_Down_005, Hit_Down_005);
-		MainState.CreateState(Enum_BossState::Hit_Down_006, Hit_Down_006);
-		MainState.CreateState(Enum_BossState::Thrust, Thrust);
-		MainState.CreateState(Enum_BossState::Sweep_001, Sweep_001);
-		MainState.CreateState(Enum_BossState::Sweep_002, Sweep_002);
-		MainState.CreateState(Enum_BossState::Rush_Attack_001, Rush_Attack_001);
-		MainState.CreateState(Enum_BossState::Rush_Attack_002, Rush_Attack_002);
-		MainState.CreateState(Enum_BossState::Rush_Turn, Rush_Turn);
-		MainState.CreateState(Enum_BossState::Rush_Hit_Turn, Rush_Hit_Turn);
-		MainState.CreateState(Enum_BossState::Rush_Hit_Turn_Rush, Rush_Hit_Turn_Rush);
+		MainState.CreateState(Enum_BossState::Breath, Breath, "Breath");
+		MainState.CreateState(Enum_BossState::Combo1, Combo1, "Combo1");
+		MainState.CreateState(Enum_BossState::Combo2, Combo2, "Combo2");
+		MainState.CreateState(Enum_BossState::Sweap_Twice_Right, Sweap_Twice_Right, "Sweap_Twice_Right");
+		MainState.CreateState(Enum_BossState::Sweap_Twice_Left, Sweap_Twice_Left, "Sweap_Twice_Left");
+		MainState.CreateState(Enum_BossState::Hit_Down_001_Front, Hit_Down_001_Front, "Hit_Down_001_Front");
+		MainState.CreateState(Enum_BossState::Hit_Down_001_Right, Hit_Down_001_Right, "Hit_Down_001_Right");
+		MainState.CreateState(Enum_BossState::Hit_Down_001_Left, Hit_Down_001_Left, "Hit_Down_001_Left");
+		MainState.CreateState(Enum_BossState::Hit_Down_004, Hit_Down_004, "Hit_Down_004");
+		MainState.CreateState(Enum_BossState::Hit_Down_005, Hit_Down_005, "Hit_Down_005");
+		MainState.CreateState(Enum_BossState::Hit_Down_006, Hit_Down_006, "Hit_Down_006");
+		MainState.CreateState(Enum_BossState::Thrust, Thrust, "Thrust");
+		MainState.CreateState(Enum_BossState::Sweep_001, Sweep_001, "Sweep_001");
+		MainState.CreateState(Enum_BossState::Sweep_002, Sweep_002, "Sweep_002");
+		MainState.CreateState(Enum_BossState::Rush_Attack_001, Rush_Attack_001, "Rush_Attack_001");
+		MainState.CreateState(Enum_BossState::Rush_Attack_002, Rush_Attack_002, "Rush_Attack_002");
+		MainState.CreateState(Enum_BossState::Rush_Turn, Rush_Turn, "Rush_Turn");
+		MainState.CreateState(Enum_BossState::Rush_Hit_Turn, Rush_Hit_Turn, "Rush_Hit_Turn");
+		MainState.CreateState(Enum_BossState::Rush_Hit_Turn_Rush, Rush_Hit_Turn_Rush, "Rush_Hit_Turn_Rush");
 
 		// Start State
-		MainState.ChangeState(Enum_BossState::Jump_Back);
+		MainState.ChangeState(Enum_BossState::Jump_Left);
 	}
 }
 
