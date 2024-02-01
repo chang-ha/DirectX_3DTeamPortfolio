@@ -333,6 +333,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="WorldMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationInfoGUI.h">
@@ -498,6 +499,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="WorldMap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

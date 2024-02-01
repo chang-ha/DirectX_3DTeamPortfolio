@@ -164,6 +164,9 @@
     <ClCompile Include="BaseActor.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
+    <ClCompile Include="WorldMap.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -325,6 +328,9 @@
     <ClInclude Include="HBAOGUI.h" />
     <ClInclude Include="BaseActor.h">
       <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldMap.h">
+      <Filter>Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
