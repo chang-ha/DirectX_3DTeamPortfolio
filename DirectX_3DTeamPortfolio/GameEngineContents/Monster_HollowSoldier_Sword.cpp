@@ -215,6 +215,7 @@ void Monster_HollowSoldier_Sword::State_RH_TwinSlash_Update(float _Delta)
 void Monster_HollowSoldier_Sword::State_Attack1_Start()
 {
 	MainRenderer->ChangeAnimation("c1100_RH_VerticalSlash");
+	
 }
 void Monster_HollowSoldier_Sword::State_Attack1_Update(float _Delta)
 {
@@ -231,6 +232,12 @@ void Monster_HollowSoldier_Sword::State_Attack1_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_RH_TwinSlash"))
 	{
+		MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 10)
+		{
+			MainRenderer->GetCurAnimation()->CurFrame = 10;
+		}
+		
 		if (MainRenderer->GetCurAnimationFrame() >= 45)
 		{
 			MainRenderer->ChangeAnimation("c1100_TH_VerticalSlash");
@@ -239,6 +246,12 @@ void Monster_HollowSoldier_Sword::State_Attack1_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_TH_VerticalSlash"))
 	{
+		MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 10)
+		{
+			MainRenderer->GetCurAnimation()->CurFrame = 10;
+		}
+
 		if (MainRenderer->GetCurAnimationFrame() >= 125)
 		{
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
