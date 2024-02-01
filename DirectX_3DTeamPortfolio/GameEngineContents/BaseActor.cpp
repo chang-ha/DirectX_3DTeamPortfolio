@@ -281,7 +281,7 @@ float BaseActor::GetDistanceToTarget()
 	if (nullptr == Target)
 	{
 		MsgBoxAssert("타겟이 존재하지 않습니다.");
-		return;
+		return 0.0f;
 	}
 
 	const float4 MyPos = Transform.GetWorldPosition();
