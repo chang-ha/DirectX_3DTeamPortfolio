@@ -187,6 +187,9 @@
     <ClCompile Include="Monster_Hollow_Assassin.cpp">
       <Filter>Actor\Monster\Hollow</Filter>
     </ClCompile>
+    <ClCompile Include="ContentsMouseInput.cpp">
+      <Filter>Actor\Monster\LothricKnight</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -371,6 +374,9 @@
     </ClInclude>
     <ClInclude Include="Monster_Hollow_Assassin.h">
       <Filter>Actor\Monster\Hollow</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsMouseInput.h">
+      <Filter>Actor\Monster\LothricKnight</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
