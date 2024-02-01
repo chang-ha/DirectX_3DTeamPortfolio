@@ -38,21 +38,26 @@ float Monster_LothricKn::GetDirByDot(const float4& _OtherPos) const
 
 void Monster_LothricKn::CreateFSM()
 {
+	MainState.CreateState(Enum_LothricKn_State::Debug ,{.Start = std::bind(&Monster_LothricKn::Start_Debug,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Debug,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::Idle_Standing1 ,{.Start = std::bind(&Monster_LothricKn::StartIdle_Standing1,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::UpdateIdle_Standing1,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::Sleep, { .Start = std::bind(&Monster_LothricKn::StartSleep,this, std::placeholders::_1), .End = std::bind(&Monster_LothricKn::EndSleep,this, std::placeholders::_1) });
 	MainState.CreateState(Enum_LothricKn_State::Patrol, { .Start = std::bind(&Monster_LothricKn::StartPatrol,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::UpdatePatrol,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::Attack11, { .Start = std::bind(&Monster_LothricKn::StartRH_Attack11,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::UpdateRH_Attack11,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::Attack12, { .Start = std::bind(&Monster_LothricKn::StartRH_Attack12,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::UpdateRH_Attack12,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::Attack13, { .Start = std::bind(&Monster_LothricKn::StartRH_Attack13,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::UpdateRH_Attack13,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::Combo_Att_21, { .Start = std::bind(&Monster_LothricKn::Start_Combo_Att_21,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Combo_Att_21,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::Combo_Att_22, { .Start = std::bind(&Monster_LothricKn::Start_Combo_Att_22,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Combo_Att_22,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::Combo_Att_23, { .Start = std::bind(&Monster_LothricKn::Start_Combo_Att_23,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Combo_Att_23,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::RH_Att_HitDown, { .Start = std::bind(&Monster_LothricKn::Start_RH_Att_HitDown,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_RH_Att_HitDown,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::LH_ShieldAttack, { .Start = std::bind(&Monster_LothricKn::StartLH_ShieldAttack,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::UpdateLH_ShieldAttack,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::RH_CAttack, { .Start = std::bind(&Monster_LothricKn::StartRH_CAttack,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::UpdateRH_CAttack,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::RH_Rear_Att, { .Start = std::bind(&Monster_LothricKn::Start_RH_Rear_Att,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_RH_Rear_Att,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::L_Turn, { .Start = std::bind(&Monster_LothricKn::Start_L_Turn,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_L_Turn,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::R_Turn, { .Start = std::bind(&Monster_LothricKn::Start_R_Turn,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_R_Turn,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::L_TurnTwice, { .Start = std::bind(&Monster_LothricKn::Start_L_TurnTwice,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_L_TurnTwice,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::R_TurnTwice, { .Start = std::bind(&Monster_LothricKn::Start_R_TurnTwice,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_R_TurnTwice,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::Run, { .Start = std::bind(&Monster_LothricKn::Start_Run,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Run,this, std::placeholders::_1,std::placeholders::_2) });
 
-	MainState.ChangeState(Enum_LothricKn_State::Idle_Standing1);
+	MainState.ChangeState(Enum_LothricKn_State::Debug);
 }
 
 void Monster_LothricKn::StartSleep(GameEngineState* _State)
@@ -60,11 +65,15 @@ void Monster_LothricKn::StartSleep(GameEngineState* _State)
 	Off();
 }
 
-void Monster_LothricKn::StartIdle_Standing1(GameEngineState* _State)
+void Monster_LothricKn::Start_Debug(GameEngineState* _State)
 {
 	MainRenderer->ChangeAnimation("Idle_Standing1");
 }
 
+void Monster_LothricKn::StartIdle_Standing1(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("Idle_Standing1");
+}
 
 void Monster_LothricKn::StartPatrol(GameEngineState* _State)
 {
@@ -86,9 +95,24 @@ void Monster_LothricKn::StartRH_Attack13(GameEngineState* _State)
 	MainRenderer->ChangeAnimation("RH_Attack13");
 }
 
-void Monster_LothricKn::StartRH_SwordDownAttack(GameEngineState* _State)
+void Monster_LothricKn::Start_Combo_Att_21(GameEngineState* _State)
 {
-	MainRenderer->ChangeAnimation("RH_SwordDownAttack");
+	MainRenderer->ChangeAnimation("Combo_Att_21");
+}
+
+void Monster_LothricKn::Start_Combo_Att_22(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("Combo_Att_22");
+}
+
+void Monster_LothricKn::Start_Combo_Att_23(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("Combo_Att_23");
+}
+
+void Monster_LothricKn::Start_RH_Att_HitDown(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("RH_Att_HitDown");
 }
 
 void Monster_LothricKn::StartLH_ShieldAttack(GameEngineState* _State)
@@ -96,9 +120,9 @@ void Monster_LothricKn::StartLH_ShieldAttack(GameEngineState* _State)
 	MainRenderer->ChangeAnimation("LH_ShieldAttack");
 }
 
-void Monster_LothricKn::StartRH_CAttack(GameEngineState* _State)
+void Monster_LothricKn::Start_RH_Rear_Att(GameEngineState* _State)
 {
-	MainRenderer->ChangeAnimation("RH_CAttack");
+	MainRenderer->ChangeAnimation("RH_Rear_Att");
 }
 
 void Monster_LothricKn::Start_L_Turn(GameEngineState* _State)
@@ -133,13 +157,18 @@ void Monster_LothricKn::Start_Run(GameEngineState* _State)
 ////////////////////////////////////////////////////////////
 ////////////// Update-State
 
-void Monster_LothricKn::UpdateIdle_Standing1(float _DeltaTime, GameEngineState* _State)
+void Monster_LothricKn::Update_Debug(float _DeltaTime, GameEngineState* _State)
 {
 	if (GameEngineInput::IsDown('U', this))
 	{
 		_State->ChangeState(Enum_LothricKn_State::Attack11);
 		return;
 	}
+}
+
+void Monster_LothricKn::UpdateIdle_Standing1(float _DeltaTime, GameEngineState* _State)
+{
+
 }
 
 void Monster_LothricKn::UpdatePatrol(float _DeltaTime, GameEngineState* _State)
@@ -193,27 +222,90 @@ void Monster_LothricKn::UpdateRH_Attack13(float _DeltaTime, GameEngineState* _St
 	}
 }
 
+void Monster_LothricKn::Update_Combo_Att_21(float _DeltaTime, GameEngineState* _State)
+{
+	if (IsFrame(23))
+	{
+		if (true == CanAttack(50.0f, 50.0f))
+		{
+			_State->ChangeState(Enum_LothricKn_State::Combo_Att_22);
+			return;
+		}
 
-void Monster_LothricKn::UpdateRH_SwordDownAttack(float _DeltaTime, GameEngineState* _State)
+		Enum_LothricKn_State SelectState = GetStateToAggroTable();
+		_State->ChangeState(SelectState);
+		return;
+	}
+
+	if (IsFrame(33))
+	{
+		// Back Hitted
+	}
+}
+
+void Monster_LothricKn::Update_Combo_Att_22(float _DeltaTime, GameEngineState* _State)
+{
+	if (IsFrame(32))
+	{
+		if (true == CanAttack(50.0f, 50.0f))
+		{
+			_State->ChangeState(Enum_LothricKn_State::Combo_Att_22);
+			return;
+		}
+	}
+
+	if (IsFrame(52))
+	{
+		Enum_LothricKn_State SelectState = GetStateToAggroTable();
+		_State->ChangeState(SelectState);
+		return;
+	}
+}
+
+void Monster_LothricKn::Update_Combo_Att_23(float _DeltaTime, GameEngineState* _State)
+{
+	if (IsFrame(23))
+	{
+		// Back Hitted
+	}
+
+	if (IsFrame(33))
+	{
+
+	}
+}
+
+
+void Monster_LothricKn::Update_RH_Att_HitDown(float _DeltaTime, GameEngineState* _State)
 {
 
 }
 
 void Monster_LothricKn::UpdateLH_ShieldAttack(float _DeltaTime, GameEngineState* _State)
 {
+	if (IsFrame(41))
+	{
+		// Back Hitted
+	}
+
 	if (IsFrame(45))
 	{
-		_State->ChangeState(Enum_LothricKn_State::Idle_Standing1);
-		return;
+		Enum_LothricKn_State SelectState = GetStateToAggroTable();
+		_State->ChangeState(SelectState);
 	}
 }
 
-void Monster_LothricKn::UpdateRH_CAttack(float _DeltaTime, GameEngineState* _State)
+void Monster_LothricKn::Update_RH_Rear_Att(float _DeltaTime, GameEngineState* _State)
 {
 	if (IsFrame(49))
 	{
-		_State->ChangeState(Enum_LothricKn_State::Idle_Standing1);
-		return;
+		// Back Hitted
+	}
+
+	if (IsFrame(53))
+	{
+		Enum_LothricKn_State SelectState = GetStateToAggroTable();
+		_State->ChangeState(SelectState);
 	}
 }
 
@@ -269,11 +361,14 @@ void Monster_LothricKn::Update_Run(float _DeltaTime, GameEngineState* _State)
 	const float StopDist = W_SCALE* Stop_RANGE_RATIO_TO_RUN;
 	const float TargetAngle = BaseActor::GetTargetAngle();
 
-	const float TurnDegree = 510.0f;
+	const float TurnSpeed = 510.0f;
 
-	const float TurnValue = TargetAngle* TurnDegree * _DeltaTime;
-
-	Capsule->AddWorldRotation(float4(0.0f, TurnValue, 0.0f));
+	if (std::fabs(TargetAngle) > 3.0f)
+	{
+		const float fRotDir = BaseActor::GetRotDir_f();
+		const float TurnValue = fRotDir * TurnSpeed * _DeltaTime;
+		Capsule->AddWorldRotation(float4(0.0f, TurnValue, 0.0f));
+	}
 
 	if (TargetDist < StopDist)
 	{
@@ -299,6 +394,13 @@ void Monster_LothricKn::EndSleep(GameEngineState* _State)
 	On();
 }
 
+
+
+
+
+////////////////////////////////////////////////////////////
+////////////// State Func
+
 Enum_LothricKn_State Monster_LothricKn::GetStateToAggroTable()
 {
 	GameEngineActor* pTarget = GetTargetPointer();
@@ -318,6 +420,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToAggroTable()
 	const float NotTurnAngle = 75.0f;
 
 	const float AttRangeRatio = 3.0f;
+	const float HitDownAttRangeRatio = 1.0f;
 
 
 	if (std::fabs(AbsTargetAngle) > TwiceTurnAngle)
@@ -351,6 +454,16 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToAggroTable()
 		return Enum_LothricKn_State::Run;
 	}
 
+	if (Dist < W_SCALE * HitDownAttRangeRatio)
+	{
+		const float HitDownAngle = 40.0f;
+
+		if (AbsTargetAngle < HitDownAngle)
+		{
+			return Enum_LothricKn_State::RH_Att_HitDown;
+		}
+	}
+
 	if (Dist < W_SCALE * AttRangeRatio)
 	{
 		if (AbsTargetAngle > NotTurnAngle)
@@ -362,33 +475,37 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToAggroTable()
 
 			if (Enum_RotDir::Right == BaseActor::GetRotDir_e())
 			{
-				return Enum_LothricKn_State::RH_SwordDownAttack;
+				return Enum_LothricKn_State::RH_Rear_Att;
 			}
 		}
 
-		enum Enum_AttackType
+		enum AttackType
 		{
 			Combo1 = 0,
 			Combo2,
 			None,
 		};
 
-		if (AttackTypeCount = Enum_AttackType::Combo1)
+		Enum_LothricKn_State AttackState = Enum_LothricKn_State::None;
+
+		if (AttackTypeCount = AttackType::Combo1)
 		{
 			AttackTypeCount++;
-			return Enum_LothricKn_State::Attack11;
+			AttackState = Enum_LothricKn_State::Attack11;
 		}
 
-		if (AttackTypeCount = Enum_AttackType::Combo2)
+		if (AttackTypeCount = AttackType::Combo2)
 		{
 			AttackTypeCount++;
-			return Enum_LothricKn_State::Attack21;
+			AttackState = Enum_LothricKn_State::Combo_Att_21;
 		}
 
 		if (AttackTypeCount == None)
 		{
-			AttackTypeCount = Enum_AttackType::Combo1;
+			AttackTypeCount = AttackType::Combo1;
 		}
+
+		return AttackState;
 	}
 
 	const int DirChance = ContentsRandom::RandomInt(0, 2);
@@ -416,4 +533,15 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToAggroTable()
 
 	MsgBoxAssert("기본 상태가 등록되지 않았습니다.");
 	return Enum_LothricKn_State::None;
+}
+
+
+bool Monster_LothricKn::CanAttack(float _fDist, float _fDir)
+{
+	if (true)
+	{
+		return true;
+	}
+
+	return false;
 }

@@ -4,6 +4,7 @@
 enum class Enum_LothricKn_State
 {
 	None,
+	Debug,
 	Sleep,
 	Idle_Standing1,
 	Left_Walk,
@@ -14,12 +15,12 @@ enum class Enum_LothricKn_State
 	Attack11,
 	Attack12,
 	Attack13,
-	Attack21,
-	Attack22,
-	Attack23,
-	RH_SwordDownAttack,
+	Combo_Att_21,
+	Combo_Att_22,
+	Combo_Att_23,
+	RH_Att_HitDown,
 	LH_ShieldAttack,
-	RH_CAttack,
+	RH_Rear_Att,
 	L_Turn,
 	R_Turn,
 	L_TurnTwice,
@@ -77,15 +78,19 @@ private:
 	void CreateFSM();
 
 	// Start
+	void Start_Debug(GameEngineState* _State);
 	void StartSleep(GameEngineState* _State);
 	void StartIdle_Standing1(GameEngineState* _State);
 	void StartPatrol(GameEngineState* _State);
 	void StartRH_Attack11(GameEngineState* _State);
 	void StartRH_Attack12(GameEngineState* _State);
 	void StartRH_Attack13(GameEngineState* _State);
-	void StartRH_SwordDownAttack(GameEngineState* _State);
+	void Start_Combo_Att_21(GameEngineState* _State);
+	void Start_Combo_Att_22(GameEngineState* _State);
+	void Start_Combo_Att_23(GameEngineState* _State);
+	void Start_RH_Att_HitDown(GameEngineState* _State);
 	void StartLH_ShieldAttack(GameEngineState* _State);
-	void StartRH_CAttack(GameEngineState* _State);
+	void Start_RH_Rear_Att(GameEngineState* _State);
 	void Start_L_Turn(GameEngineState* _State);
 	void Start_R_Turn(GameEngineState* _State);
 	void Start_L_TurnTwice(GameEngineState* _State);
@@ -93,14 +98,18 @@ private:
 	void Start_Run(GameEngineState* _State);
 
 	// Update
+	void Update_Debug(float _DeltaTime, GameEngineState* _State);
 	void UpdateIdle_Standing1(float _DeltaTime, GameEngineState* _State);
 	void UpdatePatrol(float _DeltaTime, GameEngineState* _State);
 	void UpdateRH_Attack11(float _DeltaTime, GameEngineState* _State);
 	void UpdateRH_Attack12(float _DeltaTime, GameEngineState* _State);
 	void UpdateRH_Attack13(float _DeltaTime, GameEngineState* _State);
-	void UpdateRH_SwordDownAttack(float _DeltaTime, GameEngineState* _State);
+	void Update_Combo_Att_21(float _DeltaTime, GameEngineState* _State);
+	void Update_Combo_Att_22(float _DeltaTime, GameEngineState* _State);
+	void Update_Combo_Att_23(float _DeltaTime, GameEngineState* _State);
+	void Update_RH_Att_HitDown(float _DeltaTime, GameEngineState* _State);
 	void UpdateLH_ShieldAttack(float _DeltaTime, GameEngineState* _State);
-	void UpdateRH_CAttack(float _DeltaTime, GameEngineState* _State);
+	void Update_RH_Rear_Att(float _DeltaTime, GameEngineState* _State);
 	void Update_L_Turn(float _DeltaTime, GameEngineState* _State);
 	void Update_R_Turn(float _DeltaTime, GameEngineState* _State);
 	void Update_L_TurnTwice(float _DeltaTime, GameEngineState* _State);
@@ -113,6 +122,8 @@ private:
 	// State Func
 	bool IsFrame(int _StartFrame, int _EndFrame = -1) const;
 	float GetDirByDot(const float4& _OtherPos) const;
+
+	bool CanAttack(float _fDist, float _fDir);
 
 	// Collision
 	void FindTarget();
