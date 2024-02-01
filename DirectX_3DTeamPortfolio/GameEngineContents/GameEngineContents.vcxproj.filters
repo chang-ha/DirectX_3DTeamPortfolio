@@ -190,6 +190,9 @@
     <ClCompile Include="ContentsMouseInput.cpp">
       <Filter>Actor\Monster\LothricKnight</Filter>
     </ClCompile>
+    <ClCompile Include="WorldMap.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
