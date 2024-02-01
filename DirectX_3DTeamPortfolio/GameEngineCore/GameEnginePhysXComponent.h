@@ -70,6 +70,16 @@ public:
 
 	void ResetMove(int _Axies);
 
+	bool IsInit()
+	{
+		if (nullptr == ComponentActor)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override; 

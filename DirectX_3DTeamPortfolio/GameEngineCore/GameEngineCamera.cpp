@@ -79,6 +79,8 @@ void GameEngineCamera::Start()
 		DeferredLightTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
 		// 그림자
 		DeferredLightTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		// PBR
+		DeferredLightTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
 		//Texture2D DifColorTex : register(t0);
 		//Texture2D PositionTex : register(t1);
 		//Texture2D NormalTex : register(t2);
@@ -104,6 +106,8 @@ void GameEngineCamera::Start()
 		// DeferredRenderUnit.ShaderResHelper.SetTexture("DifColorTex", AllRenderTarget->GetTexture(1));
 		DeferredLightRenderUnit.ShaderResHelper.SetTexture("PositionTex", AllRenderTarget->GetTexture(2));
 		DeferredLightRenderUnit.ShaderResHelper.SetTexture("NormalTex", AllRenderTarget->GetTexture(3));
+		DeferredLightRenderUnit.ShaderResHelper.SetTexture("DiffuseTexture", AllRenderTarget->GetTexture(1));
+		DeferredLightRenderUnit.ShaderResHelper.SetTexture("MaterialTexture", AllRenderTarget->GetTexture(5));
 		DeferredLightRenderUnit.ShaderResHelper.SetSampler("POINTWRAP", "POINT");
 
 
@@ -120,12 +124,13 @@ void GameEngineCamera::Start()
 		//// Texture2D ShadowTex : register(t2);
 		//SamplerState POINTWRAP : register(s0);
 		DeferredMergeUnit.ShaderResHelper.SetTexture("DifColorTex", AllRenderTarget->GetTexture(1));
-		DeferredMergeUnit.ShaderResHelper.SetTexture("DifLightTex", DeferredLightTarget->GetTexture(0));
-		DeferredMergeUnit.ShaderResHelper.SetTexture("SpcLightTex", DeferredLightTarget->GetTexture(1));
+		//DeferredMergeUnit.ShaderResHelper.SetTexture("DifLightTex", DeferredLightTarget->GetTexture(0));
+		//DeferredMergeUnit.ShaderResHelper.SetTexture("SpcLightTex", DeferredLightTarget->GetTexture(1));
 		DeferredMergeUnit.ShaderResHelper.SetTexture("AmbLightTex", DeferredLightTarget->GetTexture(2));
 		DeferredMergeUnit.ShaderResHelper.SetTexture("ShadowTex", DeferredLightTarget->GetTexture(4));
-		DeferredMergeUnit.ShaderResHelper.SetTexture("SpecularTex", AllRenderTarget->GetTexture(4));
+		//DeferredMergeUnit.ShaderResHelper.SetTexture("SpecularTex", AllRenderTarget->GetTexture(4));
 		DeferredMergeUnit.ShaderResHelper.SetTexture("HBAOTex", HBAO.HBAOTarget->GetTexture());
+		DeferredMergeUnit.ShaderResHelper.SetTexture("PBRTex", DeferredLightTarget->GetTexture(5));
 		DeferredMergeUnit.ShaderResHelper.SetSampler("POINTWRAP", "POINT");
 	}
 
@@ -233,14 +238,10 @@ void GameEngineCamera::SetCameraOrder(int _Order)
 
 void GameEngineCamera::Render(float _DeltaTime)
 {
-
-//  랜더러가 없으면 continue;
-	if (true == Renderers.empty())
+	if (true == Units.empty())
 	{
 		return;
 	}
-
-	// GameEngineCore::GetBackBufferRenderTarget()->Setting();
 
 	AllRenderTarget->Clear();
 	AllRenderTarget->Setting();
@@ -248,29 +249,10 @@ void GameEngineCamera::Render(float _DeltaTime)
 	for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderer>>>& RendererPair : Renderers)
 	{
 		std::list<std::shared_ptr<class GameEngineRenderer>>& RendererList = RendererPair.second;
-
-		if (true == ZSortMap.contains(RendererPair.first))
-		{
-			RendererList.sort([](std::shared_ptr<class GameEngineRenderer> _Left, std::shared_ptr<class GameEngineRenderer> _Right)
-				{
-					return _Left->Transform.GetWorldPosition().Z > _Right->Transform.GetWorldPosition().Z;
-				});
-		}
-
-		if (true == YSortMap.contains(RendererPair.first))
-		{
-			RendererList.sort([](std::shared_ptr<class GameEngineRenderer> _Left, std::shared_ptr<class GameEngineRenderer> _Right)
-				{
-					return _Left->Transform.GetWorldPosition().Y > _Right->Transform.GetWorldPosition().Y;
-				});
-		}
-
 		for (std::shared_ptr<class GameEngineRenderer>& Renderer : RendererList)
 		{
 			Renderer->Transform.CalculationViewAndProjection(Transform.GetConstTransformDataRef());
-			int a = 0;
 		}
-
 	}
 
 	// 포워드 그리고
@@ -353,6 +335,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 						if (nullptr == ParentRenderer)
 						{
 							MsgBoxAssert("랜더러가 존재하지 않는 유니티가 있습니다");
+							return;
 						}
 
 
@@ -467,6 +450,29 @@ void GameEngineCamera::AllReleaseCheck()
 			}
 
 			Start = Group.erase(Start);
+		}
+	}
+
+	for (std::pair<const RenderPath, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>& Path : Units)
+	{
+		for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPair : Path.second)
+		{
+			std::list<std::shared_ptr<class GameEngineRenderUnit>>& UnitList = RenderPair.second;
+
+			std::list<std::shared_ptr<class GameEngineRenderUnit>>::iterator StartIter = UnitList.begin();
+			std::list<std::shared_ptr<class GameEngineRenderUnit>>::iterator EndIter = UnitList.end();
+
+			for (; StartIter != EndIter;)
+			{
+				const std::shared_ptr<GameEngineRenderUnit>& RenderUnit = (*StartIter);
+				if (RenderUnit->GetParentRenderer()->IsDeath() || RenderUnit->IsDeath())
+				{
+					StartIter = UnitList.erase(StartIter);
+					continue;
+				}
+
+				++StartIter;
+			}
 		}
 	}
 }

@@ -27,17 +27,28 @@ enum class Enum_BossState
 	// Move & Others
 	Howling,
 	Idle,
-	Walk,
-	Jump,
-	Turn,
+	Walk_Front,
+	Walk_Right,
+	Walk_Left,
+	Jump_Back,
+	Jump_Right,
+	Jump_Left,
+	Turn_Right,
+	Turn_Left,
+	Turn_Right_Twice,
+	Turn_Left_Twice,
 	Hitten,
 	Death,
+
 	// Attack
 	Breath,
 	Combo1,
 	Combo2,
-	Sweap_Twice,
-	Hit_Down_001,
+	Sweap_Twice_Right,
+	Sweap_Twice_Left,
+	Hit_Down_001_Front,
+	Hit_Down_001_Right,
+	Hit_Down_001_Left,
 	Hit_Down_004,
 	Hit_Down_005,
 	Hit_Down_006,
@@ -77,6 +88,7 @@ private:
 	std::shared_ptr<GameEngineCollision> BossCollision;
 	std::shared_ptr<GameEngineCollision> DetectCollision;
 	std::shared_ptr<Boss_State_GUI> GUI = nullptr;
+	float TargetAngle = 0.f;
 
 	// State
 	////////////////////////// Move & Others
@@ -91,19 +103,47 @@ private:
 	void Idle_End();
 
 	// Walk
-	void Walk_Start();
-	void Walk_Update(float _Delta);
-	void Walk_End();
+	void Walk_Front_Start();
+	void Walk_Front_Update(float _Delta);
+	void Walk_Front_End();
+
+	void Walk_Right_Start();
+	void Walk_Right_Update(float _Delta);
+	void Walk_Right_End();
+
+	void Walk_Left_Start();
+	void Walk_Left_Update(float _Delta);
+	void Walk_Left_End();
 
 	// Jump
-	void Jump_Start();
-	void Jump_Update(float _Delta);
-	void Jump_End();
+	void Jump_Back_Start();
+	void Jump_Back_Update(float _Delta);
+	void Jump_Back_End();
+
+	void Jump_Right_Start();
+	void Jump_Right_Update(float _Delta);
+	void Jump_Right_End();
+
+	void Jump_Left_Start();
+	void Jump_Left_Update(float _Delta);
+	void Jump_Left_End();
 
 	// Turn
-	void Turn_Start();
-	void Turn_Update(float _Delta);
-	void Turn_End();
+	void Turn_Right_Start();
+	void Turn_Right_Update(float _Delta);
+	void Turn_Right_End();
+
+	void Turn_Left_Start();
+	void Turn_Left_Update(float _Delta);
+	void Turn_Left_End();
+
+	void Turn_Right_Twice_Start();
+	void Turn_Right_Twice_Update(float _Delta);
+	void Turn_Right_Twice_End();
+
+	void Turn_Left_Twice_Start();
+	void Turn_Left_Twice_Update(float _Delta);
+	void Turn_Left_Twice_End();
 
 	// Turn
 	void Hitten_Start();
@@ -133,14 +173,26 @@ private:
 	void Combo2_End();
 
 	// Sweap
-	void Sweap_Twice_Start();
-	void Sweap_Twice_Update(float _Delta);
-	void Sweap_Twice_End();
+	void Sweap_Twice_Right_Start();
+	void Sweap_Twice_Right_Update(float _Delta);
+	void Sweap_Twice_Right_End();
+
+	void Sweap_Twice_Left_Start();
+	void Sweap_Twice_Left_Update(float _Delta);
+	void Sweap_Twice_Left_End();
 
 	// Hit_Down_001
-	void Hit_Down_001_Start();
-	void Hit_Down_001_Update(float _Delta);
-	void Hit_Down_001_End();
+	void Hit_Down_001_Front_Start();
+	void Hit_Down_001_Front_Update(float _Delta);
+	void Hit_Down_001_Front_End();
+
+	void Hit_Down_001_Right_Start();
+	void Hit_Down_001_Right_Update(float _Delta);
+	void Hit_Down_001_Right_End();
+
+	void Hit_Down_001_Left_Start();
+	void Hit_Down_001_Left_Update(float _Delta);
+	void Hit_Down_001_Left_End();
 
 	// Hit_Down_004
 	void Hit_Down_004_Start();

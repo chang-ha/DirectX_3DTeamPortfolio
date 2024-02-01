@@ -6,7 +6,7 @@ enum class Enum_Hollow_MeshIndex
 	Sword = 0,
 	Spear = 1,
 	Crossbow = 2,
-	CircleShield = 3,
+	RoundShield = 3,
 	WoodShield = 4,
 	ChainMail = 5,
 	ShoulderRobe = 6,
@@ -64,7 +64,7 @@ protected:
 
 	//void MeshOnOffSwitch(Enum_Hollow_MeshIndex _Index);
 
-
+	void LoadAnimation();
 
 private:
 

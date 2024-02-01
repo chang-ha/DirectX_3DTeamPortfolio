@@ -93,6 +93,7 @@ private:
 
 	// 이 주소값이 입력을 받을거다 
 	static std::map<void*, bool> InputObject;
+
 };
 
 #define InputIsDown(Value) GameEngineInput::IsDown(Value, this)

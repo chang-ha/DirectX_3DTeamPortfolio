@@ -184,18 +184,18 @@ PixelOut TextureShader_PS(PixelOutPut _Input) : SV_Target0
     {
         Result.Color0 = Color;
     }
-    if (0 < Target1)
-    {
-        Result.Color1 = Color;
-    }
-    if (0 < Target2)
-    {
-        Result.Color2 = Color;
-    }
-    if (0 < Target3)
-    {
-        Result.Color3 = Color;
-    }
+    //if (0 < Target1)
+    //{
+    //    Result.Color1 = Color;
+    //}
+    //if (0 < Target2)
+    //{
+    //    Result.Color2 = Color;
+    //}
+    //if (0 < Target3)
+    //{
+    //    Result.Color3 = Color;
+    //}
     
     return Result;
 }
