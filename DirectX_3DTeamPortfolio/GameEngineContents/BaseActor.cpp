@@ -275,3 +275,17 @@ void BaseActor::CalcuTargetAngle()
 		TargetAngle *= -1.f;
 	}
 }
+
+float BaseActor::GetDistanceToTarget()
+{
+	if (nullptr == Target)
+	{
+		MsgBoxAssert("타겟이 존재하지 않습니다.");
+		return;
+	}
+
+	const float4 MyPos = Transform.GetWorldPosition();
+	const float4 OtherPos = Target->Transform.GetWorldPosition();
+	const float Dist = ContentsMath::GetVector3Length(OtherPos - MyPos).X;
+	return Dist;
+}

@@ -225,6 +225,8 @@ public:
 		return RotMinAngle;
 	}
 
+	float GetDistanceToTarget();
+
 private:
 	float TargetAngle = 0.f;
 	GameEngineActor* Target = nullptr;

@@ -30,7 +30,7 @@ public:
 	static float ClampDeg(float _D);
 
 	static float4 GetVectorToOther(const float4& _MyPos, const float4& _OtherPos);
-	static float4 GetVector3Length(const float4& _V1, const float4& _V2);
+	static float4 GetVector3Length(const float4& _V);
 
 protected:
 

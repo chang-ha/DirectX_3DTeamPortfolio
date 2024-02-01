@@ -6,20 +6,24 @@ enum class Enum_LothricKn_State
 	None,
 	Sleep,
 	Idle_Standing1,
-	Left_Turn_Twice,
-	Left_Turn,
-	Right_Turn_Twice,
-	Right_Turn,
 	Left_Walk,
 	Right_Walk,
+	Front_Walk,
 	Run,
 	Patrol,
 	Attack11,
 	Attack12,
 	Attack13,
+	Attack21,
+	Attack22,
+	Attack23,
 	RH_SwordDownAttack,
 	LH_ShieldAttack,
 	RH_CAttack,
+	L_Turn,
+	R_Turn,
+	L_TurnTwice,
+	R_TurnTwice,
 };
 
 enum class Enum_MonsterDebugFlag
@@ -82,6 +86,11 @@ private:
 	void StartRH_SwordDownAttack(GameEngineState* _State);
 	void StartLH_ShieldAttack(GameEngineState* _State);
 	void StartRH_CAttack(GameEngineState* _State);
+	void Start_L_Turn(GameEngineState* _State);
+	void Start_R_Turn(GameEngineState* _State);
+	void Start_L_TurnTwice(GameEngineState* _State);
+	void Start_R_TurnTwice(GameEngineState* _State);
+	void Start_Run(GameEngineState* _State);
 
 	// Update
 	void UpdateIdle_Standing1(float _DeltaTime, GameEngineState* _State);
@@ -92,6 +101,11 @@ private:
 	void UpdateRH_SwordDownAttack(float _DeltaTime, GameEngineState* _State);
 	void UpdateLH_ShieldAttack(float _DeltaTime, GameEngineState* _State);
 	void UpdateRH_CAttack(float _DeltaTime, GameEngineState* _State);
+	void Update_L_Turn(float _DeltaTime, GameEngineState* _State);
+	void Update_R_Turn(float _DeltaTime, GameEngineState* _State);
+	void Update_L_TurnTwice(float _DeltaTime, GameEngineState* _State);
+	void Update_R_TurnTwice(float _DeltaTime, GameEngineState* _State);
+	void Update_Run(float _DeltaTime, GameEngineState* _State);
 
 	// End
 	void EndSleep(GameEngineState* _State);
@@ -106,9 +120,10 @@ private:
 
 private:
 	std::shared_ptr<GameEngineCollision> PatrolCollision;
+	MonsterDebugState Debug;
 
+	int AttackTypeCount = 0;
 	const float FoV = 30.0f;
 
-	MonsterDebugState Debug;
 	
 };

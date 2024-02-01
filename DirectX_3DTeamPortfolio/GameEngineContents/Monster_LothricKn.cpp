@@ -68,6 +68,15 @@ void Monster_LothricKn::Start()
 	MainRenderer->CreateFBXAnimation("RH_SwordDownAttack", "c1280_003010.fbx");
 	MainRenderer->CreateFBXAnimation("LH_ShieldAttack", "c1280_003013.fbx");
 	MainRenderer->CreateFBXAnimation("RH_CAttack", "c1280_003014.fbx");
+	MainRenderer->CreateFBXAnimation("L_FastTurn", "c1280_005000.fbx");
+	MainRenderer->CreateFBXAnimation("R_FastTurn", "c1280_005001.fbx");
+	MainRenderer->CreateFBXAnimation("L_FastTurnTwice", "c1280_005002.fbx");
+	MainRenderer->CreateFBXAnimation("R_FastTurnTwice", "c1280_005003.fbx");
+	MainRenderer->CreateFBXAnimation("L_Turn", "c1280_005010.fbx");
+	MainRenderer->CreateFBXAnimation("R_Turn", "c1280_005011.fbx");
+	MainRenderer->CreateFBXAnimation("L_TurnTwice", "c1280_005012.fbx");
+	MainRenderer->CreateFBXAnimation("R_TurnTwice", "c1280_005013.fbx");
+
 
 	MainRenderer->SetRootMotionComponent(Capsule.get());
 	MainRenderer->SetRootMotion("Idle_Standing1");
@@ -108,6 +117,14 @@ void Monster_LothricKn::Start()
 	MainRenderer->SetRootMotion("RH_SwordDownAttack");
 	MainRenderer->SetRootMotion("LH_ShieldAttack");
 	MainRenderer->SetRootMotion("RH_CAttack");
+	MainRenderer->SetRootMotion("L_FastTurn");
+	MainRenderer->SetRootMotion("R_FastTurn");
+	MainRenderer->SetRootMotion("L_FastTurnTwice");
+	MainRenderer->SetRootMotion("R_FastTurnTwice");
+	MainRenderer->SetRootMotion("L_Turn");
+	MainRenderer->SetRootMotion("R_Turn");
+	MainRenderer->SetRootMotion("L_TurnTwice");
+	MainRenderer->SetRootMotion("R_TurnTwice");
 
 	CreateSocketCollision(Enum_CollisionOrder::Monster, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
 

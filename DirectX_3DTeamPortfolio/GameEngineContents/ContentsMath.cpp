@@ -47,10 +47,9 @@ float4 ContentsMath::GetVectorToOther(const float4& _MyPos, const float4& _Other
 	return _OtherPos - _MyPos;
 }
 
-float4 ContentsMath::GetVector3Length(const float4& _V1, const float4& _V2)
+float4 ContentsMath::GetVector3Length(const float4& _V)
 {
-	float4 V3 = _V1 - _V2;
-	return DirectX::XMVector3Length(V3.DirectXVector);
+	return DirectX::XMVector3Length(_V.DirectXVector);
 }
 
 float ContentsMath::ClampDeg(float _D)
