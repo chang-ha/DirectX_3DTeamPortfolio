@@ -19,6 +19,16 @@ enum class RenderMode
 	Instancing,
 };
 
+struct RenderUnitBaseInfo
+{
+	int IsAnimation = 0;
+	int IsLight = 1;
+	int IsNormal = 0;
+	int IsDiffuse = 0;
+	int IsShadow = 1;
+	int IsSpecular = 0;
+};
+
 class GameEngineRenderUnit final : public GameEngineObjectBase, public std::enable_shared_from_this<GameEngineRenderUnit>
 {
 public:
@@ -37,6 +47,7 @@ public:
 
 	void SetMesh(std::shared_ptr<class GameEngineMesh> _Mesh);
 	void SetMaterial(std::shared_ptr<class GameEngineMaterial> _Material);
+	void Camerapushback();
 
 	void ResSetting();
 	void ResReset();
@@ -79,6 +90,9 @@ public:
 	{
 		return Path;
 	}
+
+
+	RenderUnitBaseInfo RenderUnitBaseInfoValue;
 
 private:
 	class GameEngineRenderer* ParentRenderer = nullptr;

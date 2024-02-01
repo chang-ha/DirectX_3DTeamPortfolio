@@ -90,6 +90,7 @@ public:
 	}
 
 	void RootMotionUpdate(float _Delta);
+	void SetBlendTime(float _Value);
 
 	float BlendIn = 0.2f;
 
@@ -180,6 +181,7 @@ public:
 	inline std::vector<float4x4>& GetBoneSockets() { return AnimationBoneNotOffset; }
 
 	void BlendReset();
+	void SetBlendTime(std::string_view _AnimationName, float _fBlendTime);
 	void AddNotBlendBoneIndex(int _Index);
 
 	// Root Motion
@@ -195,11 +197,8 @@ public:
 		AnimationBoneData Data = AnimationBoneDatas[_Index];
 
 		Data.Pos *= Transform.GetConstTransformDataRef().WorldMatrix;
-		//float4x4 Rot0 = Data.RotQuaternion.QuaternionToMatrix();
-		//float4x4 Rot0 = Data.RotQuaternion.QuaternionToMatrix();
 
 		float4 NewRot = Data.RotQuaternion.QuaternionMulQuaternion(Transform.GetConstTransformDataRef().WorldQuaternion);
-		// float4 NewRot = Data.RotQuaternion.QuaternionMulQuaternion(Transform.GetConstTransformDataRef().LocalQuaternion);
 		Data.RotQuaternion = NewRot;
 
 

@@ -29,7 +29,11 @@ void DummyTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	}
 
 	float* pActorSpeed = pActor->GetSpeedPointer();
+
 	ImGui::InputFloat("Dummy Move Speed", pActorSpeed, 1.0f, 100.0f, "%.f");
+	ImGui::Spacing();
+	ImGui::Separator();
+	ImGui::Spacing();
 }
 
 void MonsterGUI::Start()

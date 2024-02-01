@@ -24,6 +24,30 @@ float4 ContentsMath::GetVectorToOther(const float4& _MyPos, const float4& _Other
 	return _OtherPos - _MyPos;
 }
 
+float4 ContentsMath::GetVector3Length(const float4& _V1, const float4& _V2)
+{
+	float4 V3 = _V1 - _V2;
+	return DirectX::XMVector3Length(V3.DirectXVector);
+}
+
+float ContentsMath::ClampDeg(float _D)
+{
+	while (_D < 0.0f || _D >= 360.0f)
+	{
+		if (_D < 0.0f)
+		{
+			_D += 360.0f;
+		}
+
+		if (_D >= 360.0f)
+		{
+			_D -= 360.0f;
+		}
+	}
+
+	return _D;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// 비트연산 //////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////

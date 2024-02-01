@@ -67,6 +67,7 @@ void TestObject_Shader::Start()
 		//HpBar->Transform.SetLocalPosition({400, 300});
 		//HpBar->SetImageScale({ 3000.0f, 3000.0f });
 	}
+
 }
 
 void TestObject_Shader::Update(float _Delta)

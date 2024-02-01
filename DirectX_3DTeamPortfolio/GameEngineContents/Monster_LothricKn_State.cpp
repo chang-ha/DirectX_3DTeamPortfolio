@@ -38,8 +38,8 @@ float Monster_LothricKn::GetDirByDot(const float4& _OtherPos) const
 void Monster_LothricKn::CreateFSM()
 {
 	MainState.CreateState(Enum_LothricKn_State::Idle_Standing1 ,{.Start = std::bind(&Monster_LothricKn::StartIdle_Standing1,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::UpdateIdle_Standing1,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::Sleep, { .Start = std::bind(&Monster_LothricKn::StartSleep,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::UpdateSleep,this, std::placeholders::_1,std::placeholders::_2) });
-	// MainState.CreateState(Enum_LothricKn_State::Scout, { .Start = std::bind(&Monster_LothricKn::StartUnWake,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::UpdateUnWake,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::Sleep, { .Start = std::bind(&Monster_LothricKn::StartSleep,this, std::placeholders::_1), .End = std::bind(&Monster_LothricKn::EndSleep,this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::Patrol, { .Start = std::bind(&Monster_LothricKn::StartPatrol,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::UpdatePatrol,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::Attack11, { .Start = std::bind(&Monster_LothricKn::StartRH_Attack11,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::UpdateRH_Attack11,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::Attack12, { .Start = std::bind(&Monster_LothricKn::StartRH_Attack12,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::UpdateRH_Attack12,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::Attack13, { .Start = std::bind(&Monster_LothricKn::StartRH_Attack13,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::UpdateRH_Attack13,this, std::placeholders::_1,std::placeholders::_2) });
@@ -51,7 +51,7 @@ void Monster_LothricKn::CreateFSM()
 
 void Monster_LothricKn::StartSleep(GameEngineState* _State)
 {
-	MainRenderer->Off();
+	Off();
 }
 
 void Monster_LothricKn::StartIdle_Standing1(GameEngineState* _State)
@@ -60,9 +60,9 @@ void Monster_LothricKn::StartIdle_Standing1(GameEngineState* _State)
 }
 
 
-void Monster_LothricKn::StartScout(GameEngineState* _State)
+void Monster_LothricKn::StartPatrol(GameEngineState* _State)
 {
-	MainRenderer->ChangeAnimation("Scout");
+	MainRenderer->ChangeAnimation("Patrol");
 }
 
 void Monster_LothricKn::StartRH_Attack11(GameEngineState* _State)
@@ -106,22 +106,14 @@ void Monster_LothricKn::UpdateIdle_Standing1(float _DeltaTime, GameEngineState* 
 	}
 }
 
-void Monster_LothricKn::UpdateSleep(float _DeltaTime, GameEngineState* _State)
+void Monster_LothricKn::UpdatePatrol(float _DeltaTime, GameEngineState* _State)
 {
-	// player 범위 
-	if (IsFlag(Enum_ActorStatus::WakeValue))
+	FindTarget();
+	if (true == IsTargeting())
 	{
-		_State->ChangeState(Enum_LothricKn_State::Scout);
-		return;
-	}
-}
+		Enum_LothricKn_State FindState = GetStateToAggroTable();
 
-void Monster_LothricKn::UpdateScout(float _DeltaTime, GameEngineState* _State)
-{
-	if (false)
-	{
-		// 플레잉어 인식
-		return;
+		_State->ChangeState(FindState);
 	}
 }
 
@@ -187,4 +179,61 @@ void Monster_LothricKn::UpdateRH_CAttack(float _DeltaTime, GameEngineState* _Sta
 		_State->ChangeState(Enum_LothricKn_State::Idle_Standing1);
 		return;
 	}
+}
+
+////////////////////////////////////////////////////////////
+////////////// End
+
+void Monster_LothricKn::EndSleep(GameEngineState* _State)
+{
+	On();
+}
+
+
+
+Enum_LothricKn_State Monster_LothricKn::GetStateToAggroTable()
+{
+	GameEngineActor* pTarget = GetTargetPointer();
+	if (nullptr == pTarget)
+	{
+		MsgBoxAssert("타겟이 존재하지 않는데 상태를 반환하려 했습니다.");
+		return Enum_LothricKn_State::None;
+	}
+
+	const float4 MyPos = Transform.GetWorldPosition();
+	const float4 OtherPos = pTarget->Transform.GetWorldPosition();
+	const float Dist = ContentsMath::GetVector3Length(MyPos, OtherPos).X;
+
+	const float AbsTargetAngle = std::fabs(GetTargetAngle());
+
+	const float TwiceTurnAngle = 150.0f;
+	const float TurnAngle = 115.0f;
+	const float NotTurnAngle = 75.0f;
+
+
+	if (std::fabs(AbsTargetAngle) < TwiceTurnAngle)
+	{
+		if (Enum_RotDir::Left == GetRotDir_e())
+		{
+			// return Enum_LothricKn_State::
+		}
+
+		if (Enum_RotDir::Right == GetRotDir_e())
+		{
+
+		}
+	}
+
+	if (std::fabs(AbsTargetAngle) < TurnAngle)
+	{
+
+	}
+
+	if (Dist > W_SCALE * 5.0f)
+	{
+		return Enum_LothricKn_State::Run;
+	}
+
+	MsgBoxAssert("기본 상태가 등록되지 않았습니다.");
+	return Enum_LothricKn_State::None;
 }
