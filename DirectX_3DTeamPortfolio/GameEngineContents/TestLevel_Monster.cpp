@@ -6,7 +6,7 @@
 #include "ContentsLight.h"
 
 #include "Monster_LothricKn.h"
-#include "Monster_HollowSoldier_Spear.h"
+#include "Monster_HollowSoldier_Sword.h"
 #include "DummyActor.h"
 
 void MonsterGUITab::Init(MonsterGUI* _GUI)
@@ -129,11 +129,11 @@ void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 	std::shared_ptr<Monster_LothricKn> LothricKn = CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn");
 	LothricKn->Transform.SetWorldPosition(float4(100.0f, 0.0f, 0.0f));
 
-	std::shared_ptr<Monster_HollowSoldier_Spear> Hollow = CreateActor<Monster_HollowSoldier_Spear>(static_cast<int>(Enum_UpdateOrder::Monster), "Hollow");
+	std::shared_ptr<Monster_HollowSoldier_Sword> Hollow = CreateActor<Monster_HollowSoldier_Sword>(static_cast<int>(Enum_UpdateOrder::Monster), "Hollow");
 	Hollow->Transform.SetWorldPosition(float4(100.0f, 0.0f, 0.0f));
 	//Hollow->Transform.SetWorldRotation(float4(0.0f, 180.0f, 0.0f));
 	Hollow->Transform.SetWorldRotation(float4(0.0f, 0.0f, 0.0f));
-	//Hollow->SetStateIdle1();
+	Hollow->SetStateIdle2();
 
 	if (nullptr != pMonsterGUI)
 	{
@@ -144,7 +144,7 @@ void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 void TestLevel_Monster::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	AllDeathObjectGroupConvert<Monster_LothricKn>(Enum_UpdateOrder::Monster);
-	AllDeathObjectGroupConvert<Monster_HollowSoldier_Spear>(Enum_UpdateOrder::Monster);
+	AllDeathObjectGroupConvert<Monster_HollowSoldier_Sword>(Enum_UpdateOrder::Monster);
 	AllDeathObjectGroupConvert<DummyActor>(Enum_UpdateOrder::Monster);
 
 	if (nullptr != pMonsterGUI)
