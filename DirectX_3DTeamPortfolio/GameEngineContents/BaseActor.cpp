@@ -49,7 +49,7 @@ void BaseActor::Start()
 {
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
 
-	Transform.SetLocalScale(float4(50.0f, 50.0f, 50.0f));
+	Transform.SetLocalScale(float4(W_SCALE, W_SCALE, W_SCALE));
 }
 
 void BaseActor::Update(float _Delta)

@@ -2,7 +2,7 @@
 #include "Monster_LothricKn.h"
 
 #include "BoneSocketCollision.h"
-
+#include "ContentsMath.h"
 
 Monster_LothricKn::Monster_LothricKn() 
 {
@@ -54,7 +54,7 @@ void Monster_LothricKn::Start()
 	MainRenderer->CreateFBXAnimation("DH_Stare_RightSide", "c1280_002043.fbx");
 	MainRenderer->CreateFBXAnimation("Run_Chasing", "c1280_002100.fbx");
 	MainRenderer->CreateFBXAnimation("RunGuard_Chasing", "c1280_002130.fbx");
-	MainRenderer->CreateFBXAnimation("Scout", "c1280_002300.fbx");
+	MainRenderer->CreateFBXAnimation("Patrol", "c1280_002300.fbx");
 	MainRenderer->CreateFBXAnimation("RH_Attack11", "c1280_003000.fbx");
 	MainRenderer->CreateFBXAnimation("RH_Attack12", "c1280_003001.fbx");
 	MainRenderer->CreateFBXAnimation("RH_Attack13", "c1280_003002.fbx");
@@ -94,7 +94,7 @@ void Monster_LothricKn::Start()
 	MainRenderer->SetRootMotion("DH_Stare_RightSide");
 	MainRenderer->SetRootMotion("Run_Chasing");
 	MainRenderer->SetRootMotion("RunGuard_Chasing");
-	MainRenderer->SetRootMotion("Scout");
+	MainRenderer->SetRootMotion("Patrol");
 	MainRenderer->SetRootMotion("RH_Attack11");
 	MainRenderer->SetRootMotion("RH_Attack12");
 	MainRenderer->SetRootMotion("RH_Attack13");
@@ -111,9 +111,10 @@ void Monster_LothricKn::Start()
 
 	CreateSocketCollision(Enum_CollisionOrder::Monster, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
 
-	AggroCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
-	AggroCollision->Transform.SetWorldScale(float4(500, 500, 500));
-	AggroCollision->SetCollisionType(ColType::SPHERE3D);
+	PatrolCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
+	PatrolCollision->Transform.SetWorldScale(float4(300, 300, 300));
+	PatrolCollision->SetCollisionType(ColType::SPHERE3D);
+	PatrolCollision->SetCollisionColor(float4::BLUE);
 
 	CreateFSM();
 }
@@ -128,20 +129,26 @@ void Monster_LothricKn::Update(float _Delta)
 
 void Monster_LothricKn::Release()
 {
-	AggroCollision = nullptr;
+	PatrolCollision = nullptr;
 	BaseMonster::Release();
 }
 
-std::shared_ptr<GameEngineActor> Monster_LothricKn::PatrolUpdate()
+void Monster_LothricKn::FindTarget()
 {
 	if (true == IsTargeting())
 	{
-		return nullptr;
+		return;
+	}
+
+	if (nullptr == PatrolCollision)
+	{
+		MsgBoxAssert("충돌체를 생성하지 않고 사용하려고 했습니다.");
+		return;
 	}
 
 	std::shared_ptr<GameEngineActor> pActor;
 	
-	AggroCollision->Collision(Enum_CollisionOrder::Dummy, [&pActor](std::vector<GameEngineCollision*>& _Other)
+	PatrolCollision->Collision(Enum_CollisionOrder::Dummy, [&pActor](std::vector<GameEngineCollision*>& _Other)
 		{
 			for (GameEngineCollision* pCol : _Other)
 			{
@@ -152,9 +159,24 @@ std::shared_ptr<GameEngineActor> Monster_LothricKn::PatrolUpdate()
 				}
 
 				pActor = pCol->GetActor()->GetDynamic_Cast_This<GameEngineActor>();
-				break;
+				if (nullptr == pActor)
+				{
+					MsgBoxAssert("다이나믹 캐스팅 변환에 실패했습니다.");
+					return;
+				}
 			}
 		});
 
-	return pActor;
+	bool FindValue = (nullptr == pActor);
+	if (FindValue)
+	{
+		PatrolCollision->Off();
+		SetTargeting(pActor.get());
+		Debug.SetFlag(Enum_MonsterDebugFlag::PatrolValue, false);
+	}
+};
+
+void Monster_LothricKn::WakeUp() 
+{
+	MainState.ChangeState(Enum_LothricKn_State::Patrol);
 }

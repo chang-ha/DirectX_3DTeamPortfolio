@@ -94,6 +94,11 @@ public:
 		return CollisionType;
 	}
 
+	inline void SetCollisionColor(const float4& _Color)
+	{
+		ColColor = _Color;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -102,5 +107,6 @@ protected:
 private:
 	ColType CollisionType = ColType::SPHERE3D;
 	std::set<GameEngineCollision*> Others;
+	float4 ColColor = float4::RED;
 };
 

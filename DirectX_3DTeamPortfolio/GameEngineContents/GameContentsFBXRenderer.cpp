@@ -207,6 +207,19 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 	}
 }
 
+void GameContentsFBXAnimationInfo::SetBlendTime(float _Value)
+{
+	float TotalTime = Inter* (End + 1);
+	if (TotalTime < _Value)
+	{
+		BlendIn = TotalTime;
+	}
+	else
+	{
+		BlendIn = _Value;
+	}
+}
+
 void GameContentsFBXAnimationInfo::RootMotionUpdate(float _Delta)
 {
 	// Root Motion
@@ -894,6 +907,19 @@ void GameContentsFBXRenderer::TestSetBigFBXMesh(std::string_view _Name, std::str
 void GameContentsFBXRenderer::BlendReset()
 {
 	BlendBoneData.clear();
+}
+
+void GameContentsFBXRenderer::SetBlendTime(std::string_view _AnimationName, float _fBlendTime)
+{
+	const std::shared_ptr<GameContentsFBXAnimationInfo>& AnimInfo = FindAnimation(_AnimationName);
+	if (nullptr == AnimInfo)
+	{
+		std::string AnimName = _AnimationName.data();
+		MsgBoxAssert(AnimName + "해당 이름을 가진 애니메이션이 존재하지 않습니다.");
+		return;
+	}
+
+	AnimInfo->SetBlendTime(_fBlendTime);
 }
 
 void GameContentsFBXRenderer::AddNotBlendBoneIndex(int _Index)

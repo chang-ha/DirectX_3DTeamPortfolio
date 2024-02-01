@@ -1,9 +1,12 @@
 #include "PreCompile.h"
 #include "ContentsCore.h"
 
+#include <GameEngineCore/GameEnginePhysX.h>
 #include <GameEngineCore/GameEngineCoreWindow.h>
 #include "ContentsControlWindow.h"
 #include "TreeWindow.h"
+
+#include "ContentsMouseInput.h"
 
 #include "TitleLevel.h"
 #include "PlayLevel.h"
@@ -14,8 +17,6 @@
 #include "TestLevel_Shader.h"
 #include "TestLevel_Map.h"
 #include "TestLevel_PhysX.h"
-
-#include <GameEngineCore\GameEnginePhysX.h>
 
 ContentsCore::ContentsCore() 
 {
@@ -40,6 +41,8 @@ void ContentsCore::Start()
 	CoreGUIWindow = GameEngineGUI::CreateGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 	CoreGUIWindow->On();
 
+	ContentsMouseInput::Reset();
+
 	GameEngineFont::Load("OptimusBold");
 	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
 	GameEngineCore::CreateLevel<TestLevel_Boss>("TestLevel_Boss");
@@ -53,6 +56,8 @@ void ContentsCore::Start()
 
 void ContentsCore::Update(float _Delta)
 {
+	ContentsMouseInput::InputUpdate();
+
 	if (nullptr != CoreGUIWindow && true == GameEngineInput::IsDown(VK_F7, this))
 	{
 		CoreGUIWindow->OnOffSwitch();
@@ -62,7 +67,6 @@ void ContentsCore::Update(float _Delta)
 	{
 		ContentsGUIWindow->OnOffSwitch();
 	}
-
 }
 
 void ContentsCore::Release()
