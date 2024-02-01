@@ -23,6 +23,7 @@ enum class Enum_FrameEventType
 // Ό³Έν :
 class FrameEventObject : public GameEngineSerializObject
 {
+	friend class FrameEventHelper;
 public:
 	// constrcuter destructer
 	FrameEventObject();

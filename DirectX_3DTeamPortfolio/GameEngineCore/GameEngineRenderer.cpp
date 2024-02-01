@@ -114,6 +114,11 @@ void GameEngineRenderer::Update(float _Delta)
 	RenderBaseInfoValue.AccDeltaTime += _Delta;
 }
 
+void GameEngineRenderer::Release()
+{
+	Units.clear();
+}
+
 std::shared_ptr<GameEngineRenderUnit> GameEngineRenderer::CreateAndFindRenderUnit(int _Index)
 {
 	if (_Index == -1)
@@ -147,6 +152,7 @@ void GameEngineRenderer::SetMaterial(std::string_view _Name, int _Index /*= 0*/)
 {
 	std::shared_ptr<GameEngineRenderUnit> Unit = CreateAndFindRenderUnit(_Index);
 	Unit->SetMaterial(_Name);
+	Unit->Camerapushback();
 
 	//if (Unit->ShaderResHelper.IsConstantBuffer("TransformData"))
 	//{

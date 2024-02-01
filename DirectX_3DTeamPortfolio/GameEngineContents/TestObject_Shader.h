@@ -33,5 +33,7 @@ private:
 
 	std::shared_ptr<class GameEngineUIRenderer> HpBar;
 
+
+
 };
 

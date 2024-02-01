@@ -181,6 +181,10 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 						{
 							AnimationBoneDatas[i].Pos = float4::LerpClamp(ParentRenderer->Prev_BoneDate.Pos, AnimationBoneDatas[i].Pos, BlendRatio);
 						}
+						else
+						{
+							AnimationBoneDatas[i].Pos = float4::LerpClamp(BoneData.Pos, AnimationBoneDatas[i].Pos, BlendRatio);
+						}
 					}
 				}
 			}
@@ -200,6 +204,19 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 	if (nullptr != EventHelper)
 	{
 		EventHelper->UpdateEvent(_DeltaTime);
+	}
+}
+
+void GameContentsFBXAnimationInfo::SetBlendTime(float _Value)
+{
+	float TotalTime = Inter* (End + 1);
+	if (TotalTime < _Value)
+	{
+		BlendIn = TotalTime;
+	}
+	else
+	{
+		BlendIn = _Value;
 	}
 }
 
@@ -249,9 +266,16 @@ void GameContentsFBXAnimationInfo::RootMotionUpdate(float _Delta)
 		CurFrameTimeValue -= (Inter - mRootMotionData.MoveFrameTime);
 
 		++tCurFrame;
-		CurFramePos = RootMotionFrames[tCurFrame];
-		++NextFrame;
-		NextFramePos = RootMotionFrames[NextFrame];
+		if (tCurFrame == End)
+		{
+			CurFrameTimeValue = 0.f;
+		}
+		else
+		{
+			CurFramePos = RootMotionFrames[tCurFrame];
+			++NextFrame;
+			NextFramePos = RootMotionFrames[NextFrame];
+		}
 	}
 
 	while (Inter <= CurFrameTimeValue)
@@ -266,13 +290,15 @@ void GameContentsFBXAnimationInfo::RootMotionUpdate(float _Delta)
 		CurFrameTimeValue -= Inter;
 
 		++tCurFrame;
-		CurFramePos = RootMotionFrames[tCurFrame];
-		++NextFrame;
-		NextFramePos = RootMotionFrames[NextFrame];
-
-		if (NextFrame == End)
+		if (tCurFrame == End)
 		{
 			CurFrameTimeValue = 0.f;
+		}
+		else
+		{
+			CurFramePos = RootMotionFrames[tCurFrame];
+			++NextFrame;
+			NextFramePos = RootMotionFrames[NextFrame];
 		}
 	}
 
@@ -418,10 +444,128 @@ std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetFBXMesh(std::s
 	std::shared_ptr<GameEngineMesh> Mesh = FindFBXMesh->GetGameEngineMesh(_RenderUnitInfoIndex, _SubSetIndex);
 
 	Unit->SetMesh(Mesh);
+
+	//체크용 메테리얼
 	Unit->SetMaterial(_Material);
+	Unit->Camerapushback();
 
 
 	if (Unit->ShaderResHelper.IsStructedBuffer("ArrAniMationMatrix"))
+	{
+		Unit->RenderUnitBaseInfoValue.IsAnimation = 1;
+	}
+	else
+	{
+
+		Unit->RenderUnitBaseInfoValue.IsAnimation = 0;
+	}
+	
+	const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(_RenderUnitInfoIndex, _SubSetIndex);
+	std::shared_ptr<GameEngineTexture> NorTex;
+	std::shared_ptr<GameEngineTexture> SpcTex;
+	std::string MaterialOrigin = _Material.data();
+
+
+	if (Unit->ShaderResHelper.IsTexture("NormalTexture"))
+	{
+
+		if ("" == MatData.NorTextureName)
+		{
+			RenderBaseInfoValue.IsNormal = 0;
+			Unit->RenderUnitBaseInfoValue.IsNormal = 0;
+			MaterialOrigin += "_NorX";
+		}
+		else
+		{
+			NorTex = GameEngineTexture::Find(MatData.NorTextureName);
+			if (nullptr == NorTex)
+			{
+				GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
+				std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.NorTextureName;
+				if (GameEnginePath::IsFileExist(TexturePath))
+				{
+					NorTex = GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
+				}
+				 //= GameEngineTexture::Find(MatData.NorTextureName);
+			}
+			
+
+
+			if (nullptr == NorTex)
+			{
+				//다크소울용 형식이 맞음에도 불구하고 텍스쳐가 없거나 불러올수 없는 경우
+				RenderBaseInfoValue.IsNormal = 0;
+				Unit->RenderUnitBaseInfoValue.IsNormal = 0;
+				MaterialOrigin += "_NorX";
+			}
+			else
+			{
+				RenderBaseInfoValue.IsNormal = 1;
+				Unit->RenderUnitBaseInfoValue.IsNormal = 1;
+			}
+		}
+
+
+
+	}
+
+	if (Unit->ShaderResHelper.IsTexture("SpecularTexture"))
+	{
+		const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(_RenderUnitInfoIndex, _SubSetIndex);
+
+		if ("" == MatData.SpcTextureName)
+		{
+			RenderBaseInfoValue.IsSpecular = 0;
+			Unit->RenderUnitBaseInfoValue.IsSpecular = 0;
+			MaterialOrigin += "_SpcX";
+		}
+		else
+		{
+
+			SpcTex = GameEngineTexture::Find(MatData.SpcTextureName);
+
+			if (nullptr == SpcTex)
+			{
+				GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
+				std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.SpcTextureName;
+				if (GameEnginePath::IsFileExist(TexturePath))
+				{
+					SpcTex = GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
+				}
+
+				//SpcTex = GameEngineTexture::Find(MatData.SpcTextureName);
+			}
+
+
+
+			if (nullptr == SpcTex)
+			{
+				//다크소울용 형식에 경로가 맞음에도 불구하고 텍스쳐가 없거나 불러올수 없는 경우
+				RenderBaseInfoValue.IsSpecular = 0;
+				Unit->RenderUnitBaseInfoValue.IsSpecular = 0;
+				MaterialOrigin += "_SpcX";
+			}
+			else
+			{
+				RenderBaseInfoValue.IsSpecular = 1;
+				Unit->RenderUnitBaseInfoValue.IsSpecular = 1;
+
+			}
+		}
+
+
+	}
+
+
+	std::shared_ptr< GameEngineMaterial> Matptr = GameEngineMaterial::Find(MaterialOrigin);
+
+	if (nullptr == Matptr)
+	{
+		MsgBoxAssert("색깔 놀이 텍스쳐를 사용하는 렌더 유닛입니다. 그에 맞는 노말 스펙큘러 텍스쳐를 만들어주세요. 그게 아니라면 유준상한테 연락주세요.");
+	}
+	Unit->SetMaterial(Matptr);
+
+	if (Unit->RenderUnitBaseInfoValue.IsAnimation == 1)
 	{
 		if (0 >= AnimationBoneMatrixs.size())
 		{
@@ -438,11 +582,14 @@ std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetFBXMesh(std::s
 		Buffer->CreateResize(sizeof(float4x4), Size, StructuredBufferType::SRV_ONLY);
 
 		Unit->ShaderResHelper.SetStructedBufferLink("ArrAniMationMatrix", AnimationBoneMatrixs);
-
 	}
 
 	if (Unit->ShaderResHelper.IsTexture("DiffuseTexture"))
 	{
+
+		RenderBaseInfoValue.IsDiffuse = 1;
+		Unit->RenderUnitBaseInfoValue.IsDiffuse = 1;
+
 		const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(_RenderUnitInfoIndex, _SubSetIndex);
 
 		if ("" == MatData.DifTextureName)
@@ -464,90 +611,24 @@ std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetFBXMesh(std::s
 			MsgBoxAssert("FBX매쉬에 텍스처 정보 로드에 실패했습니다.");
 		}
 
-		RenderBaseInfoValue.IsDiffuse = 1;
 
 		Unit->ShaderResHelper.SetTexture("DiffuseTexture", DifTex);
 	}
 
-	if (Unit->ShaderResHelper.IsTexture("NormalTexture"))
+
+	if (Unit->RenderUnitBaseInfoValue.IsNormal == 1)
 	{
-		const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(_RenderUnitInfoIndex, _SubSetIndex);
-
-		if ("" == MatData.NorTextureName)
-		{
-			RenderBaseInfoValue.IsNormal = 0;
-		}
-		else
-		{
-			if (nullptr == GameEngineTexture::Find(MatData.NorTextureName))
-			{
-				GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
-				std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.NorTextureName;
-				if (GameEnginePath::IsFileExist(TexturePath))
-				{
-					GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
-				}
-			}
-			
-
-			std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find(MatData.NorTextureName);
-
-			if (nullptr == Tex)
-			{
-				//다크소울용 형식이 맞음에도 불구하고 텍스쳐가 없거나 불러올수 없는 경우
-				RenderBaseInfoValue.IsNormal = 0;
-			}
-			else
-			{
-
-				RenderBaseInfoValue.IsNormal = 1;
-
-				Unit->ShaderResHelper.SetTexture("NormalTexture", Tex);
-			}
-		}
-
-
-
+		Unit->ShaderResHelper.SetTexture("NormalTexture", NorTex);
 	}
 
-	if (Unit->ShaderResHelper.IsTexture("SpecularTexture"))
+
+	if (Unit->RenderUnitBaseInfoValue.IsSpecular == 1)
 	{
-		const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(_RenderUnitInfoIndex, _SubSetIndex);
-
-		if ("" == MatData.SpcTextureName)
-		{
-			RenderBaseInfoValue.IsSpecular = 0;
-		}
-		else
-		{
-
-			if (nullptr == GameEngineTexture::Find(MatData.SpcTextureName))
-			{
-				GameEnginePath Path = GameEnginePath(FBXMesh->GetPath().c_str());
-				std::string TexturePath = Path.GetFolderPath() + "\\" + MatData.SpcTextureName;
-				if (GameEnginePath::IsFileExist(TexturePath))
-				{
-					GameEngineTexture::Load(TexturePath, D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP);
-				}
-			}
-
-			std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find(MatData.SpcTextureName);
-
-
-			if (nullptr == Tex)
-			{
-				//다크소울용 형식에 경로가 맞음에도 불구하고 텍스쳐가 없거나 불러올수 없는 경우
-				RenderBaseInfoValue.IsSpecular = 0;
-			}
-			else
-			{
-				RenderBaseInfoValue.IsSpecular = 1;
-
-				Unit->ShaderResHelper.SetTexture("SpecularTexture", Tex);
-			}
-		}
-
+		Unit->ShaderResHelper.SetTexture("SpecularTexture", SpcTex);
 	}
+
+
+	//메테리얼 한번더 체크
 
 	return Unit;
 }
@@ -640,6 +721,23 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 	}
 
 	CurAnimation = Ptr;
+
+	if (nullptr == RootMotionComponent)
+	{
+		return;
+	}
+
+	if (false == RootMotionComponent->IsInit())
+	{
+		return;
+	}
+
+	if (true == CurAnimation->IsRootMotion())
+	{
+		return;
+	}
+
+	RootMotionComponent->MoveForce(Enum_Axies::X | Enum_Axies::Z);
 }
 
 void GameContentsFBXRenderer::Update(float _DeltaTime)
@@ -864,6 +962,19 @@ void GameContentsFBXRenderer::TestSetBigFBXMesh(std::string_view _Name, std::str
 void GameContentsFBXRenderer::BlendReset()
 {
 	BlendBoneData.clear();
+}
+
+void GameContentsFBXRenderer::SetBlendTime(std::string_view _AnimationName, float _fBlendTime)
+{
+	const std::shared_ptr<GameContentsFBXAnimationInfo>& AnimInfo = FindAnimation(_AnimationName);
+	if (nullptr == AnimInfo)
+	{
+		std::string AnimName = _AnimationName.data();
+		MsgBoxAssert(AnimName + "해당 이름을 가진 애니메이션이 존재하지 않습니다.");
+		return;
+	}
+
+	AnimInfo->SetBlendTime(_fBlendTime);
 }
 
 void GameContentsFBXRenderer::AddNotBlendBoneIndex(int _Index)

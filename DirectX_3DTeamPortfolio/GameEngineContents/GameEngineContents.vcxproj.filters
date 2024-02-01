@@ -160,9 +160,35 @@
     <ClCompile Include="ContentsControlWindow.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="HBAOGUI.cpp" />
     <ClCompile Include="BaseActor.cpp">
       <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="HBAOGUI.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLogo.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsControlInput.cpp">
+      <Filter>Actor\Monster\LothricKnight</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_HollowSoldier_RoundShield.cpp">
+      <Filter>Actor\Monster\Hollow</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_HollowSoldier_Crossbow.cpp">
+      <Filter>Actor\Monster\Hollow</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_HollowSoldier_Spear.cpp">
+      <Filter>Actor\Monster\Hollow</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_Hollow_Assassin.cpp">
+      <Filter>Actor\Monster\Hollow</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsMouseInput.cpp">
+      <Filter>Actor\Monster\LothricKnight</Filter>
     </ClCompile>
     <ClCompile Include="WorldMap.cpp">
       <Filter>Map</Filter>
@@ -325,12 +351,35 @@
     <ClInclude Include="ContentsControlWindow.h">
       <Filter>ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="HBAOGUI.h" />
     <ClInclude Include="BaseActor.h">
       <Filter>Actor</Filter>
     </ClInclude>
-    <ClInclude Include="WorldMap.h">
-      <Filter>Map</Filter>
+    <ClInclude Include="HBAOGUI.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLogo.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsControlInput.h">
+      <Filter>Actor\Monster\LothricKnight</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_HollowSoldier_RoundShield.h">
+      <Filter>Actor\Monster\Hollow</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_HollowSoldier_Crossbow.h">
+      <Filter>Actor\Monster\Hollow</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_HollowSoldier_Spear.h">
+      <Filter>Actor\Monster\Hollow</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_Hollow_Assassin.h">
+      <Filter>Actor\Monster\Hollow</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsMouseInput.h">
+      <Filter>Actor\Monster\LothricKnight</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -405,6 +454,9 @@
     </Filter>
     <Filter Include="Actor\Player">
       <UniqueIdentifier>{a161891d-57fb-4a2c-96bf-522529e04c95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI">
+      <UniqueIdentifier>{f286ce73-744d-4f73-98b1-957bff451289}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

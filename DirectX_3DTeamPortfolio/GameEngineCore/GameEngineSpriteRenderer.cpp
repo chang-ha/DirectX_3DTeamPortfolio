@@ -463,7 +463,6 @@ void GameEngineSpriteRenderer::SetMaterialEvent(std::string_view _Name, int _Ind
 	SetSprite("NSet.png");
 }
 
-
 void GameEngineSpriteRenderer::SetMaskTexture(std::string_view _Texture, MaskMode _Mask)
 {
 	//std::shared_ptr<GameEngineFrameAnimation> TempCurFrameAnimation = CurFrameAnimations;

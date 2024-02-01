@@ -187,7 +187,13 @@ void GameEngineRenderUnit::SetMaterial(std::string_view _Name)
 	Material = GameEngineMaterial::Find(_Name);
 
 	SetMaterial(Material);
+}
 
+
+void GameEngineRenderUnit::Camerapushback()
+{
+	
+	//분리
 	if (nullptr != ParentRenderer)
 	{
 		GameEngineCamera* Camera = ParentRenderer->GetCamera();
@@ -200,7 +206,7 @@ void GameEngineRenderUnit::SetMaterial(std::string_view _Name)
 			Path = RenderPath::Forward;
 			Camera->Units[RenderPath::Forward][Unit->GetOrder()].push_back(Unit);
 		}
-		else 
+		else
 		{
 			Path = RenderPath::Deferred;
 			Camera->Units[RenderPath::Deferred][Unit->GetOrder()].push_back(Unit);
@@ -210,8 +216,6 @@ void GameEngineRenderUnit::SetMaterial(std::string_view _Name)
 
 		// int CameraOrder = ParentRenderer->
 	}
-
-
 }
 
 void GameEngineRenderUnit::SetMesh(std::shared_ptr<GameEngineMesh> _Mesh)
@@ -306,8 +310,17 @@ void GameEngineRenderUnit::ShadowOn()
 
 }
 
+
 void GameEngineRenderUnit::Render()
 {
+	if (nullptr != ParentRenderer)
+	{
+		if (false == ParentRenderer->IsUpdate() || false == IsUpdate())
+		{
+			return;
+		}
+	}
+
 	if (nullptr == Mesh)
 	{
 		MsgBoxAssert("매쉬가 세팅되지 않았습니다.");
@@ -321,5 +334,4 @@ void GameEngineRenderUnit::Render()
 	ResSetting();
 	Draw();
 	ResReset();
-	// ShaderResHelper.AllShaderResourcesReset();
 }

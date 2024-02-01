@@ -41,6 +41,13 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 	ImGui::NewLine();
 
+	{
+		int Frame = Linked_Boss->MainRenderer->GetCurAnimationFrame();
+		std::string String = "AniFrame\n";
+		String += std::to_string(Frame);
+		ImGui::Text(String.c_str());
+	}
+
 	//{
 	//	if (true == ImGui::Checkbox("ChasingCamera", &IsChasingCamera))
 	//	{
@@ -229,7 +236,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExistsChild("ContentsResources");
-		Dir.MoveChild("ContentsResources\\Mesh\\Boss\\Animation");
+		Dir.MoveChild("ContentsResources\\Mesh\\c2240\\Animation");
 		std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".fbx" }, true);
 
 		for (size_t i = 0; i < Files.size(); i++)
@@ -374,20 +381,55 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		Idle.Stay = std::bind(&Boss_Vordt::Idle_Update, this, std::placeholders::_1);
 		Idle.End = std::bind(&Boss_Vordt::Idle_End, this);
 
-		CreateStateParameter Walk;
-		Walk.Start = std::bind(&Boss_Vordt::Walk_Start, this);
-		Walk.Stay = std::bind(&Boss_Vordt::Walk_Update, this, std::placeholders::_1);
-		Walk.End = std::bind(&Boss_Vordt::Walk_End, this);
+		CreateStateParameter Walk_Front;
+		Walk_Front.Start = std::bind(&Boss_Vordt::Walk_Front_Start, this);
+		Walk_Front.Stay = std::bind(&Boss_Vordt::Walk_Front_Update, this, std::placeholders::_1);
+		Walk_Front.End = std::bind(&Boss_Vordt::Walk_Front_End, this);
 
-		CreateStateParameter Jump;
-		Jump.Start = std::bind(&Boss_Vordt::Jump_Start, this);
-		Jump.Stay = std::bind(&Boss_Vordt::Jump_Update, this, std::placeholders::_1);
-		Jump.End = std::bind(&Boss_Vordt::Jump_End, this);
+		CreateStateParameter Walk_Right;
+		Walk_Right.Start = std::bind(&Boss_Vordt::Walk_Right_Start, this);
+		Walk_Right.Stay = std::bind(&Boss_Vordt::Walk_Right_Update, this, std::placeholders::_1);
+		Walk_Right.End = std::bind(&Boss_Vordt::Walk_Right_End, this);
 
-		CreateStateParameter Turn;
-		Turn.Start = std::bind(&Boss_Vordt::Turn_Start, this);
-		Turn.Stay = std::bind(&Boss_Vordt::Turn_Update, this, std::placeholders::_1);
-		Turn.End = std::bind(&Boss_Vordt::Turn_End, this);
+		CreateStateParameter Walk_Left;
+		Walk_Left.Start = std::bind(&Boss_Vordt::Walk_Left_Start, this);
+		Walk_Left.Stay = std::bind(&Boss_Vordt::Walk_Left_Update, this, std::placeholders::_1);
+		Walk_Left.End = std::bind(&Boss_Vordt::Walk_Left_End, this);
+
+		CreateStateParameter Jump_Back;
+		Jump_Back.Start = std::bind(&Boss_Vordt::Jump_Back_Start, this);
+		Jump_Back.Stay = std::bind(&Boss_Vordt::Jump_Back_Update, this, std::placeholders::_1);
+		Jump_Back.End = std::bind(&Boss_Vordt::Jump_Back_End, this);
+
+		CreateStateParameter Jump_Right;
+		Jump_Right.Start = std::bind(&Boss_Vordt::Jump_Right_Start, this);
+		Jump_Right.Stay = std::bind(&Boss_Vordt::Jump_Right_Update, this, std::placeholders::_1);
+		Jump_Right.End = std::bind(&Boss_Vordt::Jump_Right_End, this);
+
+		CreateStateParameter Jump_Left;
+		Jump_Left.Start = std::bind(&Boss_Vordt::Jump_Left_Start, this);
+		Jump_Left.Stay = std::bind(&Boss_Vordt::Jump_Left_Update, this, std::placeholders::_1);
+		Jump_Left.End = std::bind(&Boss_Vordt::Jump_Left_End, this);
+
+		CreateStateParameter Turn_Right;
+		Turn_Right.Start = std::bind(&Boss_Vordt::Turn_Right_Start, this);
+		Turn_Right.Stay = std::bind(&Boss_Vordt::Turn_Right_Update, this, std::placeholders::_1);
+		Turn_Right.End = std::bind(&Boss_Vordt::Turn_Right_End, this);
+
+		CreateStateParameter Turn_Left;
+		Turn_Left.Start = std::bind(&Boss_Vordt::Turn_Left_Start, this);
+		Turn_Left.Stay = std::bind(&Boss_Vordt::Turn_Left_Update, this, std::placeholders::_1);
+		Turn_Left.End = std::bind(&Boss_Vordt::Turn_Left_End, this);
+
+		CreateStateParameter Turn_Right_Twice;
+		Turn_Right_Twice.Start = std::bind(&Boss_Vordt::Turn_Right_Twice_Start, this);
+		Turn_Right_Twice.Stay = std::bind(&Boss_Vordt::Turn_Right_Twice_Update, this, std::placeholders::_1);
+		Turn_Right_Twice.End = std::bind(&Boss_Vordt::Turn_Right_Twice_End, this);
+
+		CreateStateParameter Turn_Left_Twice;
+		Turn_Left_Twice.Start = std::bind(&Boss_Vordt::Turn_Left_Twice_Start, this);
+		Turn_Left_Twice.Stay = std::bind(&Boss_Vordt::Turn_Left_Twice_Update, this, std::placeholders::_1);
+		Turn_Left_Twice.End = std::bind(&Boss_Vordt::Turn_Left_Twice_End, this);
 
 		CreateStateParameter Hitten;
 		Hitten.Start = std::bind(&Boss_Vordt::Hitten_Start, this);
@@ -415,15 +457,30 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		Combo2.Stay = std::bind(&Boss_Vordt::Combo2_Update, this, std::placeholders::_1);
 		Combo2.End = std::bind(&Boss_Vordt::Combo2_End, this);
 
-		CreateStateParameter Sweap_Twice;
-		Sweap_Twice.Start = std::bind(&Boss_Vordt::Sweap_Twice_Start, this);
-		Sweap_Twice.Stay = std::bind(&Boss_Vordt::Sweap_Twice_Update, this, std::placeholders::_1);
-		Sweap_Twice.End = std::bind(&Boss_Vordt::Sweap_Twice_End, this);
+		CreateStateParameter Sweap_Twice_Right;
+		Sweap_Twice_Right.Start = std::bind(&Boss_Vordt::Sweap_Twice_Right_Start, this);
+		Sweap_Twice_Right.Stay = std::bind(&Boss_Vordt::Sweap_Twice_Right_Update, this, std::placeholders::_1);
+		Sweap_Twice_Right.End = std::bind(&Boss_Vordt::Sweap_Twice_Right_End, this);
 
-		CreateStateParameter Hit_Down_001;
-		Hit_Down_001.Start = std::bind(&Boss_Vordt::Hit_Down_001_Start, this);
-		Hit_Down_001.Stay = std::bind(&Boss_Vordt::Hit_Down_001_Update, this, std::placeholders::_1);
-		Hit_Down_001.End = std::bind(&Boss_Vordt::Hit_Down_001_End, this);
+		CreateStateParameter Sweap_Twice_Left;
+		Sweap_Twice_Left.Start = std::bind(&Boss_Vordt::Sweap_Twice_Left_Start, this);
+		Sweap_Twice_Left.Stay = std::bind(&Boss_Vordt::Sweap_Twice_Left_Update, this, std::placeholders::_1);
+		Sweap_Twice_Left.End = std::bind(&Boss_Vordt::Sweap_Twice_Left_End, this);
+
+		CreateStateParameter Hit_Down_001_Front;
+		Hit_Down_001_Front.Start = std::bind(&Boss_Vordt::Hit_Down_001_Front_Start, this);
+		Hit_Down_001_Front.Stay = std::bind(&Boss_Vordt::Hit_Down_001_Front_Update, this, std::placeholders::_1);
+		Hit_Down_001_Front.End = std::bind(&Boss_Vordt::Hit_Down_001_Front_End, this);
+
+		CreateStateParameter Hit_Down_001_Right;
+		Hit_Down_001_Right.Start = std::bind(&Boss_Vordt::Hit_Down_001_Right_Start, this);
+		Hit_Down_001_Right.Stay = std::bind(&Boss_Vordt::Hit_Down_001_Right_Update, this, std::placeholders::_1);
+		Hit_Down_001_Right.End = std::bind(&Boss_Vordt::Hit_Down_001_Right_End, this);
+
+		CreateStateParameter Hit_Down_001_Left;
+		Hit_Down_001_Left.Start = std::bind(&Boss_Vordt::Hit_Down_001_Left_Start, this);
+		Hit_Down_001_Left.Stay = std::bind(&Boss_Vordt::Hit_Down_001_Left_Update, this, std::placeholders::_1);
+		Hit_Down_001_Left.End = std::bind(&Boss_Vordt::Hit_Down_001_Left_End, this);
 
 		CreateStateParameter Hit_Down_004;
 		Hit_Down_004.Start = std::bind(&Boss_Vordt::Hit_Down_004_Start, this);
@@ -483,9 +540,16 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		// Move & Others
 		MainState.CreateState(Enum_BossState::Howling, Howling);
 		MainState.CreateState(Enum_BossState::Idle, Idle);
-		MainState.CreateState(Enum_BossState::Walk, Walk);
-		MainState.CreateState(Enum_BossState::Jump, Jump);
-		MainState.CreateState(Enum_BossState::Turn, Turn);
+		MainState.CreateState(Enum_BossState::Walk_Front, Walk_Front);
+		MainState.CreateState(Enum_BossState::Walk_Right, Walk_Right);
+		MainState.CreateState(Enum_BossState::Walk_Left, Walk_Left);
+		MainState.CreateState(Enum_BossState::Jump_Back, Jump_Back);
+		MainState.CreateState(Enum_BossState::Jump_Right, Jump_Right);
+		MainState.CreateState(Enum_BossState::Jump_Left, Jump_Left);
+		MainState.CreateState(Enum_BossState::Turn_Right, Turn_Right);
+		MainState.CreateState(Enum_BossState::Turn_Left, Turn_Left);
+		MainState.CreateState(Enum_BossState::Turn_Right_Twice, Turn_Right_Twice);
+		MainState.CreateState(Enum_BossState::Turn_Left_Twice, Turn_Left_Twice);
 		MainState.CreateState(Enum_BossState::Hitten, Hitten);
 		MainState.CreateState(Enum_BossState::Death, Death);
 		
@@ -493,8 +557,11 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainState.CreateState(Enum_BossState::Breath, Breath);
 		MainState.CreateState(Enum_BossState::Combo1, Combo1);
 		MainState.CreateState(Enum_BossState::Combo2, Combo2);
-		MainState.CreateState(Enum_BossState::Sweap_Twice, Sweap_Twice);
-		MainState.CreateState(Enum_BossState::Hit_Down_001, Hit_Down_001);
+		MainState.CreateState(Enum_BossState::Sweap_Twice_Right, Sweap_Twice_Right);
+		MainState.CreateState(Enum_BossState::Sweap_Twice_Left, Sweap_Twice_Left);
+		MainState.CreateState(Enum_BossState::Hit_Down_001_Front, Hit_Down_001_Front);
+		MainState.CreateState(Enum_BossState::Hit_Down_001_Right, Hit_Down_001_Right);
+		MainState.CreateState(Enum_BossState::Hit_Down_001_Left, Hit_Down_001_Left);
 		MainState.CreateState(Enum_BossState::Hit_Down_004, Hit_Down_004);
 		MainState.CreateState(Enum_BossState::Hit_Down_005, Hit_Down_005);
 		MainState.CreateState(Enum_BossState::Hit_Down_006, Hit_Down_006);
@@ -508,7 +575,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainState.CreateState(Enum_BossState::Rush_Hit_Turn_Rush, Rush_Hit_Turn_Rush);
 
 		// Start State
-		MainState.ChangeState(Enum_BossState::Howling);
+		MainState.ChangeState(Enum_BossState::Jump_Back);
 	}
 }
 
@@ -521,6 +588,7 @@ void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
 void Boss_Vordt::Start()
 {
 	// BaseActor::Start();
+	SetID(Enum_ActorType::Boss_Vordt);
 	GameEngineInput::AddInputObject(this);
 
 	if (nullptr == MainRenderer)
@@ -593,6 +661,12 @@ void Boss_Vordt::Update(float _Delta)
 	{
 		Capsule->CollisionOff();
 		Capsule->ResetMove(Enum_Axies::All);
+	}
+
+	TargetAngle = abs(GetTargetAngle());
+	if (5.f < TargetAngle)
+	{
+		Capsule->AddWorldRotation(float4(0.f, GetRotSpeed() * GetRotDir_f() * _Delta, 0.f));
 	}
 }
 
