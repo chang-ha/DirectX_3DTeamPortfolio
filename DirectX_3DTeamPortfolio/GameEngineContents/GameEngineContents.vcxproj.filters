@@ -381,6 +381,9 @@
     <ClInclude Include="ContentsMouseInput.h">
       <Filter>Actor\Monster\LothricKnight</Filter>
     </ClInclude>
+    <ClInclude Include="WorldMap.h">
+      <Filter>Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
