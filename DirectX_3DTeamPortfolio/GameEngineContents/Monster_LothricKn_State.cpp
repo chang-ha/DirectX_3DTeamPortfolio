@@ -210,28 +210,60 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToAggroTable()
 	const float TurnAngle = 115.0f;
 	const float NotTurnAngle = 75.0f;
 
+	const float AttRangeRatio = 3.0f;
 
-	if (std::fabs(AbsTargetAngle) < TwiceTurnAngle)
+
+	if (std::fabs(AbsTargetAngle) > TwiceTurnAngle)
 	{
 		if (Enum_RotDir::Left == GetRotDir_e())
 		{
-			// return Enum_LothricKn_State::
+			return Enum_LothricKn_State::Left_Turn_Twice;
 		}
 
 		if (Enum_RotDir::Right == GetRotDir_e())
 		{
-
+			return Enum_LothricKn_State::Right_Turn_Twice;
 		}
 	}
 
-	if (std::fabs(AbsTargetAngle) < TurnAngle)
+	if (std::fabs(AbsTargetAngle) > TurnAngle)
 	{
+		if (Enum_RotDir::Left == GetRotDir_e())
+		{
+			return Enum_LothricKn_State::Left_Turn;
+		}
 
+		if (Enum_RotDir::Right == GetRotDir_e())
+		{
+			return Enum_LothricKn_State::Right_Turn;
+		}
 	}
 
 	if (Dist > W_SCALE * 5.0f)
 	{
 		return Enum_LothricKn_State::Run;
+	}
+
+	if (Dist < W_SCALE * AttRangeRatio)
+	{
+		return Enum_LothricKn_State::Attack11;
+	}
+
+	const int DirChance = ContentsRandom::RandomInt(0,1);
+	enum DirChance
+	{
+		LeftDir = 0,
+		RightDir = 1,
+	};
+
+	if (DirChance == LeftDir)
+	{
+		return Enum_LothricKn_State::Left_Walk;
+	}
+
+	if (DirChance == RightDir)
+	{
+		return Enum_LothricKn_State::Right_Walk;
 	}
 
 	MsgBoxAssert("기본 상태가 등록되지 않았습니다.");

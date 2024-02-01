@@ -1,6 +1,29 @@
 #include "PreCompile.h"
 #include "ContentsMath.h"
 
+int ContentsRandom::Seed = 0;
+int ContentsRandom::RandomInt(int _iMin, int _iMax)
+{
+	GameEngineRandom RandomClass;
+	RandomClass.SetSeed(GetSeed());
+	int Chance = RandomClass.RandomInt(_iMin, _iMax);
+	return Chance;
+}
+
+int ContentsRandom::GetSeed()
+{
+	AdjustSeed();
+	return ++Seed;
+}
+
+void ContentsRandom::AdjustSeed()
+{
+	if (Seed < INT_MAX)
+	{
+		Seed = 0;
+	}
+}
+
 ContentsMath::ContentsMath() 
 {
 }

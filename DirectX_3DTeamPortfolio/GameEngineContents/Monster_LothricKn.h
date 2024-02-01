@@ -10,6 +10,8 @@ enum class Enum_LothricKn_State
 	Left_Turn,
 	Right_Turn_Twice,
 	Right_Turn,
+	Left_Walk,
+	Right_Walk,
 	Run,
 	Patrol,
 	Attack11,
