@@ -54,6 +54,24 @@
     <FxCompile Include="ContentsDeferredLightRenderer.fx">
       <Filter>Deferred</Filter>
     </FxCompile>
+    <FxCompile Include="ContentsStaticMesh_NorX_SpcX.fx">
+      <Filter>MeshShader</Filter>
+    </FxCompile>
+    <FxCompile Include="MeshBase_Header.fx">
+      <Filter>MeshShader</Filter>
+    </FxCompile>
+    <FxCompile Include="MeshBase_NorX_SpcX.fx">
+      <Filter>MeshShader</Filter>
+    </FxCompile>
+    <FxCompile Include="MeshBase_SpcX.fx">
+      <Filter>MeshShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Normal.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="MeshBase_Color.fx">
+      <Filter>MeshShader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BloomCombine.fx">
@@ -61,6 +79,12 @@
     </ClCompile>
     <ClCompile Include="ContentsDeferredMergeRenderer.fx">
       <Filter>Deferred</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsStaticMesh_SpcX.fx">
+      <Filter>MeshShader</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsStaticMesh_Color.fx">
+      <Filter>MeshShader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
