@@ -10,7 +10,7 @@
 #include <GameEngineCore/GameEngineCoreWindow.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 
-TestLevel_Shader::TestLevel_Shader() 
+TestLevel_Shader::TestLevel_Shader()
 {
 }
 
@@ -67,13 +67,13 @@ void TestLevel_Shader::Start()
 
 	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
 	HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,10.0f });
-	
 
-	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
-	HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,100.0f });
 
-	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
-	HollowSoldier->Transform.AddLocalPosition({ -300.0f,0.0f,10.0f });  
+	//HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
+	//HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,100.0f });
+
+	//HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
+	//HollowSoldier->Transform.AddLocalPosition({ -300.0f,0.0f,10.0f });
 
 
 	//Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
@@ -94,17 +94,18 @@ void TestLevel_Shader::Start()
 	//	}
 	//}
 
-	{
-		std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
+	// ∏  ø¿∫Í¡ß∆Æ
+	//{
+	//	std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
 
-		
-		std::shared_ptr<GameContentsFBXRenderer> Renderer = Actor->CreateComponent<GameContentsFBXRenderer>();
 
-		Renderer->SetFBXMesh("m30_00_00_00_000901.FBX", "FBX_Static");
-		Renderer->Transform.SetLocalScale({ 50.f, 50.f, 50.f, 1.0f });
+	//	std::shared_ptr<GameContentsFBXRenderer> Renderer = Actor->CreateComponent<GameContentsFBXRenderer>();
 
-		Renderer->RenderBaseInfoValue.AlphaValue = -10.0f;
-	}
+	//	Renderer->SetFBXMesh("m30_00_00_00_000901.FBX", "FBX_Static");
+	//	Renderer->Transform.SetLocalScale({ 50.f, 50.f, 50.f, 1.0f });
+
+	//	Renderer->RenderBaseInfoValue.AlphaValue = -10.0f;
+	//}
 
 
 	{
@@ -153,16 +154,17 @@ void TestLevel_Shader::Start()
 	//	NewRenderer->RenderBaseInfoValue.IsShadow = 1;
 	//}
 
-	//{
-	//	std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
-	//	std::shared_ptr<class GameEngineUIRenderer> HpBar = Object->CreateComponent<GameEngineUIRenderer>();
-	//	HpBar->SetCameraOrder(ECAMERAORDER::UI);
-	//	//HpBar->Transform.SetLocalPosition({ 0.0f, -300 });
-	//	//r->Transform.SetWorldScale({ 1000.0f, 1300,1000.0f,1.0f });
-	//	HpBar->SetImageScale({ 100.0f, 100.0f,1.0f });
+	{
+		std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
+		std::shared_ptr<class GameEngineSpriteRenderer> HpBar = Object->CreateComponent<GameEngineSpriteRenderer>();
+		//HpBar->SetCameraOrder(ECAMERAORDER::UI);
+		HpBar->Transform.SetLocalPosition({ 0.0f, -100 });
+		//HpBar->Transform.SetWorldScale({ 1000.0f, 1300,1000.0f,1.0f });
+		HpBar->SetImageScale({ 100.0f, 100.0f,100.0f });
+		HpBar->SetBillboardOn();
 
-	//	GetCamera(ECAMERAORDER::UI)->DebugOn();
-	//}
+		//GetCamera(ECAMERAORDER::UI)->DebugOn();
+	}
 
 	//{
 	//	{
@@ -185,7 +187,7 @@ void TestLevel_Shader::Update(float _Delta)
 {
 
 	float MoveSpeed = 300.0f;
-	 
+
 	if (true == GameEngineInput::IsPress('A', this))
 	{
 		Test_Light1->Transform.AddLocalPosition(float4::LEFT * _Delta * MoveSpeed);
@@ -237,7 +239,7 @@ void TestLevel_Shader::Update(float _Delta)
 	}
 
 
-	
+
 }
 
 void TestLevel_Shader::Release()

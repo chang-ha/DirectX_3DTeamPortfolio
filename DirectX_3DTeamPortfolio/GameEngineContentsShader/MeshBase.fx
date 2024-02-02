@@ -45,7 +45,7 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout DeferrdOut _Result)
     
     if (Roughness < 0.0f)
     {
-        _Result.MatColor.x = (_Result.SpcColor.x + _Result.SpcColor.y + _Result.SpcColor.z) / 3.0f; //Roughness
+        _Result.MatColor.x = 1.0f - ((_Result.SpcColor.x + _Result.SpcColor.y + _Result.SpcColor.z) / 3.0f); //Roughness
     }
     else
     {
