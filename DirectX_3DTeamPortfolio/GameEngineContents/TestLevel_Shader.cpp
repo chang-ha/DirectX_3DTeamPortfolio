@@ -10,7 +10,7 @@
 #include <GameEngineCore/GameEngineCoreWindow.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 
-TestLevel_Shader::TestLevel_Shader() 
+TestLevel_Shader::TestLevel_Shader()
 {
 }
 
@@ -35,15 +35,15 @@ void TestLevel_Shader::Start()
 	// GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, 3000.0f });
 	// GetMainCamera()->Transform.AddWorldRotation({ 0.f, 180.f, 0.f });
 
-	//CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
-	//if (nullptr != CoreWindow)
-	//{
-	//	CoreWindow->AddDebugRenderTarget(1, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
-	//	CoreWindow->AddDebugRenderTarget(2, "ForwardTarget", GetMainCamera()->GetCameraForwardTarget());
-	//	CoreWindow->AddDebugRenderTarget(3, "DeferredLightTarget", GetMainCamera()->GetCameraDeferredLightTarget());
-	//	CoreWindow->AddDebugRenderTarget(4, "DeferredTarget", GetMainCamera()->GetCameraDeferredTarget());
-	//	//CoreWindow->AddDebugRenderTarget(3, "HBAO", GetMainCamera()->GetCameraHBAOTarget());
-	//}
+	CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+	if (nullptr != CoreWindow)
+	{
+		CoreWindow->AddDebugRenderTarget(1, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
+		CoreWindow->AddDebugRenderTarget(2, "ForwardTarget", GetMainCamera()->GetCameraForwardTarget());
+		CoreWindow->AddDebugRenderTarget(3, "DeferredLightTarget", GetMainCamera()->GetCameraDeferredLightTarget());
+		CoreWindow->AddDebugRenderTarget(4, "DeferredTarget", GetMainCamera()->GetCameraDeferredTarget());
+		//CoreWindow->AddDebugRenderTarget(3, "HBAO", GetMainCamera()->GetCameraHBAOTarget());
+	}
 
 
 	Scene->setVisualizationParameter(physx::PxVisualizationParameter::eACTOR_AXES, 0.0f);
@@ -67,13 +67,13 @@ void TestLevel_Shader::Start()
 
 	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
 	HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,10.0f });
-	
+
 
 	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
 	HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,100.0f });
 
 	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
-	HollowSoldier->Transform.AddLocalPosition({ -300.0f,0.0f,10.0f });  
+	HollowSoldier->Transform.AddLocalPosition({ -300.0f,0.0f,10.0f });
 
 
 	//Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
@@ -97,7 +97,7 @@ void TestLevel_Shader::Start()
 	{
 		std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
 
-		
+
 		std::shared_ptr<GameContentsFBXRenderer> Renderer = Actor->CreateComponent<GameContentsFBXRenderer>();
 
 		Renderer->SetFBXMesh("m30_00_00_00_000901.FBX", "FBX_Static");
@@ -185,7 +185,7 @@ void TestLevel_Shader::Update(float _Delta)
 {
 
 	float MoveSpeed = 300.0f;
-	 
+
 	if (true == GameEngineInput::IsPress('A', this))
 	{
 		Test_Light1->Transform.AddLocalPosition(float4::LEFT * _Delta * MoveSpeed);
@@ -237,7 +237,7 @@ void TestLevel_Shader::Update(float _Delta)
 	}
 
 
-	
+
 }
 
 void TestLevel_Shader::Release()
