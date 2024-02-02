@@ -40,6 +40,10 @@ float4 ContentsDeferredMergeRender_PS(PixelOutPut _Input) : SV_Target0
     
     
     float4 DifColor = DifColorTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
+    if (DifColor.w <= 0.0f)
+    {
+        clip(-1);
+    }
     
     DifColor.xyz = pow(DifColor.xyz, 2.2f); //gamma
     

@@ -251,7 +251,18 @@ void GameEngineCamera::Render(float _DeltaTime)
 		std::list<std::shared_ptr<class GameEngineRenderer>>& RendererList = RendererPair.second;
 		for (std::shared_ptr<class GameEngineRenderer>& Renderer : RendererList)
 		{
+
+			if (Renderer->BillboardValue == true)
+			{
+				float4 CameraRotation = Transform.GetLocalRotationEuler();
+				//Transform.GetLocalR();
+
+				Renderer->Transform.SetLocalRotation(CameraRotation);
+
+			}
+
 			Renderer->Transform.CalculationViewAndProjection(Transform.GetConstTransformDataRef());
+
 		}
 	}
 

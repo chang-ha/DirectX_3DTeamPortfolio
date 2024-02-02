@@ -116,6 +116,11 @@ public:
 		return Camera;
 	}
 
+	void SetBillboardOn()
+	{
+		BillboardValue = true;
+	}
+
 protected:
 	void Start();
 	void Update(float _Delta) override;
@@ -133,5 +138,7 @@ protected:
 
 private:
 	class GameEngineCamera* Camera = nullptr;
+
+	bool BillboardValue = false;
 };
 
