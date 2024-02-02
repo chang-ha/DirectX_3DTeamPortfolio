@@ -368,10 +368,10 @@ void Monster_HollowSoldier_Sword::State_Attack2_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_RH_HorizontalSlash"))
 	{
-		MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 5)
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 4)
 		{
-			MainRenderer->GetCurAnimation()->CurFrame = 5;
+			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
+			MainRenderer->ChangeCurFrame(5);
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 107)
@@ -397,10 +397,11 @@ void Monster_HollowSoldier_Sword::State_Attack3_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_RH_HorizontalSlash"))
 	{
-		MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 5)
+		
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 4)
 		{
-			MainRenderer->GetCurAnimation()->CurFrame = 5;
+			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
+			MainRenderer->ChangeCurFrame(5);
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 22)
@@ -411,10 +412,11 @@ void Monster_HollowSoldier_Sword::State_Attack3_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_TH_VerticalSlash"))
 	{
-		MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 10)
+		
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 9)
 		{
-			MainRenderer->GetCurAnimation()->CurFrame = 10;
+			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
+			MainRenderer->ChangeCurFrame(10);
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 107)
@@ -440,10 +442,11 @@ void Monster_HollowSoldier_Sword::State_Attack4_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_RH_HorizontalSlash"))
 	{
-		MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 5)
+		
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 4)
 		{
-			MainRenderer->GetCurAnimation()->CurFrame = 5;
+			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
+			MainRenderer->ChangeCurFrame(5);
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 22)
@@ -454,10 +457,11 @@ void Monster_HollowSoldier_Sword::State_Attack4_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_RH_Sting"))
 	{
-		MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 5)
+		
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 4)
 		{
-			MainRenderer->GetCurAnimation()->CurFrame = 5;
+			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
+			MainRenderer->ChangeCurFrame(5);
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 119)
@@ -483,10 +487,11 @@ void Monster_HollowSoldier_Sword::State_Attack5_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_RH_HorizontalSlash"))
 	{
-		MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 5)
+		
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 4)
 		{
-			MainRenderer->GetCurAnimation()->CurFrame = 5;
+			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
+			MainRenderer->ChangeCurFrame(5);
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 22)
@@ -497,10 +502,11 @@ void Monster_HollowSoldier_Sword::State_Attack5_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_RH_ChargingSting"))
 	{
-		MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 5)
+		
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 4)
 		{
-			MainRenderer->GetCurAnimation()->CurFrame = 5;
+			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
+			MainRenderer->ChangeCurFrame(5);
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 144)
@@ -526,10 +532,11 @@ void Monster_HollowSoldier_Sword::State_Attack6_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_RH_TwinSlash"))
 	{
-		MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 10)
+		
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 9)
 		{
-			MainRenderer->GetCurAnimation()->CurFrame = 10;
+			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
+			MainRenderer->ChangeCurFrame(10);
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 113)
@@ -555,10 +562,11 @@ void Monster_HollowSoldier_Sword::State_Attack7_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_RH_TwinSlash"))
 	{
-		MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 10)
+		
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 9)
 		{
-			MainRenderer->GetCurAnimation()->CurFrame = 10;
+			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
+			MainRenderer->ChangeCurFrame(10);
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 45)
@@ -569,10 +577,11 @@ void Monster_HollowSoldier_Sword::State_Attack7_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_TH_VerticalSlash"))
 	{
-		MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 10)
+		
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 9)
 		{
-			MainRenderer->GetCurAnimation()->CurFrame = 10;
+			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
+			MainRenderer->ChangeCurFrame(10);
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 125)
@@ -598,10 +607,11 @@ void Monster_HollowSoldier_Sword::State_Attack8_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_TH_VerticalSlash"))
 	{
-		MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 10)
+		
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 9)
 		{
-			MainRenderer->GetCurAnimation()->CurFrame = 10;
+			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
+			MainRenderer->ChangeCurFrame(10);
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 125)
@@ -642,10 +652,11 @@ void Monster_HollowSoldier_Sword::State_Attack10_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_TH_VerticalSlash"))
 	{
-		MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 10)
+		
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 9)
 		{
-			MainRenderer->GetCurAnimation()->CurFrame = 10;
+			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
+			MainRenderer->ChangeCurFrame(10);
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 125)
@@ -686,10 +697,11 @@ void Monster_HollowSoldier_Sword::State_Attack12_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_TH_VerticalSlash"))
 	{
-		MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 10)
+		
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 9)
 		{
-			MainRenderer->GetCurAnimation()->CurFrame = 10;
+			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
+			MainRenderer->ChangeCurFrame(10);
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 125)
