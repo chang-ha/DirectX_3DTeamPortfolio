@@ -54,9 +54,9 @@ void Monster_LothricKn::Start()
 	MainRenderer->CreateFBXAnimation("Run_Chasing", "c1280_002100.fbx");
 	MainRenderer->CreateFBXAnimation("RunGuard_Chasing", "c1280_002130.fbx");
 	MainRenderer->CreateFBXAnimation("Patrol", "c1280_002300.fbx");
-	MainRenderer->CreateFBXAnimation("RH_Attack11", "c1280_003000.fbx");
-	MainRenderer->CreateFBXAnimation("RH_Attack12", "c1280_003001.fbx");
-	MainRenderer->CreateFBXAnimation("RH_Attack13", "c1280_003002.fbx");
+	MainRenderer->CreateFBXAnimation("Combo_Att_11", "c1280_003000.fbx");
+	MainRenderer->CreateFBXAnimation("Combo_Att_12", "c1280_003001.fbx");
+	MainRenderer->CreateFBXAnimation("Combo_Att_13", "c1280_003002.fbx");
 	MainRenderer->CreateFBXAnimation("Combo_Att_21", "c1280_003003.fbx");
 	MainRenderer->CreateFBXAnimation("Combo_Att_22", "c1280_003004.fbx");
 	MainRenderer->CreateFBXAnimation("Combo_Att_23", "c1280_003005.fbx");
@@ -103,9 +103,9 @@ void Monster_LothricKn::Start()
 	MainRenderer->SetRootMotion("Run_Chasing");
 	MainRenderer->SetRootMotion("RunGuard_Chasing");
 	MainRenderer->SetRootMotion("Patrol");
-	MainRenderer->SetRootMotion("RH_Attack11");
-	MainRenderer->SetRootMotion("RH_Attack12");
-	MainRenderer->SetRootMotion("RH_Attack13");
+	MainRenderer->SetRootMotion("Combo_Att_11");
+	MainRenderer->SetRootMotion("Combo_Att_12");
+	MainRenderer->SetRootMotion("Combo_Att_13");
 	MainRenderer->SetRootMotion("Combo_Att_21");
 	MainRenderer->SetRootMotion("Combo_Att_22");
 	MainRenderer->SetRootMotion("Combo_Att_23");
@@ -146,6 +146,7 @@ void Monster_LothricKn::Update(float _Delta)
 void Monster_LothricKn::Release()
 {
 	PatrolCollision = nullptr;
+
 	BaseMonster::Release();
 }
 

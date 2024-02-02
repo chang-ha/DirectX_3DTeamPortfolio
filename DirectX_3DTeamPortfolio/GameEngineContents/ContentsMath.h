@@ -26,10 +26,10 @@ class ContentsMath
 {
 public:
 	static float GetDegreeTo2f(float _X, float _Y);
-	static float GetDegreeTo2f(const float4& _Vec);
+	static float GetDegreeToVec2(const float4& _Vec);
+
 	static float ClampDeg(float _D);
 
-	static float4 GetVectorToOther(const float4& _MyPos, const float4& _OtherPos);
 	static float4 GetVector3Length(const float4& _V);
 
 protected:

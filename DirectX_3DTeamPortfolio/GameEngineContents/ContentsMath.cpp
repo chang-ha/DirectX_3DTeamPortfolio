@@ -37,14 +37,9 @@ float ContentsMath::GetDegreeTo2f(float _X, float _Y)
 	return std::atan2f(_X, _Y) * GameEngineMath::R2D;
 }
 
-float ContentsMath::GetDegreeTo2f(const float4& _Vec)
+float ContentsMath::GetDegreeToVec2(const float4& _Vec)
 {
 	return GetDegreeTo2f(_Vec.X, _Vec.Y);
-}
-
-float4 ContentsMath::GetVectorToOther(const float4& _MyPos, const float4& _OtherPos)
-{
-	return _OtherPos - _MyPos;
 }
 
 float4 ContentsMath::GetVector3Length(const float4& _V)

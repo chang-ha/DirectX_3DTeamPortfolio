@@ -276,7 +276,7 @@ void BaseActor::CalcuTargetAngle()
 	}
 }
 
-float BaseActor::GetDistanceToTarget()
+float BaseActor::GetTargetDistance() const
 {
 	if (nullptr == Target)
 	{

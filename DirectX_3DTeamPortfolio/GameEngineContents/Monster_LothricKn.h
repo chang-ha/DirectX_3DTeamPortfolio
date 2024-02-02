@@ -12,9 +12,9 @@ enum class Enum_LothricKn_State
 	Front_Walk,
 	Run,
 	Patrol,
-	Attack11,
-	Attack12,
-	Attack13,
+	Combo_Att_11,
+	Combo_Att_12,
+	Combo_Att_13,
 	Combo_Att_21,
 	Combo_Att_22,
 	Combo_Att_23,
@@ -82,9 +82,9 @@ private:
 	void StartSleep(GameEngineState* _State);
 	void StartIdle_Standing1(GameEngineState* _State);
 	void StartPatrol(GameEngineState* _State);
-	void StartRH_Attack11(GameEngineState* _State);
-	void StartRH_Attack12(GameEngineState* _State);
-	void StartRH_Attack13(GameEngineState* _State);
+	void Start_Combo_Att_11(GameEngineState* _State);
+	void Start_Combo_Att_12(GameEngineState* _State);
+	void Start_Combo_Att_13(GameEngineState* _State);
 	void Start_Combo_Att_21(GameEngineState* _State);
 	void Start_Combo_Att_22(GameEngineState* _State);
 	void Start_Combo_Att_23(GameEngineState* _State);
@@ -101,9 +101,9 @@ private:
 	void Update_Debug(float _DeltaTime, GameEngineState* _State);
 	void UpdateIdle_Standing1(float _DeltaTime, GameEngineState* _State);
 	void UpdatePatrol(float _DeltaTime, GameEngineState* _State);
-	void UpdateRH_Attack11(float _DeltaTime, GameEngineState* _State);
-	void UpdateRH_Attack12(float _DeltaTime, GameEngineState* _State);
-	void UpdateRH_Attack13(float _DeltaTime, GameEngineState* _State);
+	void Update_Combo_Att_11(float _DeltaTime, GameEngineState* _State);
+	void Update_Combo_Att_12(float _DeltaTime, GameEngineState* _State);
+	void Update_Combo_Att_13(float _DeltaTime, GameEngineState* _State);
 	void Update_Combo_Att_21(float _DeltaTime, GameEngineState* _State);
 	void Update_Combo_Att_22(float _DeltaTime, GameEngineState* _State);
 	void Update_Combo_Att_23(float _DeltaTime, GameEngineState* _State);
@@ -121,19 +121,22 @@ private:
 
 	// State Func
 	bool IsFrame(int _StartFrame, int _EndFrame = -1) const;
-	float GetDirByDot(const float4& _OtherPos) const;
+	bool IsFrameOnce(int _StartFrame);
 
-	bool CanAttack(float _fDist, float _fDir);
+	bool CanAttack(float _fDist, float _fDir) const;
+
+	Enum_LothricKn_State GetStateToAggroTable();
+	Enum_LothricKn_State GetStateToAttackTable();
+	Enum_LothricKn_State GetStateToAttackTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle);
 
 	// Collision
 	void FindTarget();
-	Enum_LothricKn_State GetStateToAggroTable();
 
 private:
 	std::shared_ptr<GameEngineCollision> PatrolCollision;
 	MonsterDebugState Debug;
 
-	int AttackTypeCount = 0;
+	int PrevAttackNum = 0;
 	const float FoV = 30.0f;
 
 	

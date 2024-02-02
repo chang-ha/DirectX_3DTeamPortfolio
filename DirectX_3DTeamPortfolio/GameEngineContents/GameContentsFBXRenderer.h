@@ -50,6 +50,7 @@ public:
 	bool bOnceStart = true;
 	bool bOnceEnd = true;
 	bool Loop = true;
+	bool IsStart = false;
 	bool IsEnd = false;
 
 	// RootMotion
@@ -161,6 +162,11 @@ public:
 		Pause = !Pause;
 	}
 
+	inline bool IsFrameChange() const
+	{
+		return bFrameChange;
+	}
+
 	inline bool IsCurAnimationEnd() const
 	{
 		return CurAnimation->IsEnd;
@@ -184,7 +190,7 @@ public:
 	std::shared_ptr<GameEngineFBXMesh> GetFBXMesh(std::string_view _Name);
 
 	inline std::shared_ptr<GameEngineFBXMesh>& GetFBXMesh() { return FBXMesh; }
-	inline std::shared_ptr<GameContentsFBXAnimationInfo>&  GetCurAnimation() { return CurAnimation; }
+	inline const std::shared_ptr<GameContentsFBXAnimationInfo>&  GetCurAnimation() const { return CurAnimation; }
 	inline std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>>& GetRenderUnits() { return RenderUnits; } 
 	inline std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& GetAnimationInfos() { return Animations; }
 	inline std::vector<float4x4>& GetBoneMatrixs() { return AnimationBoneMatrixs; }
@@ -230,6 +236,7 @@ protected:
 
 private:
 	bool Pause = false;
+	bool bFrameChange = false;
 
 	std::set<int> NotBlendBoneIndexs;
 
