@@ -42,6 +42,8 @@ protected:
 		MainRenderer->GetRenderUnits().at(static_cast<int>(_MeshIndex))[0]->Off();
 	}
 
+	bool CheckAnimationName(std::string _AnimationName);
+
 protected:
 
 private:

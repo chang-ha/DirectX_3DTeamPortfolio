@@ -1,6 +1,7 @@
 ﻿#include "PreCompile.h"
 #include "TestLevel_Map.h"
 #include "TestMap.h"
+#include "WorldMap.h"
 #include "ContentsLight.h"
 
 TestLevel_Map::TestLevel_Map()
@@ -16,7 +17,7 @@ TestLevel_Map::~TestLevel_Map()
 void TestLevel_Map::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	{
-		std::shared_ptr<TestMap> Object = CreateActor<TestMap>(0, "TestMap");
+		std::shared_ptr<WorldMap> Object = CreateActor<WorldMap>(0, "WorldMap");
 	}
 
 
@@ -30,6 +31,15 @@ void TestLevel_Map::LevelEnd(GameEngineLevel* _NextLevel)
 void TestLevel_Map::Start()
 {
 	ContentLevel::Start();
+
+	std::shared_ptr<class GameEngineCoreWindow> CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+	if (nullptr != CoreWindow)
+	{
+		CoreWindow->AddDebugRenderTarget(1, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
+		CoreWindow->AddDebugRenderTarget(2, "ForwardTarget", GetMainCamera()->GetCameraForwardTarget());
+		CoreWindow->AddDebugRenderTarget(3, "DeferredLightTarget", GetMainCamera()->GetCameraDeferredLightTarget());
+		CoreWindow->AddDebugRenderTarget(4, "DeferredTarget", GetMainCamera()->GetCameraDeferredTarget());
+	}
 
 	Scene->setVisualizationParameter(physx::PxVisualizationParameter::eACTOR_AXES, 0.0f);
 

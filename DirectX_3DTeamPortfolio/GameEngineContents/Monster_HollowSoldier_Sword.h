@@ -12,6 +12,8 @@ enum class Enum_HollowSoldier_Sword_State
 	RH_HorizontalSlash,
 	RH_ComboAttack,
 	RH_TwinSlash,
+	Attack1,
+
 	AttackFail,
 	Parrying,
 	Hit,
@@ -85,6 +87,9 @@ protected:
 
 	void State_RH_TwinSlash_Start();
 	void State_RH_TwinSlash_Update(float _Delta);
+
+	void State_Attack1_Start();
+	void State_Attack1_Update(float _Delta);
 
 	void State_AttackFail_Start();
 	void State_AttackFail_Update(float _Delta);

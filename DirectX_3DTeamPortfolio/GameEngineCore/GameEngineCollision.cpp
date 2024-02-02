@@ -135,22 +135,22 @@ void GameEngineCollision::Update(float _Delta)
 		switch (CollisionType)
 		{
 		case ColType::SPHERE2D:
-			GameEngineDebug::DrawSphere2D(Transform);
+			GameEngineDebug::DrawSphere2D(Transform, ColColor);
 			break;
 		case ColType::AABBBOX2D:
-			GameEngineDebug::DrawBox2D(Transform);
+			GameEngineDebug::DrawBox2D(Transform, ColColor);
 			break;
 		case ColType::OBBBOX2D:
-			GameEngineDebug::DrawBox2D(Transform);
+			GameEngineDebug::DrawBox2D(Transform, ColColor);
 			break;
 		case ColType::SPHERE3D:
-			GameEngineDebug::DrawSphere2D(Transform);
+			GameEngineDebug::DrawSphere2D(Transform, ColColor);
 			break;
 		case ColType::AABBBOX3D:
-			GameEngineDebug::DrawBox2D(Transform);
+			GameEngineDebug::DrawBox2D(Transform, ColColor);
 			break;
 		case ColType::OBBBOX3D:
-			GameEngineDebug::DrawBox2D(Transform);
+			GameEngineDebug::DrawBox2D(Transform, ColColor);
 			break;
 		case ColType::MAX:
 			break;

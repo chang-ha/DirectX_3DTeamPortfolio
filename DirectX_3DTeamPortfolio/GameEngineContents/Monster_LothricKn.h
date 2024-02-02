@@ -1,23 +1,58 @@
 #pragma once
 #include "BaseMonster.h"
 
+enum class Enum_LothricKn_State
+{
+	None,
+	Sleep,
+	Idle_Standing1,
+	Left_Walk,
+	Right_Walk,
+	Front_Walk,
+	Run,
+	Patrol,
+	Attack11,
+	Attack12,
+	Attack13,
+	Attack21,
+	Attack22,
+	Attack23,
+	RH_SwordDownAttack,
+	LH_ShieldAttack,
+	RH_CAttack,
+	L_Turn,
+	R_Turn,
+	L_TurnTwice,
+	R_TurnTwice,
+};
+
+enum class Enum_MonsterDebugFlag
+{
+	None = 0,
+	PatrolValue = (1 << 0),
+};
+
+class MonsterDebugState
+{
+public:
+	bool IsFlag(Enum_MonsterDebugFlag _eValue)
+	{
+		BitMethod::IsOnFlag(DebugFlag, static_cast<int>(_eValue));
+	}
+
+	void SetFlag(Enum_MonsterDebugFlag _eValue, bool _bOn)
+	{
+		BitMethod::SetFlag(&DebugFlag, static_cast<int>(_eValue), _bOn);
+	}
+
+private:
+
+	int DebugFlag = 0;
+};
+
 // Ό³Έν :
 class Monster_LothricKn : public BaseMonster
 {
-	enum class Enum_LothricKn_State
-	{
-		None,
-		Sleep,
-		Idle_Standing1,
-		Scout,
-		Attack11,
-		Attack12,
-		Attack13,
-		RH_SwordDownAttack,
-		LH_ShieldAttack,
-		RH_CAttack,
-	};	
-
 public:
 	// constrcuter destructer
 	Monster_LothricKn();
@@ -29,6 +64,7 @@ public:
 	Monster_LothricKn& operator=(const Monster_LothricKn& _Other) = delete;
 	Monster_LothricKn& operator=(Monster_LothricKn&& _Other) noexcept = delete;
 
+	void WakeUp() override;
 
 protected:
 	void Start() override;
@@ -43,36 +79,51 @@ private:
 	// Start
 	void StartSleep(GameEngineState* _State);
 	void StartIdle_Standing1(GameEngineState* _State);
-	void StartScout(GameEngineState* _State);
+	void StartPatrol(GameEngineState* _State);
 	void StartRH_Attack11(GameEngineState* _State);
 	void StartRH_Attack12(GameEngineState* _State);
 	void StartRH_Attack13(GameEngineState* _State);
 	void StartRH_SwordDownAttack(GameEngineState* _State);
 	void StartLH_ShieldAttack(GameEngineState* _State);
 	void StartRH_CAttack(GameEngineState* _State);
+	void Start_L_Turn(GameEngineState* _State);
+	void Start_R_Turn(GameEngineState* _State);
+	void Start_L_TurnTwice(GameEngineState* _State);
+	void Start_R_TurnTwice(GameEngineState* _State);
+	void Start_Run(GameEngineState* _State);
 
 	// Update
-	void UpdateSleep(float _DeltaTime, GameEngineState* _State);
 	void UpdateIdle_Standing1(float _DeltaTime, GameEngineState* _State);
-	void UpdateScout(float _DeltaTime, GameEngineState* _State);
+	void UpdatePatrol(float _DeltaTime, GameEngineState* _State);
 	void UpdateRH_Attack11(float _DeltaTime, GameEngineState* _State);
 	void UpdateRH_Attack12(float _DeltaTime, GameEngineState* _State);
 	void UpdateRH_Attack13(float _DeltaTime, GameEngineState* _State);
 	void UpdateRH_SwordDownAttack(float _DeltaTime, GameEngineState* _State);
 	void UpdateLH_ShieldAttack(float _DeltaTime, GameEngineState* _State);
 	void UpdateRH_CAttack(float _DeltaTime, GameEngineState* _State);
+	void Update_L_Turn(float _DeltaTime, GameEngineState* _State);
+	void Update_R_Turn(float _DeltaTime, GameEngineState* _State);
+	void Update_L_TurnTwice(float _DeltaTime, GameEngineState* _State);
+	void Update_R_TurnTwice(float _DeltaTime, GameEngineState* _State);
+	void Update_Run(float _DeltaTime, GameEngineState* _State);
+
+	// End
+	void EndSleep(GameEngineState* _State);
 
 	// State Func
 	bool IsFrame(int _StartFrame, int _EndFrame = -1) const;
 	float GetDirByDot(const float4& _OtherPos) const;
-	
 
 	// Collision
-	std::shared_ptr<GameEngineActor> PatrolUpdate();
+	void FindTarget();
+	Enum_LothricKn_State GetStateToAggroTable();
 
 private:
-	std::shared_ptr<GameEngineCollision> AggroCollision;
+	std::shared_ptr<GameEngineCollision> PatrolCollision;
+	MonsterDebugState Debug;
 
+	int AttackTypeCount = 0;
 	const float FoV = 30.0f;
+
 	
 };

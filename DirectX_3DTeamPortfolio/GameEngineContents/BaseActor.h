@@ -109,6 +109,10 @@ public:
 	void SetWDirection(float _Degree);
 	float GetWDirection() const;
 
+	// State
+	virtual void WakeUp() {}
+
+
 	// Getter
 	inline std::shared_ptr<GameContentsFBXRenderer>& GetFBXRenderer() { return MainRenderer; }
 	inline std::map<int, std::shared_ptr<BoneSocketCollision>>& GetCollisions() { return SocketCollisions; }
@@ -149,6 +153,9 @@ protected:
 
 private:
 	int FindFlag(Enum_ActorStatus _Status) const;
+
+public:
+	static constexpr float W_SCALE = 50.0f;
 
 protected:
 	std::shared_ptr<GameContentsFBXRenderer> MainRenderer;
@@ -217,6 +224,8 @@ public:
 	{
 		return RotMinAngle;
 	}
+
+	float GetDistanceToTarget();
 
 private:
 	float TargetAngle = 0.f;

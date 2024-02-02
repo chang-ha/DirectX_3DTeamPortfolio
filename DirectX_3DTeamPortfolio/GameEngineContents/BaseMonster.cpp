@@ -26,3 +26,21 @@ void BaseMonster::Release()
 {
 	BaseActor::Release();
 }
+
+bool BaseMonster::CheckAnimationName(std::string _AnimationName)
+{
+	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
+
+	UpperName += ".FBX";
+
+	std::string_view name = MainRenderer->GetCurAnimation()->Aniamtion->GetName();
+
+	if (MainRenderer->GetCurAnimation()->Aniamtion->GetName() == UpperName)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}

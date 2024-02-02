@@ -49,7 +49,7 @@ void BaseActor::Start()
 {
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
 
-	Transform.SetLocalScale(float4(50.0f, 50.0f, 50.0f));
+	Transform.SetLocalScale(float4(W_SCALE, W_SCALE, W_SCALE));
 }
 
 void BaseActor::Update(float _Delta)
@@ -274,4 +274,18 @@ void BaseActor::CalcuTargetAngle()
 		RotDir = Enum_RotDir::Left;
 		TargetAngle *= -1.f;
 	}
+}
+
+float BaseActor::GetDistanceToTarget()
+{
+	if (nullptr == Target)
+	{
+		MsgBoxAssert("타겟이 존재하지 않습니다.");
+		return 0.0f;
+	}
+
+	const float4 MyPos = Transform.GetWorldPosition();
+	const float4 OtherPos = Target->Transform.GetWorldPosition();
+	const float Dist = ContentsMath::GetVector3Length(OtherPos - MyPos).X;
+	return Dist;
 }

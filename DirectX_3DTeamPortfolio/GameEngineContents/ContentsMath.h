@@ -1,13 +1,36 @@
 #pragma once
 
+class ContentsRandom
+{
+public:
+	static int GetSeed();
+	static int RandomInt(int _iMin, int _iMax);
+
+private:
+	static void AdjustSeed();
+
+	ContentsRandom() {}
+	~ContentsRandom() {}
+
+	// delete Function
+	ContentsRandom(const ContentsRandom& _Other) = delete;
+	ContentsRandom(ContentsRandom&& _Other) noexcept = delete;
+	ContentsRandom& operator=(const ContentsRandom& _Other) = delete;
+	ContentsRandom& operator=(ContentsRandom&& _Other) noexcept = delete;
+
+	static int Seed;
+};
+
 // Ό³Έν :
 class ContentsMath
 {
 public:
 	static float GetDegreeTo2f(float _X, float _Y);
 	static float GetDegreeTo2f(const float4& _Vec);
+	static float ClampDeg(float _D);
 
 	static float4 GetVectorToOther(const float4& _MyPos, const float4& _OtherPos);
+	static float4 GetVector3Length(const float4& _V);
 
 protected:
 
