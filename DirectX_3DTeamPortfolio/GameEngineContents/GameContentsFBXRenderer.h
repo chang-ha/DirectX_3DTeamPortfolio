@@ -171,6 +171,16 @@ public:
 		return CurAnimation->CurFrame;
 	}
 
+	void ChangeCurFrame(UINT _Value)
+	{
+		if (CurAnimation->End < _Value)
+		{
+			MsgBoxAssert("넣은 인자 값이 현재 애니메이션의 엔드 프레임보다 큰 수입니다.");
+			return;
+		}
+		CurAnimation->CurFrame = _Value;
+	}
+
 	std::shared_ptr<GameEngineFBXMesh> GetFBXMesh(std::string_view _Name);
 
 	inline std::shared_ptr<GameEngineFBXMesh>& GetFBXMesh() { return FBXMesh; }
