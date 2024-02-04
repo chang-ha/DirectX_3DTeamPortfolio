@@ -11,8 +11,6 @@ enum class Enum_LothricKn_State
 	R_Side_Step, // R == Right
 	F_Step, // F == Forward
 	B_Step, // B == Backward
-	Right_Walk,
-	Front_Walk,
 	Run,
 	Patrol,
 	Combo_Att_11,
@@ -28,6 +26,16 @@ enum class Enum_LothricKn_State
 	R_Turn,
 	L_TurnTwice,
 	R_TurnTwice,
+	Idle_Sit,
+	SitUp,
+	DH_Hold,
+	DH_UnHold,
+	DH_Stab_Att,
+	DH_Swing_Att,
+	DH_L_Side_Step,
+	DH_R_Side_Step,
+	DH_F_Step,
+	DH_B_Step,
 };
 
 enum class Enum_MonsterDebugFlag
@@ -57,6 +65,21 @@ private:
 // Ό³Έν :
 class Monster_LothricKn : public BaseMonster
 {
+	enum class Enum_IdleType
+	{
+		Standing,
+		Sit,
+		None,
+	};
+
+	enum class Enum_Combat_State
+	{
+		Normal,
+		Two_Handed,
+		Gaurding,
+		None,
+	};
+
 public:
 	// constrcuter destructer
 	Monster_LothricKn();
@@ -103,6 +126,16 @@ private:
 	void Start_F_Step(GameEngineState* _State);
 	void Start_B_Step(GameEngineState* _State);
 	void Start_Run(GameEngineState* _State);
+	void Start_Idle_Sit(GameEngineState* _State);
+	void Start_SitUp(GameEngineState* _State);
+	void Start_DH_Hold(GameEngineState* _State);
+	void Start_DH_UnHold(GameEngineState* _State);
+	void Start_DH_Stab_Att(GameEngineState* _State);
+	void Start_DH_Swing_Att(GameEngineState* _State);
+	void Start_DH_L_Side_Step(GameEngineState* _State);
+	void Start_DH_R_Side_Step(GameEngineState* _State);
+	void Start_DH_F_Step(GameEngineState* _State);
+	void Start_DH_B_Step(GameEngineState* _State);
 
 	// Update
 	void Update_Debug(float _DeltaTime, GameEngineState* _State);
@@ -126,9 +159,20 @@ private:
 	void Update_F_Step(float _DeltaTime, GameEngineState* _State);
 	void Update_B_Step(float _DeltaTime, GameEngineState* _State);
 	void Update_Run(float _DeltaTime, GameEngineState* _State);
+	void Update_Idle_Sit(float _DeltaTime, GameEngineState* _State);
+	void Update_SitUp(float _DeltaTime, GameEngineState* _State);
+	void Update_DH_Hold(float _DeltaTime, GameEngineState* _State);
+	void Update_DH_UnHold(float _DeltaTime, GameEngineState* _State);
+	void Update_DH_Stab_Att(float _DeltaTime, GameEngineState* _State);
+	void Update_DH_Swing_Att(float _DeltaTime, GameEngineState* _State);
+	void Update_DH_Walk(float _DeltaTime, GameEngineState* _State);
 
 	// End
 	void EndSleep(GameEngineState* _State);
+	void End_DH_Hold(GameEngineState* _State);
+	void End_DH_UnHold(GameEngineState* _State);
+	void End_DH_Stab_Att(GameEngineState* _State);
+	void End_DH_Swing_Att(GameEngineState* _State);
 
 	// State Func
 	bool IsFrame(int _StartFrame, int _EndFrame = -1) const;
@@ -151,10 +195,16 @@ private:
 	
 
 	Enum_LothricKn_State GetStateToAggroTable();
+
 	Enum_LothricKn_State GetStateToMovementTable() const;
 	Enum_LothricKn_State GetStateToMovementTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
+	Enum_LothricKn_State GetStateToNormalMovementTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
+	Enum_LothricKn_State GetStateToDHMovementTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
+
 	Enum_LothricKn_State GetStateToAttackTable();
 	Enum_LothricKn_State GetStateToAttackTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle);
+	Enum_LothricKn_State GetStateToNormalAttackTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle);
+	Enum_LothricKn_State GetStateToDHAttackTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
 
 	// Collision
 	void FindTarget();
@@ -162,6 +212,9 @@ private:
 private:
 	std::shared_ptr<GameEngineCollision> PatrolCollision;
 	MonsterDebugState Debug;
+
+	Enum_IdleType IdleType = Enum_IdleType::None;
+	Enum_Combat_State CombatState = Enum_Combat_State::None;
 
 	int AttackRecord = 0;
 	float fMaxStateTime = 0.0f;

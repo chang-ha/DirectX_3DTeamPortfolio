@@ -80,6 +80,14 @@ void Monster_LothricKn::CreateFSM()
 	MainState.CreateState(Enum_LothricKn_State::F_Step, { .Start = std::bind(&Monster_LothricKn::Start_F_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Step,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::B_Step, { .Start = std::bind(&Monster_LothricKn::Start_B_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_B_Step,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::Run, { .Start = std::bind(&Monster_LothricKn::Start_Run,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Run,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::DH_Hold, { .Start = std::bind(&Monster_LothricKn::Start_DH_Hold,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Hold,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_DH_Hold,this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::DH_UnHold, { .Start = std::bind(&Monster_LothricKn::Start_DH_UnHold,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_UnHold,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_DH_UnHold,this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::DH_Stab_Att, { .Start = std::bind(&Monster_LothricKn::Start_DH_Stab_Att,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Stab_Att,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_DH_Stab_Att,this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::DH_Swing_Att, { .Start = std::bind(&Monster_LothricKn::Start_DH_Swing_Att,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Swing_Att,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_DH_Swing_Att,this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::DH_L_Side_Step, { .Start = std::bind(&Monster_LothricKn::Start_DH_L_Side_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Walk,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::DH_R_Side_Step, { .Start = std::bind(&Monster_LothricKn::Start_DH_R_Side_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Walk,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::DH_F_Step, { .Start = std::bind(&Monster_LothricKn::Start_DH_F_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Walk,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::DH_B_Step, { .Start = std::bind(&Monster_LothricKn::Start_DH_B_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Walk,this, std::placeholders::_1,std::placeholders::_2) });
 
 	MainState.ChangeState(Enum_LothricKn_State::Debug);
 }
@@ -197,6 +205,56 @@ void Monster_LothricKn::Start_Run(GameEngineState* _State)
 {
 	ResetStateTime();
 	MainRenderer->ChangeAnimation("Run");
+}
+
+void Monster_LothricKn::Start_Idle_Sit(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("Idle_Sit");
+}
+
+void Monster_LothricKn::Start_SitUp(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("SitUp");
+}
+
+void Monster_LothricKn::Start_DH_Hold(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("DH_Hold");
+}
+
+void Monster_LothricKn::Start_DH_UnHold(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("DH_UnHold");
+}
+
+void Monster_LothricKn::Start_DH_Stab_Att(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("DH_Stab_Att");
+}
+
+void Monster_LothricKn::Start_DH_Swing_Att(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("DH_Swing_Att");
+}
+
+void Monster_LothricKn::Start_DH_L_Side_Step(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("DH_L_Side_Step");
+}
+
+void Monster_LothricKn::Start_DH_R_Side_Step(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("DH_R_Side_Step");
+}
+
+void Monster_LothricKn::Start_DH_F_Step(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("DH_F_Step");
+}
+
+void Monster_LothricKn::Start_DH_B_Step(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("DH_B_Step");
 }
 
 
@@ -517,29 +575,18 @@ void Monster_LothricKn::Update_R_TurnTwice(float _DeltaTime, GameEngineState* _S
 
 void Monster_LothricKn::Update_L_Side_Step(float _DeltaTime, GameEngineState* _State)
 {
-	// Time
 	const float fStateTime = _State->GetStateTime();
-	if (fMaxStateTime < fStateTime)
-	{
-		Enum_LothricKn_State FindState = GetStateToAggroTable();
-		if (Enum_LothricKn_State::None == FindState)
-		{
-			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
-			return;
-		}
 
-		_State->ChangeState(FindState);
-		return;
-	}
+	bool AngleCheck = false == IsTargetInAngle(MIN_ROT_ANGLE);
+	bool TimeCheck = fMaxStateTime < fStateTime;
+	bool DistCheck = Enum_TargetDist::Medium != Monster_LothricKn::GetTargetDistance_e();
 
-	// Angle
-	if (false == IsTargetInAngle(MIN_ROT_ANGLE))
+	if (AngleCheck)
 	{
 		RotToTarget(_DeltaTime, ROTSPEED_TO_TARGET);
 	}
 
-	// Dist 
-	if (Enum_TargetDist::Medium != Monster_LothricKn::GetTargetDistance_e())
+	if (TimeCheck || DistCheck)
 	{
 		Enum_LothricKn_State FindState = GetStateToAggroTable();
 		if (Enum_LothricKn_State::None == FindState)
@@ -555,28 +602,18 @@ void Monster_LothricKn::Update_L_Side_Step(float _DeltaTime, GameEngineState* _S
 
 void Monster_LothricKn::Update_R_Side_Step(float _DeltaTime, GameEngineState* _State)
 {
-	// Time
 	const float fStateTime = _State->GetStateTime();
-	if (fMaxStateTime < fStateTime)
-	{
-		Enum_LothricKn_State FindState = GetStateToAggroTable();
-		if (Enum_LothricKn_State::None == FindState)
-		{
-			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
-			return;
-		}
 
-		_State->ChangeState(FindState);
-		return;
-	}
+	bool AngleCheck = false == IsTargetInAngle(MIN_ROT_ANGLE);
+	bool TimeCheck = fMaxStateTime < fStateTime;
+	bool DistCheck = Enum_TargetDist::Medium != Monster_LothricKn::GetTargetDistance_e();
 
-	// Angle
-	if (false == IsTargetInAngle(MIN_ROT_ANGLE))
+	if (AngleCheck)
 	{
 		RotToTarget(_DeltaTime, ROTSPEED_TO_TARGET);
 	}
 
-	if (Enum_TargetDist::Medium != Monster_LothricKn::GetTargetDistance_e())
+	if (TimeCheck || DistCheck)
 	{
 		Enum_LothricKn_State FindState = GetStateToAggroTable();
 		if (Enum_LothricKn_State::None == FindState)
@@ -592,28 +629,18 @@ void Monster_LothricKn::Update_R_Side_Step(float _DeltaTime, GameEngineState* _S
 
 void Monster_LothricKn::Update_F_Step(float _DeltaTime, GameEngineState* _State)
 {
-	// Time
 	const float fStateTime = _State->GetStateTime();
-	if (fMaxStateTime < fStateTime)
-	{
-		Enum_LothricKn_State FindState = GetStateToAggroTable();
-		if (Enum_LothricKn_State::None == FindState)
-		{
-			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
-			return;
-		}
 
-		_State->ChangeState(FindState);
-		return;
-	}
+	bool AngleCheck = false == IsTargetInAngle(MIN_ROT_ANGLE);
+	bool TimeCheck = fMaxStateTime < fStateTime;
+	bool DistCheck = Enum_TargetDist::Medium != Monster_LothricKn::GetTargetDistance_e();
 
-	// Angle
-	if (false == IsTargetInAngle(MIN_ROT_ANGLE))
+	if (AngleCheck)
 	{
 		RotToTarget(_DeltaTime, ROTSPEED_TO_TARGET);
 	}
 
-	if (Enum_TargetDist::Medium != Monster_LothricKn::GetTargetDistance_e())
+	if (TimeCheck || DistCheck)
 	{
 		Enum_LothricKn_State FindState = GetStateToAggroTable();
 		if (Enum_LothricKn_State::None == FindState)
@@ -629,28 +656,18 @@ void Monster_LothricKn::Update_F_Step(float _DeltaTime, GameEngineState* _State)
 
 void Monster_LothricKn::Update_B_Step(float _DeltaTime, GameEngineState* _State)
 {
-	// Time
 	const float fStateTime = _State->GetStateTime();
-	if (fMaxStateTime < fStateTime)
-	{
-		Enum_LothricKn_State FindState = GetStateToAggroTable();
-		if (Enum_LothricKn_State::None == FindState)
-		{
-			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
-			return;
-		}
 
-		_State->ChangeState(FindState);
-		return;
-	}
+	bool AngleCheck = false == IsTargetInAngle(MIN_ROT_ANGLE);
+	bool TimeCheck = fMaxStateTime < fStateTime;
+	bool DistCheck = Enum_TargetDist::Medium != Monster_LothricKn::GetTargetDistance_e();
 
-	// Angle
-	if (false == IsTargetInAngle(MIN_ROT_ANGLE))
+	if (AngleCheck)
 	{
 		RotToTarget(_DeltaTime, ROTSPEED_TO_TARGET);
 	}
 
-	if (Enum_TargetDist::Medium != Monster_LothricKn::GetTargetDistance_e())
+	if (TimeCheck || DistCheck)
 	{
 		Enum_LothricKn_State FindState = GetStateToAggroTable();
 		if (Enum_LothricKn_State::None == FindState)
@@ -694,6 +711,175 @@ void Monster_LothricKn::Update_Run(float _DeltaTime, GameEngineState* _State)
 	}
 }
 
+void Monster_LothricKn::Update_Idle_Sit(float _DeltaTime, GameEngineState* _State)
+{
+	FindTarget();
+	if (true == IsTargeting())
+	{
+		_State->ChangeState(Enum_LothricKn_State::SitUp);
+		return;
+	}
+}
+
+void Monster_LothricKn::Update_SitUp(float _DeltaTime, GameEngineState* _State)
+{
+	if (IsFrameOnce(29))
+	{
+		Enum_LothricKn_State FindState = GetStateToAttackTable();
+		if (Enum_LothricKn_State::None != FindState)
+		{
+			_State->ChangeState(FindState);
+			return;
+		}
+	}
+
+	if (IsFrame(31))
+	{
+		Enum_LothricKn_State FindState = GetStateToAggroTable();
+		if (Enum_LothricKn_State::None == FindState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindState);
+		return;
+	}
+}
+
+void Monster_LothricKn::Update_DH_Hold(float _DeltaTime, GameEngineState* _State)
+{
+	if (IsFrameOnce(18))
+	{
+		Enum_LothricKn_State FindState = GetStateToAttackTable();
+		if (Enum_LothricKn_State::None != FindState)
+		{
+			_State->ChangeState(FindState);
+			return;
+		}
+	}
+
+	if (IsFrame(19))
+	{
+		Enum_LothricKn_State FindState = GetStateToMovementTable();
+		if (Enum_LothricKn_State::None == FindState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindState);
+		return;
+	}
+}
+
+void Monster_LothricKn::Update_DH_UnHold(float _DeltaTime, GameEngineState* _State)
+{
+	if (IsFrameOnce(17))
+	{
+		Enum_LothricKn_State FindState = GetStateToAttackTable();
+		if (Enum_LothricKn_State::None != FindState)
+		{
+			_State->ChangeState(FindState);
+			return;
+		}
+	}
+
+	if (IsFrame(19))
+	{
+		Enum_LothricKn_State FindState = GetStateToMovementTable();
+		if (Enum_LothricKn_State::None == FindState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindState);
+		return;
+	}
+}
+
+void Monster_LothricKn::Update_DH_Stab_Att(float _DeltaTime, GameEngineState* _State)
+{
+	if (IsFrameOnce(44))
+	{
+		Enum_LothricKn_State FindState = GetStateToAttackTable();
+		if (Enum_LothricKn_State::None != FindState)
+		{
+			_State->ChangeState(FindState);
+			return;
+		}
+	}
+
+	if (IsFrame(48))
+	{
+		Enum_LothricKn_State FindState = GetStateToMovementTable();
+		if (Enum_LothricKn_State::None == FindState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindState);
+		return;
+	}
+}
+
+void Monster_LothricKn::Update_DH_Swing_Att(float _DeltaTime, GameEngineState* _State)
+{
+	if (IsFrameOnce(45))
+	{
+		Enum_LothricKn_State FindState = GetStateToAttackTable();
+		if (Enum_LothricKn_State::None != FindState)
+		{
+			_State->ChangeState(FindState);
+			return;
+		}
+	}
+
+	if (IsFrame(49))
+	{
+		Enum_LothricKn_State FindState = GetStateToMovementTable();
+		if (Enum_LothricKn_State::None == FindState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindState);
+		return;
+	}
+}
+
+void Monster_LothricKn::Update_DH_Walk(float _DeltaTime, GameEngineState* _State)
+{
+	const float fStateTime = _State->GetStateTime();
+
+	bool AngleCheck = false == IsTargetInAngle(MIN_ROT_ANGLE);
+	bool TimeCheck = fMaxStateTime < fStateTime;
+	bool DistCheck = Enum_TargetDist::Medium != Monster_LothricKn::GetTargetDistance_e();
+
+	if (AngleCheck)
+	{
+		RotToTarget(_DeltaTime, ROTSPEED_TO_TARGET);
+	}
+
+	if (TimeCheck || DistCheck)
+	{
+		Enum_LothricKn_State FindState = GetStateToAggroTable();
+		if (Enum_LothricKn_State::None == FindState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindState);
+		return;
+	}
+}
+
+
+
 
 
 ////////////////////////////////////////////////////////////
@@ -704,12 +890,74 @@ void Monster_LothricKn::EndSleep(GameEngineState* _State)
 	On();
 }
 
+void Monster_LothricKn::End_DH_Hold(GameEngineState* _State)
+{
+	CombatState = Enum_Combat_State::Two_Handed;
+}
+
+void Monster_LothricKn::End_DH_UnHold(GameEngineState* _State)
+{
+	CombatState = Enum_Combat_State::Normal;
+}
+
+void Monster_LothricKn::End_DH_Stab_Att(GameEngineState* _State)
+{
+	CombatState = Enum_Combat_State::Normal;
+}
+
+void Monster_LothricKn::End_DH_Swing_Att(GameEngineState* _State)
+{
+	CombatState = Enum_Combat_State::Normal;
+}
+
 
 
 
 
 ////////////////////////////////////////////////////////////
 ////////////// State Func
+
+bool Monster_LothricKn::CanAttack(float _fDist, float _fDir) const
+{
+	const float Dist = BaseActor::GetTargetDistance();
+
+	const float AbsTargetAngle = std::fabs(BaseActor::GetTargetAngle());
+
+	bool DistCheck = (Dist < _fDist);
+	bool AngleCheck = (AbsTargetAngle < _fDir);
+
+	if (AngleCheck && DistCheck)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool Monster_LothricKn::IsTargetInAngle(float _fAngle) const
+{
+	const float AbsTargetAngle = std::fabs(BaseActor::GetTargetAngle());
+	if (AbsTargetAngle < _fAngle)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void Monster_LothricKn::RotToTarget(float _DeltaTime, float _fSpeed)
+{
+	const float fRotDir = BaseActor::GetRotDir_f();
+	const float RotAngle = fRotDir * _fSpeed * _DeltaTime;
+
+	if (nullptr == Capsule)
+	{
+		MsgBoxAssert("피직스 컨포넌트가 존재하지 않습니다.");
+		return;
+	}
+
+	Capsule->AddWorldRotation(float4(0.0f, RotAngle, 0.0f));
+}
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToAggroTable()
 {
@@ -750,6 +998,31 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToMovementTable() const
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToMovementTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const
 {
+	switch (CombatState)
+	{
+	case Monster_LothricKn::Enum_Combat_State::Normal:
+		return GetStateToNormalMovementTable(_eTDist, _eTAngle);
+	case Monster_LothricKn::Enum_Combat_State::Two_Handed:
+		return GetStateToDHMovementTable(_eTDist, _eTAngle);
+	case Monster_LothricKn::Enum_Combat_State::Gaurding:
+		break;
+	case Monster_LothricKn::Enum_Combat_State::None:
+	default:
+		break;
+	}
+
+	MsgBoxAssert("해당 상태를 초기화해주지 않았습니다.");
+	return Enum_LothricKn_State::None;
+}
+
+Enum_LothricKn_State Monster_LothricKn::GetStateToNormalMovementTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const
+{
+	if (Enum_Combat_State::Normal != CombatState)
+	{
+		MsgBoxAssert("현재 상태로 해당 테이블을 반환할 수 없습니다.");
+		return Enum_LothricKn_State::None;
+	}
+
 	if (Enum_TargetAngle::Back == _eTAngle)
 	{
 		if (Enum_RotDir::Left == BaseActor::GetRotDir_e())
@@ -811,58 +1084,63 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToMovementTable(Enum_TargetDist 
 
 		if (DirChance == eDirChance::Right)
 		{
-			return Enum_LothricKn_State::Right_Walk;
+			return Enum_LothricKn_State::R_Side_Step;
 		}
 
 		if (DirChance == eDirChance::Front)
 		{
-			return Enum_LothricKn_State::Front_Walk;
+			return Enum_LothricKn_State::F_Step;
 		}
 	}
 
 	return Enum_LothricKn_State::None;
 }
 
-bool Monster_LothricKn::CanAttack(float _fDist, float _fDir) const
+Enum_LothricKn_State Monster_LothricKn::GetStateToDHMovementTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const
 {
-	const float Dist = BaseActor::GetTargetDistance();
-
-	const float AbsTargetAngle = std::fabs(BaseActor::GetTargetAngle());
-
-	bool DistCheck = (Dist < _fDist);
-	bool AngleCheck = (AbsTargetAngle < _fDir);
-
-	if (AngleCheck && DistCheck)
+	if (Enum_Combat_State::Two_Handed != CombatState)
 	{
-		return true;
+		MsgBoxAssert("현재 상태로 해당 테이블을 반환할 수 없습니다.");
+		return Enum_LothricKn_State::None;
 	}
 
-	return false;
-}
-
-bool Monster_LothricKn::IsTargetInAngle(float _fAngle) const
-{
-	const float AbsTargetAngle = std::fabs(BaseActor::GetTargetAngle());
-	if (AbsTargetAngle < _fAngle)
+	if (Enum_TargetAngle::Back == _eTAngle)
 	{
-		return true;
+		return Enum_LothricKn_State::DH_UnHold;
 	}
 
-	return false;
-}
-
-void Monster_LothricKn::RotToTarget(float _DeltaTime, float _fSpeed)
-{
-	const float fRotDir = BaseActor::GetRotDir_f();
-	const float RotAngle = fRotDir * _fSpeed * _DeltaTime;
-
-	if (nullptr == Capsule)
+	if (Enum_TargetDist::Long == _eTDist)
 	{
-		MsgBoxAssert("피직스 컨포넌트가 존재하지 않습니다.");
-		return;
+		return Enum_LothricKn_State::DH_UnHold;
 	}
 
-	Capsule->AddWorldRotation(float4(0.0f, RotAngle, 0.0f));
+	if (Enum_TargetDist::Medium == _eTDist)
+	{
+		const int iChance = ContentsRandom::RandomInt(0, 2);
+		enum MoveType
+		{
+			Left,
+			Right,
+			Forward,
+		};
+
+		switch (iChance)
+		{
+		case Left:
+			return Enum_LothricKn_State::DH_L_Side_Step;
+			break;
+		case Right:
+			return Enum_LothricKn_State::DH_R_Side_Step;
+			break;
+		case Forward:
+			return Enum_LothricKn_State::DH_F_Step;
+			break;
+		default:
+			break;
+		}
+	}
+
+	return Enum_LothricKn_State::None;
 }
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToAttackTable()
@@ -876,6 +1154,31 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToAttackTable()
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToAttackTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle)
 {
+	switch (CombatState)
+	{
+	case Monster_LothricKn::Enum_Combat_State::Normal:
+		return GetStateToNormalAttackTable(_eTDist, _eTAngle);
+	case Monster_LothricKn::Enum_Combat_State::Two_Handed:
+		return GetStateToDHAttackTable(_eTDist, _eTAngle);
+	case Monster_LothricKn::Enum_Combat_State::Gaurding:
+		break;
+	case Monster_LothricKn::Enum_Combat_State::None:
+	default:
+		break;
+	}
+
+	MsgBoxAssert("해당 상태를 초기화해주지 않았습니다.");
+	return Enum_LothricKn_State::None;
+}
+
+Enum_LothricKn_State Monster_LothricKn::GetStateToNormalAttackTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle)
+{
+	if (Enum_Combat_State::Normal != CombatState)
+	{
+		MsgBoxAssert("현재 상태로 해당 테이블을 반환할 수 없습니다.");
+		return Enum_LothricKn_State::None;
+	}
+
 	if (Enum_TargetDist::Close == _eTDist)
 	{
 		const float HitDownAngle = 40.0f;
@@ -890,7 +1193,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToAttackTable(Enum_TargetDist _e
 	{
 		if (Enum_TargetAngle::Front == _eTAngle)
 		{
-			const int iChance = ContentsRandom::RandomInt(0,3);
+			const int iChance = ContentsRandom::RandomInt(0, 3);
 			enum eAttackType
 			{
 				Combo = 0,
@@ -909,13 +1212,13 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToAttackTable(Enum_TargetDist _e
 			{
 				MsgBoxAssert("상태 값이 잘못들어왔습니다. 값을 확인해주세요")
 			}
-				break;
+			break;
 			}
 		}
 	}
 
 	if (Enum_TargetDist::Close == _eTDist || Enum_TargetDist::Melee == _eTDist)
-	{ 
+	{
 		if (Enum_TargetAngle::Side == _eTAngle)
 		{
 			if (Enum_RotDir::Left == BaseActor::GetRotDir_e())
@@ -956,6 +1259,39 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToAttackTable(Enum_TargetDist _e
 		}
 
 		return AttackState;
+	}
+
+	return Enum_LothricKn_State::None;
+}
+
+Enum_LothricKn_State Monster_LothricKn::GetStateToDHAttackTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const
+{
+	if (Enum_Combat_State::Two_Handed != CombatState)
+	{
+		MsgBoxAssert("현재 상태로 해당 테이블을 반환할 수 없습니다.");
+		return Enum_LothricKn_State::None;
+	}
+
+	if (Enum_TargetDist::Close == _eTDist)
+	{
+		const float HitDownAngle = 40.0f;
+
+		if (Enum_TargetAngle::Side == _eTAngle)
+		{
+			return Enum_LothricKn_State::DH_Swing_Att;
+		}
+	}
+
+	if (Enum_TargetDist::Melee == _eTDist || Enum_TargetDist::Melee == _eTDist)
+	{
+		if (Enum_TargetAngle::Front == _eTAngle)
+		{
+			const int iChance = ContentsRandom::RandomInt(1, 3);
+			if (1 == iChance)
+			{
+				return Enum_LothricKn_State::DH_Stab_Att;
+			}
+		}
 	}
 
 	return Enum_LothricKn_State::None;
