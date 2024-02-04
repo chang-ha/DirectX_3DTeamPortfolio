@@ -240,6 +240,7 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(std::str
 				MsgBoxAssert("FBX매쉬에 텍스처 정보 로드에 실패했습니다.");
 			}
 
+			
 			RenderBaseInfoValue.IsDiffuse = 1;
 
 			Unit->ShaderResHelper.SetTexture("DiffuseTexture", DifTex);

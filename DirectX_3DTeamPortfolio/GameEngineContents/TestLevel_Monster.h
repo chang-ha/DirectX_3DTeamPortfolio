@@ -27,6 +27,7 @@ private:
 	class DummyActor* pActor = nullptr;
 
 	bool IsUpdate = false;
+	bool bCameraFocus = false;
 
 };
 

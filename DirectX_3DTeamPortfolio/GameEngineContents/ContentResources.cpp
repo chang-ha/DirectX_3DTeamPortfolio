@@ -90,6 +90,26 @@ void ContentResources::ContentResourcesInit()
 		Mat->SetVertexShader("ContentsStaticMesh_VS");
 		Mat->SetPixelShader("ContentsStaticMesh_PS");
 	}
+	
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBX_Static_NorX_SpcX");
+		Mat->SetVertexShader("ContentsStaticMesh_NorX_SpcX_VS");
+		Mat->SetPixelShader("ContentsStaticMesh_NorX_SpcX_PS");
+	}
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBX_Static_SpcX");
+		Mat->SetVertexShader("ContentsStaticMesh_SpcX_VS");
+		Mat->SetPixelShader("ContentsStaticMesh_SpcX_PS");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBX_Static_Color");
+		Mat->SetVertexShader("ContentsStaticMesh_Color_VS");
+		Mat->SetPixelShader("ContentsStaticMesh_Color_PS");
+	}
+
+
+
 
 	//PostEffect
 
@@ -112,21 +132,6 @@ void ContentResources::ContentResourcesInit()
 		GameEngineBlend::Create("MergeBlend", Desc);
 	}
 
-	//{
-	//	std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FadePostEffect");
-	//	Mat->SetVertexShader("FadePostEffect_VS");
-	//	Mat->SetPixelShader("FadePostEffect_PS");
-	//	Mat->SetDepthState("AlwaysDepth");
-	//	Mat->SetRasterizer("EngineRasterizer");
-	//}
-
-	//{
-	//	std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("BlurPostEffect");
-	//	Mat->SetVertexShader("BlurPostEffect_VS");
-	//	Mat->SetPixelShader("BlurPostEffect_PS");
-	//	Mat->SetDepthState("AlwaysDepth");
-	//	Mat->SetRasterizer("EngineRasterizer");
-	//}
 
 	{
 		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FXAA");

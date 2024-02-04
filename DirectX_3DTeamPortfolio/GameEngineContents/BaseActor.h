@@ -150,7 +150,11 @@ protected:
 private:
 	int FindFlag(Enum_ActorStatus _Status) const;
 
+public:
+
 protected:
+	static constexpr float W_SCALE = 50.0f;
+
 	std::shared_ptr<GameContentsFBXRenderer> MainRenderer;
 	std::shared_ptr<GameContentsFBXRenderer> test_Render;
 	std::map<int, std::shared_ptr<BoneSocketCollision>> SocketCollisions;
@@ -183,12 +187,12 @@ public:
 		return false;
 	}
 
-	inline float GetTargetAngle()
+	inline float GetTargetAngle() const
 	{
 		return TargetAngle;
 	}
 
-	inline Enum_RotDir GetRotDir_e()
+	inline Enum_RotDir GetRotDir_e() const
 	{
 		return RotDir;
 	}
@@ -217,6 +221,8 @@ public:
 	{
 		return RotMinAngle;
 	}
+
+	float GetTargetDistance() const;
 
 private:
 	float TargetAngle = 0.f;

@@ -83,7 +83,7 @@
       <Filter>Actor\Monster\LothricKnight</Filter>
     </ClCompile>
     <ClCompile Include="BoneSocketCollision.cpp">
-      <Filter>Actor\Monster\Collision</Filter>
+      <Filter>Actor\Monster\Component</Filter>
     </ClCompile>
     <ClCompile Include="Monster_Hollow_NonFirstAttack.cpp">
       <Filter>Actor\Monster\Hollow</Filter>
@@ -178,6 +178,21 @@
     <ClCompile Include="Monster_HollowSoldier_RoundShield.cpp">
       <Filter>Actor\Monster\Hollow</Filter>
     </ClCompile>
+    <ClCompile Include="Monster_HollowSoldier_Crossbow.cpp">
+      <Filter>Actor\Monster\Hollow</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_HollowSoldier_Spear.cpp">
+      <Filter>Actor\Monster\Hollow</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_Hollow_Assassin.cpp">
+      <Filter>Actor\Monster\Hollow</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsMouseInput.cpp">
+      <Filter>Actor\Monster\LothricKnight</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldMap.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -259,7 +274,7 @@
       <Filter>Actor\Monster\Boss</Filter>
     </ClInclude>
     <ClInclude Include="BoneSocketCollision.h">
-      <Filter>Actor\Monster\Collision</Filter>
+      <Filter>Actor\Monster\Component</Filter>
     </ClInclude>
     <ClInclude Include="Monster_Hollow_NonFirstAttack.h">
       <Filter>Actor\Monster\Hollow</Filter>
@@ -354,6 +369,21 @@
     <ClInclude Include="Monster_HollowSoldier_RoundShield.h">
       <Filter>Actor\Monster\Hollow</Filter>
     </ClInclude>
+    <ClInclude Include="Monster_HollowSoldier_Crossbow.h">
+      <Filter>Actor\Monster\Hollow</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_HollowSoldier_Spear.h">
+      <Filter>Actor\Monster\Hollow</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_Hollow_Assassin.h">
+      <Filter>Actor\Monster\Hollow</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsMouseInput.h">
+      <Filter>Actor\Monster\LothricKnight</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldMap.h">
+      <Filter>Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -422,14 +452,14 @@
     <Filter Include="Actor\Monster\Hollow">
       <UniqueIdentifier>{d4c245a2-3270-417d-810e-ce6e0c363efe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Monster\Collision">
-      <UniqueIdentifier>{20ef003c-31cf-4935-939c-83cd89462723}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Actor\Player">
       <UniqueIdentifier>{a161891d-57fb-4a2c-96bf-522529e04c95}</UniqueIdentifier>
     </Filter>
     <Filter Include="Actor\UI">
       <UniqueIdentifier>{f286ce73-744d-4f73-98b1-957bff451289}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Monster\Component">
+      <UniqueIdentifier>{20ef003c-31cf-4935-939c-83cd89462723}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
