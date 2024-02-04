@@ -5,6 +5,7 @@ class ContentsRandom
 public:
 	static int GetSeed();
 	static int RandomInt(int _iMin, int _iMax);
+	static float Randomfloat(float _fMin, float _fMax);
 
 private:
 	static void AdjustSeed();

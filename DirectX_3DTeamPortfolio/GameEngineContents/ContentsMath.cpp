@@ -4,16 +4,37 @@
 int ContentsRandom::Seed = 0;
 int ContentsRandom::RandomInt(int _iMin, int _iMax)
 {
+	if (_iMin > _iMax)
+	{
+		MsgBoxAssert("최소값은 최대값보다 클 수 없습니다.");
+		return 0;
+	}
+
 	GameEngineRandom RandomClass;
 	RandomClass.SetSeed(GetSeed());
-	int Chance = RandomClass.RandomInt(_iMin, _iMax);
-	return Chance;
+	int iChance = RandomClass.RandomInt(_iMin, _iMax);
+	return iChance;
+}
+
+float ContentsRandom::Randomfloat(float _fMin, float _fMax)
+{
+	if (_fMin > _fMax)
+	{
+		MsgBoxAssert("최소값은 최대값보다 클 수 없습니다.");
+		return 0.0f;
+	}
+
+	GameEngineRandom RandomClass;
+	RandomClass.SetSeed(GetSeed());
+	float fChance = RandomClass.RandomFloat(_fMin, _fMax);
+	return fChance;
 }
 
 int ContentsRandom::GetSeed()
 {
+	++Seed;
 	AdjustSeed();
-	return ++Seed;
+	return Seed;
 }
 
 void ContentsRandom::AdjustSeed()

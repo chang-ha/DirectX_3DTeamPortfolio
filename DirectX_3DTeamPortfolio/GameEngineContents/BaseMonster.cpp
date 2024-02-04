@@ -44,3 +44,23 @@ bool BaseMonster::CheckAnimationName(std::string _AnimationName)
 		return false;
 	}
 }
+
+float BaseMonster::ConvertDistance_eTof(Enum_TargetDist _eTDist) const
+{
+	MsgBoxAssert("자식에서 재정의해야하는 함수입니다.");
+	return 0.0f;
+}
+
+bool BaseMonster::IsTargetInRange(Enum_TargetDist _eTDist)
+{
+	const float fRange = ConvertDistance_eTof(_eTDist);
+	const float fCheckDist = fRange * W_SCALE;
+	const float fTargetDist = BaseActor::GetTargetDistance();
+
+	if (fTargetDist < fCheckDist)
+	{
+		return true;
+	}
+
+	return false;
+}

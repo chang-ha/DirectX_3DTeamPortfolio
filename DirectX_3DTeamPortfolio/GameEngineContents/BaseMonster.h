@@ -99,6 +99,16 @@ protected:
 		return Enum_TargetAngle::None;
 	}
 
+	// 자식에서 함수 재정의해서 사용할 것
+	virtual Enum_TargetDist GetTargetDistance_e() const
+	{
+		MsgBoxAssert("재정의를 하지 않고 사용할 수 없는 함수입니다.");
+		return Enum_TargetDist::None;
+	}
+
+	// 자식에서 함수 재정의해서 사용할 것
+	virtual float ConvertDistance_eTof(Enum_TargetDist _eTDist) const;
+
 	Enum_TargetDist GetTargetDistance_e(float _fCloseRange, float _fmeleeRange, float _fMediumRange) const
 	{
 		if (false == IsTargeting())
@@ -120,6 +130,8 @@ protected:
 				{
 					return Enum_TargetDist::Long;
 				}
+
+				return Enum_TargetDist::Medium;
 			}
 
 			return Enum_TargetDist::Melee;
@@ -127,6 +139,8 @@ protected:
 
 		return Enum_TargetDist::Close;
 	}
+	
+	bool IsTargetInRange(Enum_TargetDist _eTDist);
 
 private:
 

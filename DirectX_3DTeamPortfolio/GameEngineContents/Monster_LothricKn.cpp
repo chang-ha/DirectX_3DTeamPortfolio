@@ -39,10 +39,10 @@ void Monster_LothricKn::Start()
 	MainRenderer->CreateFBXAnimation("DH_Aim", "c1280_001200.fbx");
 	MainRenderer->CreateFBXAnimation("DH_UnAim", "c1280_001210.fbx");
 	MainRenderer->CreateFBXAnimation("Standup", "c1280_001700.fbx");
-	MainRenderer->CreateFBXAnimation("Stare_Forward", "c1280_002000.fbx");
-	MainRenderer->CreateFBXAnimation("Stare_Backward", "c1280_002001.fbx");
-	MainRenderer->CreateFBXAnimation("Stare_LeftSide", "c1280_002002.fbx");
-	MainRenderer->CreateFBXAnimation("Stare_RightSide", "c1280_002003.fbx");
+	MainRenderer->CreateFBXAnimation("F_Step", "c1280_002000.fbx");
+	MainRenderer->CreateFBXAnimation("B_Step", "c1280_002001.fbx");
+	MainRenderer->CreateFBXAnimation("L_Side_Step", "c1280_002002.fbx");
+	MainRenderer->CreateFBXAnimation("R_Side_Step", "c1280_002003.fbx");
 	MainRenderer->CreateFBXAnimation("StareGuard_Forward", "c1280_002030.fbx");
 	MainRenderer->CreateFBXAnimation("StareGuard_Backward", "c1280_002031.fbx");
 	MainRenderer->CreateFBXAnimation("StareGuard_LeftSide", "c1280_002032.fbx");
@@ -88,10 +88,10 @@ void Monster_LothricKn::Start()
 	MainRenderer->SetRootMotion("DH_Aim");
 	MainRenderer->SetRootMotion("DH_UnAim");
 	MainRenderer->SetRootMotion("Standup");
-	MainRenderer->SetRootMotion("Stare_Forward");
-	MainRenderer->SetRootMotion("Stare_Backward");
-	MainRenderer->SetRootMotion("Stare_LeftSide");
-	MainRenderer->SetRootMotion("Stare_RightSide");
+	MainRenderer->SetRootMotion("F_Step");
+	MainRenderer->SetRootMotion("B_Step");
+	MainRenderer->SetRootMotion("L_Side_Step");
+	MainRenderer->SetRootMotion("R_Side_Step");
 	MainRenderer->SetRootMotion("StareGuard_Forward");
 	MainRenderer->SetRootMotion("StareGuard_Backward");
 	MainRenderer->SetRootMotion("StareGuard_LeftSide");
@@ -196,4 +196,25 @@ void Monster_LothricKn::FindTarget()
 void Monster_LothricKn::WakeUp() 
 {
 	MainState.ChangeState(Enum_LothricKn_State::Patrol);
+}
+
+float Monster_LothricKn::ConvertDistance_eTof(Enum_TargetDist _eTDist) const
+{
+	switch (_eTDist)
+	{
+	case BaseMonster::Enum_TargetDist::Close:
+		return CLOSE_RANGE;
+	case BaseMonster::Enum_TargetDist::Melee:
+		return MELEE_RANGE;
+	case BaseMonster::Enum_TargetDist::Medium:
+		return MEDIUM_RANGE;
+	case BaseMonster::Enum_TargetDist::Long:
+		return LONG_RANGE;
+	case BaseMonster::Enum_TargetDist::None:
+	default:
+		break;
+	}
+
+	MsgBoxAssert("해당 타입은 존재하지 않습니다.");
+	return 0.0f;
 }

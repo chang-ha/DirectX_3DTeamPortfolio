@@ -7,7 +7,10 @@ enum class Enum_LothricKn_State
 	Debug,
 	Sleep,
 	Idle_Standing1,
-	Left_Walk,
+	L_Side_Step, // L == Left
+	R_Side_Step, // R == Right
+	F_Step, // F == Forward
+	B_Step, // B == Backward
 	Right_Walk,
 	Front_Walk,
 	Run,
@@ -95,6 +98,10 @@ private:
 	void Start_R_Turn(GameEngineState* _State);
 	void Start_L_TurnTwice(GameEngineState* _State);
 	void Start_R_TurnTwice(GameEngineState* _State);
+	void Start_L_Side_Step(GameEngineState* _State);
+	void Start_R_Side_Step(GameEngineState* _State);
+	void Start_F_Step(GameEngineState* _State);
+	void Start_B_Step(GameEngineState* _State);
 	void Start_Run(GameEngineState* _State);
 
 	// Update
@@ -114,6 +121,10 @@ private:
 	void Update_R_Turn(float _DeltaTime, GameEngineState* _State);
 	void Update_L_TurnTwice(float _DeltaTime, GameEngineState* _State);
 	void Update_R_TurnTwice(float _DeltaTime, GameEngineState* _State);
+	void Update_L_Side_Step(float _DeltaTime, GameEngineState* _State);
+	void Update_R_Side_Step(float _DeltaTime, GameEngineState* _State);
+	void Update_F_Step(float _DeltaTime, GameEngineState* _State);
+	void Update_B_Step(float _DeltaTime, GameEngineState* _State);
 	void Update_Run(float _DeltaTime, GameEngineState* _State);
 
 	// End
@@ -123,9 +134,25 @@ private:
 	bool IsFrame(int _StartFrame, int _EndFrame = -1) const;
 	bool IsFrameOnce(int _StartFrame);
 
+	void StateTimeSet(float _fMin, float _fMax);
+	void ResetStateTime();
+
+	Enum_TargetDist GetTargetDistance_e() const override
+	{
+		return BaseMonster::GetTargetDistance_e(CLOSE_RANGE, MELEE_RANGE, MEDIUM_RANGE);
+	}
+
+	float ConvertDistance_eTof(Enum_TargetDist _eTDist) const override;
+
 	bool CanAttack(float _fDist, float _fDir) const;
+	bool IsTargetInAngle(float _fAngle) const;
+
+	void RotToTarget(float _DeltaTime, float _fSpeed);
+	
 
 	Enum_LothricKn_State GetStateToAggroTable();
+	Enum_LothricKn_State GetStateToMovementTable() const;
+	Enum_LothricKn_State GetStateToMovementTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
 	Enum_LothricKn_State GetStateToAttackTable();
 	Enum_LothricKn_State GetStateToAttackTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle);
 
@@ -136,8 +163,18 @@ private:
 	std::shared_ptr<GameEngineCollision> PatrolCollision;
 	MonsterDebugState Debug;
 
-	int PrevAttackNum = 0;
-	const float FoV = 30.0f;
+	int AttackRecord = 0;
+	float fMaxStateTime = 0.0f;
 
+	static constexpr float CLOSE_RANGE = 1.0f;
+	static constexpr float MELEE_RANGE = 3.0f;
+	static constexpr float MEDIUM_RANGE = 5.0f;
+	static constexpr float LONG_RANGE = 7.0f;
+	static constexpr float FRONT_ANGLE = 75.0f;
+	static constexpr float SIDE_ANGLE = 115.0f;
+	static constexpr float BACK_ANGLE = 150.0f;
+
+	static constexpr float MIN_ROT_ANGLE = 3.0f;
+	static constexpr float ROTSPEED_TO_TARGET = 510.0f;
 	
 };
