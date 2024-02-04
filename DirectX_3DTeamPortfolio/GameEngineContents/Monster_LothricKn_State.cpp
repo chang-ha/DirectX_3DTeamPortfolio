@@ -219,41 +219,49 @@ void Monster_LothricKn::Start_SitUp(GameEngineState* _State)
 
 void Monster_LothricKn::Start_DH_Hold(GameEngineState* _State)
 {
+	CombatState = Enum_Combat_State::Two_Handed;
 	MainRenderer->ChangeAnimation("DH_Hold");
 }
 
 void Monster_LothricKn::Start_DH_UnHold(GameEngineState* _State)
 {
+	CombatState = Enum_Combat_State::Normal;
 	MainRenderer->ChangeAnimation("DH_UnHold");
 }
 
 void Monster_LothricKn::Start_DH_Stab_Att(GameEngineState* _State)
 {
+	CombatState = Enum_Combat_State::Normal;
 	MainRenderer->ChangeAnimation("DH_Stab_Att");
 }
 
 void Monster_LothricKn::Start_DH_Swing_Att(GameEngineState* _State)
 {
+	CombatState = Enum_Combat_State::Normal;
 	MainRenderer->ChangeAnimation("DH_Swing_Att");
 }
 
 void Monster_LothricKn::Start_DH_L_Side_Step(GameEngineState* _State)
 {
+	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("DH_L_Side_Step");
 }
 
 void Monster_LothricKn::Start_DH_R_Side_Step(GameEngineState* _State)
 {
+	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("DH_R_Side_Step");
 }
 
 void Monster_LothricKn::Start_DH_F_Step(GameEngineState* _State)
 {
+	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("DH_F_Step");
 }
 
 void Monster_LothricKn::Start_DH_B_Step(GameEngineState* _State)
 {
+	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("DH_B_Step");
 }
 
@@ -1282,7 +1290,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToDHAttackTable(Enum_TargetDist 
 		}
 	}
 
-	if (Enum_TargetDist::Melee == _eTDist || Enum_TargetDist::Melee == _eTDist)
+	if (Enum_TargetDist::Melee == _eTDist || Enum_TargetDist::Medium == _eTDist)
 	{
 		if (Enum_TargetAngle::Front == _eTAngle)
 		{

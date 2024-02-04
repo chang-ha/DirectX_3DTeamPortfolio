@@ -36,8 +36,8 @@ void Monster_LothricKn::Start()
 	MainRenderer->CreateFBXAnimation("Idle_Gaurding", "c1280_000030.fbx");
 	MainRenderer->CreateFBXAnimation("Idle_Aiming", "c1280_000040.fbx");
 	MainRenderer->CreateFBXAnimation("Idle_Sit", "c1280_000700.fbx");
-	MainRenderer->CreateFBXAnimation("RH_ShieldUp", "c1280_001100.fbx");
-	MainRenderer->CreateFBXAnimation("RH_ShieldDown", "c1280_001101.fbx");
+	MainRenderer->CreateFBXAnimation("G_Up", "c1280_001100.fbx");
+	MainRenderer->CreateFBXAnimation("G_Down", "c1280_001101.fbx");
 	MainRenderer->CreateFBXAnimation("DH_Hold", "c1280_001200.fbx");
 	MainRenderer->CreateFBXAnimation("DH_UnHold", "c1280_001210.fbx");
 	MainRenderer->CreateFBXAnimation("SitUp", "c1280_001700.fbx");
@@ -45,16 +45,16 @@ void Monster_LothricKn::Start()
 	MainRenderer->CreateFBXAnimation("B_Step", "c1280_002001.fbx");
 	MainRenderer->CreateFBXAnimation("L_Side_Step", "c1280_002002.fbx");
 	MainRenderer->CreateFBXAnimation("R_Side_Step", "c1280_002003.fbx");
-	MainRenderer->CreateFBXAnimation("StareGuard_Forward", "c1280_002030.fbx");
-	MainRenderer->CreateFBXAnimation("StareGuard_Backward", "c1280_002031.fbx");
-	MainRenderer->CreateFBXAnimation("StareGuard_LeftSide", "c1280_002032.fbx");
-	MainRenderer->CreateFBXAnimation("StareGuard_RightSide", "c1280_002033.fbx");
+	MainRenderer->CreateFBXAnimation("G_F_Step", "c1280_002030.fbx");
+	MainRenderer->CreateFBXAnimation("G_B_Step", "c1280_002031.fbx");
+	MainRenderer->CreateFBXAnimation("G_L_Side_Step", "c1280_002032.fbx");
+	MainRenderer->CreateFBXAnimation("G_R_Side_Step", "c1280_002033.fbx");
 	MainRenderer->CreateFBXAnimation("DH_F_Side_Step", "c1280_002040.fbx");
 	MainRenderer->CreateFBXAnimation("DH_B_Side_Step", "c1280_002041.fbx");
 	MainRenderer->CreateFBXAnimation("DH_L_Side_Step", "c1280_002042.fbx");
 	MainRenderer->CreateFBXAnimation("DH_R_Side_Step", "c1280_002043.fbx");
-	MainRenderer->CreateFBXAnimation("Run_Chasing", "c1280_002100.fbx");
-	MainRenderer->CreateFBXAnimation("RunGuard_Chasing", "c1280_002130.fbx");
+	MainRenderer->CreateFBXAnimation("Run", "c1280_002100.fbx");
+	MainRenderer->CreateFBXAnimation("G_Run", "c1280_002130.fbx");
 	MainRenderer->CreateFBXAnimation("Patrol", "c1280_002300.fbx");
 	MainRenderer->CreateFBXAnimation("Combo_Att_11", "c1280_003000.fbx");
 	MainRenderer->CreateFBXAnimation("Combo_Att_12", "c1280_003001.fbx");
@@ -62,7 +62,7 @@ void Monster_LothricKn::Start()
 	MainRenderer->CreateFBXAnimation("Combo_Att_21", "c1280_003003.fbx");
 	MainRenderer->CreateFBXAnimation("Combo_Att_22", "c1280_003004.fbx");
 	MainRenderer->CreateFBXAnimation("Combo_Att_23", "c1280_003005.fbx");
-	MainRenderer->CreateFBXAnimation("Shield_Attack", "c1280_003006.fbx");
+	MainRenderer->CreateFBXAnimation("G_Att_Bash", "c1280_003006.fbx");
 	MainRenderer->CreateFBXAnimation("DH_Stab_Att", "c1280_003007.fbx");
 	MainRenderer->CreateFBXAnimation("DH_Swing_Att", "c1280_003008.fbx");
 	MainRenderer->CreateFBXAnimation("Hit_Mid", "c1280_003009.fbx");
@@ -77,6 +77,10 @@ void Monster_LothricKn::Start()
 	MainRenderer->CreateFBXAnimation("R_Turn", "c1280_005011.fbx");
 	MainRenderer->CreateFBXAnimation("L_TurnTwice", "c1280_005012.fbx");
 	MainRenderer->CreateFBXAnimation("R_TurnTwice", "c1280_005013.fbx");
+	MainRenderer->CreateFBXAnimation("G_L_Turn", "c1280_005020.fbx");
+	MainRenderer->CreateFBXAnimation("G_R_Turn", "c1280_005021.fbx");
+	MainRenderer->CreateFBXAnimation("G_L_TurnTwice", "c1280_005022.fbx");
+	MainRenderer->CreateFBXAnimation("G_R_TurnTwice", "c1280_005023.fbx");
 
 
 	MainRenderer->SetRootMotionComponent(Capsule.get());
@@ -85,8 +89,8 @@ void Monster_LothricKn::Start()
 	MainRenderer->SetRootMotion("Idle_Gaurding");
 	MainRenderer->SetRootMotion("Idle_Aiming");
 	MainRenderer->SetRootMotion("Idle_Sit");
-	MainRenderer->SetRootMotion("RH_ShieldUp");
-	MainRenderer->SetRootMotion("RH_ShieldDown");
+	MainRenderer->SetRootMotion("G_Up");
+	MainRenderer->SetRootMotion("G_Down");
 	MainRenderer->SetRootMotion("DH_Hold");
 	MainRenderer->SetRootMotion("DH_UnHold");
 	MainRenderer->SetRootMotion("SitUp");
@@ -94,16 +98,16 @@ void Monster_LothricKn::Start()
 	MainRenderer->SetRootMotion("B_Step");
 	MainRenderer->SetRootMotion("L_Side_Step");
 	MainRenderer->SetRootMotion("R_Side_Step");
-	MainRenderer->SetRootMotion("StareGuard_Forward");
-	MainRenderer->SetRootMotion("StareGuard_Backward");
-	MainRenderer->SetRootMotion("StareGuard_LeftSide");
-	MainRenderer->SetRootMotion("StareGuard_RightSide");
+	MainRenderer->SetRootMotion("G_F_Step");
+	MainRenderer->SetRootMotion("G_B_Step");
+	MainRenderer->SetRootMotion("G_L_Side_Step");
+	MainRenderer->SetRootMotion("G_R_Side_Step");
 	MainRenderer->SetRootMotion("DH_F_Side_Step");
 	MainRenderer->SetRootMotion("DH_B_Side_Step");
 	MainRenderer->SetRootMotion("DH_L_Side_Step");
 	MainRenderer->SetRootMotion("DH_R_Side_Step");
-	MainRenderer->SetRootMotion("Run_Chasing");
-	MainRenderer->SetRootMotion("RunGuard_Chasing");
+	MainRenderer->SetRootMotion("Run");
+	MainRenderer->SetRootMotion("G_Run");
 	MainRenderer->SetRootMotion("Patrol");
 	MainRenderer->SetRootMotion("Combo_Att_11");
 	MainRenderer->SetRootMotion("Combo_Att_12");
@@ -111,7 +115,7 @@ void Monster_LothricKn::Start()
 	MainRenderer->SetRootMotion("Combo_Att_21");
 	MainRenderer->SetRootMotion("Combo_Att_22");
 	MainRenderer->SetRootMotion("Combo_Att_23");
-	MainRenderer->SetRootMotion("Shield_Attack");
+	MainRenderer->SetRootMotion("G_Att_Bash");
 	MainRenderer->SetRootMotion("DH_Stab_Att");
 	MainRenderer->SetRootMotion("DH_Swing_Att");
 	MainRenderer->SetRootMotion("Hit_Mid");
@@ -126,6 +130,10 @@ void Monster_LothricKn::Start()
 	MainRenderer->SetRootMotion("R_Turn");
 	MainRenderer->SetRootMotion("L_TurnTwice");
 	MainRenderer->SetRootMotion("R_TurnTwice");
+	MainRenderer->SetRootMotion("G_L_Turn");
+	MainRenderer->SetRootMotion("G_R_Turn");
+	MainRenderer->SetRootMotion("G_L_TurnTwice");
+	MainRenderer->SetRootMotion("G_R_TurnTwice");
 
 	// Collision
 	CreateSocketCollision(Enum_CollisionOrder::Monster, Enum_BoneType::B_01_RightHand, "B_01_RightHand");

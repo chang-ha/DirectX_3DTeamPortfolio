@@ -36,6 +36,18 @@ enum class Enum_LothricKn_State
 	DH_R_Side_Step,
 	DH_F_Step,
 	DH_B_Step,
+	G_Up,
+	G_Down,
+	G_L_Side_Step,
+	G_R_Side_Step,
+	G_F_Step,
+	G_B_Step,
+	G_L_Turn,
+	G_R_Turn,
+	G_L_TurnTwice,
+	G_R_TurnTwice,
+	G_Run,
+	G_Att_Bash,
 };
 
 enum class Enum_MonsterDebugFlag
