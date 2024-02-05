@@ -81,6 +81,9 @@
     <FxCompile Include="BllboardRender.fx">
       <Filter>BillBoard</Filter>
     </FxCompile>
+    <FxCompile Include="LUT.fx">
+      <Filter>PostEffect</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BloomCombine.fx">
