@@ -207,44 +207,35 @@ void Player::Update(float _Delta)
 	SwordActor->Transform.SetWorldPosition(Data.Pos+Transform.GetWorldPosition());
 	
 	
-	Mouse_Ro = GameEngineCore::MainWindow.GetMousePos().X / 2;
+	//Mouse_Ro = GameEngineCore::MainWindow.GetMousePos().X / 2;
 
-	float x = 0.0;
-	float y = 0.0;
+	//float x = 0.0;
+	//float y = 0.0;
 
-	// 타원의 반지름
-	float a = 800;
-	float b = 800;
+	//// 타원의 반지름
+	//float a = 800;
+	//float b = 800;
 
-	test += _Delta;
+	//test += _Delta;
 
-	//test += 1* _Time;
-	float Pos_x = x + a * cos(test);
-	float Pos_y = y + b * sin(test);
+	////test += 1* _Time;
+	//float Pos_x = x + a * cos(test);
+	//float Pos_y = y + b * sin(test);
 
 
 
-	float4 Dir = Transform.GetWorldPosition() - GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
-	float4 Monster = { 0,0,0,-1.0f };
+	//float4 Dir = Transform.GetWorldPosition() - GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
+	//float4 Monster = { 0,0,0,1.0f };
 
-	float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
-	float radian = atan2(Dir.Y, Dir.X) - atan2(Monster.Y, Monster.X);
-	degree = float(abs(radian * (180.0 / 3.141592)));
+	//float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
+	//float radian = atan2(Dir.Y, Dir.X) - atan2(Monster.Y, Monster.X);
+	//degree += float(radian * (180.0 / 3.141592));
 
 
 	
-	if (0.0f <= degree)
-	{
-		
-	}
-	else
-	{
 	
-		degree *= -1.f;
-	}
-
-	GetLevel()->GetMainCamera()->Transform.SetLocalPosition({ Pos_x ,0.0f,Pos_y });
-	GetLevel()->GetMainCamera()->Transform.SetWorldRotation({  0.0f,degree });
+	//GetLevel()->GetMainCamera()->Transform.SetLocalPosition({ Pos_x ,0.0f,Pos_y });
+	//GetLevel()->GetMainCamera()->Transform.SetWorldRotation({  0.0f,degree });
 	
 
 
