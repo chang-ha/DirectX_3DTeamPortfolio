@@ -23,9 +23,19 @@ protected:
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 private:
+	//// PlayerIcon
+	std::shared_ptr<GameEngineUIRenderer> PlayerIcon;
+
+	//// BackBar
+	std::shared_ptr<GameEngineUIRenderer> HpBackBar_Left;
+	std::shared_ptr<GameEngineUIRenderer> HpBackBar_Center;
+	std::shared_ptr<GameEngineUIRenderer> HpBackBar_Right;
+
+	std::shared_ptr<GameEngineUIRenderer> MpBackBar;
+	std::shared_ptr<GameEngineUIRenderer> StaminaBackBar;
+
 	//// HP Bar
 	std::shared_ptr<GameEngineUIRenderer> MainHpBar;
-	void HpUpdate(float _Delta);
 	float CurHpScale = 0.0f;
 
 	//// PP Bar

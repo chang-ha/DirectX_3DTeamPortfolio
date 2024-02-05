@@ -349,6 +349,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UIPlayerGaugeBar.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UIUnit.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationInfoGUI.h">
@@ -527,6 +535,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TurnSpeedFrameEvent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UIPlayerGaugeBar.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UIUnit.h">
       <SubType>
       </SubType>
     </ClInclude>

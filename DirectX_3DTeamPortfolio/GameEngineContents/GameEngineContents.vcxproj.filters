@@ -178,6 +178,12 @@
     <ClCompile Include="PlayerValue.cpp">
       <Filter>Core\Global</Filter>
     </ClCompile>
+    <ClCompile Include="UIPlayerGaugeBar.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIUnit.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -353,6 +359,12 @@
     </ClInclude>
     <ClInclude Include="PlayerValue.h">
       <Filter>Core\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="UIPlayerGaugeBar.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIUnit.h">
+      <Filter>Actor\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

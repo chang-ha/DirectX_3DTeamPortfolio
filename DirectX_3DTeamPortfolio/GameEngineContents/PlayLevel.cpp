@@ -7,6 +7,7 @@
 #include "ContentsControlWindow.h"
 
 #include "MainUIActor.h"
+#include "UIPlayerGaugeBar.h"
 
 PlayLevel::PlayLevel()
 {
@@ -65,6 +66,10 @@ void PlayLevel::Start()
 
 	{
 		std::shared_ptr<MainUIActor> MainUI = CreateActor<MainUIActor>();
+	}
+
+	{
+		//std::shared_ptr<UIPlayerGaugeBar> Test = CreateActor<UIPlayerGaugeBar>();
 	}
 
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 1, 1, 1, 1 });
