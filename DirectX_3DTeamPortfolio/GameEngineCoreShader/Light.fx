@@ -26,7 +26,7 @@ struct LightData
     float SpcPow;
     int LightType;
     float PointLightRange;
-    int Temp2;
+    float LightPower;
     int Temp3;
 };
 

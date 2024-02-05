@@ -63,21 +63,23 @@ void ContentResources::ContentResourcesInit()
 		}
 	}
 
-	{
-		{
-			// 분할된 자체포맷 첫번째 로드
-			GameEngineDirectory Dir;
-			Dir.MoveParentToExistsChild("ContentsResources");
-			Dir.MoveChild("ContentsResources");
-			Dir.MoveChild("Mesh");
-			std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".FBX0" }, true);
 
-			for (size_t i = 0; i < Files.size(); i++)
-			{
-				std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Files[i].GetStringPath());
-			}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources");
+		Dir.MoveChild("Mesh");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".FBX0" }, true);
+
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Files[i].GetStringPath());
 		}
 	}
+
+
+
 
 	{
 		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBX_Animation");
@@ -90,6 +92,26 @@ void ContentResources::ContentResourcesInit()
 		Mat->SetVertexShader("ContentsStaticMesh_VS");
 		Mat->SetPixelShader("ContentsStaticMesh_PS");
 	}
+	
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBX_Static_NorX_SpcX");
+		Mat->SetVertexShader("ContentsStaticMesh_NorX_SpcX_VS");
+		Mat->SetPixelShader("ContentsStaticMesh_NorX_SpcX_PS");
+	}
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBX_Static_SpcX");
+		Mat->SetVertexShader("ContentsStaticMesh_SpcX_VS");
+		Mat->SetPixelShader("ContentsStaticMesh_SpcX_PS");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBX_Static_Color");
+		Mat->SetVertexShader("ContentsStaticMesh_Color_VS");
+		Mat->SetPixelShader("ContentsStaticMesh_Color_PS");
+	}
+
+
+
 
 	//PostEffect
 
@@ -112,21 +134,6 @@ void ContentResources::ContentResourcesInit()
 		GameEngineBlend::Create("MergeBlend", Desc);
 	}
 
-	//{
-	//	std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FadePostEffect");
-	//	Mat->SetVertexShader("FadePostEffect_VS");
-	//	Mat->SetPixelShader("FadePostEffect_PS");
-	//	Mat->SetDepthState("AlwaysDepth");
-	//	Mat->SetRasterizer("EngineRasterizer");
-	//}
-
-	//{
-	//	std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("BlurPostEffect");
-	//	Mat->SetVertexShader("BlurPostEffect_VS");
-	//	Mat->SetPixelShader("BlurPostEffect_PS");
-	//	Mat->SetDepthState("AlwaysDepth");
-	//	Mat->SetRasterizer("EngineRasterizer");
-	//}
 
 	{
 		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FXAA");
@@ -138,8 +145,36 @@ void ContentResources::ContentResourcesInit()
 		Mat->SetDepthState("AlwaysDepth");
 	}
 
+	// LUT
+	{
+		{
+			// LUT 로드
+			GameEngineDirectory Dir;
+			Dir.MoveParentToExistsChild("ContentsResources");
+			Dir.MoveChild("ContentsResources");
+			Dir.MoveChild("LUT");
+			std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".png" }, true);
+
+			for (size_t i = 0; i < Files.size(); i++)
+			{
+				std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Load(Files[i].GetStringPath());
+			}
+		}
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("LUT");
+
+		Mat->SetVertexShader("LUT_VS");
+		Mat->SetPixelShader("LUT_PS");
+		Mat->SetRasterizer("EngineRasterizer");
+		Mat->SetBlendState("MergeBlend");
+		Mat->SetDepthState("AlwaysDepth");
+	}
+
 
 	BaseActor::LoadEvent(static_cast<int>(Enum_ActorType::LothricKn));
+	BaseActor::LoadEvent(static_cast<int>(Enum_ActorType::Boss_Vordt));
 
 	{
 		GameEngineDirectory Dir;

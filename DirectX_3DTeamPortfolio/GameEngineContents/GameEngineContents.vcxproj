@@ -202,6 +202,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ContentsControlInput.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ContentsControlWindow.cpp" />
     <ClCompile Include="ContentsCore.cpp">
       <SubType>
@@ -219,11 +223,35 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ContentsMouseInput.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="DummyActor.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="DummyPath.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="LUTEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Monster_HollowSoldier_Crossbow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Monster_HollowSoldier_RoundShield.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Monster_HollowSoldier_Spear.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Monster_Hollow_Assassin.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -341,6 +369,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="WorldMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationInfoGUI.h">
@@ -377,6 +406,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ContentsControlInput.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ContentsControlWindow.h" />
     <ClInclude Include="ContentsCore.h">
       <SubType>
@@ -395,11 +428,35 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ContentsMouseInput.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="DummyActor.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="DummyPath.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="LUTEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Monster_HollowSoldier_Crossbow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Monster_HollowSoldier_RoundShield.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Monster_HollowSoldier_Spear.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Monster_Hollow_Assassin.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -514,6 +571,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="WorldMap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
