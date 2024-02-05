@@ -30,7 +30,7 @@ bool Monster_LothricKn::IsFrameOnce(int _StartFrame)
 {
 	if (true == MainRenderer->IsFrameChange())
 	{
-		if (_StartFrame >= MainRenderer->GetCurAnimationFrame())
+		if (_StartFrame == MainRenderer->GetCurAnimationFrame())
 		{
 			return true;
 		}
@@ -88,6 +88,18 @@ void Monster_LothricKn::CreateFSM()
 	MainState.CreateState(Enum_LothricKn_State::DH_R_Side_Step, { .Start = std::bind(&Monster_LothricKn::Start_DH_R_Side_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Walk,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::DH_F_Step, { .Start = std::bind(&Monster_LothricKn::Start_DH_F_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Walk,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::DH_B_Step, { .Start = std::bind(&Monster_LothricKn::Start_DH_B_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Walk,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::G_Up, { .Start = std::bind(&Monster_LothricKn::Start_G_Up,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Up,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::G_Down, { .Start = std::bind(&Monster_LothricKn::Start_G_Down,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Down,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::G_L_Side_Step, { .Start = std::bind(&Monster_LothricKn::Start_G_L_Side_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Walk,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::G_R_Side_Step, { .Start = std::bind(&Monster_LothricKn::Start_G_R_Side_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Walk,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::G_F_Step, { .Start = std::bind(&Monster_LothricKn::Start_G_F_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Walk,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::G_B_Step, { .Start = std::bind(&Monster_LothricKn::Start_G_B_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Walk,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::G_L_Turn, { .Start = std::bind(&Monster_LothricKn::Start_G_L_Turn,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_L_Turn,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::G_R_Turn, { .Start = std::bind(&Monster_LothricKn::Start_G_R_Turn,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_R_Turn,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::G_L_TurnTwice, { .Start = std::bind(&Monster_LothricKn::Start_G_L_TurnTwice,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_L_TurnTwice,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::G_R_TurnTwice, { .Start = std::bind(&Monster_LothricKn::Start_G_R_TurnTwice,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_R_TurnTwice,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::G_Run, { .Start = std::bind(&Monster_LothricKn::Start_G_Run,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Run,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::G_Att_Bash, { .Start = std::bind(&Monster_LothricKn::Start_G_Att_Bash,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Att_Bash,this, std::placeholders::_1,std::placeholders::_2) });
 
 	MainState.ChangeState(Enum_LothricKn_State::Debug);
 }
@@ -264,6 +276,74 @@ void Monster_LothricKn::Start_DH_B_Step(GameEngineState* _State)
 	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("DH_B_Step");
 }
+
+void Monster_LothricKn::Start_G_Up(GameEngineState* _State)
+{
+	CombatState = Enum_Combat_State::Gaurding;
+	MainRenderer->ChangeAnimation("DH_B_Step");
+}
+
+void Monster_LothricKn::Start_G_Down(GameEngineState* _State)
+{
+	CombatState = Enum_Combat_State::Normal;
+	MainRenderer->ChangeAnimation("DH_B_Step");
+}
+
+void Monster_LothricKn::Start_G_L_Side_Step(GameEngineState* _State) 
+{
+	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
+	MainRenderer->ChangeAnimation("DH_B_Step");
+}
+
+void Monster_LothricKn::Start_G_R_Side_Step(GameEngineState* _State) 
+{
+	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
+	MainRenderer->ChangeAnimation("G_R_Side_Step");
+}
+
+void Monster_LothricKn::Start_G_F_Step(GameEngineState* _State) 
+{
+	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
+	MainRenderer->ChangeAnimation("G_F_Step");
+}
+
+void Monster_LothricKn::Start_G_B_Step(GameEngineState* _State) 
+{
+	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
+	MainRenderer->ChangeAnimation("G_B_Step");
+}
+
+void Monster_LothricKn::Start_G_L_Turn(GameEngineState* _State) 
+{
+	MainRenderer->ChangeAnimation("G_L_Turn");
+}
+
+void Monster_LothricKn::Start_G_R_Turn(GameEngineState* _State) 
+{
+	MainRenderer->ChangeAnimation("G_R_Turn");
+}
+
+void Monster_LothricKn::Start_G_L_TurnTwice(GameEngineState* _State) 
+{
+	MainRenderer->ChangeAnimation("G_L_TurnTwice");
+}
+
+void Monster_LothricKn::Start_G_R_TurnTwice(GameEngineState* _State) 
+{
+	MainRenderer->ChangeAnimation("G_R_TurnTwice");
+}
+
+void Monster_LothricKn::Start_G_Run(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("G_Run");
+}
+
+void Monster_LothricKn::Start_G_Att_Bash(GameEngineState* _State) 
+{
+	CombatState = Enum_Combat_State::Normal;
+	MainRenderer->ChangeAnimation("G_Att_Bash");
+}
+
 
 
 
@@ -886,7 +966,179 @@ void Monster_LothricKn::Update_DH_Walk(float _DeltaTime, GameEngineState* _State
 	}
 }
 
+void Monster_LothricKn::Update_G_Up(float _DeltaTime, GameEngineState* _State)\
+{
+	if (IsFrameOnce(10))
+	{
+		Enum_LothricKn_State FindState = GetStateToAttackTable();
+		if (Enum_LothricKn_State::None != FindState)
+		{
+			_State->ChangeState(FindState);
+			return;
+		}
+	}
 
+	if (IsFrame(13))
+	{
+		Enum_LothricKn_State FindState = GetStateToMovementTable();
+		if (Enum_LothricKn_State::None == FindState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindState);
+		return;
+	}
+}
+
+void Monster_LothricKn::Update_G_Down(float _DeltaTime, GameEngineState* _State)\
+{
+	if (IsFrameOnce(10))
+	{
+		Enum_LothricKn_State FindState = GetStateToAttackTable();
+		if (Enum_LothricKn_State::None != FindState)
+		{
+			_State->ChangeState(FindState);
+			return;
+		}
+	}
+
+	if (IsFrame(13))
+	{
+		Enum_LothricKn_State FindState = GetStateToMovementTable();
+		if (Enum_LothricKn_State::None == FindState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindState);
+		return;
+	}
+}
+
+void Monster_LothricKn::Update_G_Walk(float _DeltaTime, GameEngineState* _State)
+{
+	const float fStateTime = _State->GetStateTime();
+
+	bool AngleCheck = false == IsTargetInAngle(MIN_ROT_ANGLE);
+	bool TimeCheck = fMaxStateTime < fStateTime;
+
+	if (AngleCheck)
+	{
+		RotToTarget(_DeltaTime, ROTSPEED_TO_TARGET);
+	}
+
+	if (TimeCheck)
+	{
+		Enum_LothricKn_State FindState = GetStateToAggroTable();
+		if (Enum_LothricKn_State::None == FindState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindState);
+		return;
+	}
+}
+
+void Monster_LothricKn::Update_G_L_Turn(float _DeltaTime, GameEngineState* _State)
+{
+	if (true == MainRenderer->IsCurAnimationEnd())
+	{
+		Enum_LothricKn_State FindState = GetStateToAggroTable();
+		_State->ChangeState(FindState);
+		return;
+	}
+}
+
+void Monster_LothricKn::Update_G_R_Turn(float _DeltaTime, GameEngineState* _State)
+{
+	if (true == MainRenderer->IsCurAnimationEnd())
+	{
+		Enum_LothricKn_State FindState = GetStateToAggroTable();
+		_State->ChangeState(FindState);
+		return;
+	}
+}
+
+void Monster_LothricKn::Update_G_L_TurnTwice(float _DeltaTime, GameEngineState* _State)
+{
+	if (true == MainRenderer->IsCurAnimationEnd())
+	{
+		Enum_LothricKn_State FindState = GetStateToAggroTable();
+		_State->ChangeState(FindState);
+		return;
+	}
+}
+
+void Monster_LothricKn::Update_G_R_TurnTwice(float _DeltaTime, GameEngineState* _State)
+{
+	if (true == MainRenderer->IsCurAnimationEnd())
+	{
+		Enum_LothricKn_State FindState = GetStateToAggroTable();
+		_State->ChangeState(FindState);
+		return;
+	}
+}
+
+void Monster_LothricKn::Update_G_Run(float _DeltaTime, GameEngineState* _State)
+{
+	if (fMaxStateTime > _State->GetStateTime())
+	{
+		// ReturnPatrolRoute
+
+		// _State->ChangeState(Enum_LothricKn_State::);
+		return;
+	}
+
+	// Check
+	if (false == IsTargetInAngle(MIN_ROT_ANGLE))
+	{
+		RotToTarget(_DeltaTime, ROTSPEED_TO_TARGET);
+	}
+
+	if (true == IsTargetInRange(Enum_TargetDist::Long))
+	{
+		Enum_LothricKn_State FindState = GetStateToAggroTable();
+		if (Enum_LothricKn_State::None == FindState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindState);
+		return;
+	}
+}
+
+void Monster_LothricKn::Update_G_Att_Bash(float _DeltaTime, GameEngineState* _State)
+{
+	if (IsFrameOnce(46))
+	{
+		Enum_LothricKn_State FindState = GetStateToAttackTable();
+		if (Enum_LothricKn_State::None != FindState)
+		{
+			_State->ChangeState(FindState);
+			return;
+		}
+	}
+
+	if (IsFrame(59))
+	{
+		Enum_LothricKn_State FindState = GetStateToMovementTable();
+		if (Enum_LothricKn_State::None == FindState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindState);
+		return;
+	}
+}
 
 
 
@@ -1013,7 +1265,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToMovementTable(Enum_TargetDist 
 	case Monster_LothricKn::Enum_Combat_State::Two_Handed:
 		return GetStateToDHMovementTable(_eTDist, _eTAngle);
 	case Monster_LothricKn::Enum_Combat_State::Gaurding:
-		break;
+		return GetStateToGMovementTable(_eTDist, _eTAngle);
 	case Monster_LothricKn::Enum_Combat_State::None:
 	default:
 		break;
@@ -1151,6 +1403,88 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToDHMovementTable(Enum_TargetDis
 	return Enum_LothricKn_State::None;
 }
 
+Enum_LothricKn_State Monster_LothricKn::GetStateToGMovementTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const
+{
+	if (Enum_Combat_State::Gaurding != CombatState)
+	{
+		MsgBoxAssert("현재 상태로 해당 테이블을 반환할 수 없습니다.");
+		return Enum_LothricKn_State::None;
+	}
+
+	if (Enum_TargetAngle::Back == _eTAngle)
+	{
+		if (Enum_RotDir::Left == BaseActor::GetRotDir_e())
+		{
+			return Enum_LothricKn_State::G_L_TurnTwice;
+		}
+
+		if (Enum_RotDir::Right == BaseActor::GetRotDir_e())
+		{
+			return Enum_LothricKn_State::G_R_TurnTwice;
+		}
+	}
+
+	if (Enum_TargetDist::Long == _eTDist)
+	{
+		if (Enum_TargetAngle::Side == _eTAngle)
+		{
+			if (Enum_RotDir::Left == BaseActor::GetRotDir_e())
+			{
+				return Enum_LothricKn_State::G_L_Turn;
+			}
+
+			if (Enum_RotDir::Right == BaseActor::GetRotDir_e())
+			{
+				return Enum_LothricKn_State::G_R_Turn;
+			}
+		}
+
+		return Enum_LothricKn_State::G_Run;
+	}
+
+	const int iModeChance = ContentsRandom::RandomInt(0, 5);
+	bool ModeChanceCheck = (5 == iModeChance);
+	if (ModeChanceCheck)
+	{
+		return Enum_LothricKn_State::G_Down;
+	}
+
+	const int iChance1 = ContentsRandom::RandomInt(0, 3);
+	enum StateChance
+	{
+		Move,
+		NormalMode = 3,
+		None,
+	};
+
+	if (StateChance::NormalMode == iChance1)
+	{
+		return Enum_LothricKn_State::G_Down;
+	}
+
+	const int iChance = ContentsRandom::RandomInt(0, 2);
+	enum MoveType
+	{
+		Left,
+		Right,
+		Forward,
+	};
+
+	switch (iChance)
+	{
+	case Left:
+		return Enum_LothricKn_State::G_L_Side_Step;
+	case Right:
+		return Enum_LothricKn_State::G_R_Side_Step;
+	case Forward:
+		return Enum_LothricKn_State::G_F_Step;
+	default:
+		break;
+	}
+
+	return Enum_LothricKn_State::None;
+}
+
 Enum_LothricKn_State Monster_LothricKn::GetStateToAttackTable()
 {
 	Enum_TargetAngle eTargetRot = GetTargetAngle_e(FRONT_ANGLE, SIDE_ANGLE);
@@ -1169,8 +1503,9 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToAttackTable(Enum_TargetDist _e
 	case Monster_LothricKn::Enum_Combat_State::Two_Handed:
 		return GetStateToDHAttackTable(_eTDist, _eTAngle);
 	case Monster_LothricKn::Enum_Combat_State::Gaurding:
-		break;
+		return GetStateToGAttackTable(_eTDist, _eTAngle);
 	case Monster_LothricKn::Enum_Combat_State::None:
+		break;
 	default:
 		break;
 	}
@@ -1298,6 +1633,29 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToDHAttackTable(Enum_TargetDist 
 			if (1 == iChance)
 			{
 				return Enum_LothricKn_State::DH_Stab_Att;
+			}
+		}
+	}
+
+	return Enum_LothricKn_State::None;
+}
+
+Enum_LothricKn_State Monster_LothricKn::GetStateToGAttackTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const
+{
+	if (Enum_Combat_State::Gaurding != CombatState)
+	{
+		MsgBoxAssert("현재 상태로 해당 테이블을 반환할 수 없습니다.");
+		return Enum_LothricKn_State::None;
+	}
+
+	if (Enum_TargetDist::Melee == _eTDist)
+	{
+		if (Enum_TargetAngle::Front == _eTAngle)
+		{
+			const int iChance = ContentsRandom::RandomInt(0, 3);
+			if (1 == iChance)
+			{
+				return Enum_LothricKn_State::G_Att_Bash;
 			}
 		}
 	}

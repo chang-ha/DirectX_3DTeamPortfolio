@@ -39,7 +39,7 @@ int ContentsRandom::GetSeed()
 
 void ContentsRandom::AdjustSeed()
 {
-	if (Seed < INT_MAX)
+	if (Seed == INT_MAX)
 	{
 		Seed = 0;
 	}
