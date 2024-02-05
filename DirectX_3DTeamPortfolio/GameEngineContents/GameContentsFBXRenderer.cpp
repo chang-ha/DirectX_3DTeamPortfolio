@@ -19,8 +19,9 @@ void GameContentsFBXAnimationInfo::Reset()
 	CurFrameTime = 0.0f;
 	CurFrame = 0;
 	PlayTime = 0.0f;
-	bOnceStart = false;
+	IsStart = false;
 	IsEnd = false;
+	bOnceStart = false;
 
 
 	if (nullptr != EventHelper)
@@ -60,6 +61,8 @@ void GameContentsFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh
 
 void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 {
+	ParentRenderer->bFrameChange = false;
+
 	bool PauseCheck = ParentRenderer->Pause;
 	bool NotLoopEndCheck = IsEnd && !Loop;
 	if (PauseCheck || NotLoopEndCheck)
@@ -69,14 +72,14 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 
 	IsEnd = false;
 
-	if (false == bOnceStart)
+	if (false == IsStart)
 	{
 		if (nullptr != EventHelper)
 		{
 			EventHelper->PlayEvents(CurFrame);
 		}
 
-		bOnceStart = true;
+		IsStart = true;
 	}
 
 	// 0.1ÃÊÂ¥¸® 
@@ -86,6 +89,8 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 
 	while (CurFrameTime >= Inter)
 	{
+		ParentRenderer->bFrameChange = true;
+
 		//   2.0         0.1
 		CurFrameTime -= Inter;
 		++CurFrame;
@@ -163,8 +168,6 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 		{
 			float BlendRatio = PlayTime / BlendIn;
 
-			
-		   
 			if (BlendRatio < 1.0f)
 			{
 				AnimationBoneData& BoneData = ParentRenderer->BlendBoneData[i];

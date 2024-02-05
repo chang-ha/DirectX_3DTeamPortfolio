@@ -50,6 +50,7 @@ public:
 	bool bOnceStart = true;
 	bool bOnceEnd = true;
 	bool Loop = true;
+	bool IsStart = false;
 	bool IsEnd = false;
 
 	// RootMotion
@@ -161,6 +162,11 @@ public:
 		Pause = !Pause;
 	}
 
+	inline bool IsFrameChange() const
+	{
+		return bFrameChange;
+	}
+
 	inline bool IsCurAnimationEnd() const
 	{
 		return CurAnimation->IsEnd;
@@ -171,10 +177,20 @@ public:
 		return CurAnimation->CurFrame;
 	}
 
+	void ChangeCurFrame(UINT _Value)
+	{
+		if (CurAnimation->End < _Value)
+		{
+			MsgBoxAssert("넣은 인자 값이 현재 애니메이션의 엔드 프레임보다 큰 수입니다.");
+			return;
+		}
+		CurAnimation->CurFrame = _Value;
+	}
+
 	std::shared_ptr<GameEngineFBXMesh> GetFBXMesh(std::string_view _Name);
 
 	inline std::shared_ptr<GameEngineFBXMesh>& GetFBXMesh() { return FBXMesh; }
-	inline std::shared_ptr<GameContentsFBXAnimationInfo>&  GetCurAnimation() { return CurAnimation; }
+	inline const std::shared_ptr<GameContentsFBXAnimationInfo>&  GetCurAnimation() const { return CurAnimation; }
 	inline std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>>& GetRenderUnits() { return RenderUnits; } 
 	inline std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& GetAnimationInfos() { return Animations; }
 	inline std::vector<float4x4>& GetBoneMatrixs() { return AnimationBoneMatrixs; }
@@ -220,6 +236,7 @@ protected:
 
 private:
 	bool Pause = false;
+	bool bFrameChange = false;
 
 	std::set<int> NotBlendBoneIndexs;
 

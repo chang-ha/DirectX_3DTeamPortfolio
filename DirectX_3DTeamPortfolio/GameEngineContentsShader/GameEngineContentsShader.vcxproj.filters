@@ -13,6 +13,9 @@
     <Filter Include="Deferred">
       <UniqueIdentifier>{51412e17-0f76-4764-95c6-c91160b95aab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="BillBoard">
+      <UniqueIdentifier>{9bdb89bf-ae87-4374-9056-7935ba2d5ebf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ContentsAnimationMesh.fx">
@@ -71,6 +74,15 @@
     </FxCompile>
     <FxCompile Include="MeshBase_Color.fx">
       <Filter>MeshShader</Filter>
+    </FxCompile>
+    <FxCompile Include="BllboardHeader.fx">
+      <Filter>BillBoard</Filter>
+    </FxCompile>
+    <FxCompile Include="BllboardRender.fx">
+      <Filter>BillBoard</Filter>
+    </FxCompile>
+    <FxCompile Include="LUT.fx">
+      <Filter>PostEffect</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

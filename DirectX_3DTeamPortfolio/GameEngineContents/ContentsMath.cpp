@@ -4,16 +4,37 @@
 int ContentsRandom::Seed = 0;
 int ContentsRandom::RandomInt(int _iMin, int _iMax)
 {
+	if (_iMin > _iMax)
+	{
+		MsgBoxAssert("최소값은 최대값보다 클 수 없습니다.");
+		return 0;
+	}
+
 	GameEngineRandom RandomClass;
 	RandomClass.SetSeed(GetSeed());
-	int Chance = RandomClass.RandomInt(_iMin, _iMax);
-	return Chance;
+	int iChance = RandomClass.RandomInt(_iMin, _iMax);
+	return iChance;
+}
+
+float ContentsRandom::Randomfloat(float _fMin, float _fMax)
+{
+	if (_fMin > _fMax)
+	{
+		MsgBoxAssert("최소값은 최대값보다 클 수 없습니다.");
+		return 0.0f;
+	}
+
+	GameEngineRandom RandomClass;
+	RandomClass.SetSeed(GetSeed());
+	float fChance = RandomClass.RandomFloat(_fMin, _fMax);
+	return fChance;
 }
 
 int ContentsRandom::GetSeed()
 {
+	++Seed;
 	AdjustSeed();
-	return ++Seed;
+	return Seed;
 }
 
 void ContentsRandom::AdjustSeed()
@@ -37,14 +58,9 @@ float ContentsMath::GetDegreeTo2f(float _X, float _Y)
 	return std::atan2f(_X, _Y) * GameEngineMath::R2D;
 }
 
-float ContentsMath::GetDegreeTo2f(const float4& _Vec)
+float ContentsMath::GetDegreeToVec2(const float4& _Vec)
 {
 	return GetDegreeTo2f(_Vec.X, _Vec.Y);
-}
-
-float4 ContentsMath::GetVectorToOther(const float4& _MyPos, const float4& _OtherPos)
-{
-	return _OtherPos - _MyPos;
 }
 
 float4 ContentsMath::GetVector3Length(const float4& _V)

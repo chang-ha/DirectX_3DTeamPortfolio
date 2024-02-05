@@ -121,19 +121,19 @@ void LightGUI::LightEditor()
 		{
 		}
 
-		if (ImGui::InputFloat("DifLightPower", &Data.DifLightPower))
+		if (ImGui::InputFloat("LightPower", &Data.LightPower))
 		{
 		}
 		
-		if (ImGui::InputFloat("SpcLightPower", &Data.SpcLightPower))
+		/*if (ImGui::InputFloat("SpcLightPower", &Data.SpcLightPower))
 		{
-		}
+		}*/
 		if (ImGui::InputFloat("AmbLightPower", &Data.AmbLightPower))
 		{
 		}
-		if (ImGui::InputFloat("SpcPow", &Data.SpcPow))
+		/*if (ImGui::InputFloat("SpcPow", &Data.SpcPow))
 		{
-		}
+		}*/
 
 		SelectActor->SetLightData(Data);
 

@@ -41,7 +41,7 @@
       <Filter>Map</Filter>
     </ClCompile>
     <ClCompile Include="FXAAEffect.cpp">
-      <Filter>Resource\PostEffect</Filter>
+      <Filter>PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="GameContentsFBXRenderer.cpp">
       <Filter>Resource\Renderer</Filter>
@@ -83,13 +83,13 @@
       <Filter>Actor\Monster\LothricKnight</Filter>
     </ClCompile>
     <ClCompile Include="BoneSocketCollision.cpp">
-      <Filter>Actor\Monster\Collision</Filter>
+      <Filter>Actor\Monster\Component</Filter>
     </ClCompile>
     <ClCompile Include="Monster_Hollow_NonFirstAttack.cpp">
       <Filter>Actor\Monster\Hollow</Filter>
     </ClCompile>
     <ClCompile Include="BloomEffect.cpp">
-      <Filter>Resource\PostEffect</Filter>
+      <Filter>PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="ContentsMath.cpp">
       <Filter>Math</Filter>
@@ -193,6 +193,9 @@
     <ClCompile Include="WorldMap.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+    <ClCompile Include="LUTEffect.cpp">
+      <Filter>PostEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -250,7 +253,7 @@
       <Filter>Resource\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="FXAAEffect.h">
-      <Filter>Resource\PostEffect</Filter>
+      <Filter>PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="Monster_HollowSoldier.h">
       <Filter>Actor\Monster\Hollow</Filter>
@@ -274,13 +277,13 @@
       <Filter>Actor\Monster\Boss</Filter>
     </ClInclude>
     <ClInclude Include="BoneSocketCollision.h">
-      <Filter>Actor\Monster\Collision</Filter>
+      <Filter>Actor\Monster\Component</Filter>
     </ClInclude>
     <ClInclude Include="Monster_Hollow_NonFirstAttack.h">
       <Filter>Actor\Monster\Hollow</Filter>
     </ClInclude>
     <ClInclude Include="BloomEffect.h">
-      <Filter>Resource\PostEffect</Filter>
+      <Filter>PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="ContentsMath.h">
       <Filter>Math</Filter>
@@ -384,6 +387,9 @@
     <ClInclude Include="WorldMap.h">
       <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="LUTEffect.h">
+      <Filter>PostEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -425,9 +431,6 @@
     <Filter Include="Resource">
       <UniqueIdentifier>{9aefbf7a-bf2d-46f1-9515-0eda66f09cb4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource\PostEffect">
-      <UniqueIdentifier>{0908c021-de83-47a2-af52-678a47c6fbb3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource\Renderer">
       <UniqueIdentifier>{781099ec-31b3-4c0c-8941-80d28daaf927}</UniqueIdentifier>
     </Filter>
@@ -452,14 +455,17 @@
     <Filter Include="Actor\Monster\Hollow">
       <UniqueIdentifier>{d4c245a2-3270-417d-810e-ce6e0c363efe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Monster\Collision">
-      <UniqueIdentifier>{20ef003c-31cf-4935-939c-83cd89462723}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Actor\Player">
       <UniqueIdentifier>{a161891d-57fb-4a2c-96bf-522529e04c95}</UniqueIdentifier>
     </Filter>
     <Filter Include="Actor\UI">
       <UniqueIdentifier>{f286ce73-744d-4f73-98b1-957bff451289}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Monster\Component">
+      <UniqueIdentifier>{20ef003c-31cf-4935-939c-83cd89462723}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PostEffect">
+      <UniqueIdentifier>{0908c021-de83-47a2-af52-678a47c6fbb3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

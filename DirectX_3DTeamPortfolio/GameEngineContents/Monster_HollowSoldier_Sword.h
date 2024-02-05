@@ -13,7 +13,18 @@ enum class Enum_HollowSoldier_Sword_State
 	RH_ComboAttack,
 	RH_TwinSlash,
 	Attack1,
-
+	Attack2,
+	Attack3,
+	Attack4,
+	Attack5,
+	Attack6,
+	Attack7,
+	Attack8,
+	Attack9,
+	Attack10,
+	Attack11,
+	Attack12,
+	Attack13,
 	AttackFail,
 	Parrying,
 	Hit,
@@ -58,6 +69,8 @@ protected:
 private:
 	float StateTime = 0.0f;
 
+	int AttackPattern = 0;
+
 protected:
 	Enum_HollowSoldier_Sword_State SoldierState = Enum_HollowSoldier_Sword_State::Max;
 
@@ -90,6 +103,42 @@ protected:
 
 	void State_Attack1_Start();
 	void State_Attack1_Update(float _Delta);
+
+	void State_Attack2_Start();
+	void State_Attack2_Update(float _Delta);
+
+	void State_Attack3_Start();
+	void State_Attack3_Update(float _Delta);
+
+	void State_Attack4_Start();
+	void State_Attack4_Update(float _Delta);
+
+	void State_Attack5_Start();
+	void State_Attack5_Update(float _Delta);
+
+	void State_Attack6_Start();
+	void State_Attack6_Update(float _Delta);
+
+	void State_Attack7_Start();
+	void State_Attack7_Update(float _Delta);
+	
+	void State_Attack8_Start();
+	void State_Attack8_Update(float _Delta);
+
+	void State_Attack9_Start();
+	void State_Attack9_Update(float _Delta);
+
+	void State_Attack10_Start();
+	void State_Attack10_Update(float _Delta);
+
+	void State_Attack11_Start();
+	void State_Attack11_Update(float _Delta);
+
+	void State_Attack12_Start();
+	void State_Attack12_Update(float _Delta);
+
+	void State_Attack13_Start();
+	void State_Attack13_Update(float _Delta);
 
 	void State_AttackFail_Start();
 	void State_AttackFail_Update(float _Delta);

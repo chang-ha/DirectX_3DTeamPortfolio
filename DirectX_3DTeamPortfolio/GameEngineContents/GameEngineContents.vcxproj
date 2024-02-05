@@ -235,6 +235,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="LUTEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Monster_HollowSoldier_Crossbow.cpp">
       <SubType>
       </SubType>
@@ -433,6 +437,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="DummyPath.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="LUTEffect.h">
       <SubType>
       </SubType>
     </ClInclude>

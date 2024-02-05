@@ -251,7 +251,18 @@ void GameEngineCamera::Render(float _DeltaTime)
 		std::list<std::shared_ptr<class GameEngineRenderer>>& RendererList = RendererPair.second;
 		for (std::shared_ptr<class GameEngineRenderer>& Renderer : RendererList)
 		{
+
+			if (Renderer->BillboardValue == true)
+			{
+				float4 CameraRotation = Transform.GetLocalRotationEuler();
+				//Transform.GetLocalR();
+
+				Renderer->Transform.SetLocalRotation(CameraRotation);
+
+			}
+
 			Renderer->Transform.CalculationViewAndProjection(Transform.GetConstTransformDataRef());
+
 		}
 	}
 
@@ -414,15 +425,18 @@ void GameEngineCamera::Render(float _DeltaTime)
 	// 기존에 그려진걸 싹다 지우고 복사
 	// CameraTarget->Copy(0, AllRenderTarget, 0);
 
-	AllRenderTarget->PostEffect(_DeltaTime);
 
 	// 포워드로 그려진 모든것 병합
+	ForwardTarget->PostEffect(_DeltaTime);
 	GetLevel()->LevelRenderTarget->Merge(0, ForwardTarget, 0);
 	// 디퍼드로 그려진 모든것 병합
 	if (true == IsDeferredResult)
 	{
+		DeferredTarget->PostEffect(_DeltaTime);
 		GetLevel()->LevelRenderTarget->Merge(0, DeferredTarget, 0);
 	}
+
+	GetLevel()->LevelRenderTarget->PostEffect(_DeltaTime);
 }
 
 void GameEngineCamera::AllReleaseCheck()

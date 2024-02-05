@@ -72,6 +72,11 @@ void AnimationInfoGUI::ShowActorList(GameEngineLevel* _Level)
 
 	static int SelectActorIndex = 0;
 
+	if (CObjectNames.empty())
+	{
+		return;
+	}
+
 	if (ImGui::ListBox("ActorList", &SelectActorIndex, &CObjectNames[0], static_cast<int>(CObjectNames.size())))
 	{
 		std::string ActorName = CObjectNames[SelectActorIndex];

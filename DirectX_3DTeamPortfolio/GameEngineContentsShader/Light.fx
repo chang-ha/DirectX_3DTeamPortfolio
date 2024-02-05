@@ -113,7 +113,7 @@ float4 CalSpacularLightContentsBRDF(float4 _Pos, float4 _Normal, float3 _Albedo,
     // 0~1
     float4 ResultRatio = 0.0f;
     
-    float3 N = normalize(_Normal.xyz);
+    float3 Normal = normalize(_Normal.xyz);
     //float3 L = normalize(_Data.ViewLightRevDir.xyz);
     
     
@@ -137,8 +137,8 @@ float4 CalSpacularLightContentsBRDF(float4 _Pos, float4 _Normal, float3 _Albedo,
     float3 viewDir = normalize(_Data.CameraPosition.xyz - _Pos.xyz);
     float3 halfwayVec = normalize(viewDir + lightDir);
     
-    float NdotL = max(dot(N, lightDir), 0.0);
-    float NdotV = max(dot(N, viewDir), 0.0);
+    float NdotL = max(dot(Normal, lightDir), 0.0);
+    float NdotV = max(dot(Normal, viewDir), 0.0);
     //float NdotH = max(dot(_Normal.xyz, H), 0.0);
     float VdotH = max(dot(viewDir, halfwayVec), 0.0);
     
@@ -146,10 +146,10 @@ float4 CalSpacularLightContentsBRDF(float4 _Pos, float4 _Normal, float3 _Albedo,
     // Fresnel term using Schlick's approximation
     float3 F = FresnelSchlick(VdotH, F0);
     
-    float D = NormalDistributionGGXTR(N, halfwayVec, _Roughness);
+    float D = NormalDistributionGGXTR(Normal, halfwayVec, _Roughness);
 
 
-    float G = GeometrySmith(N, viewDir, lightDir, _Roughness);
+    float G = GeometrySmith(Normal, viewDir, lightDir, _Roughness);
     
     
     
@@ -164,9 +164,10 @@ float4 CalSpacularLightContentsBRDF(float4 _Pos, float4 _Normal, float3 _Albedo,
     float3 kD = 1.0f - kS;
     kD *= 1.0 - _Metalness;
     
-    ResultRatio.xyz = ((kD * _Albedo / PI) + specular) * NdotL;
+    ResultRatio.xyz = ((kD * _Albedo ) + specular) * NdotL;
     ResultRatio.w = 1.0f;
     //ResultRatio = float4(specular, 1.0f);
+    
     
     
     return ResultRatio * _Data.LightColor * _Data.LightPower;
