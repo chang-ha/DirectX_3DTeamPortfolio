@@ -29,7 +29,7 @@ void Player::Start()
 	
 
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(0);
-	MainRenderer->Transform.SetLocalScale({ 400.0f, 400.0f, 400.0f });
+	MainRenderer->Transform.SetLocalScale({ 200.0f, 200.0f, 200.0f });
 	MainRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
 
 
@@ -169,6 +169,7 @@ void Player::Start()
 
 	//Transform.AddLocalPosition({ 0.0f,-300.0f });
 	
+	
 
 }
 
@@ -201,6 +202,9 @@ void Player::Update(float _Delta)
 	DeltaTime = _Delta;
 
 
+
+	float4 TargetPos = GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
+	float4 MyPos = Capsule->Transform.GetWorldPosition();
 
 	Col->CollisionEvent(0, { .Stay = [&](class GameEngineCollision* _This,class GameEngineCollision* _collisions)
 	{
