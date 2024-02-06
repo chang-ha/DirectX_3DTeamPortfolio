@@ -9,6 +9,7 @@
 #include "TestObject_Shader.h"
 #include <GameEngineCore/GameEngineCoreWindow.h>
 #include <GameEngineCore/GameEngineRenderer.h>
+#include "LUTEffect.h"
 
 TestLevel_Shader::TestLevel_Shader()
 {
@@ -36,6 +37,8 @@ void TestLevel_Shader::Start()
 	// GetMainCamera()->Transform.AddWorldRotation({ 0.f, 180.f, 0.f });
 
 	CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+
+
 	if (nullptr != CoreWindow)
 	{
 		CoreWindow->AddDebugRenderTarget(1, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
@@ -57,6 +60,7 @@ void TestLevel_Shader::Start()
 	//GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<FXAAEffect>();
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
 	GetMainCamera()->Transform.AddLocalPosition({ 0.0f, 0.0f, -300.0f });
+	GetLevelRenderTarget()->CreateEffect<LUTEffect>();
 
 
 
