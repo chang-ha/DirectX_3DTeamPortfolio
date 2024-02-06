@@ -1033,12 +1033,8 @@
     </CopyFileToFolders>
     <Library Include="ThirdParty\HBAO\lib\GFSDK_SSAO_D3D11.win64.lib">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <FileType>Document</FileType>
-    </Library>
-    <Library Include="ThirdParty\HBAO\lib\GFSDK_SSAO_D3D11_UWP.win64.lib">
-      <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </Library>
     <None Include="ThirdParty\DirectXTex\inc\DirectXTex.inl" />
     <Library Include="ThirdParty\DirectXTex\lib\Debug\DirectXTex.pdb">
@@ -1097,10 +1093,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <FileType>Document</FileType>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="ThirdParty\HBAO\lib\GFSDK_SSAO_D3D11_UWP.win64.dll">
-      <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
