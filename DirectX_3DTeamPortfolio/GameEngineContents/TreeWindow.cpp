@@ -3,6 +3,7 @@
 #include "AnimationInfoGUI.h"
 #include "LightGUI.h"
 #include "HBAOGUI.h"
+#include "LUTGUI.h"
 
 
 void TreeWindow::Start()
@@ -15,6 +16,7 @@ void RootTree::Start()
 	CreateTree<AnimationInfoGUI>("Actor Editor");
 	CreateTree<LightGUI>("Light Editor");
 	CreateTree<HBAOGUI>("HBAO Editor");
+	CreateTree<LUTGUI>("LUT Editor");
 }
 
 void TreeWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)

@@ -163,9 +163,6 @@
     <ClCompile Include="BaseActor.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
-    <ClCompile Include="HBAOGUI.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
     <ClCompile Include="TitleLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
@@ -195,6 +192,12 @@
     </ClCompile>
     <ClCompile Include="LUTEffect.cpp">
       <Filter>PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="HBAOGUI.cpp">
+      <Filter>ImGui\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="LUTGUI.cpp">
+      <Filter>ImGui\Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -357,9 +360,6 @@
     <ClInclude Include="BaseActor.h">
       <Filter>Actor</Filter>
     </ClInclude>
-    <ClInclude Include="HBAOGUI.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
     <ClInclude Include="TitleLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
@@ -389,6 +389,12 @@
     </ClInclude>
     <ClInclude Include="LUTEffect.h">
       <Filter>PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="HBAOGUI.h">
+      <Filter>ImGui\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="LUTGUI.h">
+      <Filter>ImGui\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
