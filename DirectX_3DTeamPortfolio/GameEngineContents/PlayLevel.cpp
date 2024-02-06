@@ -73,16 +73,23 @@ void PlayLevel::Start()
 	}
 
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 1, 1, 1, 1 });
+
+	// Test Ground
+	physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
+	physx::PxMaterial* mMaterial = GameEnginePhysX::GetDefaultMaterial();
+	physx::PxRigidStatic* groundPlane = PxCreatePlane(*Physics, physx::PxPlane(0, 1, 0, 50), *mMaterial);
+	Scene->addActor(*groundPlane);
 }
 
 void PlayLevel::Update(float _Delta)
 {
-	//ContentLevel::Update(_Delta);
+	ContentLevel::Update(_Delta);
 
 }
 
 void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
+	int a = 0;
 }
 
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)

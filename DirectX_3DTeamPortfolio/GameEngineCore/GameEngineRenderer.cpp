@@ -152,6 +152,7 @@ void GameEngineRenderer::SetMaterial(std::string_view _Name, int _Index /*= 0*/)
 {
 	std::shared_ptr<GameEngineRenderUnit> Unit = CreateAndFindRenderUnit(_Index);
 	Unit->SetMaterial(_Name);
+	Unit->Camerapushback();
 
 	//if (Unit->ShaderResHelper.IsConstantBuffer("TransformData"))
 	//{

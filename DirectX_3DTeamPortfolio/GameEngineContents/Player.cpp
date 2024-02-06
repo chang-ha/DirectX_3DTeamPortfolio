@@ -26,25 +26,25 @@ void Player::Start()
 
 
 	
+	Capsule = CreateComponent<GameEnginePhysXCapsule>();
 	
+
 
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(0);
 	MainRenderer->Transform.SetLocalScale({ 200.0f, 200.0f, 200.0f });
 	MainRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
-
+	//MainRenderer->Transform.SetLocalPosition({ 0.0f, -300.0f, 0.0f });
 
 	
 	BoneName = "R_Hand";
 
 	
 	MainRenderer->SetFBXMesh("c0010.FBX", "FBXAnimationTexture"); // Bone 136
-	MainRenderer->Transform.SetLocalScale({ 400.0f, 400.0f, 400.0f });
-	//MainRenderer->Transform.SetLocalPosition({ 0.0f, -300.0f, 0.0f });
-	MainRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
-	//	FBXRenderer->CreateFBXAnimation("Idle", "c0000.FBX", { 0.1f, true });
+	
+	
+	
 	MainRenderer->CreateFBXAnimation("Idle", "00000.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Shield_Idle", "00100.FBX", { Frame, true });
-	//FBXRenderer->CreateFBXAnimation("Run", "Ani001.FBX", { 0.1f, true });
 	MainRenderer->CreateFBXAnimation("Waek_jump", "004200.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Middle_jump", "004210.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("String_Jump", "004220.FBX", { Frame, true });
@@ -119,6 +119,12 @@ void Player::Start()
 	MainRenderer->CreateFBXAnimation("Shield_Move", "023100.FBX", { Frame, true }); // 쉴드 움직임 안됨 
 	MainRenderer->ChangeAnimation("Shield_Idle");
 	
+
+	MainRenderer->SetRootMotionComponent(Capsule.get());
+	MainRenderer->SetRootMotion("Attack_01");
+	MainRenderer->SetRootMotion("Walk_Forward","",Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("Roll_Forward");
+
 	//MainRenderer->Off();
 
 
@@ -127,6 +133,7 @@ void Player::Start()
 
 	{
 		SwordActor = GetLevel()->CreateActor<GameEngineActor>();
+		//SwordActor->Transform.SetLocalPosition({ 0.0f - 300.0f });
 		Weapon = SwordActor->CreateComponent<GameContentsFBXRenderer>();
 		Weapon->SetFBXMesh("WP_A_0221.FBX", "FBXAnimationTexture");
 
@@ -162,12 +169,13 @@ void Player::Start()
 		{
 
 		};
-
-
 	
+	MainRenderer->AddNotBlendBoneIndex(53);
+
+	Transform.SetLocalPosition({ 0.0f,-300.0f });
 	Player_State();
 
-	//Transform.AddLocalPosition({ 0.0f,-300.0f });
+	Transform.AddLocalPosition({ 0.0f,-300.0f });
 	
 	
 
@@ -177,29 +185,83 @@ void Player::Update(float _Delta)
 {
 	if (GameEngineInput::IsDown('Q', this))
 	{
-		Weapon->SwitchPause();
+		MainRenderer->SwitchPause();
 	}
+	
+
+
+
+	/*if (GameEngineInput::IsPress('A',this))
+	{
+		Mouse_Pos += 1;
+	}
+	if (GameEngineInput::IsPress('D', this))
+	{
+		Mouse_Pos -= 1;
+	}*/
+
+	
 
 	AnimationBoneData Data = MainRenderer->GetBoneData(Bone_index_01);
 
 	SwordActor->Transform.SetLocalRotation(Data.RotQuaternion.QuaternionToEulerDeg());
 	SwordActor->Transform.SetWorldPosition(Data.Pos+Transform.GetWorldPosition());
+	
+	
+	//Mouse_Ro = GameEngineCore::MainWindow.GetMousePos().X / 2;
+
+	//float x = 0.0;
+	//float y = 0.0;
+
+	//// 타원의 반지름
+	//float a = 800;
+	//float b = 800;
+
+	//test += _Delta;
+
+	////test += 1* _Time;
+	//float Pos_x = x + a * cos(test);
+	//float Pos_y = y + b * sin(test);
 
 
-	Mouse_Pos = GameEngineCore::MainWindow.GetMousePos().X;
-	//Camera_Pos -= Mouse_Pos; 
-	//GetLevel()->GetMainCamera()->Transform.SetLocalRotation({ 0.0f,Mouse_Pos,0.0f }); 
-	Transform.SetLocalRotation({ 0.0f,Mouse_Pos,0.0f });
 
-	//float a = pow(Mouse_Pos, 2);
-	//float b = -a + pow(750,2);
-	//float c = sqrt(b);
-	//float d = sqrt(a); 
-	//GetLevel()->GetMainCamera()->Transform.SetLocalPosition({ d,c,0.0f });
+	//float4 Dir = Transform.GetWorldPosition() - GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
+	//float4 Monster = { 0,0,0,1.0f };
+
+	//float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
+	//float radian = atan2(Dir.Y, Dir.X) - atan2(Monster.Y, Monster.X);
+	//degree += float(radian * (180.0 / 3.141592));
 
 
+	
+	
+	//GetLevel()->GetMainCamera()->Transform.SetLocalPosition({ Pos_x ,0.0f,Pos_y });
+	//GetLevel()->GetMainCamera()->Transform.SetWorldRotation({  0.0f,degree });
+	
 
-	DeltaTime = _Delta;
+
+	
+
+
+	
+
+
+	//TargetAngle = Angle.X * GameEngineMath::R2D;
+	//if (0.0f <= RotationDir.Y)
+	//{
+	//	RotDir = Enum_RotDir::Right;
+	//}
+	//else
+	//{
+	//	RotDir = Enum_RotDir::Left;
+	//	TargetAngle *= -1.f;
+	//}
+
+
+
+
+
+
 
 
 
@@ -240,8 +302,8 @@ void Player::Update(float _Delta)
 
 void Player::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	//Capsule->PhysXComponentInit(100.0f, 50.0f);
-	//Capsule->SetPositioningComponent();
+	Capsule->PhysXComponentInit(100.0f, 50.0f);
+	Capsule->SetPositioningComponent();
 
 }
 

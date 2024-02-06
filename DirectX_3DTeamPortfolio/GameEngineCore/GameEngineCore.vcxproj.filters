@@ -166,6 +166,9 @@
     <Filter Include="PhysX\Component">
       <UniqueIdentifier>{fdd8ce92-daa4-4af0-b9cf-f14560ef5036}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ThirdParty\HBAO+">
+      <UniqueIdentifier>{4e762afb-ba69-43f8-b4ae-6687c871a085}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineActor.h">
@@ -958,6 +961,16 @@
     <ClInclude Include="GameEnginePhysXLevel.h">
       <Filter>PhysX</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineAO.h" />
+    <ClInclude Include="GameEngineBillboardRenderer.h">
+      <Filter>Rendering\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\HBAO\inc\GFSDK_SSAO.h">
+      <Filter>ThirdParty\HBAO+</Filter>
+    </ClInclude>
+    <ClInclude Include="GFSDK_SSAO.h">
+      <Filter>ThirdParty\HBAO+</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -1175,6 +1188,10 @@
     <ClCompile Include="GameEnginePhysXLevel.cpp">
       <Filter>PhysX</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineAO.cpp" />
+    <ClCompile Include="GameEngineBillboardRenderer.cpp">
+      <Filter>Rendering\Contents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ThirdParty\DirectXTex\inc\DirectXTex.inl">
@@ -1211,6 +1228,9 @@
     </Library>
     <Library Include="ThirdParty\FW1FontWrapper\lib\Release\FW1FontWrapper.lib">
       <Filter>ThirdParty\Release</Filter>
+    </Library>
+    <Library Include="ThirdParty\HBAO\lib\GFSDK_SSAO_D3D11.win64.lib">
+      <Filter>ThirdParty\HBAO+</Filter>
     </Library>
   </ItemGroup>
   <ItemGroup>
@@ -1315,6 +1335,9 @@
     </CopyFileToFolders>
     <CopyFileToFolders Include="ThirdParty\PhysX\lib\Release\PhysXVehicle_static_64.lib">
       <Filter>ThirdParty\PhysX\lib\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\HBAO\lib\GFSDK_SSAO_D3D11.win64.dll">
+      <Filter>ThirdParty\HBAO+</Filter>
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>

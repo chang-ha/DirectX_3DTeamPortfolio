@@ -72,6 +72,11 @@ void AnimationInfoGUI::ShowActorList(GameEngineLevel* _Level)
 
 	static int SelectActorIndex = 0;
 
+	if (CObjectNames.empty())
+	{
+		return;
+	}
+
 	if (ImGui::ListBox("ActorList", &SelectActorIndex, &CObjectNames[0], static_cast<int>(CObjectNames.size())))
 	{
 		std::string ActorName = CObjectNames[SelectActorIndex];
@@ -80,12 +85,12 @@ void AnimationInfoGUI::ShowActorList(GameEngineLevel* _Level)
 			return;
 		}
 
-		const std::vector<std::shared_ptr<BaseMonster>>& MonsterGroup = _Level->GetObjectGroupConvert<BaseMonster>(Enum_UpdateOrder::Monster);
-		for (const std::shared_ptr<BaseMonster>& Monster : MonsterGroup)
+		const std::vector<std::shared_ptr<BaseActor>>& ObjectGroup = _Level->GetObjectGroupConvert<BaseActor>(Enum_UpdateOrder::Monster);
+		for (const std::shared_ptr<BaseActor>& Object : ObjectGroup)
 		{
-			if (CObjectNames[SelectActorIndex] == Monster->GetName())
+			if (CObjectNames[SelectActorIndex] == Object->GetName())
 			{
-				SelectActor = Monster.get();
+				SelectActor = Object.get();
 				ActorChange();
 			}
 		}

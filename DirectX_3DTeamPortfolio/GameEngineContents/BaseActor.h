@@ -6,6 +6,7 @@ enum class Enum_ActorType
 {
 	None,
 	LothricKn = 1280,
+	Boss_Vordt = 2240,
 };
 
 // ป๓ลย Enum 
@@ -113,6 +114,7 @@ public:
 	inline std::map<int, std::shared_ptr<BoneSocketCollision>>& GetCollisions() { return SocketCollisions; }
 	std::shared_ptr<BoneSocketCollision> GetSocketCollision(int _Index);
 	inline int* GetFlagPointer() { return &Flags; }
+	inline class GameEnginePhysXCapsule* GetPhysxCapsulePointer() { return Capsule.get(); }
 
 protected:
 	void Start() override;
@@ -148,7 +150,11 @@ protected:
 private:
 	int FindFlag(Enum_ActorStatus _Status) const;
 
+public:
+
 protected:
+	static constexpr float W_SCALE = 50.0f;
+
 	std::shared_ptr<GameContentsFBXRenderer> MainRenderer;
 	std::shared_ptr<GameContentsFBXRenderer> test_Render;
 	std::map<int, std::shared_ptr<BoneSocketCollision>> SocketCollisions;
@@ -171,12 +177,22 @@ public:
 		Target = _Target;
 	}
 
-	inline float GetTargetAngle()
+	inline bool IsTargeting() const
+	{
+		if (nullptr == Target)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	inline float GetTargetAngle() const
 	{
 		return TargetAngle;
 	}
 
-	inline Enum_RotDir GetRotDir_e()
+	inline Enum_RotDir GetRotDir_e() const
 	{
 		return RotDir;
 	}
@@ -185,11 +201,35 @@ public:
 	{
 		return static_cast<float>(RotDir);
 	}
+
+	inline void SetRotSpeed(float _RotSpeed)
+	{
+		RotSpeed = _RotSpeed;
+	}
+
+	inline float GetRotSpeed()
+	{
+		return RotSpeed;
+	}
+
+	inline GameEngineActor* GetTargetPointer()
+	{
+		return Target;
+	}
+
+	inline float GetRotMinAngle()
+	{
+		return RotMinAngle;
+	}
+
+	float GetTargetDistance() const;
+
 private:
 	float TargetAngle = 0.f;
 	GameEngineActor* Target = nullptr;
 
 	float RotSpeed = 0.f;
+	const float RotMinAngle = 5.f;
 	Enum_RotDir RotDir = Enum_RotDir::Not_Rot;
 
 	void CalcuTargetAngle();

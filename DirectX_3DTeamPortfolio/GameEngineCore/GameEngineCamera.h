@@ -72,16 +72,31 @@ public:
 	}
 
 
-	void CameraTargetSetting(GameEngineTransform& _Target, float4 _Pivot)
+	void CameraTargetSetting(GameEngineTransform& _Target, const float4& _Pivot)
 	{
 		Pivot = _Pivot;
 		Target = &_Target;
+	}
+
+	inline void SetCameraTargetPivot(const float4& _Pivot)
+	{
+		Pivot = _Pivot;
 	}
 
 	void CameraTargetReset()
 	{
 		Pivot = float4::ZERO;
 		Target = nullptr;
+	}
+
+	bool IsCameraTargetting(GameEngineTransform* _pTransform)
+	{
+		if (Target == _pTransform)
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	float4 GetScreenMousePrevPos() { return ScreenMousePrevPos; }

@@ -30,6 +30,7 @@
 #include <GameEngineCore\GameEngineLight.h>
 
 #include "ContentsEnum.h"
+#include "ContentsMath.h"
 #include "GlobalValue.h"
 
 #include "GameEngineCore\GameEnginePhysX.h"

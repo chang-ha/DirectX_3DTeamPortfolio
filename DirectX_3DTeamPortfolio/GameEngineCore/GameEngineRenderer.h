@@ -35,9 +35,13 @@ struct RenderBaseInfo
 	int IsDiffuse = 0;
 	int IsShadow = 1;
 	int IsSpecular = 0;
-	int def1 = 0;
-	int def2 = 0;
-	int def3 = 0;
+	float AlphaValue = 0.7f;
+	float TEXCOORDMult = 0.0001f; // 맵용 gi 텍스쳐용
+	float Roughness = -1.0f; //0.0f밑이면 스펙큘러 텍스쳐에서 샘플링해서 사용된다.
+	float Metalic = -1.0f; //0.0f밑이면 스펙큘러 텍스쳐에서 샘플링해서 사용된다.
+	float Def2;
+	float Def3;
+	float Def4;
 };
 
 // 설명 : GameEngineRenderer에게 Order는 랜더링 되는 순서를 의미합니다.
@@ -112,6 +116,11 @@ public:
 		return Camera;
 	}
 
+	void SetBillboardOn()
+	{
+		BillboardValue = true;
+	}
+
 protected:
 	void Start();
 	void Update(float _Delta) override;
@@ -129,5 +138,7 @@ protected:
 
 private:
 	class GameEngineCamera* Camera = nullptr;
+
+	bool BillboardValue = false;
 };
 
