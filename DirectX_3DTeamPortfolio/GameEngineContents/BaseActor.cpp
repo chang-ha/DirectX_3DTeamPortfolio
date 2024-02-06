@@ -261,7 +261,6 @@ void BaseActor::CalcuTargetAngle()
 
 	float4 Angle = DirectX::XMVector3AngleBetweenNormals(FrontVector.DirectXVector, LocationVector.DirectXVector);
 
-
 	float4 RotationDir = DirectX::XMVector3Cross(FrontVector.DirectXVector, LocationVector.DirectXVector);
 
 	TargetAngle = Angle.X * GameEngineMath::R2D;
