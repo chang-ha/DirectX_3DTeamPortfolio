@@ -243,6 +243,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MainUIActor.cpp" />
     <ClCompile Include="Monster_HollowSoldier_Crossbow.cpp">
       <SubType>
       </SubType>
@@ -259,6 +260,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="PlayerValue.cpp" />
     <ClCompile Include="SwitchFlagFrameEvent.cpp">
       <SubType>
       </SubType>
@@ -373,6 +375,8 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UIPlayerGaugeBar.cpp" />
+    <ClCompile Include="UIUnit.cpp" />
     <ClCompile Include="WorldMap.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -452,6 +456,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="MainUIActor.h" />
     <ClInclude Include="Monster_HollowSoldier_Crossbow.h">
       <SubType>
       </SubType>
@@ -468,6 +473,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="PlayerValue.h" />
     <ClInclude Include="SwitchFlagFrameEvent.h">
       <SubType>
       </SubType>
@@ -579,6 +585,8 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="UIPlayerGaugeBar.h" />
+    <ClInclude Include="UIUnit.h" />
     <ClInclude Include="WorldMap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

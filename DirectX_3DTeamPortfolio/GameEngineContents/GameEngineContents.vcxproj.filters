@@ -199,6 +199,18 @@
     <ClCompile Include="LUTGUI.cpp">
       <Filter>ImGui\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="UIPlayerGaugeBar.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIUnit.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MainUIActor.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerValue.cpp">
+      <Filter>Core\Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -395,6 +407,18 @@
     </ClInclude>
     <ClInclude Include="LUTGUI.h">
       <Filter>ImGui\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="UIPlayerGaugeBar.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIUnit.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MainUIActor.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerValue.h">
+      <Filter>Core\Global</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
