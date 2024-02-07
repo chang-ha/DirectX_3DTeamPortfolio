@@ -36,41 +36,46 @@ float3 ApplyLut(float3 color)
     float tileTexSize = 1.0 / tileSize;
 
     // Determine which tile based on the blue channel
-    
-    
-    
-    float bluelerpfactor = frac(color.b * (numTiles - 1));
-    float blueSliceIndex = floor(color.b * (numTiles - 1));
-    //float blueSliceIndexlerp = floor(color.b * (numTiles));
-    
-    // Calculate which row and column this tile is in
-    float row = floor(blueSliceIndex / tileSize);
-    float col = fmod(blueSliceIndex, tileSize);
 
-    // Calculate base texture coordinates for this tile
-    float2 baseTexCoord;
-    baseTexCoord.x = col * tileTexSize;
-    baseTexCoord.y = row * tileTexSize;
-    
-    float2 baseTexCoordlerp;
-    baseTexCoordlerp.x = (col + 1) * tileTexSize;
-    baseTexCoordlerp.y = row * tileTexSize;
-    
 
-    // Adjust red and green channels to fit within this tile
+    // Calculate exact position in the LUT based on blue channel
+    float exactBlueSliceIndex = color.b * (numTiles - 1);
+
+    // Determine indices of the two closest slices
+    float lowerIndex = floor(exactBlueSliceIndex);
+    float upperIndex = lowerIndex + 1.0;
+    
+    // Calculate blend factor between two slices
+    float blendFactor = frac(exactBlueSliceIndex);
+
+    // Calculate row and column for both slices
+    float2 lowerTile;
+    lowerTile.x = fmod(lowerIndex, tileSize);
+    lowerTile.y = floor(lowerIndex / tileSize);
+
+    float2 upperTile;
+    upperTile.x = fmod(upperIndex, tileSize);
+    upperTile.y = floor(upperIndex / tileSize);
+
+    // Adjust red and green channels to fit within a tile
     float2 rgTexCoord;
     rgTexCoord.x = (color.r * (LUTSize - 1) + 0.5) / LUTSize;
     rgTexCoord.y = (color.g * (LUTSize - 1) + 0.5) / LUTSize;
 
-    // Final texture coordinate combines base tile location with adjusted RG coordinate
-    float2 finalTexCoord = baseTexCoord + rgTexCoord * tileTexSize;
-    float2 finalTexCoordlerp = baseTexCoordlerp + rgTexCoord * tileTexSize;
-    
-    // 블루값을 러프로 매끄럽게
-    //float3 lutcolor = lerp(LUTTex.Sample(LUTTexSampler, finalTexCoord).rgb, LUTTex.Sample(LUTTexSampler, finalTexCoordlerp).rgb, bluelerpfactor);
-    
+    // Calculate final texture coordinates for both slices
+    float2 lowerFinalTexCoord = (lowerTile + rgTexCoord) * tileTexSize;
+    float2 upperFinalTexCoord = (upperTile + rgTexCoord) * tileTexSize;
 
-    return LUTTex.Sample(LUTTexSampler, finalTexCoord).rgb;
+    // Sample both slices
+    float3 colorLowerSlice = LUTTex.Sample(LUTTexSampler, lowerFinalTexCoord).rgb;
+    float3 colorUpperSlice = LUTTex.Sample(LUTTexSampler, upperFinalTexCoord).rgb;
+
+    // Linearly interpolate between the two samples based on blend factor
+    return lerp(colorLowerSlice, colorUpperSlice, blendFactor);
+    
+    ////
+    
+    
 }
 
 

@@ -83,4 +83,5 @@ private:
 	float Speed = 1000.0f;
 	float MoveSpeed = 0.0f;
 	float DeltaTime = 0.0f;
+	float Angle = 0.0f;
 };

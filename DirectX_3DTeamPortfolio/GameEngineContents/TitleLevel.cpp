@@ -17,7 +17,7 @@ void TitleLevel::Start()
 {
 	ContentLevel::Start();
 	
-	GetMainCamera()->GetCameraAllRenderTarget()->SetClearColor(float4::BLUE);
+	GetMainCamera()->GetCameraAllRenderTarget()->SetClearColor(float4::BLACK);
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
 	CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");

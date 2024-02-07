@@ -85,7 +85,7 @@ protected:
 	void Release() override;
 
 private:
-	std::shared_ptr<GameEngineCollision> BossCollision;
+	std::shared_ptr<BoneSocketCollision> BossCollision;
 	std::shared_ptr<GameEngineCollision> DetectCollision;
 	std::shared_ptr<Boss_State_GUI> GUI = nullptr;
 	float TargetAngle = 0.f;
@@ -114,6 +114,11 @@ private:
 	void Walk_Left_Start();
 	void Walk_Left_Update(float _Delta);
 	void Walk_Left_End();
+
+	// Rush_Front
+	void Rush_Front_Start();
+	void Rush_Front_Update(float _Delta);
+	void Rush_Front_End();
 
 	// Jump
 	void Jump_Back_Start();

@@ -35,7 +35,7 @@ private:
 	bool FontEnter = false;
 
 	float Time = 0.0f;
-	float FromSoftLogoTime = 5.0f;
+	float FromSoftLogoTime = 4.0f;
 
 };
 

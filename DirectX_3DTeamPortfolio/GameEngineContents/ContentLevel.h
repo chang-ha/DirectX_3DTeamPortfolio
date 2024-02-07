@@ -23,6 +23,6 @@ protected:
 	void Release() override;
 
 private:
-
+	void ChaseListener();
 };
 
