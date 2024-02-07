@@ -48,13 +48,14 @@ public:
 	}
 
 	template<typename EnumType>
-	void CreateState(EnumType _Stateindex, const CreateStateParameter& _Para)
+	void CreateState(EnumType _Stateindex, const CreateStateParameter& _Para, std::string_view _Name = "")
 	{
-		return CreateState(static_cast<int>(_Stateindex), _Para);
+		return CreateState(static_cast<int>(_Stateindex), _Para, _Name);
 	}
 
-	void CreateState(int _Stateindex, const CreateStateParameter& _Para)
+	void CreateState(int _Stateindex, const CreateStateParameter& _Para, std::string_view _Name = "")
 	{
+		States[_Stateindex].Name = _Name;
 		States[_Stateindex].Event = _Para;
 	}
 
@@ -90,6 +91,11 @@ public:
 	float GetStateTime() 
 	{
 		return StateTime;
+	}
+
+	const std::map<int, State>* GetAllStates()
+	{
+		return &States;
 	}
 
 protected:
