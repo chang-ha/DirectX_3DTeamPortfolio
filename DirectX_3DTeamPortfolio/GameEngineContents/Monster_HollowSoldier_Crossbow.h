@@ -3,6 +3,16 @@
 
 enum class Enum_HollowSoldier_Crossbow_State
 {
+	Idle,
+	Idle2,
+	//Walk,
+	//Run,
+	Scout,
+	Fire,
+	Sit_Fire,
+	Hit,
+	HitToDeath,
+	Death,
 	Max,
 };
 
