@@ -240,9 +240,8 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		// 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
 		//}
 
-#define RENDER_SCALE 150.f
 		MainRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBX_Animation"); // Bone 136
-		MainRenderer->Transform.SetLocalScale({ RENDER_SCALE, RENDER_SCALE, RENDER_SCALE });
+		MainRenderer->Transform.SetLocalScale({1.f, 1.f, 1.f});
 		MainRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.f });
 	}
 
@@ -356,13 +355,13 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 	//// Boss Collision
 	{
-		BossCollision->SetCollisionType(ColType::SPHERE3D);
-		BossCollision->Transform.SetLocalPosition({ 0.0f, 200.f, 0.0f });
-		BossCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
+		//BossCollision->SetCollisionType(ColType::SPHERE3D);
+		//BossCollision->Transform.SetLocalPosition({ 0.0f, 200.f, 0.0f });
+		//BossCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
 	}
-	
+
 	//// Detect Collision
-#define DETECT_SCALE 1500
+#define DETECT_SCALE 15
 	{
 		DetectCollision->SetCollisionType(ColType::SPHERE3D);
 		DetectCollision->Transform.SetLocalPosition({0.f, 0.f, DETECT_SCALE  * 0.3f});
@@ -371,6 +370,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	Capsule->PhysXComponentInit(100.0f, 50.0f);
+	// Capsule->SetMass(100.f);
 	Capsule->SetPositioningComponent();
 
 	if (nullptr == GameEngineGUI::FindGUIWindow<Boss_State_GUI>("Boss_State"))
@@ -381,6 +381,20 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	GUI = GameEngineGUI::FindGUIWindow<Boss_State_GUI>("Boss_State");
 	GUI->Linked_Boss = this;
 	GUI->On();
+
+	//// Sound
+	{
+		GameEngineDirectory Dir;
+		Dir.SetCurrentPath();
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources\\Sound\\c2240");
+		std::vector<GameEngineFile> AllFile = Dir.GetAllFile();
+
+		for (int i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineSound::Sound3DLoad(AllFile[i].GetStringPath());
+		}
+	}
 
 	// State
 	{
@@ -594,8 +608,16 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainState.CreateState(Enum_BossState::Rush_Hit_Turn_Rush, Rush_Hit_Turn_Rush, "Rush_Hit_Turn_Rush");
 
 		// Start State
-		MainState.ChangeState(Enum_BossState::Jump_Left);
+		MainState.ChangeState(Enum_BossState::Idle);
 	}
+
+	if (nullptr == BossCollision)
+	{
+		BossCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::None);
+	}
+
+	// GameEngineSound::Sound3DPlay("BrokenDream.mp3", Transform.GetWorldPosition());
+
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
@@ -610,6 +632,9 @@ void Boss_Vordt::Start()
 	SetID(Enum_ActorType::Boss_Vordt);
 	GameEngineInput::AddInputObject(this);
 
+#define RENDER_SCALE 100.f
+	Transform.SetLocalScale({ RENDER_SCALE, RENDER_SCALE, RENDER_SCALE });
+
 	if (nullptr == MainRenderer)
 	{
 		MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
@@ -620,20 +645,25 @@ void Boss_Vordt::Start()
 		Capsule = CreateComponent<GameEnginePhysXCapsule>();
 	}
 
-	if (nullptr == BossCollision)
-	{
-		BossCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::MonsterAttack);
-	}
-
 	if (nullptr == DetectCollision)
 	{
 		DetectCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
 	}
+
+
 }
 
 #define SPEED 100.0f
 void Boss_Vordt::Update(float _Delta)
 {
+	static float Cool = 3.f;
+	Cool -= _Delta;
+	if (0.f >= Cool)
+	{
+		Cool = 3.f;
+	}
+
+
 	BaseActor::Update(_Delta);
 
 	if (true == GameEngineInput::IsPress('W', this))
@@ -673,7 +703,6 @@ void Boss_Vordt::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('V', this))
 	{
-		// Capsule->SetWorldPosition({ 0.0f, 0.0f, 0.0f, 0.0f });
 	}
 
 	if (true == GameEngineInput::IsDown('B', this))
@@ -697,11 +726,11 @@ void Boss_Vordt::Release()
 		MainRenderer = nullptr;
 	}
 
-	if (nullptr != BossCollision)
-	{
-		BossCollision->Death();
-		BossCollision = nullptr;
-	}
+	//if (nullptr != BossCollision)
+	//{
+	//	BossCollision->Death();
+	//	BossCollision = nullptr;
+	//}
 
 	if (nullptr != Capsule)
 	{

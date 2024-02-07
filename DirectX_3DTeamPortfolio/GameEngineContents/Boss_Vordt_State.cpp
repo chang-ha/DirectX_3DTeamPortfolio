@@ -61,17 +61,6 @@ void Boss_Vordt::Walk_Front_Update(float _Delta)
 	//{
 	//	MainRenderer->ChangeAnimation("Walk_Left");
 	//}
-	float Angle = abs(GetTargetAngle());
-	if (5.f < Angle)
-	{
-		Capsule->AddWorldRotation(float4(0.f, GetRotSpeed() * GetRotDir_f() * _Delta, 0.f));
-	}
-
-	if (true == DetectCollision->Collision(Enum_CollisionOrder::Player) && Angle)
-	{
-
-	}
-	// Capsule->AddWorldRotation(float4(0.f, -10.f * _Delta, 0.f));
 }
 
 void Boss_Vordt::Walk_Front_End()
