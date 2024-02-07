@@ -41,5 +41,32 @@ protected:
 
 	void ChangeState(Enum_HollowSoldier_Crossbow_State _State);
 	void StateUpdate(float _Delta);
+
+protected:
+	// State Function
+
+	void State_Idle_Start();
+	void State_Idle_Update(float _Delta);
+
+	void State_Idle2_Start();
+	void State_Idle2_Update(float _Delta);
+	
+	void State_Scout_Start();
+	void State_Scout_Update(float _Delta);
+
+	void State_Fire_Start();
+	void State_FIre_Update(float _Delta);
+
+	void State_Sit_Fire_Start();
+	void State_Sit_Fire_Update(float _Delta);
+
+	void State_Hit_Start();
+	void State_Hit_Update(float _Delta);
+
+	void State_HitToDeath_Start();
+	void State_HitToDeath_Update(float _Delta);
+
+	void State_Death_Start();
+	void State_Death_Update(float _Delta);
 };
 
