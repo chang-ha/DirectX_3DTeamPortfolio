@@ -17,7 +17,7 @@ void Boss_Vordt::Howling_Update(float _Delta)
 {
 	if (true == MainRenderer->IsCurAnimationEnd())
 	{
-		MainState.ChangeState(Enum_BossState::Walk_Front);
+		// MainState.ChangeState(Enum_BossState::Walk_Front);
 	}
 }
 
@@ -293,7 +293,7 @@ void Boss_Vordt::Breath_End()
 
 void Boss_Vordt::Combo1_Start()
 {
-	MainRenderer->ChangeAnimation("Combo1_Step1", true);
+	MainRenderer->ChangeAnimation("Combo1_Step3", true);
 }
 
 void Boss_Vordt::Combo1_Update(float _Delta)

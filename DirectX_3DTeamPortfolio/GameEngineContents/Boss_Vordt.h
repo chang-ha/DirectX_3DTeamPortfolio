@@ -30,6 +30,7 @@ enum class Enum_BossState
 	Walk_Front,
 	Walk_Right,
 	Walk_Left,
+	Rush_Front,
 	Jump_Back,
 	Jump_Right,
 	Jump_Left,
@@ -89,6 +90,8 @@ private:
 	std::shared_ptr<GameEngineCollision> DetectCollision;
 	std::shared_ptr<Boss_State_GUI> GUI = nullptr;
 	float TargetAngle = 0.f;
+
+	float4 BoneWorldPos(int _BoneIndex);
 
 	// State
 	////////////////////////// Move & Others

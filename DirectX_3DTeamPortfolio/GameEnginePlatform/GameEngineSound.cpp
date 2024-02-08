@@ -340,7 +340,7 @@ FMOD::Channel* GameEngineSound::Play3D(const float4& _Pos)
 	Result = SoundControl->set3DAttributes(&Pos, &vel);
 	Result = SoundControl->setPaused(false);
 
-	SoundControl->set3DMinMaxDistance(400.f, 1000.f);
+	SoundControl->set3DMinMaxDistance(400.f, 100000.f);
 
 	return SoundControl;
 }

@@ -302,19 +302,540 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->CreateFBXAnimation("Turn_Right", "Turn_Right.FBX", { BOSS_ANI_SPEED, true });
 		MainRenderer->CreateFBXAnimation("Turn_Right_Twice", "Turn_Right_Twice.FBX", { BOSS_ANI_SPEED, true });
 
+		// Idle
 		MainRenderer->SetFrameEvent("Idle", 10, [&](GameContentsFBXRenderer* _Renderer)
 			{
-				GameEngineSound::Sound3DPlay("c224005000.wav", Transform.GetWorldPosition());
+				GameEngineSound::Sound3DPlay("c224005000.wav", BoneWorldPos(0));
 			});
 
 		MainRenderer->SetFrameEvent("Idle", 13, [&](GameContentsFBXRenderer* _Renderer)
 			{
-				GameEngineSound::Sound3DPlay("c224008000.wav", Transform.GetWorldPosition());
+				GameEngineSound::Sound3DPlay("c224008000.wav", BoneWorldPos(0));
 			});
 
 		MainRenderer->SetFrameEvent("Idle", 58, [&](GameContentsFBXRenderer* _Renderer)
 			{
-				GameEngineSound::Sound3DPlay("c224005000.wav", Transform.GetWorldPosition());
+				GameEngineSound::Sound3DPlay("c224005000b.wav", BoneWorldPos(0));
+			});
+
+		// Howling
+		MainRenderer->SetFrameEvent("Howling", 10, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005000.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Howling", 29, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224006500.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Howling", 29, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224006502.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Howling", 52, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224008005.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Howling", 116, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005000b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Howling", 120, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224008000.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Howling", 127, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Howling", 133, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001b.wav", BoneWorldPos(0));
+			});
+
+		// Walk_Front
+
+		MainRenderer->SetFrameEvent("Walk_Front", 10, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005000.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Walk_Front", 28, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Walk_Front", 30, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001201b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Walk_Front", 37, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Walk_Front", 37, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224008000.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Walk_Front", 58, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005000b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Walk_Front", 81, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001c.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Walk_Front", 88, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001d.wav", BoneWorldPos(0));
+			});
+
+		// Walk_Left
+		MainRenderer->SetFrameEvent("Walk_Left", 10, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005000.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Walk_Left", 27, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Walk_Left", 29, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001201b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Walk_Left", 37, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224008000.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Walk_Left", 39, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Walk_Left", 58, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005000b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Walk_Left", 86, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001c.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Walk_Left", 89, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001d.wav", BoneWorldPos(0));
+			});
+
+		// Walk_Right
+		MainRenderer->SetFrameEvent("Walk_Right", 10, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005000.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Walk_Right", 32, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Walk_Right", 37, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224008000.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Walk_Right", 39, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Walk_Right", 58, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005000b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Walk_Right", 86, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001c.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Walk_Right", 89, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001d.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Walk_Right", 89, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001201.wav", BoneWorldPos(0));
+			});
+
+		// Rush_Front
+		MainRenderer->SetFrameEvent("Rush_Front", 3, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Front", 9, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Front", 10, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Front", 15, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001c.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Front", 21, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001d.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Front", 21, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001201.wav", BoneWorldPos(0));
+			});
+
+		// Combo1_Step1
+		MainRenderer->SetFrameEvent("Combo1_Step1", 5, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005000.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step1", 10, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step1", 17, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step1", 20, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001c.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step1", 21, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step1", 22, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224008001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step1", 29, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224003001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step1", 29, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224006001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step1", 32, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224006500.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step1", 36, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005001b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step1", 44, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step1", 57, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step1", 67, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001c.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step1", 74, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005000.wav", BoneWorldPos(0));
+			});
+
+		// Combo1_Step2
+		MainRenderer->SetFrameEvent("Combo1_Step2", 5, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005000b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step2", 21, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step2", 22, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224008001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step2", 27, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224006001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step2", 31, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224003001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step2", 32, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224006500.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step2", 36, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005001b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step2", 58, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005000c.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step2", 68, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224008004.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step2", 69, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step2", 94, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001b.wav", BoneWorldPos(0));
+			});
+
+		// Combo1_Step3
+		MainRenderer->SetFrameEvent("Combo1_Step3", 5, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005000.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step3", 5, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step3", 21, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step3", 29, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224003001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step3", 36, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005001b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step3", 39, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step3", 46, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224008001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step3", 48, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001c.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step3", 53, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224006010.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step3", 57, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224003001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step3", 58, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005000b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step3", 58, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224006500.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step3", 78, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005000c.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step3", 84, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001d.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step3", 90, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224008004.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step3", 104, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step3", 118, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001b.wav", BoneWorldPos(0));
+			});
+
+		// Rush_Attack
+		MainRenderer->SetFrameEvent("Rush_Attack", 5, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005000.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Attack", 6, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Attack", 19, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Attack", 27, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001c.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Attack", 27, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001201.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Attack", 32, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005000b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Attack", 42, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001d.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Attack", 53, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224006010.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Attack", 54, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224008001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Attack", 54, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Attack", 64, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001201b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Attack", 65, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224003001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Attack", 66, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Attack", 81, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224003001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Attack", 86, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224008001b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Attack", 87, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224003001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Attack", 90, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005001b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Attack", 91, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224004001.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Attack", 105, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001b.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Attack", 115, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001c.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Attack", 117, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001201c.wav", BoneWorldPos(0));
+			});
+
+		MainRenderer->SetFrameEvent("Rush_Attack", 115, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224001001d.wav", BoneWorldPos(0));
 			});
 
 		// Root Motion
@@ -591,6 +1112,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainState.CreateState(Enum_BossState::Walk_Front, Walk_Front, "Walk_Front");
 		MainState.CreateState(Enum_BossState::Walk_Right, Walk_Right, "Walk_Right");
 		MainState.CreateState(Enum_BossState::Walk_Left, Walk_Left, "Walk_Left");
+		MainState.CreateState(Enum_BossState::Rush_Front, Rush_Front, "Rush_Front");
 		MainState.CreateState(Enum_BossState::Jump_Back, Jump_Back, "Jump_Back");
 		MainState.CreateState(Enum_BossState::Jump_Right, Jump_Right, "Jump_Right");
 		MainState.CreateState(Enum_BossState::Jump_Left, Jump_Left, "Jump_Left");
@@ -623,7 +1145,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainState.CreateState(Enum_BossState::Rush_Hit_Turn_Rush, Rush_Hit_Turn_Rush, "Rush_Hit_Turn_Rush");
 
 		// Start State
-		MainState.ChangeState(Enum_BossState::Idle);
+		MainState.ChangeState(Enum_BossState::Rush_Attack_001);
 	}
 
 	if (nullptr == BossCollision)
@@ -758,4 +1280,12 @@ void Boss_Vordt::Release()
 	}
 
 	BaseActor::Release();
+}
+
+float4 Boss_Vordt::BoneWorldPos(int _BoneIndex)
+{
+	// AnimationBoneData Bone = MainRenderer->GetBoneData(_BoneIndex);
+	// Bone.Pos;
+
+	return Transform.GetWorldPosition(); 
 }
