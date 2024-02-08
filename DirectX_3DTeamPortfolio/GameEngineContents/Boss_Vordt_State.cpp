@@ -35,7 +35,6 @@ void Boss_Vordt::Idle_Update(float _Delta)
 {
 	if (true == MainRenderer->IsCurAnimationEnd())
 	{
-		GameEngineSound::Sound3DPlay("c224005000.wav", Transform.GetWorldPosition());
 	}
 	
 	if (0.3f > MainState.GetStateTime())

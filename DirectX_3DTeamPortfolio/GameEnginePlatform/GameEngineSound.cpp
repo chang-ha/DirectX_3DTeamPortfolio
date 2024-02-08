@@ -91,7 +91,7 @@ public:
 		// dopplerscale -> 가까워지거나 멀어지면 피치가 올라가고 내려감
 		// distancefactor -> 도플러값에만 영향을 미침
 		// rolloffscale -> 감쇠효과 정도
-		if (FMOD_RESULT::FMOD_OK != SoundSystem->set3DSettings(1.f, 1.f, 1.5f))
+		if (FMOD_RESULT::FMOD_OK != SoundSystem->set3DSettings(1.f, 1.f, .2f))
 		{
 			MsgBoxAssert("3D 사운드 세팅에 실패했습니다.");
 		}
@@ -340,7 +340,7 @@ FMOD::Channel* GameEngineSound::Play3D(const float4& _Pos)
 	Result = SoundControl->set3DAttributes(&Pos, &vel);
 	Result = SoundControl->setPaused(false);
 
-	SoundControl->set3DMinMaxDistance(500.f, 100000.f);
+	SoundControl->set3DMinMaxDistance(400.f, 1000.f);
 
 	return SoundControl;
 }
