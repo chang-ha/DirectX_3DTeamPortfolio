@@ -33,11 +33,15 @@ void Boss_Vordt::Idle_Start()
 
 void Boss_Vordt::Idle_Update(float _Delta)
 {
+	if (true == MainRenderer->IsCurAnimationEnd())
+	{
+	}
+	
 	if (0.3f > MainState.GetStateTime())
 	{
 		return;
 	}
-	MainState.ChangeState(Enum_BossState::Walk_Front);
+	// MainState.ChangeState(Enum_BossState::Walk_Front);
 }
 
 void Boss_Vordt::Idle_End()
@@ -61,17 +65,6 @@ void Boss_Vordt::Walk_Front_Update(float _Delta)
 	//{
 	//	MainRenderer->ChangeAnimation("Walk_Left");
 	//}
-	float Angle = abs(GetTargetAngle());
-	if (5.f < Angle)
-	{
-		Capsule->AddWorldRotation(float4(0.f, GetRotSpeed() * GetRotDir_f() * _Delta, 0.f));
-	}
-
-	if (true == DetectCollision->Collision(Enum_CollisionOrder::Player) && Angle)
-	{
-
-	}
-	// Capsule->AddWorldRotation(float4(0.f, -10.f * _Delta, 0.f));
 }
 
 void Boss_Vordt::Walk_Front_End()
@@ -105,6 +98,21 @@ void Boss_Vordt::Walk_Left_Update(float _Delta)
 }
 
 void Boss_Vordt::Walk_Left_End()
+{
+
+}
+
+void Boss_Vordt::Rush_Front_Start()
+{
+	MainRenderer->ChangeAnimation("Rush_Front", true);
+}
+
+void Boss_Vordt::Rush_Front_Update(float _Delta)
+{
+	
+}
+
+void Boss_Vordt::Rush_Front_End()
 {
 
 }

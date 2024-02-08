@@ -73,11 +73,15 @@ private:
 	std::shared_ptr<GameEngineCollision> Col;
 	std::shared_ptr<GameEngineActor> SwordActor;
 	float Mouse_Pos = 0.0f;
+	float Mouse_Ro = 0.0f;
 	float Camera_Pos = 0.0f; 
+	float test = 0.0f;
+	float degree = 0.0f;
 	bool TimeCheck = false;
 	bool Attack_Check = false;
 	float Time = 0.0f;
 	float Speed = 1000.0f;
 	float MoveSpeed = 0.0f;
 	float DeltaTime = 0.0f;
+	float Angle = 0.0f;
 };

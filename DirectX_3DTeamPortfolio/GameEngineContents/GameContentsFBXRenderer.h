@@ -52,6 +52,7 @@ public:
 	bool Loop = true;
 	bool IsStart = false;
 	bool IsEnd = false;
+	bool EventCheck = false;
 
 	// RootMotion
 	RootMotionData mRootMotionData;
@@ -98,6 +99,14 @@ public:
 	void Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index);
 	void Reset();
 	void Update(float _DeltaTime);
+
+	std::function<void(UINT _FrameIndex)> FrameChangeFunction;
+
+	std::map<int, std::function<void(GameContentsFBXRenderer*)>> FrameEventFunction;
+
+	std::function<void(GameContentsFBXRenderer*)> EndEvent;
+
+	void EventCall(UINT _Frame);
 
 public:
 	GameContentsFBXAnimationInfo()
@@ -230,6 +239,13 @@ public:
 
 	void SetRootMotion(std::string_view _AniName, std::string_view _FileName = "", Enum_RootMotionMode _Mode = Enum_RootMotionMode::StartDir, bool _RootMotion = true);
 	void SetRootMotionMode(std::string_view _AniName, Enum_RootMotionMode _Mode);
+
+	void SetStartEvent(std::string_view _AnimationName, std::function<void(GameContentsFBXRenderer*)> _Function);
+	void SetEndEvent(std::string_view _AnimationName, std::function<void(GameContentsFBXRenderer*)> _Function);
+	void SetFrameEvent(std::string_view _AnimationName, int _Frame, std::function<void(GameContentsFBXRenderer*)> _Function);
+
+	void SetFrameChangeFunction(std::string_view _AnimationName, std::function<void(int _FrameIndex)> _Function);
+	void SetFrameChangeFunctionAll(std::function<void(int _FrameIndex)> _Function);
 
 protected:
 	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> RenderUnits;

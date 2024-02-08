@@ -31,6 +31,7 @@
     <FxCompile Include="Function.fx" />
     <FxCompile Include="FXAA.fx" />
     <FxCompile Include="Light.fx" />
+    <FxCompile Include="LUT.fx" />
     <FxCompile Include="MeshBase.fx" />
     <FxCompile Include="MeshBase_Color.fx" />
     <FxCompile Include="MeshBase_NorX_SpcX.fx" />

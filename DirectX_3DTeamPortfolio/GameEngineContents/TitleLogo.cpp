@@ -21,6 +21,7 @@ void TitleLogo::Start()
 	FromSoft_Logo = CreateComponent<GameEngineSpriteRenderer>();
 	FromSoft_Logo->SetSprite("FromSoftLogo.Png");
 	FromSoft_Logo->Transform.SetLocalPosition({ 0.0f, 0.0f, 300.0f });
+	FromSoft_Logo->GetColorData().MulColor.A = 0.0f;
 
 	DarkSouls_Logo = CreateComponent<GameEngineSpriteRenderer>();
 	DarkSouls_Logo->SetSprite("DarkSoulsLogo.Png");
@@ -38,12 +39,12 @@ void TitleLogo::Start()
 	AnyButtonBack->SetSprite("AnyButtonBack.Png");
 	AnyButtonBack->AutoSpriteSizeOn();
 	AnyButtonBack->SetAutoScaleRatio(0.4f);
-	AnyButtonBack->Transform.SetLocalPosition({ 0.0f, -133.0f, 505.0f });
+	AnyButtonBack->Transform.SetLocalPosition({ 0.0f, -130.0f, 505.0f });
 	AnyButtonBack->GetColorData().MulColor.A = 0.0f;
 
 	FontRender = CreateComponent<GameEngineUIRenderer>();
 	FontRender->SetText("OptimusBold", "PRESS ANY BUTTON", FontScale, float4{ 1, 1, 1, 1 }, FW1_CENTER);
-	FontRender->Transform.SetLocalPosition({ 0.0f, -150.0f, 500.0f });
+	FontRender->Transform.SetLocalPosition({ 0.0f, -117.0f, 500.0f });
 	FontRender->Off();
 
 	GameEngineInput::AddInputObject(this);
@@ -51,67 +52,67 @@ void TitleLogo::Start()
 
 void TitleLogo::Update(float _Delta)
 {
-	//Time += _Delta;
-	//if (Time >= 2.0f)
-	//{
-	//	BanDaiNamco_Logo->GetColorData().MulColor.A -= _Delta * 0.5f;
-	//}
+	Time += _Delta;
+	if (Time >= 2.0f)
+	{
+		BanDaiNamco_Logo->GetColorData().MulColor.A -= _Delta * 0.5f;
+	}
 
-	//if (Time >= FromSoftLogoTime)
-	//{
-	//	BanDaiNamco_Logo->Off();
-	//	FromSoft_Logo->GetColorData().MulColor.A += _Delta * 0.5f;
-	//}
+	if (Time >= FromSoftLogoTime)
+	{
+		BanDaiNamco_Logo->Off();
+		FromSoft_Logo->GetColorData().MulColor.A += _Delta * 0.5f;
+	}
 
-	//if (Time >= 8.0f)
-	//{
-	//	FromSoft_Logo->Off();
-	//	DarkSouls_Logo->GetColorData().MulColor.A += _Delta * 0.5f;
-	//}
+	if (Time >= 8.0f)
+	{
+		FromSoft_Logo->Off();
+		DarkSouls_Logo->GetColorData().MulColor.A += _Delta * 0.5f;
+	}
 
-	//if (DarkSouls_Logo->GetColorData().MulColor.A >= 1.0f && AnyBack == false)
-	//{
-	//	Inc_Logo->On();
-	//	FontRender->On();
-	//	AnyBack = true;
-	//}
+	if (DarkSouls_Logo->GetColorData().MulColor.A >= 1.0f && AnyBack == false)
+	{
+		Inc_Logo->On();
+		FontRender->On();
+		AnyBack = true;
+	}
 
-	//if (AnyBack == true && AnyBackColor == false)
-	//{
-	//	AnyButtonBack->GetColorData().MulColor.A += _Delta * 0.5f;
-	//}
-	//if (AnyBackColor == true)
-	//{
-	//	AnyButtonBack->GetColorData().MulColor.A -= _Delta * 0.5f;
-	//}
-	//if (AnyButtonBack->GetColorData().MulColor.A >= 0.5f)
-	//{
-	//	AnyBackColor = true;
-	//}
-	//if (AnyButtonBack->GetColorData().MulColor.A <= 0.0f)
-	//{
-	//	AnyBackColor = false;
-	//}
+	if (AnyBack == true && AnyBackColor == false)
+	{
+		AnyButtonBack->GetColorData().MulColor.A += _Delta * 0.5f;
+	}
+	if (AnyBackColor == true)
+	{
+		AnyButtonBack->GetColorData().MulColor.A -= _Delta * 0.5f;
+	}
+	if (AnyButtonBack->GetColorData().MulColor.A >= 0.5f)
+	{
+		AnyBackColor = true;
+	}
+	if (AnyButtonBack->GetColorData().MulColor.A <= 0.0f)
+	{
+		AnyBackColor = false;
+	}
 
 
 
-	//if (DarkSouls_Logo->GetColorData().MulColor.A >= 1.0f && GameEngineInput::IsDown(VK_RETURN, this) && FontEnter == false)
-	//{
-	//	FontEnter = true;
-	//}
-	//if (FontEnter == true)
-	//{
-	//	FontScale += 5.0f * _Delta;
-	//	FontRender->SetText("OptimusBold", "PRESS ANY BUTTON", FontScale, float4{ 1, 1, 1, 1 }, FW1_CENTER);
-	//	AnyButtonBack->GetColorData().MulColor.A += _Delta * 0.5f;
-	//	AnyButtonBack->Transform.AddLocalScale(0.1f * _Delta);
-	//}
+	if (DarkSouls_Logo->GetColorData().MulColor.A >= 1.0f && GameEngineInput::IsDown(VK_RETURN, this) && FontEnter == false)
+	{
+		FontEnter = true;
+	}
+	if (FontEnter == true)
+	{
+		FontScale += 5.0f * _Delta;
+		FontRender->SetText("OptimusBold", "PRESS ANY BUTTON", FontScale, float4{ 1, 1, 1, 1 }, FW1_CENTER);
+		AnyButtonBack->GetColorData().MulColor.A += _Delta * 0.5f;
+		AnyButtonBack->Transform.AddLocalScale(0.1f * _Delta);
+	}
 
-	//if (FontScale >= 25.0f)
-	//{
-	//	FontRender->Off();
-	//	GameEngineCore::ChangeLevel("PlayLevel");
-	//}
+	if (FontScale >= 25.0f)
+	{
+		FontRender->Off();
+		GameEngineCore::ChangeLevel("PlayLevel");
+	}
 }
 
 void TitleLogo::Release()

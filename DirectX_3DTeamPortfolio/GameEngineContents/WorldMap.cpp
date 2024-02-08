@@ -15,11 +15,18 @@ void WorldMap::Start()
 {
 	{
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
-		FBXRenderer->SetMapFBXMesh("WorldMap.FBX", "FBX_Static");
+		FBXRenderer->SetMapFBXMesh("World1.FBX", "FBX_Static");
 
-		//TriMesh = CreateComponent<GameEnginePhysXTriMesh>();
-		//TriMesh->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.0f });
-		//TriMesh->PhysXComponentInit("TestGround.FBX0");
+		TriMesh = CreateComponent<GameEnginePhysXTriMesh>();
+		TriMesh->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.0f });
+		TriMesh->PhysXComponentInit("World1.FBX0");
+
+		FBXRenderer2 = CreateComponent<GameContentsFBXRenderer>();
+		FBXRenderer2->SetMapFBXMesh("World2.FBX", "FBX_Static");
+
+		TriMesh2 = CreateComponent<GameEnginePhysXTriMesh>();
+		TriMesh2->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.0f });
+		TriMesh2->PhysXComponentInit("World2.FBX0");
 
 		//MapMesh = FBXRenderer->GetFBXMesh("WorldMap.FBX0");
 

@@ -6,7 +6,7 @@
 
 // Test code
 #include "Player.h"
-
+#include "WorldMap.h"
 TestLevel_Boss::TestLevel_Boss()
 {
 
@@ -54,8 +54,14 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 		Boss_Object->SetTargeting(TestPlayer.get());
 	}
 
+	{
+		// std::shared_ptr<WorldMap> Object = CreateActor<WorldMap>(0, "WorldMap");
+		// Object->Transform.SetWorldPosition({-1000.f, 2500.f, -3000.f});
+		// Object->Transform.SetWorldRotation({0.f, 30.f, 0.f});
+	}
+
 	GetMainCamera()->Transform.SetLocalPosition({0.f, 500.f, 0.f});
-	GetMainCamera()->Transform.SetLocalRotation({10.f, 0.f, 0.f});
+	GetMainCamera()->Transform.SetLocalRotation({0.f, 0.f, 0.f});
 }
 
 void TestLevel_Boss::LevelEnd(GameEngineLevel* _NextLevel)
@@ -82,7 +88,7 @@ void TestLevel_Boss::LevelEnd(GameEngineLevel* _NextLevel)
 void TestLevel_Boss::Start()
 {
 	ContentLevel::Start();
-
+	GameEngineInput::AddInputObject(this);
 	// Test Ground
 	physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
 	physx::PxMaterial* mMaterial = GameEnginePhysX::GetDefaultMaterial();
@@ -95,6 +101,11 @@ void TestLevel_Boss::Update(float _Delta)
 	ContentLevel::Update(_Delta);
 
 	RayCast({ 100.0f, }, { 0.0f,0.0f, 5.0f }, 1000.0f);
+
+	if (true == GameEngineInput::IsPress('D', this))
+	{
+		GetMainCamera()->Transform.AddWorldRotation({0.f, 30.f * _Delta, 0.f});
+	}
 }
 
 void TestLevel_Boss::Release()

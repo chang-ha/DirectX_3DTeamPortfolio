@@ -41,7 +41,7 @@
       <Filter>Map</Filter>
     </ClCompile>
     <ClCompile Include="FXAAEffect.cpp">
-      <Filter>Resource\PostEffect</Filter>
+      <Filter>PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="GameContentsFBXRenderer.cpp">
       <Filter>Resource\Renderer</Filter>
@@ -89,7 +89,7 @@
       <Filter>Actor\Monster\Hollow</Filter>
     </ClCompile>
     <ClCompile Include="BloomEffect.cpp">
-      <Filter>Resource\PostEffect</Filter>
+      <Filter>PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="ContentsMath.cpp">
       <Filter>Math</Filter>
@@ -163,9 +163,6 @@
     <ClCompile Include="BaseActor.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
-    <ClCompile Include="HBAOGUI.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
     <ClCompile Include="TitleLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
@@ -192,6 +189,27 @@
     </ClCompile>
     <ClCompile Include="WorldMap.cpp">
       <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="LUTEffect.cpp">
+      <Filter>PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="HBAOGUI.cpp">
+      <Filter>ImGui\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="LUTGUI.cpp">
+      <Filter>ImGui\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="UIPlayerGaugeBar.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIUnit.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MainUIActor.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerValue.cpp">
+      <Filter>Core\Global</Filter>
     </ClCompile>
     <ClCompile Include="BoneSoundFrameEvent.cpp">
       <Filter>ImGui\Editor\FrameEvent</Filter>
@@ -253,7 +271,7 @@
       <Filter>Resource\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="FXAAEffect.h">
-      <Filter>Resource\PostEffect</Filter>
+      <Filter>PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="Monster_HollowSoldier.h">
       <Filter>Actor\Monster\Hollow</Filter>
@@ -283,7 +301,7 @@
       <Filter>Actor\Monster\Hollow</Filter>
     </ClInclude>
     <ClInclude Include="BloomEffect.h">
-      <Filter>Resource\PostEffect</Filter>
+      <Filter>PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="ContentsMath.h">
       <Filter>Math</Filter>
@@ -357,9 +375,6 @@
     <ClInclude Include="BaseActor.h">
       <Filter>Actor</Filter>
     </ClInclude>
-    <ClInclude Include="HBAOGUI.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
     <ClInclude Include="TitleLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
@@ -387,8 +402,26 @@
     <ClInclude Include="WorldMap.h">
       <Filter>Map</Filter>
     </ClInclude>
-    <ClInclude Include="BoneSoundFrameEvent.h">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+    <ClInclude Include="LUTEffect.h">
+      <Filter>PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="HBAOGUI.h">
+      <Filter>ImGui\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="LUTGUI.h">
+      <Filter>ImGui\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="UIPlayerGaugeBar.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIUnit.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MainUIActor.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerValue.h">
+      <Filter>Core\Global</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -431,9 +464,6 @@
     <Filter Include="Resource">
       <UniqueIdentifier>{9aefbf7a-bf2d-46f1-9515-0eda66f09cb4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource\PostEffect">
-      <UniqueIdentifier>{0908c021-de83-47a2-af52-678a47c6fbb3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource\Renderer">
       <UniqueIdentifier>{781099ec-31b3-4c0c-8941-80d28daaf927}</UniqueIdentifier>
     </Filter>
@@ -466,6 +496,9 @@
     </Filter>
     <Filter Include="Actor\Monster\Component">
       <UniqueIdentifier>{20ef003c-31cf-4935-939c-83cd89462723}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PostEffect">
+      <UniqueIdentifier>{0908c021-de83-47a2-af52-678a47c6fbb3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
