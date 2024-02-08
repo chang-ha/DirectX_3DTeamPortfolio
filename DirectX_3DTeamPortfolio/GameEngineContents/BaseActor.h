@@ -103,6 +103,7 @@ public:
 	// ID
 	inline void SetID(Enum_ActorType _Type) { ActorID = static_cast<int>(_Type); }
 	inline int GetID() const { return ActorID; }
+	std::string GetIDName() const;
 
 
 	void AddWDirection(float _Degree);
@@ -179,7 +180,7 @@ public:
 
 	inline bool IsTargeting() const
 	{
-		if (nullptr == Target)
+		if (nullptr != Target)
 		{
 			return true;
 		}

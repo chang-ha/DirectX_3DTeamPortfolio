@@ -33,12 +33,14 @@ void DummyActor::Off()
 	}
 }
 
+static constexpr float WScale = 30.f;
+
 void DummyActor::Start()
 {
-	FbxRenderer = CreateComponent<GameEngineFBXRenderer>();
-	FbxRenderer->SetMesh("Sphere");
-	FbxRenderer->SetMaterial("FBXStaticColor");
-	FbxRenderer->Transform.SetLocalScale(float4(100,100,100));
+	// FbxRenderer = CreateComponent<GameEngineFBXRenderer>();
+	// FbxRenderer->SetMesh("Sphere");
+	// FbxRenderer->SetMaterial("FBXStaticColor");
+	// FbxRenderer->Transform.SetLocalScale(float4(WScale, WScale, WScale));
 
 	BodyCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Dummy);
 	BodyCollision->SetCollisionType(ColType::SPHERE3D);
@@ -47,7 +49,7 @@ void DummyActor::Start()
 
 	CameraPivot = CreateComponent<GameEngineObject>();
 
-	Transform.SetLocalPosition(float4(0, 50, 0));
+	Transform.SetLocalPosition(float4(0, WScale * 0.5f, 0));
 }
 
 void DummyActor::Update(float _Delta)
@@ -114,26 +116,20 @@ constexpr float RotSensitive = 1.0f;
 constexpr float RotationMin = -70.0f;
 constexpr float RotationMax = 70.0f;
 
-float4 DummyActor::CalMouseAxis()
+void DummyActor::CalMouseAxis()
 {
-	float4 Axis = ContentsMouseInput::GetMouseMovePos();
-
-	Yaxis -= Axis.Y * RotSensitive;
-	Xaxis += Axis.Y * RotSensitive;
-	
-	Xaxis = ContentsMath::ClampDeg(Xaxis);
-	Yaxis = std::clamp<float>(Yaxis, 0.0f, 360.0f);
-	return float4(Xaxis, Yaxis);
+	ScreenMousePos = GameEngineCore::MainWindow.GetMousePos();
+	MoveDir = ScreenMousePrevPos - ScreenMousePos;
+	MouseDir = MoveDir.NormalizeReturn();
+	ScreenMousePrevPos = ScreenMousePos;
 }
 
 constexpr float DumpTrace = 20.0f;
 
 void DummyActor::PivotUpdate(float _Delta)
 {
-	float4 Axis = CalMouseAxis();
+	CalMouseAxis();
+	MouseDir *= _Delta * 360.0f;
 
-	float4 Result = float4::FORWARD * Axis.EulerDegToQuaternion().QuaternionToMatrix();
-
-	float4 Pivot = Result * Camera_Dist;
-		GetLevel()->GetMainCamera()->SetCameraTargetPivot(Pivot);
+	GetLevel()->GetMainCamera()->Transform.AddLocalRotation(float4(-MouseDir.Y, -MouseDir.X));
 }

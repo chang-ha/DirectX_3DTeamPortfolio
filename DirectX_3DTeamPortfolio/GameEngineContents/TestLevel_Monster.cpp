@@ -34,11 +34,37 @@ void DummyTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	ImGui::Spacing();
 	ImGui::Separator();
 	ImGui::Spacing();
+
+	if (ImGui::Checkbox("Camera Chase", &bCameraFocus))
+	{
+		if (bCameraFocus)
+		{
+			pActor->AttachCamera();
+		}
+
+		if (!bCameraFocus)
+		{
+			pActor->DettachCamera();
+		}
+	}
+}
+
+void InputTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
+{
+	if (ImGui::Button("Wake Object"))
+	{
+		std::vector<std::shared_ptr<Monster_LothricKn>> Monsters = pParentGUI->GetLevel()->GetObjectGroupConvert<Monster_LothricKn>(Enum_UpdateOrder::Monster);
+		for (std::shared_ptr<Monster_LothricKn>& Mosnter : Monsters)
+		{
+			Mosnter->WakeUp();
+		}
+	}
 }
 
 void MonsterGUI::Start()
 {
 	CreateTab<DummyTab>("Dummy");
+	CreateTab<InputTab>("Input");
 }
 
 void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)

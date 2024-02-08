@@ -232,6 +232,13 @@ bool BaseActor::LoadEvent(int _ID)
 	return true;
 }
 
+std::string BaseActor::GetIDName() const
+{
+	int Id = GetID();
+	std::string IDName = "c" + std::to_string(Id);
+	return IDName;
+}
+
 void BaseActor::CalcuTargetAngle()
 {
 	if (nullptr == Target)

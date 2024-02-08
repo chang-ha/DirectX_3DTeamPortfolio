@@ -31,6 +31,17 @@ private:
 
 };
 
+class InputTab : public MonsterGUITab
+{
+public:
+	void Start() override {}
+	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
+
+private:
+	class DummyActor* pActor = nullptr;
+
+};
+
 
 class MonsterGUI : public GameEngineGUIWindow
 {

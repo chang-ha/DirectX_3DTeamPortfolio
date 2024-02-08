@@ -193,6 +193,9 @@
     <ClCompile Include="WorldMap.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+    <ClCompile Include="BoneSoundFrameEvent.cpp">
+      <Filter>ImGui\Editor\FrameEvent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -383,6 +386,9 @@
     </ClInclude>
     <ClInclude Include="WorldMap.h">
       <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="BoneSoundFrameEvent.h">
+      <Filter>ImGui\Editor\FrameEvent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -51,6 +51,32 @@ private:
 
 };
 
+class BoneSoundEventTree : public EventTree
+{
+	friend class AnimationInfoGUI;
+
+public:
+
+private:
+	void Start() override;
+	void OnGUI(GameEngineLevel* _Level, float _Delta) override;
+	void ChangeActor() override;
+	void ChangeAnimation() override;
+
+	void LoadSoundList();
+
+private:
+	std::vector<std::string> BoneNames;
+	std::vector<const char*> CBoneNames;
+	int BoneIndex = 0;
+
+	std::vector<std::string> SoundFileList;
+	std::vector<const char*> CSoundFileList;
+	int SelectStartFrame = 0;
+	int SoundIndex = 0;
+
+};
+
 class CollisionEventTree : public EventTree
 {
 	friend class AnimationInfoGUI;
@@ -88,6 +114,7 @@ private:
 class AnimationInfoGUI : public TreeObject
 {
 	friend class SoundEventTree;
+	friend class BoneSoundEventTree;
 	friend class TotalEventTree;
 	friend class CollisionEventTree;
 	friend class TurnSpeedEventTree;
@@ -127,6 +154,8 @@ protected:
 		EventTrees.push_back(NewTree);
 	}
 
+	void AnimationChange();
+
 private:
 	class BaseActor* SelectActor = nullptr;
 
@@ -139,6 +168,8 @@ private:
 
 	std::vector<std::string> AnimationNames; // Store Value
 	std::vector<const char*> CAnimationNames; // Use 'AnimationNames' Pointer
+	int AnimationIndex = 0;
+
 	std::shared_ptr<GameContentsFBXAnimationInfo> SelectAnimation;
 
 	std::vector<std::string> BoneNames;
