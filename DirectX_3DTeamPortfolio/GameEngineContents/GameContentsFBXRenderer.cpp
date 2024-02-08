@@ -712,7 +712,7 @@ void GameContentsFBXRenderer::CreateFBXAnimation(const std::string_view _Animati
 
 	for (size_t i = 0; i < NewAnimation->FBXAnimationData->AniFrameData[0].BoneMatData.size(); i++)
 	{
-		NewAnimation->Frames.push_back(i);
+		NewAnimation->Frames.push_back(static_cast<unsigned int>(i));
 	}
 
 	RenderBaseInfoValue.IsAnimation = 1;
