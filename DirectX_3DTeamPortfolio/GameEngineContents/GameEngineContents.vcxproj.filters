@@ -423,6 +423,9 @@
     <ClInclude Include="PlayerValue.h">
       <Filter>Core\Global</Filter>
     </ClInclude>
+    <ClInclude Include="BoneSoundFrameEvent.h">
+      <Filter>ImGui\Editor\FrameEvent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
