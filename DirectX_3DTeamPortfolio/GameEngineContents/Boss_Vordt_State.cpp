@@ -33,11 +33,16 @@ void Boss_Vordt::Idle_Start()
 
 void Boss_Vordt::Idle_Update(float _Delta)
 {
+	if (true == MainRenderer->IsCurAnimationEnd())
+	{
+		GameEngineSound::Sound3DPlay("c224005000.wav", Transform.GetWorldPosition());
+	}
+	
 	if (0.3f > MainState.GetStateTime())
 	{
 		return;
 	}
-	MainState.ChangeState(Enum_BossState::Walk_Front);
+	// MainState.ChangeState(Enum_BossState::Walk_Front);
 }
 
 void Boss_Vordt::Idle_End()

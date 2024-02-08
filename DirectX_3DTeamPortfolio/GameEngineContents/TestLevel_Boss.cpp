@@ -55,9 +55,9 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	{
-		std::shared_ptr<WorldMap> Object = CreateActor<WorldMap>(0, "WorldMap");
-		Object->Transform.SetWorldPosition({-1000.f, 2500.f, -3000.f});
-		Object->Transform.SetWorldRotation({0.f, 30.f, 0.f});
+		// std::shared_ptr<WorldMap> Object = CreateActor<WorldMap>(0, "WorldMap");
+		// Object->Transform.SetWorldPosition({-1000.f, 2500.f, -3000.f});
+		// Object->Transform.SetWorldRotation({0.f, 30.f, 0.f});
 	}
 
 	GetMainCamera()->Transform.SetLocalPosition({0.f, 500.f, 0.f});

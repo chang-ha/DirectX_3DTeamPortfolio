@@ -305,7 +305,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		// Root Motion
 
 		// StartDir
-		MainRenderer->SetRootMotionComponent(Capsule.get());
+		// MainRenderer->SetRootMotionComponent(Capsule.get());
 		MainRenderer->SetRootMotion("Breath");
 		MainRenderer->SetRootMotion("Combo1_Step1");
 		MainRenderer->SetRootMotion("Combo1_Step2");
@@ -616,8 +616,6 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BossCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::None);
 	}
 
-	// GameEngineSound::Sound3DPlay("BrokenDream.mp3", Transform.GetWorldPosition());
-
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
@@ -703,6 +701,7 @@ void Boss_Vordt::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('V', this))
 	{
+		
 	}
 
 	if (true == GameEngineInput::IsDown('B', this))
