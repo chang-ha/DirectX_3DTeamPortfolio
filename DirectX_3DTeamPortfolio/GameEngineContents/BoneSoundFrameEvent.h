@@ -37,15 +37,17 @@ public:
 		return SoundName;
 	}
 
-
 	void PlayEvent() override;
-
+	void Init();
 
 protected:
 
 private:
 	int BoneIndex = -1;
 	std::string SoundName;
+
+	const AnimationBoneData* pBoneData = nullptr;
+	GameEngineActor* pActor = nullptr;
 
 };
 
