@@ -16,9 +16,12 @@ public:
 	//GameEngineDirectory& operator=(const GameEngineDirectory& _Other) = delete;
 	//GameEngineDirectory& operator=(GameEngineDirectory&& _Other) noexcept = delete;
 
+	static bool IsExist(std::string_view _Path);
+
 	std::vector<class GameEngineFile> GetAllFile(std::vector<std::string> _Ext = std::vector<std::string>(), bool _Recursive = false);
 
 	std::vector<GameEngineDirectory> GetAllDirectory();
+
 
 protected:
 	void RecursiveAllDirectory(std::string _Path, std::vector<class GameEngineDirectory>& _Return);

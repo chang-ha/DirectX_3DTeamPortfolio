@@ -394,6 +394,11 @@ void BoneSoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 		}
 	}
 
+	if (CSoundFileList.empty())
+	{
+		return;
+	}
+
 	FrameEventHelper* EventHelper = Parent->SelectAnimation->EventHelper;
 
 	// 몇번째 프레임에
@@ -418,6 +423,12 @@ void BoneSoundEventTree::LoadSoundList()
 	Dir.MoveParentToExistsChild("ContentsResources");
 	Dir.MoveChild("ContentsResources");
 	Dir.MoveChild("Sound");
+
+	if (false == GameEngineDirectory::IsExist(Dir.GetStringPath() + "\\" + IDName))
+	{
+		return;
+	}
+
 	Dir.MoveChild(IDName);
 	std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".wav" });
 
