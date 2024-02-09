@@ -5,12 +5,13 @@
 
 // 레스터라이저 전에 범위를 잡을때 사용하는 버텍스와 인덱스버퍼를 관리하는 클래스입니다.
 
-struct MeshBaseInfo
+class MeshBaseInfo
 {
-	float4 MinBoundBox;
-	float4 MaxBoundBox;
-	float4 BoundScaleBox;
-	float4 CenterPosition;
+public:
+	float4 MinBoundBox = float4::ZERO;
+	float4 MaxBoundBox = float4::ONE;
+	float4 BoundScaleBox = float4(256.0f, 256.0f,256.0f,1.0f);
+	float4 CenterPosition = float4::ZERO;
 };
 
 

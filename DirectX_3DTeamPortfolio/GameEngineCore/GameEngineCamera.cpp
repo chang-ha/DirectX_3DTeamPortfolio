@@ -298,11 +298,12 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 				for (std::shared_ptr<class GameEngineRenderUnit> Unit : UnitList)
 				{
-					if (InCamera(Unit->GetParentRenderer()->Transform) == true)
+					if (EPROJECTIONTYPE::Perspective != ProjectionType or InCamera(Unit->GetParentRenderer()->Transform, Unit->GetMesh()->GetMeshBaseInfo()) == true)
 					{
 
 						Unit->Render();
 					}
+					
 
 					//DebugCheck();
 				}
@@ -591,36 +592,30 @@ void GameEngineCamera::CameraUpdate(float _DeltaTime)
 
 bool GameEngineCamera::InCamera(const GameEngineTransform& _Trans, MeshBaseInfo _MeshBaseInfo)
 {
-	float4 Position = Transform.GetLocalPosition();
-	float4 Forward = Transform.GetLocalForwardVector();
-	float4 Up = Transform.GetLocalUpVector();
+	TransformData  UnitTransform;
+	UnitTransform.LocalPosition = _MeshBaseInfo.CenterPosition;
+	UnitTransform.LocalScale = _MeshBaseInfo.BoundScaleBox;
+	UnitTransform.LocalRotation = float4::ZERONULL;
 
-	Transform.LookToLH(Position, Forward, Up);
-
-	float4 WindowScale = GameEngineCore::MainWindow.GetScale();
-	WindowScale *= ZoomValue;
-
-	float4 Qur = Transform.GetConstTransformDataRef().WorldQuaternion;
-
-	Transform.PerspectiveFovLHDeg(FOV, WindowScale.X, WindowScale.Y, Near, Far);
-	CameraFrustum.Far = Far;
-	CameraFrustum.Near = Near;
-	CameraFrustum.Origin = { Position.X, Position.Y, Position.Z };
-	CameraFrustum.Orientation = { Qur.X, Qur.Y, Qur.Z, Qur.W };
-
-	DirectX::BoundingBox AABB;
+	UnitTransform.LocalCalculation(_Trans.GetWorldMatrix());
+	UnitTransform.WorldDecompos();
 
 	// ¹ÝÁö¸§ 
-	ColData.OBB.Extents = TransData.WorldScale.ToABS().Half().Float3;
-	ColData.OBB.Center = TransData.WorldPosition.Float3;
+	//ColData.OBB.Extents = TransData.WorldScale.ToABS().Half().Float3;
+	//ColData.OBB.Center = TransData.WorldPosition.Float3;
 
-
-	AABB.Center = (_Trans.GetWorldPosition() + _MeshBaseInfo.CenterPosition).Float3;
+	DirectX::BoundingSphere AABB;
+	AABB.Center = UnitTransform.WorldPosition.Float3;
+	AABB.Radius = UnitTransform.WorldScale.ToABS().Size() / 2.0f;
 		
 
-	_MeshBaseInfo.BoundScaleBox
+	bool Result;
 
-	bool Result = CameraFrustum.Intersects(_Trans.ColData.AABB);
+	Result = CameraFrustum.Intersects(AABB);
+
+	
+	//Result = true;
+
 	return Result;
 }
 

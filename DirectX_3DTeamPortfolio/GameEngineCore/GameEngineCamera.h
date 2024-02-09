@@ -167,7 +167,6 @@ public:
 
 	std::map<int, std::list<std::shared_ptr<class GameEngineRenderer>>> Renderers;
 	
-	bool InCamera(const GameEngineTransform& _Trans, class MeshBaseInfo _MeshBaseInfo);
 	
 	float4 GetScreenPos(GameEngineTransform& Transform);
 
@@ -181,6 +180,7 @@ protected:
 	void AllReleaseCheck() override;
 
 	
+	bool InCamera(const GameEngineTransform& _Trans, class MeshBaseInfo _MeshBaseInfo);
 	
 
 private:
