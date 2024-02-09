@@ -403,6 +403,15 @@ std::shared_ptr<GameEngineMesh> GameEngineFBXMesh::GetGameEngineMesh(int _MeshIn
 		Unit.Meshs[_SubSetIndex] = GameEngineMesh::Create(Unit.VertexBuffer, Unit.IndexBuffers[_SubSetIndex]);
 	}
 
+	MeshBaseInfo Info;
+
+	Info.BoundScaleBox = Unit.BoundScaleBox;
+	Info.MinBoundBox = Unit.MinBoundBox;
+	Info.MaxBoundBox = Unit.MaxBoundBox;
+	Info.CenterPosition = Unit.MinBoundBox + Info.BoundScaleBox.Half();
+
+	Unit.Meshs[_SubSetIndex]->SetMeshBaseInfo(Info);
+
 	// 텍스처도 로드해야 한다.
 	return Unit.Meshs[_SubSetIndex];
 }

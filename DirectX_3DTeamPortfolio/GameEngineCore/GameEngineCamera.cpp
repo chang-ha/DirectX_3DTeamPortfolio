@@ -5,6 +5,7 @@
 #include "GameEngineCore.h"
 #include "GameEngineRenderTarget.h"
 #include <unordered_set>
+#include "GameEngineMesh.h"
 
 
 // std::shared_ptr<class GameEngineRenderTarget> GameEngineCamera::AllRenderTarget = nullptr;
@@ -292,13 +293,18 @@ void GameEngineCamera::Render(float _DeltaTime)
 		{
 			for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPair : RenderPath.second)
 			{
+
 				std::list<std::shared_ptr<class GameEngineRenderUnit>>& UnitList = RenderPair.second;
 
 				for (std::shared_ptr<class GameEngineRenderUnit> Unit : UnitList)
 				{
+					if (InCamera(Unit->GetParentRenderer()->Transform) == true)
+					{
 
-					DebugCheck();
-					Unit->Render();
+						Unit->Render();
+					}
+
+					//DebugCheck();
 				}
 			}
 		}
@@ -580,6 +586,42 @@ void GameEngineCamera::CameraUpdate(float _DeltaTime)
 		break;
 	}
 
+}
+
+
+bool GameEngineCamera::InCamera(const GameEngineTransform& _Trans, MeshBaseInfo _MeshBaseInfo)
+{
+	float4 Position = Transform.GetLocalPosition();
+	float4 Forward = Transform.GetLocalForwardVector();
+	float4 Up = Transform.GetLocalUpVector();
+
+	Transform.LookToLH(Position, Forward, Up);
+
+	float4 WindowScale = GameEngineCore::MainWindow.GetScale();
+	WindowScale *= ZoomValue;
+
+	float4 Qur = Transform.GetConstTransformDataRef().WorldQuaternion;
+
+	Transform.PerspectiveFovLHDeg(FOV, WindowScale.X, WindowScale.Y, Near, Far);
+	CameraFrustum.Far = Far;
+	CameraFrustum.Near = Near;
+	CameraFrustum.Origin = { Position.X, Position.Y, Position.Z };
+	CameraFrustum.Orientation = { Qur.X, Qur.Y, Qur.Z, Qur.W };
+
+	DirectX::BoundingBox AABB;
+
+	// ¹ÝÁö¸§ 
+	ColData.OBB.Extents = TransData.WorldScale.ToABS().Half().Float3;
+	ColData.OBB.Center = TransData.WorldPosition.Float3;
+
+
+	AABB.Center = (_Trans.GetWorldPosition() + _MeshBaseInfo.CenterPosition).Float3;
+		
+
+	_MeshBaseInfo.BoundScaleBox
+
+	bool Result = CameraFrustum.Intersects(_Trans.ColData.AABB);
+	return Result;
 }
 
 

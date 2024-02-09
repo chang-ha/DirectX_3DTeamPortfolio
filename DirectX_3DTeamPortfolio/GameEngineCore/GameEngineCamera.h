@@ -166,30 +166,9 @@ public:
 	}
 
 	std::map<int, std::list<std::shared_ptr<class GameEngineRenderer>>> Renderers;
-
-	bool InCamera(const GameEngineTransform& _Trans)
-	{
-		float4 Position = Transform.GetLocalPosition();
-		float4 Forward = Transform.GetLocalForwardVector();
-		float4 Up = Transform.GetLocalUpVector();
-
-		Transform.LookToLH(Position, Forward, Up);
-
-		float4 WindowScale = GameEngineCore::MainWindow.GetScale();
-		WindowScale *= ZoomValue;
-
-		float4 Qur = Transform.GetConstTransformDataRef().WorldQuaternion;
-
-		Transform.PerspectiveFovLHDeg(FOV, WindowScale.X, WindowScale.Y, Near, Far);
-		CameraFrustum.Far = Far;
-		CameraFrustum.Near = Near;
-		CameraFrustum.Origin = { Position.X, Position.Y, Position.Z };
-		CameraFrustum.Orientation = { Qur.X, Qur.Y, Qur.Z, Qur.W };
-
-		bool Result = CameraFrustum.Intersects(_Trans.ColData.AABB);
-		return Result;
-	}
-
+	
+	bool InCamera(const GameEngineTransform& _Trans, class MeshBaseInfo _MeshBaseInfo);
+	
 	float4 GetScreenPos(GameEngineTransform& Transform);
 
 protected:
