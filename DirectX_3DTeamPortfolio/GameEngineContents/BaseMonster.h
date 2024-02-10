@@ -142,6 +142,8 @@ protected:
 	
 	bool IsTargetInRange(Enum_TargetDist _eTDist);
 
+	void LoadRes3DSound(std::string_view _LoadCheck) const;
+
 private:
 
 };

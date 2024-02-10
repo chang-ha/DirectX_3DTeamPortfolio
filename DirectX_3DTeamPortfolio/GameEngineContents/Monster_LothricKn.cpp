@@ -19,7 +19,10 @@ void Monster_LothricKn::Start()
 {
 	BaseMonster::Start();
 
-	// Resource
+	// Outer Res
+	LoadRes3DSound("c128001001.wav");
+
+	// Actor Res
 	AddBoneIndex(Enum_BoneType::B_01_RightHand, 78);
 	AddBoneIndex(Enum_BoneType::B_01_LeftHand, 47);
 

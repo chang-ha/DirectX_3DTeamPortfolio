@@ -402,7 +402,7 @@ void BoneSoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 	FrameEventHelper* EventHelper = Parent->SelectAnimation->EventHelper;
 
 	// 몇번째 프레임에
-	ImGui::InputInt("Start Frame", &SelectStartFrame, Parent->SelectAnimation->Start, Parent->SelectAnimation->End);
+	ImGui::SliderInt("Start Frame", &SelectStartFrame, Parent->SelectAnimation->Start, Parent->SelectAnimation->End);
 
 	ImGui::Combo("BoneList", &BoneIndex, &CBoneNames[0], static_cast<int>(CBoneNames.size()));
 	ImGui::Combo("SoundList", &SoundIndex, &CSoundFileList[0], static_cast<int>(CSoundFileList.size()));
