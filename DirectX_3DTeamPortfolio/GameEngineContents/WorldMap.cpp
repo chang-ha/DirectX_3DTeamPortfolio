@@ -28,6 +28,9 @@ void WorldMap::Start()
 		TriMesh2->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.0f });
 		TriMesh2->PhysXComponentInit("World2.FBX0");
 
+		SkyRenderer = CreateComponent<GameContentsFBXRenderer>();
+		SkyRenderer->SetFBXMesh("WorldSky.FBX", "FBX_Static");
+
 		//MapMesh = FBXRenderer->GetFBXMesh("WorldMap.FBX0");
 
 		//MapDatas = MapMesh->GetMapDatas();
