@@ -302,6 +302,21 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->CreateFBXAnimation("Turn_Right", "Turn_Right.FBX", { BOSS_ANI_SPEED, true });
 		MainRenderer->CreateFBXAnimation("Turn_Right_Twice", "Turn_Right_Twice.FBX", { BOSS_ANI_SPEED, true });
 
+		MainRenderer->SetFrameEvent("Idle", 10, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005000.wav", Transform.GetWorldPosition());
+			});
+
+		MainRenderer->SetFrameEvent("Idle", 13, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224008000.wav", Transform.GetWorldPosition());
+			});
+
+		MainRenderer->SetFrameEvent("Idle", 58, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				GameEngineSound::Sound3DPlay("c224005000.wav", Transform.GetWorldPosition());
+			});
+
 		// Root Motion
 
 		// StartDir
@@ -616,8 +631,6 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BossCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::None);
 	}
 
-	// GameEngineSound::Sound3DPlay("BrokenDream.mp3", Transform.GetWorldPosition());
-
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
@@ -649,8 +662,6 @@ void Boss_Vordt::Start()
 	{
 		DetectCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
 	}
-
-
 }
 
 #define SPEED 100.0f
@@ -703,6 +714,7 @@ void Boss_Vordt::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('V', this))
 	{
+		
 	}
 
 	if (true == GameEngineInput::IsDown('B', this))

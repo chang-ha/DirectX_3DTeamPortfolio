@@ -14,6 +14,14 @@ void GameContentsFBXAnimationInfo::SwitchRootMotion()
 	ParentRenderer->RootMotionComponent->ResetMove(Enum_Axies::All);
 }
 
+void GameContentsFBXAnimationInfo::EventCall(UINT _Frame)
+{
+	if (true == FrameEventFunction.contains(Frames[_Frame]))
+	{
+		FrameEventFunction[Frames[_Frame]](ParentRenderer);
+	}
+}
+
 void GameContentsFBXAnimationInfo::Reset()
 {
 	CurFrameTime = 0.0f;
@@ -22,7 +30,6 @@ void GameContentsFBXAnimationInfo::Reset()
 	IsStart = false;
 	IsEnd = false;
 	bOnceStart = false;
-
 
 	if (nullptr != EventHelper)
 	{
@@ -82,6 +89,12 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 		IsStart = true;
 	}
 
+	if (true == EventCheck && false == IsEnd)
+	{
+		EventCall(CurFrame);
+		EventCheck = false;
+	}
+
 	// 0.1초짜리 
 	CurFrameTime += _DeltaTime;
 	PlayTime += _DeltaTime;
@@ -95,6 +108,8 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 		CurFrameTime -= Inter;
 		++CurFrame;
 
+		EventCheck = true;
+
 		if (false == bOnceStart && CurFrame == 0)
 		{
 			bOnceStart = true;
@@ -105,6 +120,11 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 
 		if (CurFrame > End)
 		{
+			if (nullptr != EndEvent && false == IsEnd)
+			{
+				EndEvent(ParentRenderer);
+			}
+
 			IsEnd = true;
 
 			if (true == Loop)
@@ -120,6 +140,11 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 		if (nullptr != EventHelper)
 		{
 			EventHelper->PlayEvents(CurFrame);
+		}
+
+		if (nullptr != FrameChangeFunction)
+		{
+			FrameChangeFunction(CurFrame);
 		}
 	}
 
@@ -685,6 +710,11 @@ void GameContentsFBXRenderer::CreateFBXAnimation(const std::string_view _Animati
 	NewAnimation->Loop = _Params.Loop;
 	NewAnimation->Reset();
 
+	for (size_t i = 0; i < NewAnimation->FBXAnimationData->AniFrameData[0].BoneMatData.size(); i++)
+	{
+		NewAnimation->Frames.push_back(i);
+	}
+
 	RenderBaseInfoValue.IsAnimation = 1;
 
 	Animations.insert(std::make_pair(UpperName, NewAnimation));
@@ -721,6 +751,11 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 		}
 
 		CurAnimation->Reset();
+
+		if (nullptr != CurAnimation->FrameChangeFunction)
+		{
+			CurAnimation->FrameChangeFunction(CurAnimation->CurFrame);
+		}
 	}
 
 	CurAnimation = Ptr;
@@ -1124,4 +1159,77 @@ AnimationBoneData GameContentsFBXRenderer::GetBoneData(std::string_view _Name)
 	Data = GetBoneData(Ptr->Index);
 
 	return Data;
+}
+
+
+void GameContentsFBXRenderer::SetFrameEvent(std::string_view _AnimationName, int _Frame, std::function<void(GameContentsFBXRenderer*)> _Function)
+{
+	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
+
+	std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>::iterator FindIter = Animations.find(UpperName);
+
+	std::shared_ptr<GameContentsFBXAnimationInfo> Animation = FindIter->second;
+
+	if (nullptr == Animation)
+	{
+		MsgBoxAssert("존재하지 않는 애니메이션에 이벤트를 만들려고 했습니다.");
+	}
+
+	Animation->FrameEventFunction[_Frame] = _Function;
+}
+
+void GameContentsFBXRenderer::SetStartEvent(std::string_view _AnimationName, std::function<void(GameContentsFBXRenderer*)> _Function)
+{
+	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
+
+	std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>::iterator FindIter = Animations.find(UpperName);
+
+	std::shared_ptr<GameContentsFBXAnimationInfo> Animation = FindIter->second;
+
+	if (nullptr == Animation)
+	{
+		MsgBoxAssert("존재하지 않는 애니메이션에 이벤트를 만들려고 했습니다.");
+	}
+
+	Animation->FrameEventFunction[Animation->Frames[0]] = _Function;
+}
+
+void GameContentsFBXRenderer::SetEndEvent(std::string_view _AnimationName, std::function<void(GameContentsFBXRenderer*)> _Function)
+{
+	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
+
+	std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>::iterator FindIter = Animations.find(UpperName);
+
+	std::shared_ptr<GameContentsFBXAnimationInfo> Animation = FindIter->second;
+
+	if (nullptr == Animation)
+	{
+		MsgBoxAssert("존재하지 않는 애니메이션에 이벤트를 만들려고 했습니다.");
+	}
+
+	Animation->EndEvent = _Function;
+}
+
+void GameContentsFBXRenderer::SetFrameChangeFunction(std::string_view _AnimationName, std::function<void(int _FrameIndex)> _Function)
+{
+	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
+
+	std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>::iterator FindIter = Animations.find(UpperName);
+
+	std::shared_ptr<GameContentsFBXAnimationInfo> Animation = FindIter->second;
+
+	if (nullptr == Animation)
+	{
+		MsgBoxAssert("존재하지 않는 애니메이션에 이벤트를 만들려고 했습니다.");
+	}
+
+	Animation->FrameChangeFunction = _Function;
+}
+
+void GameContentsFBXRenderer::SetFrameChangeFunctionAll(std::function<void(int _FrameIndex)> _Function)
+{
+	for (std::pair<const std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& _Pair : Animations)
+	{
+		_Pair.second->FrameChangeFunction = _Function;
+	}
 }
