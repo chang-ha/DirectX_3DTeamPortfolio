@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tpf>
+  <filename>o302508.tpf</filename>
+  <compression>None</compression>
+  <encoding>0x01</encoding>
+  <flag2>0x03</flag2>
+  <textures>
+    <texture>
+      <name>o302508_o9601_shield2_a.dds</name>
+      <format>0x00</format>
+      <flags1>0x00</flags1>
+      <flags2>0x00000000</flags2>
+    </texture>
+    <texture>
+      <name>o302508_o9601_shield2_n.dds</name>
+      <format>0x6A</format>
+      <flags1>0x00</flags1>
+      <flags2>0x00000000</flags2>
+    </texture>
+    <texture>
+      <name>o302508_o9601_shield2_r.dds</name>
+      <format>0x00</format>
+      <flags1>0x00</flags1>
+      <flags2>0x00000000</flags2>
+    </texture>
+    <texture>
+      <name>o9601_shield2_s.dds</name>
+      <format>0x67</format>
+      <flags1>0x00</flags1>
+      <flags2>0x00000000</flags2>
+    </texture>
+  </textures>
+</tpf>

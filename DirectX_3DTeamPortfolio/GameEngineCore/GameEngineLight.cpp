@@ -28,7 +28,7 @@ void GameEngineLight::Start()
 	ShadowTarget = GameEngineRenderTarget::Create();
 	ShadowTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, { LightDataValue.ShadowTargetSizeX, LightDataValue.ShadowTargetSizeY }, float4::RED);
 	// 자신만의 깊이버퍼를 가져야 한다.
-	ShadowTarget->CreateDepthTexture();
+	//ShadowTarget->CreateDepthTexture();
 }
 
 

@@ -43,7 +43,7 @@ void PlayLevel::Start()
 		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
 		PlayerObject = Object;
 
-		Ptr->MainPlayer = PlayerObject.get();
+		//Ptr->MainPlayer = PlayerObject.get();
 	}
 
 	//{

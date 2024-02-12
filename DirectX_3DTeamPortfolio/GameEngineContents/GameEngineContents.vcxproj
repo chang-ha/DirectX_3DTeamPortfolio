@@ -331,6 +331,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TestLevel_Map.cpp" />
+    <ClCompile Include="TestLevel_MapObject.cpp" />
     <ClCompile Include="TestLevel_Monster.cpp">
       <SubType>
       </SubType>
@@ -344,6 +345,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TestMap.cpp" />
+    <ClCompile Include="TestMapObject.cpp" />
     <ClCompile Include="TestObject.cpp">
       <SubType>
       </SubType>
@@ -529,6 +531,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TestLevel_Map.h" />
+    <ClInclude Include="TestLevel_MapObject.h" />
     <ClInclude Include="TestLevel_Monster.h">
       <SubType>
       </SubType>
@@ -542,6 +545,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TestMap.h" />
+    <ClInclude Include="TestMapObjcet.h" />
     <ClInclude Include="TestObject.h">
       <SubType>
       </SubType>
