@@ -211,6 +211,9 @@
     <ClCompile Include="PlayerValue.cpp">
       <Filter>Core\Global</Filter>
     </ClCompile>
+    <ClCompile Include="DamageRenderer.cpp">
+      <Filter>Actor\UI\Damage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -420,6 +423,9 @@
     <ClInclude Include="PlayerValue.h">
       <Filter>Core\Global</Filter>
     </ClInclude>
+    <ClInclude Include="DamageRenderer.h">
+      <Filter>Actor\UI\Damage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -496,6 +502,9 @@
     </Filter>
     <Filter Include="PostEffect">
       <UniqueIdentifier>{0908c021-de83-47a2-af52-678a47c6fbb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\Damage">
+      <UniqueIdentifier>{8948bf98-7703-425e-a8e4-9b4174e9c928}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
