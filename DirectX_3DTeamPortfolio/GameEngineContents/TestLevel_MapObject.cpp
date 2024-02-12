@@ -17,8 +17,7 @@ void TestLevel_MapObject::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	{
 		std::shared_ptr<TestMapObjcet> Object = CreateActor<TestMapObjcet>(1);
-		std::shared_ptr<TestMapObjcet> Object1 = CreateActor<TestMapObjcet>(1);
-		Object1->Transform.AddWorldPosition({ 0,0,1.0f });
+		
 	}
 
 
@@ -35,12 +34,12 @@ void TestLevel_MapObject::Start()
 
 
 
-	Scene->setVisualizationParameter(physx::PxVisualizationParameter::eACTOR_AXES, 0.0f);
+	//Scene->setVisualizationParameter(physx::PxVisualizationParameter::eACTOR_AXES, 0.0f);
 
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 0, 0, 1, 1 });
 
 	std::shared_ptr<ContentsLight> TestObject0 = CreateActor<ContentsLight>(0);
-	LightData Data = TestObject0->GetLightData();
+	/*LightData Data = TestObject0->GetLightData();
 
 
 	Data.DifLightPower = 0.1f;
@@ -48,7 +47,7 @@ void TestLevel_MapObject::Start()
 	Data.AmbientLight = float4(0.7f,0.7f,0.7f,1.0f);
 	Data.SpcPow = 200.0f;
 
-	TestObject0->SetLightData(Data);
+	TestObject0->SetLightData(Data);*/
 
 	
 

@@ -12,6 +12,7 @@ TestMapObjcet::~TestMapObjcet()
 
 void TestMapObjcet::Start()
 {
+
 	if (nullptr == GameEngineFBXMesh::Find("o000200.fbx"))
 	{
 		GameEngineFile File;
@@ -23,16 +24,61 @@ void TestMapObjcet::Start()
 		GameEngineFBXMesh::Load(File.GetStringPath());
 	}
 
+	//1น่
+	//{
+	//	FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
+	//	FBXRenderer->SetFBXMesh("o000200.FBX", "FBXAnimationTexture");
+	//	//FBXRenderer->Transform.SetLocalScale({ 10, 10 , 10 });
+	//	FBXRenderer->Transform.AddLocalRotation({ 0, 180 , 0 });
+	//}
+
+
+	//{
+	//	FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
+	//	FBXRenderer->SetFBXMesh("o000200.FBX", "FBXAnimationTexture");
+	//	//FBXRenderer->Transform.SetLocalScale({ 10, 10 , 10 });
+	//	FBXRenderer->Transform.AddLocalRotation({ 0, 180 , 0 });
+	//	FBXRenderer->Transform.AddLocalPosition({ 0, 0 , 2 });
+
+	//}
+
+	////10น่
+	//{
+	//	FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
+	//	FBXRenderer->SetFBXMesh("o000200.FBX", "FBXAnimationTexture");
+	//	FBXRenderer->Transform.SetLocalScale({ 10, 10 , 10 });
+	//	FBXRenderer->Transform.AddLocalRotation({ 0, 180 , 0 });
+	//}
+
+	//
+	//{
+	//	FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
+	//	FBXRenderer->SetFBXMesh("o000200.FBX", "FBXAnimationTexture");
+	//	FBXRenderer->Transform.SetLocalScale({ 10, 10 , 10 });
+	//	FBXRenderer->Transform.AddLocalRotation({ 0, 180 , 0 });
+	//	FBXRenderer->Transform.AddLocalPosition({ 0, 0 , 10 });
+	//}
+
+	//100น่
 	{
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
-		FBXRenderer->SetMapFBXMesh("o000200.FBX", "FBXAnimationTexture");
+		FBXRenderer->SetFBXMesh("o000200.FBX", "FBXAnimationTexture");
+		FBXRenderer->Transform.SetLocalScale({ 100, 100 , 100 });
+		FBXRenderer->Transform.AddLocalRotation({ 0, 180 , 0 });
 	}
 
+	{
+		FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
+		FBXRenderer->SetFBXMesh("o000200.FBX", "FBXAnimationTexture");
+		FBXRenderer->Transform.SetLocalScale({ 100, 100 , 100 });
+		FBXRenderer->Transform.AddLocalRotation({ 0, 180 , 0 });
+		FBXRenderer->Transform.AddLocalPosition({ 0, 0 , 100 });
+	}
 }
 
 void TestMapObjcet::Update(float _Delta)
 {
 
-	float4 Pos = GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
+	//float4 Pos = GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
 
 }
