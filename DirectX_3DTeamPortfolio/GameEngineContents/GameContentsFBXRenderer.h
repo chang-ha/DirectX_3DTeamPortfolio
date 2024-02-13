@@ -52,7 +52,7 @@ public:
 	bool Loop = true;
 	bool IsStart = false;
 	bool IsEnd = false;
-	bool EventCheck = false;
+	bool EventCheck = true;
 
 	// RootMotion
 	RootMotionData mRootMotionData;
@@ -89,6 +89,11 @@ public:
 	inline void SwitchRootMotionRot()
 	{
 		mRootMotionData.IsRotation = !mRootMotionData.IsRotation;
+	}
+
+	inline void SetStartDir(float _Dir)
+	{
+		mRootMotionData.RootMotion_StartDir = _Dir;
 	}
 
 	void RootMotionUpdate(float _Delta);
@@ -235,7 +240,7 @@ public:
 
 	void SetRootMotionComponent(GameEnginePhysXComponent* _RootMotionComponent)
 	{
-		// TriMesh는 아직 구현 안했습니다. 필요시 우창하에게 문의
+		// TriMesh는 구현 안했습니다. 필요시 우창하에게 문의
 		RootMotionComponent = _RootMotionComponent;
 	}
 

@@ -134,6 +134,7 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 			else
 			{
 				--CurFrame;
+				ParentRenderer->RootMotionComponent->ResetMove(Enum_Axies::X | Enum_Axies::Z);
 			}
 		}
 
