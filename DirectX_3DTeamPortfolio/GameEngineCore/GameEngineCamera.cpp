@@ -592,7 +592,7 @@ void GameEngineCamera::CameraUpdate(float _DeltaTime)
 
 bool GameEngineCamera::InCamera(const GameEngineTransform& _Trans, MeshBaseInfo _MeshBaseInfo)
 {
-	TransformData  UnitTransform;
+	
 	UnitTransform.LocalPosition = _MeshBaseInfo.CenterPosition;
 	UnitTransform.LocalScale = _MeshBaseInfo.BoundScaleBox;
 	UnitTransform.LocalRotation = float4::ZERONULL;

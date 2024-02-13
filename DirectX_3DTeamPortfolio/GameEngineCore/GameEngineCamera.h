@@ -188,7 +188,7 @@ private:
 	GameEngineTransform* Target = nullptr;
 
 	EPROJECTIONTYPE ProjectionType = EPROJECTIONTYPE::Orthographic;
-	float Far = 10000.0f;
+	float Far = 100000.0f;
 	float Near = 10.0f;
 	float FOV = 60.0f;
 	float ZoomValue = 0.0f;
@@ -234,5 +234,7 @@ private:
 	GameEngineRenderUnit ShadowRenderUnit;
 
 	void CameraUpdate(float _DeltaTime);
+
+	TransformData  UnitTransform;
 };
 
