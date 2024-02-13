@@ -737,11 +737,8 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 		return;
 	}
 
-	
-
 	if (nullptr != CurAnimation)
 	{
-
 		if (0.0f != CurAnimation->PlayTime)
 		{
 			AnimationBoneData Data = AnimationBoneDatas[53];

@@ -106,7 +106,9 @@ void MonsterControlTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			pActor->WakeUp();
 		}
 
-		if (ImGui::Checkbox("Zero Pos", &bFixPos))
+		ImGui::Checkbox("Zero Pos", &bFixPos);
+
+		if (bFixPos)
 		{
 			pActor->GetPhysxCapsulePointer()->SetWorldPosition(float4(0.0f));
 		}

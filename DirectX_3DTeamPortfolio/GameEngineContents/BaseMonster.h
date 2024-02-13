@@ -85,7 +85,7 @@ protected:
 
 		const float AbsTargetAngle = std::fabs(BaseActor::GetTargetAngle());
 
-		bool RotValidation = (AbsTargetAngle >= 0.0f && AbsTargetAngle < 180.0f);
+		bool RotValidation = (AbsTargetAngle >= 0.0f && AbsTargetAngle <= 180.0f);
 		if (RotValidation)
 		{
 			bool bFrontAngle = AbsTargetAngle < _fFrontAngle;

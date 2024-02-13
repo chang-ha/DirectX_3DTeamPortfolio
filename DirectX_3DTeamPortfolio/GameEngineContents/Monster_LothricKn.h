@@ -204,10 +204,6 @@ private:
 
 	// End
 	void EndSleep(GameEngineState* _State);
-	void End_DH_Hold(GameEngineState* _State);
-	void End_DH_UnHold(GameEngineState* _State);
-	void End_DH_Stab_Att(GameEngineState* _State);
-	void End_DH_Swing_Att(GameEngineState* _State);
 
 	// State Func
 	bool IsFrame(int _StartFrame, int _EndFrame = -1) const;
@@ -267,10 +263,10 @@ private:
 	int AttackRecord = 0;
 	float fMaxStateTime = 0.0f;
 
-	static constexpr float CLOSE_RANGE = 1.0f;
-	static constexpr float MELEE_RANGE = 3.0f;
-	static constexpr float MEDIUM_RANGE = 5.0f;
-	static constexpr float LONG_RANGE = 7.0f;
+	static constexpr float CLOSE_RANGE = 3.0f;
+	static constexpr float MELEE_RANGE = 6.0f;
+	static constexpr float MEDIUM_RANGE = 9.0f;
+	static constexpr float LONG_RANGE = 12.0f;
 	static constexpr float FRONT_ANGLE = 75.0f;
 	static constexpr float SIDE_ANGLE = 115.0f;
 	static constexpr float BACK_ANGLE = 150.0f;

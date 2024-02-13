@@ -33,15 +33,8 @@ void DummyActor::Off()
 	}
 }
 
-static constexpr float WScale = 30.f;
-
 void DummyActor::Start()
 {
-	// FbxRenderer = CreateComponent<GameEngineFBXRenderer>();
-	// FbxRenderer->SetMesh("Sphere");
-	// FbxRenderer->SetMaterial("FBXStaticColor");
-	// FbxRenderer->Transform.SetLocalScale(float4(WScale, WScale, WScale));
-
 	BodyCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Dummy);
 	BodyCollision->SetCollisionType(ColType::SPHERE3D);
 
@@ -49,7 +42,7 @@ void DummyActor::Start()
 
 	CameraPivot = CreateComponent<GameEngineObject>();
 
-	Transform.SetLocalPosition(float4(0, WScale * 0.5f, 0));
+	Transform.SetLocalPosition(float4(0, 30.0f * 0.5f, 0));
 }
 
 void DummyActor::Update(float _Delta)
