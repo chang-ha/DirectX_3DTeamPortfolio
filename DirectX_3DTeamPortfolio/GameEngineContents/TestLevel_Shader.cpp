@@ -10,6 +10,7 @@
 #include <GameEngineCore/GameEngineCoreWindow.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include "LUTEffect.h"
+#include "BloomEffect.h"
 
 TestLevel_Shader::TestLevel_Shader()
 {
@@ -61,6 +62,7 @@ void TestLevel_Shader::Start()
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
 	GetMainCamera()->Transform.AddLocalPosition({ 0.0f, 0.0f, -300.0f });
 	GetLevelRenderTarget()->CreateEffect<LUTEffect>();
+	GetLevelRenderTarget()->CreateEffect<BloomEffect>();
 
 
 
@@ -69,8 +71,8 @@ void TestLevel_Shader::Start()
 	GetCamera(ECAMERAORDER::UI)->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
 
-	/*HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
-	HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,10.0f });*/
+	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
+	HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,10.0f });
 
 
 	/*HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
@@ -80,8 +82,8 @@ void TestLevel_Shader::Start()
 	HollowSoldier->Transform.AddLocalPosition({ -300.0f,0.0f,10.0f });*/
 
 
-	//Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
-	//Boss_Object->Transform.SetLocalPosition({ 300.f, 0.f, 0.f });
+	/*Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
+	Boss_Object->Transform.SetLocalPosition({ 300.f, 0.f, 0.f });*/
 
 	// 컬러 구체
 	//{
@@ -125,23 +127,23 @@ void TestLevel_Shader::Start()
 		Test_Light1->SetLightData(Data);
 	}
 
-	//{
-	//	Test_Light1 = CreateActor<ContentsLight>(static_cast<int>(Enum_UpdateOrder::Light),"MainLight");
-	//	Test_Light1->SetLightType(Enum_LightType::Point);
-	//	Test_Light1->IsDebugValue = true;
-	//	//Test_Light1->Transform.SetWorldScale(float4(100.f, 100.f, 100.f));
-	//	LightData Data = Test_Light1->GetLightData();
-	//	//Test_Light1->Transform.SetWorldRotation({ 90.0f, 0.0f, 0.0f });
-	//	//Test_Light1->Transform.SetWorldPosition({ 0, 1000.0f, 0.0f });
+	{
+		Test_Light1 = CreateActor<ContentsLight>(static_cast<int>(Enum_UpdateOrder::Light),"MainLight");
+		Test_Light1->SetLightType(Enum_LightType::Point);
+		Test_Light1->IsDebugValue = true;
+		//Test_Light1->Transform.SetWorldScale(float4(100.f, 100.f, 100.f));
+		LightData Data = Test_Light1->GetLightData();
+		//Test_Light1->Transform.SetWorldRotation({ 90.0f, 0.0f, 0.0f });
+		//Test_Light1->Transform.SetWorldPosition({ 0, 1000.0f, 0.0f });
 
-	//	Data.DifLightPower = 2.0f;
-	//	Data.SpcLightPower = 1.0f;
-	//	Data.AmbientLight = float4::ONE * 0.1f;
-	//	Data.SpcPow = 50.0f;
-	//	Data.LightColor = { 1.0f,0.6f,0.0f };
+		Data.DifLightPower = 2.0f;
+		Data.SpcLightPower = 1.0f;
+		Data.AmbientLight = float4::ONE * 0.1f;
+		Data.SpcPow = 50.0f;
+		Data.LightColor = { 1.0f,0.6f,0.0f };
 
-	//	Test_Light1->SetLightData(Data);
-	//}
+		Test_Light1->SetLightData(Data);
+	}
 
 
 
@@ -158,17 +160,17 @@ void TestLevel_Shader::Start()
 	//	NewRenderer->RenderBaseInfoValue.IsShadow = 1;
 	//}
 
-	{
-		std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
-		std::shared_ptr<class GameEngineSpriteRenderer> HpBar = Object->CreateComponent<GameEngineSpriteRenderer>();
-		//HpBar->SetCameraOrder(ECAMERAORDER::UI);
-		HpBar->Transform.SetLocalPosition({ 0.0f, -100 });
-		//HpBar->Transform.SetWorldScale({ 1000.0f, 1300,1000.0f,1.0f });
-		//HpBar->SetImageScale({ 100.0f, 100.0f,100.0f });
-		HpBar->SetBillboardOn();
+	//{
+	//	std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
+	//	std::shared_ptr<class GameEngineSpriteRenderer> HpBar = Object->CreateComponent<GameEngineSpriteRenderer>();
+	//	//HpBar->SetCameraOrder(ECAMERAORDER::UI);
+	//	HpBar->Transform.SetLocalPosition({ 0.0f, -100 });
+	//	//HpBar->Transform.SetWorldScale({ 1000.0f, 1300,1000.0f,1.0f });
+	//	//HpBar->SetImageScale({ 100.0f, 100.0f,100.0f });
+	//	HpBar->SetBillboardOn();
 
-		//GetCamera(ECAMERAORDER::UI)->DebugOn();
-	}
+	//	//GetCamera(ECAMERAORDER::UI)->DebugOn();
+	//}
 
 	//{
 	//	{

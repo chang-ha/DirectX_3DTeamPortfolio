@@ -443,7 +443,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 		GetLevel()->LevelRenderTarget->Merge(0, DeferredTarget, 0);
 	}
 
-	GetLevel()->LevelRenderTarget->PostEffect(_DeltaTime);
+	//GetLevel()->LevelRenderTarget->PostEffect(_DeltaTime);
 }
 
 void GameEngineCamera::AllReleaseCheck()

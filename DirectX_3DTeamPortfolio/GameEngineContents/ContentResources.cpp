@@ -146,6 +146,35 @@ void ContentResources::ContentResourcesInit()
 		Mat->SetDepthState("AlwaysDepth");
 	}
 
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("BloomBlur");
+
+		Mat->SetVertexShader("BloomBlur_VS");
+		Mat->SetPixelShader("BloomBlur_PS");
+		//Mat->SetRasterizer("EngineRasterizer");
+		//Mat->SetBlendState("MergeBlend");
+		//Mat->SetDepthState("AlwaysDepth");
+	}
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("BloomBright");
+
+		Mat->SetVertexShader("BloomBright_VS");
+		Mat->SetPixelShader("BloomBright_PS");
+		//Mat->SetRasterizer("EngineRasterizer");
+		//Mat->SetBlendState("MergeBlend");
+		//Mat->SetDepthState("AlwaysDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("BloomCombine");
+
+		Mat->SetVertexShader("BloomCombine_VS");
+		Mat->SetPixelShader("BloomCombine_PS");
+		//Mat->SetRasterizer("EngineRasterizer");
+		//Mat->SetBlendState("MergeBlend");
+		//Mat->SetDepthState("AlwaysDepth");
+	}
+
 	// LUT
 	{
 		LUTEffect::Load();

@@ -40,7 +40,8 @@ float4 BloomBright_PS(PixelOutPut _Input) : SV_Target0
     }
     else
     {
-        Result = float4(0.0f, 0.0f, 0.0f, 1.0f);
+        Result = float4(Color.rgb, 1.0f);
+        //Result = float4(0.0f, 0.0f, 0.0f, 1.0f);
     }
     
     return Result;

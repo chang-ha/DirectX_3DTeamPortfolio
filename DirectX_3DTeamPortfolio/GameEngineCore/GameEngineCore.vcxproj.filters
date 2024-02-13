@@ -962,9 +962,6 @@
       <Filter>PhysX</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineAO.h" />
-    <ClInclude Include="GameEngineBillboardRenderer.h">
-      <Filter>Rendering\Contents</Filter>
-    </ClInclude>
     <ClInclude Include="ThirdParty\HBAO\inc\GFSDK_SSAO.h">
       <Filter>ThirdParty\HBAO+</Filter>
     </ClInclude>
@@ -1189,9 +1186,6 @@
       <Filter>PhysX</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineAO.cpp" />
-    <ClCompile Include="GameEngineBillboardRenderer.cpp">
-      <Filter>Rendering\Contents</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ThirdParty\DirectXTex\inc\DirectXTex.inl">
