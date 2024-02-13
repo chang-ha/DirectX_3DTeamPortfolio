@@ -641,7 +641,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainState.CreateState(Enum_BossState::Rush_Hit_Turn_Rush, Rush_Hit_Turn_Rush, "Rush_Hit_Turn_Rush");
 
 		// Start State
-		MainState.ChangeState(Enum_BossState::Groggy);
+		MainState.ChangeState(Enum_BossState::Hitten);
 	}
 
 	if (nullptr == BossCollision)

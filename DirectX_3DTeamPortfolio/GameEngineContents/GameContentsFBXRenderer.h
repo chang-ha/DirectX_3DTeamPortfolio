@@ -52,7 +52,7 @@ public:
 	bool Loop = true;
 	bool IsStart = false;
 	bool IsEnd = false;
-	bool EventCheck = false;
+	bool EventCheck = true;
 
 	// RootMotion
 	RootMotionData mRootMotionData;

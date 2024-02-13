@@ -2479,6 +2479,11 @@ void Boss_Vordt::SoundEventInit()
 		});
 
 	//// Hit_004_Groggy
+	MainRenderer->SetFrameEvent("Hit_004_Groggy", 0, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("Groggy.wav", BoneWorldPos(0));
+		});
+
 	MainRenderer->SetFrameEvent("Hit_004_Groggy", 4, [&](GameContentsFBXRenderer* _Renderer)
 		{
 			GameEngineSound::Sound3DPlay("c224005001.wav", BoneWorldPos(0));
