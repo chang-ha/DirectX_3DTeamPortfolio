@@ -91,6 +91,7 @@ private:
 	std::shared_ptr<Boss_State_GUI> GUI = nullptr;
 	float TargetAngle = 0.f;
 
+	void SoundEventInit();
 	float4 BoneWorldPos(int _BoneIndex);
 
 	// State
