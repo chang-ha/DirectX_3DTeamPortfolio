@@ -7,7 +7,7 @@ class MonsterGUITab
 	friend class MonsterGUI;
 
 public:
-	void Init(MonsterGUI* _GUI);
+	void Init();
 	virtual void Start() {}
 	virtual void OnGUI(GameEngineLevel* _Level, float _DeltaTime) = 0;
 
@@ -42,6 +42,24 @@ private:
 
 };
 
+class MonsterControlTab : public MonsterGUITab
+{
+public:
+	void Start() override {}
+	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
+
+private:
+	class BaseMonster* pActor = nullptr;
+
+	std::vector<std::string> ObjNames;
+	std::vector<const char*> CObjNames;
+
+	int MonsterNum = -1;
+
+	bool bFixPos = false;
+
+};
+
 
 class MonsterGUI : public GameEngineGUIWindow
 {
@@ -58,7 +76,8 @@ private:
 	{
 		std::shared_ptr<ObjectType> NewTab = std::make_shared<ObjectType>();
 		NewTab->Name = _TabName.data();
-		NewTab->Init(this);
+		NewTab->pParentGUI = this;
+		NewTab->Init();
 		Tabs.push_back(NewTab);
 	}
 

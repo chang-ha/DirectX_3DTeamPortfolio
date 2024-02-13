@@ -66,6 +66,14 @@ protected:
 
 	bool CheckAnimationName(std::string _AnimationName);
 
+
+	// 자식에서 함수 재정의해서 사용할 것
+	virtual Enum_TargetAngle GetTargetAngle_e() const
+	{
+		MsgBoxAssert("재정의를 하지 않고 사용할 수 없는 함수입니다.");
+		return Enum_TargetAngle::None;
+	}
+
 	// State
 	Enum_TargetAngle GetTargetAngle_e(float _fFrontAngle, float _fSideAngle) const
 	{
@@ -81,18 +89,18 @@ protected:
 		if (RotValidation)
 		{
 			bool bFrontAngle = AbsTargetAngle < _fFrontAngle;
-			if (false == bFrontAngle)
+			if (bFrontAngle)
 			{
-				bool bSideAngle = AbsTargetAngle < _fSideAngle;
-				if (false == bSideAngle)
-				{
-					return Enum_TargetAngle::Back;
-				}
+				return Enum_TargetAngle::Front;
+			}
 
+			bool bSideAngle = AbsTargetAngle < _fSideAngle;
+			if (bSideAngle)
+			{
 				return Enum_TargetAngle::Side;
 			}
 
-			return Enum_TargetAngle::Front;
+			return Enum_TargetAngle::Back;
 		}
 
 		MsgBoxAssert("각도를 확인해주세요.");
@@ -120,24 +128,24 @@ protected:
 		const float AbsTargetDist = std::fabs(BaseActor::GetTargetDistance());
 
 		bool bClose = AbsTargetDist < W_SCALE * _fCloseRange;
-		if (false == bClose)
+		if (bClose)
 		{
-			bool bMelee = AbsTargetDist < W_SCALE * _fmeleeRange;
-			if (false == bMelee)
-			{
-				bool bMedium = AbsTargetDist < W_SCALE * _fMediumRange;
-				if (false == bMedium)
-				{
-					return Enum_TargetDist::Long;
-				}
+			return Enum_TargetDist::Close;
+		}
 
-				return Enum_TargetDist::Medium;
-			}
-
+		bool bMelee = AbsTargetDist < W_SCALE * _fmeleeRange;
+		if (bMelee)
+		{
 			return Enum_TargetDist::Melee;
 		}
 
-		return Enum_TargetDist::Close;
+		bool bMedium = AbsTargetDist < W_SCALE * _fMediumRange;
+		if (bMedium)
+		{
+			return Enum_TargetDist::Medium;
+		}
+
+		return Enum_TargetDist::Long;
 	}
 	
 	bool IsTargetInRange(Enum_TargetDist _eTDist);

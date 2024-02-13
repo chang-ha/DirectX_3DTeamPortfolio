@@ -1228,8 +1228,14 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToAggroTable()
 		return Enum_LothricKn_State::None;
 	}
 
-	Enum_TargetAngle eTargetRot = GetTargetAngle_e(FRONT_ANGLE, SIDE_ANGLE);
+	Enum_TargetAngle eTargetRot = Monster_LothricKn::GetTargetAngle_e();
 	Enum_TargetDist eTargetDist = Monster_LothricKn::GetTargetDistance_e();
+
+	Enum_LothricKn_State FindAttackState = GetStateToAttackTable(eTargetDist, eTargetRot);
+	if (Enum_LothricKn_State::None != FindAttackState)
+	{
+		return FindAttackState;
+	}
 
 	Enum_LothricKn_State FindMovementState = GetStateToMovementTable(eTargetDist, eTargetRot);
 	if (Enum_LothricKn_State::None != FindMovementState)
@@ -1237,10 +1243,10 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToAggroTable()
 		return FindMovementState;
 	}
 
-	Enum_LothricKn_State FindAttackState = GetStateToAttackTable(eTargetDist, eTargetRot);
-	if (Enum_LothricKn_State::None != FindAttackState)
+	Enum_LothricKn_State FindDodgeState = GetStateToDodgeTable(eTargetDist, eTargetRot);
+	if (Enum_LothricKn_State::None != FindDodgeState)
 	{
-		return FindAttackState;
+		return FindDodgeState;
 	}
 
 	MsgBoxAssert("기본 상태가 등록되지 않았습니다.");
@@ -1249,7 +1255,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToAggroTable()
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToMovementTable() const
 {
-	Enum_TargetAngle eTargetRot = GetTargetAngle_e(FRONT_ANGLE, SIDE_ANGLE);
+	Enum_TargetAngle eTargetRot = Monster_LothricKn::GetTargetAngle_e();
 	Enum_TargetDist eTargetDist = Monster_LothricKn::GetTargetDistance_e();
 
 	Enum_LothricKn_State FindState = GetStateToMovementTable(eTargetDist, eTargetRot);
@@ -1285,72 +1291,66 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToNormalMovementTable(Enum_Targe
 
 	if (Enum_TargetAngle::Back == _eTAngle)
 	{
-		if (Enum_RotDir::Left == BaseActor::GetRotDir_e())
-		{
-			return Enum_LothricKn_State::L_TurnTwice;
-		}
-
-		if (Enum_RotDir::Right == BaseActor::GetRotDir_e())
-		{
-			return Enum_LothricKn_State::R_TurnTwice;
-		}
+		return Enum_LothricKn_State::None;
 	}
 
 	if (Enum_TargetDist::Long == _eTDist)
 	{
-		if (Enum_TargetAngle::Side == _eTAngle)
+		if (Enum_TargetAngle::Front == _eTAngle)
 		{
-			if (Enum_RotDir::Left == BaseActor::GetRotDir_e())
-			{
-				return Enum_LothricKn_State::L_Turn;
-			}
-
-			if (Enum_RotDir::Right == BaseActor::GetRotDir_e())
-			{
-				return Enum_LothricKn_State::R_Turn;
-			}
+			return Enum_LothricKn_State::Run;
 		}
-
-		return Enum_LothricKn_State::Run;
 	}
 
-	if (Enum_TargetDist::Medium == _eTDist)
+	if (Enum_TargetAngle::Side == _eTAngle)
 	{
-		if (Enum_TargetAngle::Side == _eTAngle)
+		if (Enum_RotDir::Left == BaseActor::GetRotDir_e())
 		{
-			if (Enum_RotDir::Left == BaseActor::GetRotDir_e())
-			{
-				return Enum_LothricKn_State::L_Turn;
-			}
-
-			if (Enum_RotDir::Right == BaseActor::GetRotDir_e())
-			{
-				return Enum_LothricKn_State::R_Turn;
-			}
+			return Enum_LothricKn_State::L_Turn;
 		}
 
-		const int DirChance = ContentsRandom::RandomInt(0, 2);
-		enum eDirChance
+		if (Enum_RotDir::Right == BaseActor::GetRotDir_e())
 		{
-			Left = 0,
-			Right = 1,
-			Front = 2,
-		};
-
-		if (DirChance == eDirChance::Left)
-		{
-			return Enum_LothricKn_State::L_Side_Step;
+			return Enum_LothricKn_State::R_Turn;
 		}
+	}
 
-		if (DirChance == eDirChance::Right)
-		{
-			return Enum_LothricKn_State::R_Side_Step;
-		}
+	const int ModeChance = ContentsRandom::RandomInt(0, 7);
+	enum eModeChance
+	{
+		Normal = 5,
+		TwoHand = 6,
+		Gaurding = 7,
+	};
 
-		if (DirChance == eDirChance::Front)
-		{
-			return Enum_LothricKn_State::F_Step;
-		}
+	if (eModeChance::TwoHand == ModeChance)
+	{
+		return Enum_LothricKn_State::DH_Hold;
+	}
+
+	if (eModeChance::Gaurding == ModeChance)
+	{
+		return Enum_LothricKn_State::G_Up;
+	}
+
+	const int DirChance = ContentsRandom::RandomInt(0, 2);
+	enum eDirChance
+	{
+		Left = 0,
+		Right = 1,
+		Front = 2,
+	};
+
+	switch (DirChance)
+	{
+	case eDirChance::Left:
+		return Enum_LothricKn_State::L_Side_Step;
+	case eDirChance::Right:
+		return Enum_LothricKn_State::R_Side_Step;
+	case eDirChance::Front:
+		return Enum_LothricKn_State::F_Step;
+	default:
+		break;
 	}
 
 	return Enum_LothricKn_State::None;
@@ -1374,30 +1374,24 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToDHMovementTable(Enum_TargetDis
 		return Enum_LothricKn_State::DH_UnHold;
 	}
 
-	if (Enum_TargetDist::Medium == _eTDist)
+	const int iChance = ContentsRandom::RandomInt(0, 2);
+	enum eMoveType
 	{
-		const int iChance = ContentsRandom::RandomInt(0, 2);
-		enum MoveType
-		{
-			Left,
-			Right,
-			Forward,
-		};
+		Left,
+		Right,
+		Forward,
+	};
 
-		switch (iChance)
-		{
-		case Left:
-			return Enum_LothricKn_State::DH_L_Side_Step;
-			break;
-		case Right:
-			return Enum_LothricKn_State::DH_R_Side_Step;
-			break;
-		case Forward:
-			return Enum_LothricKn_State::DH_F_Step;
-			break;
-		default:
-			break;
-		}
+	switch (iChance)
+	{
+	case eMoveType::Left:
+		return Enum_LothricKn_State::DH_L_Side_Step;
+	case eMoveType::Right:
+		return Enum_LothricKn_State::DH_R_Side_Step;
+	case eMoveType::Forward:
+		return Enum_LothricKn_State::DH_F_Step;
+	default:
+		break;
 	}
 
 	return Enum_LothricKn_State::None;
@@ -1413,33 +1407,15 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToGMovementTable(Enum_TargetDist
 
 	if (Enum_TargetAngle::Back == _eTAngle)
 	{
-		if (Enum_RotDir::Left == BaseActor::GetRotDir_e())
-		{
-			return Enum_LothricKn_State::G_L_TurnTwice;
-		}
-
-		if (Enum_RotDir::Right == BaseActor::GetRotDir_e())
-		{
-			return Enum_LothricKn_State::G_R_TurnTwice;
-		}
+		return Enum_LothricKn_State::G_Down;
 	}
 
 	if (Enum_TargetDist::Long == _eTDist)
 	{
-		if (Enum_TargetAngle::Side == _eTAngle)
+		if (Enum_TargetAngle::Front == _eTAngle)
 		{
-			if (Enum_RotDir::Left == BaseActor::GetRotDir_e())
-			{
-				return Enum_LothricKn_State::G_L_Turn;
-			}
-
-			if (Enum_RotDir::Right == BaseActor::GetRotDir_e())
-			{
-				return Enum_LothricKn_State::G_R_Turn;
-			}
+			return Enum_LothricKn_State::G_Run;
 		}
-
-		return Enum_LothricKn_State::G_Run;
 	}
 
 	const int iModeChance = ContentsRandom::RandomInt(0, 5);
@@ -1487,7 +1463,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToGMovementTable(Enum_TargetDist
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToAttackTable()
 {
-	Enum_TargetAngle eTargetRot = GetTargetAngle_e(FRONT_ANGLE, SIDE_ANGLE);
+	Enum_TargetAngle eTargetRot = Monster_LothricKn::GetTargetAngle_e();
 	Enum_TargetDist eTargetDist = Monster_LothricKn::GetTargetDistance_e();
 
 	Enum_LothricKn_State FindState = GetStateToAttackTable(eTargetDist, eTargetRot);
@@ -1524,8 +1500,6 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToNormalAttackTable(Enum_TargetD
 
 	if (Enum_TargetDist::Close == _eTDist)
 	{
-		const float HitDownAngle = 40.0f;
-
 		if (Enum_TargetAngle::Front == _eTAngle)
 		{
 			return Enum_LothricKn_State::RH_Att_HitDown;
@@ -1656,6 +1630,126 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToGAttackTable(Enum_TargetDist _
 			if (1 == iChance)
 			{
 				return Enum_LothricKn_State::G_Att_Bash;
+			}
+		}
+	}
+
+	return Enum_LothricKn_State::None;
+}
+
+Enum_LothricKn_State Monster_LothricKn::GetStateToDodgeTable() const
+{
+	Enum_TargetAngle eTargetRot = Monster_LothricKn::GetTargetAngle_e();
+	Enum_TargetDist eTargetDist = Monster_LothricKn::GetTargetDistance_e();
+
+	Enum_LothricKn_State FindState = GetStateToDodgeTable(eTargetDist, eTargetRot);
+	return FindState;
+}
+
+Enum_LothricKn_State Monster_LothricKn::GetStateToDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const
+{
+	switch (CombatState)
+	{
+	case Monster_LothricKn::Enum_Combat_State::Normal:
+		return GetStateToNormalDodgeTable(_eTDist, _eTAngle);
+	case Monster_LothricKn::Enum_Combat_State::Two_Handed:
+		return GetStateToDHDodgeTable(_eTDist, _eTAngle);
+	case Monster_LothricKn::Enum_Combat_State::Gaurding:
+		return GetStateToGDodgeTable(_eTDist, _eTAngle);
+	case Monster_LothricKn::Enum_Combat_State::None:
+	default:
+		break;
+	}
+
+	MsgBoxAssert("해당 상태를 초기화해주지 않았습니다.");
+	return Enum_LothricKn_State::None;
+}
+
+Enum_LothricKn_State Monster_LothricKn::GetStateToNormalDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const
+{
+	if (Enum_Combat_State::Normal != CombatState)
+	{
+		MsgBoxAssert("현재 상태로 해당 테이블을 반환할 수 없습니다.");
+		return Enum_LothricKn_State::None;
+	}
+
+	if (Enum_TargetAngle::Back == _eTAngle)
+	{
+		if (Enum_RotDir::Left == BaseActor::GetRotDir_e())
+		{
+			return Enum_LothricKn_State::L_TurnTwice;
+		}
+
+		if (Enum_RotDir::Right == BaseActor::GetRotDir_e())
+		{
+			return Enum_LothricKn_State::R_TurnTwice;
+		}
+	}
+
+	if (Enum_TargetDist::Long == _eTDist)
+	{
+		if (Enum_TargetAngle::Side == _eTAngle)
+		{
+			if (Enum_RotDir::Left == BaseActor::GetRotDir_e())
+			{
+				return Enum_LothricKn_State::L_Turn;
+			}
+
+			if (Enum_RotDir::Right == BaseActor::GetRotDir_e())
+			{
+				return Enum_LothricKn_State::R_Turn;
+			}
+		}
+	}
+
+	return Enum_LothricKn_State::None;
+}
+
+Enum_LothricKn_State Monster_LothricKn::GetStateToDHDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const
+{
+	if (Enum_Combat_State::Two_Handed != CombatState)
+	{
+		MsgBoxAssert("현재 상태로 해당 테이블을 반환할 수 없습니다.");
+		return Enum_LothricKn_State::None;
+	}
+
+	MsgBoxAssert("상태 테이블이 비어있습니다.");
+	return Enum_LothricKn_State::None;
+}
+
+Enum_LothricKn_State Monster_LothricKn::GetStateToGDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const
+{
+	if (Enum_Combat_State::Gaurding != CombatState)
+	{
+		MsgBoxAssert("현재 상태로 해당 테이블을 반환할 수 없습니다.");
+		return Enum_LothricKn_State::None;
+	}
+
+	if (Enum_TargetAngle::Back == _eTAngle)
+	{
+		if (Enum_RotDir::Left == BaseActor::GetRotDir_e())
+		{
+			return Enum_LothricKn_State::G_L_TurnTwice;
+		}
+
+		if (Enum_RotDir::Right == BaseActor::GetRotDir_e())
+		{
+			return Enum_LothricKn_State::G_R_TurnTwice;
+		}
+	}
+
+	if (Enum_TargetDist::Long == _eTDist)
+	{
+		if (Enum_TargetAngle::Side == _eTAngle)
+		{
+			if (Enum_RotDir::Left == BaseActor::GetRotDir_e())
+			{
+				return Enum_LothricKn_State::G_L_Turn;
+			}
+
+			if (Enum_RotDir::Right == BaseActor::GetRotDir_e())
+			{
+				return Enum_LothricKn_State::G_R_Turn;
 			}
 		}
 	}

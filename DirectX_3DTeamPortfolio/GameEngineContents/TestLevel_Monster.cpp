@@ -9,9 +9,8 @@
 #include "Monster_HollowSoldier_RoundShield.h"
 #include "DummyActor.h"
 
-void MonsterGUITab::Init(MonsterGUI* _GUI)
+void MonsterGUITab::Init()
 {
-	pParentGUI = _GUI;
 	Start();
 }
 
@@ -61,10 +60,64 @@ void InputTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	}
 }
 
+void MonsterControlTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
+{
+	if (nullptr == pActor)
+	{
+		if (ObjNames.empty())
+		{
+			int Cnt = 0;
+			const std::list<std::shared_ptr<GameEngineObject>>& ObjList = _Level->GetObjectGroup(Enum_UpdateOrder::Monster);
+
+			ObjNames.reserve(ObjList.size());
+			CObjNames.reserve(ObjList.size());
+
+			for (const std::shared_ptr<GameEngineObject>& Object : ObjList)
+			{
+				std::string Name = Object->GetName();
+				if (false == Name.empty())
+				{
+					ObjNames.push_back(Name);
+					CObjNames.push_back(ObjNames[Cnt].c_str());
+					++Cnt;
+				}
+			}
+		}
+	}
+
+	if (ImGui::Combo("Monster List", &MonsterNum, &CObjNames[0], static_cast<int>(CObjNames.size())))
+	{
+		std::vector<std::shared_ptr<BaseMonster>> Monsters = _Level->GetObjectGroupConvert<BaseMonster>(Enum_UpdateOrder::Monster);
+
+		for (const std::shared_ptr<BaseMonster>& Monster : Monsters)
+		{
+			if (CObjNames[MonsterNum] == Monster->GetName())
+			{
+				pActor = Monster.get();
+				break;
+			}
+		}
+	}
+
+	if (nullptr != pActor)
+	{
+		if (ImGui::Button("WakeUp"))
+		{
+			pActor->WakeUp();
+		}
+
+		if (ImGui::Checkbox("Zero Pos", &bFixPos))
+		{
+			pActor->GetPhysxCapsulePointer()->SetWorldPosition(float4(0.0f));
+		}
+	}
+}
+
 void MonsterGUI::Start()
 {
 	CreateTab<DummyTab>("Dummy");
 	CreateTab<InputTab>("Input");
+	CreateTab<MonsterControlTab>("Monster Control");
 }
 
 void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)

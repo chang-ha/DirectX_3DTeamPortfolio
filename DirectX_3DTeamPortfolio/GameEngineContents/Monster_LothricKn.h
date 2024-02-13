@@ -216,6 +216,12 @@ private:
 	void StateTimeSet(float _fMin, float _fMax);
 	void ResetStateTime();
 
+	// 자식에서 함수 재정의해서 사용할 것
+	Enum_TargetAngle GetTargetAngle_e() const override
+	{
+		return BaseMonster::GetTargetAngle_e(FRONT_ANGLE, SIDE_ANGLE);
+	}
+
 	Enum_TargetDist GetTargetDistance_e() const override
 	{
 		return BaseMonster::GetTargetDistance_e(CLOSE_RANGE, MELEE_RANGE, MEDIUM_RANGE);
@@ -241,6 +247,12 @@ private:
 	Enum_LothricKn_State GetStateToNormalAttackTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle);
 	Enum_LothricKn_State GetStateToDHAttackTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
 	Enum_LothricKn_State GetStateToGAttackTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
+
+	Enum_LothricKn_State GetStateToDodgeTable() const;
+	Enum_LothricKn_State GetStateToDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
+	Enum_LothricKn_State GetStateToNormalDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
+	Enum_LothricKn_State GetStateToDHDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
+	Enum_LothricKn_State GetStateToGDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
 
 	// Collision
 	void FindTarget();
