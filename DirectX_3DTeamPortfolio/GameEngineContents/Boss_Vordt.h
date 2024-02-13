@@ -39,6 +39,7 @@ enum class Enum_BossState
 	Turn_Right_Twice,
 	Turn_Left_Twice,
 	Hitten,
+	Groggy,
 	Death,
 
 	// Attack
@@ -154,10 +155,15 @@ private:
 	void Turn_Left_Twice_Update(float _Delta);
 	void Turn_Left_Twice_End();
 
-	// Turn
+	// Hitten
 	void Hitten_Start();
 	void Hitten_Update(float _Delta);
 	void Hitten_End();
+
+	// Groggy
+	void Groggy_Start();
+	void Groggy_Update(float _Delta);
+	void Groggy_End();
 
 	// Death
 	void Death_Start();

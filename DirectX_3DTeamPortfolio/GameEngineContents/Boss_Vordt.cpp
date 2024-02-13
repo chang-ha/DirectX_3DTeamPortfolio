@@ -353,8 +353,8 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->SetRootMotion("Hit_Down_005");
 		MainRenderer->SetRootMotion("Hit_Down_006");
 		MainRenderer->SetRootMotion("Howling");
-		MainRenderer->SetRootMotion("Rush&Hit&Turn");
-		MainRenderer->SetRootMotion("Rush&Turn");
+		MainRenderer->SetRootMotion("Rush&Hit&Turn"); 
+		MainRenderer->SetRootMotion("Rush&Turn"); // 
 		MainRenderer->SetRootMotion("Rush_Attack");
 		MainRenderer->SetRootMotion("Rush_Attack_002");
 		MainRenderer->SetRootMotion("Rush_Front");
@@ -376,7 +376,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->SetRootMotion("Walk_Front", "", Enum_RootMotionMode::RealTimeDir);
 		MainRenderer->SetRootMotion("Walk_Left", "", Enum_RootMotionMode::RealTimeDir);
 		MainRenderer->SetRootMotion("Walk_Right", "", Enum_RootMotionMode::RealTimeDir);
-		MainRenderer->SetRootMotion("Rush&Hit&Turn&Rush", "", Enum_RootMotionMode::RealTimeDir);
+		MainRenderer->SetRootMotion("Rush&Hit&Turn&Rush", "", Enum_RootMotionMode::RealTimeDir); // 
 	}
 
 	//// Boss Collision
@@ -495,6 +495,11 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		Hitten.Stay = std::bind(&Boss_Vordt::Hitten_Update, this, std::placeholders::_1);
 		Hitten.End = std::bind(&Boss_Vordt::Hitten_End, this);
 
+		CreateStateParameter Groggy;
+		Groggy.Start = std::bind(&Boss_Vordt::Groggy_Start, this);
+		Groggy.Stay = std::bind(&Boss_Vordt::Groggy_Update, this, std::placeholders::_1);
+		Groggy.End = std::bind(&Boss_Vordt::Groggy_End, this);
+
 		CreateStateParameter Death;
 		Death.Start = std::bind(&Boss_Vordt::Death_Start, this);
 		Death.Stay = std::bind(&Boss_Vordt::Death_Update, this, std::placeholders::_1);
@@ -611,6 +616,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainState.CreateState(Enum_BossState::Turn_Right_Twice, Turn_Right_Twice, "Turn_Right_Twice");
 		MainState.CreateState(Enum_BossState::Turn_Left_Twice, Turn_Left_Twice, "Turn_Left_Twice");
 		MainState.CreateState(Enum_BossState::Hitten, Hitten, "Hitten");
+		MainState.CreateState(Enum_BossState::Groggy, Groggy, "Groggy");
 		MainState.CreateState(Enum_BossState::Death, Death, "Death");
 
 		// Attack
@@ -635,7 +641,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainState.CreateState(Enum_BossState::Rush_Hit_Turn_Rush, Rush_Hit_Turn_Rush, "Rush_Hit_Turn_Rush");
 
 		// Start State
-		MainState.ChangeState(Enum_BossState::Rush_Hit_Turn_Rush);
+		MainState.ChangeState(Enum_BossState::Groggy);
 	}
 
 	if (nullptr == BossCollision)
