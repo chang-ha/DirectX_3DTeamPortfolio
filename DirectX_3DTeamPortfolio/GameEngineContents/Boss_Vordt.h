@@ -30,6 +30,7 @@ enum class Enum_BossState
 	Walk_Front,
 	Walk_Right,
 	Walk_Left,
+	Rush_Front,
 	Jump_Back,
 	Jump_Right,
 	Jump_Left,
@@ -38,6 +39,7 @@ enum class Enum_BossState
 	Turn_Right_Twice,
 	Turn_Left_Twice,
 	Hitten,
+	Groggy,
 	Death,
 
 	// Attack
@@ -89,6 +91,9 @@ private:
 	std::shared_ptr<GameEngineCollision> DetectCollision;
 	std::shared_ptr<Boss_State_GUI> GUI = nullptr;
 	float TargetAngle = 0.f;
+
+	void SoundEventInit();
+	float4 BoneWorldPos(int _BoneIndex);
 
 	// State
 	////////////////////////// Move & Others
@@ -150,10 +155,15 @@ private:
 	void Turn_Left_Twice_Update(float _Delta);
 	void Turn_Left_Twice_End();
 
-	// Turn
+	// Hitten
 	void Hitten_Start();
 	void Hitten_Update(float _Delta);
 	void Hitten_End();
+
+	// Groggy
+	void Groggy_Start();
+	void Groggy_Update(float _Delta);
+	void Groggy_End();
 
 	// Death
 	void Death_Start();
