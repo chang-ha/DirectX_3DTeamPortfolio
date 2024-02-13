@@ -31,6 +31,9 @@ void WorldMap::Start()
 		SkyRenderer = CreateComponent<GameContentsFBXRenderer>();
 		SkyRenderer->SetFBXMesh("WorldSky.FBX", "FBX_Static");
 
+		BackGroundRenderer = CreateComponent<GameContentsFBXRenderer>();
+		BackGroundRenderer->SetMapFBXMesh("BackGround.FBX", "FBX_Static");
+
 		//MapMesh = FBXRenderer->GetFBXMesh("WorldMap.FBX0");
 
 		//MapDatas = MapMesh->GetMapDatas();
