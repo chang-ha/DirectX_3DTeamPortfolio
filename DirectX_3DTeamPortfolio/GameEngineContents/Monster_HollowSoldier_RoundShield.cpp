@@ -24,6 +24,8 @@ void Monster_HollowSoldier_RoundShield::Start()
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::SmallLeatherVest);
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::Pants);
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::TopRobe);
+
+	ChangeState(Enum_HollowSoldier_RoundShield_State::Idle3);
 }
 void Monster_HollowSoldier_RoundShield::Update(float _Delta)
 {
@@ -173,7 +175,7 @@ void Monster_HollowSoldier_RoundShield::State_Idle1_Start()
 }
 void Monster_HollowSoldier_RoundShield::State_Idle1_Update(float _Delta)
 {
-
+	
 }
 
 void Monster_HollowSoldier_RoundShield::State_Idle2_Start()
