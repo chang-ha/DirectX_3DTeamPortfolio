@@ -773,7 +773,7 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 		return;
 	}
 
-	RootMotionComponent->MoveForce(Enum_Axies::X | Enum_Axies::Z);
+	RootMotionComponent->ResetMove(Enum_Axies::X | Enum_Axies::Z);
 }
 
 void GameContentsFBXRenderer::Update(float _DeltaTime)
