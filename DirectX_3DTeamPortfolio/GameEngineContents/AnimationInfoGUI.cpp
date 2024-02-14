@@ -6,6 +6,7 @@
 #include "BoneSocketCollision.h"
 
 #include "SoundFrameEvent.h"
+#include "BoneSoundFrameEvent.h"
 #include "CollisionUpdateFrameEvent.h"
 #include "TurnSpeedFrameEvent.h"
 
@@ -22,6 +23,7 @@ void AnimationInfoGUI::Start()
 {
 	CreateEventTree<TotalEventTree>("Total Events");
 	CreateEventTree<SoundEventTree>("Sound");
+	CreateEventTree<BoneSoundEventTree>("BSound");
 	CreateEventTree<CollisionEventTree>("Collision Switch");
 	CreateEventTree<TurnSpeedEventTree>("Turn Speed");
 }
@@ -176,13 +178,12 @@ void AnimationInfoGUI::AnimationList(class GameEngineLevel* _Level, float _Delta
 			}
 		}
 
-		static int SelectAnimationIdex = 0;
-
-		if (ImGui::ListBox("Aniamtion Name", &SelectAnimationIdex, &CAnimationNames[0], static_cast<int>(CAnimationNames.size())))
+		if (ImGui::ListBox("Aniamtion Name", &AnimationIndex, &CAnimationNames[0], static_cast<int>(CAnimationNames.size())))
 		{
-			const char* SelectAnimationName = CAnimationNames.at(SelectAnimationIdex);
+			const char* SelectAnimationName = CAnimationNames.at(AnimationIndex);
 			SelectActor->GetFBXRenderer()->ChangeAnimation(SelectAnimationName);
 			SelectAnimation = SelectActor->GetFBXRenderer()->GetCurAnimation();
+			AnimationChange();
 		}
 
 		EventEditor(_Level, _DeltaTime);
@@ -190,6 +191,15 @@ void AnimationInfoGUI::AnimationList(class GameEngineLevel* _Level, float _Delta
 		ImGui::TreePop();
 	}
 }
+
+void AnimationInfoGUI::AnimationChange()
+{
+	for (std::shared_ptr<EventTree>& Tree : EventTrees)
+	{
+		Tree->ChangeAnimation();
+	}
+}
+
 
 void AnimationInfoGUI::BoneEditor()
 {
@@ -354,6 +364,110 @@ void SoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 		std::shared_ptr<SoundFrameEvent> SEvent = SoundFrameEvent::CreateEventObject(SelectStartFrame, ScrFileName);
 		EventHelper->SetEvent(SEvent);
 	}
+}
+
+void BoneSoundEventTree::Start()
+{
+
+}
+
+void BoneSoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
+{
+	if (nullptr == Parent)
+	{
+		MsgBoxAssert("부모를 모르고 사용할 수 없습니다.");
+		return;
+	}
+
+	if (BoneNames.empty())
+	{
+		const std::shared_ptr<GameEngineFBXMesh>& Mesh = Parent->SelectActor->GetFBXRenderer()->GetFBXMesh();
+		int BoneCnt = static_cast<int>(Mesh->GetBoneCount());
+
+		BoneNames.resize(BoneCnt);
+		CBoneNames.resize(BoneCnt);
+
+		for (int i = 0; i < BoneCnt; i++)
+		{
+			BoneNames[i] = std::to_string(i) + "." + Mesh->FindBoneToIndex(i)->Name;
+			CBoneNames[i] = BoneNames[i].c_str();
+		}
+	}
+
+	if (CSoundFileList.empty())
+	{
+		return;
+	}
+
+	FrameEventHelper* EventHelper = Parent->SelectAnimation->EventHelper;
+
+	// 몇번째 프레임에
+	ImGui::SliderInt("Start Frame", &SelectStartFrame, Parent->SelectAnimation->Start, Parent->SelectAnimation->End);
+
+	ImGui::Combo("BoneList", &BoneIndex, &CBoneNames[0], static_cast<int>(CBoneNames.size()));
+	ImGui::Combo("SoundList", &SoundIndex, &CSoundFileList[0], static_cast<int>(CSoundFileList.size()));
+
+	if (ImGui::Button("CreateEvent"))
+	{
+		std::string ScrFileName = CSoundFileList[SoundIndex];
+		std::shared_ptr<BoneSoundFrameEvent> BSEvent = BoneSoundFrameEvent::CreateEventObject(SelectStartFrame, BoneIndex, ScrFileName);
+		EventHelper->SetEvent(BSEvent);
+	}
+}
+
+void BoneSoundEventTree::LoadSoundList()
+{
+	std::string IDName = Parent->SelectActor->GetIDName();
+
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExistsChild("ContentsResources");
+	Dir.MoveChild("ContentsResources");
+	Dir.MoveChild("Sound");
+
+	if (false == GameEngineDirectory::IsExist(Dir.GetStringPath() + "\\" + IDName))
+	{
+		return;
+	}
+
+	Dir.MoveChild(IDName);
+	std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".wav" });
+
+	if (Files.empty())
+	{
+		return;
+	}
+
+	int FileSize = static_cast<int>(Files.size());
+
+	SoundFileList.reserve(FileSize);
+	CSoundFileList.reserve(FileSize);
+
+	for (int i = 0; i < FileSize; i++)
+	{
+		GameEngineFile& pFile = Files[i];
+		SoundFileList.push_back(pFile.GetFileName());
+		CSoundFileList.push_back(SoundFileList[i].c_str());
+	}
+}
+
+void BoneSoundEventTree::ChangeActor()
+{
+	BoneNames.clear();
+	CBoneNames.clear();
+	SoundFileList.clear();
+	CSoundFileList.clear();
+	BoneIndex = 0;
+	SoundIndex = 0;
+}
+
+void BoneSoundEventTree::ChangeAnimation()
+{
+	SoundFileList.clear();
+	CSoundFileList.clear();
+
+	LoadSoundList();
+
+	SoundIndex = 0;
 }
 
 void CollisionEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)

@@ -61,7 +61,7 @@ void GameEnginePhysX::PhysXInit()
 		MsgBoxAssert("Physics 생성에 실패했습니다.");
 	}
 
-	CpuDispatcher = physx::PxDefaultCpuDispatcherCreate(0);
+	CpuDispatcher = physx::PxDefaultCpuDispatcherCreate(3);
 
 	if (nullptr == CpuDispatcher)
 	{
@@ -74,7 +74,7 @@ void GameEnginePhysX::PhysXInit()
 		MsgBoxAssert("Cooking 생성에 실패했습니다.");
 	}
 
-	Material = Physics->createMaterial(0.0f, 0.0f, 0.0f);
+	Material = Physics->createMaterial(1.0f, 1.0f, 0.0f);
 
 	if (nullptr == Material)
 	{

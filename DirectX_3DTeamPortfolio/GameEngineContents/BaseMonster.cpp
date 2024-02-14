@@ -64,3 +64,22 @@ bool BaseMonster::IsTargetInRange(Enum_TargetDist _eTDist)
 
 	return false;
 }
+
+void BaseMonster::LoadRes3DSound(std::string_view _LoadCheck) const
+{
+	if (nullptr == GameEngineSound::Find3DSound(_LoadCheck))
+	{
+		std::string IdName = GetIDName();
+	
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources\\Sound");
+		Dir.MoveChild(IdName);
+
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pFile : Files)
+		{
+			GameEngineSound::Sound3DLoad(pFile.GetStringPath());
+		}
+	}
+}

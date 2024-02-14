@@ -713,7 +713,7 @@ void GameContentsFBXRenderer::CreateFBXAnimation(const std::string_view _Animati
 
 	for (size_t i = 0; i < NewAnimation->FBXAnimationData->AniFrameData[0].BoneMatData.size(); i++)
 	{
-		NewAnimation->Frames.push_back(i);
+		NewAnimation->Frames.push_back(static_cast<unsigned int>(i));
 	}
 
 	RenderBaseInfoValue.IsAnimation = 1;
@@ -738,11 +738,8 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 		return;
 	}
 
-	
-
 	if (nullptr != CurAnimation)
 	{
-
 		if (0.0f != CurAnimation->PlayTime)
 		{
 			AnimationBoneData Data = AnimationBoneDatas[53];
@@ -776,7 +773,7 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 		return;
 	}
 
-	RootMotionComponent->MoveForce(Enum_Axies::X | Enum_Axies::Z);
+	RootMotionComponent->ResetMove(Enum_Axies::X | Enum_Axies::Z);
 }
 
 void GameContentsFBXRenderer::Update(float _DeltaTime)

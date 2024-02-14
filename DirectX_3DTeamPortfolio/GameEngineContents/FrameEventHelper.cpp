@@ -64,6 +64,11 @@ void FrameEventHelper::Initialze(GameContentsFBXAnimationInfo* _AnimationInfo)
 			NewEvent = std::make_shared<SoundFrameEvent>();
 		}
 			break;
+		case Enum_FrameEventType::BSound:
+		{
+			NewEvent = std::make_shared<SoundFrameEvent>();
+		}
+			break;
 		case Enum_FrameEventType::CollisionUpdate:
 		{
 			NewEvent = std::make_shared<CollisionUpdateFrameEvent>();

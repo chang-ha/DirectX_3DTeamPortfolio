@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "Player.h"
 #include "ContentsEnum.h"
-
+#include "math.h"
 
 // 서버용
 #include "GameEngineNetWindow.h"
@@ -24,6 +24,7 @@ void Player::Start()
 	
 	Main_Player = this;
 
+	GameEngineInput::AddInputObject(this);
 
 	
 	Capsule = CreateComponent<GameEnginePhysXCapsule>();
@@ -31,7 +32,7 @@ void Player::Start()
 
 
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(0);
-	MainRenderer->Transform.SetLocalScale({ 200.0f, 200.0f, 200.0f });
+	MainRenderer->Transform.SetLocalScale({ 400.0f, 400.0f, 400.0f });
 	MainRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
 	//MainRenderer->Transform.SetLocalPosition({ 0.0f, -300.0f, 0.0f });
 
@@ -128,7 +129,7 @@ void Player::Start()
 	//MainRenderer->Off();
 
 
-	GameEngineInput::AddInputObject(this);
+
 
 
 	{
@@ -141,6 +142,14 @@ void Player::Start()
 		//Weapon->Transform.SetLocalPosition({ -4.0f, -152.0f, 165.0f });
 		Weapon->Transform.SetLocalRotation({ 0.0f, 0.0f, 180.0f });
 	}
+
+
+	
+
+
+
+
+
 
 	{
 		Col = CreateComponent<GameEngineCollision>();
@@ -177,96 +186,96 @@ void Player::Start()
 
 	Transform.AddLocalPosition({ 0.0f,-300.0f });
 	
-	
+	GameEngineCore::MainWindow.SetMousePos(1280,720);
 
+	{
+		Actor_test = GetLevel()->CreateActor<GameEngineActor>();
+	}
+
+	{
+		Actor_test_02 = GetLevel()->CreateActor<GameEngineActor>();
+		Actor_test_02->SetParent(Actor_test);
+		Actor_test_02->Transform.SetWorldPosition({ 0.0f,400.0f,-1000.0f });
+	}
 }
 
 void Player::Update(float _Delta)
 {
+	Time += _Delta;
+
 	if (GameEngineInput::IsDown('Q', this))
 	{
 		MainRenderer->SwitchPause();
 	}
 	
-
-
-
-	/*if (GameEngineInput::IsPress('A',this))
-	{
-		Mouse_Pos += 1;
-	}
-	if (GameEngineInput::IsPress('D', this))
-	{
-		Mouse_Pos -= 1;
-	}*/
-
-	
-
 	AnimationBoneData Data = MainRenderer->GetBoneData(Bone_index_01);
 
 	SwordActor->Transform.SetLocalRotation(Data.RotQuaternion.QuaternionToEulerDeg());
 	SwordActor->Transform.SetWorldPosition(Data.Pos+Transform.GetWorldPosition());
 	
-	
-	//Mouse_Ro = GameEngineCore::MainWindow.GetMousePos().X / 2;
 
-	//float x = 0.0;
-	//float y = 0.0;
-
-	//// 타원의 반지름
-	//float a = 800;
-	//float b = 800;
-
-	//test += _Delta;
-
-	////test += 1* _Time;
-	//float Pos_x = x + a * cos(test);
-	//float Pos_y = y + b * sin(test);
-
-
-
-	//float4 Dir = Transform.GetWorldPosition() - GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
-	//float4 Monster = { 0,0,0,1.0f };
-
-	//float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
-	//float radian = atan2(Dir.Y, Dir.X) - atan2(Monster.Y, Monster.X);
-	//degree += float(radian * (180.0 / 3.141592));
-
-
-	
-	
-	//GetLevel()->GetMainCamera()->Transform.SetLocalPosition({ Pos_x ,0.0f,Pos_y });
-	//GetLevel()->GetMainCamera()->Transform.SetWorldRotation({  0.0f,degree });
+	CameraRotation(_Delta);
 	
 
 
-	
+
+		float4 TargetPos = GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
+		float4 MyPos = Actor_test->Transform.GetWorldPosition();
+
+		// Y축 고려 X
+		TargetPos.Y = MyPos.Y = 0.f;
+
+		float4 FrontVector = float4(0.f, 0.f, -1.f, 0.f);
+		FrontVector.VectorRotationToDegY(Capsule->GetDir());
+
+		float4 LocationVector = (TargetPos - MyPos).NormalizeReturn();
+
+		float4 Angle_ = DirectX::XMVector3AngleBetweenNormals(FrontVector.DirectXVector, LocationVector.DirectXVector);
+
+		float4 RotationDir = DirectX::XMVector3Cross(FrontVector.DirectXVector, LocationVector.DirectXVector);
+
+		Angle = Angle_.X * GameEngineMath::R2D;
+
+		if (0.0f <= RotationDir.Y)
+		{
+
+		}
+		else
+		{
+			Angle *= -1.f;
+		}
 
 
-	
-
-
-	//TargetAngle = Angle.X * GameEngineMath::R2D;
-	//if (0.0f <= RotationDir.Y)
-	//{
-	//	RotDir = Enum_RotDir::Right;
-	//}
-	//else
-	//{
-	//	RotDir = Enum_RotDir::Left;
-	//	TargetAngle *= -1.f;
-	//}
 
 
 
+		/*if (GameEngineInput::IsDown('W', this))
+		{
+			Rotation_Check = true;
+		}
+
+		if (Rotation_Check == true)
+		{
+			if (Angle > 0)
+			{
+				Capsule->AddWorldRotation({ 0.0f,1.0f });
+			}
+
+			if (Angle < 0)
+			{
+				Capsule->AddWorldRotation({ 0.0f,-1.0f });
+			}
+
+		}*/
 
 
 
 
 
+		float4 WorldMousePos = Angle;
 
-	float4 TargetPos = GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
-	float4 MyPos = Capsule->Transform.GetWorldPosition();
+		OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
+
 
 	Col->CollisionEvent(0, { .Stay = [&](class GameEngineCollision* _This,class GameEngineCollision* _collisions)
 	{
@@ -279,25 +288,18 @@ void Player::Update(float _Delta)
 			_This->GetActor()->Transform.AddLocalPosition(Dir * _Delta);
 	} });
 
-	// 서버를 열었든
 	if (nullptr != GameEngineNetWindow::Net)
 	{
 		if (0 != GetPacketCount())
 		{
-			// 이 오브젝트에 패킷이 왔다.
+
 		}
 
-		// 완전히 네트워크로만 돌아가는 녀석.
-		if (ControllType::Net == GetControllType())
-		{
-			return;
-		}
 	}
-	if (check == false)
-	{
-		PlayerState.Update(_Delta);
-	}
-	GetFBXRenderer()->Transform.GetWorldPosition(); 
+
+
+	PlayerState.Update(_Delta);
+
 }
 
 void Player::LevelStart(GameEngineLevel* _PrevLevel)
@@ -306,6 +308,78 @@ void Player::LevelStart(GameEngineLevel* _PrevLevel)
 	Capsule->SetPositioningComponent();
 
 }
+
+//void Player::CameraRotation(float Delta)
+//{
+//	Actor_test->Transform.SetWorldPosition({ Transform.GetWorldPosition() });
+//
+//	CameraPos = { GameEngineCore::MainWindow.GetMousePos().X,GameEngineCore::MainWindow.GetMousePos().Y };
+//	CameraPos.Normalize();
+//
+//	Mouse_Ro_X = GameEngineCore::MainWindow.GetMousePos().X;
+//	Mouse_Ro_Y = GameEngineCore::MainWindow.GetMousePos().Y;
+//
+//
+//
+//
+//	if (PrevPos.Y > Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) >= 999)
+//	{
+//		Camera_Pos_Y += CameraPos.Y * Delta * 700;
+//
+//		if (Camera_Pos_Y >= 60)
+//		{
+//			Camera_Pos_Y -= CameraPos.Y * Delta * 700;
+//		}
+//	}
+//
+//	else if (PrevPos.Y < Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) >= 999)
+//	{
+//		Camera_Pos_Y -= CameraPos.Y * Delta * 700;
+//
+//		if (Camera_Pos_Y <= 0)
+//		{
+//			Camera_Pos_Y = 0;
+//		}
+//	}
+//
+//
+//	if (PrevPos.X > Mouse_Ro_X)
+//	{
+//		Camera_Pos_X += CameraPos.X * Delta * 700;
+//	}
+//
+//	else if (PrevPos.X < Mouse_Ro_X)
+//	{
+//		Camera_Pos_X -= CameraPos.X * Delta * 700;
+//	}
+//
+//
+//	
+//
+//	
+//
+//
+//	PrevPos.Y = Mouse_Ro_Y;
+//	PrevPos.X = Mouse_Ro_X;
+//
+//	Actor_test->Transform.SetWorldRotation({ Camera_Pos_Y,Camera_Pos_X,0.0f });
+//
+//	// 마우스 고정하고 싶을떄 
+//
+//	/*if (Time > 0.1)
+//	{
+//		Time = 0;
+//
+//		PrevPos.Y = 258;
+//		PrevPos.X = 864;
+//		GameEngineCore::MainWindow.SetMousePos(1280, 720);
+//	}*/
+//
+//
+//	GetLevel()->GetMainCamera()->Transform.SetWorldRotation(Actor_test_02->Transform.GetWorldRotationEuler());
+//	GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Actor_test_02->Transform.GetWorldPosition());
+//
+//}
 
 void Player::ConnectIDPacketProcess(std::shared_ptr<ConnectIDPacket> _Packet)
 {

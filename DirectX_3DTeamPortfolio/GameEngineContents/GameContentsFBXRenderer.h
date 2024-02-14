@@ -209,6 +209,8 @@ public:
 	inline std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& GetAnimationInfos() { return Animations; }
 	inline std::vector<float4x4>& GetBoneMatrixs() { return AnimationBoneMatrixs; }
 	inline std::vector<float4x4>& GetBoneSockets() { return AnimationBoneNotOffset; }
+	inline const std::vector<AnimationBoneData>& GetBoneDatas() { return AnimationBoneDatas; }
+	
 
 	void BlendReset();
 	void SetBlendTime(std::string_view _AnimationName, float _fBlendTime);

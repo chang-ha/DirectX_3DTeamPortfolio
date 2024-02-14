@@ -25,7 +25,13 @@ void PlayLevel::Start()
 	GameEngineInput::AddInputObject(this);
 
 	GetMainCamera()->Transform.SetWorldRotation({ 0.0f,0.0f,0.0f });
-	GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, -1000.0f });
+	GetMainCamera()->Transform.SetWorldPosition({ 0.0f, 0.0f, -1000.0f });
+
+
+	GetCamera(3)->Transform.SetWorldRotation({ 0.0f,0.0f,0.0f });
+	GetCamera(3)->Transform.SetWorldPosition({ 0.0f, 0.0f, -1000.0f });
+	GetCamera(3)->SetProjectionType(EPROJECTIONTYPE::Perspective);
+
 
 	//GameEngineGUI::CreateGUIWindow<ContentsControlWindow>("Test");
 

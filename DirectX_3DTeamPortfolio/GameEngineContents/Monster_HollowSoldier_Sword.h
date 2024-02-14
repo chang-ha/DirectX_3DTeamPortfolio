@@ -15,7 +15,7 @@ enum class Enum_HollowSoldier_Sword_State
 	Attack1,
 	Attack2,
 	Attack3,
-	Attack4,
+	//Attack4,
 	Attack5,
 	Attack6,
 	Attack7,
@@ -23,7 +23,7 @@ enum class Enum_HollowSoldier_Sword_State
 	Attack9,
 	Attack10,
 	Attack11,
-	Attack12,
+	//Attack12,
 	Attack13,
 	AttackFail,
 	Parrying,
@@ -110,8 +110,8 @@ protected:
 	void State_Attack3_Start();
 	void State_Attack3_Update(float _Delta);
 
-	void State_Attack4_Start();
-	void State_Attack4_Update(float _Delta);
+	//void State_Attack4_Start();
+	//void State_Attack4_Update(float _Delta);
 
 	void State_Attack5_Start();
 	void State_Attack5_Update(float _Delta);
@@ -134,8 +134,8 @@ protected:
 	void State_Attack11_Start();
 	void State_Attack11_Update(float _Delta);
 
-	void State_Attack12_Start();
-	void State_Attack12_Update(float _Delta);
+	//void State_Attack12_Start();
+	//void State_Attack12_Update(float _Delta);
 
 	void State_Attack13_Start();
 	void State_Attack13_Update(float _Delta);
