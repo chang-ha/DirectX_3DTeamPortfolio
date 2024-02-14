@@ -50,3 +50,4 @@ float4 BloomCombine_PS(PixelOutPut _Input) : SV_Target0
     
     return float4(Result, 1.0f);
 }
+

@@ -211,6 +211,9 @@
     <ClCompile Include="PlayerValue.cpp">
       <Filter>Core\Global</Filter>
     </ClCompile>
+    <ClCompile Include="BloomGUI.cpp">
+      <Filter>ImGui\Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -419,6 +422,9 @@
     </ClInclude>
     <ClInclude Include="PlayerValue.h">
       <Filter>Core\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="BloomGUI.h">
+      <Filter>ImGui\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

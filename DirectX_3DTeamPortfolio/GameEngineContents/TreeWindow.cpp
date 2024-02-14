@@ -4,6 +4,7 @@
 #include "LightGUI.h"
 #include "HBAOGUI.h"
 #include "LUTGUI.h"
+#include "BloomGUI.h"
 
 
 void TreeWindow::Start()
@@ -17,6 +18,7 @@ void RootTree::Start()
 	CreateTree<LightGUI>("Light Editor");
 	CreateTree<HBAOGUI>("HBAO Editor");
 	CreateTree<LUTGUI>("LUT Editor");
+	CreateTree<BloomGUI>("Bloom Editor");
 }
 
 void TreeWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)

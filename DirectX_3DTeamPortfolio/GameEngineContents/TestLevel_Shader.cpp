@@ -61,8 +61,8 @@ void TestLevel_Shader::Start()
 	//GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<FXAAEffect>();
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
 	GetMainCamera()->Transform.AddLocalPosition({ 0.0f, 0.0f, -300.0f });
-	GetLevelRenderTarget()->CreateEffect<LUTEffect>();
 	GetLevelRenderTarget()->CreateEffect<BloomEffect>();
+	GetLevelRenderTarget()->CreateEffect<LUTEffect>();
 
 
 

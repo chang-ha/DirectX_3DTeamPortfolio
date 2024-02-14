@@ -3,11 +3,14 @@
 
 BloomEffect::BloomEffect() 
 {
+	RenderBaseInfoValue.ScreenSize = GameEngineCore::MainWindow.GetScale();
 }
 
 BloomEffect::~BloomEffect()
 {
 }
+
+BloomInfo BloomEffect::BloomInfoValue;
 
 void BloomEffect::Start()
 {
@@ -30,6 +33,7 @@ void BloomEffect::Start()
 
 	EffectUnit.ShaderResHelper.SetTexture("DiffuseTex", EffectTarget->GetTexture(0));
 	EffectUnit.ShaderResHelper.SetSampler("DiffuseTexSampler", "EngineBaseSampler");
+	EffectUnit.ShaderResHelper.SetConstantBufferLink("BloomInfo", BloomInfoValue);
 
 	BlurUnit.SetMesh("fullrect");
 	BlurUnit.SetMaterial("BloomBlur");
@@ -44,11 +48,8 @@ void BloomEffect::Start()
 
 	CombineUnit.ShaderResHelper.SetTexture("DiffuseTex", EffectTarget->GetTexture(0));
 	CombineUnit.ShaderResHelper.SetSampler("DiffuseTexSampler", "EngineBaseSampler");
-	CombineUnit.ShaderResHelper.SetTexture("BlurTex", BlurTarget->GetTexture(0));
+	CombineUnit.ShaderResHelper.SetTexture("BlurTex", CombineTarget->GetTexture(0));
 	CombineUnit.ShaderResHelper.SetSampler("BlurTexSampler", "EngineBaseSampler");
-
-
-	
 }
 
 void BloomEffect::EffectProcess(float _DeltaTime)

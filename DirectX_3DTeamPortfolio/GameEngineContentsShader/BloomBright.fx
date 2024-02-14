@@ -1,3 +1,13 @@
+cbuffer BloomInfo : register(b12)
+{
+    float Threshold;
+    float Def1;
+    float Def2;
+    float Def3;
+};
+
+
+
 
 struct GameEngineVertex2D
 {
@@ -34,14 +44,14 @@ float4 BloomBright_PS(PixelOutPut _Input) : SV_Target0
     float Brightness = dot(Color.rgb, float3(0.2126f, 0.7152f, 0.0722f));
     
     
-    if (Brightness > 1.0f)
+    if (Brightness > Threshold)
     {
         Result = float4(Color.rgb, 1.0f);
     }
     else
     {
-        Result = float4(Color.rgb, 1.0f);
-        //Result = float4(0.0f, 0.0f, 0.0f, 1.0f);
+        //Result = float4(Color.rgb, 1.0f);
+        Result = float4(0.0f, 0.0f, 0.0f, 1.0f);
     }
     
     return Result;
