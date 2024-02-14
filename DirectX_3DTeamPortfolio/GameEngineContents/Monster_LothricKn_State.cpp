@@ -1625,7 +1625,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToNormalAttackTable(Enum_TargetD
 		if (Enum_TargetAngle::Side == _eTAngle)
 		{
 			if (Enum_RotDir::Left == BaseActor::GetRotDir_e())
-			{0
+			{
 				return Enum_LothricKn_State::LH_ShieldAttack;
 			}
 
