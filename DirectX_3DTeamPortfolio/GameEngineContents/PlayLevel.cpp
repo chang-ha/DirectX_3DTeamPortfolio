@@ -9,6 +9,8 @@
 #include "MainUIActor.h"
 #include "UIPlayerGaugeBar.h"
 
+#include "WorldMap.h"
+
 PlayLevel::PlayLevel()
 {
 }
@@ -23,6 +25,10 @@ void PlayLevel::Start()
 
 	ContentLevel::Start();
 	GameEngineInput::AddInputObject(this);
+
+	{
+		std::shared_ptr<WorldMap> GameMap = CreateActor<WorldMap>(0, "WorldMap");
+	}
 
 	GetMainCamera()->Transform.SetWorldRotation({ 0.0f,0.0f,0.0f });
 	GetMainCamera()->Transform.SetWorldPosition({ 0.0f, 0.0f, -1000.0f });
@@ -51,6 +57,9 @@ void PlayLevel::Start()
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
 		PlayerObject = Object;
+
+		// 시작위치
+		PlayerObject->Transform.SetLocalPosition({ -1400.0f, 5101.0f, -5331.0f });
 
 		Ptr->MainPlayer = PlayerObject.get();
 	}
@@ -95,7 +104,7 @@ void PlayLevel::Update(float _Delta)
 
 void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	int a = 0;
+
 }
 
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
