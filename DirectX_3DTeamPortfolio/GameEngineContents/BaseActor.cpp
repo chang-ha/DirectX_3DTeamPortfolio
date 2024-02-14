@@ -196,6 +196,18 @@ std::shared_ptr<BoneSocketCollision> BaseActor::FindSocketCollision(Enum_BoneTyp
 	return GetSocketCollision(SocketIndex);
 }
 
+void BaseActor::DrawRange(float _Range, const float4& _Color /*= float4::RED*/) const
+{
+	if (GameEngineLevel::IsDebug)
+	{
+		float4 WScale = float4(_Range, _Range, _Range, 1.0f);
+		float4 WRot = Transform.GetWorldRotationEuler();
+		float4 WPos = Transform.GetWorldPosition();
+
+		GameEngineDebug::DrawSphere2D(WScale, WRot, WPos, _Color);
+	}
+}
+
 std::string BaseActor::GetEventPath(int _ID)
 {
 	if (EMPTY_ID == _ID)

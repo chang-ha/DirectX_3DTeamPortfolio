@@ -146,7 +146,10 @@ protected:
 
 	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(int _Order, Enum_BoneType _Type, std::string _ColName = "");
 
-	std::shared_ptr<BoneSocketCollision> FindSocketCollision(Enum_BoneType _Type);
+	std::shared_ptr<BoneSocketCollision> FindSocketCollision(Enum_BoneType _Type); 
+
+	// Debug
+	void DrawRange(float _Range, const float4& _Color = float4::RED) const;
 
 private:
 	int FindFlag(Enum_ActorStatus _Status) const;
@@ -154,7 +157,7 @@ private:
 public:
 
 protected:
-	static constexpr float W_SCALE = 50.0f;
+	static constexpr float W_SCALE = 100.0f;
 
 	std::shared_ptr<GameContentsFBXRenderer> MainRenderer;
 	std::shared_ptr<GameContentsFBXRenderer> test_Render;

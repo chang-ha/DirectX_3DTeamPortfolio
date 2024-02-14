@@ -150,6 +150,9 @@ protected:
 	
 	bool IsTargetInRange(Enum_TargetDist _eTDist);
 
+	// enum 타입의 거리 비교
+	bool TargetRangeCmp(Enum_TargetDist _eTDist, Enum_TargetDist _eCompareDist) const;
+
 	void LoadRes3DSound(std::string_view _LoadCheck) const;
 
 private:

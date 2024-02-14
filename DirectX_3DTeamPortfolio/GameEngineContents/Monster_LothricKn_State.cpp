@@ -1606,34 +1606,26 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToNormalAttackTable(Enum_TargetD
 	{
 		if (Enum_TargetAngle::Front == _eTAngle)
 		{
-			return Enum_LothricKn_State::RH_Att_HitDown;
-		}
-	}
-
-	if (Enum_TargetDist::Melee == _eTDist)
-	{
-		if (Enum_TargetAngle::Front == _eTAngle)
-		{
-			const int iChance = ContentsRandom::RandomInt(0, 3);
+			const int iChance = ContentsRandom::RandomInt(0, 8);
 			enum eAttackType
 			{
 				Combo = 0,
-				Att_Shot = 3,
+				Hit_Down = 3,
 			};
 
-			if (eAttackType::Att_Shot == iChance)
+			if (eAttackType::Hit_Down == iChance)
 			{
-				return Enum_LothricKn_State::Combo_Att_23;
+				return Enum_LothricKn_State::RH_Att_HitDown;
 			}
 		}
 	}
 
-	if (Enum_TargetDist::Close == _eTDist || Enum_TargetDist::Melee == _eTDist)
+	if (true == TargetRangeCmp(_eTDist, Enum_TargetDist::Melee))
 	{
 		if (Enum_TargetAngle::Side == _eTAngle)
 		{
 			if (Enum_RotDir::Left == BaseActor::GetRotDir_e())
-			{
+			{0
 				return Enum_LothricKn_State::LH_ShieldAttack;
 			}
 
@@ -1663,6 +1655,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToNormalAttackTable(Enum_TargetD
 			++AttackRecord;
 			break;
 		case eAttackType::None:
+			AttackState = Enum_LothricKn_State::Combo_Att_11;
 			AttackRecord = eAttackType::None;
 			break;
 		default:
@@ -1691,7 +1684,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToDHAttackTable(Enum_TargetDist 
 		}
 	}
 
-	if (Enum_TargetDist::Melee == _eTDist || Enum_TargetDist::Medium == _eTDist)
+	if (true == TargetRangeCmp(_eTDist, Enum_TargetDist::Close))
 	{
 		if (Enum_TargetAngle::Front == _eTAngle)
 		{

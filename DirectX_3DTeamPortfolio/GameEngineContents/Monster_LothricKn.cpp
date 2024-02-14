@@ -149,8 +149,6 @@ void Monster_LothricKn::Start()
 	// FSM
 	CombatState = Enum_Combat_State::Normal;
 
-
-
 	CreateFSM();
 }
 
@@ -158,25 +156,11 @@ void Monster_LothricKn::Update(float _Delta)
 {
 	BaseMonster::Update(_Delta);
 
-	if (false)
+	if (true)
 	{
-		if (GameEngineLevel::IsDebug)
-		{
-			float4 WRot = Transform.GetWorldRotationEuler();
-			float4 WPos = Transform.GetWorldPosition();
-
-			float CScale = CLOSE_RANGE * W_SCALE;
-			float MelScale = MELEE_RANGE * W_SCALE;
-			float MedScale = MEDIUM_RANGE * W_SCALE;
-
-			float4 CloseScale = float4(CScale, CScale, CScale);
-			float4 MeleeScale = float4(MelScale, MelScale, MelScale);
-			float4 MediumScale = float4(MedScale, MedScale, MedScale);
-
-			GameEngineDebug::DrawSphere2D(CloseScale, WRot, WPos, float4::GREEN);
-			GameEngineDebug::DrawSphere2D(MeleeScale, WRot, WPos, float4::GREEN);
-			GameEngineDebug::DrawSphere2D(MediumScale, WRot, WPos, float4::GREEN);
-		}
+		DrawRange(CLOSE_RANGE * W_SCALE);
+		DrawRange(MELEE_RANGE * W_SCALE, float4::WHITE);
+		DrawRange(MEDIUM_RANGE * W_SCALE, float4::BLACK);
 	}
 
 	float Dir = Capsule->GetDir();
