@@ -51,7 +51,7 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<TestLevel_Map>("TestLevel_Map");
 	GameEngineCore::CreateLevel<TestLevel_PhysX>("TestLevel_PhysX");
 	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
-	GameEngineCore::ChangeLevel("TestLevel_Shader");
+	GameEngineCore::ChangeLevel("PlayLevel");
 }
 
 void ContentsCore::Update(float _Delta)

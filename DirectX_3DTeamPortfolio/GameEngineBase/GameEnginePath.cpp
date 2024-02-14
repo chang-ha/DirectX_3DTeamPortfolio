@@ -18,11 +18,9 @@ bool GameEnginePath::IsFileExist(std::string_view _Path)
 
 	std::string Ext = GameEngineString::ToUpperReturn(NewPath.GetExtension());
 
-
 	std::wstring wPath = GameEngineString::AnsiToUnicode(_Path);
 
 	std::ifstream infile(wPath);
-
 
 	return infile.good();
 }

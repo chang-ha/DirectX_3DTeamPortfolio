@@ -3,6 +3,7 @@
 #include <GameEngineCore/GameEngineBlend.h>
 
 #include "Monster_LothricKn.h"
+#include "LUTEffect.h"
 
 ContentResources::ContentResources()
 {
@@ -147,19 +148,9 @@ void ContentResources::ContentResourcesInit()
 
 	// LUT
 	{
-		{
-			// LUT 로드
-			GameEngineDirectory Dir;
-			Dir.MoveParentToExistsChild("ContentsResources");
-			Dir.MoveChild("ContentsResources");
-			Dir.MoveChild("LUT");
-			std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".png" }, true);
+		LUTEffect::Load();
 
-			for (size_t i = 0; i < Files.size(); i++)
-			{
-				std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Load(Files[i].GetStringPath());
-			}
-		}
+		
 	}
 
 	{

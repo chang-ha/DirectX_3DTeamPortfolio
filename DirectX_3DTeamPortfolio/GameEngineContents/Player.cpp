@@ -233,6 +233,47 @@ void Player::Update(float _Delta)
 
 
 		if (PrevPos.Y > Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) >= 999)
+
+
+
+	//TargetAngle = Angle.X * GameEngineMath::R2D;
+	//if (0.0f <= RotationDir.Y)
+	//{
+	//	RotDir = Enum_RotDir::Right;
+	//}
+	//else
+	//{
+	//	RotDir = Enum_RotDir::Left;
+	//	TargetAngle *= -1.f;
+	//}
+
+
+
+
+
+
+
+
+
+	float4 TargetPos = GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
+	float4 MyPos = Capsule->Transform.GetWorldPosition();
+
+	Col->CollisionEvent(0, { .Stay = [&](class GameEngineCollision* _This,class GameEngineCollision* _collisions)
+	{
+			float4 Monster = _This->GetActor()->Transform.GetLocalPosition();
+
+			float4 Other_Monster = _collisions->GetActor()->Transform.GetLocalPosition();
+
+			float4 Dir = Monster - Other_Monster;
+
+			_This->GetActor()->Transform.AddLocalPosition(Dir * _Delta);
+	} });
+
+	// 서버를 열었든
+	if (nullptr != GameEngineNetWindow::Net)
+	{
+		if (0 != GetPacketCount())
+
 		{
 			Camera_Pos_Y += CameraPos.Y * _Delta * 1000;
 

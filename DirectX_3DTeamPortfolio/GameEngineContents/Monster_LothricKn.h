@@ -148,8 +148,20 @@ private:
 	void Start_DH_R_Side_Step(GameEngineState* _State);
 	void Start_DH_F_Step(GameEngineState* _State);
 	void Start_DH_B_Step(GameEngineState* _State);
-
-	// Update
+	void Start_G_Up(GameEngineState* _State);
+	void Start_G_Down(GameEngineState* _State);
+	void Start_G_L_Side_Step(GameEngineState* _State);
+	void Start_G_R_Side_Step(GameEngineState* _State);
+	void Start_G_F_Step(GameEngineState* _State);
+	void Start_G_B_Step(GameEngineState* _State);
+	void Start_G_L_Turn(GameEngineState* _State);
+	void Start_G_R_Turn(GameEngineState* _State);
+	void Start_G_L_TurnTwice(GameEngineState* _State);
+	void Start_G_R_TurnTwice(GameEngineState* _State);
+	void Start_G_Run(GameEngineState* _State);
+	void Start_G_Att_Bash(GameEngineState* _State);
+	
+		// Update  G_Run
 	void Update_Debug(float _DeltaTime, GameEngineState* _State);
 	void UpdateIdle_Standing1(float _DeltaTime, GameEngineState* _State);
 	void UpdatePatrol(float _DeltaTime, GameEngineState* _State);
@@ -178,13 +190,20 @@ private:
 	void Update_DH_Stab_Att(float _DeltaTime, GameEngineState* _State);
 	void Update_DH_Swing_Att(float _DeltaTime, GameEngineState* _State);
 	void Update_DH_Walk(float _DeltaTime, GameEngineState* _State);
+	void Update_G_Up(float _DeltaTime, GameEngineState* _State);
+	void Update_G_Down(float _DeltaTime, GameEngineState* _State);
+	void Update_G_Walk(float _DeltaTime, GameEngineState* _State);
+	void Update_G_L_Turn(float _DeltaTime, GameEngineState* _State);
+	void Update_G_R_Turn(float _DeltaTime, GameEngineState* _State);
+	void Update_G_L_TurnTwice(float _DeltaTime, GameEngineState* _State);
+	void Update_G_R_TurnTwice(float _DeltaTime, GameEngineState* _State);
+	void Update_G_Run(float _DeltaTime, GameEngineState* _State);
+	void Update_G_Att_Bash(float _DeltaTime, GameEngineState* _State);
+	
+
 
 	// End
 	void EndSleep(GameEngineState* _State);
-	void End_DH_Hold(GameEngineState* _State);
-	void End_DH_UnHold(GameEngineState* _State);
-	void End_DH_Stab_Att(GameEngineState* _State);
-	void End_DH_Swing_Att(GameEngineState* _State);
 
 	// State Func
 	bool IsFrame(int _StartFrame, int _EndFrame = -1) const;
@@ -192,6 +211,12 @@ private:
 
 	void StateTimeSet(float _fMin, float _fMax);
 	void ResetStateTime();
+
+	// 자식에서 함수 재정의해서 사용할 것
+	Enum_TargetAngle GetTargetAngle_e() const override
+	{
+		return BaseMonster::GetTargetAngle_e(FRONT_ANGLE, SIDE_ANGLE);
+	}
 
 	Enum_TargetDist GetTargetDistance_e() const override
 	{
@@ -205,24 +230,31 @@ private:
 
 	void RotToTarget(float _DeltaTime, float _fSpeed);
 	
-
 	Enum_LothricKn_State GetStateToAggroTable();
 
 	Enum_LothricKn_State GetStateToMovementTable() const;
 	Enum_LothricKn_State GetStateToMovementTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
 	Enum_LothricKn_State GetStateToNormalMovementTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
 	Enum_LothricKn_State GetStateToDHMovementTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
+	Enum_LothricKn_State GetStateToGMovementTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
 
 	Enum_LothricKn_State GetStateToAttackTable();
 	Enum_LothricKn_State GetStateToAttackTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle);
 	Enum_LothricKn_State GetStateToNormalAttackTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle);
 	Enum_LothricKn_State GetStateToDHAttackTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
+	Enum_LothricKn_State GetStateToGAttackTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
+
+	Enum_LothricKn_State GetStateToDodgeTable() const;
+	Enum_LothricKn_State GetStateToDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
+	Enum_LothricKn_State GetStateToNormalDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
+	Enum_LothricKn_State GetStateToDHDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
+	Enum_LothricKn_State GetStateToGDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
 
 	// Collision
 	void FindTarget();
 
 private:
-	std::shared_ptr<GameEngineCollision> PatrolCollision;
+	std::shared_ptr<GameEngineCollision> PatrolCollision;  
 	MonsterDebugState Debug;
 
 	Enum_IdleType IdleType = Enum_IdleType::None;
@@ -231,10 +263,10 @@ private:
 	int AttackRecord = 0;
 	float fMaxStateTime = 0.0f;
 
-	static constexpr float CLOSE_RANGE = 1.0f;
-	static constexpr float MELEE_RANGE = 3.0f;
-	static constexpr float MEDIUM_RANGE = 5.0f;
-	static constexpr float LONG_RANGE = 7.0f;
+	static constexpr float CLOSE_RANGE = 3.0f;
+	static constexpr float MELEE_RANGE = 6.0f;
+	static constexpr float MEDIUM_RANGE = 9.0f;
+	static constexpr float LONG_RANGE = 12.0f;
 	static constexpr float FRONT_ANGLE = 75.0f;
 	static constexpr float SIDE_ANGLE = 115.0f;
 	static constexpr float BACK_ANGLE = 150.0f;

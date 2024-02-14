@@ -63,9 +63,9 @@ void Monster_HollowSoldier_Sword::ChangeState(Enum_HollowSoldier_Sword_State _St
 		case Enum_HollowSoldier_Sword_State::Attack3:
 			State_Attack3_Start();
 			break;
-		case Enum_HollowSoldier_Sword_State::Attack4:
+		/*case Enum_HollowSoldier_Sword_State::Attack4:
 			State_Attack4_Start();
-			break;
+			break;*/
 		case Enum_HollowSoldier_Sword_State::Attack5:
 			State_Attack5_Start();
 			break;
@@ -87,9 +87,9 @@ void Monster_HollowSoldier_Sword::ChangeState(Enum_HollowSoldier_Sword_State _St
 		case Enum_HollowSoldier_Sword_State::Attack11:
 			State_Attack11_Start();
 			break;
-		case Enum_HollowSoldier_Sword_State::Attack12:
+		/*case Enum_HollowSoldier_Sword_State::Attack12:
 			State_Attack12_Start();
-			break;
+			break;*/
 		case Enum_HollowSoldier_Sword_State::Attack13:
 			State_Attack13_Start();
 			break;
@@ -141,8 +141,8 @@ void Monster_HollowSoldier_Sword::StateUpdate(float _Delta)
 		return State_Attack2_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::Attack3:
 		return State_Attack3_Update(_Delta);
-	case Enum_HollowSoldier_Sword_State::Attack4:
-		return State_Attack4_Update(_Delta);
+	/*case Enum_HollowSoldier_Sword_State::Attack4:
+		return State_Attack4_Update(_Delta);*/
 	case Enum_HollowSoldier_Sword_State::Attack5:
 		return State_Attack5_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::Attack6:
@@ -157,8 +157,8 @@ void Monster_HollowSoldier_Sword::StateUpdate(float _Delta)
 		return State_Attack10_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::Attack11:
 		return State_Attack11_Update(_Delta);
-	case Enum_HollowSoldier_Sword_State::Attack12:
-		return State_Attack12_Update(_Delta);
+	/*case Enum_HollowSoldier_Sword_State::Attack12:
+		return State_Attack12_Update(_Delta);*/
 	case Enum_HollowSoldier_Sword_State::Attack13:
 		return State_Attack13_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::AttackFail:
@@ -210,13 +210,14 @@ void Monster_HollowSoldier_Sword::State_Idle2_Update(float _Delta)
 	// 여기서 공격 등등 이루어짐.
 	StateTime += _Delta;
 
-	//if (StateTime >= 3.0f)
-	//{
-	//	StateTime = 0.0f;
-	//	ChangeState(Enum_HollowSoldier_Sword_State::Attack1);
-	//}
-
 	if (StateTime >= 1.0f)
+	{
+		StateTime = 0.0f;
+		//ChangeState(Enum_HollowSoldier_Sword_State::Attack12);
+	}
+
+	//if (StateTime >= 1.0f)
+	if (false)
 	{
 		StateTime = 0.0f;
 		if (AttackPattern > 0 || AttackPattern < 14)
@@ -232,9 +233,9 @@ void Monster_HollowSoldier_Sword::State_Idle2_Update(float _Delta)
 			case 3:
 				ChangeState(Enum_HollowSoldier_Sword_State::Attack3);
 				break;
-			case 4:
+			/*case 4:
 				ChangeState(Enum_HollowSoldier_Sword_State::Attack4);
-				break;
+				break;*/
 			case 5:
 				ChangeState(Enum_HollowSoldier_Sword_State::Attack5);
 				break;
@@ -256,9 +257,9 @@ void Monster_HollowSoldier_Sword::State_Idle2_Update(float _Delta)
 			case 11:
 				ChangeState(Enum_HollowSoldier_Sword_State::Attack11);
 				break;
-			case 12:
+			/*case 12:
 				ChangeState(Enum_HollowSoldier_Sword_State::Attack12);
-				break;
+				break;*/
 			case 13:
 				ChangeState(Enum_HollowSoldier_Sword_State::Attack13);
 				break;
@@ -371,7 +372,7 @@ void Monster_HollowSoldier_Sword::State_Attack2_Update(float _Delta)
 		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 4)
 		{
 			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-			MainRenderer->ChangeCurFrame(5);
+			//MainRenderer->ChangeCurFrame(5);
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 107)
@@ -398,10 +399,10 @@ void Monster_HollowSoldier_Sword::State_Attack3_Update(float _Delta)
 	if (CheckAnimationName("c1100_RH_HorizontalSlash"))
 	{
 		
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 4)
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 2)
 		{
 			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-			MainRenderer->ChangeCurFrame(5);
+			MainRenderer->ChangeCurFrame(3);
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 22)
@@ -413,10 +414,10 @@ void Monster_HollowSoldier_Sword::State_Attack3_Update(float _Delta)
 	if (CheckAnimationName("c1100_TH_VerticalSlash"))
 	{
 		
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 9)
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 4)
 		{
-			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-			MainRenderer->ChangeCurFrame(10);
+			MainRenderer->GetCurAnimation()->SetBlendTime(0.6f);
+			MainRenderer->ChangeCurFrame(5);
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 107)
@@ -426,50 +427,51 @@ void Monster_HollowSoldier_Sword::State_Attack3_Update(float _Delta)
 	}
 }
 
-void Monster_HollowSoldier_Sword::State_Attack4_Start()
-{
-	MainRenderer->ChangeAnimation("c1100_RH_VerticalSlash");
-}
-void Monster_HollowSoldier_Sword::State_Attack4_Update(float _Delta)
-{
-	if (CheckAnimationName("c1100_RH_VerticalSlash"))
-	{
-		if (MainRenderer->GetCurAnimationFrame() >= 35)
-		{
-			MainRenderer->ChangeAnimation("c1100_RH_HorizontalSlash");
-		}
-	}
-
-	if (CheckAnimationName("c1100_RH_HorizontalSlash"))
-	{
-		
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 4)
-		{
-			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-			MainRenderer->ChangeCurFrame(5);
-		}
-
-		if (MainRenderer->GetCurAnimationFrame() >= 22)
-		{
-			MainRenderer->ChangeAnimation("c1100_RH_Sting");
-		}
-	}
-
-	if (CheckAnimationName("c1100_RH_Sting"))
-	{
-		
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 4)
-		{
-			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-			MainRenderer->ChangeCurFrame(5);
-		}
-
-		if (MainRenderer->GetCurAnimationFrame() >= 119)
-		{
-			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
-		}
-	}
-}
+//void Monster_HollowSoldier_Sword::State_Attack4_Start()
+//{
+//	// 부자연스러운 움직임, 빼야되는 State
+//	MainRenderer->ChangeAnimation("c1100_RH_VerticalSlash");
+//}
+//void Monster_HollowSoldier_Sword::State_Attack4_Update(float _Delta)
+//{
+//	if (CheckAnimationName("c1100_RH_VerticalSlash"))
+//	{
+//		if (MainRenderer->GetCurAnimationFrame() >= 35)
+//		{
+//			MainRenderer->ChangeAnimation("c1100_RH_HorizontalSlash");
+//		}
+//	}
+//
+//	if (CheckAnimationName("c1100_RH_HorizontalSlash"))
+//	{
+//		
+//		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 2)
+//		{
+//			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
+//			MainRenderer->ChangeCurFrame(3);
+//		}
+//
+//		if (MainRenderer->GetCurAnimationFrame() >= 22)
+//		{
+//			MainRenderer->ChangeAnimation("c1100_RH_Sting");
+//		}
+//	}
+//
+//	if (CheckAnimationName("c1100_RH_Sting"))
+//	{
+//		
+//		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 4)
+//		{
+//			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
+//			//MainRenderer->ChangeCurFrame(5);
+//		}
+//
+//		if (MainRenderer->GetCurAnimationFrame() >= 119)
+//		{
+//			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+//		}
+//	}
+//}
 
 void Monster_HollowSoldier_Sword::State_Attack5_Start()
 {
@@ -488,10 +490,10 @@ void Monster_HollowSoldier_Sword::State_Attack5_Update(float _Delta)
 	if (CheckAnimationName("c1100_RH_HorizontalSlash"))
 	{
 		
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 4)
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 2)
 		{
 			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-			MainRenderer->ChangeCurFrame(5);
+			MainRenderer->ChangeCurFrame(3);
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 22)
@@ -506,7 +508,7 @@ void Monster_HollowSoldier_Sword::State_Attack5_Update(float _Delta)
 		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 4)
 		{
 			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-			MainRenderer->ChangeCurFrame(5);
+			//MainRenderer->ChangeCurFrame(5);
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 144)
@@ -533,10 +535,10 @@ void Monster_HollowSoldier_Sword::State_Attack6_Update(float _Delta)
 	if (CheckAnimationName("c1100_RH_TwinSlash"))
 	{
 		
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 9)
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 4)
 		{
-			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-			MainRenderer->ChangeCurFrame(10);
+			MainRenderer->GetCurAnimation()->SetBlendTime(0.6f);
+			MainRenderer->ChangeCurFrame(5);
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 113)
@@ -563,13 +565,13 @@ void Monster_HollowSoldier_Sword::State_Attack7_Update(float _Delta)
 	if (CheckAnimationName("c1100_RH_TwinSlash"))
 	{
 		
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 9)
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 4)
 		{
-			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-			MainRenderer->ChangeCurFrame(10);
+			MainRenderer->GetCurAnimation()->SetBlendTime(0.6f);
+			MainRenderer->ChangeCurFrame(5);
 		}
 
-		if (MainRenderer->GetCurAnimationFrame() >= 45)
+		if (MainRenderer->GetCurAnimationFrame() >= 47)
 		{
 			MainRenderer->ChangeAnimation("c1100_TH_VerticalSlash");
 		}
@@ -578,10 +580,10 @@ void Monster_HollowSoldier_Sword::State_Attack7_Update(float _Delta)
 	if (CheckAnimationName("c1100_TH_VerticalSlash"))
 	{
 		
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 9)
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 4)
 		{
-			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-			MainRenderer->ChangeCurFrame(10);
+			MainRenderer->GetCurAnimation()->SetBlendTime(0.5f);
+			//MainRenderer->ChangeCurFrame(5);
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 125)
@@ -593,6 +595,7 @@ void Monster_HollowSoldier_Sword::State_Attack7_Update(float _Delta)
 
 void Monster_HollowSoldier_Sword::State_Attack8_Start()
 {
+	// 이 콤보 맞는거야? 못본거같은데
 	MainRenderer->ChangeAnimation("c1100_RH_VerticalSlash");
 }
 void Monster_HollowSoldier_Sword::State_Attack8_Update(float _Delta)
@@ -611,7 +614,7 @@ void Monster_HollowSoldier_Sword::State_Attack8_Update(float _Delta)
 		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 9)
 		{
 			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-			MainRenderer->ChangeCurFrame(10);
+			//MainRenderer->ChangeCurFrame(10);
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 125)
@@ -652,11 +655,10 @@ void Monster_HollowSoldier_Sword::State_Attack10_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_TH_VerticalSlash"))
 	{
-		
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 9)
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 4)
 		{
-			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-			MainRenderer->ChangeCurFrame(10);
+			MainRenderer->GetCurAnimation()->SetBlendTime(0.5f);
+			//MainRenderer->ChangeCurFrame(5);
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 125)
@@ -681,35 +683,50 @@ void Monster_HollowSoldier_Sword::State_Attack11_Update(float _Delta)
 	}
 }
 
-void Monster_HollowSoldier_Sword::State_Attack12_Start()
-{
-	MainRenderer->ChangeAnimation("c1100_RH_Sting");
-}
-void Monster_HollowSoldier_Sword::State_Attack12_Update(float _Delta)
-{
-	if (CheckAnimationName("c1100_RH_Sting"))
-	{
-		if (MainRenderer->GetCurAnimationFrame() >= 31)
-		{
-			MainRenderer->ChangeAnimation("c1100_TH_VerticalSlash");
-		}
-	}
-
-	if (CheckAnimationName("c1100_TH_VerticalSlash"))
-	{
-		
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 9)
-		{
-			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-			MainRenderer->ChangeCurFrame(10);
-		}
-
-		if (MainRenderer->GetCurAnimationFrame() >= 125)
-		{
-			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
-		}
-	}
-}
+//void Monster_HollowSoldier_Sword::State_Attack12_Start()
+//{
+//	// 애니메이션 바뀌는게 이상함 조정 필요한데 어떻게??
+//	// 아무리 해도 손이 몸을 통과함 -> 폐기 예정
+//	MainRenderer->ChangeAnimation("c1100_RH_Sting");
+//}
+//void Monster_HollowSoldier_Sword::State_Attack12_Update(float _Delta)
+//{
+//	if (CheckAnimationName("c1100_RH_Sting"))
+//	{
+//		if (MainRenderer->GetCurAnimationFrame() >= 31)
+//		{
+//			//MainRenderer->ChangeAnimation("c1100_TH_VerticalSlash");
+//			MainRenderer->ChangeAnimation("c1100_Idle2");
+//		}
+//	}
+//
+//	if (CheckAnimationName("c1100_Idle2"))
+//	{
+//		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 4)
+//		{
+//			MainRenderer->GetCurAnimation()->SetBlendTime(0.8f);
+//		}
+//
+//		if (MainRenderer->GetCurAnimationFrame() >= 4)
+//		{
+//			MainRenderer->ChangeAnimation("c1100_TH_VerticalSlash");
+//		}
+//	}
+//
+//	if (CheckAnimationName("c1100_TH_VerticalSlash"))
+//	{
+//		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 3)
+//		{
+//			MainRenderer->GetCurAnimation()->SetBlendTime(0.9f);
+//			//MainRenderer->ChangeCurFrame(4);
+//		}
+//
+//		if (MainRenderer->GetCurAnimationFrame() >= 125)
+//		{
+//			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+//		}
+//	}
+//}
 
 void Monster_HollowSoldier_Sword::State_Attack13_Start()
 {

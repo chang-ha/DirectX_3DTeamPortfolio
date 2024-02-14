@@ -71,6 +71,7 @@ public:
 	}
 
 	inline std::list<std::shared_ptr<FrameEventObject>>& GetEventGroup(int _Type);
+	inline class GameContentsFBXAnimationInfo* GetParentInfo() { return ParentInfo; }
 
 protected:
 	void PushEventData();

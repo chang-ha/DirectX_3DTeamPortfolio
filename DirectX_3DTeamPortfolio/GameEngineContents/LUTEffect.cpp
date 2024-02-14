@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "LUTEffect.h"
+#include <algorithm> 
 
 LUTEffect::LUTEffect() 
 {
@@ -7,6 +8,32 @@ LUTEffect::LUTEffect()
 
 LUTEffect::~LUTEffect()
 {
+}
+
+std::vector<std::string> LUTEffect::LUTNames;
+
+std::string LUTEffect::CurLUTNameValue;
+
+void LUTEffect::Load()
+{
+	{
+		// LUT ·Îµå
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources");
+		Dir.MoveChild("LUT");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".png" }, true);
+
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Load(Files[i].GetStringPath());
+
+			LUTNames.push_back(Files[i].GetFileName());
+		}
+
+		std::sort(LUTNames.begin(), LUTNames.end());
+		//LUTNames.sort
+	}
 }
 
 void LUTEffect::Start()
@@ -19,7 +46,7 @@ void LUTEffect::Start()
 	//EffectUnit.ShaderResHelper.SetConstantBufferLink("RenderBaseInfo", RenderBaseInfoValue);
 	EffectUnit.ShaderResHelper.SetTexture("DiffuseTex", EffectTarget->GetTexture(0));
 	EffectUnit.ShaderResHelper.SetSampler("DiffuseTexSampler", "EngineBaseSampler");
-	EffectUnit.ShaderResHelper.SetSampler("LUTTexSampler", "Point");
+	EffectUnit.ShaderResHelper.SetSampler("LUTTexSampler", "Linear");
 
 
 	float4 WindowScale = GameEngineCore::MainWindow.GetScale();
@@ -31,7 +58,13 @@ void LUTEffect::Start()
 
 void LUTEffect::EffectProcess(float _DeltaTime)
 {
-	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find("30.Willis.png");
+
+	if ("" == CurLUTNameValue)
+	{
+		return;
+	}
+
+	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find(CurLUTNameValue);
 
 	EffectUnit.ShaderResHelper.SetTexture("LUTTex", Texture);
 

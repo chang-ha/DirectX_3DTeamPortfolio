@@ -19,7 +19,10 @@ void Monster_LothricKn::Start()
 {
 	BaseMonster::Start();
 
-	// Resource
+	// Outer Res
+	LoadRes3DSound("c128001001.wav");
+
+	// Actor Res
 	AddBoneIndex(Enum_BoneType::B_01_RightHand, 78);
 	AddBoneIndex(Enum_BoneType::B_01_LeftHand, 47);
 
@@ -49,8 +52,8 @@ void Monster_LothricKn::Start()
 	MainRenderer->CreateFBXAnimation("G_B_Step", "c1280_002031.fbx");
 	MainRenderer->CreateFBXAnimation("G_L_Side_Step", "c1280_002032.fbx");
 	MainRenderer->CreateFBXAnimation("G_R_Side_Step", "c1280_002033.fbx");
-	MainRenderer->CreateFBXAnimation("DH_F_Side_Step", "c1280_002040.fbx");
-	MainRenderer->CreateFBXAnimation("DH_B_Side_Step", "c1280_002041.fbx");
+	MainRenderer->CreateFBXAnimation("DH_F_Step", "c1280_002040.fbx");
+	MainRenderer->CreateFBXAnimation("DH_B_Step", "c1280_002041.fbx");
 	MainRenderer->CreateFBXAnimation("DH_L_Side_Step", "c1280_002042.fbx");
 	MainRenderer->CreateFBXAnimation("DH_R_Side_Step", "c1280_002043.fbx");
 	MainRenderer->CreateFBXAnimation("Run", "c1280_002100.fbx");
@@ -102,8 +105,8 @@ void Monster_LothricKn::Start()
 	MainRenderer->SetRootMotion("G_B_Step");
 	MainRenderer->SetRootMotion("G_L_Side_Step");
 	MainRenderer->SetRootMotion("G_R_Side_Step");
-	MainRenderer->SetRootMotion("DH_F_Side_Step");
-	MainRenderer->SetRootMotion("DH_B_Side_Step");
+	MainRenderer->SetRootMotion("DH_F_Step");
+	MainRenderer->SetRootMotion("DH_B_Step");
 	MainRenderer->SetRootMotion("DH_L_Side_Step");
 	MainRenderer->SetRootMotion("DH_R_Side_Step");
 	MainRenderer->SetRootMotion("Run");
@@ -146,12 +149,35 @@ void Monster_LothricKn::Start()
 	// FSM
 	CombatState = Enum_Combat_State::Normal;
 
+
+
 	CreateFSM();
 }
 
 void Monster_LothricKn::Update(float _Delta)
 {
 	BaseMonster::Update(_Delta);
+
+	if (false)
+	{
+		if (GameEngineLevel::IsDebug)
+		{
+			float4 WRot = Transform.GetWorldRotationEuler();
+			float4 WPos = Transform.GetWorldPosition();
+
+			float CScale = CLOSE_RANGE * W_SCALE;
+			float MelScale = MELEE_RANGE * W_SCALE;
+			float MedScale = MEDIUM_RANGE * W_SCALE;
+
+			float4 CloseScale = float4(CScale, CScale, CScale);
+			float4 MeleeScale = float4(MelScale, MelScale, MelScale);
+			float4 MediumScale = float4(MedScale, MedScale, MedScale);
+
+			GameEngineDebug::DrawSphere2D(CloseScale, WRot, WPos, float4::GREEN);
+			GameEngineDebug::DrawSphere2D(MeleeScale, WRot, WPos, float4::GREEN);
+			GameEngineDebug::DrawSphere2D(MediumScale, WRot, WPos, float4::GREEN);
+		}
+	}
 
 	float Dir = Capsule->GetDir();
 }
@@ -198,7 +224,7 @@ void Monster_LothricKn::FindTarget()
 			}
 		});
 
-	bool FindValue = (nullptr == pActor);
+	bool FindValue = (nullptr != pActor);
 	if (FindValue)
 	{
 		PatrolCollision->Off();
