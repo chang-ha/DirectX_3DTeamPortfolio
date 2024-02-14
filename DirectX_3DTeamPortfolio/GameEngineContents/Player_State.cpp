@@ -238,11 +238,16 @@ void Player::Player_State()
 					Transform.AddLocalPosition({ float4::UP * Speed });
 					return; 
 				}*/
+				float4 TargetPos = GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
+				float4 MyPos = Actor_test->Transform.GetWorldPosition();
+				TargetPos.Y = MyPos.Y = 0.f;
+				float4 LocationVector = (MyPos -TargetPos).NormalizeReturn();
+			
 
 				if (true == GameEngineInput::IsPress('W', this))
 				{
 					
-					Capsule->MoveForce({ float4::FORWARD * Speed },Capsule->GetDir());
+					Capsule->MoveForce({ LocationVector * Speed });
 				
 					
 				}

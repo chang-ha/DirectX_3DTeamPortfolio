@@ -90,10 +90,10 @@ void PlayLevel::Start()
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 1, 1, 1, 1 });
 
 	// Test Ground
-	physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
+	/*physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
 	physx::PxMaterial* mMaterial = GameEnginePhysX::GetDefaultMaterial();
 	physx::PxRigidStatic* groundPlane = PxCreatePlane(*Physics, physx::PxPlane(0, 1, 0, 50), *mMaterial);
-	Scene->addActor(*groundPlane);
+	Scene->addActor(*groundPlane);*/
 }
 
 void PlayLevel::Update(float _Delta)

@@ -42,7 +42,7 @@ void Player::Start()
 	
 	MainRenderer->SetFBXMesh("c0010.FBX", "FBXAnimationTexture"); // Bone 136
 	
-	
+
 	
 	MainRenderer->CreateFBXAnimation("Idle", "00000.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Shield_Idle", "00100.FBX", { Frame, true });
@@ -304,7 +304,7 @@ void Player::Update(float _Delta)
 
 void Player::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	Capsule->PhysXComponentInit(100.0f, 50.0f);
+	Capsule->PhysXComponentInit(20.0f, 20.0f);
 	Capsule->SetPositioningComponent();
 
 }
