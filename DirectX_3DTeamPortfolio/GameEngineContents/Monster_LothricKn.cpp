@@ -156,7 +156,13 @@ void Monster_LothricKn::Update(float _Delta)
 {
 	BaseMonster::Update(_Delta);
 
-	if (true)
+	static bool s_bDrawValue = false;
+	if (GameEngineInput::IsDown('N', this))
+	{
+		s_bDrawValue = !s_bDrawValue;
+	}
+
+	if (s_bDrawValue)
 	{
 		DrawRange(CLOSE_RANGE * W_SCALE);
 		DrawRange(MELEE_RANGE * W_SCALE, float4::WHITE);
