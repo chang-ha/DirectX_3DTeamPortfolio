@@ -7,6 +7,7 @@ enum class Enum_ActorType
 	None,
 	LothricKn = 1280,
 	Boss_Vordt = 2240,
+	Player = 0010
 };
 
 // ป๓ลย Enum 

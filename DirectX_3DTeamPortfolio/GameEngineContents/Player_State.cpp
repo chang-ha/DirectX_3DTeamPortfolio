@@ -222,7 +222,7 @@ void Player::Player_State()
 				if (true == GameEngineInput::IsPress('W', this))
 				{
 					
-					//Capsule->MoveForce({ float4::FORWARD * Speed },Capsule->GetDir());
+					Capsule->MoveForce({ float4::FORWARD * Speed },Capsule->GetDir());
 				
 					int a = 0;
 				}

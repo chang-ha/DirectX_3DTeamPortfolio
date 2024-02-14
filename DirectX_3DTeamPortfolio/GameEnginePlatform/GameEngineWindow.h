@@ -67,7 +67,9 @@ public:
 	void DoubleBuffering();
 
 	void CursorOff();
+
 	void SetMousePos(int _X, int _Y);
+
 	static bool IsFocus() 
 	{
 		return IsFocusValue;
