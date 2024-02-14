@@ -314,7 +314,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->SetFrameEvent("Rush&Hit&Turn&Rush", 52, [&](GameContentsFBXRenderer* _Renderer)
 			{
 				std::shared_ptr<GameContentsFBXAnimationInfo> AniInfo = MainRenderer->GetCurAnimation();
-				AniInfo->SetStartDir(Capsule->GetDir());
+				AniInfo->SetStartDir(90.f);
 				MainRenderer->SetRootMotionMode("Rush&Hit&Turn&Rush", Enum_RootMotionMode::StartDir);
 			});
 
@@ -395,7 +395,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		// GameEngineDebug::DrawSphere2D(Transform, float4::GREEN, GetLevel()->GetMainCamera().get());
 	}
 
-	Capsule->PhysXComponentInit(100.0f, 50.0f);
+	Capsule->PhysXComponentInit(10.0f, 5.0f);
 	// Capsule->SetMass(100.f);
 	Capsule->SetPositioningComponent();
 
@@ -641,7 +641,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainState.CreateState(Enum_BossState::Rush_Hit_Turn_Rush, Rush_Hit_Turn_Rush, "Rush_Hit_Turn_Rush");
 
 		// Start State
-		MainState.ChangeState(Enum_BossState::Hitten);
+		MainState.ChangeState(Enum_BossState::Walk_Front);
 	}
 
 	if (nullptr == BossCollision)
@@ -663,7 +663,7 @@ void Boss_Vordt::Start()
 	SetID(Enum_ActorType::Boss_Vordt);
 	GameEngineInput::AddInputObject(this);
 
-#define RENDER_SCALE 100.f
+#define RENDER_SCALE 75.f
 	Transform.SetLocalScale({ RENDER_SCALE, RENDER_SCALE, RENDER_SCALE });
 
 	if (nullptr == MainRenderer)

@@ -175,19 +175,6 @@ void GameEnginePhysXTriMesh::PhysXDeserialization()
 	 physx::PxBase* Base = Collection->find(OBJECT_ID);
 	 StaticActor = Base->is<physx::PxRigidStatic>();
 
-	 //for (physx::PxU32 i = 0; i < Collection->getNbObjects(); i++)
-	 //{
-		// switch (Collection->getObject(i).getConcreteType())
-		// {
-		// case  physx::PxConcreteType::eSHAPE :
-		// {
-		//	 StaticActor->attachShape(*Collection->getObject(i).is<physx::PxShape>());
-		// }
-		//	 break;
-		// default:
-		//	 break;
-		// }
-	 //}
 	float4 WolrdPos = Transform.GetWorldPosition();
 	float4 WorldQuat = Transform.GetWorldRotationEuler().EulerDegToQuaternion();
 
@@ -196,14 +183,7 @@ void GameEnginePhysXTriMesh::PhysXDeserialization()
 	physx::PxTransform PxTransform(Pos, Quat);
 
 	StaticActor->setGlobalPose(PxTransform);
-	//~Binary
 
-	// RepX
-	// Load file and deserialize collection - needs cooking library
-	// physx::PxDefaultFileInputData InputData(MeshPath.GetStringPath().c_str());
-	// physx::PxCollection* Collection = physx::PxSerialization::createCollectionFromXml(InputData, *GameEnginePhysX::GetCooking(), *Registry);
-	//~RepX
-	// Scene->addActor(*StaticActor);
 	Scene->addCollection(*Collection);
 	Collection->release();
 	Registry->release();
