@@ -58,7 +58,7 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
-	void CameraRotation(float Delta);
+	//void CameraRotation(float Delta);
 
 	// ¼­¹ö¿ë
 	void ConnectIDPacketProcess(std::shared_ptr<ConnectIDPacket> _Packet);
@@ -73,14 +73,11 @@ private:
 	std::string BoneName;
 	std::shared_ptr<GameEngineCollision> Col;
 	std::shared_ptr<GameEngineActor> SwordActor;
-	std::shared_ptr<GameEngineActor> Actor_test;
-	std::shared_ptr<GameEngineActor> Actor_test_02;
+	
 
 	float Mouse_Pos = 0.0f;
-	float Mouse_Ro_X = 0.0f;
-	float Mouse_Ro_Y = 0.0f;
-	float Camera_Pos_Y = 0.0f; 
-	float Camera_Pos_X = 0.0f;
+	
+	
 
 	bool TimeCheck = false;
 	bool Attack_Check = false;
@@ -89,9 +86,9 @@ private:
 	float Speed = 1000.0f;
 	float MoveSpeed = 0.0f;
 	float DeltaTime = 0.0f;
-	float4 Pre_Camera_Pos = {}; 
-	float4 CameraPos = {};
-	float4 PrevPos = {};
+
+	
+	
 
 	float Angle = 0.0f;
 

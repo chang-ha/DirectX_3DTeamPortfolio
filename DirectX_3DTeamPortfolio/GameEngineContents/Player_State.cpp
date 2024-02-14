@@ -22,6 +22,26 @@ void Player::Player_State()
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
 
+				float4 A = Actor_test->Transform.GetWorldPosition() - float4{ Actor_test_02->Transform.GetWorldPosition().X, Actor_test_02->Transform.GetWorldPosition().Y - 400.0f, Actor_test_02->Transform.GetWorldPosition().Z };
+
+				A.Normalize();
+
+				if (Camera_Pos_Y <= 0)
+				{
+
+					if (PrevPos.Y < Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) >= abs(500))
+					{
+						Actor_test_02->Transform.AddWorldPosition(A * _DeltaTime * 2000);
+					}
+
+					else if (PrevPos.Y > Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) <= abs(1000))
+					{
+						Actor_test_02->Transform.AddWorldPosition(-A * _DeltaTime * 2000);
+					}
+
+
+				}
+
 				if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SHIFT, this))
 				{
 					PlayerState.ChangeState(PlayerState::Run);
