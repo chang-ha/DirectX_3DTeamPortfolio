@@ -244,27 +244,27 @@ void Player::Player_State()
 					
 					Capsule->MoveForce({ float4::FORWARD * Speed },Capsule->GetDir());
 				
-					int a = 0;
+					
 				}
 
 				if (true == GameEngineInput::IsPress('S', this))
 				{
-					//Capsule->MoveForce({ 0.0f, 0.0f, -100, 0.0f });
-					Transform.AddLocalPosition({ float4::BACKWARD * Speed * _DeltaTime });
+					
+					Capsule->MoveForce({ float4::BACKWARD * Speed }, Capsule->GetDir());
 				
 				}
 
 				if (true == GameEngineInput::IsPress('A', this))
 				{
-					//Capsule->MoveForce({ -100, 0.0f, 0.0f, 0.0f });
-					//Transform.AddLocalPosition({ float4::* Speed * _DeltaTime });
+					
+					Capsule->MoveForce({ float4::LEFT * Speed }, Capsule->GetDir());
 				
 				}
 
 				if (true == GameEngineInput::IsPress('D', this))
 				{
-					//Capsule->MoveForce({ 100, 0.0f, 0.0f, 0.0f });
-					Transform.AddLocalPosition({ MoveDir.Y * Speed* _DeltaTime });
+				
+					Capsule->MoveForce({ float4::RIGHT * Speed }, Capsule->GetDir());
 					
 				}
 				if (GameEngineInput::IsPress(VK_CONTROL, this))

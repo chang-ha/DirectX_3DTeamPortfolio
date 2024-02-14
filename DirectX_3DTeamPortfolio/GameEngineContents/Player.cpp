@@ -32,7 +32,7 @@ void Player::Start()
 
 
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(0);
-	MainRenderer->Transform.SetLocalScale({ 400.0f, 400.0f, 400.0f });
+	MainRenderer->Transform.SetLocalScale({ 100, 100, 100 });
 	MainRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
 	//MainRenderer->Transform.SetLocalPosition({ 0.0f, -300.0f, 0.0f });
 
@@ -138,7 +138,7 @@ void Player::Start()
 		Weapon = SwordActor->CreateComponent<GameContentsFBXRenderer>();
 		Weapon->SetFBXMesh("WP_A_0221.FBX", "FBXAnimationTexture");
 
-		Weapon->Transform.SetLocalScale({ 400.0f, 400.0f, 400.0f });
+		Weapon->Transform.SetLocalScale({ 50, 50, 50 });
 		//Weapon->Transform.SetLocalPosition({ -4.0f, -152.0f, 165.0f });
 		Weapon->Transform.SetLocalRotation({ 0.0f, 0.0f, 180.0f });
 	}
@@ -151,10 +151,10 @@ void Player::Start()
 
 
 
-	{
+	/*{
 		Col = CreateComponent<GameEngineCollision>();
 		Col->Transform.SetLocalScale({ 200.0f,200.0f });
-	}
+	}*/
 
 	Mini_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
@@ -195,7 +195,7 @@ void Player::Start()
 	{
 		Actor_test_02 = GetLevel()->CreateActor<GameEngineActor>();
 		Actor_test_02->SetParent(Actor_test);
-		Actor_test_02->Transform.SetWorldPosition({ 0.0f,400.0f,-1000.0f });
+		Actor_test_02->Transform.SetWorldPosition({ 0.0f,50.0f,-400.0f });
 	}
 }
 
@@ -277,7 +277,7 @@ void Player::Update(float _Delta)
 		OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
 
 
-	Col->CollisionEvent(0, { .Stay = [&](class GameEngineCollision* _This,class GameEngineCollision* _collisions)
+	/*Col->CollisionEvent(0, { .Stay = [&](class GameEngineCollision* _This,class GameEngineCollision* _collisions)
 	{
 			float4 Monster = _This->GetActor()->Transform.GetLocalPosition();
 
@@ -286,7 +286,7 @@ void Player::Update(float _Delta)
 			float4 Dir = Monster - Other_Monster;
 
 			_This->GetActor()->Transform.AddLocalPosition(Dir * _Delta);
-	} });
+	} });*/
 
 	if (nullptr != GameEngineNetWindow::Net)
 	{
