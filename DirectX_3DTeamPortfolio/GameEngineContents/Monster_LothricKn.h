@@ -77,6 +77,23 @@ private:
 // Ό³Έν :
 class Monster_LothricKn : public BaseMonster
 {
+	enum class eMeshInfo
+	{
+		Body,
+		Cloak,
+		Spear,
+		Sword,
+		Shield,
+		LSword,
+		Crossbow,
+		Cloak_cloth,
+		Close,
+		Open,
+		LShield,
+		Weapon_Cloth,
+		SwordCover,
+	};
+
 	enum class Enum_IdleType
 	{
 		Standing,

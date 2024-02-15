@@ -64,6 +64,13 @@ protected:
 		MainRenderer->GetRenderUnits().at(static_cast<int>(_MeshIndex))[0]->Off();
 	}
 
+	template<typename EnumType>
+	void SetMeshVisibility(EnumType _MeshIndex, bool bValue)
+	{
+		GameEngineRenderUnit* Unit = MainRenderer->GetRenderUnits().at(static_cast<int>(_MeshIndex))[0].get();
+		bValue ? Unit->On() : Unit->Off();
+	}
+
 	bool CheckAnimationName(std::string _AnimationName);
 
 

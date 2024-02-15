@@ -138,6 +138,13 @@ void Monster_LothricKn::Start()
 	MainRenderer->SetRootMotion("G_L_TurnTwice");
 	MainRenderer->SetRootMotion("G_R_TurnTwice");
 
+	SetMeshVisibility(eMeshInfo::Spear, false);
+	SetMeshVisibility(eMeshInfo::LSword, false);
+	SetMeshVisibility(eMeshInfo::Crossbow, false);
+	SetMeshVisibility(eMeshInfo::Open, false);
+	SetMeshVisibility(eMeshInfo::LShield, false);
+	SetMeshVisibility(eMeshInfo::Weapon_Cloth, false);
+
 	// Collision
 	CreateSocketCollision(Enum_CollisionOrder::Monster, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
 
