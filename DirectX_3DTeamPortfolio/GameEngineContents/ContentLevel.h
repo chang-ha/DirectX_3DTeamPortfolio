@@ -40,5 +40,6 @@ protected:
 
 private:
 	void ChaseListener();
+	void DebugInput();
 };
 

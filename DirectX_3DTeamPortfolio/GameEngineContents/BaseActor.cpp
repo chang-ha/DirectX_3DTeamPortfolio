@@ -86,6 +86,16 @@ float BaseActor::GetWDirection() const
 	return Transform.GetWorldRotationEuler().Z;
 }
 
+void BaseActor::SetWPosition(const float4& _wPos)
+{
+	if (nullptr == Capsule)
+	{
+		MsgBoxAssert("피직스 액터를 사용하지 않고 사용할 수 없는 기능입니다.");
+		return;
+	}
+
+	Capsule->SetWorldPosition(_wPos);
+}
 
 int BaseActor::FindFlag(Enum_ActorStatus _Status) const
 {

@@ -32,14 +32,14 @@ void ContentsCore::Start()
 	ContentResources::ContentResourcesInit();
 	GameEnginePhysX::PhysXInit();
 
+	CoreGUIWindow = GameEngineGUI::CreateGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+	CoreGUIWindow->On();
+
 	ContentsGUIWindow = GameEngineGUI::CreateGUIWindow<ContentsControlWindow>("ContentsControlWindow");
 	ContentsGUIWindow->On(); 
 
 	TreeGUIWindow = GameEngineGUI::CreateGUIWindow<TreeWindow>("TreeWindow");
 	TreeGUIWindow->On();
-
-	CoreGUIWindow = GameEngineGUI::CreateGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
-	CoreGUIWindow->On();
 
 	ContentsMouseInput::Reset();
 
@@ -67,8 +67,13 @@ void ContentsCore::Update(float _Delta)
 	{
 		ContentsGUIWindow->OnOffSwitch();
 	}
+
 }
 
 void ContentsCore::Release()
 {
+	ContentsGUIWindow = nullptr;
+	TreeGUIWindow = nullptr;
+	ObjectWindow = nullptr;
+	CoreGUIWindow = nullptr;
 }

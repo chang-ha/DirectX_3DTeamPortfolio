@@ -105,10 +105,11 @@ public:
 	inline int GetID() const { return ActorID; }
 	std::string GetIDName() const;
 
-
 	void AddWDirection(float _Degree);
 	void SetWDirection(float _Degree);
 	float GetWDirection() const;
+
+	void SetWPosition(const float4& _wPos);
 
 	// Getter
 	inline std::shared_ptr<GameContentsFBXRenderer>& GetFBXRenderer() { return MainRenderer; }

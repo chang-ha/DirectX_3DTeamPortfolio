@@ -4,7 +4,7 @@
 
 ContentLevel::ContentLevel()
 {
-
+	GameEngineInput::AddInputObject(this);
 }
 
 ContentLevel::~ContentLevel()
@@ -31,6 +31,7 @@ void ContentLevel::Start()
 
 void ContentLevel::Update(float _Delta)
 {
+	DebugInput();
 	RunSimulation(_Delta);
 	ChaseListener();
 	
@@ -85,4 +86,12 @@ void ContentLevel::ChaseListener()
 	float4 Up = { 0.f, 1.f, 0.f, 1.f };
 
 	GameEngineSound::SetListenerPos(Pos, ForWard, Up);
+}
+
+void ContentLevel::DebugInput()
+{
+	if (GameEngineInput::IsDown(VK_F4, this))
+	{
+		GameEngineLevel::IsDebug = !GameEngineLevel::IsDebug;
+	}
 }
