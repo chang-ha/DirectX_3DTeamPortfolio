@@ -7,6 +7,7 @@ enum class Enum_ActorType
 	None,
 	LothricKn = 1280,
 	Boss_Vordt = 2240,
+	Player = 0010
 };
 
 // 상태 Enum 
@@ -124,8 +125,8 @@ protected:
 	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
-
-
+	void CameraRotation(float Delta);
+	
 	// Flag
 	bool IsFlag(Enum_ActorStatus _Flag) const;
 	void SetFlag(Enum_ActorStatus _Flag, bool _Value);
@@ -152,6 +153,17 @@ protected:
 	// Debug
 	void DrawRange(float _Range, const float4& _Color = float4::RED) const;
 
+	// 나중에 지움 
+	std::shared_ptr<GameEngineActor> Actor_test;
+	std::shared_ptr<GameEngineActor> Actor_test_02;
+	float4 CameraPos = {};
+	float Mouse_Ro_X = 0.0f;
+	float Mouse_Ro_Y = 0.0f;
+	float4 PrevPos = {};
+	float Camera_Pos_Y = 0.0f;
+	float Camera_Pos_X = 0.0f;
+	float Time = 0.0f;
+
 private:
 	int FindFlag(Enum_ActorStatus _Status) const;
 
@@ -169,6 +181,7 @@ protected:
 
 	int Flags = 0;
 
+	
 private:
 	static std::unordered_map<Enum_ActorStatus, Enum_ActorFlag> FlagIndex;
 	std::unordered_map<Enum_BoneType, int> BoneIndex;
@@ -229,14 +242,20 @@ public:
 
 	float GetTargetDistance() const;
 
+	
+
 private:
 	float TargetAngle = 0.f;
 	GameEngineActor* Target = nullptr;
 
+	
 	float RotSpeed = 0.f;
 	const float RotMinAngle = 5.f;
 	Enum_RotDir RotDir = Enum_RotDir::Not_Rot;
 
 	void CalcuTargetAngle();
+
+
+
 };
 

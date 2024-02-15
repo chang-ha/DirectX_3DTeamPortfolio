@@ -22,6 +22,26 @@ void Player::Player_State()
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
 
+				float4 A = Actor_test->Transform.GetWorldPosition() - float4{ Actor_test_02->Transform.GetWorldPosition().X, Actor_test_02->Transform.GetWorldPosition().Y - 400.0f, Actor_test_02->Transform.GetWorldPosition().Z };
+
+				A.Normalize();
+
+				if (Camera_Pos_Y <= 0)
+				{
+
+					if (PrevPos.Y < Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) >= abs(500))
+					{
+						Actor_test_02->Transform.AddWorldPosition(A * _DeltaTime * 2000);
+					}
+
+					else if (PrevPos.Y > Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) <= abs(1000))
+					{
+						Actor_test_02->Transform.AddWorldPosition(-A * _DeltaTime * 2000);
+					}
+
+
+				}
+
 				if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SHIFT, this))
 				{
 					PlayerState.ChangeState(PlayerState::Run);
@@ -218,33 +238,38 @@ void Player::Player_State()
 					Transform.AddLocalPosition({ float4::UP * Speed });
 					return; 
 				}*/
+				float4 TargetPos = GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
+				float4 MyPos = Actor_test->Transform.GetWorldPosition();
+				TargetPos.Y = MyPos.Y = 0.f;
+				float4 LocationVector = (MyPos -TargetPos).NormalizeReturn();
+			
 
 				if (true == GameEngineInput::IsPress('W', this))
 				{
 					
-					//Capsule->MoveForce({ float4::FORWARD * Speed },Capsule->GetDir());
+					Capsule->MoveForce({ LocationVector * Speed });
 				
-					int a = 0;
+					
 				}
 
 				if (true == GameEngineInput::IsPress('S', this))
 				{
-					//Capsule->MoveForce({ 0.0f, 0.0f, -100, 0.0f });
-					Transform.AddLocalPosition({ float4::BACKWARD * Speed * _DeltaTime });
+					
+					Capsule->MoveForce({ float4::BACKWARD * Speed }, Capsule->GetDir());
 				
 				}
 
 				if (true == GameEngineInput::IsPress('A', this))
 				{
-					//Capsule->MoveForce({ -100, 0.0f, 0.0f, 0.0f });
-					//Transform.AddLocalPosition({ float4::* Speed * _DeltaTime });
+					
+					Capsule->MoveForce({ float4::LEFT * Speed }, Capsule->GetDir());
 				
 				}
 
 				if (true == GameEngineInput::IsPress('D', this))
 				{
-					//Capsule->MoveForce({ 100, 0.0f, 0.0f, 0.0f });
-					Transform.AddLocalPosition({ MoveDir.Y * Speed* _DeltaTime });
+				
+					Capsule->MoveForce({ float4::RIGHT * Speed }, Capsule->GetDir());
 					
 				}
 				if (GameEngineInput::IsPress(VK_CONTROL, this))
