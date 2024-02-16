@@ -6,8 +6,8 @@ enum class Enum_HollowSoldier_Sword_State
 	Idle1,
 	Idle2,
 	Scout,
-	//Walk,
-	//Run,
+	Walk,
+	Run,
 	RH_VerticalSlash,
 	RH_HorizontalSlash,
 	RH_ComboAttack,
@@ -77,6 +77,17 @@ protected:
 	void ChangeState(Enum_HollowSoldier_Sword_State _State);
 	void StateUpdate(float _Delta);
 
+	void ChangeAttackState();
+
+private:
+	std::shared_ptr<GameEngineCollision> RecognizeCollision;
+	std::shared_ptr<GameEngineCollision> AttackRangeCollision;
+
+	bool IsRecognize = false;
+	bool IsAttack = false;
+
+	class GameEngineRandom RandomAttack;
+
 protected:
 	//State Function
 
@@ -88,6 +99,12 @@ protected:
 
 	void State_Scout_Start();
 	void State_Scout_Update(float _Delta);
+
+	void State_Walk_Start();
+	void State_Walk_Update(float _Delat);
+
+	void State_Run_Start();
+	void State_Run_Update(float _Delta);
 
 	void State_RH_VerticalSlash_Start();
 	void State_RH_VerticalSlash_Update(float _Delta);

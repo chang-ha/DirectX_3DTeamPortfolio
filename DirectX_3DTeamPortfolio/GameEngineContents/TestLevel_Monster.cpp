@@ -7,6 +7,7 @@
 
 #include "Monster_LothricKn.h"
 #include "Monster_HollowSoldier_Sword.h"
+#include "DummyActor.h"
 
 TestLevel_Monster::TestLevel_Monster() 
 {
@@ -63,6 +64,9 @@ void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 	//Hollow->Transform.SetWorldRotation(float4(0.0f, 180.0f, 0.0f));
 	Hollow->Transform.SetWorldRotation(float4(0.0f, 0.0f, 0.0f));
 	Hollow->SetStateIdle1();
+
+	std::shared_ptr<DummyActor> Dummy = CreateActor<DummyActor>(static_cast<int>(Enum_UpdateOrder::Player), "Dummy");
+	Dummy->Transform.SetWorldPosition(float4(0.0f, 0.0f, 500.0f));
 }
 
 void TestLevel_Monster::LevelEnd(GameEngineLevel* _NextLevel)

@@ -20,11 +20,28 @@ void Monster_HollowSoldier_Sword::Start()
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::Shoes);
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::SmallLeatherVest);
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::Pants);
+
+	AddBoneIndex(Enum_BoneType::B_01_RightHand, 44);
+	CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
+	
+	RecognizeCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
+	RecognizeCollision->SetCollisionType(ColType::SPHERE3D);
+	RecognizeCollision->SetCollisionColor(float4::BLACK);
+	RecognizeCollision->Transform.SetWorldScale(float4(500, 500, 500));
+
+	AttackRangeCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
+	AttackRangeCollision->SetCollisionType(ColType::SPHERE3D);
+	AttackRangeCollision->SetCollisionColor(float4::RED);
+	AttackRangeCollision->Transform.SetWorldScale(float4(300, 300, 300));
+
+	ChangeState(Enum_HollowSoldier_Sword_State::Idle1);
+
 }
 void Monster_HollowSoldier_Sword::Update(float _Delta)
 {
 	Monster_Hollow::Update(_Delta);
 	StateUpdate(_Delta);
+
 }
 
 void Monster_HollowSoldier_Sword::ChangeState(Enum_HollowSoldier_Sword_State _State)
@@ -41,6 +58,12 @@ void Monster_HollowSoldier_Sword::ChangeState(Enum_HollowSoldier_Sword_State _St
 			break;
 		case Enum_HollowSoldier_Sword_State::Scout:
 			State_Scout_Start();
+			break;
+		case Enum_HollowSoldier_Sword_State::Walk:
+			State_Walk_Start();
+			break;
+		case Enum_HollowSoldier_Sword_State::Run:
+			State_Run_Start();
 			break;
 		case Enum_HollowSoldier_Sword_State::RH_VerticalSlash:
 			State_RH_VerticalSlash_Start();
@@ -127,6 +150,10 @@ void Monster_HollowSoldier_Sword::StateUpdate(float _Delta)
 		return State_Idle2_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::Scout:
 		return State_Scout_Update(_Delta);
+	case Enum_HollowSoldier_Sword_State::Walk:
+		return State_Walk_Update(_Delta);
+	case Enum_HollowSoldier_Sword_State::Run:
+		return State_Run_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::RH_VerticalSlash:
 		return State_RH_VerticalSlash_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::RH_HorizontalSlash:
@@ -178,6 +205,56 @@ void Monster_HollowSoldier_Sword::StateUpdate(float _Delta)
 	}
 }
 
+void Monster_HollowSoldier_Sword::ChangeAttackState()
+{
+	AttackPattern = RandomAttack.RandomInt(1, 13);
+	switch (AttackPattern)
+	{
+	case 1:
+		ChangeState(Enum_HollowSoldier_Sword_State::Attack1);
+		break;
+	case 2:
+		ChangeState(Enum_HollowSoldier_Sword_State::Attack2);
+		break;
+	case 3:
+		ChangeState(Enum_HollowSoldier_Sword_State::Attack3);
+		break;
+	case 4:
+		/*ChangeState(Enum_HollowSoldier_Sword_State::Attack4);
+		break;*/
+	case 5:
+		ChangeState(Enum_HollowSoldier_Sword_State::Attack5);
+		break;
+	case 6:
+		ChangeState(Enum_HollowSoldier_Sword_State::Attack6);
+		break;
+	case 7:
+		ChangeState(Enum_HollowSoldier_Sword_State::Attack7);
+		break;
+	case 8:
+		ChangeState(Enum_HollowSoldier_Sword_State::Attack8);
+		break;
+	case 9:
+		ChangeState(Enum_HollowSoldier_Sword_State::Attack9);
+		break;
+	case 10:
+		ChangeState(Enum_HollowSoldier_Sword_State::Attack10);
+		break;
+	case 11:
+		ChangeState(Enum_HollowSoldier_Sword_State::Attack11);
+		break;
+	case 12:
+		/*ChangeState(Enum_HollowSoldier_Sword_State::Attack12);
+		break;*/
+	case 13:
+		ChangeState(Enum_HollowSoldier_Sword_State::Attack13);
+		break;
+	default:
+		break;
+	}
+
+}
+
 void Monster_HollowSoldier_Sword::State_Idle1_Start()
 {
 	MainRenderer->ChangeAnimation("c1100_Idle1");
@@ -190,8 +267,10 @@ void Monster_HollowSoldier_Sword::State_Idle1_Update(float _Delta)
 		ChangeState(Enum_HollowSoldier_Sword_State::Scout);
 	}*/
 
+	StateTime += _Delta;
+
 	// 트리거 발동시
-	if (false)
+	if (StateTime >= 10.0f)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Scout);
 	}
@@ -210,66 +289,49 @@ void Monster_HollowSoldier_Sword::State_Idle2_Update(float _Delta)
 	// 여기서 공격 등등 이루어짐.
 	StateTime += _Delta;
 
-	if (StateTime >= 1.0f)
+	if (false)
 	{
 		StateTime = 0.0f;
 		//ChangeState(Enum_HollowSoldier_Sword_State::Attack12);
 	}
 
 	//if (StateTime >= 1.0f)
-	if (false)
-	{
-		StateTime = 0.0f;
-		if (AttackPattern > 0 || AttackPattern < 14)
+	
+
+	EventParameter RecognizeParameter;
+	RecognizeParameter.Stay = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
 		{
-			switch (AttackPattern)
-			{
-			case 1:
-				ChangeState(Enum_HollowSoldier_Sword_State::Attack1);
-				break;
-			case 2:
-				ChangeState(Enum_HollowSoldier_Sword_State::Attack2);
-				break;
-			case 3:
-				ChangeState(Enum_HollowSoldier_Sword_State::Attack3);
-				break;
-			/*case 4:
-				ChangeState(Enum_HollowSoldier_Sword_State::Attack4);
-				break;*/
-			case 5:
-				ChangeState(Enum_HollowSoldier_Sword_State::Attack5);
-				break;
-			case 6:
-				ChangeState(Enum_HollowSoldier_Sword_State::Attack6);
-				break;
-			case 7:
-				ChangeState(Enum_HollowSoldier_Sword_State::Attack7);
-				break;
-			case 8:
-				ChangeState(Enum_HollowSoldier_Sword_State::Attack8);
-				break;
-			case 9:
-				ChangeState(Enum_HollowSoldier_Sword_State::Attack9);
-				break;
-			case 10:
-				ChangeState(Enum_HollowSoldier_Sword_State::Attack10);
-				break;
-			case 11:
-				ChangeState(Enum_HollowSoldier_Sword_State::Attack11);
-				break;
-			/*case 12:
-				ChangeState(Enum_HollowSoldier_Sword_State::Attack12);
-				break;*/
-			case 13:
-				ChangeState(Enum_HollowSoldier_Sword_State::Attack13);
-				break;
-			default:
-				break;
-			}
+			IsRecognize = true;
+		};
+	RecognizeParameter.Exit = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
+		{
+			IsRecognize = false;
+		};
+
+	RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, RecognizeParameter);
+
+	EventParameter AttackParameter;
+	AttackParameter.Stay = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
+		{
+			IsAttack = true;
+		};
+	AttackParameter.Exit = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
+		{
+			IsAttack = false;
+		};
+	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);
+
+	if (StateTime >= 3.0f)
+	{
+		if (IsRecognize == true && IsAttack == false)
+		{
+			StateTime = 0.0f;
+			ChangeState(Enum_HollowSoldier_Sword_State::Walk);
 		}
 		else
 		{
-			AttackPattern = 1;
+			StateTime = 0.0f;
+			ChangeAttackState();
 		}
 	}
 }
@@ -295,6 +357,39 @@ void Monster_HollowSoldier_Sword::State_Scout_Update(float _Delta)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 	}
+
+	EventParameter RecognizeParameter;
+	RecognizeParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
+		{
+			//ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+		};
+	if (true == RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, RecognizeParameter))
+	{
+		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+	}
+}
+
+void Monster_HollowSoldier_Sword::State_Walk_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Walk_Front");
+}
+void Monster_HollowSoldier_Sword::State_Walk_Update(float _Delta)
+{
+	EventParameter AttackParameter;
+	AttackParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
+		{
+			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+		};
+	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);
+}
+
+void Monster_HollowSoldier_Sword::State_Run_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Run");
+}
+void Monster_HollowSoldier_Sword::State_Run_Update(float _Delta)
+{
+
 }
 
 void Monster_HollowSoldier_Sword::State_RH_VerticalSlash_Start()
