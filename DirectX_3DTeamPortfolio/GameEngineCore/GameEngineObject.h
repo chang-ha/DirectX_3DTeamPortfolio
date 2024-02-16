@@ -69,6 +69,7 @@ public:
 
 protected:
 	std::string Name;
+	
 
 	int Order = 0;
 	bool IsUpdateValue = true; // 이걸 false로 만들면 됩니다.

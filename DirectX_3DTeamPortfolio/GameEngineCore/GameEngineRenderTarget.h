@@ -68,6 +68,10 @@ public:
 	{
 		return DepthTexture;
 	}
+	inline void SetDepthTexture(std::shared_ptr<GameEngineTexture> _DepthTexture)
+	{
+		DepthTexture = _DepthTexture;
+	}
 
 	void Clear();
 	void Setting();

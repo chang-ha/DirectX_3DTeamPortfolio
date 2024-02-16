@@ -372,9 +372,10 @@ GameContentsFBXRenderer::~GameContentsFBXRenderer()
 {
 }
 
-void GameContentsFBXRenderer::SetFBXMesh(std::string_view _Name, std::string_view _Material)
+void GameContentsFBXRenderer::SetFBXMesh(std::string_view _Name, std::string_view _Material, RenderPath _RenderPath)
 {
 	Name = _Name;
+	DefalutRenderPathValue = _RenderPath;
 
 	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
 
@@ -476,7 +477,7 @@ std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetFBXMesh(std::s
 
 	//체크용 메테리얼
 	Unit->SetMaterial(_Material);
-	Unit->Camerapushback();
+	Unit->Camerapushback(DefalutRenderPathValue);
 
 
 	if (Unit->ShaderResHelper.IsStructedBuffer("ArrAniMationMatrix"))

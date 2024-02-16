@@ -88,17 +88,17 @@ void GameEngineCamera::Start()
 		//SamplerState POINTWRAP : register(s0);
 
 
-		DeferredTarget = GameEngineRenderTarget::Create();
-		// 모두 종합
-		DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
-		// 디퓨즈 컬러
-		DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
-		// 난반사광 dif
-		DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
-		// 정반사광 spc
-		DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
-		// 환경광 amb
-		DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		//DeferredTarget = GameEngineRenderTarget::Create();
+		//// 모두 종합
+		//DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		//// 디퓨즈 컬러
+		//DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		//// 난반사광 dif
+		//DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		//// 정반사광 spc
+		//DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		//// 환경광 amb
+		//DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
 
 
 
@@ -115,6 +115,7 @@ void GameEngineCamera::Start()
 		DeferredTarget = GameEngineRenderTarget::Create();
 		// 최종종합
 		DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		DeferredTarget->SetDepthTexture(AllRenderTarget->GetDepthTexture());
 
 		DeferredMergeUnit.SetMesh("FullRect");
 		DeferredMergeUnit.SetMaterial("ContentsDeferredMergeRender");
@@ -285,12 +286,18 @@ void GameEngineCamera::Render(float _DeltaTime)
 	AllRenderTarget->Setting();
 
 	bool IsDeferredResult = false;
-	// 디퍼드 그리고
+	// 디퍼드 포워드 그리고 알파제외
 	{
 		// std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPath = Units[RenderPath::Deferred];
 
 		for (std::pair<const RenderPath, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>& RenderPath : Units)
 		{
+			if (RenderPath.first == RenderPath::Alpha)
+			{
+				IsDeferredResult = true;
+				continue;
+			}
+
 			for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPair : RenderPath.second)
 			{
 
@@ -303,9 +310,6 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 						Unit->Render();
 					}
-					
-
-					//DebugCheck();
 				}
 			}
 		}
@@ -331,7 +335,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 			for (std::pair<const RenderPath, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>& RenderPath : Units)
 			{
-				if (RenderPath.first == RenderPath::Forward)
+				if (RenderPath.first != RenderPath::Deferred)
 				{
 					
 					continue;
@@ -417,6 +421,24 @@ void GameEngineCamera::Render(float _DeltaTime)
 			DeferredTarget->Clear();
 			DeferredTarget->Setting();
 			DeferredMergeUnit.Render();
+
+			std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPathlist = Units[RenderPath::Alpha];
+
+				for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPair : RenderPathlist)
+				{
+
+					std::list<std::shared_ptr<class GameEngineRenderUnit>>& UnitList = RenderPair.second;
+
+					for (std::shared_ptr<class GameEngineRenderUnit> Unit : UnitList)
+					{
+
+						if (EPROJECTIONTYPE::Perspective != ProjectionType or InCamera(Unit->GetParentRenderer()->Transform, Unit->GetMesh()->GetMeshBaseInfo()) == true)
+						{
+							Unit->Render();
+						}
+					}
+				}
+			
 		}
 	}
 

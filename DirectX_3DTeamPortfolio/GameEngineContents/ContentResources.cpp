@@ -110,6 +110,11 @@ void ContentResources::ContentResourcesInit()
 		Mat->SetVertexShader("ContentsStaticMesh_Color_VS");
 		Mat->SetPixelShader("ContentsStaticMesh_Color_PS");
 	}
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBX_Static_Alpha");
+		Mat->SetVertexShader("ContentsStaticAlphaMesh_VS");
+		Mat->SetPixelShader("ContentsStaticAlphaMesh_PS");
+	}
 
 
 

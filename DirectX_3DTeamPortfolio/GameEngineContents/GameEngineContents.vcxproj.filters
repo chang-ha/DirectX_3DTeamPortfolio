@@ -116,31 +116,31 @@
       <Filter>Resource</Filter>
     </ClCompile>
     <ClCompile Include="ContentsControlWindow.cpp">
-      <Filter>ImGui\Window</Filter>
+      <Filter>Level\ImGui\Window</Filter>
     </ClCompile>
     <ClCompile Include="TreeWindow.cpp">
-      <Filter>ImGui\Window</Filter>
+      <Filter>Level\ImGui\Window</Filter>
     </ClCompile>
     <ClCompile Include="CollisionUpdateFrameEvent.cpp">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>Level\ImGui\Editor\FrameEvent</Filter>
     </ClCompile>
     <ClCompile Include="FrameEventHelper.cpp">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>Level\ImGui\Editor\FrameEvent</Filter>
     </ClCompile>
     <ClCompile Include="FrameEventObject.cpp">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>Level\ImGui\Editor\FrameEvent</Filter>
     </ClCompile>
     <ClCompile Include="SoundFrameEvent.cpp">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>Level\ImGui\Editor\FrameEvent</Filter>
     </ClCompile>
     <ClCompile Include="TurnSpeedFrameEvent.cpp">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>Level\ImGui\Editor\FrameEvent</Filter>
     </ClCompile>
     <ClCompile Include="AnimationInfoGUI.cpp">
-      <Filter>ImGui\Editor</Filter>
+      <Filter>Level\ImGui\Editor</Filter>
     </ClCompile>
     <ClCompile Include="LightGUI.cpp">
-      <Filter>ImGui\Editor</Filter>
+      <Filter>Level\ImGui\Editor</Filter>
     </ClCompile>
     <ClCompile Include="DummyActor.cpp">
       <Filter>Actor\Monster\LothricKnight</Filter>
@@ -152,7 +152,7 @@
       <Filter>Actor\Monster\LothricKnight</Filter>
     </ClCompile>
     <ClCompile Include="SwitchFlagFrameEvent.cpp">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>Level\ImGui\Editor\FrameEvent</Filter>
     </ClCompile>
     <ClCompile Include="BasePlayer.cpp">
       <Filter>Actor\Player</Filter>
@@ -194,10 +194,10 @@
       <Filter>PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="HBAOGUI.cpp">
-      <Filter>ImGui\Editor</Filter>
+      <Filter>Level\ImGui\Editor</Filter>
     </ClCompile>
     <ClCompile Include="LUTGUI.cpp">
-      <Filter>ImGui\Editor</Filter>
+      <Filter>Level\ImGui\Editor</Filter>
     </ClCompile>
     <ClCompile Include="UIPlayerGaugeBar.cpp">
       <Filter>Actor\UI</Filter>
@@ -212,8 +212,9 @@
       <Filter>Core\Global</Filter>
     </ClCompile>
     <ClCompile Include="BloomGUI.cpp">
-      <Filter>ImGui\Editor</Filter>
+      <Filter>Level\ImGui\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="BoneSoundFrameEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -328,31 +329,31 @@
       <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="TreeWindow.h">
-      <Filter>ImGui\Window</Filter>
+      <Filter>Level\ImGui\Window</Filter>
     </ClInclude>
     <ClInclude Include="ContentsControlWindow.h">
-      <Filter>ImGui\Window</Filter>
+      <Filter>Level\ImGui\Window</Filter>
     </ClInclude>
     <ClInclude Include="TurnSpeedFrameEvent.h">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>Level\ImGui\Editor\FrameEvent</Filter>
     </ClInclude>
     <ClInclude Include="CollisionUpdateFrameEvent.h">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>Level\ImGui\Editor\FrameEvent</Filter>
     </ClInclude>
     <ClInclude Include="FrameEventHelper.h">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>Level\ImGui\Editor\FrameEvent</Filter>
     </ClInclude>
     <ClInclude Include="FrameEventObject.h">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>Level\ImGui\Editor\FrameEvent</Filter>
     </ClInclude>
     <ClInclude Include="SoundFrameEvent.h">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>Level\ImGui\Editor\FrameEvent</Filter>
     </ClInclude>
     <ClInclude Include="LightGUI.h">
-      <Filter>ImGui\Editor</Filter>
+      <Filter>Level\ImGui\Editor</Filter>
     </ClInclude>
     <ClInclude Include="AnimationInfoGUI.h">
-      <Filter>ImGui\Editor</Filter>
+      <Filter>Level\ImGui\Editor</Filter>
     </ClInclude>
     <ClInclude Include="DummyActor.h">
       <Filter>Actor\Monster\LothricKnight</Filter>
@@ -364,7 +365,7 @@
       <Filter>Actor\Monster\LothricKnight</Filter>
     </ClInclude>
     <ClInclude Include="SwitchFlagFrameEvent.h">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>Level\ImGui\Editor\FrameEvent</Filter>
     </ClInclude>
     <ClInclude Include="BasePlayer.h">
       <Filter>Actor\Player</Filter>
@@ -406,10 +407,10 @@
       <Filter>PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="HBAOGUI.h">
-      <Filter>ImGui\Editor</Filter>
+      <Filter>Level\ImGui\Editor</Filter>
     </ClInclude>
     <ClInclude Include="LUTGUI.h">
-      <Filter>ImGui\Editor</Filter>
+      <Filter>Level\ImGui\Editor</Filter>
     </ClInclude>
     <ClInclude Include="UIPlayerGaugeBar.h">
       <Filter>Actor\UI</Filter>
@@ -424,8 +425,9 @@
       <Filter>Core\Global</Filter>
     </ClInclude>
     <ClInclude Include="BloomGUI.h">
-      <Filter>ImGui\Editor</Filter>
+      <Filter>Level\ImGui\Editor</Filter>
     </ClInclude>
+    <ClInclude Include="BoneSoundFrameEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -443,9 +445,6 @@
     <Filter Include="Level\TestLevel">
       <UniqueIdentifier>{328ee959-35b8-43d9-bd5f-ffc249383c5b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui">
-      <UniqueIdentifier>{0ed2a347-3e0b-4fcf-a885-513c3ec4b169}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Global">
       <UniqueIdentifier>{ca09bba4-fac2-48d7-bd82-8680ddecfb32}</UniqueIdentifier>
     </Filter>
@@ -458,9 +457,6 @@
     <Filter Include="Net\Packet">
       <UniqueIdentifier>{12126f42-9291-48ee-8034-ca565f71da15}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\Editor">
-      <UniqueIdentifier>{22360345-3c92-4fb6-b5f0-27066f4f3cf7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Math">
       <UniqueIdentifier>{01b37953-7e3c-425b-a8b8-9e818571d653}</UniqueIdentifier>
     </Filter>
@@ -469,12 +465,6 @@
     </Filter>
     <Filter Include="Resource\Renderer">
       <UniqueIdentifier>{781099ec-31b3-4c0c-8941-80d28daaf927}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ImGui\Window">
-      <UniqueIdentifier>{dc68858f-391b-4957-80a7-e101690cead0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ImGui\Editor\FrameEvent">
-      <UniqueIdentifier>{9b67aff6-631c-41f5-b70f-b2ed5bf0a4dd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Actor">
       <UniqueIdentifier>{69024302-ace0-45ec-b90f-4d1d81ceff46}</UniqueIdentifier>
@@ -502,6 +492,18 @@
     </Filter>
     <Filter Include="PostEffect">
       <UniqueIdentifier>{0908c021-de83-47a2-af52-678a47c6fbb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\ImGui">
+      <UniqueIdentifier>{0ed2a347-3e0b-4fcf-a885-513c3ec4b169}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\ImGui\Editor">
+      <UniqueIdentifier>{22360345-3c92-4fb6-b5f0-27066f4f3cf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\ImGui\Editor\FrameEvent">
+      <UniqueIdentifier>{9b67aff6-631c-41f5-b70f-b2ed5bf0a4dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\ImGui\Window">
+      <UniqueIdentifier>{dc68858f-391b-4957-80a7-e101690cead0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

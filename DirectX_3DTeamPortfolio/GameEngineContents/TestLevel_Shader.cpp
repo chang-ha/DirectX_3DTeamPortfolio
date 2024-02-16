@@ -94,8 +94,8 @@ void TestLevel_Shader::Start()
 
 		std::shared_ptr<GameContentsFBXRenderer> renderer = actor->CreateComponent<GameContentsFBXRenderer>();
 
-		renderer->SetFBXMesh("WorldSky.FBX", "FBX_Static");
-		renderer->RenderBaseInfoValue.TEXCOORDMult = 1.0f;
+		renderer->SetFBXMesh("WorldSky.FBX", "FBX_Static_Alpha",RenderPath::Alpha);
+		//renderer->RenderBaseInfoValue.TEXCOORDMult = 1.0f;
 		//renderer->transform.setlocalscale({ 50.f, 50.f, 50.f, 1.0f });
 
 		//renderer->renderbaseinfovalue.alphavalue = -10.0f;
