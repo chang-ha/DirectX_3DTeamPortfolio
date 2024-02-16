@@ -82,6 +82,8 @@ private:
 	bool TimeCheck = false;
 	bool Attack_Check = false;
 	bool Rotation_Check = false;
+	bool Rotation_Check_Plus = false;
+	bool Rotation_Check_Mus = false;
 	float Time = 0.0f;
 	float Speed = 1000.0f;
 	float MoveSpeed = 0.0f;

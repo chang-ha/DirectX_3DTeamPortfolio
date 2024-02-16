@@ -209,7 +209,7 @@ private:
 	GameEngineTransform* Target = nullptr;
 
 	EPROJECTIONTYPE ProjectionType = EPROJECTIONTYPE::Orthographic;
-	float Far = 10000.0f;
+	float Far = 5000.0f;
 	float Near = 10.0f;
 	float FOV = 60.0f;
 	float ZoomValue = 0.0f;
