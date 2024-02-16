@@ -182,10 +182,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GameEngineBillboardRenderer.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="GameEngineBlend.h">
       <SubType>
       </SubType>
@@ -607,10 +603,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineAO.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="GameEngineBillboardRenderer.cpp">
       <SubType>
       </SubType>
     </ClCompile>

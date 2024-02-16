@@ -3,18 +3,6 @@
 #define GAU 13
 
 
-float3 ExtractBright(float3 color, float threshold)
-{
-    float brightness = dot(color, float3(0.2126, 0.7152, 0.0722)); // Luminance calculation
-    if (brightness > threshold)
-    {
-        return color;
-    }
-    else
-    {
-        return float3(0, 0, 0);
-    }
-}
 
 
 static const float Weight[GAU] =
@@ -32,7 +20,8 @@ float4 GaussianBlur(Texture2D _Tex, SamplerState _Sampler, float2 _Scale, float2
     float2 PixelSize = float2(1.0f / _Scale.x, 1.0f / _Scale.y);
     float2 StartUV = _PixelUV.xy;  /*+ (-PixelSize * 6.0f);*/
     float2 CurUV = StartUV;
-    float4 Result = (float4) 0.0f;
+    float3 ResultX = (float4) 0.0f;
+    float3 ResultY = (float4) 0.0f;
     
     
     // X축 블러 패스
@@ -40,17 +29,22 @@ float4 GaussianBlur(Texture2D _Tex, SamplerState _Sampler, float2 _Scale, float2
     {
         
         CurUV = StartUV + float2(PixelSize.x * X,0.0f );
-        Result += _Tex.Sample(_Sampler, CurUV) * Weight[6 + X];
+        ResultX += _Tex.Sample(_Sampler, CurUV) * Weight[6 + X];
     }
     
+    ResultX /= Total;
     // Y축 블러 패스
     for (int Y = -6; Y < 6; ++Y)
     {
         CurUV = StartUV + float2(0.0f, PixelSize.y * Y);
-        Result += _Tex.Sample(_Sampler, CurUV) * Weight[6 + Y];
+        ResultY += _Tex.Sample(_Sampler, CurUV) * Weight[6 + Y];
     }
     
-    Result.rgb /= Total;
+    ResultY /= Total;
+    float4 Result = float4(ResultY + ResultX, 1.0f);
+    
+    //Result.rgb = Result.rgb / Total;
+    //Result.w = 1.0f;
  
     //for (int Y = 0; Y < GAUY; ++Y)
     //{
