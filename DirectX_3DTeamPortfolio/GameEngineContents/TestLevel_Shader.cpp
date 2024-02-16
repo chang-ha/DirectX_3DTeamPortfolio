@@ -71,8 +71,8 @@ void TestLevel_Shader::Start()
 	GetCamera(ECAMERAORDER::UI)->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
 
-	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
-	HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,10.0f });
+	//HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
+	//HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,10.0f });
 
 
 	/*HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
@@ -101,17 +101,22 @@ void TestLevel_Shader::Start()
 	//}
 
 	// ∏  ø¿∫Í¡ß∆Æ
-	//{
-	//	std::shared_ptr<gameengineactor> actor = createactor<gameengineactor>();
+	{
+		std::shared_ptr<GameEngineActor> actor = CreateActor<GameEngineActor>();
 
 
-	//	std::shared_ptr<gamecontentsfbxrenderer> renderer = actor->createcomponent<gamecontentsfbxrenderer>();
+		std::shared_ptr<GameContentsFBXRenderer> renderer = actor->CreateComponent<GameContentsFBXRenderer>();
 
-	//	renderer->setfbxmesh("m30_00_00_00_000901.fbx", "fbx_static");
-	//	renderer->transform.setlocalscale({ 50.f, 50.f, 50.f, 1.0f });
+		renderer->SetFBXMesh("WorldSky.FBX", "FBX_Static");
+		//renderer->transform.setlocalscale({ 50.f, 50.f, 50.f, 1.0f });
 
-	//	renderer->renderbaseinfovalue.alphavalue = -10.0f;
-	//}
+		//renderer->renderbaseinfovalue.alphavalue = -10.0f;
+
+
+	}
+
+	//SkyRenderer = CreateComponent<GameContentsFBXRenderer>();
+	//SkyRenderer->SetFBXMesh("WorldSky.FBX", "FBX_Static");
 
 
 	{
@@ -127,23 +132,23 @@ void TestLevel_Shader::Start()
 		Test_Light1->SetLightData(Data);
 	}
 
-	{
-		Test_Light1 = CreateActor<ContentsLight>(static_cast<int>(Enum_UpdateOrder::Light),"MainLight");
-		Test_Light1->SetLightType(Enum_LightType::Point);
-		Test_Light1->IsDebugValue = true;
-		//Test_Light1->Transform.SetWorldScale(float4(100.f, 100.f, 100.f));
-		LightData Data = Test_Light1->GetLightData();
-		//Test_Light1->Transform.SetWorldRotation({ 90.0f, 0.0f, 0.0f });
-		//Test_Light1->Transform.SetWorldPosition({ 0, 1000.0f, 0.0f });
+	//{
+	//	Test_Light1 = CreateActor<ContentsLight>(static_cast<int>(Enum_UpdateOrder::Light),"MainLight");
+	//	Test_Light1->SetLightType(Enum_LightType::Point);
+	//	Test_Light1->IsDebugValue = true;
+	//	//Test_Light1->Transform.SetWorldScale(float4(100.f, 100.f, 100.f));
+	//	LightData Data = Test_Light1->GetLightData();
+	//	//Test_Light1->Transform.SetWorldRotation({ 90.0f, 0.0f, 0.0f });
+	//	//Test_Light1->Transform.SetWorldPosition({ 0, 1000.0f, 0.0f });
 
-		Data.DifLightPower = 2.0f;
-		Data.SpcLightPower = 1.0f;
-		Data.AmbientLight = float4::ONE * 0.1f;
-		Data.SpcPow = 50.0f;
-		Data.LightColor = { 1.0f,0.6f,0.0f };
+	//	Data.DifLightPower = 2.0f;
+	//	Data.SpcLightPower = 1.0f;
+	//	Data.AmbientLight = float4::ONE * 0.1f;
+	//	Data.SpcPow = 50.0f;
+	//	Data.LightColor = { 1.0f,0.6f,0.0f };
 
-		Test_Light1->SetLightData(Data);
-	}
+	//	Test_Light1->SetLightData(Data);
+	//}
 
 
 
