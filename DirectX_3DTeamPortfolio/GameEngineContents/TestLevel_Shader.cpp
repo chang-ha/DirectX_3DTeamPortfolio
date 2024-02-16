@@ -85,20 +85,7 @@ void TestLevel_Shader::Start()
 	/*Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
 	Boss_Object->Transform.SetLocalPosition({ 300.f, 0.f, 0.f });*/
 
-	// 컬러 구체
-	//{
-	//	{
-	//		std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
-	//		std::shared_ptr<GameEngineRenderer> NewRenderer = Object->CreateComponent<GameEngineRenderer>();
-	//		NewRenderer->RenderBaseInfoValue.IsNormal = 1;
-	//		NewRenderer->SetMesh("Sphere");
-	//		NewRenderer->SetMaterial("FBX_Static_Color");
-	//		//NewRenderer->GetShaderResHelper().SetTexture("NormalTexture", "BumpNormal.gif");
-	//		NewRenderer->Transform.SetLocalPosition({ 0.0f, 0.0f, 0.0f });
-	//		NewRenderer->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
-	//		NewRenderer->RenderBaseInfoValue.BaseColor = float4::RED;
-	//	}
-	//}
+
 
 	// 맵 오브젝트
 	{
@@ -108,11 +95,27 @@ void TestLevel_Shader::Start()
 		std::shared_ptr<GameContentsFBXRenderer> renderer = actor->CreateComponent<GameContentsFBXRenderer>();
 
 		renderer->SetFBXMesh("WorldSky.FBX", "FBX_Static");
+		renderer->RenderBaseInfoValue.TEXCOORDMult = 1.0f;
 		//renderer->transform.setlocalscale({ 50.f, 50.f, 50.f, 1.0f });
 
 		//renderer->renderbaseinfovalue.alphavalue = -10.0f;
 
 
+	}
+
+		// 컬러 구체
+	{
+		{
+			std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
+			std::shared_ptr<GameEngineRenderer> NewRenderer = Object->CreateComponent<GameEngineRenderer>();
+			//NewRenderer->RenderBaseInfoValue.IsNormal = 1;
+			NewRenderer->SetMesh("Sphere");
+			NewRenderer->SetMaterial("FBX_Static_NorX_SpcX");
+			NewRenderer->GetShaderResHelper().SetTexture("DiffuseTexture", "m30_00_sky_04_a.png");
+			//NewRenderer->Transform.SetLocalPosition({ 0.0f, 0.0f, 0.0f });
+			NewRenderer->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
+			//NewRenderer->RenderBaseInfoValue.BaseColor = float4::RED;
+		}
 	}
 
 	//SkyRenderer = CreateComponent<GameContentsFBXRenderer>();
@@ -242,6 +245,14 @@ void TestLevel_Shader::Update(float _Delta)
 	{
 		Test_Light1->Transform.AddLocalRotation(float4::DOWN * _Delta * MoveSpeed);
 		GetMainCamera()->Transform.AddLocalRotation(float4::DOWN * _Delta * MoveSpeed);
+	}
+	if (true == GameEngineInput::IsDown('1', this))
+	{
+		GameEngineCamera::FreeSpeed = 10000.0f;
+	}
+	if (true == GameEngineInput::IsDown('3', this))
+	{
+		GameEngineCamera::FreeSpeed = 200.0f;
 	}
 
 	if (true == GameEngineInput::IsDown(VK_F7, this))

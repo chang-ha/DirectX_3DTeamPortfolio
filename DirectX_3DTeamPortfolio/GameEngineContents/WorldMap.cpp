@@ -30,6 +30,7 @@ void WorldMap::Start()
 
 		SkyRenderer = CreateComponent<GameContentsFBXRenderer>();
 		SkyRenderer->SetFBXMesh("WorldSky.FBX", "FBX_Static");
+		SkyRenderer->RenderBaseInfoValue.TEXCOORDMult = 1.0f;
 
 		BackGroundRenderer = CreateComponent<GameContentsFBXRenderer>();
 		BackGroundRenderer->SetMapFBXMesh("BackGround.FBX", "FBX_Static");
