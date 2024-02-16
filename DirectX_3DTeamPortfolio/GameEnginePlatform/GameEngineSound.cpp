@@ -91,7 +91,7 @@ public:
 		// dopplerscale -> 가까워지거나 멀어지면 피치가 올라가고 내려감
 		// distancefactor -> 도플러값에만 영향을 미침
 		// rolloffscale -> 감쇠효과 정도
-		if (FMOD_RESULT::FMOD_OK != SoundSystem->set3DSettings(1.f, 1.f, 2.f))
+		if (FMOD_RESULT::FMOD_OK != SoundSystem->set3DSettings(1.f, 1.f, .5f))
 		{
 			MsgBoxAssert("3D 사운드 세팅에 실패했습니다.");
 		}
@@ -224,7 +224,7 @@ void GameEngineSound::Sound3DLoad(std::string_view _Name, std::string_view _Path
 	All3DSound.insert(std::make_pair(UpperName, NewSound));
 }
 
-GameEngineSoundPlayer GameEngineSound::Sound3DPlay(std::string_view _Name, const float4& _Pos, int _Loop/* = 0*/)
+GameEngineSoundPlayer GameEngineSound::Sound3DPlay(std::string_view _Name, const float4& _Pos, float _Volume /*= 1.0f*/, int _Loop/* = 0*/)
 {
 	std::shared_ptr<GameEngineSound> FindSoundPtr = Find3DSound(_Name);
 
@@ -235,6 +235,8 @@ GameEngineSoundPlayer GameEngineSound::Sound3DPlay(std::string_view _Name, const
 	}
 
 	GameEngineSoundPlayer Player = FindSoundPtr->Play3D(_Pos);
+
+	Player.SetVolume(_Volume);
 
 	Player.SetLoop(_Loop);
 
@@ -247,7 +249,6 @@ void GameEngineSound::SetListenerPos(const float4& _Pos, const float4& _ForWard,
 
 	FMOD_VECTOR Pos = { _Pos.X, _Pos.Y , _Pos.Z };
 
-	Pos.y -= 500.f;
 	//{
 	//	Vel.x = (Pos.x - PrevPos.x) * (1000 / 60.f);
 	//	Vel.y = (Pos.y - PrevPos.y) * (1000 / 60.f);
@@ -309,35 +310,6 @@ void GameEngineSound::Load3D(std::string_view _Path)
 {
 	std::string UTF8 = GameEngineString::AnsiToUTF8(_Path);
 
-	// #define FMOD_DEFAULT                                0x00000000
-	// #define FMOD_LOOP_OFF                               0x00000001
-	// #define FMOD_LOOP_NORMAL                            0x00000002
-	// #define FMOD_LOOP_BIDI                              0x00000004
-	// #define FMOD_2D                                     0x00000008
-	// #define FMOD_3D                                     0x00000010
-	// #define FMOD_CREATESTREAM                           0x00000080
-	// #define FMOD_CREATESAMPLE                           0x00000100
-	// #define FMOD_CREATECOMPRESSEDSAMPLE                 0x00000200
-	// #define FMOD_OPENUSER                               0x00000400
-	// #define FMOD_OPENMEMORY                             0x00000800
-	// #define FMOD_OPENMEMORY_POINT                       0x10000000
-	// #define FMOD_OPENRAW                                0x00001000
-	// #define FMOD_OPENONLY                               0x00002000
-	// #define FMOD_ACCURATETIME                           0x00004000
-	// #define FMOD_MPEGSEARCH                             0x00008000
-	// #define FMOD_NONBLOCKING                            0x00010000
-	// #define FMOD_UNIQUE                                 0x00020000
-	// #define FMOD_3D_HEADRELATIVE                        0x00040000
-	// #define FMOD_3D_WORLDRELATIVE                       0x00080000
-	// #define FMOD_3D_INVERSEROLLOFF                      0x00100000
-	// #define FMOD_3D_LINEARROLLOFF                       0x00200000
-	// #define FMOD_3D_LINEARSQUAREROLLOFF                 0x00400000
-	// #define FMOD_3D_INVERSETAPEREDROLLOFF               0x00800000
-	// #define FMOD_3D_CUSTOMROLLOFF                       0x04000000
-	// #define FMOD_3D_IGNOREGEOMETRY                      0x40000000
-	// #define FMOD_IGNORETAGS                             0x02000000
-	// #define FMOD_LOWMEM                                 0x08000000
-	// #define FMOD_VIRTUAL_PLAYFROMSTART                  0x80000000
 	FMOD_MODE Mode = FMOD_3D | FMOD_LOOP_NORMAL;
 	FMOD_RESULT Result = SoundSystem->createSound(UTF8.c_str(), Mode, 0, &SoundHandle);
 	if (nullptr == SoundHandle)
@@ -370,8 +342,7 @@ FMOD::Channel* GameEngineSound::Play3D(const float4& _Pos)
 	Result = SoundControl->set3DAttributes(&Pos, &vel);
 	Result = SoundControl->setPaused(false);
 
-	SoundControl->set3DMinMaxDistance(1000.f, 100000.f);
-
+	SoundControl->set3DMinMaxDistance(100.f, 10000.f);
 
 	return SoundControl;
 }

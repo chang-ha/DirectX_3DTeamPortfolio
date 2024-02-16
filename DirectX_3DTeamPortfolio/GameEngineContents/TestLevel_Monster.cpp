@@ -6,12 +6,11 @@
 #include "ContentsLight.h"
 
 #include "Monster_LothricKn.h"
-#include "Monster_HollowSoldier_Sword.h"
+#include "Monster_HollowSoldier_RoundShield.h"
 #include "DummyActor.h"
 
-void MonsterGUITab::Init(MonsterGUI* _GUI)
+void MonsterGUITab::Init()
 {
-	pParentGUI = _GUI;
 	Start();
 }
 
@@ -34,11 +33,93 @@ void DummyTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	ImGui::Spacing();
 	ImGui::Separator();
 	ImGui::Spacing();
+
+	if (ImGui::Checkbox("Camera Chase", &bCameraFocus))
+	{
+		if (bCameraFocus)
+		{
+			pActor->AttachCamera();
+		}
+
+		if (!bCameraFocus)
+		{
+			pActor->DettachCamera();
+		}
+	}
+}
+
+void InputTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
+{
+	if (ImGui::Button("Wake Object"))
+	{
+		std::vector<std::shared_ptr<Monster_LothricKn>> Monsters = pParentGUI->GetLevel()->GetObjectGroupConvert<Monster_LothricKn>(Enum_UpdateOrder::Monster);
+		for (std::shared_ptr<Monster_LothricKn>& Mosnter : Monsters)
+		{
+			Mosnter->WakeUp();
+		}
+	}
+}
+
+void MonsterControlTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
+{
+	if (nullptr == pActor)
+	{
+		if (ObjNames.empty())
+		{
+			int Cnt = 0;
+			const std::list<std::shared_ptr<GameEngineObject>>& ObjList = _Level->GetObjectGroup(Enum_UpdateOrder::Monster);
+
+			ObjNames.reserve(ObjList.size());
+			CObjNames.reserve(ObjList.size());
+
+			for (const std::shared_ptr<GameEngineObject>& Object : ObjList)
+			{
+				std::string Name = Object->GetName();
+				if (false == Name.empty())
+				{
+					ObjNames.push_back(Name);
+					CObjNames.push_back(ObjNames[Cnt].c_str());
+					++Cnt;
+				}
+			}
+		}
+	}
+
+	if (ImGui::Combo("Monster List", &MonsterNum, &CObjNames[0], static_cast<int>(CObjNames.size())))
+	{
+		std::vector<std::shared_ptr<BaseMonster>> Monsters = _Level->GetObjectGroupConvert<BaseMonster>(Enum_UpdateOrder::Monster);
+
+		for (const std::shared_ptr<BaseMonster>& Monster : Monsters)
+		{
+			if (CObjNames[MonsterNum] == Monster->GetName())
+			{
+				pActor = Monster.get();
+				break;
+			}
+		}
+	}
+
+	if (nullptr != pActor)
+	{
+		if (ImGui::Button("WakeUp"))
+		{
+			pActor->WakeUp();
+		}
+
+		ImGui::Checkbox("Zero Pos", &bFixPos);
+
+		if (bFixPos)
+		{
+			pActor->GetPhysxCapsulePointer()->SetWorldPosition(float4(0.0f));
+		}
+	}
 }
 
 void MonsterGUI::Start()
 {
 	CreateTab<DummyTab>("Dummy");
+	CreateTab<InputTab>("Input");
+	CreateTab<MonsterControlTab>("Monster Control");
 }
 
 void MonsterGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
@@ -133,11 +214,11 @@ void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 	std::shared_ptr<Monster_LothricKn> LothricKn = CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn");
 	LothricKn->Transform.SetWorldPosition(float4(100.0f, 0.0f, 0.0f));
 
-	std::shared_ptr<Monster_HollowSoldier_Sword> Hollow = CreateActor<Monster_HollowSoldier_Sword>(static_cast<int>(Enum_UpdateOrder::Monster), "Hollow");
+	std::shared_ptr<Monster_HollowSoldier_RoundShield> Hollow = CreateActor<Monster_HollowSoldier_RoundShield>(static_cast<int>(Enum_UpdateOrder::Monster), "Hollow");
 	Hollow->Transform.SetWorldPosition(float4(100.0f, 0.0f, 0.0f));
 	//Hollow->Transform.SetWorldRotation(float4(0.0f, 180.0f, 0.0f));
 	Hollow->Transform.SetWorldRotation(float4(0.0f, 0.0f, 0.0f));
-	Hollow->SetStateIdle2();
+	Hollow->SetStateIdle3();
 
 	if (nullptr != pMonsterGUI)
 	{
@@ -148,7 +229,7 @@ void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 void TestLevel_Monster::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	AllDeathObjectGroupConvert<Monster_LothricKn>(Enum_UpdateOrder::Monster);
-	AllDeathObjectGroupConvert<Monster_HollowSoldier_Sword>(Enum_UpdateOrder::Monster);
+	AllDeathObjectGroupConvert<Monster_HollowSoldier_RoundShield>(Enum_UpdateOrder::Monster);
 	AllDeathObjectGroupConvert<DummyActor>(Enum_UpdateOrder::Monster);
 
 	if (nullptr != pMonsterGUI)

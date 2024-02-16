@@ -3,7 +3,6 @@
 
 enum class Enum_HollowSoldier_RoundShield_State
 {
-	// 확정 x
 	Idle1,
 	Idle2,
 	Idle3,	// GuardOn
@@ -14,6 +13,13 @@ enum class Enum_HollowSoldier_RoundShield_State
 	RH_HorizontalSlash,
 	RH_ComboAttack,
 	RH_TwinSlash,
+	Attack1,
+	Attack2,
+	Attack3,
+	Attack4,
+	Attack5,
+	Attack6,
+	Attack7,
 	Guard,	// 공격 막힘
 	GuardBreak,
 	AttackFail,
@@ -22,7 +28,8 @@ enum class Enum_HollowSoldier_RoundShield_State
 	HitToDeath,
 	BackAttackHit,
 	Death,
-	Max
+	Max,
+	
 };
 
 // 설명 : 
@@ -39,11 +46,17 @@ public:
 	Monster_HollowSoldier_RoundShield& operator=(const Monster_HollowSoldier_RoundShield & _Other) = delete;
 	Monster_HollowSoldier_RoundShield& operator=(Monster_HollowSoldier_RoundShield && _Other) noexcept = delete;
 
+	void SetStateIdle3()
+	{
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle3);
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 private:
-
+	float StateTime = 0.0f;
+	int AttackPattern = 0;
 	
 protected:
 	Enum_HollowSoldier_RoundShield_State ShieldState = Enum_HollowSoldier_RoundShield_State::Max;
@@ -78,6 +91,27 @@ protected:
 	void State_RH_TwinSlash_Start();
 	void State_RH_TwinSlash_Update(float _Delta);
 
+	void State_Attack1_Start();
+	void State_Attack1_Update(float _Delta);
+
+	void State_Attack2_Start();
+	void State_Attack2_Update(float _Delta);
+
+	void State_Attack3_Start();
+	void State_Attack3_Update(float _Delta);
+
+	void State_Attack4_Start();
+	void State_Attack4_Update(float _Delta);
+
+	void State_Attack5_Start();
+	void State_Attack5_Update(float _Delta);
+
+	void State_Attack6_Start();
+	void State_Attack6_Update(float _Delta);
+
+	void State_Attack7_Start();
+	void State_Attack7_Update(float _Delta);
+
 	void State_Guard_Start();
 	void State_Guard_Update(float _Delta);
 
@@ -101,5 +135,8 @@ protected:
 
 	void State_Death_Start();
 	void State_Death_Update(float _Delta);
+
+	
+
 };
 

@@ -277,8 +277,12 @@ void GameEngineWindow::CursorOff()
 	ShowCursor(FALSE);
 }
 
-void GameEngineWindow::SetMousePos(int _X, int _Y)
+void GameEngineWindow::SetMousePos(int _X,int _Y)
 {
-	SetCursorPos(_X, _Y);
+	POINT MoniterPoint = { _X ,_Y };
+
+	ScreenToClient(hWnd, &MoniterPoint);
+
+	SetCursorPos(MoniterPoint.x, MoniterPoint.y);
 
 }

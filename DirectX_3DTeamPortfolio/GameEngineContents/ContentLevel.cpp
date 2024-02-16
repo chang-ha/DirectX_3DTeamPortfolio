@@ -78,7 +78,7 @@ void ContentLevel::ChaseListener()
 	float4 Pos = GetMainCamera()->Transform.GetWorldPosition();
 	float4 Rot = GetMainCamera()->Transform.GetWorldRotationEuler();
 
-	// Y축만 고려 X,Z축은 추후 추가
+	// Y축만 고려 X,Z축은 필요시
 	float4 ForWard = { 0.f, 0.f, 1.f, 1.f };
 	ForWard.VectorRotationToDegY(Rot.Y);
 

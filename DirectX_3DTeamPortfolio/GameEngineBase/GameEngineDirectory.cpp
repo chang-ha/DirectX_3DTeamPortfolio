@@ -11,6 +11,12 @@ GameEngineDirectory::~GameEngineDirectory()
 {
 }
 
+bool GameEngineDirectory::IsExist(std::string_view _Path)
+{
+	std::filesystem::directory_entry entry{ _Path };
+	return entry.exists() ? true : false;
+}
+
 GameEngineDirectory::GameEngineDirectory(std::string_view _path) 
 	: GameEnginePath(_path)
 {

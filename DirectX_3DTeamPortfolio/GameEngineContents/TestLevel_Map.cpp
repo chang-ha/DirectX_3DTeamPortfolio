@@ -16,22 +16,27 @@ TestLevel_Map::~TestLevel_Map()
 
 void TestLevel_Map::LevelStart(GameEngineLevel* _PrevLevel)
 {
+	ContentLevel::LevelStart(_PrevLevel);
+
 	{
 		std::shared_ptr<WorldMap> Object = CreateActor<WorldMap>(0, "WorldMap");
 	}
 
+	//{
+	//	std::shared_ptr<TestMap> Object = CreateActor<TestMap>(0, "TestMap");
+	//}
 
 }
 
 void TestLevel_Map::LevelEnd(GameEngineLevel* _NextLevel)
 {
+	ContentLevel::LevelEnd(_NextLevel);
 
 }
 
 void TestLevel_Map::Start()
 {
 	ContentLevel::Start();
-
 
 
 	Scene->setVisualizationParameter(physx::PxVisualizationParameter::eACTOR_AXES, 0.0f);

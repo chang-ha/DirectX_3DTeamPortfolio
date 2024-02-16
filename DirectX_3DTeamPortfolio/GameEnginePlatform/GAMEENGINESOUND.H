@@ -83,7 +83,7 @@ public:
 
 	static void Sound3DLoad(std::string_view _Name, std::string_view _Path);
 
-	static GameEngineSoundPlayer Sound3DPlay(std::string_view _Name, const float4& _Pos, int _Loop = 0);
+	static GameEngineSoundPlayer Sound3DPlay(std::string_view _Name, const float4& _Pos, float _Volume = 1.0f, int _Loop = 0);
 
 	static void SetListenerPos(const float4& _Pos, const float4& _ForWard, const float4& _Up);
 

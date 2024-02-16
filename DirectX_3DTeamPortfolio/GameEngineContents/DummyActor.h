@@ -38,7 +38,7 @@ protected:
 
 	bool IsCameraTargetting();
 	void SetCameraDist(float _fDist);
-	float4 CalMouseAxis();
+	void CalMouseAxis();
 	void PivotUpdate(float _Delta);
 
 private:
@@ -54,6 +54,11 @@ private:
 	float4 Camera_Axis = float4::ZERO;
 	float Xaxis = 0.0f;
 	float Yaxis = 0.0f;
+
+	float4 ScreenMousePrevPos = float4::ZERO;
+	float4 ScreenMousePos = float4::ZERO;
+	float4 MouseDir = float4::ZERO;
+	float4 MoveDir = float4::ZERO;
 
 };
 
