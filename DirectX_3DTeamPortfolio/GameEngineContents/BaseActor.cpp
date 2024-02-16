@@ -423,3 +423,19 @@ float BaseActor::GetTargetDistance() const
 	const float Dist = ContentsMath::GetVector3Length(OtherPos - MyPos).X;
 	return Dist;
 }
+
+float4 BaseActor::GetTargetDirection() const
+{
+	if (nullptr == Target)
+	{
+		MsgBoxAssert("타겟이 존재하지 않습니다.");
+		return float4::ZERO;
+	}
+
+	const float4 MyPos = Transform.GetWorldPosition();
+	const float4 TargetPos = Target->Transform.GetWorldPosition();
+
+	float4 Direction = TargetPos - MyPos;
+	Direction.Normalize();
+	return Direction;
+}

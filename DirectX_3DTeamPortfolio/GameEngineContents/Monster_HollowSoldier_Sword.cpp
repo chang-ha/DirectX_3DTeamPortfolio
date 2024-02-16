@@ -36,12 +36,14 @@ void Monster_HollowSoldier_Sword::Start()
 
 	ChangeState(Enum_HollowSoldier_Sword_State::Idle1);
 
+	
 }
 void Monster_HollowSoldier_Sword::Update(float _Delta)
 {
 	Monster_Hollow::Update(_Delta);
 	StateUpdate(_Delta);
 
+	
 }
 
 void Monster_HollowSoldier_Sword::ChangeState(Enum_HollowSoldier_Sword_State _State)
@@ -274,6 +276,8 @@ void Monster_HollowSoldier_Sword::State_Idle1_Update(float _Delta)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Scout);
 	}
+
+	AddWDirection(_Delta * 10.0f);
 }
 
 void Monster_HollowSoldier_Sword::State_Idle2_Start()
@@ -321,7 +325,7 @@ void Monster_HollowSoldier_Sword::State_Idle2_Update(float _Delta)
 		};
 	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);
 
-	if (StateTime >= 3.0f)
+	if (StateTime >= 2.0f)
 	{
 		if (IsRecognize == true && IsAttack == false)
 		{
@@ -334,6 +338,9 @@ void Monster_HollowSoldier_Sword::State_Idle2_Update(float _Delta)
 			ChangeAttackState();
 		}
 	}
+
+	float a = GetWDirection();
+	int b = 0;
 }
 
 void Monster_HollowSoldier_Sword::State_Scout_Start()
@@ -362,6 +369,12 @@ void Monster_HollowSoldier_Sword::State_Scout_Update(float _Delta)
 	RecognizeParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
 		{
 			//ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+			SetTargeting(_Other->GetActor());
+			float a = GetTargetDistance();
+			float4 c = GetTargetDirection();
+			float d = c.Angle2DDeg();
+			Capsule->SetWorldRotation(float4(0.0f, 90.0f - d, 0.0f));
+			int b = 0;
 		};
 	if (true == RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, RecognizeParameter))
 	{

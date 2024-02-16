@@ -242,6 +242,8 @@ public:
 
 	float GetTargetDistance() const;
 
+	float4 GetTargetDirection() const;
+
 	
 
 private:
