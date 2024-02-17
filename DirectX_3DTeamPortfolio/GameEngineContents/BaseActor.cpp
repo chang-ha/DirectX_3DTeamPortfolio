@@ -50,17 +50,6 @@ void BaseActor::Start()
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
 
 	Transform.SetLocalScale(float4(W_SCALE, W_SCALE, W_SCALE));
-
-	{
-		Actor_test = GetLevel()->CreateActor<GameEngineActor>();
-	}
-
-	{
-		Actor_test_02 = GetLevel()->CreateActor<GameEngineActor>();
-		Actor_test_02->SetParent(Actor_test);
-		Actor_test_02->Transform.SetWorldPosition({ 0.0f,400.0f,-1000.0f });
-	}
-
 }
 
 void BaseActor::Update(float _Delta)

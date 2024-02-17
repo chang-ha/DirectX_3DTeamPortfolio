@@ -19,6 +19,8 @@ private:
 
 		void ControlUpdate(float _Delta);
 
+		inline const float4& GetQuaternion() const { return QutRotation; }
+
 	private:
 		void InputUpdate(float _Delta);
 		void FollowUpdate();
@@ -81,6 +83,6 @@ private:
 	ContentsControlInput ControlInput;
 	CameraControl CameraControler;
 
-	float MoveSpeed = 100.0f;
+	float MoveSpeed = 500.0f;
 
 };

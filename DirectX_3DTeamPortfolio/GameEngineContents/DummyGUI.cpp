@@ -48,6 +48,8 @@ void DummyGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			pActor->DettachCamera();
 		}
 	}
+
+	ImGui::SliderFloat("Set Speed", pActor->GetSpeedPointer(), 100.0f, 1000.0f, "%.f");
 }
 
 void DummyGUI::LevelEnd()
@@ -58,4 +60,7 @@ void DummyGUI::LevelEnd()
 		pActor->DettachCamera();
 		pActor = nullptr;
 	}
+
+	bUpdate = false;
+	bCameraControl = false;
 }

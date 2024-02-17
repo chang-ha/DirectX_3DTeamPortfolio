@@ -169,9 +169,6 @@
     <ClCompile Include="TitleLogo.cpp">
       <Filter>Actor\UI</Filter>
     </ClCompile>
-    <ClCompile Include="ContentsControlInput.cpp">
-      <Filter>Actor\Monster\LothricKnight</Filter>
-    </ClCompile>
     <ClCompile Include="Monster_HollowSoldier_RoundShield.cpp">
       <Filter>Actor\Monster\Hollow</Filter>
     </ClCompile>
@@ -183,9 +180,6 @@
     </ClCompile>
     <ClCompile Include="Monster_Hollow_Assassin.cpp">
       <Filter>Actor\Monster\Hollow</Filter>
-    </ClCompile>
-    <ClCompile Include="ContentsMouseInput.cpp">
-      <Filter>Actor\Monster\LothricKnight</Filter>
     </ClCompile>
     <ClCompile Include="WorldMap.cpp">
       <Filter>Map</Filter>
@@ -225,6 +219,12 @@
     </ClCompile>
     <ClCompile Include="BoneSoundFrameEvent.cpp">
       <Filter>ImGui\Editor\FrameEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsMouseInput.cpp">
+      <Filter>Actor\Monster\LothricKnight\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsControlInput.cpp">
+      <Filter>Actor\Monster\LothricKnight\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -393,9 +393,6 @@
     <ClInclude Include="TitleLogo.h">
       <Filter>Actor\UI</Filter>
     </ClInclude>
-    <ClInclude Include="ContentsControlInput.h">
-      <Filter>Actor\Monster\LothricKnight</Filter>
-    </ClInclude>
     <ClInclude Include="Monster_HollowSoldier_RoundShield.h">
       <Filter>Actor\Monster\Hollow</Filter>
     </ClInclude>
@@ -407,9 +404,6 @@
     </ClInclude>
     <ClInclude Include="Monster_Hollow_Assassin.h">
       <Filter>Actor\Monster\Hollow</Filter>
-    </ClInclude>
-    <ClInclude Include="ContentsMouseInput.h">
-      <Filter>Actor\Monster\LothricKnight</Filter>
     </ClInclude>
     <ClInclude Include="WorldMap.h">
       <Filter>Map</Filter>
@@ -449,6 +443,12 @@
     </ClInclude>
     <ClInclude Include="BoneSoundFrameEvent.h">
       <Filter>ImGui\Editor\FrameEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsMouseInput.h">
+      <Filter>Actor\Monster\LothricKnight\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsControlInput.h">
+      <Filter>Actor\Monster\LothricKnight\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -526,6 +526,9 @@
     </Filter>
     <Filter Include="PostEffect">
       <UniqueIdentifier>{0908c021-de83-47a2-af52-678a47c6fbb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Monster\LothricKnight\Input">
+      <UniqueIdentifier>{d1fd0b40-390b-4ea8-929d-56c240e35ebd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

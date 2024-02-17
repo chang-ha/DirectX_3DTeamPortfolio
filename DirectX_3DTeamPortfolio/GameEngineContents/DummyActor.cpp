@@ -34,13 +34,13 @@ void DummyActor::Off()
 void DummyActor::Start()
 {
 	MainRenderer = CreateComponent<GameEngineRenderer>(Enum_RenderOrder::Monster);
-	MainRenderer->SetMesh("Sphere");
+	MainRenderer->SetMesh("Box");
 	MainRenderer->SetMaterial("FBXStaticColor");
 	MainRenderer->Transform.SetWorldScale(float4(RenScale, RenScale, RenScale));
 
 	BodyCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Dummy);
 	BodyCollision->SetCollisionType(ColType::SPHERE3D);
-	BodyCollision->Transform.SetWorldScale(float4(100.0f, 100.0f, 100.0f));
+	BodyCollision->Transform.SetWorldScale(float4(1.0f, 1.0f, 1.0f));
 
 	ControlInput.SetPointer(this);
 	CameraControler.Init(this);
@@ -56,8 +56,6 @@ void DummyActor::Update(float _Delta)
 
 void DummyActor::Release()
 {
-	BaseActor::Release();
-
 	CameraControler.Release();
 	MainRenderer = nullptr;
 	BodyCollision = nullptr;
@@ -70,14 +68,20 @@ void DummyActor::LevelEnd(class GameEngineLevel* _PrevLevel)
 	DettachCamera();
 }
 
-
-
 /////////
 // Input for Move Logic
 void DummyActor::MoveUpdate(float _Delta)
 {
-	float4 DirVector = ControlInput.GetInputVector();
-	Transform.AddLocalPosition(DirVector * MoveSpeed * _Delta);
+	float4 InputVector = ControlInput.GetInputVector();
+
+	if (CameraControler.IsUpdate() && float4::ZERO != InputVector)
+	{
+		float4 Rot = CameraControler.GetQuaternion();
+		const float4 DirVector = InputVector.VectorRotationToDegYReturn(Rot.Y);
+		const float4 MovePos = DirVector * MoveSpeed* _Delta;
+		Transform.SetLocalRotation(float4(0.0f, Rot.Y));
+		Transform.AddLocalPosition(MovePos);
+	}
 }
 
 /////////
@@ -154,8 +158,8 @@ void DummyActor::CameraControl::On()
 
 	FollowUpdate();
 
-	PointObject->On();
-	PosRenderer->On();
+	// PointObject->On();
+	// PosRenderer->On();
 
 	MouseInput.Reset();
 }
@@ -273,20 +277,6 @@ void DummyActor::CameraControl::ControlUpdate(float _Delta)
 {
 	if (false == IsUpdate())
 	{
-		return;
-	}
-
-	if (nullptr == pCameraTransfrom
-		|| nullptr == pParent)
-	{
-		MsgBoxAssert("값이 존재하지 않습니다.");
-		return;
-	}
-
-	if (nullptr == ColObject
-		|| nullptr == PointObject)
-	{
-		MsgBoxAssert("값이 존재하지 않습니다.");
 		return;
 	}
 
