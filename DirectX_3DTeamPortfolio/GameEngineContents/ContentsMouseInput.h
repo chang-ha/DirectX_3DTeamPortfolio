@@ -3,8 +3,6 @@
 // Ό³Έν :
 class ContentsMouseInput
 {
-	friend class ContentsCore;
-
 public:
 	// constrcuter destructer
 	ContentsMouseInput();
@@ -16,16 +14,20 @@ public:
 	ContentsMouseInput& operator=(const ContentsMouseInput& _Other) = delete;
 	ContentsMouseInput& operator=(ContentsMouseInput&& _Other) noexcept = delete;
 
-	static float4 GetMouseMovePos();
+	inline float4 GetScreenMovePos() const
+	{
+		return MovePos;
+	}
+
+	void Reset();
+	void InputUpdate();
 
 protected:
-	static void Reset();
-	static void InputUpdate();
 
 private:
-	static float4 PrevPos;
-	static float4 MovePos;
-	static float4 CurPos;
+	float4 PrevPos;
+	float4 MovePos;
+	float4 CurPos;
 
 };
 

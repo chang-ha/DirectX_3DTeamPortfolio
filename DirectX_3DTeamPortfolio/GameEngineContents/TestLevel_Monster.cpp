@@ -7,45 +7,10 @@
 
 #include "Monster_LothricKn.h"
 #include "Monster_HollowSoldier_RoundShield.h"
-#include "DummyActor.h"
 
 void MonsterGUITab::Init()
 {
 	Start();
-}
-
-
-void DummyTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
-{
-	if (nullptr == pActor)
-	{
-		pActor = pParentGUI->GetLevel()->GetDummyActorPointer();
-	}
-
-	if (ImGui::Checkbox("Update Box", &IsUpdate))
-	{
-		pActor->OnOffSwitch();
-	}
-
-	float* pActorSpeed = pActor->GetSpeedPointer();
-
-	ImGui::InputFloat("Dummy Move Speed", pActorSpeed, 1.0f, 100.0f, "%.f");
-	ImGui::Spacing();
-	ImGui::Separator();
-	ImGui::Spacing();
-
-	if (ImGui::Checkbox("Camera Chase", &bCameraFocus))
-	{
-		if (bCameraFocus)
-		{
-			pActor->AttachCamera();
-		}
-
-		if (!bCameraFocus)
-		{
-			pActor->DettachCamera();
-		}
-	}
 }
 
 void InputTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
@@ -117,7 +82,6 @@ void MonsterControlTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 void MonsterGUI::Start()
 {
-	CreateTab<DummyTab>("Dummy");
 	CreateTab<InputTab>("Input");
 	CreateTab<MonsterControlTab>("Monster Control");
 }
@@ -185,10 +149,6 @@ void TestLevel_Monster::Start()
 	pMonsterGUI = GameEngineGUI::CreateGUIWindow<MonsterGUI>("MonsterGUI");
 	pMonsterGUI->Off();
 
-	// DummySetting
-	pDummyActor = CreateActor<DummyActor>(static_cast<int>(Enum_UpdateOrder::Monster));
-	pDummyActor->Off();
-
 	// CameraSetting
 	GetMainCamera()->GetCameraAllRenderTarget()->SetClearColor(float4::BLUE);
 	GetMainCamera()->Transform.SetLocalPosition({0.0f, 0.0f, -200.0f});
@@ -230,21 +190,9 @@ void TestLevel_Monster::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	AllDeathObjectGroupConvert<Monster_LothricKn>(Enum_UpdateOrder::Monster);
 	AllDeathObjectGroupConvert<Monster_HollowSoldier_RoundShield>(Enum_UpdateOrder::Monster);
-	AllDeathObjectGroupConvert<DummyActor>(Enum_UpdateOrder::Monster);
 
 	if (nullptr != pMonsterGUI)
 	{
 		pMonsterGUI->Off();
 	}
-}
-
-
-DummyActor* TestLevel_Monster::GetDummyActorPointer() const
-{
-	if (nullptr == pDummyActor)
-	{
-		MsgBoxAssert("존재하지 않는 액터를 반환하려 했습니다.");
-	}
-
-	return pDummyActor.get();
 }

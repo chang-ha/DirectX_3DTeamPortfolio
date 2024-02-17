@@ -41,8 +41,6 @@ void ContentsCore::Start()
 	CoreGUIWindow = GameEngineGUI::CreateGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 	CoreGUIWindow->On();
 
-	ContentsMouseInput::Reset();
-
 	GameEngineFont::Load("OptimusBold");
 	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
 	GameEngineCore::CreateLevel<TestLevel_Boss>("TestLevel_Boss");
@@ -56,8 +54,6 @@ void ContentsCore::Start()
 
 void ContentsCore::Update(float _Delta)
 {
-	ContentsMouseInput::InputUpdate();
-
 	if (nullptr != CoreGUIWindow && true == GameEngineInput::IsDown(VK_F7, this))
 	{
 		CoreGUIWindow->OnOffSwitch();

@@ -239,6 +239,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="DummyGUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="DummyPath.cpp">
       <SubType>
       </SubType>
@@ -457,6 +461,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="DummyActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DummyGUI.h">
       <SubType>
       </SubType>
     </ClInclude>

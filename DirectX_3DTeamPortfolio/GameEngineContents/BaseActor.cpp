@@ -91,9 +91,6 @@ void BaseActor::CameraRotation(float Delta)
 	Mouse_Ro_X = GameEngineCore::MainWindow.GetMousePos().X;
 	Mouse_Ro_Y = GameEngineCore::MainWindow.GetMousePos().Y;
 
-
-
-
 	if (GameEngineInput::IsPress('W', this) )
 	{
 		Camera_Pos_Y += CameraPos.Y * Delta * 500;
@@ -113,9 +110,6 @@ void BaseActor::CameraRotation(float Delta)
 			Camera_Pos_Y = 0;
 		}
 	}
-
-
-
 
 	if (GameEngineInput::IsPress('D', this))
 	{

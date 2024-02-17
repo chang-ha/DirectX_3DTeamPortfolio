@@ -17,20 +17,6 @@ protected:
 
 };
 
-class DummyTab : public MonsterGUITab
-{
-private:
-	void Start() override {}
-	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
-
-private:
-	class DummyActor* pActor = nullptr;
-
-	bool IsUpdate = false;
-	bool bCameraFocus = false;
-
-};
-
 class InputTab : public MonsterGUITab
 {
 public:
@@ -105,8 +91,6 @@ public:
 	TestLevel_Monster& operator=(const TestLevel_Monster& _Other) = delete;
 	TestLevel_Monster& operator=(TestLevel_Monster&& _Other) noexcept = delete;
 
-	class DummyActor* GetDummyActorPointer() const;
-
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -131,7 +115,6 @@ protected:
 
 private:
 	std::shared_ptr<MonsterGUI> pMonsterGUI;
-	std::shared_ptr<class DummyActor> pDummyActor;
 
 };
 

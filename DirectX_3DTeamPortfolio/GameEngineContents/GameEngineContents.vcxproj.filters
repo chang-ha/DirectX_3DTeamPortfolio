@@ -214,6 +214,10 @@
     <ClCompile Include="BloomGUI.cpp">
       <Filter>ImGui\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="BoneSoundFrameEvent.cpp" />
+    <ClCompile Include="DummyGUI.cpp">
+      <Filter>ImGui\Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -424,6 +428,10 @@
       <Filter>Core\Global</Filter>
     </ClInclude>
     <ClInclude Include="BloomGUI.h">
+      <Filter>ImGui\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="BoneSoundFrameEvent.h" />
+    <ClInclude Include="DummyGUI.h">
       <Filter>ImGui\Editor</Filter>
     </ClInclude>
   </ItemGroup>
