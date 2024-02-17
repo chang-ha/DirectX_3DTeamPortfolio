@@ -146,6 +146,54 @@ void ContentResources::ContentResourcesInit()
 		Mat->SetDepthState("AlwaysDepth");
 	}
 
+	{
+		D3D11_BLEND_DESC Desc = { 0, };
+
+		Desc.AlphaToCoverageEnable = false;
+		Desc.IndependentBlendEnable = false;
+
+		Desc.RenderTarget[0].BlendEnable = true;
+		Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_MAX;
+		Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+		Desc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
+
+		Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_MAX;
+		Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+		Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+
+		GameEngineBlend::Create("MaxMergeBlend", Desc);
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("BloomBlur");
+
+		Mat->SetVertexShader("BloomBlur_VS");
+		Mat->SetPixelShader("BloomBlur_PS");
+		//Mat->SetRasterizer("EngineRasterizer");
+		//Mat->SetBlendState("MergeBlend");
+		//Mat->SetDepthState("AlwaysDepth");
+	}
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("BloomBright");
+
+		Mat->SetVertexShader("BloomBright_VS");
+		Mat->SetPixelShader("BloomBright_PS");
+		//Mat->SetRasterizer("EngineRasterizer");
+		//Mat->SetBlendState("MergeBlend");
+		//Mat->SetDepthState("AlwaysDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("BloomCombine");
+
+		Mat->SetVertexShader("BloomCombine_VS");
+		Mat->SetPixelShader("BloomCombine_PS");
+		//Mat->SetRasterizer("EngineRasterizer");
+		Mat->SetBlendState("MaxMergeBlend");
+		Mat->SetDepthState("AlwaysDepth");
+	}
+
 	// LUT
 	{
 		LUTEffect::Load();

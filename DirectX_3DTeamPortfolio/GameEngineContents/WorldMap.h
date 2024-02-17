@@ -24,6 +24,14 @@ private:
 
 	std::shared_ptr<class GameEnginePhysXTriMesh> TriMesh;
 
+	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer2;
+
+	std::shared_ptr<class GameEnginePhysXTriMesh> TriMesh2;
+
+	std::shared_ptr<GameContentsFBXRenderer> SkyRenderer;
+	std::shared_ptr<GameContentsFBXRenderer> BackGroundRenderer;
+
+
 
 	//// ¸Êµ¥ÀÌÅÍ
 	//std::shared_ptr<GameEngineFBXMesh> MapMesh;

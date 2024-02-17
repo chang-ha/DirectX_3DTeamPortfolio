@@ -86,6 +86,15 @@ public:
 		{
 			MsgBoxAssert("사운드 시스템 이니셜라이즈에 실패했습니다.");
 		}
+		
+		// 3D Setting
+		// dopplerscale -> 가까워지거나 멀어지면 피치가 올라가고 내려감
+		// distancefactor -> 도플러값에만 영향을 미침
+		// rolloffscale -> 감쇠효과 정도
+		if (FMOD_RESULT::FMOD_OK != SoundSystem->set3DSettings(1.f, 1.f, .5f))
+		{
+			MsgBoxAssert("3D 사운드 세팅에 실패했습니다.");
+		}
 	}
 
 	~SoundSystemCreator()
@@ -111,8 +120,10 @@ void GameEngineSound::Update()
 
 SoundSystemCreator SoundInitObject = SoundSystemCreator();
 float GameEngineSound::GlobalVolume = 1.0f;
+FMOD_VECTOR GameEngineSound::Vel = { 0.f, 0.f, 0.f };
 
 std::map<std::string, std::shared_ptr<GameEngineSound>> GameEngineSound::AllSound;
+std::map<std::string, std::shared_ptr<GameEngineSound>> GameEngineSound::All3DSound;
 
 
 GameEngineSound::GameEngineSound() 
@@ -188,9 +199,82 @@ GameEngineSoundPlayer GameEngineSound::SoundPlay(std::string_view _Name, int _Lo
 	return Player;
 }
 
+std::shared_ptr<GameEngineSound> GameEngineSound::Find3DSound(std::string_view _Name)
+{
+	std::string UpperName = GameEngineString::ToUpperReturn(_Name);
+
+	std::map<std::string, std::shared_ptr<GameEngineSound>>::iterator FindIter = All3DSound.find(UpperName);
+
+	if (FindIter == All3DSound.end())
+	{
+		return nullptr;
+	}
+
+	return FindIter->second;
+}
+
+void GameEngineSound::Sound3DLoad(std::string_view _Name, std::string_view _Path)
+{
+	std::string UpperName = GameEngineString::ToUpperReturn(_Name);
+
+	std::shared_ptr<GameEngineSound> NewSound = std::make_shared<GameEngineSound>();
+
+	NewSound->Load3D(_Path);
+
+	All3DSound.insert(std::make_pair(UpperName, NewSound));
+}
+
+GameEngineSoundPlayer GameEngineSound::Sound3DPlay(std::string_view _Name, const float4& _Pos, float _Volume /*= 1.0f*/, int _Loop/* = 0*/)
+{
+	std::shared_ptr<GameEngineSound> FindSoundPtr = Find3DSound(_Name);
+
+	if (nullptr == FindSoundPtr)
+	{
+		MsgBoxAssert("존재하지 않는 사운드를 재생하려고 했습니다.");
+		return nullptr;
+	}
+
+	GameEngineSoundPlayer Player = FindSoundPtr->Play3D(_Pos);
+
+	Player.SetVolume(_Volume);
+
+	Player.SetLoop(_Loop);
+
+	return Player;
+}
+
+void GameEngineSound::SetListenerPos(const float4& _Pos, const float4& _ForWard, const float4& _Up)
+{
+	static FMOD_VECTOR PrevPos = { 0.0f, 0.0f, 0.0f };
+
+	FMOD_VECTOR Pos = { _Pos.X, _Pos.Y , _Pos.Z };
+
+	//{
+	//	Vel.x = (Pos.x - PrevPos.x) * (1000 / 60.f);
+	//	Vel.y = (Pos.y - PrevPos.y) * (1000 / 60.f);
+	//	Vel.z = (Pos.z - PrevPos.z) * (1000 / 60.f);
+	//	PrevPos = Pos;
+	//}
+
+	// ForWard와 Up벡터는 수직이어야함
+	float4 nForWard = _ForWard.NormalizeReturn();
+	float4 nUp = _Up.NormalizeReturn();
+
+	if (DirectX::XMVector3Equal(nUp.DirectXVector, DirectX::XMVector3Orthogonal(nForWard.DirectXVector)))
+	{
+		MsgBoxAssert("ForWard벡터와 Up벡터는 수직관계여야 합니다.");
+	}
+
+	const FMOD_VECTOR ForWard = { nForWard.X, nForWard.Y , nForWard.Z };
+	const FMOD_VECTOR Up = { nUp.X, nUp.Y , nUp.Z };
+
+	SoundSystem->set3DListenerAttributes(0, &Pos , &Vel, &ForWard, &Up);
+}
+
 void GameEngineSound::Release()
 {
 	GameEngineSound::AllSound.clear();
+	GameEngineSound::All3DSound.clear();
 }
 
 
@@ -222,11 +306,43 @@ void GameEngineSound::Load(std::string_view _Path)
 	}
 }
 
+void GameEngineSound::Load3D(std::string_view _Path)
+{
+	std::string UTF8 = GameEngineString::AnsiToUTF8(_Path);
+
+	FMOD_MODE Mode = FMOD_3D | FMOD_LOOP_NORMAL;
+	FMOD_RESULT Result = SoundSystem->createSound(UTF8.c_str(), Mode, 0, &SoundHandle);
+	if (nullptr == SoundHandle)
+	{
+		MsgBoxAssert("사운드 로드에 실패했습니다.");
+	}
+}
+
+
 FMOD::Channel* GameEngineSound::Play()
 {
 	FMOD::Channel* SoundControl = nullptr;
 
  	SoundSystem->playSound(SoundHandle, nullptr, false, &SoundControl);
+	return SoundControl;
+}
+
+FMOD::Channel* GameEngineSound::Play3D(const float4& _Pos)
+{
+	FMOD::Channel* SoundControl = nullptr;
+	
+	FMOD_VECTOR Pos = { _Pos.X, _Pos.Y, _Pos.Z };
+	FMOD_VECTOR vel = { 0.f, 0.f, 0.f };
+
+	FMOD_RESULT Result;
+	
+	Result = SoundSystem->playSound(SoundHandle, 0, true, &SoundControl);
+
+	Result = SoundControl->setMode(FMOD_3D);
+	Result = SoundControl->set3DAttributes(&Pos, &vel);
+	Result = SoundControl->setPaused(false);
+
+	SoundControl->set3DMinMaxDistance(100.f, 10000.f);
 
 	return SoundControl;
 }

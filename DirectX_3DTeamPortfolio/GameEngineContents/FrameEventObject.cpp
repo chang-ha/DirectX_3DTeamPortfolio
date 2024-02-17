@@ -21,6 +21,9 @@ std::string FrameEventObject::GetTypeString() const
 	case Enum_FrameEventType::Sound:
 		ReturnValue = "Sound";
 		break;
+	case Enum_FrameEventType::BSound:
+		ReturnValue = "BSound";
+		break;
 	case Enum_FrameEventType::CollisionUpdate:
 		ReturnValue = "CollisionUpdate";
 		break;

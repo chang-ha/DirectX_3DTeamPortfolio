@@ -52,6 +52,7 @@ public:
 	bool Loop = true;
 	bool IsStart = false;
 	bool IsEnd = false;
+	bool EventCheck = true;
 
 	// RootMotion
 	RootMotionData mRootMotionData;
@@ -90,6 +91,11 @@ public:
 		mRootMotionData.IsRotation = !mRootMotionData.IsRotation;
 	}
 
+	inline void SetStartDir(float _Dir)
+	{
+		mRootMotionData.RootMotion_StartDir = _Dir;
+	}
+
 	void RootMotionUpdate(float _Delta);
 	void SetBlendTime(float _Value);
 
@@ -98,6 +104,14 @@ public:
 	void Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index);
 	void Reset();
 	void Update(float _DeltaTime);
+
+	std::function<void(UINT _FrameIndex)> FrameChangeFunction;
+
+	std::map<int, std::function<void(GameContentsFBXRenderer*)>> FrameEventFunction;
+
+	std::function<void(GameContentsFBXRenderer*)> EndEvent;
+
+	void EventCall(UINT _Frame);
 
 public:
 	GameContentsFBXAnimationInfo()
@@ -195,6 +209,8 @@ public:
 	inline std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& GetAnimationInfos() { return Animations; }
 	inline std::vector<float4x4>& GetBoneMatrixs() { return AnimationBoneMatrixs; }
 	inline std::vector<float4x4>& GetBoneSockets() { return AnimationBoneNotOffset; }
+	inline const std::vector<AnimationBoneData>& GetBoneDatas() { return AnimationBoneDatas; }
+	
 
 	void BlendReset();
 	void SetBlendTime(std::string_view _AnimationName, float _fBlendTime);
@@ -224,12 +240,19 @@ public:
 
 	void SetRootMotionComponent(GameEnginePhysXComponent* _RootMotionComponent)
 	{
-		// TriMesh는 아직 구현 안했습니다. 필요시 우창하에게 문의
+		// TriMesh는 구현 안했습니다. 필요시 우창하에게 문의
 		RootMotionComponent = _RootMotionComponent;
 	}
 
 	void SetRootMotion(std::string_view _AniName, std::string_view _FileName = "", Enum_RootMotionMode _Mode = Enum_RootMotionMode::StartDir, bool _RootMotion = true);
 	void SetRootMotionMode(std::string_view _AniName, Enum_RootMotionMode _Mode);
+
+	void SetStartEvent(std::string_view _AnimationName, std::function<void(GameContentsFBXRenderer*)> _Function);
+	void SetEndEvent(std::string_view _AnimationName, std::function<void(GameContentsFBXRenderer*)> _Function);
+	void SetFrameEvent(std::string_view _AnimationName, int _Frame, std::function<void(GameContentsFBXRenderer*)> _Function);
+
+	void SetFrameChangeFunction(std::string_view _AnimationName, std::function<void(int _FrameIndex)> _Function);
+	void SetFrameChangeFunctionAll(std::function<void(int _FrameIndex)> _Function);
 
 protected:
 	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> RenderUnits;

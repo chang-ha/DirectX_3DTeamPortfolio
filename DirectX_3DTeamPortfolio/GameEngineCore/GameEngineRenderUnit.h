@@ -29,6 +29,7 @@ struct RenderUnitBaseInfo
 	int IsSpecular = 0;
 };
 
+
 class GameEngineRenderUnit final : public GameEngineObjectBase, public std::enable_shared_from_this<GameEngineRenderUnit>
 {
 public:
@@ -94,6 +95,9 @@ public:
 
 	RenderUnitBaseInfo RenderUnitBaseInfoValue;
 
+	
+
+
 private:
 	class GameEngineRenderer* ParentRenderer = nullptr;
 
@@ -113,6 +117,7 @@ private:
 	// 이걸 어떻게든 관리할 방법을 찾는게 맞다.
 	std::shared_ptr<class GameEngineInputLayOut> LayOut = nullptr;
 	std::shared_ptr<class GameEngineInputLayOut> ShadowLayOut = nullptr;
+
 
 
 	std::shared_ptr<class GameEngineMesh> Mesh = nullptr;

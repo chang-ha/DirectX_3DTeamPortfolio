@@ -166,7 +166,7 @@ public:
 		LocalRotation = LocalQuaternion.QuaternionToEulerDeg();
 	}
 
-	void LocalCalculation(float4x4 _Parent)
+	void LocalCalculation(const float4x4& _Parent)
 	{
 		//ScaleMatrix.Scale(LocalScale);
 		//RotationMatrix.RotationDeg(LocalRotation);
@@ -335,6 +335,11 @@ public:
 		return TransData.WorldPosition;
 	}
 
+	float4 GetWorldQuaternion() const
+	{
+		return TransData.WorldQuaternion;
+	}
+
 	float4 GetLocalScale() const
 	{
 		return TransData.LocalScale;
@@ -384,6 +389,11 @@ public:
 	float4 GetWorldDownVector() const
 	{
 		return TransData.WorldMatrix.ArrVector[1].NormalizeReturn();
+	}
+
+	const float4x4& GetWorldMatrix() const
+	{
+		return TransData.WorldMatrix;
 	}
 
 	float4 GetLocalForwardVector() const

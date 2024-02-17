@@ -50,6 +50,17 @@ void BaseActor::Start()
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
 
 	Transform.SetLocalScale(float4(W_SCALE, W_SCALE, W_SCALE));
+
+	{
+		Actor_test = GetLevel()->CreateActor<GameEngineActor>();
+	}
+
+	{
+		Actor_test_02 = GetLevel()->CreateActor<GameEngineActor>();
+		Actor_test_02->SetParent(Actor_test);
+		Actor_test_02->Transform.SetWorldPosition({ 0.0f,400.0f,-1000.0f });
+	}
+
 }
 
 void BaseActor::Update(float _Delta)
@@ -67,6 +78,101 @@ void BaseActor::Release()
 	MainRenderer = nullptr;
 	SocketCollisions.clear();
 	Target = nullptr;
+}
+
+void BaseActor::CameraRotation(float Delta)
+{
+	Time += Delta;
+	Actor_test->Transform.SetWorldPosition({ Transform.GetWorldPosition() });
+
+	CameraPos = { GameEngineCore::MainWindow.GetMousePos().X,GameEngineCore::MainWindow.GetMousePos().Y };
+	CameraPos.Normalize();
+
+	Mouse_Ro_X = GameEngineCore::MainWindow.GetMousePos().X;
+	Mouse_Ro_Y = GameEngineCore::MainWindow.GetMousePos().Y;
+
+
+
+
+	if (GameEngineInput::IsPress('W', this) )
+	{
+		Camera_Pos_Y += CameraPos.Y * Delta * 500;
+
+		if (Camera_Pos_Y >= 60)
+		{
+			Camera_Pos_Y -= CameraPos.Y * Delta * 500;
+		}
+	}
+
+	else if (GameEngineInput::IsPress('S', this) )
+	{
+		Camera_Pos_Y -= CameraPos.Y * Delta * 500;
+
+		if (Camera_Pos_Y <= 0)
+		{
+			Camera_Pos_Y = 0;
+		}
+	}
+
+
+
+
+	if (GameEngineInput::IsPress('D', this))
+	{
+		Camera_Pos_X -= CameraPos.X * Delta * 500;
+	}
+
+	else if (GameEngineInput::IsPress('A', this))
+	{
+		Camera_Pos_X += CameraPos.X * Delta * 500;
+	}
+
+
+	// 확대 기능 
+
+	/*float4 A = Actor_test->Transform.GetWorldPosition() - float4{ Actor_test_02->Transform.GetWorldPosition().X, Actor_test_02->Transform.GetWorldPosition().Y - 400.0f, Actor_test_02->Transform.GetWorldPosition().Z };
+
+	A.Normalize();
+
+	if (Camera_Pos_Y <= 0)
+	{
+
+		if (PrevPos.Y < Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) >= abs(500))
+		{
+			Actor_test_02->Transform.AddWorldPosition(A * Delta * 2000);
+		}
+
+		else if (PrevPos.Y > Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) <= abs(1000))
+		{
+			Actor_test_02->Transform.AddWorldPosition(-A * Delta * 2000);
+		}
+
+
+	}*/
+
+
+	
+
+	Actor_test->Transform.SetWorldRotation({ Camera_Pos_Y,Camera_Pos_X,0.0f });
+
+	// 마우스 고정하고 싶을떄 
+
+	/*if (Time > 0.1)
+	{
+		Time = 0;
+
+		PrevPos.Y = 258;
+		PrevPos.X = 864;
+		GameEngineCore::MainWindow.SetMousePos(1280, 720);
+	}*/
+
+	PrevPos.Y = Mouse_Ro_Y;
+	PrevPos.X = Mouse_Ro_X;
+
+
+	GetLevel()->GetMainCamera()->Transform.SetWorldRotation(Actor_test_02->Transform.GetWorldRotationEuler());
+	GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Actor_test_02->Transform.GetWorldPosition());
+
 }
 
 
@@ -230,6 +336,13 @@ bool BaseActor::LoadEvent(int _ID)
 	}
 
 	return true;
+}
+
+std::string BaseActor::GetIDName() const
+{
+	int Id = GetID();
+	std::string IDName = "c" + std::to_string(Id);
+	return IDName;
 }
 
 void BaseActor::CalcuTargetAngle()

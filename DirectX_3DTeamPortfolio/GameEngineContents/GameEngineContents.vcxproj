@@ -177,7 +177,15 @@
     </ClCompile>
     <ClCompile Include="BasePlayer.cpp" />
     <ClCompile Include="BloomEffect.cpp" />
+    <ClCompile Include="BloomGUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="BoneSocketCollision.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BoneSoundFrameEvent.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -398,7 +406,15 @@
     </ClInclude>
     <ClInclude Include="BasePlayer.h" />
     <ClInclude Include="BloomEffect.h" />
+    <ClInclude Include="BloomGUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="BoneSocketCollision.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BoneSoundFrameEvent.h">
       <SubType>
       </SubType>
     </ClInclude>

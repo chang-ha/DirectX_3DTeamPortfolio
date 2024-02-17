@@ -22,6 +22,23 @@ void Player::Player_State()
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
 
+				/*float4 A = Actor_test->Transform.GetWorldPosition() - float4{ Actor_test_02->Transform.GetWorldPosition().X, Actor_test_02->Transform.GetWorldPosition().Y - 400.0f, Actor_test_02->Transform.GetWorldPosition().Z };
+
+				A.Normalize();
+
+				if (Camera_Pos_Y <= 0)
+				{
+					if (PrevPos.Y < Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) >= abs(500))
+					{
+						Actor_test_02->Transform.AddWorldPosition(A * _DeltaTime * 2000);
+					}
+
+					else if (PrevPos.Y > Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) <= abs(1000))
+					{
+						Actor_test_02->Transform.AddWorldPosition(-A * _DeltaTime * 2000);
+					}
+				}*/
+
 				if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SHIFT, this))
 				{
 					PlayerState.ChangeState(PlayerState::Run);
@@ -117,6 +134,9 @@ void Player::Player_State()
 					return;
 				}
 
+
+				
+
 			};
 
 		PlayerState.CreateState(PlayerState::Idle, NewPara);
@@ -140,144 +160,206 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				//if()
-
-				if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SPACE, this))
+				
+			/*	if (Rotation_Check == false)
 				{
+					if (Angle > 0)
+					{
+						Rotation_Check_Plus = true;
+					}
+					else if (Angle < 0)
+					{
+						Rotation_Check_Mus = true;
+					}
+				}
+					if (Rotation_Check_Plus == true)
+					{
+						Capsule->AddWorldRotation({ 0.0f,5.0f });
+
+
+						if (Angle < 0)
+						{
+							
+							Rotation_Check_Plus = false;
+							Rotation_Check_Mus = false;
+							Rotation_Check = true;
+							_Parent->ChangeState(PlayerState::Move);
+							
+							return;
+						}
+
+					}
+
+					
+					if (Rotation_Check_Mus == true)
+					{
+						Capsule->AddWorldRotation({ 0.0f,-5.0f });
+
+
+						if (Angle > 0)
+						{
+							
+							Rotation_Check_Mus = false;
+							Rotation_Check_Plus = false;
+							Rotation_Check = true;
+							_Parent->ChangeState(PlayerState::Move);
+						
+							return;
+						}
+
+					}	*/
+
+				if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check ==true)
+				{
+					Rotation_Check = false;
 					PlayerState.ChangeState(PlayerState::Roll_Forward);
 					return;
 				}
-				if (GameEngineInput::IsPress('S', this) && GameEngineInput::IsPress(VK_SPACE, this))
+				if (GameEngineInput::IsPress('S', this) && GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check == true)
 				{
+					Rotation_Check = false;
 					PlayerState.ChangeState(PlayerState::Roll_Behind);
 					return;
 				}
-				if (GameEngineInput::IsPress('A', this) && GameEngineInput::IsPress(VK_SPACE, this))
+				if (GameEngineInput::IsPress('A', this) && GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check == true)
 				{
+					Rotation_Check = false;
 					PlayerState.ChangeState(PlayerState::Roll_Left);
 					return;
 				}
-				if (GameEngineInput::IsPress('D', this) && GameEngineInput::IsPress(VK_SPACE, this))
+				if (GameEngineInput::IsPress('D', this) && GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check == true)
 				{
+					Rotation_Check = false;
 					PlayerState.ChangeState(PlayerState::Roll_Right);
 					return;
 				}
 
-				if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SHIFT, this))
+				if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SHIFT, this) && Rotation_Check == true)
 				{
+					Rotation_Check = false;
 					PlayerState.ChangeState(PlayerState::Run);
 					return; 
 				}
 
 				if (GameEngineInput::IsPress(VK_RBUTTON, this))
 				{
+					Rotation_Check = false;
 					_Parent->ChangeState(PlayerState::Shield_Idle);
 					return;
 				}
-				if (true == GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress('C', this))
+				if (true == GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress('C', this) && Rotation_Check == true)
 				{
+					Rotation_Check = false;
 					MainRenderer->ChangeAnimation("Slow_Walk_Forward");
 					PlayerState.ChangeState(PlayerState::Slow_Walk);
 					return;
 				}
 
-				if (true == GameEngineInput::IsPress('S', this) && GameEngineInput::IsPress('C', this))
+				if (true == GameEngineInput::IsPress('S', this) && GameEngineInput::IsPress('C', this) && Rotation_Check == true)
 				{
+					Rotation_Check = false;
 					MainRenderer->ChangeAnimation("Slow_Walk_Behind");
 					PlayerState.ChangeState(PlayerState::Slow_Walk);
 					return;
 				}
 
-				if (true == GameEngineInput::IsPress('A', this) && GameEngineInput::IsPress('C', this))
+				if (true == GameEngineInput::IsPress('A', this) && GameEngineInput::IsPress('C', this) && Rotation_Check == true)
 				{
+					Rotation_Check = false;
 					MainRenderer->ChangeAnimation("Slow_Walk_Left");
 					PlayerState.ChangeState(PlayerState::Slow_Walk);
 					return;
 				}
 
-				if (true == GameEngineInput::IsPress('D', this) && GameEngineInput::IsPress('C', this))
+				if (true == GameEngineInput::IsPress('D', this) && GameEngineInput::IsPress('C', this) && Rotation_Check == true)
 				{
+					Rotation_Check = false;
 					MainRenderer->ChangeAnimation("Slow_Walk_Right");
 					PlayerState.ChangeState(PlayerState::Slow_Walk);
 					return;
 				}
 
-				if (true == GameEngineInput::IsPress(VK_LBUTTON, this))
+				if (true == GameEngineInput::IsPress(VK_LBUTTON, this) && Rotation_Check == true)
 				{
+					Rotation_Check = false;
 					_Parent->ChangeState(PlayerState::Attack_01);
 					return;
 				}
-				if (true == GameEngineInput::IsPress(VK_SPACE, this))
+				if (true == GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check == true)
 				{
+					Rotation_Check = false;
 					_Parent->ChangeState(PlayerState::Back_Step);
 					return;
 
 				}
-				/*if (true == GameEngineInput::IsPress('W', this) && true == GameEngineInput::IsPress('A', this))
-				{
-					Transform.AddLocalPosition({ float4::UP * Speed });
-					return; 
-				}*/
+			
+			
 
-				if (true == GameEngineInput::IsPress('W', this))
+				if (true == GameEngineInput::IsPress('W', this) && Rotation_Check == true)
 				{
 					
-					//Capsule->MoveForce({ float4::FORWARD * Speed },Capsule->GetDir());
+					Capsule->SetWorldRotation({ 0.0f,Camera_Pos_X, 0.0f });
 				
-					int a = 0;
-				}
-
-				if (true == GameEngineInput::IsPress('S', this))
-				{
-					//Capsule->MoveForce({ 0.0f, 0.0f, -100, 0.0f });
-					Transform.AddLocalPosition({ float4::BACKWARD * Speed * _DeltaTime });
-				
-				}
-
-				if (true == GameEngineInput::IsPress('A', this))
-				{
-					//Capsule->MoveForce({ -100, 0.0f, 0.0f, 0.0f });
-					//Transform.AddLocalPosition({ float4::* Speed * _DeltaTime });
-				
-				}
-
-				if (true == GameEngineInput::IsPress('D', this))
-				{
-					//Capsule->MoveForce({ 100, 0.0f, 0.0f, 0.0f });
-					Transform.AddLocalPosition({ MoveDir.Y * Speed* _DeltaTime });
 					
 				}
-				if (GameEngineInput::IsPress(VK_CONTROL, this))
+
+				if (true == GameEngineInput::IsPress('S', this) && Rotation_Check == true)
 				{
+					
+					//Capsule->MoveForce({ float4::BACKWARD * Speed }, Capsule->GetDir());
+				
+				}
+
+				if (true == GameEngineInput::IsPress('A', this) && Rotation_Check == true)
+				{
+					
+				//	Capsule->MoveForce({ float4::LEFT * Speed }, Capsule->GetDir());
+				
+				}
+
+				if (true == GameEngineInput::IsPress('D', this) && Rotation_Check == true)
+				{
+				
+				//	Capsule->MoveForce({ float4::RIGHT * Speed }, Capsule->GetDir());
+					
+				}
+				if (GameEngineInput::IsPress(VK_CONTROL, this) && Rotation_Check == true)
+				{
+					Rotation_Check = false;
 					_Parent->ChangeState(PlayerState::Parrying);
 					return;
 				}
 
-				if (true == GameEngineInput::IsPress(VK_SPACE, this))
+				if (true == GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check == true)
 				{
+					Rotation_Check = false;
 					_Parent->ChangeState(PlayerState::Back_Step);
 					return;
 				}
-				if (GameEngineInput::IsUp('A', this))
+				if (GameEngineInput::IsUp('A', this) && Rotation_Check == true)
 				{
+					Rotation_Check = false;
 					MainRenderer->ChangeAnimation("Left_Stop");
 					PlayerState.ChangeState(PlayerState::Move_Stop);
 					return;
 				}
-				else if (GameEngineInput::IsUp('D', this))
+				else if (GameEngineInput::IsUp('D', this) && Rotation_Check == true)
 				{
+					Rotation_Check = false;
 					MainRenderer->ChangeAnimation("Right_Stop");
 					PlayerState.ChangeState(PlayerState::Move_Stop);
 					return;
 				}
-				else if (GameEngineInput::IsUp('W', this))
+				else if (GameEngineInput::IsUp('W', this) && Rotation_Check == true)
 				{
+					Rotation_Check = false;
 					MainRenderer->ChangeAnimation("Forward_Stop");
 					PlayerState.ChangeState(PlayerState::Move_Stop);
 					return;
 				}
-				else if (GameEngineInput::IsUp('S', this))
+				else if (GameEngineInput::IsUp('S', this) && Rotation_Check == true)
 				{
+					Rotation_Check = false;
 					MainRenderer->ChangeAnimation("Behind_Stop");
 					PlayerState.ChangeState(PlayerState::Move_Stop);
 					return;

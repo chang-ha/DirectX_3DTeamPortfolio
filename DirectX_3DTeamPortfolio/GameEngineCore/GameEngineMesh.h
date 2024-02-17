@@ -5,6 +5,16 @@
 
 // 레스터라이저 전에 범위를 잡을때 사용하는 버텍스와 인덱스버퍼를 관리하는 클래스입니다.
 
+class MeshBaseInfo
+{
+public:
+	float4 MinBoundBox = float4::ZERO;
+	float4 MaxBoundBox = float4::ONE;
+	float4 BoundScaleBox = float4(256.0f, 256.0f,256.0f,1.0f);
+	float4 CenterPosition = float4::ZERO;
+};
+
+
 // 설명 : 
 class GameEngineMesh : public GameEngineResources<GameEngineMesh>
 {
@@ -72,9 +82,23 @@ public:
 	void IndexedDraw();
 	void InstancingDraw(int _DrawCount);
 
+	void SetMeshBaseInfo(const MeshBaseInfo& _MeshBaseInfo)
+	{
+		MeshBaseInfoValue = _MeshBaseInfo;
+	}
+
+	MeshBaseInfo& GetMeshBaseInfo()
+	{
+		return MeshBaseInfoValue;
+	}
+
 protected:
 
 private:
+
+
+	MeshBaseInfo MeshBaseInfoValue;
+
 	// has a
 	D3D11_PRIMITIVE_TOPOLOGY TOPOLOGY = D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	std::shared_ptr<class GameEngineVertexBuffer> VertexBufferPtr;
