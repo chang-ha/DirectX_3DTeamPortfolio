@@ -387,6 +387,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UIEquipFrame.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UIPlayerEquip.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UIPlayerGaugeBar.cpp" />
     <ClCompile Include="UIUnit.cpp" />
     <ClCompile Include="WorldMap.cpp" />
@@ -606,6 +614,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TurnSpeedFrameEvent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UIEquipFrame.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UIPlayerEquip.h">
       <SubType>
       </SubType>
     </ClInclude>

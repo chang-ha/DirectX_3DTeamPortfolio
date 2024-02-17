@@ -199,12 +199,6 @@
     <ClCompile Include="LUTGUI.cpp">
       <Filter>ImGui\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="UIPlayerGaugeBar.cpp">
-      <Filter>Actor\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UIUnit.cpp">
-      <Filter>Actor\UI</Filter>
-    </ClCompile>
     <ClCompile Include="MainUIActor.cpp">
       <Filter>Actor\UI</Filter>
     </ClCompile>
@@ -213,6 +207,22 @@
     </ClCompile>
     <ClCompile Include="BloomGUI.cpp">
       <Filter>ImGui\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="UIPlayerGaugeBar.cpp">
+      <Filter>Actor\UI\Player\PlayerGauge</Filter>
+    </ClCompile>
+    <ClCompile Include="UIUnit.cpp">
+      <Filter>Actor\UI\Player\PlayerGauge</Filter>
+    </ClCompile>
+    <ClCompile Include="UIPlayerEquip.cpp">
+      <Filter>Actor\UI\Player\PlayerEquip</Filter>
+    </ClCompile>
+    <ClCompile Include="BoneSoundFrameEvent.cpp" />
+    <ClCompile Include="DamageRenderer.cpp">
+      <Filter>Actor\UI\Damage</Filter>
+    </ClCompile>
+    <ClCompile Include="UIEquipFrame.cpp">
+      <Filter>Actor\UI\Player\PlayerEquip</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -411,12 +421,6 @@
     <ClInclude Include="LUTGUI.h">
       <Filter>ImGui\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="UIPlayerGaugeBar.h">
-      <Filter>Actor\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UIUnit.h">
-      <Filter>Actor\UI</Filter>
-    </ClInclude>
     <ClInclude Include="MainUIActor.h">
       <Filter>Actor\UI</Filter>
     </ClInclude>
@@ -425,6 +429,22 @@
     </ClInclude>
     <ClInclude Include="BloomGUI.h">
       <Filter>ImGui\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="UIPlayerGaugeBar.h">
+      <Filter>Actor\UI\Player\PlayerGauge</Filter>
+    </ClInclude>
+    <ClInclude Include="UIUnit.h">
+      <Filter>Actor\UI\Player\PlayerGauge</Filter>
+    </ClInclude>
+    <ClInclude Include="UIPlayerEquip.h">
+      <Filter>Actor\UI\Player\PlayerEquip</Filter>
+    </ClInclude>
+    <ClInclude Include="BoneSoundFrameEvent.h" />
+    <ClInclude Include="DamageRenderer.h">
+      <Filter>Actor\UI\Damage</Filter>
+    </ClInclude>
+    <ClInclude Include="UIEquipFrame.h">
+      <Filter>Actor\UI\Player\PlayerEquip</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -505,6 +525,15 @@
     </Filter>
     <Filter Include="Actor\UI\Damage">
       <UniqueIdentifier>{8948bf98-7703-425e-a8e4-9b4174e9c928}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\Player">
+      <UniqueIdentifier>{9d48d613-0e7c-4bb2-8d91-16f66aa7fb06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\Player\PlayerGauge">
+      <UniqueIdentifier>{a398d3b5-d053-49f5-b792-2e918726c974}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\Player\PlayerEquip">
+      <UniqueIdentifier>{423908b1-e314-4f53-b90b-58c3bd0d6009}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
