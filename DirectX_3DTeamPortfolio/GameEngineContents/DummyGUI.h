@@ -21,9 +21,6 @@ protected:
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 	void LevelEnd() override;
 
-protected:
-	void ActorCheck(GameEngineLevel* _Level);
-
 private:
 	class DummyActor* pActor = nullptr;
 	bool bUpdate = false;

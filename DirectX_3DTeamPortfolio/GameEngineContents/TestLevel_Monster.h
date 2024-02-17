@@ -1,80 +1,6 @@
 #pragma once
 #include "ContentLevel.h"
 
-class TestLevel_Monster;
-class MonsterGUITab
-{
-	friend class MonsterGUI;
-
-public:
-	void Init();
-	virtual void Start() {}
-	virtual void OnGUI(GameEngineLevel* _Level, float _DeltaTime) = 0;
-
-protected:
-	std::string Name;
-	class MonsterGUI* pParentGUI = nullptr;
-
-};
-
-class InputTab : public MonsterGUITab
-{
-public:
-	void Start() override {}
-	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
-
-private:
-	class DummyActor* pActor = nullptr;
-
-};
-
-class MonsterControlTab : public MonsterGUITab
-{
-public:
-	void Start() override {}
-	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
-
-private:
-	class BaseMonster* pActor = nullptr;
-
-	std::vector<std::string> ObjNames;
-	std::vector<const char*> CObjNames;
-
-	int MonsterNum = -1;
-
-	bool bFixPos = false;
-
-};
-
-
-class MonsterGUI : public GameEngineGUIWindow
-{
-public:
-	void Start() override;
-	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
-
-
-	TestLevel_Monster* GetLevel() { return CurLevel; }
-
-private:
-	template<typename ObjectType>
-	void CreateTab(std::string_view _TabName)
-	{
-		std::shared_ptr<ObjectType> NewTab = std::make_shared<ObjectType>();
-		NewTab->Name = _TabName.data();
-		NewTab->pParentGUI = this;
-		NewTab->Init();
-		Tabs.push_back(NewTab);
-	}
-
-private:
-	std::vector<std::shared_ptr<MonsterGUITab>> Tabs;
-	TestLevel_Monster* CurLevel = nullptr;
-
-	float DummySpeed = 0.0f;
-
-};
-
 // Ό³Έν :
 class TestLevel_Monster : public ContentLevel
 {
@@ -97,8 +23,6 @@ protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
-
 private:
-	std::shared_ptr<MonsterGUI> pMonsterGUI;
 
 };

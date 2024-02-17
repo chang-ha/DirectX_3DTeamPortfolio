@@ -36,15 +36,8 @@ void DummyGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			pActor->Off();
 		}
 	}
-	}
-}
 
-	float* pActorSpeed = pActor->GetSpeedPointer();
-
-	ImGui::InputFloat("Dummy Move Speed", pActorSpeed, 10.0f, 1000.0f, "%.f");
-	ImGui::Spacing();
-
-	if (ImGui::Checkbox("Camera Chase", &bCameraControl))
+	if (ImGui::Checkbox("Follow Update", &bCameraControl))
 	{
 		if (bCameraControl)
 		{
