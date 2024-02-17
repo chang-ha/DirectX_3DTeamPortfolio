@@ -195,7 +195,7 @@ void Player::Start()
 	{
 		Actor_test_02 = GetLevel()->CreateActor<GameEngineActor>();
 		Actor_test_02->SetParent(Actor_test);
-		Actor_test_02->Transform.SetWorldPosition({ 0.0f,50.0f,-400.0f });
+		Actor_test_02->Transform.SetWorldPosition({ 0.0f,140.0f,-250.0f });
 	}
 }
 
@@ -297,14 +297,15 @@ void Player::Update(float _Delta)
 
 	}
 
-
+	
+	
 	PlayerState.Update(_Delta);
 
 }
 
 void Player::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	Capsule->PhysXComponentInit(20.0f, 20.0f);
+	Capsule->PhysXComponentInit(50.0f, 50.0f);
 	Capsule->SetPositioningComponent();
 
 }

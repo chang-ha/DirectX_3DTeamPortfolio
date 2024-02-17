@@ -1,6 +1,7 @@
 #pragma once
 #include "TreeWindow.h"
 
+// Ό³Έν :
 class DummyGUI : public TreeObject
 {
 public:
@@ -14,6 +15,8 @@ public:
 	DummyGUI& operator=(const DummyGUI& _Other) = delete;
 	DummyGUI& operator=(DummyGUI&& _Other) noexcept = delete;
 
+
+protected:
 	void Start() override {}
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 	void LevelEnd() override;
@@ -22,9 +25,8 @@ protected:
 	void ActorCheck(GameEngineLevel* _Level);
 
 private:
-	std::shared_ptr<class DummyActor> pDummy;
-
-	bool IsActive = false;
-	bool IsCameraFocus = false;
+	class DummyActor* pActor = nullptr;
+	bool bUpdate = false;
+	bool bCameraControl = false;
 
 };

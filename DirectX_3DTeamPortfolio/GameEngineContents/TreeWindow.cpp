@@ -1,11 +1,11 @@
 #include "PreCompile.h"
 #include "TreeWindow.h"
 #include "AnimationInfoGUI.h"
-#include "MonsterInfoGUI.h"
 #include "DummyGUI.h"
 #include "LightGUI.h"
 #include "HBAOGUI.h"
 #include "LUTGUI.h"
+#include "BloomGUI.h"
 
 
 void TreeWindow::Start()
@@ -16,11 +16,11 @@ void TreeWindow::Start()
 void RootTree::Start()
 {
 	CreateTree<AnimationInfoGUI>("Actor Editor");
-	CreateTree<MonsterInfoGUI>("Monster Info");
-	CreateTree<DummyGUI>("Dummy GUI");
+	CreateTree<DummyGUI>("Dummy Editor");
 	CreateTree<LightGUI>("Light Editor");
 	CreateTree<HBAOGUI>("HBAO Editor");
 	CreateTree<LUTGUI>("LUT Editor");
+	CreateTree<BloomGUI>("Bloom Editor");
 }
 
 void TreeWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)

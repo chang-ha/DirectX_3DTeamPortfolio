@@ -2,11 +2,43 @@
 #include "BaseActor.h"
 
 #include "ContentsControlInput.h"
-
+#include "ContentsMouseInput.h"
 
 // 설명 :
 class DummyActor : public BaseActor
 {
+private:
+	class CameraControl : public GameEngineObjectBase
+	{
+	public:
+		void On() override;
+		void Off() override;
+
+		void Init(GameEngineActor* _pParent);
+		void Release();
+
+		void ControlUpdate(float _Delta);
+
+	private:
+		void InputUpdate(float _Delta);
+		void FollowUpdate();
+		void HeightUpdate() const;
+
+	public:
+		ContentsMouseInput MouseInput;
+		GameEngineActor* pParent = nullptr;
+		GameEngineTransform* pCameraTransfrom = nullptr;
+
+		float PointDist = 50.0f;
+		float4 OriginPos = float4::ZERO; // 전환 전의 원래 위치
+		float4 QutRotation = float4::ZERONULL;
+
+		std::shared_ptr<GameEngineObject> ColObject;
+		std::shared_ptr<GameEngineRenderer> PointObject;
+		std::shared_ptr<GameEngineRenderer> PosRenderer;
+
+	};
+
 public:
 	// constrcuter destructer
 	DummyActor();
@@ -21,44 +53,34 @@ public:
 	void On() override;
 	void Off() override;
 
-	float* GetSpeedPointer() { return &Speed; }
+	inline float* GetSpeedPointer() { return &MoveSpeed; }
 
 	void AttachCamera();
 	void DettachCamera();
 
 protected:
-
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
 	void LevelEnd(class GameEngineLevel* _PrevLevel) override;
 
-
+	// Move
 	void MoveUpdate(float _Delta);
 
-	bool IsCameraTargetting();
-	void SetCameraDist(float _fDist);
-	void CalMouseAxis();
-	void PivotUpdate(float _Delta);
+	// Camera Method
+	inline bool IsCameraTargetting()
+	{
+		return CameraControler.IsUpdate();
+	}
+
+	void CameraControlUpdate(float _Delta);
 
 private:
-	std::shared_ptr<GameEngineFBXRenderer> FbxRenderer;
+	std::shared_ptr<GameEngineRenderer> MainRenderer;
 	std::shared_ptr<GameEngineCollision> BodyCollision;
-	std::shared_ptr<GameEngineObject> CameraPivot;
-	class ContentsControlInput ControlInput;
+	ContentsControlInput ControlInput;
+	CameraControl CameraControler;
 
-	float Speed = 10.0f;
-
-	float4 TargetRotation;
-	float Camera_Dist = 200.0f;
-	float4 Camera_Axis = float4::ZERO;
-	float Xaxis = 0.0f;
-	float Yaxis = 0.0f;
-
-	float4 ScreenMousePrevPos = float4::ZERO;
-	float4 ScreenMousePos = float4::ZERO;
-	float4 MouseDir = float4::ZERO;
-	float4 MoveDir = float4::ZERO;
+	float MoveSpeed = 100.0f;
 
 };
-

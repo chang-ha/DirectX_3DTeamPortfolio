@@ -41,7 +41,8 @@ void ContentsCore::Start()
 	TreeGUIWindow = GameEngineGUI::CreateGUIWindow<TreeWindow>("TreeWindow");
 	TreeGUIWindow->On();
 
-	ContentsMouseInput::Reset();
+	CoreGUIWindow = GameEngineGUI::CreateGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+	CoreGUIWindow->On();
 
 	GameEngineFont::Load("OptimusBold");
 	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
@@ -56,8 +57,6 @@ void ContentsCore::Start()
 
 void ContentsCore::Update(float _Delta)
 {
-	ContentsMouseInput::InputUpdate();
-
 	if (nullptr != CoreGUIWindow && true == GameEngineInput::IsDown(VK_F7, this))
 	{
 		CoreGUIWindow->OnOffSwitch();

@@ -91,22 +91,19 @@ void BaseActor::CameraRotation(float Delta)
 	Mouse_Ro_X = GameEngineCore::MainWindow.GetMousePos().X;
 	Mouse_Ro_Y = GameEngineCore::MainWindow.GetMousePos().Y;
 
-
-
-
-	if (PrevPos.Y > Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) >= 999)
+	if (GameEngineInput::IsPress('W', this) )
 	{
-		Camera_Pos_Y += CameraPos.Y * Delta * 700;
+		Camera_Pos_Y += CameraPos.Y * Delta * 500;
 
 		if (Camera_Pos_Y >= 60)
 		{
-			Camera_Pos_Y -= CameraPos.Y * Delta * 700;
+			Camera_Pos_Y -= CameraPos.Y * Delta * 500;
 		}
 	}
 
-	else if (PrevPos.Y < Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) >= 999)
+	else if (GameEngineInput::IsPress('S', this) )
 	{
-		Camera_Pos_Y -= CameraPos.Y * Delta * 700;
+		Camera_Pos_Y -= CameraPos.Y * Delta * 500;
 
 		if (Camera_Pos_Y <= 0)
 		{
@@ -114,17 +111,14 @@ void BaseActor::CameraRotation(float Delta)
 		}
 	}
 
-
-
-
-	if (PrevPos.X > Mouse_Ro_X)
+	if (GameEngineInput::IsPress('D', this))
 	{
-		Camera_Pos_X += CameraPos.X * Delta * 700;
+		Camera_Pos_X -= CameraPos.X * Delta * 500;
 	}
 
-	else if (PrevPos.X < Mouse_Ro_X)
+	else if (GameEngineInput::IsPress('A', this))
 	{
-		Camera_Pos_X -= CameraPos.X * Delta * 700;
+		Camera_Pos_X += CameraPos.X * Delta * 500;
 	}
 
 

@@ -211,8 +211,12 @@
     <ClCompile Include="PlayerValue.cpp">
       <Filter>Core\Global</Filter>
     </ClCompile>
-    <ClCompile Include="BoneSoundFrameEvent.cpp">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+    <ClCompile Include="BloomGUI.cpp">
+      <Filter>ImGui\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="BoneSoundFrameEvent.cpp" />
+    <ClCompile Include="DummyGUI.cpp">
+      <Filter>ImGui\Editor</Filter>
     </ClCompile>
     <ClCompile Include="MonsterInfoGUI.cpp">
       <Filter>ImGui\Editor</Filter>
@@ -429,8 +433,12 @@
     <ClInclude Include="PlayerValue.h">
       <Filter>Core\Global</Filter>
     </ClInclude>
-    <ClInclude Include="BoneSoundFrameEvent.h">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+    <ClInclude Include="BloomGUI.h">
+      <Filter>ImGui\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="BoneSoundFrameEvent.h" />
+    <ClInclude Include="DummyGUI.h">
+      <Filter>ImGui\Editor</Filter>
     </ClInclude>
     <ClInclude Include="MonsterInfoGUI.h">
       <Filter>ImGui\Editor</Filter>
