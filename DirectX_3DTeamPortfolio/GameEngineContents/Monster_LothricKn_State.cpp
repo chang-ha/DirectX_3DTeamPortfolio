@@ -431,7 +431,7 @@ void Monster_LothricKn::Update_Combo_Att_12(float _DeltaTime, GameEngineState* _
 	{
 		if (true == CanAttack(W_SCALE * MELEE_RANGE, FRONT_ANGLE))
 		{
-			_State->ChangeState(Enum_LothricKn_State::Combo_Att_12);
+			_State->ChangeState(Enum_LothricKn_State::Combo_Att_13);
 			return;
 		}
 	}
@@ -557,7 +557,7 @@ void Monster_LothricKn::Update_Combo_Att_22(float _DeltaTime, GameEngineState* _
 	{
 		if (true == CanAttack(W_SCALE * MELEE_RANGE, FRONT_ANGLE))
 		{
-			_State->ChangeState(Enum_LothricKn_State::Combo_Att_22);
+			_State->ChangeState(Enum_LothricKn_State::Combo_Att_23);
 			return;
 		}
 	}
@@ -1658,7 +1658,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToNormalAttackTable(Enum_TargetD
 			break;
 		case eAttackType::None:
 			AttackState = Enum_LothricKn_State::Combo_Att_11;
-			AttackRecord = eAttackType::None;
+			AttackRecord = Combo1;
 			break;
 		default:
 			break;

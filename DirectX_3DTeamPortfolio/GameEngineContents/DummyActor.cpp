@@ -41,11 +41,14 @@ void DummyActor::Start()
 	BodyCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Dummy);
 	BodyCollision->SetCollisionType(ColType::SPHERE3D);
 	BodyCollision->Transform.SetWorldScale(float4(1.0f, 1.0f, 1.0f));
+	BodyCollision->Transform.SetLocalPosition(float4::ZERO);
 
 	ControlInput.SetPointer(this);
 	CameraControler.Init(this);
 
 	Transform.SetLocalPosition(float4(0, 100.0f, 0));
+
+	Off();
 }
 
 void DummyActor::Update(float _Delta)

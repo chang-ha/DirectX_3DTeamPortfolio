@@ -161,7 +161,7 @@ void Monster_LothricKn::Start()
 
 void Monster_LothricKn::Update(float _Delta)
 {
-	// BaseMonster::Update(_Delta);
+	BaseMonster::Update(_Delta);
 
 	static bool s_bDrawValue = false;
 	if (GameEngineInput::IsDown('N', this))
