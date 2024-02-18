@@ -4,9 +4,9 @@
 struct FogInfo 
 {
 	float4x4 CameraViewInverseMatrix;
-	float4 FogColor = { 0.5f, 0.6f, 0.7f, 1.0f }; // 원하는 포그의 색상
-	float FogMinHeight = 0.0f; // 포그가 시작되는 거리
-	float FogMaxHeight = 100.0f; // 포그가 오브젝트를 완전히 가리는 거리 
+	float4 FogColor = { 0.02f, 0.02f, 0.02f, 1.0f }; // 원하는 포그의 색상
+	float FogMinHeight = 2000.0f; // 포그가 시작되는 거리
+	float FogMaxHeight = 5000.0f; // 포그가 오브젝트를 완전히 가리는 거리 
 	float Def1 =0.0f;
 	float Def2 = 0.0f;
 };

@@ -20,9 +20,10 @@ struct PixelOutPut
     float4 POSITION : SV_POSITION;
     float4 TEXCOORD : TEXCOORD;
     float4 VIEWPOSITION : POSITION;
+    float4 WorldPOSITION : POSITION1;
     float4 VIEWNORMAL : NORMAL;
     float4 VIEWTANGENT : TANGENT;
-    float4 VIEWBINORMAL : BINORMAL;
+    float4 VIEWBINORMAL : BINORMAL;    
 };
 
 
@@ -34,6 +35,9 @@ void Mesh_VS_Update(inout GameEngineVertex3D _Input, inout PixelOutPut Result)
     _Input.POSITION.w = 1.0f;
     Result.VIEWPOSITION = mul(_Input.POSITION, WorldViewMatrix);
     Result.VIEWPOSITION.w = 1.0f;
+    
+    Result.WorldPOSITION = mul(_Input.POSITION, WorldMatrix);
+    Result.WorldPOSITION.w = 1.0f;
     
     _Input.NORMAL.w = 0.0f;
     Result.VIEWNORMAL = mul(_Input.NORMAL, WorldViewMatrix);

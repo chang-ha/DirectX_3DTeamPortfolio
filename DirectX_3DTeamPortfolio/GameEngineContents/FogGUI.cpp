@@ -71,10 +71,10 @@ void FogGUI::LUTEditor(GameEngineLevel* _Level)
 	//ImGui::InputFloat3("FogColor", &Info.FogColor.X);
 
 	//ImGui::SliderFloat("FogMaxHeight", &Info.FogMaxHeight, -300.0f, 1000.0f);
-	ImGui::InputFloat("FogMaxHeight", &Info.FogMaxHeight);
+	ImGui::InputFloat("FogMinHeight", &Info.FogMinHeight);
 
 	//ImGui::SliderFloat("FogMinHeight", &Info.FogMinHeight, -300.0f, 1000.0f);
-	ImGui::InputFloat("FogMinHeight", &Info.FogMinHeight);
+	ImGui::InputFloat("FogMaxHeight", &Info.FogMaxHeight);
 
 	*FogEffect::MainFogInfo = Info;
 

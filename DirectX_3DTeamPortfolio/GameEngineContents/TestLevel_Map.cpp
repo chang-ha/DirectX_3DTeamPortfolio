@@ -21,6 +21,7 @@ void TestLevel_Map::LevelStart(GameEngineLevel* _PrevLevel)
 
 	{
 		std::shared_ptr<WorldMap> Object = CreateActor<WorldMap>(0, "WorldMap");
+		
 	}
 
 	//{
@@ -37,6 +38,8 @@ void TestLevel_Map::LevelEnd(GameEngineLevel* _NextLevel)
 
 void TestLevel_Map::Start()
 {
+	GameEngineInput::AddInputObject(this);
+
 	ContentLevel::Start();
 
 

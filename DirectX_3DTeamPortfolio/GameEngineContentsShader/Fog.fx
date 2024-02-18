@@ -42,8 +42,9 @@ float4 Fog_PS(PixelOutPut _Input) : SV_Target0
 {
     
     float4 SceneColor = SceneTex.Sample(SceneTexSampler, _Input.TEXCOORD.xy);
+    SceneColor.w = 1.0f;
     float4 viewPos = PosTex.Sample(PosTexSampler, _Input.TEXCOORD.xy);
-    
+    viewPos.w = 1.0f;
    
         if (viewPos.a == 0.0f)
         {
@@ -55,9 +56,12 @@ float4 Fog_PS(PixelOutPut _Input) : SV_Target0
     
     float heightFactor = saturate((WorldPos.y - FogMinHeight) / (FogMaxHeight - FogMinHeight));
     
-    
+    float4 Result = lerp(FogColor, SceneColor, heightFactor);
+    //Result.xy = heightFactor;
+    Result.w = 1.0f;
  
     
-    return lerp(FogColor, SceneColor, heightFactor);
+    return Result;
+    //return WorldPos;
 
 }
