@@ -196,14 +196,13 @@ protected:
 	static constexpr float W_SCALE = 100.0f;
 
 	std::shared_ptr<GameContentsFBXRenderer> MainRenderer;
-	std::map<int, std::shared_ptr<BoneSocketCollision>> SocketCollisions;
 	std::shared_ptr<class GameEnginePhysXCapsule> Capsule;
+	std::map<int, std::shared_ptr<BoneSocketCollision>> SocketCollisions;
 
 	GameEngineState MainState;
 	ActorStatus Stat;
 
 	int Flags = 0;
-
 	
 private:
 	static std::unordered_map<Enum_ActorStatus, Enum_ActorFlag> FlagIndex;

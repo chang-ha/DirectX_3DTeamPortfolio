@@ -50,6 +50,10 @@ void DummyGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	}
 
 	ImGui::SliderFloat("Set Speed", pActor->GetSpeedPointer(), 100.0f, 1000.0f, "%.f");
+
+	ImGui::Spacing();
+	ImGui::Spacing();
+	HelpString();
 }
 
 void DummyGUI::LevelEnd()
@@ -63,4 +67,13 @@ void DummyGUI::LevelEnd()
 
 	bUpdate = false;
 	bCameraControl = false;
+}
+
+void DummyGUI::HelpString()
+{
+	ImGui::Text("key Q & E : Height");
+	ImGui::Text("key Arrow : Move");
+	ImGui::Text("key LMouse : Shot Bullet");
+	ImGui::Text("key MMouse | VK_Ctrl : CloseUp & Down");
+	ImGui::Text("key RMouse : Rotate");
 }

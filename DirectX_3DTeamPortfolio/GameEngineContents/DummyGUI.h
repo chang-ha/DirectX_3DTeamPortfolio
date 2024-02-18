@@ -21,6 +21,8 @@ protected:
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 	void LevelEnd() override;
 
+	void HelpString();
+
 private:
 	class DummyActor* pActor = nullptr;
 	bool bUpdate = false;

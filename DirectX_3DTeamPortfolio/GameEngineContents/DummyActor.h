@@ -68,6 +68,7 @@ protected:
 
 	// Move
 	void MoveUpdate(float _Delta);
+	void ProjectileUpdate(float _Delta);
 
 	// Camera Method
 	inline bool IsCameraTargetting()
@@ -80,11 +81,12 @@ protected:
 private:
 	std::shared_ptr<GameEngineRenderer> MainRenderer;
 	std::shared_ptr<GameEngineCollision> BodyCollision;
-	std::vector<std::shared_ptr<GameEngineActor>> Projectiles;
+	std::vector<std::shared_ptr<class DummyProjectile>> Projectiles;
 
 	ContentsControlInput ControlInput;
 	CameraControl CameraControler;
 
 	float MoveSpeed = 500.0f;
+	float StateTime = 0.0f;
 
 };

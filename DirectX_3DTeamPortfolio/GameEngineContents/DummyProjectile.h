@@ -3,6 +3,13 @@
 // Ό³Έν :
 class DummyProjectile : public GameEngineActor
 {
+	enum class eState
+	{
+		Ready,
+		Active,
+		None,
+	};
+
 public:
 	// constrcuter destructer
 	DummyProjectile();
@@ -14,6 +21,14 @@ public:
 	DummyProjectile& operator=(const DummyProjectile& _Other) = delete;
 	DummyProjectile& operator=(DummyProjectile&& _Other) noexcept = delete;
 
+	void Init(class DummyActor* _pParent)
+	{
+		pParent = _pParent;
+	}
+
+	void Fire();
+	inline bool IsReady() const { return bReady; }
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -24,6 +39,15 @@ protected:
 private:
 	std::shared_ptr<GameEngineRenderer> AttackRenderer;
 	std::shared_ptr<GameEngineCollision> AttackCol;
+
+	GameEngineState MainState;
+
+	class DummyActor* pParent = nullptr;
+
+	float4 DirVector = float4::ZERO;
+	static constexpr int Att = 5;
+
+	bool bReady = false;
 
 };
 

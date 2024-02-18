@@ -4,6 +4,8 @@
 #include "ContentsMouseInput.h"
 #include "ContentsMath.h"
 
+#include "DummyProjectile.h"
+
 const float RenScale = 10.0f;
 
 DummyActor::DummyActor() 
@@ -46,12 +48,14 @@ void DummyActor::Start()
 	BodyCollision->Transform.SetLocalPosition(float4::ZERO);
 
 
-	// Projectiles.resize(MAX_PROJECTILE);
+	 Projectiles.resize(MAX_PROJECTILE);
 
-	// for (int i = 0; i < MAX_PROJECTILE; i++)
-	// {
-	// 	std::shared_ptr<GameEngineCollision> Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::MonsterAttack);
-	// }
+	 for (int i = 0; i < MAX_PROJECTILE; i++)
+	 {
+		  std::shared_ptr<DummyProjectile> pActor = GetLevel()->CreateActor<DummyProjectile>(Enum_CollisionOrder::MonsterAttack);
+		  pActor->Init(this);
+		  Projectiles[i] = pActor;
+	 }
 
 	ControlInput.SetPointer(this);
 	CameraControler.Init(this);
@@ -65,6 +69,7 @@ void DummyActor::Update(float _Delta)
 {
 	MoveUpdate(_Delta);
 	CameraControlUpdate(_Delta);
+	ProjectileUpdate(_Delta);
 }
 
 void DummyActor::Release()
@@ -103,6 +108,29 @@ void DummyActor::MoveUpdate(float _Delta)
 		{
 			const float4 MovePos = InputVector * MoveSpeed * _Delta;
 			Transform.AddLocalPosition(MovePos);
+		}
+	}
+}
+
+static constexpr float FIRE_GEN_TIME = 0.5f;
+
+void DummyActor::ProjectileUpdate(float _Delta)
+{
+	StateTime += _Delta;
+
+	if (GameEngineInput::IsDown(VK_LBUTTON, this))
+	{
+		if (StateTime > FIRE_GEN_TIME)
+		{
+			for (const std::shared_ptr<DummyProjectile>& pProjectile : Projectiles)
+			{
+				if (pProjectile->IsReady())
+				{
+					pProjectile->Fire();
+					StateTime = 0.0f;
+					break;
+				}
+			}
 		}
 	}
 }
@@ -235,16 +263,17 @@ void DummyActor::CameraControl::InputUpdate(float _Delta)
 		}
 	}
 
-	if (GameEngineInput::IsDown(VK_MBUTTON, pParent))
+	bool bPressCtrl = GameEngineInput::IsPress(VK_CONTROL, pParent);
+	if (bPressCtrl && GameEngineInput::IsDown(VK_MBUTTON, pParent))
 	{
-		PointDist += ZoomSpeed;
+		PointDist -= ZoomSpeed;
 		PointDist = std::clamp(PointDist, 10.0f, 300.0f);
 		HeightUpdate();
 	}
 
-	if (GameEngineInput::IsPress(VK_CONTROL, pParent) && GameEngineInput::IsDown(VK_MBUTTON, pParent))
+	if (false == bPressCtrl && GameEngineInput::IsDown(VK_MBUTTON, pParent))
 	{
-		PointDist -= ZoomSpeed;
+		PointDist += ZoomSpeed;
 		PointDist = std::clamp(PointDist, 10.0f, 300.0f);
 		HeightUpdate();
 	}
