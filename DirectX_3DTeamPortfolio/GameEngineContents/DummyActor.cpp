@@ -77,13 +77,21 @@ void DummyActor::MoveUpdate(float _Delta)
 {
 	float4 InputVector = ControlInput.GetInputVector();
 
-	if (CameraControler.IsUpdate() && float4::ZERO != InputVector)
+	if (float4::ZERO != InputVector)
 	{
-		float4 Rot = CameraControler.GetQuaternion();
-		const float4 DirVector = InputVector.VectorRotationToDegYReturn(Rot.Y);
-		const float4 MovePos = DirVector * MoveSpeed* _Delta;
-		Transform.SetLocalRotation(float4(0.0f, Rot.Y));
-		Transform.AddLocalPosition(MovePos);
+		if (CameraControler.IsUpdate())
+		{
+			const float4 Rot = CameraControler.GetQuaternion();
+			const float4 DirVector = InputVector.VectorRotationToDegYReturn(Rot.Y);
+			const float4 MovePos = DirVector * MoveSpeed* _Delta;
+			Transform.SetLocalRotation(float4(0.0f, Rot.Y));
+			Transform.AddLocalPosition(MovePos);
+		}
+		else
+		{
+			const float4 MovePos = InputVector * MoveSpeed * _Delta;
+			Transform.AddLocalPosition(MovePos);
+		}
 	}
 }
 

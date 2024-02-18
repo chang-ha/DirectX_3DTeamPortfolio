@@ -226,7 +226,6 @@ void Monster_LothricKn::FindTarget()
 	{
 		PatrolCollision->Off();
 		SetTargeting(pActor.get());
-		Debug.SetFlag(Enum_MonsterDebugFlag::PatrolValue, false);
 	}
 };
 

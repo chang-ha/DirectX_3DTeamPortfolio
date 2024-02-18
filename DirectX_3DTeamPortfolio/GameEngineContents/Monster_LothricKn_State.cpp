@@ -283,19 +283,19 @@ void Monster_LothricKn::Start_DH_B_Step(GameEngineState* _State)
 void Monster_LothricKn::Start_G_Up(GameEngineState* _State)
 {
 	CombatState = Enum_Combat_State::Gaurding;
-	MainRenderer->ChangeAnimation("DH_B_Step");
+	MainRenderer->ChangeAnimation("G_Up");
 }
 
 void Monster_LothricKn::Start_G_Down(GameEngineState* _State)
 {
 	CombatState = Enum_Combat_State::Normal;
-	MainRenderer->ChangeAnimation("DH_B_Step");
+	MainRenderer->ChangeAnimation("G_Down");
 }
 
 void Monster_LothricKn::Start_G_L_Side_Step(GameEngineState* _State) 
 {
 	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
-	MainRenderer->ChangeAnimation("DH_B_Step");
+	MainRenderer->ChangeAnimation("G_L_Side_Step");
 }
 
 void Monster_LothricKn::Start_G_R_Side_Step(GameEngineState* _State) 
@@ -965,7 +965,7 @@ void Monster_LothricKn::Update_DH_Hold(float _DeltaTime, GameEngineState* _State
 			_State->ChangeState(FindState);
 			return;
 		}
-	}
+	} 
 
 	if (IsFrame(19))
 	{
@@ -1149,7 +1149,7 @@ void Monster_LothricKn::Update_G_Walk(float _DeltaTime, GameEngineState* _State)
 {
 	const float fStateTime = _State->GetStateTime();
 
-	bool AngleCheck = false == IsTargetInAngle(MIN_ROT_ANGLE);
+	bool AngleCheck = (false == IsTargetInAngle(MIN_ROT_ANGLE));
 	bool TimeCheck = fMaxStateTime < fStateTime;
 
 	if (AngleCheck)
@@ -1301,10 +1301,9 @@ bool Monster_LothricKn::CanAttack(float _fDist, float _fDir) const
 
 bool Monster_LothricKn::IsTargetInAngle(float _fAngle) const
 {
-	const float MinRot = 3.0f;
 	const float AbsTargetAngle = std::fabs(BaseActor::GetTargetAngle());
 
-	if (AbsTargetAngle > MinRot && AbsTargetAngle < _fAngle)
+	if (AbsTargetAngle < _fAngle)
 	{
 		return true;
 	}

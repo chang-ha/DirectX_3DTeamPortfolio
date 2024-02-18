@@ -50,29 +50,6 @@ enum class Enum_LothricKn_State
 	G_Att_Bash,
 };
 
-enum class Enum_MonsterDebugFlag
-{
-	None = 0,
-	PatrolValue = (1 << 0),
-};
-
-class MonsterDebugState
-{
-public:
-	bool IsFlag(Enum_MonsterDebugFlag _eValue)
-	{
-		BitMethod::IsOnFlag(DebugFlag, static_cast<int>(_eValue));
-	}
-
-	void SetFlag(Enum_MonsterDebugFlag _eValue, bool _bOn)
-	{
-		BitMethod::SetFlag(&DebugFlag, static_cast<int>(_eValue), _bOn);
-	}
-
-private:
-
-	int DebugFlag = 0;
-};
 
 // Ό³Έν :
 class Monster_LothricKn : public BaseMonster
@@ -272,7 +249,6 @@ private:
 
 private:
 	std::shared_ptr<GameEngineCollision> PatrolCollision;  
-	MonsterDebugState Debug;
 
 	Enum_IdleType IdleType = Enum_IdleType::None;
 	Enum_Combat_State CombatState = Enum_Combat_State::None;

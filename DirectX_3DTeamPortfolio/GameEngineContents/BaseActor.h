@@ -78,8 +78,6 @@ namespace std
 }
 
 
-
-
 // Ό³Έν :
 class BoneSocketCollision;
 class BaseActor : public GameEngineActor

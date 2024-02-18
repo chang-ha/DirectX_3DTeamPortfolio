@@ -31,7 +31,7 @@ private:
 		GameEngineActor* pParent = nullptr;
 		GameEngineTransform* pCameraTransfrom = nullptr;
 
-		float PointDist = 50.0f;
+		float PointDist = 70.0f;
 		float4 OriginPos = float4::ZERO; // 전환 전의 원래 위치
 		float4 QutRotation = float4::ZERONULL;
 
