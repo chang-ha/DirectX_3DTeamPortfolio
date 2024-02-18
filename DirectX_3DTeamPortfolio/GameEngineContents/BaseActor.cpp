@@ -186,6 +186,12 @@ void BaseActor::SetWPosition(const float4& _wPos)
 	Capsule->SetWorldPosition(_wPos);
 }
 
+void BaseActor::GetHit(int _Value)
+{
+	Stat.AddHp(_Value);
+	SetFlag(Enum_ActorStatus::HitValue, true);
+}
+
 int BaseActor::FindFlag(Enum_ActorStatus _Status) const
 {
 	if (auto FindIter = FlagIndex.find(_Status); FindIter != FlagIndex.end())

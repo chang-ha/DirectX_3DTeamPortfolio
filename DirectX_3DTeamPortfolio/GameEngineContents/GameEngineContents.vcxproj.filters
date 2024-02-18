@@ -142,13 +142,7 @@
     <ClCompile Include="LightGUI.cpp">
       <Filter>ImGui\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="DummyActor.cpp">
-      <Filter>Actor\Monster\LothricKnight</Filter>
-    </ClCompile>
     <ClCompile Include="ContentsDebug.cpp">
-      <Filter>Actor\Monster\LothricKnight</Filter>
-    </ClCompile>
-    <ClCompile Include="DummyPath.cpp">
       <Filter>Actor\Monster\LothricKnight</Filter>
     </ClCompile>
     <ClCompile Include="SwitchFlagFrameEvent.cpp">
@@ -225,6 +219,15 @@
     </ClCompile>
     <ClCompile Include="ContentsControlInput.cpp">
       <Filter>Actor\Monster\LothricKnight\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="DummyActor.cpp">
+      <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
+    </ClCompile>
+    <ClCompile Include="DummyPath.cpp">
+      <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
+    </ClCompile>
+    <ClCompile Include="DummyProjectile.cpp">
+      <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -366,13 +369,7 @@
     <ClInclude Include="AnimationInfoGUI.h">
       <Filter>ImGui\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="DummyActor.h">
-      <Filter>Actor\Monster\LothricKnight</Filter>
-    </ClInclude>
     <ClInclude Include="ContentsDebug.h">
-      <Filter>Actor\Monster\LothricKnight</Filter>
-    </ClInclude>
-    <ClInclude Include="DummyPath.h">
       <Filter>Actor\Monster\LothricKnight</Filter>
     </ClInclude>
     <ClInclude Include="SwitchFlagFrameEvent.h">
@@ -449,6 +446,15 @@
     </ClInclude>
     <ClInclude Include="ContentsControlInput.h">
       <Filter>Actor\Monster\LothricKnight\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyPath.h">
+      <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyActor.h">
+      <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyProjectile.h">
+      <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -529,6 +535,9 @@
     </Filter>
     <Filter Include="Actor\Monster\LothricKnight\Input">
       <UniqueIdentifier>{d1fd0b40-390b-4ea8-929d-56c240e35ebd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Monster\LothricKnight\Dummy">
+      <UniqueIdentifier>{92a2ac9b-d55f-436c-bcd2-979dcb35a03d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

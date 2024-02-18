@@ -77,6 +77,27 @@ namespace std
 	};
 }
 
+class ActorStatus
+{
+	friend class BaseActor;
+
+public:
+	inline void SetHp(int _Value) { Hp = _Value; }
+	inline int GetHp() const { return Hp; }
+	inline void AddHp(int _Value) { Hp += _Value; }
+
+	inline void SetAtt(int _Value) { Att = _Value; }
+	inline int GetAtt() const { return Att; }
+
+	inline void SetDef(int _Value) { Def = _Value; }
+	inline int GetDef() const { return Def; }
+
+private:
+	int Hp = 0;
+	int Att = 0;
+	int Def = 0;
+
+};
 
 // 설명 :
 class BoneSocketCollision;
@@ -109,6 +130,10 @@ public:
 	float GetWDirection() const;
 
 	void SetWPosition(const float4& _wPos);
+
+	// Interaction To Character
+	// 함수 명이 생각나는게 없어요 ㅠㅠㅠ 아무나 적절한 함수명으로 고쳐줘요...
+	void GetHit(int _Value);
 
 	// Getter
 	inline std::shared_ptr<GameContentsFBXRenderer>& GetFBXRenderer() { return MainRenderer; }
@@ -154,6 +179,7 @@ protected:
 	// 나중에 지움 
 	std::shared_ptr<GameEngineActor> Actor_test;
 	std::shared_ptr<GameEngineActor> Actor_test_02;
+	std::shared_ptr<GameContentsFBXRenderer> test_Render;
 	float4 CameraPos = {};
 	float Mouse_Ro_X = 0.0f;
 	float Mouse_Ro_Y = 0.0f;
@@ -165,17 +191,15 @@ protected:
 private:
 	int FindFlag(Enum_ActorStatus _Status) const;
 
-public:
-
 protected:
 	static constexpr float W_SCALE = 100.0f;
 
 	std::shared_ptr<GameContentsFBXRenderer> MainRenderer;
-	std::shared_ptr<GameContentsFBXRenderer> test_Render;
 	std::map<int, std::shared_ptr<BoneSocketCollision>> SocketCollisions;
 	std::shared_ptr<class GameEnginePhysXCapsule> Capsule;
 
 	GameEngineState MainState;
+	ActorStatus Stat;
 
 	int Flags = 0;
 
@@ -239,10 +263,7 @@ public:
 	}
 
 	float GetTargetDistance() const;
-
 	float4 GetTargetDirection() const;
-
-	
 
 private:
 	float TargetAngle = 0.f;

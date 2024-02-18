@@ -80,6 +80,8 @@ protected:
 private:
 	std::shared_ptr<GameEngineRenderer> MainRenderer;
 	std::shared_ptr<GameEngineCollision> BodyCollision;
+	std::vector<std::shared_ptr<GameEngineActor>> Projectiles;
+
 	ContentsControlInput ControlInput;
 	CameraControl CameraControler;
 

@@ -31,6 +31,8 @@ void DummyActor::Off()
 	}
 }
 
+static constexpr int MAX_PROJECTILE = 5;
+
 void DummyActor::Start()
 {
 	MainRenderer = CreateComponent<GameEngineRenderer>(Enum_RenderOrder::Monster);
@@ -42,6 +44,14 @@ void DummyActor::Start()
 	BodyCollision->SetCollisionType(ColType::SPHERE3D);
 	BodyCollision->Transform.SetWorldScale(float4(1.0f, 1.0f, 1.0f));
 	BodyCollision->Transform.SetLocalPosition(float4::ZERO);
+
+
+	// Projectiles.resize(MAX_PROJECTILE);
+
+	// for (int i = 0; i < MAX_PROJECTILE; i++)
+	// {
+	// 	std::shared_ptr<GameEngineCollision> Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::MonsterAttack);
+	// }
 
 	ControlInput.SetPointer(this);
 	CameraControler.Init(this);
@@ -62,6 +72,8 @@ void DummyActor::Release()
 	CameraControler.Release();
 	MainRenderer = nullptr;
 	BodyCollision = nullptr;
+
+	Projectiles.clear();
 
 	BaseActor::Release();
 }
