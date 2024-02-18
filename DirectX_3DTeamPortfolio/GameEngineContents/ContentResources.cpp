@@ -199,6 +199,18 @@ void ContentResources::ContentResourcesInit()
 		Mat->SetDepthState("AlwaysDepth");
 	}
 
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("Fog");
+
+		Mat->SetVertexShader("Fog_VS");
+		Mat->SetPixelShader("Fog_PS");
+		Mat->SetRasterizer("EngineRasterizer");
+		Mat->SetBlendState("MergeBlend");
+		Mat->SetDepthState("AlwaysDepth");
+	}
+
+
 	// LUT
 	{
 		LUTEffect::Load();

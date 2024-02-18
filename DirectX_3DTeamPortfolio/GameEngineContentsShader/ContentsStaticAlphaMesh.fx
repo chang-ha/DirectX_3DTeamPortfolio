@@ -19,6 +19,7 @@ PixelOutPut ContentsStaticAlphaMesh_VS(GameEngineVertex3D _Input)
 struct PixelOut
 {
     float4 DifColor : SV_Target0;
+    float4 PosColor : SV_Target1;
 };
 
 
@@ -30,7 +31,7 @@ PixelOut ContentsStaticAlphaMesh_PS(PixelOutPut _Input)
     PixelOut Result = (PixelOut) 0.0f;
    
     float4 Color = DiffuseTexture.Sample(DiffuseTextureSampler, _Input.TEXCOORD.xy);
-    
+    Result.PosColor = _Input.VIEWPOSITION;
    
 
     Result.DifColor = Color;

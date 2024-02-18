@@ -29,6 +29,7 @@
     <FxCompile Include="ContentsStaticMesh.fx" />
     <FxCompile Include="ContentsStaticMesh_NorX_SpcX.fx" />
     <FxCompile Include="FBXAnimation.fx" />
+    <FxCompile Include="Fog.fx" />
     <FxCompile Include="Function.fx" />
     <FxCompile Include="FXAA.fx" />
     <FxCompile Include="Light.fx" />

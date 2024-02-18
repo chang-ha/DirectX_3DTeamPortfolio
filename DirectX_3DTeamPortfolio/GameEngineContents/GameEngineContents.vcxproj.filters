@@ -215,6 +215,9 @@
       <Filter>Level\ImGui\Editor</Filter>
     </ClCompile>
     <ClCompile Include="BoneSoundFrameEvent.cpp" />
+    <ClCompile Include="FogGUI.cpp">
+      <Filter>Level\ImGui\Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -428,6 +431,9 @@
       <Filter>Level\ImGui\Editor</Filter>
     </ClInclude>
     <ClInclude Include="BoneSoundFrameEvent.h" />
+    <ClInclude Include="FogGUI.h">
+      <Filter>Level\ImGui\Editor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">

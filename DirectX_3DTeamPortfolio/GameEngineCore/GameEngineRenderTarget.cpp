@@ -192,3 +192,11 @@ std::shared_ptr<GameEngineRenderTarget> GameEngineRenderTarget::CreateChildRende
 
 	return NewRenderTarget;
 }
+
+void GameEngineRenderTarget::EffectUpdate(float _DeltaTime, std::shared_ptr<GameEngineCamera> _Camera)
+{
+	for (std::shared_ptr<Effect> Effect : Effects)
+	{
+		Effect->Update(_DeltaTime, _Camera);
+	}
+}

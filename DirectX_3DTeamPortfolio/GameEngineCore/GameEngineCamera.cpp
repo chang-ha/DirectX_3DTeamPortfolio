@@ -6,7 +6,7 @@
 #include "GameEngineRenderTarget.h"
 #include <unordered_set>
 #include "GameEngineMesh.h"
-
+#include "FogEffect.h"
 
 // std::shared_ptr<class GameEngineRenderTarget> GameEngineCamera::AllRenderTarget = nullptr;
 
@@ -115,6 +115,7 @@ void GameEngineCamera::Start()
 		DeferredTarget = GameEngineRenderTarget::Create();
 		// 최종종합
 		DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		DeferredTarget->AddNewTexture(AllRenderTarget->GetTexture(2), float4::ZERONULL);
 		DeferredTarget->SetDepthTexture(AllRenderTarget->GetDepthTexture());
 
 		DeferredMergeUnit.SetMesh("FullRect");
@@ -246,6 +247,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 	}
 
 	AllRenderTarget->Clear();
+	DeferredTarget->Clear();
 	AllRenderTarget->Setting();
 
 	for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderer>>>& RendererPair : Renderers)
@@ -267,6 +269,18 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 		}
 	}
+
+	// 포스트 이펙트용 업데이트
+
+	ForwardTarget->EffectUpdate(_DeltaTime, std::static_pointer_cast<GameEngineCamera>(shared_from_this()));
+	DeferredTarget->EffectUpdate(_DeltaTime, std::static_pointer_cast<GameEngineCamera>(shared_from_this()));
+
+	//for ( FogEffect* Effect : FogPostEffect)
+	//{
+	//	Effect->Update(*this);
+	//}
+
+	;
 
 	// 포워드 그리고
 	{
@@ -418,7 +432,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 			}
 
 			DeferredLightTarget->RenderTargetReset();
-			DeferredTarget->Clear();
+			
 			DeferredTarget->Setting();
 			DeferredMergeUnit.Render();
 
@@ -705,3 +719,8 @@ float4 GameEngineCamera::GetScreenPos(GameEngineTransform& _TargetTransform)
 
 	return Result;
 }
+
+//void GameEngineCamera::PushFogEffect(FogEffect* _FogEffect)
+//	{
+//		FogPostEffect.push_back(_FogEffect);
+//	}

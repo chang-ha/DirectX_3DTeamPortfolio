@@ -243,6 +243,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="FogGUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="LUTEffect.cpp">
       <SubType>
       </SubType>
@@ -461,6 +465,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="DummyPath.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FogGUI.h">
       <SubType>
       </SubType>
     </ClInclude>
