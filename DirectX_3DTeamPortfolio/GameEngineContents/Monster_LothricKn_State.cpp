@@ -1325,6 +1325,14 @@ void Monster_LothricKn::RotToTarget(float _DeltaTime, float _fSpeed)
 	Capsule->AddWorldRotation(float4(0.0f, RotAngle, 0.0f));
 }
 
+void Monster_LothricKn::HitLogic()
+{
+	if (true == IsFlag(Enum_ActorStatus::HitValue))
+	{
+		SetFlag(Enum_ActorStatus::HitValue, false);
+	}
+}
+
 Enum_LothricKn_State Monster_LothricKn::GetStateToAggroTable()
 {
 	GameEngineActor* pTarget = GetTargetPointer();
@@ -1840,5 +1848,10 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToGDodgeTable(Enum_TargetDist _e
 		}
 	}
 
+	return Enum_LothricKn_State::None;
+}
+
+Enum_LothricKn_State Monster_LothricKn::GetStateToHitTable() const
+{
 	return Enum_LothricKn_State::None;
 }

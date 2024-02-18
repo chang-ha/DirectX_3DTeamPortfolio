@@ -48,6 +48,32 @@ enum class Enum_LothricKn_State
 	G_R_TurnTwice,
 	G_Run,
 	G_Att_Bash,
+	F_Hit_W,
+	B_Hit_W,
+	R_Hit_W,
+	L_Hit_W,
+	G_F_Hit_W,
+	G_F_Hit_W_PushBack,
+	G_F_Hit,
+	G_F_Hit_PushBack,
+	G_F_Hit_S_PushBack,
+	Block_Shield,
+	G_Break,
+	Break_Down,
+	Res_F_Hit_W,
+	Res_B_Hit_W,
+	Res_R_Hit_W,
+	Res_L_Hit_W,
+	F_Death,
+	F_Death_End,
+	F_Death_B,
+	F_Death_B_End,
+	B_Stab,
+	B_Stab_Death,
+	B_Stab_Death_End,
+	F_Stab,
+	F_Stab_Death,
+	F_Stab_Death_End,
 };
 
 
@@ -224,6 +250,8 @@ private:
 
 	void RotToTarget(float _DeltaTime, float _fSpeed);
 	
+	void HitLogic();
+	
 	Enum_LothricKn_State GetStateToAggroTable();
 
 	Enum_LothricKn_State GetStateToMovementTable() const;
@@ -243,6 +271,8 @@ private:
 	Enum_LothricKn_State GetStateToNormalDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
 	Enum_LothricKn_State GetStateToDHDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
 	Enum_LothricKn_State GetStateToGDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
+
+	Enum_LothricKn_State GetStateToHitTable() const;
 
 	// Collision
 	void FindTarget();

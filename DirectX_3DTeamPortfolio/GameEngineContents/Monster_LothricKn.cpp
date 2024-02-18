@@ -85,6 +85,33 @@ void Monster_LothricKn::Start()
 	MainRenderer->CreateFBXAnimation("G_L_TurnTwice", "c1280_005022.fbx");
 	MainRenderer->CreateFBXAnimation("G_R_TurnTwice", "c1280_005023.fbx");
 
+	MainRenderer->CreateFBXAnimation("F_Hit_W", "c1280_008000.fbx");
+	MainRenderer->CreateFBXAnimation("B_Hit_W", "c1280_008001.fbx");
+	MainRenderer->CreateFBXAnimation("R_Hit_W", "c1280_008002.fbx");
+	MainRenderer->CreateFBXAnimation("L_Hit_W", "c1280_008003.fbx");
+	MainRenderer->CreateFBXAnimation("G_F_Hit_W", "c1280_008200.fbx");
+	MainRenderer->CreateFBXAnimation("G_F_Hit_W_PushBack", "c1280_008201.fbx");
+	MainRenderer->CreateFBXAnimation("G_F_Hit", "c1280_008210.fbx");
+	MainRenderer->CreateFBXAnimation("G_F_Hit_PushBack", "c1280_008220.fbx");
+	MainRenderer->CreateFBXAnimation("G_F_Hit_S_PushBack", "c1280_008221.fbx");
+	MainRenderer->CreateFBXAnimation("Block_Shield", "c1280_008300.fbx");
+	MainRenderer->CreateFBXAnimation("G_Break", "c1280_008410.fbx");
+	MainRenderer->CreateFBXAnimation("Break_Down", "c1280_008500.fbx");
+	MainRenderer->CreateFBXAnimation("Res_F_Hit_W", "c1280_009000.fbx");
+	MainRenderer->CreateFBXAnimation("Res_B_Hit_W", "c1280_009001.fbx");
+	MainRenderer->CreateFBXAnimation("Res_R_Hit_W", "c1280_009002.fbx");
+	MainRenderer->CreateFBXAnimation("Res_L_Hit_W", "c1280_009003.fbx");
+	MainRenderer->CreateFBXAnimation("F_Death", "c1280_010000.fbx");
+	MainRenderer->CreateFBXAnimation("F_Death_End", "c1280_010001.fbx");
+	MainRenderer->CreateFBXAnimation("F_Death_B", "c1280_010030.fbx");
+	MainRenderer->CreateFBXAnimation("F_Death_B_End", "c1280_010031.fbx");
+	MainRenderer->CreateFBXAnimation("B_Stab", "c1280_011000.fbx");
+	MainRenderer->CreateFBXAnimation("B_Stab_Death", "c1280_011001.fbx");
+	MainRenderer->CreateFBXAnimation("B_Stab_Death_End", "c1280_011002.fbx");
+	MainRenderer->CreateFBXAnimation("F_Stab", "c1280_011010.fbx");
+	MainRenderer->CreateFBXAnimation("F_Stab_Death", "c1280_011011.fbx");
+	MainRenderer->CreateFBXAnimation("F_Stab_Death_End", "c1280_011012.fbx");
+
 
 	MainRenderer->SetRootMotionComponent(Capsule.get());
 	MainRenderer->SetRootMotion("Idle_Standing1");
@@ -137,6 +164,16 @@ void Monster_LothricKn::Start()
 	MainRenderer->SetRootMotion("G_R_Turn");
 	MainRenderer->SetRootMotion("G_L_TurnTwice");
 	MainRenderer->SetRootMotion("G_R_TurnTwice");
+	MainRenderer->SetRootMotion("G_F_Hit");
+	MainRenderer->SetRootMotion("G_F_Hit_PushBack");
+	MainRenderer->SetRootMotion("G_F_Hit_S_PushBack");
+	MainRenderer->SetRootMotion("F_Death");
+	MainRenderer->SetRootMotion("F_Death_B");
+	MainRenderer->SetRootMotion("B_Stab");
+	MainRenderer->SetRootMotion("B_Stab_Death");
+	MainRenderer->SetRootMotion("F_Stab");
+	MainRenderer->SetRootMotion("F_Stab_Death");
+
 
 	SetMeshVisibility(eMeshInfo::Spear, false);
 	SetMeshVisibility(eMeshInfo::LSword, false);
