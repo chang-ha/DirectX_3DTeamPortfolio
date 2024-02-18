@@ -132,8 +132,7 @@ public:
 	void SetWPosition(const float4& _wPos);
 
 	// Interaction To Character
-	// 함수 명이 생각나는게 없어요 ㅠㅠㅠ 아무나 적절한 함수명으로 고쳐줘요...
-	void GetHit(int _Value);
+	void GetHit(int _Value);    // 함수명 바꾸셔도 됩니다
 
 	// Getter
 	inline std::shared_ptr<GameContentsFBXRenderer>& GetFBXRenderer() { return MainRenderer; }
@@ -161,15 +160,17 @@ protected:
 	void AddBoneIndex(Enum_BoneType _BoneType, int _BoneNum);
 	int GetBoneIndex(Enum_BoneType _BoneType);
 	float4x4& GetBoneMatrixToType(Enum_BoneType _BoneType);
+	float4x4& GetBoneMatrixToIndex(int _Index);
 
 	// SocketCollision
 	template<typename OrderType>
 	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(OrderType _Order, Enum_BoneType _Type, std::string ColName = "")
 	{
-		return CreateSocketCollision(static_cast<int>(_Order), _Type, ColName);
+		int SocketIndex = GetBoneIndex(_Type);
+		return CreateSocketCollision(static_cast<int>(_Order), SocketIndex, ColName);
 	}
 
-	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(int _Order, Enum_BoneType _Type, std::string _ColName = "");
+	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(int _Order, int _SocketIndex, std::string _ColName = "");
 
 	std::shared_ptr<BoneSocketCollision> FindSocketCollision(Enum_BoneType _Type); 
 

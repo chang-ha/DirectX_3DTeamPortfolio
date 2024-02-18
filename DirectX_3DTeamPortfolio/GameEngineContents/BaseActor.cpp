@@ -261,14 +261,19 @@ int BaseActor::GetBoneIndex(Enum_BoneType _BoneType)
 
 float4x4& BaseActor::GetBoneMatrixToType(Enum_BoneType _BoneType)
 {
-	std::vector<float4x4>& BoneMats = GetFBXRenderer()->GetBoneSockets();
-	return BoneMats[GetBoneIndex(Enum_BoneType::B_01_RightHand)];
+	int Index = GetBoneIndex(_BoneType);
+	return GetBoneMatrixToIndex(Index);
 }
 
-std::shared_ptr<BoneSocketCollision> BaseActor::CreateSocketCollision(int _Order, Enum_BoneType _Type, std::string _ColName)
+float4x4& BaseActor::GetBoneMatrixToIndex(int _Index)
 {
-	int SocketIndex = GetBoneIndex(_Type);
-	if (auto FindIter = SocketCollisions.find(SocketIndex); FindIter != SocketCollisions.end())
+	std::vector<float4x4>& BoneMats = GetFBXRenderer()->GetBoneSockets();
+	return BoneMats[_Index];
+}
+
+std::shared_ptr<BoneSocketCollision> BaseActor::CreateSocketCollision(int _Order, int _SocketIndex, std::string _ColName)
+{
+	if (auto FindIter = SocketCollisions.find(_SocketIndex); FindIter != SocketCollisions.end())
 	{
 		MsgBoxAssert("이미 존재하는 충돌체를 생성하려 했습니다.");
 		return nullptr;
@@ -276,11 +281,11 @@ std::shared_ptr<BoneSocketCollision> BaseActor::CreateSocketCollision(int _Order
 
 	std::shared_ptr<BoneSocketCollision> NewCol = CreateComponent<BoneSocketCollision>(_Order);
 	NewCol->SetName(_ColName);
-	NewCol->SetBoneIndex(SocketIndex);
+	NewCol->SetBoneIndex(_SocketIndex);
 	NewCol->SetCollisionType(ColType::SPHERE3D);
-	NewCol->SetSocket(&GetBoneMatrixToType(_Type));
+	NewCol->SetSocket(&GetBoneMatrixToIndex(_SocketIndex));
 	NewCol->Off();
-	SocketCollisions.insert(std::make_pair(SocketIndex, NewCol));
+	SocketCollisions.insert(std::make_pair(_SocketIndex, NewCol));
 	return NewCol;
 }
 
