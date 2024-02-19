@@ -26,9 +26,9 @@ void PlayLevel::Start()
 	ContentLevel::Start();
 	GameEngineInput::AddInputObject(this);
 
-	/*{
-		std::shared_ptr<WorldMap> GameMap = CreateActor<WorldMap>(0, "WorldMap");
-	}*/
+	//{
+	//	std::shared_ptr<WorldMap> GameMap = CreateActor<WorldMap>(0, "WorldMap");
+	//}
 
 	GetMainCamera()->Transform.SetWorldRotation({ 0.0f,0.0f,0.0f });
 	GetMainCamera()->Transform.SetWorldPosition({ 0.0f, 0.0f, -1000.0f });
