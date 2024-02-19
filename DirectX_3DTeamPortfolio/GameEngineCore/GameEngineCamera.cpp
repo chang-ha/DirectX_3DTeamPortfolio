@@ -5,6 +5,7 @@
 #include "GameEngineCore.h"
 #include "GameEngineRenderTarget.h"
 #include <unordered_set>
+#include "GameEngineMesh.h"
 
 
 // std::shared_ptr<class GameEngineRenderTarget> GameEngineCamera::AllRenderTarget = nullptr;
@@ -292,13 +293,19 @@ void GameEngineCamera::Render(float _DeltaTime)
 		{
 			for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPair : RenderPath.second)
 			{
+
 				std::list<std::shared_ptr<class GameEngineRenderUnit>>& UnitList = RenderPair.second;
 
 				for (std::shared_ptr<class GameEngineRenderUnit> Unit : UnitList)
 				{
+					if (EPROJECTIONTYPE::Perspective != ProjectionType or InCamera(Unit->GetParentRenderer()->Transform, Unit->GetMesh()->GetMeshBaseInfo()) == true)
+					{
 
-					DebugCheck();
-					Unit->Render();
+						Unit->Render();
+					}
+					
+
+					//DebugCheck();
 				}
 			}
 		}
@@ -436,7 +443,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 		GetLevel()->LevelRenderTarget->Merge(0, DeferredTarget, 0);
 	}
 
-	GetLevel()->LevelRenderTarget->PostEffect(_DeltaTime);
+	//GetLevel()->LevelRenderTarget->PostEffect(_DeltaTime);
 }
 
 void GameEngineCamera::AllReleaseCheck()
@@ -580,6 +587,36 @@ void GameEngineCamera::CameraUpdate(float _DeltaTime)
 		break;
 	}
 
+}
+
+
+bool GameEngineCamera::InCamera(const GameEngineTransform& _Trans, MeshBaseInfo _MeshBaseInfo)
+{
+	
+	UnitTransform.LocalPosition = _MeshBaseInfo.CenterPosition;
+	UnitTransform.LocalScale = _MeshBaseInfo.BoundScaleBox;
+	UnitTransform.LocalRotation = float4::ZERONULL;
+
+	UnitTransform.LocalCalculation(_Trans.GetWorldMatrix());
+	UnitTransform.WorldDecompos();
+
+	// ¹ÝÁö¸§ 
+	//ColData.OBB.Extents = TransData.WorldScale.ToABS().Half().Float3;
+	//ColData.OBB.Center = TransData.WorldPosition.Float3;
+
+	DirectX::BoundingSphere AABB;
+	AABB.Center = UnitTransform.WorldPosition.Float3;
+	AABB.Radius = UnitTransform.WorldScale.ToABS().Size() / 2.0f;
+		
+
+	bool Result;
+
+	Result = CameraFrustum.Intersects(AABB);
+
+	
+	//Result = true;
+
+	return Result;
 }
 
 

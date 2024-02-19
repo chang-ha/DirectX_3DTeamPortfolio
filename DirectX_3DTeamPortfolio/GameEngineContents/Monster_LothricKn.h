@@ -48,35 +48,55 @@ enum class Enum_LothricKn_State
 	G_R_TurnTwice,
 	G_Run,
 	G_Att_Bash,
+	F_Hit_W,
+	B_Hit_W,
+	R_Hit_W,
+	L_Hit_W,
+	G_F_Hit_W,
+	G_F_Hit_W_PushBack,
+	G_F_Hit,
+	G_F_Hit_PushBack,
+	G_F_Hit_S_PushBack,
+	Block_Shield,
+	G_Break,
+	Break_Down,
+	Res_F_Hit_W,
+	Res_B_Hit_W,
+	Res_R_Hit_W,
+	Res_L_Hit_W,
+	F_Death,
+	F_Death_End,
+	F_Death_B,
+	F_Death_B_End,
+	B_Stab,
+	B_Stab_Death,
+	B_Stab_Death_End,
+	F_Stab,
+	F_Stab_Death,
+	F_Stab_Death_End,
 };
 
-enum class Enum_MonsterDebugFlag
-{
-	None = 0,
-	PatrolValue = (1 << 0),
-};
-
-class MonsterDebugState
-{
-public:
-	bool IsFlag(Enum_MonsterDebugFlag _eValue)
-	{
-		BitMethod::IsOnFlag(DebugFlag, static_cast<int>(_eValue));
-	}
-
-	void SetFlag(Enum_MonsterDebugFlag _eValue, bool _bOn)
-	{
-		BitMethod::SetFlag(&DebugFlag, static_cast<int>(_eValue), _bOn);
-	}
-
-private:
-
-	int DebugFlag = 0;
-};
 
 // Ό³Έν :
 class Monster_LothricKn : public BaseMonster
 {
+	enum class eMeshInfo
+	{
+		Body,
+		Cloak,
+		Spear,
+		Sword,
+		Shield,
+		LSword,
+		Crossbow,
+		Cloak_cloth,
+		Close,
+		Open,
+		LShield,
+		Weapon_Cloth,
+		SwordCover,
+	};
+
 	enum class Enum_IdleType
 	{
 		Standing,
@@ -160,6 +180,29 @@ private:
 	void Start_G_R_TurnTwice(GameEngineState* _State);
 	void Start_G_Run(GameEngineState* _State);
 	void Start_G_Att_Bash(GameEngineState* _State);
+
+	void Start_F_Hit_W(GameEngineState* _State);
+	void Start_B_Hit_W(GameEngineState* _State);
+	void Start_R_Hit_W(GameEngineState* _State);
+	void Start_L_Hit_W(GameEngineState* _State);
+	void Start_G_F_Hit_W(GameEngineState* _State);
+	void Start_G_F_Hit_W_PushBack(GameEngineState* _State);
+	void Start_G_F_Hit(GameEngineState* _State);
+	void Start_G_F_Hit_PushBack(GameEngineState* _State);
+	void Start_G_F_Hit_S_PushBack(GameEngineState* _State);
+	void Start_Block_Shield(GameEngineState* _State);
+	void Start_G_Break(GameEngineState* _State);
+	void Start_Break_Down(GameEngineState* _State);
+	void Start_F_Death(GameEngineState* _State);
+	void Start_F_Death_End(GameEngineState* _State);
+	void Start_F_Death_B(GameEngineState* _State);
+	void Start_F_Death_B_End(GameEngineState* _State);
+	void Start_B_Stab(GameEngineState* _State);
+	void Start_B_Stab_Death(GameEngineState* _State);
+	void Start_B_Stab_Death_End(GameEngineState* _State);
+	void Start_F_Stab(GameEngineState* _State);
+	void Start_F_Stab_Death(GameEngineState* _State);
+	void Start_F_Stab_Death_End(GameEngineState* _State);
 	
 		// Update  G_Run
 	void Update_Debug(float _DeltaTime, GameEngineState* _State);
@@ -199,6 +242,26 @@ private:
 	void Update_G_R_TurnTwice(float _DeltaTime, GameEngineState* _State);
 	void Update_G_Run(float _DeltaTime, GameEngineState* _State);
 	void Update_G_Att_Bash(float _DeltaTime, GameEngineState* _State);
+
+	void Update_Hit_W(float _DeltaTime, GameEngineState* _State);
+	void Update_G_F_Hit_W(float _DeltaTime, GameEngineState* _State);
+	void Update_G_F_Hit_W_PushBack(float _DeltaTime, GameEngineState* _State);
+	void Update_G_F_Hit(float _DeltaTime, GameEngineState* _State);
+	void Update_G_F_Hit_PushBack(float _DeltaTime, GameEngineState* _State);
+	void Update_G_F_Hit_S_PushBack(float _DeltaTime, GameEngineState* _State);
+	void Update_Block_Shield(float _DeltaTime, GameEngineState* _State);
+	void Update_G_Break(float _DeltaTime, GameEngineState* _State);
+	void Update_Break_Down(float _DeltaTime, GameEngineState* _State);
+	void Update_F_Death(float _DeltaTime, GameEngineState* _State);
+	void Update_F_Death_End(float _DeltaTime, GameEngineState* _State);
+	void Update_F_Death_B(float _DeltaTime, GameEngineState* _State);
+	void Update_F_Death_B_End(float _DeltaTime, GameEngineState* _State);
+	void Update_B_Stab(float _DeltaTime, GameEngineState* _State);
+	void Update_B_Stab_Death(float _DeltaTime, GameEngineState* _State);
+	void Update_B_Stab_Death_End(float _DeltaTime, GameEngineState* _State);
+	void Update_F_Stab(float _DeltaTime, GameEngineState* _State);
+	void Update_F_Stab_Death(float _DeltaTime, GameEngineState* _State);
+	void Update_F_Stab_Death_End(float _DeltaTime, GameEngineState* _State);
 	
 
 
@@ -229,6 +292,8 @@ private:
 	bool IsTargetInAngle(float _fAngle) const;
 
 	void RotToTarget(float _DeltaTime, float _fSpeed);
+	bool CheckAndSetHitState();
+	bool CheckAndSetAttackState();
 	
 	Enum_LothricKn_State GetStateToAggroTable();
 
@@ -250,12 +315,13 @@ private:
 	Enum_LothricKn_State GetStateToDHDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
 	Enum_LothricKn_State GetStateToGDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
 
+	Enum_LothricKn_State GetStateToHitTable();
+
 	// Collision
 	void FindTarget();
 
 private:
 	std::shared_ptr<GameEngineCollision> PatrolCollision;  
-	MonsterDebugState Debug;
 
 	Enum_IdleType IdleType = Enum_IdleType::None;
 	Enum_Combat_State CombatState = Enum_Combat_State::None;
@@ -264,9 +330,9 @@ private:
 	float fMaxStateTime = 0.0f;
 
 	static constexpr float CLOSE_RANGE = 3.0f;
-	static constexpr float MELEE_RANGE = 6.0f;
-	static constexpr float MEDIUM_RANGE = 9.0f;
-	static constexpr float LONG_RANGE = 12.0f;
+	static constexpr float MELEE_RANGE = 5.0f;
+	static constexpr float MEDIUM_RANGE = 7.0f;
+	static constexpr float LONG_RANGE = 10.0f;
 	static constexpr float FRONT_ANGLE = 75.0f;
 	static constexpr float SIDE_ANGLE = 115.0f;
 	static constexpr float BACK_ANGLE = 150.0f;

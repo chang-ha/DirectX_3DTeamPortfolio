@@ -26,9 +26,9 @@ void PlayLevel::Start()
 	ContentLevel::Start();
 	GameEngineInput::AddInputObject(this);
 
-	{
+	/*{
 		std::shared_ptr<WorldMap> GameMap = CreateActor<WorldMap>(0, "WorldMap");
-	}
+	}*/
 
 	GetMainCamera()->Transform.SetWorldRotation({ 0.0f,0.0f,0.0f });
 	GetMainCamera()->Transform.SetWorldPosition({ 0.0f, 0.0f, -1000.0f });
@@ -90,10 +90,10 @@ void PlayLevel::Start()
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 1, 1, 1, 1 });
 
 	// Test Ground
-	/*physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
+	physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
 	physx::PxMaterial* mMaterial = GameEnginePhysX::GetDefaultMaterial();
 	physx::PxRigidStatic* groundPlane = PxCreatePlane(*Physics, physx::PxPlane(0, 1, 0, 50), *mMaterial);
-	Scene->addActor(*groundPlane);*/
+	Scene->addActor(*groundPlane);
 }
 
 void PlayLevel::Update(float _Delta)

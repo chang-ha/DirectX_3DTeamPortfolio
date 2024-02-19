@@ -142,13 +142,7 @@
     <ClCompile Include="LightGUI.cpp">
       <Filter>ImGui\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="DummyActor.cpp">
-      <Filter>Actor\Monster\LothricKnight</Filter>
-    </ClCompile>
     <ClCompile Include="ContentsDebug.cpp">
-      <Filter>Actor\Monster\LothricKnight</Filter>
-    </ClCompile>
-    <ClCompile Include="DummyPath.cpp">
       <Filter>Actor\Monster\LothricKnight</Filter>
     </ClCompile>
     <ClCompile Include="SwitchFlagFrameEvent.cpp">
@@ -169,9 +163,6 @@
     <ClCompile Include="TitleLogo.cpp">
       <Filter>Actor\UI</Filter>
     </ClCompile>
-    <ClCompile Include="ContentsControlInput.cpp">
-      <Filter>Actor\Monster\LothricKnight</Filter>
-    </ClCompile>
     <ClCompile Include="Monster_HollowSoldier_RoundShield.cpp">
       <Filter>Actor\Monster\Hollow</Filter>
     </ClCompile>
@@ -183,9 +174,6 @@
     </ClCompile>
     <ClCompile Include="Monster_Hollow_Assassin.cpp">
       <Filter>Actor\Monster\Hollow</Filter>
-    </ClCompile>
-    <ClCompile Include="ContentsMouseInput.cpp">
-      <Filter>Actor\Monster\LothricKnight</Filter>
     </ClCompile>
     <ClCompile Include="WorldMap.cpp">
       <Filter>Map</Filter>
@@ -211,8 +199,35 @@
     <ClCompile Include="PlayerValue.cpp">
       <Filter>Core\Global</Filter>
     </ClCompile>
+    <ClCompile Include="BloomGUI.cpp">
+      <Filter>ImGui\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="DummyGUI.cpp">
+      <Filter>ImGui\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterInfoGUI.cpp">
+      <Filter>ImGui\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="DummyGUI.cpp">
+      <Filter>ImGui\Editor</Filter>
+    </ClCompile>
     <ClCompile Include="BoneSoundFrameEvent.cpp">
       <Filter>ImGui\Editor\FrameEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsMouseInput.cpp">
+      <Filter>Actor\Monster\LothricKnight\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsControlInput.cpp">
+      <Filter>Actor\Monster\LothricKnight\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="DummyActor.cpp">
+      <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
+    </ClCompile>
+    <ClCompile Include="DummyPath.cpp">
+      <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
+    </ClCompile>
+    <ClCompile Include="DummyProjectile.cpp">
+      <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -354,13 +369,7 @@
     <ClInclude Include="AnimationInfoGUI.h">
       <Filter>ImGui\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="DummyActor.h">
-      <Filter>Actor\Monster\LothricKnight</Filter>
-    </ClInclude>
     <ClInclude Include="ContentsDebug.h">
-      <Filter>Actor\Monster\LothricKnight</Filter>
-    </ClInclude>
-    <ClInclude Include="DummyPath.h">
       <Filter>Actor\Monster\LothricKnight</Filter>
     </ClInclude>
     <ClInclude Include="SwitchFlagFrameEvent.h">
@@ -381,9 +390,6 @@
     <ClInclude Include="TitleLogo.h">
       <Filter>Actor\UI</Filter>
     </ClInclude>
-    <ClInclude Include="ContentsControlInput.h">
-      <Filter>Actor\Monster\LothricKnight</Filter>
-    </ClInclude>
     <ClInclude Include="Monster_HollowSoldier_RoundShield.h">
       <Filter>Actor\Monster\Hollow</Filter>
     </ClInclude>
@@ -395,9 +401,6 @@
     </ClInclude>
     <ClInclude Include="Monster_Hollow_Assassin.h">
       <Filter>Actor\Monster\Hollow</Filter>
-    </ClInclude>
-    <ClInclude Include="ContentsMouseInput.h">
-      <Filter>Actor\Monster\LothricKnight</Filter>
     </ClInclude>
     <ClInclude Include="WorldMap.h">
       <Filter>Map</Filter>
@@ -423,8 +426,35 @@
     <ClInclude Include="PlayerValue.h">
       <Filter>Core\Global</Filter>
     </ClInclude>
+    <ClInclude Include="BloomGUI.h">
+      <Filter>ImGui\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyGUI.h">
+      <Filter>ImGui\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterInfoGUI.h">
+      <Filter>ImGui\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyGUI.h">
+      <Filter>ImGui\Editor</Filter>
+    </ClInclude>
     <ClInclude Include="BoneSoundFrameEvent.h">
       <Filter>ImGui\Editor\FrameEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsMouseInput.h">
+      <Filter>Actor\Monster\LothricKnight\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsControlInput.h">
+      <Filter>Actor\Monster\LothricKnight\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyPath.h">
+      <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyActor.h">
+      <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyProjectile.h">
+      <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -502,6 +532,12 @@
     </Filter>
     <Filter Include="PostEffect">
       <UniqueIdentifier>{0908c021-de83-47a2-af52-678a47c6fbb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Monster\LothricKnight\Input">
+      <UniqueIdentifier>{d1fd0b40-390b-4ea8-929d-56c240e35ebd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Monster\LothricKnight\Dummy">
+      <UniqueIdentifier>{92a2ac9b-d55f-436c-bcd2-979dcb35a03d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

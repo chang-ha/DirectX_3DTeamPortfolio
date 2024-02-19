@@ -10,6 +10,7 @@
 #include <GameEngineCore/GameEngineCoreWindow.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include "LUTEffect.h"
+#include "BloomEffect.h"
 
 TestLevel_Shader::TestLevel_Shader()
 {
@@ -60,6 +61,7 @@ void TestLevel_Shader::Start()
 	//GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<FXAAEffect>();
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
 	GetMainCamera()->Transform.AddLocalPosition({ 0.0f, 0.0f, -300.0f });
+	GetLevelRenderTarget()->CreateEffect<BloomEffect>();
 	GetLevelRenderTarget()->CreateEffect<LUTEffect>();
 
 
@@ -69,19 +71,19 @@ void TestLevel_Shader::Start()
 	GetCamera(ECAMERAORDER::UI)->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
 
+	//HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
+	//HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,10.0f });
+
+
+	/*HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
+	HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,100.0f });
+
 	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
-	HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,10.0f });
+	HollowSoldier->Transform.AddLocalPosition({ -300.0f,0.0f,10.0f });*/
 
 
-	//HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
-	//HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,100.0f });
-
-	//HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
-	//HollowSoldier->Transform.AddLocalPosition({ -300.0f,0.0f,10.0f });
-
-
-	//Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
-	//Boss_Object->Transform.SetLocalPosition({ 300.f, 0.f, 0.f });
+	/*Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
+	Boss_Object->Transform.SetLocalPosition({ 300.f, 0.f, 0.f });*/
 
 	// 컬러 구체
 	//{
@@ -99,17 +101,22 @@ void TestLevel_Shader::Start()
 	//}
 
 	// 맵 오브젝트
-	//{
-	//	std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
+	{
+		std::shared_ptr<GameEngineActor> actor = CreateActor<GameEngineActor>();
 
 
-	//	std::shared_ptr<GameContentsFBXRenderer> Renderer = Actor->CreateComponent<GameContentsFBXRenderer>();
+		std::shared_ptr<GameContentsFBXRenderer> renderer = actor->CreateComponent<GameContentsFBXRenderer>();
 
-	//	Renderer->SetFBXMesh("m30_00_00_00_000901.FBX", "FBX_Static");
-	//	Renderer->Transform.SetLocalScale({ 50.f, 50.f, 50.f, 1.0f });
+		renderer->SetFBXMesh("WorldSky.FBX", "FBX_Static");
+		//renderer->transform.setlocalscale({ 50.f, 50.f, 50.f, 1.0f });
 
-	//	Renderer->RenderBaseInfoValue.AlphaValue = -10.0f;
-	//}
+		//renderer->renderbaseinfovalue.alphavalue = -10.0f;
+
+
+	}
+
+	//SkyRenderer = CreateComponent<GameContentsFBXRenderer>();
+	//SkyRenderer->SetFBXMesh("WorldSky.FBX", "FBX_Static");
 
 
 	{
@@ -158,17 +165,17 @@ void TestLevel_Shader::Start()
 	//	NewRenderer->RenderBaseInfoValue.IsShadow = 1;
 	//}
 
-	{
-		std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
-		std::shared_ptr<class GameEngineSpriteRenderer> HpBar = Object->CreateComponent<GameEngineSpriteRenderer>();
-		//HpBar->SetCameraOrder(ECAMERAORDER::UI);
-		HpBar->Transform.SetLocalPosition({ 0.0f, -100 });
-		//HpBar->Transform.SetWorldScale({ 1000.0f, 1300,1000.0f,1.0f });
-		HpBar->SetImageScale({ 100.0f, 100.0f,100.0f });
-		HpBar->SetBillboardOn();
+	//{
+	//	std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
+	//	std::shared_ptr<class GameEngineSpriteRenderer> HpBar = Object->CreateComponent<GameEngineSpriteRenderer>();
+	//	//HpBar->SetCameraOrder(ECAMERAORDER::UI);
+	//	HpBar->Transform.SetLocalPosition({ 0.0f, -100 });
+	//	//HpBar->Transform.SetWorldScale({ 1000.0f, 1300,1000.0f,1.0f });
+	//	//HpBar->SetImageScale({ 100.0f, 100.0f,100.0f });
+	//	HpBar->SetBillboardOn();
 
-		//GetCamera(ECAMERAORDER::UI)->DebugOn();
-	}
+	//	//GetCamera(ECAMERAORDER::UI)->DebugOn();
+	//}
 
 	//{
 	//	{

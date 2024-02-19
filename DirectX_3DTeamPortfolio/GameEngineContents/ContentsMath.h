@@ -1,5 +1,7 @@
 #pragma once
 
+#define CIRCLE 360.0f
+
 class ContentsRandom
 {
 public:

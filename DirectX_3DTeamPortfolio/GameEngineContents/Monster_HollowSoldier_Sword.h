@@ -6,8 +6,8 @@ enum class Enum_HollowSoldier_Sword_State
 	Idle1,
 	Idle2,
 	Scout,
-	//Walk,
-	//Run,
+	Walk,
+	Run,
 	RH_VerticalSlash,
 	RH_HorizontalSlash,
 	RH_ComboAttack,
@@ -77,6 +77,17 @@ protected:
 	void ChangeState(Enum_HollowSoldier_Sword_State _State);
 	void StateUpdate(float _Delta);
 
+	void ChangeAttackState();
+
+private:
+	std::shared_ptr<GameEngineCollision> RecognizeCollision;
+	std::shared_ptr<GameEngineCollision> AttackRangeCollision;
+
+	bool IsRecognize = false;
+	bool IsAttack = false;
+
+	class GameEngineRandom RandomAttack;
+
 protected:
 	//State Function
 
@@ -88,6 +99,12 @@ protected:
 
 	void State_Scout_Start();
 	void State_Scout_Update(float _Delta);
+
+	void State_Walk_Start();
+	void State_Walk_Update(float _Delat);
+
+	void State_Run_Start();
+	void State_Run_Update(float _Delta);
 
 	void State_RH_VerticalSlash_Start();
 	void State_RH_VerticalSlash_Update(float _Delta);
@@ -101,42 +118,53 @@ protected:
 	void State_RH_TwinSlash_Start();
 	void State_RH_TwinSlash_Update(float _Delta);
 
+	// Vertical
 	void State_Attack1_Start();
 	void State_Attack1_Update(float _Delta);
 
+	// Vertical Horizontal
 	void State_Attack2_Start();
 	void State_Attack2_Update(float _Delta);
 
+	// Vertical Horizontal TH
 	void State_Attack3_Start();
 	void State_Attack3_Update(float _Delta);
 
 	//void State_Attack4_Start();
 	//void State_Attack4_Update(float _Delta);
 
+	// Vertical Horizontal ChargingSting
 	void State_Attack5_Start();
 	void State_Attack5_Update(float _Delta);
 
+	// Vertical TwinSlash
 	void State_Attack6_Start();
 	void State_Attack6_Update(float _Delta);
 
+	// Vertical TwinSlash TH
 	void State_Attack7_Start();
 	void State_Attack7_Update(float _Delta);
 	
+	// Vertical TH
 	void State_Attack8_Start();
 	void State_Attack8_Update(float _Delta);
 
+	// TwinSlash
 	void State_Attack9_Start();
 	void State_Attack9_Update(float _Delta);
 
+	// TwinSlash TH
 	void State_Attack10_Start();
 	void State_Attack10_Update(float _Delta);
 
+	// Sting
 	void State_Attack11_Start();
 	void State_Attack11_Update(float _Delta);
 
 	//void State_Attack12_Start();
 	//void State_Attack12_Update(float _Delta);
 
+	// TH
 	void State_Attack13_Start();
 	void State_Attack13_Update(float _Delta);
 

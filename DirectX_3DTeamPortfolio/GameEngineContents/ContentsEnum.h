@@ -4,6 +4,7 @@ enum class Enum_UpdateOrder
 {
 	Player,
 	Monster,
+	Component,
 	Light,
 };
 
