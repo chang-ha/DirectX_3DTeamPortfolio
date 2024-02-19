@@ -39,9 +39,12 @@ Enum_DirectionXZ_Quat HitStruct::ReturnDirectionToVector(const float4& _V)
 
 	Enum_DirectionXZ_Quat ReturnValue = static_cast<Enum_DirectionXZ_Quat>(i);
 
-	ContentsDebug::DebugOuput(DotResult, "DotResult");
-	ContentsDebug::DebugOuput(Angle, "Angle");
-	ContentsDebug::DebugOuput(i, "eDir");
+	if (false)
+	{
+		ContentsDebug::DebugOuput(DotResult, "DotResult");
+		ContentsDebug::DebugOuput(Angle, "Angle");
+		ContentsDebug::DebugOuput(i, "eDir");
+	}
 	return ReturnValue;
 }
 
@@ -66,13 +69,14 @@ void ContentsActorInitial::Init()
 {
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Wake, Enum_ActorFlagBit::Wake));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Death, Enum_ActorFlagBit::Death));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::ParryPossible, Enum_ActorFlagBit::ParryPossible));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::JumpPossible, Enum_ActorFlagBit::JumpPossible));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Parrying, Enum_ActorFlagBit::Parrying));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Guarding, Enum_ActorFlagBit::Guarding));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Hit, Enum_ActorFlagBit::Hit));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::GaurdSuccess, Enum_ActorFlagBit::GaurdSuccess));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::GuardSuccess, Enum_ActorFlagBit::GuardSuccess));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Block_Shield, Enum_ActorFlagBit::Block_Shield));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Gaurd_Break, Enum_ActorFlagBit::Gaurd_Break));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Break_Down, Enum_ActorFlagBit::Break_Down));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::TwoHand, Enum_ActorFlagBit::TwoHand));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::FrontStab, Enum_ActorFlagBit::FrontStab));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::BackStab, Enum_ActorFlagBit::BackStab));
 }
@@ -113,97 +117,6 @@ void BaseActor::Release()
 	Target = nullptr;
 }
 
-void BaseActor::CameraRotation(float Delta)
-{
-	Time += Delta;
-	Actor_test->Transform.SetWorldPosition({ Transform.GetWorldPosition() });
-
-	CameraPos = { GameEngineCore::MainWindow.GetMousePos().X,GameEngineCore::MainWindow.GetMousePos().Y };
-	CameraPos.Normalize();
-
-	Mouse_Ro_X = GameEngineCore::MainWindow.GetMousePos().X;
-	Mouse_Ro_Y = GameEngineCore::MainWindow.GetMousePos().Y;
-
-	if (GameEngineInput::IsPress('W', this) )
-	{
-		Camera_Pos_Y += CameraPos.Y * Delta * 500;
-
-		if (Camera_Pos_Y >= 60)
-		{
-			Camera_Pos_Y -= CameraPos.Y * Delta * 500;
-		}
-	}
-
-	else if (GameEngineInput::IsPress('S', this) )
-	{
-		Camera_Pos_Y -= CameraPos.Y * Delta * 500;
-
-		if (Camera_Pos_Y <= 0)
-		{
-			Camera_Pos_Y = 0;
-		}
-	}
-
-	if (GameEngineInput::IsPress('D', this))
-	{
-		Camera_Pos_X -= CameraPos.X * Delta * 500;
-	}
-
-	else if (GameEngineInput::IsPress('A', this))
-	{
-		Camera_Pos_X += CameraPos.X * Delta * 500;
-	}
-
-
-	// 확대 기능 
-
-	/*float4 A = Actor_test->Transform.GetWorldPosition() - float4{ Actor_test_02->Transform.GetWorldPosition().X, Actor_test_02->Transform.GetWorldPosition().Y - 400.0f, Actor_test_02->Transform.GetWorldPosition().Z };
-
-	A.Normalize();
-
-	if (Camera_Pos_Y <= 0)
-	{
-
-		if (PrevPos.Y < Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) >= abs(500))
-		{
-			Actor_test_02->Transform.AddWorldPosition(A * Delta * 2000);
-		}
-
-		else if (PrevPos.Y > Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) <= abs(1000))
-		{
-			Actor_test_02->Transform.AddWorldPosition(-A * Delta * 2000);
-		}
-
-
-	}*/
-
-
-	
-
-	Actor_test->Transform.SetWorldRotation({ Camera_Pos_Y,Camera_Pos_X,0.0f });
-
-	// 마우스 고정하고 싶을떄 
-
-	/*if (Time > 0.1)
-	{
-		Time = 0;
-
-		PrevPos.Y = 258;
-		PrevPos.X = 864;
-		GameEngineCore::MainWindow.SetMousePos(1280, 720);
-	}*/
-
-	PrevPos.Y = Mouse_Ro_Y;
-	PrevPos.X = Mouse_Ro_X;
-
-
-	GetLevel()->GetMainCamera()->Transform.SetWorldRotation(Actor_test_02->Transform.GetWorldRotationEuler());
-	GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Actor_test_02->Transform.GetWorldPosition());
-
-}
-
-
-
 void BaseActor::AddWDirection(float _Degree)
 {
 	Transform.AddWorldRotation(float4(0.0f, 0.0f, _Degree));
@@ -230,14 +143,25 @@ void BaseActor::SetWPosition(const float4& _wPos)
 	Capsule->SetWorldPosition(_wPos);
 }
 
-void BaseActor::GetHit(int _AddHp, HitParameter _Para /*= HitParameter()*/)
+void BaseActor::GetHit(int _Att, HitParameter _Para /*= HitParameter()*/)
 {
 	if (true == Hit.IsHit())
 	{
 		return;
 	}
 
-	Stat.AddHp(_AddHp);
+	if (true == GaurdHitLogic(_Att))
+	{
+		return;
+	}
+
+	HitLogic(_Att, _Para);
+}
+
+void BaseActor::HitLogic(int _Att, HitParameter _Para)
+{
+	const int Damage = HitFormula(_Att);
+	Stat.AddHp(Damage);
 	Hit.SetHit(true);
 
 	if (nullptr != _Para.pHitter)
@@ -246,8 +170,28 @@ void BaseActor::GetHit(int _AddHp, HitParameter _Para /*= HitParameter()*/)
 		// 경우도 있기 때문에 임시 로직으로 뒀습니다.
 		SetTargeting(_Para.pHitter);
 	}
-	
+
 	Hit.SetHitDir(_Para.eDir);
+}
+
+bool BaseActor::GaurdHitLogic(int _Att /*= 0*/)
+{
+	if (true == Hit.IsHit())
+	{
+		return false;
+	}
+
+	if (true == IsFlag(Enum_ActorFlag::Guarding))
+	{
+		const int FinalDamage = GuardHitFormula(_Att);
+		Stat.AddHp(FinalDamage);
+		Hit.SetGuardSuccesss(true);
+		Hit.SetHit(true);
+
+		return true;
+	}
+
+	return false;
 }
 
 int BaseActor::FindFlag(Enum_ActorFlag _Status) const
@@ -288,10 +232,9 @@ void BaseActor::SubFlag(Enum_ActorFlag _Flag)
 void BaseActor::DebugFlag()
 {
 	bool HitValue = IsFlag(Enum_ActorFlag::Hit);
-	bool GaurdingValue = IsFlag(Enum_ActorFlag::GaurdSuccess);
+	bool GaurdingValue = IsFlag(Enum_ActorFlag::GuardSuccess);
 	bool DeathValue = IsFlag(Enum_ActorFlag::Death);
-	bool JumpPossible = IsFlag(Enum_ActorFlag::JumpPossible);
-	bool ParryPossible = IsFlag(Enum_ActorFlag::ParryPossible);
+	bool ParryPossible = IsFlag(Enum_ActorFlag::Parrying);
 	int a = 0;
 }
 
@@ -490,4 +433,94 @@ float4 BaseActor::GetTargetDirection() const
 	float4 Direction = TargetPos - MyPos;
 	Direction.Normalize();
 	return Direction;
+}
+
+
+void BaseActor::CameraRotation(float Delta)
+{
+	Time += Delta;
+	Actor_test->Transform.SetWorldPosition({ Transform.GetWorldPosition() });
+
+	CameraPos = { GameEngineCore::MainWindow.GetMousePos().X,GameEngineCore::MainWindow.GetMousePos().Y };
+	CameraPos.Normalize();
+
+	Mouse_Ro_X = GameEngineCore::MainWindow.GetMousePos().X;
+	Mouse_Ro_Y = GameEngineCore::MainWindow.GetMousePos().Y;
+
+	if (GameEngineInput::IsPress('W', this))
+	{
+		Camera_Pos_Y += CameraPos.Y * Delta * 500;
+
+		if (Camera_Pos_Y >= 60)
+		{
+			Camera_Pos_Y -= CameraPos.Y * Delta * 500;
+		}
+	}
+
+	else if (GameEngineInput::IsPress('S', this))
+	{
+		Camera_Pos_Y -= CameraPos.Y * Delta * 500;
+
+		if (Camera_Pos_Y <= 0)
+		{
+			Camera_Pos_Y = 0;
+		}
+	}
+
+	if (GameEngineInput::IsPress('D', this))
+	{
+		Camera_Pos_X -= CameraPos.X * Delta * 500;
+	}
+
+	else if (GameEngineInput::IsPress('A', this))
+	{
+		Camera_Pos_X += CameraPos.X * Delta * 500;
+	}
+
+
+	// 확대 기능 
+
+	/*float4 A = Actor_test->Transform.GetWorldPosition() - float4{ Actor_test_02->Transform.GetWorldPosition().X, Actor_test_02->Transform.GetWorldPosition().Y - 400.0f, Actor_test_02->Transform.GetWorldPosition().Z };
+
+	A.Normalize();
+
+	if (Camera_Pos_Y <= 0)
+	{
+
+		if (PrevPos.Y < Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) >= abs(500))
+		{
+			Actor_test_02->Transform.AddWorldPosition(A * Delta * 2000);
+		}
+
+		else if (PrevPos.Y > Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) <= abs(1000))
+		{
+			Actor_test_02->Transform.AddWorldPosition(-A * Delta * 2000);
+		}
+
+
+	}*/
+
+
+
+
+	Actor_test->Transform.SetWorldRotation({ Camera_Pos_Y,Camera_Pos_X,0.0f });
+
+	// 마우스 고정하고 싶을떄 
+
+	/*if (Time > 0.1)
+	{
+		Time = 0;
+
+		PrevPos.Y = 258;
+		PrevPos.X = 864;
+		GameEngineCore::MainWindow.SetMousePos(1280, 720);
+	}*/
+
+	PrevPos.Y = Mouse_Ro_Y;
+	PrevPos.X = Mouse_Ro_X;
+
+
+	GetLevel()->GetMainCamera()->Transform.SetWorldRotation(Actor_test_02->Transform.GetWorldRotationEuler());
+	GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Actor_test_02->Transform.GetWorldPosition());
+
 }

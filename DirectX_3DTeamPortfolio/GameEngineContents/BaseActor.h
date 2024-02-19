@@ -11,19 +11,20 @@ enum class Enum_ActorType
 };
 
 // 상태 Enum 
-// 이론상 31개까지 bool값 지원
+// 이론상 30개까지 bool값 지원
 enum class Enum_ActorFlag
 {
 	None = 0,
 	Wake,
 	Death,
-	ParryPossible,
-	JumpPossible,
+	Parrying,
+	Guarding,
 	Hit,
-	GaurdSuccess,
+	GuardSuccess,
 	Block_Shield,
 	Gaurd_Break,
 	Break_Down,
+	TwoHand,
 	FrontStab,
 	BackStab,
 };
@@ -37,13 +38,14 @@ enum class Enum_ActorFlagBit
 	None = 0,
 	Wake = (1 << 0),
 	Death = (1 << 1),
-	ParryPossible = (1 << 2),
-	JumpPossible = (1 << 3),
+	Parrying = (1 << 2),
+	Guarding = (1 << 3),
 	Hit = (1 << 10),
-	GaurdSuccess = (1 << 11), // 방패 막기
+	GuardSuccess = (1 << 11), // 방패 막기
 	Block_Shield = (1 << 12), // 방패에 막힘
 	Gaurd_Break = (1 <<  13), // 가드 브레이크
 	Break_Down = (1 << 14), // 패링 당함  << 마땅한 명칭이 없음
+	TwoHand = (1 << 15), // 패링 당함  << 마땅한 명칭이 없음
 	FrontStab = (1 << 15), // 앞잡
 	BackStab = (1 << 16), // 뒤잡
 };
@@ -90,14 +92,21 @@ namespace std
 	};
 }
 
-class ActorStatus
+class StatusStruct
 {
-	friend class BaseActor;
-
 public:
 	inline void SetHp(int _Value) { Hp = _Value; }
 	inline int GetHp() const { return Hp; }
 	inline void AddHp(int _Value) { Hp += _Value; }
+	inline bool IsDeath() const
+	{
+		if (Att <= 0)
+		{
+			return true;
+		}
+
+		return false;
+	}
 
 	inline void SetAtt(int _Value) { Att = _Value; }
 	inline int GetAtt() const { return Att; }
@@ -105,10 +114,14 @@ public:
 	inline void SetDef(int _Value) { Def = _Value; }
 	inline int GetDef() const { return Def; }
 
+	inline void SetSouls(int _Value) { Souls = _Value; }
+	inline int GetSouls() const { return Souls; }
+
 private:
 	int Hp = 0;
 	int Att = 0;
 	int Def = 0;
+	int Souls = 0;
 
 };
 
@@ -153,10 +166,16 @@ public:
 
 	inline bool IsHit() const { return bHit; }
 	inline void SetHit(bool _bValue) { bHit = _bValue; }
+	inline bool IsGuardSuccesss() const { return bGuardSuccesss; }
+	inline void SetGuardSuccesss(bool _bValue) { bGuardSuccesss = _bValue; }
+	inline bool IsInvincible() const { return bInvincible; }
+	inline void SetInvincible(bool _bValue) { bInvincible = _bValue; }
 
 private:
 	Enum_DirectionXZ_Quat eHitDir = Enum_DirectionXZ_Quat::Center; // 임시 멤버변수입니다.
 	bool bHit = false;
+	bool bGuardSuccesss = false; // 가드 성공
+	bool bInvincible = false; // 무적
 
 };
 
@@ -192,7 +211,11 @@ public:
 	void SetWPosition(const float4& _wPos);
 
 	// Interaction To Character
-	void GetHit(int _AddHp, HitParameter _Para = HitParameter());    // 생각나는게 없어서 아무렇게나 막 작명했습니다. 함수명 바꾸셔도 됩니다
+	void GetHit(int _Att, HitParameter _Para = HitParameter());    // 생각나는게 없어서 아무렇게나 작명했습니다. 함수명 바꾸셔도 됩니다
+	void HitLogic(int _Att, HitParameter _Para);
+	bool GaurdHitLogic(int _Att = 0);
+	virtual int HitFormula(int _Att) { return _Att; }
+	virtual int GuardHitFormula(int _Att) { return _Att; }
 
 	// Getter
 	inline std::shared_ptr<GameContentsFBXRenderer>& GetFBXRenderer() { return MainRenderer; }
@@ -215,7 +238,6 @@ protected:
 	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
-	void CameraRotation(float Delta);
 	
 	// Flag
 	bool IsFlag(Enum_ActorFlag _Flag) const;
@@ -256,6 +278,7 @@ protected:
 	float Camera_Pos_Y = 0.0f;
 	float Camera_Pos_X = 0.0f;
 	float Time = 0.0f;
+	void CameraRotation(float _Delta);
 
 private:
 	int FindFlag(Enum_ActorFlag _Status) const;
@@ -268,7 +291,7 @@ protected:
 	std::map<int, std::shared_ptr<BoneSocketCollision>> SocketCollisions; // 소켓 콜리전
 
 	GameEngineState MainState;
-	ActorStatus Stat; // 플레이어와 몬스터가 공용으로 사용하는 기본스텟 구조체
+	StatusStruct Stat; // 플레이어와 몬스터가 공용으로 사용하는 기본스텟 구조체
 	HitStruct Hit; // 플레이어와 몬스터가 공용으로 사용하는 히트 로직 구조체
 
 	int Flags = 0;
