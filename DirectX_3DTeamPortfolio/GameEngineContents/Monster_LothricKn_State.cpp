@@ -371,22 +371,22 @@ void Monster_LothricKn::Start_G_Att_Bash(GameEngineState* _State)
 
 void Monster_LothricKn::Start_F_Hit_W(GameEngineState* _State)
 {
-	MainRenderer->ChangeAnimation("F_Hit_W");
+	MainRenderer->ChangeAnimation("F_Hit_W", true);
 }
 
 void Monster_LothricKn::Start_B_Hit_W(GameEngineState * _State)
 {
-	MainRenderer->ChangeAnimation("B_Hit_W");
+	MainRenderer->ChangeAnimation("B_Hit_W", true);
 }
 
 void Monster_LothricKn::Start_R_Hit_W(GameEngineState * _State)
 {
-	MainRenderer->ChangeAnimation("R_Hit_W");
+	MainRenderer->ChangeAnimation("R_Hit_W", true);
 }
 
 void Monster_LothricKn::Start_L_Hit_W(GameEngineState * _State)
 {
-	MainRenderer->ChangeAnimation("L_Hit_W");
+	MainRenderer->ChangeAnimation("L_Hit_W", true);
 }
 
 void Monster_LothricKn::Start_G_F_Hit_W(GameEngineState * _State)
@@ -1608,13 +1608,6 @@ void Monster_LothricKn::Update_Hit_W(float _DeltaTime, GameEngineState* _State)
 	
 	if (IsFrame(11))
 	{
-		Enum_LothricKn_State FindDodgeState = GetStateToDodgeTable();
-		if (Enum_LothricKn_State::None != FindDodgeState)
-		{
-			_State->ChangeState(FindDodgeState);
-			return;
-		}
-
 		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
 		if (Enum_LothricKn_State::None == FindMovementState)
 		{
@@ -2320,12 +2313,25 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToGDodgeTable(Enum_TargetDist _e
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToHitTable()
 {
-	bool bHit = (true == IsFlag(Enum_ActorFlag::Hit));
+	bool bHit = (true == Hit.IsHit());
 	if (bHit)
 	{
-		SetFlag(Enum_ActorFlag::Hit, false);
+		Hit.SetHit(false);
 
-		return Enum_LothricKn_State::F_Hit_W;
+		Enum_DirectionXZ_Quat eDir = Hit.GetHitDir();
+		switch (eDir)
+		{
+		case Enum_DirectionXZ_Quat::F:
+			return Enum_LothricKn_State::F_Hit_W;
+		case Enum_DirectionXZ_Quat::R:
+			return Enum_LothricKn_State::R_Hit_W;
+		case Enum_DirectionXZ_Quat::B:
+			return Enum_LothricKn_State::B_Hit_W;
+		case Enum_DirectionXZ_Quat::L:
+			return Enum_LothricKn_State::L_Hit_W;
+		default:
+			return Enum_LothricKn_State::F_Hit_W;
+		}
 	}
 
 	return Enum_LothricKn_State::None;

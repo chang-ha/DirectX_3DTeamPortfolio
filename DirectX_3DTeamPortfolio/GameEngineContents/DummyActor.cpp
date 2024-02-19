@@ -121,7 +121,7 @@ void DummyActor::ProjectileUpdate(float _Delta)
 		StateTime += _Delta;
 	}
 
-	if (GameEngineInput::IsDown(VK_LBUTTON, this))
+	if (GameEngineInput::IsPress(VK_LBUTTON, this))
 	{
 		if (StateTime >= FIRE_COOL_TIME)
 		{

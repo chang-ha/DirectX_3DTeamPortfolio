@@ -25,6 +25,7 @@ void Monster_LothricKn::Start()
 	// Actor Res
 	AddBoneIndex(Enum_BoneType::B_01_RightHand, 78);
 	AddBoneIndex(Enum_BoneType::B_01_LeftHand, 47);
+	AddBoneIndex(Enum_BoneType::B_01_Spine, 21);
 
 	// Physx Component
 	Capsule = CreateComponent<GameEnginePhysXCapsule>();
@@ -183,7 +184,9 @@ void Monster_LothricKn::Start()
 	SetMeshVisibility(eMeshInfo::Weapon_Cloth, false);
 
 	// Collision
-	CreateSocketCollision(Enum_CollisionOrder::Monster, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
+	CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
+	std::shared_ptr<BoneSocketCollision> BodyCol = CreateSocketCollision(Enum_CollisionOrder::Monster, Enum_BoneType::B_01_Spine, "B_01_Spine");
+	BodyCol->On();
 
 	PatrolCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
 	PatrolCollision->Transform.SetWorldScale(float4(300, 300, 300));

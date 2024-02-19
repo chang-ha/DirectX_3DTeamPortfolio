@@ -54,6 +54,7 @@ enum class Enum_BoneType
 	None,
 	B_01_LeftHand = 1,
 	B_01_RightHand = 21,
+	B_01_Spine = 31,
 };
 
 enum Enum_RotDir
@@ -113,16 +114,12 @@ private:
 
 // XZ평면 방향 정의
 // 순서 : Z축으로 시계방향
-enum class Enum_DirectionXZ
+enum class Enum_DirectionXZ_Quat
 {
 	F = 0, // float4::FORWARD
-	FL,
-	L,
-	BL,
-	B,
-	BR,
 	R,
-	FR,
+	B,
+	L,
 	Center, // None 취급
 };
 
@@ -135,7 +132,7 @@ public:
 		pHitter = nullptr;
 	}
 
-	HitParameter(GameEngineActor* _pHitter, Enum_DirectionXZ _eDir)
+	HitParameter(GameEngineActor* _pHitter, Enum_DirectionXZ_Quat _eDir)
 		:pHitter(_pHitter), eDir(_eDir)
 	{
 
@@ -143,19 +140,23 @@ public:
 
 public:
 	GameEngineActor* pHitter = nullptr;
-	Enum_DirectionXZ eDir = Enum_DirectionXZ::Center;
+	Enum_DirectionXZ_Quat eDir = Enum_DirectionXZ_Quat::Center;
 
 };
 
 class HitStruct
 {
 public:
-	inline void SetHitDir(Enum_DirectionXZ _eDir) { eHitDir = _eDir; }
-	inline Enum_DirectionXZ GetHitDir() const { return eHitDir; }
-	static Enum_DirectionXZ ReturnDirectionToVector(const float4& _V);
+	inline void SetHitDir(Enum_DirectionXZ_Quat _eDir) { eHitDir = _eDir; }
+	inline Enum_DirectionXZ_Quat GetHitDir() const { return eHitDir; }
+	static Enum_DirectionXZ_Quat ReturnDirectionToVector(const float4& _V);
+
+	inline bool IsHit() const { return bHit; }
+	inline void SetHit(bool _bValue) { bHit = _bValue; }
 
 private:
-	Enum_DirectionXZ eHitDir = Enum_DirectionXZ::Center; // 임시 멤버변수입니다.
+	Enum_DirectionXZ_Quat eHitDir = Enum_DirectionXZ_Quat::Center; // 임시 멤버변수입니다.
+	bool bHit = false;
 
 };
 

@@ -122,47 +122,23 @@ void DummyProjectile::AttackCollision()
 
 				const float4 Bullet_WPos = AttackCol->Transform.GetWorldPosition();
 				const float4 Other_WPos = pCollsion->Transform.GetWorldPosition();
-				const float4 DirVec = Bullet_WPos - Other_WPos;
-				Enum_DirectionXZ eDir = HitStruct::ReturnDirectionToVector(DirVec);
+				const float4 DirVec = Other_WPos - Bullet_WPos;
+				const Enum_DirectionXZ_Quat eDir = HitStruct::ReturnDirectionToVector(DirVec);
 
-				std::weak_ptr<BaseActor> wpObject = pCollsion->GetDynamic_Cast_This<BaseActor>();
+				std::weak_ptr<BaseActor> wpObject = pCollsion->GetActor()->GetDynamic_Cast_This<BaseActor>();
 				if (wpObject.expired())
 				{
 					MsgBoxAssert("형변환에 실패했습니다.");
 					return;
 				}
 
-				const std::shared_ptr<BaseActor>& pActor = wpObject.lock();
+				std::shared_ptr<BaseActor> pActor = wpObject.lock();
 				pActor->GetHit(Att, { pParent , eDir });
 
-				Off();
+				MainState.ChangeState(eState::Ready);
 				break;
 			}
 		};
 
 	AttackCol->Collision(Enum_CollisionOrder::Monster, AttackFunc);
-
-	// 추후 삭제예정
-	//AttackCol->Collision(Enum_CollisionOrder::Monster, [](std::vector<GameEngineCollision*> _Other)
-	//	{
-	//		for (int i = 0; i < static_cast<int>(_Other.size()); i++)
-	//		{
-	//			GameEngineCollision* pCollsion = _Other[i];
-	//			if (nullptr == pCollsion)
-	//			{
-	//				MsgBoxAssert("이상한 값이 담겨있습니다.");
-	//				return;
-	//			}
-
-	//			std::weak_ptr<BaseActor> wpObject = pCollsion->GetDynamic_Cast_This<BaseActor>();
-	//			if (wpObject.expired())
-	//			{
-	//				MsgBoxAssert("형변환에 실패했습니다.");
-	//				return;
-	//			}
-
-	//			const std::shared_ptr<BaseActor>& pActor = wpObject.lock();
-	//			
-	//		}
-	//	});
 }

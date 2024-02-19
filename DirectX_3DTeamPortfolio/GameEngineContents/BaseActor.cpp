@@ -5,35 +5,39 @@
 #include "BoneSocketCollision.h"
 
 
-#define ONE_ROTATION_ANGLE 360.0f
-
-Enum_DirectionXZ HitStruct::ReturnDirectionToVector(const float4& _V)
+Enum_DirectionXZ_Quat HitStruct::ReturnDirectionToVector(const float4& _V)
 {
 	float4 DirVector = _V;
 	DirVector.Y = 0.0f;
-	float Angle = float4::DotProduct3D(float4::FORWARD, DirVector);
-	Angle = ContentsMath::ClampDeg(Angle);
-
-	const float EqualPart16 = ONE_ROTATION_ANGLE * 0.0625f;
-
-	if (Angle <= EqualPart16 || Angle > EqualPart16 * 15.0f)
+	DirVector.Normalize();
+	const float DotResult = float4::DotProduct3D(float4::FORWARD, DirVector); 
+	const float Quater = CIRCLE * 0.25f;
+	const float Eighth = CIRCLE * 0.125f;
+	float Angle = (DotResult + 1.0f) * Quater;
+	
+	if (DirVector.X > 0.0f)
 	{
-		return Enum_DirectionXZ::F;
+		Angle = CIRCLE - Angle;
+	}
+
+	if (Angle <= Eighth || Angle > Eighth * 7.0f)
+	{
+		return Enum_DirectionXZ_Quat::F;
 	}
 
 	int i = 1;
-	float CheckAngle = EqualPart16;
+	float CheckAngle = Eighth;
 
-	for (; i < 8; i++)
+	for (; i < 4; i++)
 	{
-		CheckAngle += EqualPart16 * 2.0f;
+		CheckAngle += Eighth * 2.0f;
 		if (Angle < CheckAngle)
 		{
 			break;
 		}
 	}
 
-	Enum_DirectionXZ ReturnValue = static_cast<Enum_DirectionXZ>(i);
+	Enum_DirectionXZ_Quat ReturnValue = static_cast<Enum_DirectionXZ_Quat>(i);
 	return ReturnValue;
 }
 
@@ -224,8 +228,13 @@ void BaseActor::SetWPosition(const float4& _wPos)
 
 void BaseActor::GetHit(int _AddHp, HitParameter _Para /*= HitParameter()*/)
 {
+	if (true == Hit.IsHit())
+	{
+		return;
+	}
+
 	Stat.AddHp(_AddHp);
-	SetFlag(Enum_ActorFlag::Hit, true);
+	Hit.SetHit(true);
 
 	if (nullptr != _Para.pHitter)
 	{
