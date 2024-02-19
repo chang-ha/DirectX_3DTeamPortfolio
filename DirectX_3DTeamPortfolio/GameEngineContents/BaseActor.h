@@ -215,7 +215,7 @@ protected:
 	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
-	void CameraRotation(float Delta);
+
 	
 	// Flag
 	bool IsFlag(Enum_ActorFlag _Flag) const;
@@ -246,6 +246,7 @@ protected:
 	void DrawRange(float _Range, const float4& _Color = float4::RED) const;
 
 	// 나중에 지움 
+	
 	std::shared_ptr<GameEngineActor> Actor_test;
 	std::shared_ptr<GameEngineActor> Actor_test_02;
 	std::shared_ptr<GameContentsFBXRenderer> test_Render;

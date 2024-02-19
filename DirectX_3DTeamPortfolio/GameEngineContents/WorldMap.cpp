@@ -29,7 +29,8 @@ void WorldMap::Start()
 		TriMesh2->PhysXComponentInit("World2.FBX0");
 
 		SkyRenderer = CreateComponent<GameContentsFBXRenderer>();
-		SkyRenderer->SetFBXMesh("WorldSky.FBX", "FBX_Static");
+		SkyRenderer->SetFBXMesh("WorldSky.FBX", "FBX_Static_Alpha", RenderPath::Alpha);
+		//SkyRenderer->RenderBaseInfoValue.TEXCOORDMult = 1.0f;
 
 		BackGroundRenderer = CreateComponent<GameContentsFBXRenderer>();
 		BackGroundRenderer->SetMapFBXMesh("BackGround.FBX", "FBX_Static");

@@ -153,7 +153,7 @@ public:
 
 	void Update(float _DeltaTime) override;
 
-	void SetFBXMesh(std::string_view _Name, std::string_view _Material);
+	void SetFBXMesh(std::string_view _Name, std::string_view _Material, RenderPath _DefaultRenderPath = RenderPath::None);
 	void SetFBXMesh(std::string_view _Name, std::string_view _Material, int _RenderUnitInfoIndex);
 
 	void SetMapFBXMesh(std::string_view _Name, std::string_view _Material);

@@ -968,6 +968,9 @@
     <ClInclude Include="GFSDK_SSAO.h">
       <Filter>ThirdParty\HBAO+</Filter>
     </ClInclude>
+    <ClInclude Include="FogEffect.h">
+      <Filter>Rendering\PostEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -1186,6 +1189,9 @@
       <Filter>PhysX</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineAO.cpp" />
+    <ClCompile Include="FogEffect.cpp">
+      <Filter>Rendering\PostEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ThirdParty\DirectXTex\inc\DirectXTex.inl">

@@ -17,10 +17,13 @@ public:
 	GameEngineRenderTarget* EffectTarget = nullptr;
 	std::shared_ptr<GameEngineRenderTarget> ResultTarget = nullptr;
 
+
 public:
 	virtual void Start() = 0;
 	// 효과를 준다는것이 무슨말인지 이해를 해야한다.
 	virtual void EffectProcess(float _DeltaTime) = 0;
+
+	virtual void Update(float _DeltaTime, std::shared_ptr<GameEngineCamera> _Camera) {}
 };
 
 
@@ -68,6 +71,10 @@ public:
 	{
 		return DepthTexture;
 	}
+	inline void SetDepthTexture(std::shared_ptr<GameEngineTexture> _DepthTexture)
+	{
+		DepthTexture = _DepthTexture;
+	}
 
 	void Clear();
 	void Setting();
@@ -102,6 +109,13 @@ public:
 	}
 
 	std::shared_ptr<GameEngineRenderTarget> CreateChildRenderTarget(std::vector<int> _Index);
+
+	void EffectUpdate(float _DeltaTime, std::shared_ptr<GameEngineCamera> _Camera);
+
+	std::list<std::shared_ptr<Effect>> GetEffects()
+	{
+		return Effects;
+	}
 
 
 protected:

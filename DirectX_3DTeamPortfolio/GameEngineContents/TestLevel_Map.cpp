@@ -3,6 +3,7 @@
 #include "TestMap.h"
 #include "WorldMap.h"
 #include "ContentsLight.h"
+#include <GameEngineCore\FogEffect.h>
 
 TestLevel_Map::TestLevel_Map()
 {
@@ -20,6 +21,7 @@ void TestLevel_Map::LevelStart(GameEngineLevel* _PrevLevel)
 
 	{
 		std::shared_ptr<WorldMap> Object = CreateActor<WorldMap>(0, "WorldMap");
+		
 	}
 
 	//{
@@ -36,6 +38,8 @@ void TestLevel_Map::LevelEnd(GameEngineLevel* _NextLevel)
 
 void TestLevel_Map::Start()
 {
+	GameEngineInput::AddInputObject(this);
+
 	ContentLevel::Start();
 
 
@@ -43,12 +47,26 @@ void TestLevel_Map::Start()
 
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 0, 0, 0, 1 });
 
+	std::shared_ptr<GameEngineCoreWindow> CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+
+	if (nullptr != CoreWindow)
+	{
+		CoreWindow->AddDebugRenderTarget(1, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
+		CoreWindow->AddDebugRenderTarget(2, "ForwardTarget", GetMainCamera()->GetCameraForwardTarget());
+		CoreWindow->AddDebugRenderTarget(3, "DeferredLightTarget", GetMainCamera()->GetCameraDeferredLightTarget());
+		CoreWindow->AddDebugRenderTarget(4, "DeferredTarget", GetMainCamera()->GetCameraDeferredTarget());
+		//CoreWindow->AddDebugRenderTarget(3, "HBAO", GetMainCamera()->GetCameraHBAOTarget());
+	}
+
 	//float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 
 	// 시작위치
 	GetMainCamera()->Transform.SetLocalPosition({ -1400.0f, 5101.0f, -5331.0f });
 	// 
 	//GetMainCamera()->Transform.SetLocalPosition({ -13921.0f, 3438.0f, -4173.0f });
+
+	std::shared_ptr< FogEffect> Effect =GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FogEffect>();
+	Effect->Init(GetMainCamera());
 
 	// 빛
 	std::shared_ptr<ContentsLight> TestObject0 = CreateActor<ContentsLight>(0);
