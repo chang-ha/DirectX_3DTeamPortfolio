@@ -160,7 +160,6 @@ void Player::Start()
 		{
 
 		};
-
 	Mini_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
 			float4 Monster = Col->GetActor()->Transform.GetLocalPosition();
@@ -195,7 +194,7 @@ void Player::Start()
 	{
 		Actor_test_02 = GetLevel()->CreateActor<GameEngineActor>();
 		Actor_test_02->SetParent(Actor_test);
-		Actor_test_02->Transform.SetWorldPosition({ 0.0f,140.0f,-250.0f });
+		Actor_test_02->Transform.SetWorldPosition({ 0.0f,140.0f,-300.0f });
 	}
 }
 
@@ -214,6 +213,7 @@ void Player::Update(float _Delta)
 	SwordActor->Transform.SetWorldPosition(Data.Pos+Transform.GetWorldPosition());
 	
 
+	
 	CameraRotation(_Delta);
 	
 
@@ -247,31 +247,6 @@ void Player::Update(float _Delta)
 
 
 
-
-
-		/*if (GameEngineInput::IsDown('W', this))
-		{
-			Rotation_Check = true;
-		}
-
-		if (Rotation_Check == true)
-		{
-			if (Angle > 0)
-			{
-				Capsule->AddWorldRotation({ 0.0f,1.0f });
-			}
-
-			if (Angle < 0)
-			{
-				Capsule->AddWorldRotation({ 0.0f,-1.0f });
-			}
-
-		}*/
-
-
-
-
-
 		float4 WorldMousePos = Angle;
 
 		OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
@@ -288,6 +263,7 @@ void Player::Update(float _Delta)
 			_This->GetActor()->Transform.AddLocalPosition(Dir * _Delta);
 	} });*/
 
+
 	if (nullptr != GameEngineNetWindow::Net)
 	{
 		if (0 != GetPacketCount())
@@ -299,7 +275,7 @@ void Player::Update(float _Delta)
 
 	
 	
-	PlayerState.Update(_Delta);
+	PlayerStates.Update(_Delta);
 
 }
 
@@ -310,77 +286,141 @@ void Player::LevelStart(GameEngineLevel* _PrevLevel)
 
 }
 
-//void Player::CameraRotation(float Delta)
-//{
-//	Actor_test->Transform.SetWorldPosition({ Transform.GetWorldPosition() });
-//
-//	CameraPos = { GameEngineCore::MainWindow.GetMousePos().X,GameEngineCore::MainWindow.GetMousePos().Y };
-//	CameraPos.Normalize();
-//
-//	Mouse_Ro_X = GameEngineCore::MainWindow.GetMousePos().X;
-//	Mouse_Ro_Y = GameEngineCore::MainWindow.GetMousePos().Y;
-//
-//
-//
-//
-//	if (PrevPos.Y > Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) >= 999)
-//	{
-//		Camera_Pos_Y += CameraPos.Y * Delta * 700;
-//
-//		if (Camera_Pos_Y >= 60)
-//		{
-//			Camera_Pos_Y -= CameraPos.Y * Delta * 700;
-//		}
-//	}
-//
-//	else if (PrevPos.Y < Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) >= 999)
-//	{
-//		Camera_Pos_Y -= CameraPos.Y * Delta * 700;
-//
-//		if (Camera_Pos_Y <= 0)
-//		{
-//			Camera_Pos_Y = 0;
-//		}
-//	}
-//
-//
-//	if (PrevPos.X > Mouse_Ro_X)
-//	{
-//		Camera_Pos_X += CameraPos.X * Delta * 700;
-//	}
-//
-//	else if (PrevPos.X < Mouse_Ro_X)
-//	{
-//		Camera_Pos_X -= CameraPos.X * Delta * 700;
-//	}
-//
-//
-//	
-//
-//	
-//
-//
-//	PrevPos.Y = Mouse_Ro_Y;
-//	PrevPos.X = Mouse_Ro_X;
-//
-//	Actor_test->Transform.SetWorldRotation({ Camera_Pos_Y,Camera_Pos_X,0.0f });
-//
-//	// 마우스 고정하고 싶을떄 
-//
-//	/*if (Time > 0.1)
-//	{
-//		Time = 0;
-//
-//		PrevPos.Y = 258;
-//		PrevPos.X = 864;
-//		GameEngineCore::MainWindow.SetMousePos(1280, 720);
-//	}*/
-//
-//
-//	GetLevel()->GetMainCamera()->Transform.SetWorldRotation(Actor_test_02->Transform.GetWorldRotationEuler());
-//	GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Actor_test_02->Transform.GetWorldPosition());
-//
-//}
+void Player::CameraRotation(float Delta)
+{
+	Actor_test->Transform.SetWorldPosition({ Transform.GetWorldPosition() });
+
+	CameraPos = { GameEngineCore::MainWindow.GetMousePos().X,GameEngineCore::MainWindow.GetMousePos().Y };
+	CameraPos.Normalize();
+
+	Mouse_Ro_X = GameEngineCore::MainWindow.GetMousePos().X;
+	Mouse_Ro_Y = GameEngineCore::MainWindow.GetMousePos().Y;
+
+
+
+
+	if (PrevPos.Y > Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) >= 250)
+	{
+		Camera_Pos_Y += CameraPos.Y * Delta * 300;
+
+		if (Camera_Pos_Y >= 60)
+		{
+			Camera_Pos_Y -= CameraPos.Y * Delta * 300;
+		}
+	}
+
+	else if (PrevPos.Y < Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) >= 250)
+	{
+		Camera_Pos_Y -= CameraPos.Y * Delta * 300;
+
+		if (Camera_Pos_Y <= 0)
+		{
+			Camera_Pos_Y = 0;
+		}
+	}
+
+
+	if (PrevPos.X > Mouse_Ro_X)
+	{
+		Camera_Pos_X += CameraPos.X * Delta *300;
+		Player_Pos.X -= CameraPos.X * Delta * 300;
+
+		if (StateValue == PlayerState::Move && Rotation_Check ==true)
+		{
+			Capsule->AddWorldRotation({ 0.0f,-CameraPos.X * Delta * 300, 0.0f });
+
+		}
+
+
+	}
+
+	else if (PrevPos.X < Mouse_Ro_X)
+	{
+		Camera_Pos_X -= CameraPos.X * Delta * 300;
+		Player_Pos.X += CameraPos.X * Delta * 300;
+
+		if (StateValue == PlayerState::Move && Rotation_Check == true)
+		{
+			Capsule->AddWorldRotation({ 0.0f, CameraPos.X * Delta * 300, 0.0f });
+
+		}
+
+	}
+
+	float4 A = Actor_test->Transform.GetWorldPosition() - float4{ Actor_test_02->Transform.GetWorldPosition().X, Actor_test_02->Transform.GetWorldPosition().Y - 100.0f, Actor_test_02->Transform.GetWorldPosition().Z };
+
+	A.Normalize();
+
+	/*if (Camera_Pos_Y <= 0)
+	{
+
+		if (PrevPos.Y < Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) >= abs(150))
+		{
+			Actor_test_02->Transform.AddWorldPosition(A * Delta * 300);
+		}
+
+		else if (PrevPos.Y > Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) <= abs(250))
+		{
+			Actor_test_02->Transform.AddWorldPosition(-A * Delta * 300);
+		}
+
+
+	}*/
+
+
+	PrevPos.Y = Mouse_Ro_Y;
+	PrevPos.X = Mouse_Ro_X;
+
+
+	if (StateValue == PlayerState::Idle)
+	{
+		Actor_test->Transform.SetWorldRotation({ Camera_Pos_Y,-Camera_Pos_X,0.0f });
+	}
+
+	if (StateValue != PlayerState::Idle)
+	{
+		Actor_test->Transform.SetWorldRotation({ Camera_Pos_Y,Player_Pos.X,0.0f });
+	}
+	//Actor_test->Transform.SetWorldRotation({ Camera_Pos_Y,Camera_Pos_X,0.0f });
+
+
+
+
+
+	// 마우스 고정하고 싶을떄 
+	if (GameEngineInput::IsDown('Z', this))
+	{
+		IsFreeCameraValue = !IsFreeCameraValue;
+
+		
+	}
+
+	if (true == IsFreeCameraValue)
+	{
+		if (Time > 0.1)
+		{
+			Time = 0;
+
+			PrevPos.Y = 258;
+			PrevPos.X = 864;
+			GameEngineCore::MainWindow.SetMousePos(1280, 720);
+		}
+
+	}
+	else
+	{
+
+	}
+	
+	
+
+	GetLevel()->GetMainCamera()->Transform.SetWorldRotation(Actor_test_02->Transform.GetWorldRotationEuler());
+
+
+
+	GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Actor_test_02->Transform.GetWorldPosition());
+
+}
 
 void Player::ConnectIDPacketProcess(std::shared_ptr<ConnectIDPacket> _Packet)
 {
