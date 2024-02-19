@@ -52,6 +52,10 @@ enum class Enum_LothricKn_State
 	B_Hit_W,
 	R_Hit_W,
 	L_Hit_W,
+	F_Hit,
+	B_Hit,
+	R_Hit,
+	L_Hit,
 	G_F_Hit_W,
 	G_F_Hit_W_PushBack,
 	G_F_Hit,
@@ -185,6 +189,10 @@ private:
 	void Start_B_Hit_W(GameEngineState* _State);
 	void Start_R_Hit_W(GameEngineState* _State);
 	void Start_L_Hit_W(GameEngineState* _State);
+	void Start_F_Hit(GameEngineState* _State);
+	void Start_B_Hit(GameEngineState* _State);
+	void Start_R_Hit(GameEngineState* _State);
+	void Start_L_Hit(GameEngineState* _State);
 	void Start_G_F_Hit_W(GameEngineState* _State);
 	void Start_G_F_Hit_W_PushBack(GameEngineState* _State);
 	void Start_G_F_Hit(GameEngineState* _State);
@@ -244,6 +252,7 @@ private:
 	void Update_G_Att_Bash(float _DeltaTime, GameEngineState* _State);
 
 	void Update_Hit_W(float _DeltaTime, GameEngineState* _State);
+	void Update_Hit(float _DeltaTime, GameEngineState* _State);
 	void Update_G_F_Hit_W(float _DeltaTime, GameEngineState* _State);
 	void Update_G_F_Hit_W_PushBack(float _DeltaTime, GameEngineState* _State);
 	void Update_G_F_Hit(float _DeltaTime, GameEngineState* _State);

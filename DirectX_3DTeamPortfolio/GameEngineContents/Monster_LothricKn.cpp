@@ -90,6 +90,10 @@ void Monster_LothricKn::Start()
 	MainRenderer->CreateFBXAnimation("B_Hit_W", "c1280_008001.fbx");
 	MainRenderer->CreateFBXAnimation("R_Hit_W", "c1280_008002.fbx");
 	MainRenderer->CreateFBXAnimation("L_Hit_W", "c1280_008003.fbx");
+	MainRenderer->CreateFBXAnimation("F_Hit", "c1280_008010.fbx");
+	MainRenderer->CreateFBXAnimation("B_Hit", "c1280_008011.fbx");
+	MainRenderer->CreateFBXAnimation("R_Hit", "c1280_008012.fbx");
+	MainRenderer->CreateFBXAnimation("L_Hit", "c1280_008013.fbx");
 	MainRenderer->CreateFBXAnimation("G_F_Hit_W", "c1280_008200.fbx");
 	MainRenderer->CreateFBXAnimation("G_F_Hit_W_PushBack", "c1280_008201.fbx");
 	MainRenderer->CreateFBXAnimation("G_F_Hit", "c1280_008210.fbx");

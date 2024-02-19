@@ -3,7 +3,7 @@
 
 #include "FrameEventHelper.h"
 #include "BoneSocketCollision.h"
-
+#include "ContentsDebug.h"
 
 Enum_DirectionXZ_Quat HitStruct::ReturnDirectionToVector(const float4& _V)
 {
@@ -38,6 +38,10 @@ Enum_DirectionXZ_Quat HitStruct::ReturnDirectionToVector(const float4& _V)
 	}
 
 	Enum_DirectionXZ_Quat ReturnValue = static_cast<Enum_DirectionXZ_Quat>(i);
+
+	ContentsDebug::DebugOuput(DotResult, "DotResult");
+	ContentsDebug::DebugOuput(Angle, "Angle");
+	ContentsDebug::DebugOuput(i, "eDir");
 	return ReturnValue;
 }
 

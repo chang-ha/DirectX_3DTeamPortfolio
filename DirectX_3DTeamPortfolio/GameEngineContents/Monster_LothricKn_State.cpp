@@ -107,6 +107,10 @@ void Monster_LothricKn::CreateFSM()
 	MainState.CreateState(Enum_LothricKn_State::B_Hit_W, { .Start = std::bind(&Monster_LothricKn::Start_B_Hit_W,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Hit_W,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::R_Hit_W, { .Start = std::bind(&Monster_LothricKn::Start_R_Hit_W,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Hit_W,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::L_Hit_W, { .Start = std::bind(&Monster_LothricKn::Start_L_Hit_W,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Hit_W,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::F_Hit, { .Start = std::bind(&Monster_LothricKn::Start_F_Hit,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Hit,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::B_Hit, { .Start = std::bind(&Monster_LothricKn::Start_B_Hit,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Hit,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::R_Hit, { .Start = std::bind(&Monster_LothricKn::Start_R_Hit,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Hit,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::L_Hit, { .Start = std::bind(&Monster_LothricKn::Start_L_Hit,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Hit,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::G_F_Hit_W, { .Start = std::bind(&Monster_LothricKn::Start_G_F_Hit_W,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_F_Hit_W,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::G_F_Hit_W_PushBack, { .Start = std::bind(&Monster_LothricKn::Start_G_F_Hit_W_PushBack,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_F_Hit_W_PushBack,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::G_F_Hit, { .Start = std::bind(&Monster_LothricKn::Start_G_F_Hit,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_F_Hit,this, std::placeholders::_1,std::placeholders::_2) });
@@ -388,6 +392,27 @@ void Monster_LothricKn::Start_L_Hit_W(GameEngineState * _State)
 {
 	MainRenderer->ChangeAnimation("L_Hit_W", true);
 }
+
+void Monster_LothricKn::Start_F_Hit(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("F_Hit", true);
+}
+
+void Monster_LothricKn::Start_B_Hit(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("B_Hit", true);
+}
+
+void Monster_LothricKn::Start_R_Hit(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("R_Hit", true);
+}
+
+void Monster_LothricKn::Start_L_Hit(GameEngineState* _State) 
+{
+	MainRenderer->ChangeAnimation("L_Hit", true);
+}
+
 
 void Monster_LothricKn::Start_G_F_Hit_W(GameEngineState * _State)
 {
@@ -1620,6 +1645,37 @@ void Monster_LothricKn::Update_Hit_W(float _DeltaTime, GameEngineState* _State)
 	}
 }
 
+void Monster_LothricKn::Update_Hit(float _DeltaTime, GameEngineState* _State)
+{
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
+	if (IsFrameOnce(23))
+	{
+		// Attack Logic
+		if (true == CheckAndSetAttackState())
+		{
+			return;
+		}
+	}
+
+	if (IsFrame(24))
+	{
+		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
+		if (Enum_LothricKn_State::None == FindMovementState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindMovementState);
+		return;
+	}
+}
+
 void Monster_LothricKn::Update_G_F_Hit_W(float _DeltaTime, GameEngineState* _State)
 {
 
@@ -2322,15 +2378,15 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToHitTable()
 		switch (eDir)
 		{
 		case Enum_DirectionXZ_Quat::F:
-			return Enum_LothricKn_State::F_Hit_W;
+			return Enum_LothricKn_State::F_Hit;
 		case Enum_DirectionXZ_Quat::R:
-			return Enum_LothricKn_State::R_Hit_W;
+			return Enum_LothricKn_State::R_Hit;
 		case Enum_DirectionXZ_Quat::B:
-			return Enum_LothricKn_State::B_Hit_W;
+			return Enum_LothricKn_State::B_Hit;
 		case Enum_DirectionXZ_Quat::L:
-			return Enum_LothricKn_State::L_Hit_W;
+			return Enum_LothricKn_State::L_Hit;
 		default:
-			return Enum_LothricKn_State::F_Hit_W;
+			return Enum_LothricKn_State::F_Hit;
 		}
 	}
 
