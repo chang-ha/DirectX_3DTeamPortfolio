@@ -214,7 +214,6 @@ void Player::Update(float _Delta)
 	
 
 	
-	CameraRotation(_Delta);
 	
 
 
@@ -276,6 +275,8 @@ void Player::Update(float _Delta)
 	
 	
 	PlayerStates.Update(_Delta);
+
+	CameraRotation(_Delta);
 
 }
 
@@ -374,10 +375,10 @@ void Player::CameraRotation(float Delta)
 
 	if (StateValue == PlayerState::Idle)
 	{
-		Actor_test->Transform.SetWorldRotation({ Camera_Pos_Y,-Camera_Pos_X,0.0f });
+		Actor_test->Transform.SetWorldRotation({ Camera_Pos_Y,Player_Pos.X,0.0f });
 	}
 
-	if (StateValue != PlayerState::Idle)
+	if (StateValue != PlayerState::Idle )
 	{
 		Actor_test->Transform.SetWorldRotation({ Camera_Pos_Y,Player_Pos.X,0.0f });
 	}
