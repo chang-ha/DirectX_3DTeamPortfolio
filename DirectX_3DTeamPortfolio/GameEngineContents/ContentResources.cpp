@@ -4,6 +4,7 @@
 
 #include "Monster_LothricKn.h"
 #include "LUTEffect.h"
+#include <GameEngineCore\FogEffect.h>
 
 ContentResources::ContentResources()
 {
@@ -197,6 +198,11 @@ void ContentResources::ContentResourcesInit()
 		//Mat->SetRasterizer("EngineRasterizer");
 		Mat->SetBlendState("MaxMergeBlend");
 		Mat->SetDepthState("AlwaysDepth");
+	}
+
+	//Fog
+	{
+		FogEffect::Load();
 	}
 
 

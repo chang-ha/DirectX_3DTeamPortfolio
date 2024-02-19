@@ -65,18 +65,24 @@ void FogGUI::LUTEditor(GameEngineLevel* _Level)
 	//	return;
 	//}
 
-	FogInfo Info = *FogEffect::MainFogInfo;
+	//FogInfo Info = *FogEffect::MainFogInfo;
+	FogInfo InfoSlieder = *FogEffect::MainFogInfo;
 
-	ImGui::SliderFloat3("FogColor", &Info.FogColor.X, -0.0f, 1.0f);
+	ImGui::SliderFloat3("FogColor", &InfoSlieder.FogColor.X, -0.0f, 1.0f);
 	//ImGui::InputFloat3("FogColor", &Info.FogColor.X);
 
-	//ImGui::SliderFloat("FogMaxHeight", &Info.FogMaxHeight, -300.0f, 1000.0f);
-	ImGui::InputFloat("FogMinHeight", &Info.FogMinHeight);
+	ImGui::SliderFloat("FogMaxHeight", &InfoSlieder.FogMaxHeight, -3000.0f, 3000.0f);
+	//ImGui::InputFloat("FogMinHeight", &Info.FogMinHeight);
 
-	//ImGui::SliderFloat("FogMinHeight", &Info.FogMinHeight, -300.0f, 1000.0f);
-	ImGui::InputFloat("FogMaxHeight", &Info.FogMaxHeight);
+	ImGui::SliderFloat("FogMinHeight", &InfoSlieder.FogMinHeight, -3000.0f, 3000.0f);
+	//ImGui::InputFloat("FogMaxHeight", &Info.FogMaxHeight);
 
-	*FogEffect::MainFogInfo = Info;
+	ImGui::SliderFloat("NoiseScale", &InfoSlieder.NoiseScale, 0.0f, 100.0f);
+	ImGui::SliderFloat("NoiseOffset", &InfoSlieder.NoiseOffset, 0.0f, 100.0f);
+	ImGui::SliderFloat("NoiseIntensity", &InfoSlieder.NoiseIntensity, -0.0f, 100.0f);
+
+	//*FogEffect::MainFogInfo = Info;
+	*FogEffect::MainFogInfo = InfoSlieder;
 
 
 }

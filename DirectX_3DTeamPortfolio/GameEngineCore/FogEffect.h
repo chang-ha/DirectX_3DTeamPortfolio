@@ -7,8 +7,12 @@ struct FogInfo
 	float4 FogColor = { 0.02f, 0.02f, 0.02f, 1.0f }; // 원하는 포그의 색상
 	float FogMinHeight = 2000.0f; // 포그가 시작되는 거리
 	float FogMaxHeight = 5000.0f; // 포그가 오브젝트를 완전히 가리는 거리 
-	float Def1 =0.0f;
+	float NoiseScale = 1.0f; // 노이즈 텍스처 좌표의 스케일
+	float NoiseOffset = 0.0f; // 노이즈 텍스처 좌표 애니메이션을 위한 오프셋
+	float NoiseIntensity = 0.5f; // 노이즈 모듈레이션의 강도
 	float Def2 = 0.0f;
+	float Def1 = 0.0f;
+	float Def3 = 0.0f;
 };
 
 
@@ -33,6 +37,8 @@ public:
 	FogEffect& operator=(FogEffect&& _Other) noexcept = delete;
 
 	void Init(std::shared_ptr<GameEngineCamera> _Camera);
+
+	static void Load();
 	
 
 	void Update(float _DeltaTime, std::shared_ptr<GameEngineCamera> _Camera) override; 

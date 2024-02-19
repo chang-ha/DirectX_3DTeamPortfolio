@@ -3,7 +3,7 @@
 #include "TestMap.h"
 #include "WorldMap.h"
 #include "ContentsLight.h"
-#include "FogEffect.h"
+#include <GameEngineCore\FogEffect.h>
 
 TestLevel_Map::TestLevel_Map()
 {
