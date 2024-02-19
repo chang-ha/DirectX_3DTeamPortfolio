@@ -93,6 +93,16 @@ void LevelChangeTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	std::string Frame = std::to_string(1.0f / GameEngineCore::MainTime.GetDeltaTime());
 
 	ImGui::Text(Frame.c_str());
+
+	static std::string FrameSelect = "Off";
+
+	if (ImGui::Button("FrameCatch"))
+	{
+		FrameSelect = Frame;
+	}
+	ImGui::Text(FrameSelect.c_str());
+
+
 }
 
 
