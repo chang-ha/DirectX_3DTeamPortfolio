@@ -54,9 +54,9 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	{
-		std::shared_ptr<WorldMap> Object = CreateActor<WorldMap>(0, "WorldMap");
-		Object->Transform.SetWorldPosition({-1000.f, 2500.f, -3000.f});
-		Object->Transform.SetWorldRotation({0.f, 30.f, 0.f});
+		// std::shared_ptr<WorldMap> Object = CreateActor<WorldMap>(0, "WorldMap");
+		// Object->Transform.SetWorldPosition({-1000.f, 2500.f, -3000.f});
+		// Object->Transform.SetWorldRotation({0.f, 30.f, 0.f});
 	}
 
 	GetMainCamera()->Transform.SetLocalPosition({0.f, 500.f, 0.f});
@@ -89,10 +89,10 @@ void TestLevel_Boss::Start()
 	ContentLevel::Start();
 	GameEngineInput::AddInputObject(this);
 	// Test Ground
-	// physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
-	// physx::PxMaterial* mMaterial = GameEnginePhysX::GetDefaultMaterial();
-	// physx::PxRigidStatic* groundPlane = PxCreatePlane(*Physics, physx::PxPlane(0, 1, 0, 50), *mMaterial);
-	// Scene->addActor(*groundPlane);
+	physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
+	physx::PxMaterial* mMaterial = GameEnginePhysX::GetDefaultMaterial();
+	physx::PxRigidStatic* groundPlane = PxCreatePlane(*Physics, physx::PxPlane(0, 1, 0, 50), *mMaterial);
+	Scene->addActor(*groundPlane);
 }
 
 void TestLevel_Boss::Update(float _Delta)

@@ -350,10 +350,10 @@ void GameContentsFBXAnimationInfo::RootMotionUpdate(float _Delta)
 	switch (mRootMotionData.RootMotionMode)
 	{
 	case Enum_RootMotionMode::StartDir:
-		ParentRenderer->RootMotionComponent->MoveForce(MotionVector, mRootMotionData.RootMotion_StartDir, true);
+		ParentRenderer->RootMotionComponent->MoveForce(MotionVector, mRootMotionData.RootMotion_StartDir, false);
 		break;
 	case Enum_RootMotionMode::RealTimeDir:
-		ParentRenderer->RootMotionComponent->MoveForce(MotionVector, true);
+		ParentRenderer->RootMotionComponent->MoveForce(MotionVector, false);
 		break;
 	default:
 		MsgBoxAssert("존재하지 않는 루트모션 모드입니다.");
