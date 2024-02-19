@@ -2320,10 +2320,10 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToGDodgeTable(Enum_TargetDist _e
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToHitTable()
 {
-	bool bHit = (true == IsFlag(Enum_ActorStatus::Hit));
+	bool bHit = (true == IsFlag(Enum_ActorFlag::Hit));
 	if (bHit)
 	{
-		SetFlag(Enum_ActorStatus::Hit, false);
+		SetFlag(Enum_ActorFlag::Hit, false);
 
 		return Enum_LothricKn_State::F_Hit_W;
 	}

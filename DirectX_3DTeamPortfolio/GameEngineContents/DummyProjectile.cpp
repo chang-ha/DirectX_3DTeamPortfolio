@@ -13,7 +13,7 @@ DummyProjectile::~DummyProjectile()
 }
 
 static constexpr float PROJECTILE_SPEED = 1500.0f;
-static constexpr float DP_LIVETIME = 5.0f;
+static constexpr float DP_LIVETIME = 3.0f;
 
 void DummyProjectile::Start()
 {
@@ -69,6 +69,8 @@ void DummyProjectile::Start()
 			const float4 MoveVec = DirVector * Scalar;
 
 			Transform.AddWorldPosition(MoveVec);
+
+			AttackCollision();
 		};
 
 	MainState.CreateState(eState::Ready, RState);
@@ -118,6 +120,11 @@ void DummyProjectile::AttackCollision()
 					return;
 				}
 
+				const float4 Bullet_WPos = AttackCol->Transform.GetWorldPosition();
+				const float4 Other_WPos = pCollsion->Transform.GetWorldPosition();
+				const float4 DirVec = Bullet_WPos - Other_WPos;
+				Enum_DirectionXZ eDir = HitStruct::ReturnDirectionToVector(DirVec);
+
 				std::weak_ptr<BaseActor> wpObject = pCollsion->GetDynamic_Cast_This<BaseActor>();
 				if (wpObject.expired())
 				{
@@ -126,7 +133,7 @@ void DummyProjectile::AttackCollision()
 				}
 
 				const std::shared_ptr<BaseActor>& pActor = wpObject.lock();
-				pActor->GetHit(Att);
+				pActor->GetHit(Att, { pParent , eDir });
 
 				Off();
 				break;

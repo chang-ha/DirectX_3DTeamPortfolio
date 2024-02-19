@@ -33,7 +33,7 @@ void DummyActor::Off()
 	}
 }
 
-static constexpr int MAX_PROJECTILE = 5;
+static constexpr int MAX_PROJECTILE = 10;
 
 void DummyActor::Start()
 {
@@ -112,22 +112,25 @@ void DummyActor::MoveUpdate(float _Delta)
 	}
 }
 
-static constexpr float FIRE_GEN_TIME = 0.5f;
+static constexpr float FIRE_COOL_TIME = 0.1f;
 
 void DummyActor::ProjectileUpdate(float _Delta)
 {
-	StateTime += _Delta;
+	if (StateTime < FIRE_COOL_TIME)
+	{
+		StateTime += _Delta;
+	}
 
 	if (GameEngineInput::IsDown(VK_LBUTTON, this))
 	{
-		if (StateTime > FIRE_GEN_TIME)
+		if (StateTime >= FIRE_COOL_TIME)
 		{
 			for (const std::shared_ptr<DummyProjectile>& pProjectile : Projectiles)
 			{
 				if (pProjectile->IsReady())
 				{
 					pProjectile->Fire();
-					StateTime = 0.0f;
+					StateTime -= FIRE_COOL_TIME;
 					break;
 				}
 			}

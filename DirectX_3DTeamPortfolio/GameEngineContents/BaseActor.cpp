@@ -1,11 +1,41 @@
 #include "PreCompile.h"
 #include "BaseActor.h"
 
-#include "ContentsMath.h"
-
 #include "FrameEventHelper.h"
 #include "BoneSocketCollision.h"
 
+
+#define ONE_ROTATION_ANGLE 360.0f
+
+Enum_DirectionXZ HitStruct::ReturnDirectionToVector(const float4& _V)
+{
+	float4 DirVector = _V;
+	DirVector.Y = 0.0f;
+	float Angle = float4::DotProduct3D(float4::FORWARD, DirVector);
+	Angle = ContentsMath::ClampDeg(Angle);
+
+	const float EqualPart16 = ONE_ROTATION_ANGLE * 0.0625f;
+
+	if (Angle <= EqualPart16 || Angle > EqualPart16 * 15.0f)
+	{
+		return Enum_DirectionXZ::F;
+	}
+
+	int i = 1;
+	float CheckAngle = EqualPart16;
+
+	for (; i < 8; i++)
+	{
+		CheckAngle += EqualPart16 * 2.0f;
+		if (Angle < CheckAngle)
+		{
+			break;
+		}
+	}
+
+	Enum_DirectionXZ ReturnValue = static_cast<Enum_DirectionXZ>(i);
+	return ReturnValue;
+}
 
 class ContentsActorInitial
 {
@@ -26,16 +56,22 @@ private:
 
 void ContentsActorInitial::Init()
 {
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorStatus::Hit, Enum_ActorFlag::Hit));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorStatus::GaurdSuccess, Enum_ActorFlag::GaurdSuccess));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorStatus::Death, Enum_ActorFlag::Death));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorStatus::JumpPossible, Enum_ActorFlag::JumpPossible));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorStatus::ParryPossible, Enum_ActorFlag::ParryPossible));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Wake, Enum_ActorFlagBit::Wake));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Death, Enum_ActorFlagBit::Death));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::ParryPossible, Enum_ActorFlagBit::ParryPossible));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::JumpPossible, Enum_ActorFlagBit::JumpPossible));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Hit, Enum_ActorFlagBit::Hit));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::GaurdSuccess, Enum_ActorFlagBit::GaurdSuccess));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Block_Shield, Enum_ActorFlagBit::Block_Shield));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Gaurd_Break, Enum_ActorFlagBit::Gaurd_Break));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Break_Down, Enum_ActorFlagBit::Break_Down));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::FrontStab, Enum_ActorFlagBit::FrontStab));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::BackStab, Enum_ActorFlagBit::BackStab));
 }
 
 
 
-std::unordered_map<Enum_ActorStatus, Enum_ActorFlag> BaseActor::FlagIndex;
+std::unordered_map<Enum_ActorFlag, Enum_ActorFlagBit> BaseActor::FlagIndex;
 ContentsActorInitial ContentsActorInitial::s_ActorInit;
 BaseActor::BaseActor()
 {
@@ -186,28 +222,37 @@ void BaseActor::SetWPosition(const float4& _wPos)
 	Capsule->SetWorldPosition(_wPos);
 }
 
-void BaseActor::GetHit(int _Value, HitParameter _Para /*= HitParameter()*/)
+void BaseActor::GetHit(int _AddHp, HitParameter _Para /*= HitParameter()*/)
 {
-	Stat.AddHp(_Value);
-	SetFlag(Enum_ActorStatus::Hit, true);
+	Stat.AddHp(_AddHp);
+	SetFlag(Enum_ActorFlag::Hit, true);
+
+	if (nullptr != _Para.pHitter)
+	{
+		// 다른 플레이어한테 맞아도 타겟팅이 유지되는 
+		// 경우도 있기 때문에 임시 로직으로 뒀습니다.
+		SetTargeting(_Para.pHitter);
+	}
+	
+	Hit.SetHitDir(_Para.eDir);
 }
 
-int BaseActor::FindFlag(Enum_ActorStatus _Status) const
+int BaseActor::FindFlag(Enum_ActorFlag _Status) const
 {
 	if (auto FindIter = FlagIndex.find(_Status); FindIter != FlagIndex.end())
 	{
 		return static_cast<int>(FindIter->second);
 	}
 
-	return static_cast<int>(Enum_ActorFlag::None);
+	return static_cast<int>(Enum_ActorFlagBit::None);
 }
 
-bool BaseActor::IsFlag(Enum_ActorStatus _Flag) const
+bool BaseActor::IsFlag(Enum_ActorFlag _Flag) const
 {
 	return (Flags / FindFlag(_Flag)) % 2;
 }
 
-void BaseActor::SetFlag(Enum_ActorStatus _Flag, bool _Value)
+void BaseActor::SetFlag(Enum_ActorFlag _Flag, bool _Value)
 {
 	AddFlag(_Flag);
 
@@ -217,23 +262,23 @@ void BaseActor::SetFlag(Enum_ActorStatus _Flag, bool _Value)
 	}
 }
 
-void BaseActor::AddFlag(Enum_ActorStatus _Flag)
+void BaseActor::AddFlag(Enum_ActorFlag _Flag)
 {
 	Flags |= FindFlag(_Flag);
 }
 
-void BaseActor::SubFlag(Enum_ActorStatus _Flag)
+void BaseActor::SubFlag(Enum_ActorFlag _Flag)
 {
 	SetFlag(_Flag, false);
 }
 
 void BaseActor::DebugFlag()
 {
-	bool HitValue = IsFlag(Enum_ActorStatus::Hit);
-	bool GaurdingValue = IsFlag(Enum_ActorStatus::GaurdSuccess);
-	bool DeathValue = IsFlag(Enum_ActorStatus::Death);
-	bool JumpPossible = IsFlag(Enum_ActorStatus::JumpPossible);
-	bool ParryPossible = IsFlag(Enum_ActorStatus::ParryPossible);
+	bool HitValue = IsFlag(Enum_ActorFlag::Hit);
+	bool GaurdingValue = IsFlag(Enum_ActorFlag::GaurdSuccess);
+	bool DeathValue = IsFlag(Enum_ActorFlag::Death);
+	bool JumpPossible = IsFlag(Enum_ActorFlag::JumpPossible);
+	bool ParryPossible = IsFlag(Enum_ActorFlag::ParryPossible);
 	int a = 0;
 }
 
