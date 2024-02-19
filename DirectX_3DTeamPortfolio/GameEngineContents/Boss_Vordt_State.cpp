@@ -6,7 +6,7 @@ void Boss_Vordt::SoundEventInit()
 	// Idle
 	MainRenderer->SetFrameEvent("Idle", 10, [&](GameContentsFBXRenderer* _Renderer)
 		{
-			GameEngineSound::Sound3DPlay("c224005000.wav", BoneWorldPos(0));
+			GameEngineSound::Sound3DPlay("c224005000.wav", BoneWorldPos(104));
 		});
 
 	MainRenderer->SetFrameEvent("Idle", 13, [&](GameContentsFBXRenderer* _Renderer)
