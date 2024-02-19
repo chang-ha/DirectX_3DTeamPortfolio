@@ -229,6 +229,9 @@
     <ClCompile Include="DummyProjectile.cpp">
       <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
     </ClCompile>
+    <ClCompile Include="FogGUI.cpp">
+      <Filter>ImGui\Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -455,6 +458,9 @@
     </ClInclude>
     <ClInclude Include="DummyProjectile.h">
       <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="FogGUI.h">
+      <Filter>ImGui\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
