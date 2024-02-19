@@ -124,7 +124,7 @@ protected:
 	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
-	void CameraRotation(float Delta);
+
 	
 	// Flag
 	bool IsFlag(Enum_ActorStatus _Flag) const;
@@ -150,15 +150,7 @@ protected:
 	std::shared_ptr<BoneSocketCollision> FindSocketCollision(Enum_BoneType _Type);
 
 	// 나중에 지움 
-	std::shared_ptr<GameEngineActor> Actor_test;
-	std::shared_ptr<GameEngineActor> Actor_test_02;
-	float4 CameraPos = {};
-	float Mouse_Ro_X = 0.0f;
-	float Mouse_Ro_Y = 0.0f;
-	float4 PrevPos = {};
-	float Camera_Pos_Y = 0.0f;
-	float Camera_Pos_X = 0.0f;
-	float Time = 0.0f;
+	
 
 private:
 	int FindFlag(Enum_ActorStatus _Status) const;
