@@ -103,6 +103,28 @@ void Monster_LothricKn::CreateFSM()
 	MainState.CreateState(Enum_LothricKn_State::G_R_TurnTwice, { .Start = std::bind(&Monster_LothricKn::Start_G_R_TurnTwice,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_R_TurnTwice,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::G_Run, { .Start = std::bind(&Monster_LothricKn::Start_G_Run,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Run,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::G_Att_Bash, { .Start = std::bind(&Monster_LothricKn::Start_G_Att_Bash,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Att_Bash,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::F_Hit_W, { .Start = std::bind(&Monster_LothricKn::Start_F_Hit_W,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Hit_W,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::B_Hit_W, { .Start = std::bind(&Monster_LothricKn::Start_B_Hit_W,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Hit_W,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::R_Hit_W, { .Start = std::bind(&Monster_LothricKn::Start_R_Hit_W,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Hit_W,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::L_Hit_W, { .Start = std::bind(&Monster_LothricKn::Start_L_Hit_W,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Hit_W,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::G_F_Hit_W, { .Start = std::bind(&Monster_LothricKn::Start_G_F_Hit_W,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_F_Hit_W,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::G_F_Hit_W_PushBack, { .Start = std::bind(&Monster_LothricKn::Start_G_F_Hit_W_PushBack,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_F_Hit_W_PushBack,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::G_F_Hit, { .Start = std::bind(&Monster_LothricKn::Start_G_F_Hit,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_F_Hit,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::G_F_Hit_PushBack, { .Start = std::bind(&Monster_LothricKn::Start_G_F_Hit_PushBack,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_F_Hit_PushBack,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::G_F_Hit_S_PushBack, { .Start = std::bind(&Monster_LothricKn::Start_G_F_Hit_S_PushBack,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_F_Hit_S_PushBack,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::Block_Shield, { .Start = std::bind(&Monster_LothricKn::Start_Block_Shield,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Block_Shield,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::G_Break, { .Start = std::bind(&Monster_LothricKn::Start_G_Break,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Break,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::Break_Down, { .Start = std::bind(&Monster_LothricKn::Start_Break_Down,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Break_Down,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::F_Death, { .Start = std::bind(&Monster_LothricKn::Start_F_Death,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Death,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::F_Death_End, { .Start = std::bind(&Monster_LothricKn::Start_F_Death_End,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Death_End,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::F_Death_B, { .Start = std::bind(&Monster_LothricKn::Start_F_Death_B,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Death_B,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::F_Death_B_End, { .Start = std::bind(&Monster_LothricKn::Start_F_Death_B_End,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Death_B_End,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::B_Stab, { .Start = std::bind(&Monster_LothricKn::Start_B_Stab,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_B_Stab,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::B_Stab_Death, { .Start = std::bind(&Monster_LothricKn::Start_B_Stab_Death,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_B_Stab_Death,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::B_Stab_Death_End, { .Start = std::bind(&Monster_LothricKn::Start_B_Stab_Death_End,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_B_Stab_Death_End,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::F_Stab, { .Start = std::bind(&Monster_LothricKn::Start_F_Stab,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Stab,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::F_Stab_Death, { .Start = std::bind(&Monster_LothricKn::Start_F_Stab_Death,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Stab_Death,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::F_Stab_Death_End, { .Start = std::bind(&Monster_LothricKn::Start_F_Stab_Death_End,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Stab_Death_End,this, std::placeholders::_1,std::placeholders::_2) });
 
 	MainState.ChangeState(Enum_LothricKn_State::Debug);
 }
@@ -347,7 +369,115 @@ void Monster_LothricKn::Start_G_Att_Bash(GameEngineState* _State)
 	MainRenderer->ChangeAnimation("G_Att_Bash");
 }
 
+void Monster_LothricKn::Start_F_Hit_W(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("F_Hit_W");
+}
 
+void Monster_LothricKn::Start_B_Hit_W(GameEngineState * _State)
+{
+	MainRenderer->ChangeAnimation("B_Hit_W");
+}
+
+void Monster_LothricKn::Start_R_Hit_W(GameEngineState * _State)
+{
+	MainRenderer->ChangeAnimation("R_Hit_W");
+}
+
+void Monster_LothricKn::Start_L_Hit_W(GameEngineState * _State)
+{
+	MainRenderer->ChangeAnimation("L_Hit_W");
+}
+
+void Monster_LothricKn::Start_G_F_Hit_W(GameEngineState * _State)
+{
+	MainRenderer->ChangeAnimation("G_F_Hit_W");
+}
+
+void Monster_LothricKn::Start_G_F_Hit_W_PushBack(GameEngineState * _State)
+{
+	MainRenderer->ChangeAnimation("G_F_Hit_W_PushBack");
+}
+
+void Monster_LothricKn::Start_G_F_Hit(GameEngineState * _State)
+{
+	MainRenderer->ChangeAnimation("G_F_Hit");
+}
+
+void Monster_LothricKn::Start_G_F_Hit_PushBack(GameEngineState * _State)
+{
+	MainRenderer->ChangeAnimation("G_F_Hit_PushBack");
+}
+
+void Monster_LothricKn::Start_G_F_Hit_S_PushBack(GameEngineState * _State)
+{
+	MainRenderer->ChangeAnimation("G_F_Hit_S_PushBack");
+}
+
+void Monster_LothricKn::Start_Block_Shield(GameEngineState * _State)
+{
+	MainRenderer->ChangeAnimation("Block_Shield");
+}
+
+void Monster_LothricKn::Start_G_Break(GameEngineState * _State)
+{
+	MainRenderer->ChangeAnimation("G_Break");
+}
+
+void Monster_LothricKn::Start_Break_Down(GameEngineState * _State)
+{
+	MainRenderer->ChangeAnimation("Break_Down");
+}
+
+void Monster_LothricKn::Start_F_Death(GameEngineState * _State)
+{
+	MainRenderer->ChangeAnimation("F_Death");
+}
+
+void Monster_LothricKn::Start_F_Death_End(GameEngineState * _State)
+{
+	MainRenderer->ChangeAnimation("F_Death_End");
+}
+
+void Monster_LothricKn::Start_F_Death_B(GameEngineState * _State)
+{
+	MainRenderer->ChangeAnimation("F_Death_B");
+}
+
+void Monster_LothricKn::Start_F_Death_B_End(GameEngineState * _State)
+{
+	MainRenderer->ChangeAnimation("F_Death_B_End");
+}
+
+void Monster_LothricKn::Start_B_Stab(GameEngineState * _State)
+{
+	MainRenderer->ChangeAnimation("B_Stab");
+}
+
+void Monster_LothricKn::Start_B_Stab_Death(GameEngineState * _State)
+{
+	MainRenderer->ChangeAnimation("B_Stab_Death");
+}
+
+void Monster_LothricKn::Start_B_Stab_Death_End(GameEngineState * _State)
+{
+	MainRenderer->ChangeAnimation("B_Stab_Death_End");
+}
+
+void Monster_LothricKn::Start_F_Stab(GameEngineState * _State)
+{
+	MainRenderer->ChangeAnimation("F_Stab");
+}
+
+void Monster_LothricKn::Start_F_Stab_Death(GameEngineState * _State)
+{
+	MainRenderer->ChangeAnimation("F_Stab_Death");
+}
+
+void Monster_LothricKn::Start_F_Stab_Death_End(GameEngineState * _State)
+{
+	MainRenderer->ChangeAnimation("F_Stab_Death_End");
+}
 
 
 
@@ -371,6 +501,11 @@ void Monster_LothricKn::UpdateIdle_Standing1(float _DeltaTime, GameEngineState* 
 
 void Monster_LothricKn::UpdatePatrol(float _DeltaTime, GameEngineState* _State)
 {
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	FindTarget();
 	if (true == IsTargeting())
 	{
@@ -382,6 +517,11 @@ void Monster_LothricKn::UpdatePatrol(float _DeltaTime, GameEngineState* _State)
 
 void Monster_LothricKn::Update_Combo_Att_11(float _DeltaTime, GameEngineState* _State)
 {
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (IsFrameOnce(19))
 	{
 		if (true == CanAttack(W_SCALE * MELEE_RANGE, FRONT_ANGLE))
@@ -427,6 +567,11 @@ void Monster_LothricKn::Update_Combo_Att_11(float _DeltaTime, GameEngineState* _
 
 void Monster_LothricKn::Update_Combo_Att_12(float _DeltaTime, GameEngineState* _State)
 {
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (IsFrameOnce(21))
 	{
 		if (true == CanAttack(W_SCALE * MELEE_RANGE, FRONT_ANGLE))
@@ -472,6 +617,11 @@ void Monster_LothricKn::Update_Combo_Att_12(float _DeltaTime, GameEngineState* _
 
 void Monster_LothricKn::Update_Combo_Att_13(float _DeltaTime, GameEngineState* _State)
 {
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (IsFrameOnce(55))
 	{
 		if (true == CanAttack(W_SCALE * MELEE_RANGE, SIDE_ANGLE))
@@ -508,6 +658,11 @@ void Monster_LothricKn::Update_Combo_Att_13(float _DeltaTime, GameEngineState* _
 
 void Monster_LothricKn::Update_Combo_Att_21(float _DeltaTime, GameEngineState* _State)
 {
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (IsFrameOnce(23))
 	{
 		if (true == CanAttack(W_SCALE * MELEE_RANGE, FRONT_ANGLE))
@@ -553,6 +708,11 @@ void Monster_LothricKn::Update_Combo_Att_21(float _DeltaTime, GameEngineState* _
 
 void Monster_LothricKn::Update_Combo_Att_22(float _DeltaTime, GameEngineState* _State)
 {
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (IsFrameOnce(32))
 	{
 		if (true == CanAttack(W_SCALE * MELEE_RANGE, FRONT_ANGLE))
@@ -598,6 +758,11 @@ void Monster_LothricKn::Update_Combo_Att_22(float _DeltaTime, GameEngineState* _
 
 void Monster_LothricKn::Update_Combo_Att_23(float _DeltaTime, GameEngineState* _State)
 {
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (IsFrameOnce(58))
 	{
 		if (true == CanAttack(W_SCALE * MELEE_RANGE, FRONT_ANGLE))
@@ -635,6 +800,11 @@ void Monster_LothricKn::Update_Combo_Att_23(float _DeltaTime, GameEngineState* _
 
 void Monster_LothricKn::Update_RH_Att_HitDown(float _DeltaTime, GameEngineState* _State)
 {
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (IsFrameOnce(45))
 	{
 		if (true == CanAttack(W_SCALE * MELEE_RANGE, SIDE_ANGLE))
@@ -671,6 +841,11 @@ void Monster_LothricKn::Update_RH_Att_HitDown(float _DeltaTime, GameEngineState*
 
 void Monster_LothricKn::UpdateLH_ShieldAttack(float _DeltaTime, GameEngineState* _State)
 {
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (IsFrameOnce(41))
 	{
 		if (true == CanAttack(W_SCALE * MELEE_RANGE, SIDE_ANGLE))
@@ -707,6 +882,11 @@ void Monster_LothricKn::UpdateLH_ShieldAttack(float _DeltaTime, GameEngineState*
 
 void Monster_LothricKn::Update_RH_Rear_Att(float _DeltaTime, GameEngineState* _State)
 {
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (IsFrameOnce(48))
 	{
 		if (true == CanAttack(W_SCALE * MELEE_RANGE, SIDE_ANGLE))
@@ -743,6 +923,11 @@ void Monster_LothricKn::Update_RH_Rear_Att(float _DeltaTime, GameEngineState* _S
 
 void Monster_LothricKn::Update_L_Turn(float _DeltaTime, GameEngineState* _State)
 {
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (true == MainRenderer->IsCurAnimationEnd())
 	{
 		Enum_LothricKn_State FindState = GetStateToAggroTable();
@@ -753,6 +938,11 @@ void Monster_LothricKn::Update_L_Turn(float _DeltaTime, GameEngineState* _State)
 
 void Monster_LothricKn::Update_R_Turn(float _DeltaTime, GameEngineState* _State)
 {
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (true == MainRenderer->IsCurAnimationEnd())
 	{
 		Enum_LothricKn_State FindState = GetStateToAggroTable();
@@ -763,6 +953,11 @@ void Monster_LothricKn::Update_R_Turn(float _DeltaTime, GameEngineState* _State)
 
 void Monster_LothricKn::Update_L_TurnTwice(float _DeltaTime, GameEngineState* _State)
 {
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (true == MainRenderer->IsCurAnimationEnd())
 	{
 		Enum_LothricKn_State FindState = GetStateToAggroTable();
@@ -773,6 +968,11 @@ void Monster_LothricKn::Update_L_TurnTwice(float _DeltaTime, GameEngineState* _S
 
 void Monster_LothricKn::Update_R_TurnTwice(float _DeltaTime, GameEngineState* _State)
 {
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (true == MainRenderer->IsCurAnimationEnd())
 	{
 		Enum_LothricKn_State FindState = GetStateToAggroTable();
@@ -783,6 +983,11 @@ void Monster_LothricKn::Update_R_TurnTwice(float _DeltaTime, GameEngineState* _S
 
 void Monster_LothricKn::Update_L_Side_Step(float _DeltaTime, GameEngineState* _State)
 {
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	const float fStateTime = _State->GetStateTime();
 
 	bool AngleCheck = false == IsTargetInAngle(MIN_ROT_ANGLE);
@@ -810,6 +1015,11 @@ void Monster_LothricKn::Update_L_Side_Step(float _DeltaTime, GameEngineState* _S
 
 void Monster_LothricKn::Update_R_Side_Step(float _DeltaTime, GameEngineState* _State)
 {
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	const float fStateTime = _State->GetStateTime();
 
 	bool AngleCheck = false == IsTargetInAngle(MIN_ROT_ANGLE);
@@ -837,6 +1047,11 @@ void Monster_LothricKn::Update_R_Side_Step(float _DeltaTime, GameEngineState* _S
 
 void Monster_LothricKn::Update_F_Step(float _DeltaTime, GameEngineState* _State)
 {
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	const float fStateTime = _State->GetStateTime();
 
 	bool AngleCheck = false == IsTargetInAngle(MIN_ROT_ANGLE);
@@ -864,6 +1079,11 @@ void Monster_LothricKn::Update_F_Step(float _DeltaTime, GameEngineState* _State)
 
 void Monster_LothricKn::Update_B_Step(float _DeltaTime, GameEngineState* _State)
 {
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	const float fStateTime = _State->GetStateTime();
 
 	bool AngleCheck = false == IsTargetInAngle(MIN_ROT_ANGLE);
@@ -891,6 +1111,12 @@ void Monster_LothricKn::Update_B_Step(float _DeltaTime, GameEngineState* _State)
 
 void Monster_LothricKn::Update_Run(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (fMaxStateTime > _State->GetStateTime())
 	{
 		// ReturnPatrolRoute
@@ -921,6 +1147,12 @@ void Monster_LothricKn::Update_Run(float _DeltaTime, GameEngineState* _State)
 
 void Monster_LothricKn::Update_Idle_Sit(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	FindTarget();
 	if (true == IsTargeting())
 	{
@@ -931,6 +1163,12 @@ void Monster_LothricKn::Update_Idle_Sit(float _DeltaTime, GameEngineState* _Stat
 
 void Monster_LothricKn::Update_SitUp(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (IsFrameOnce(29))
 	{
 		Enum_LothricKn_State FindState = GetStateToAttackTable();
@@ -957,6 +1195,12 @@ void Monster_LothricKn::Update_SitUp(float _DeltaTime, GameEngineState* _State)
 
 void Monster_LothricKn::Update_DH_Hold(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (IsFrameOnce(18))
 	{
 		Enum_LothricKn_State FindState = GetStateToAttackTable();
@@ -983,6 +1227,12 @@ void Monster_LothricKn::Update_DH_Hold(float _DeltaTime, GameEngineState* _State
 
 void Monster_LothricKn::Update_DH_UnHold(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (IsFrameOnce(17))
 	{
 		Enum_LothricKn_State FindState = GetStateToAttackTable();
@@ -1009,6 +1259,12 @@ void Monster_LothricKn::Update_DH_UnHold(float _DeltaTime, GameEngineState* _Sta
 
 void Monster_LothricKn::Update_DH_Stab_Att(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (IsFrameOnce(44))
 	{
 		Enum_LothricKn_State FindState = GetStateToAttackTable();
@@ -1035,6 +1291,12 @@ void Monster_LothricKn::Update_DH_Stab_Att(float _DeltaTime, GameEngineState* _S
 
 void Monster_LothricKn::Update_DH_Swing_Att(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (IsFrameOnce(45))
 	{
 		Enum_LothricKn_State FindState = GetStateToAttackTable();
@@ -1061,6 +1323,12 @@ void Monster_LothricKn::Update_DH_Swing_Att(float _DeltaTime, GameEngineState* _
 
 void Monster_LothricKn::Update_DH_Walk(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	const float fStateTime = _State->GetStateTime();
 
 	bool AngleCheck = (false == IsTargetInAngle(MIN_ROT_ANGLE));
@@ -1095,6 +1363,12 @@ void Monster_LothricKn::Update_DH_Walk(float _DeltaTime, GameEngineState* _State
 
 void Monster_LothricKn::Update_G_Up(float _DeltaTime, GameEngineState* _State)\
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (IsFrameOnce(10))
 	{
 		Enum_LothricKn_State FindState = GetStateToAttackTable();
@@ -1121,6 +1395,12 @@ void Monster_LothricKn::Update_G_Up(float _DeltaTime, GameEngineState* _State)\
 
 void Monster_LothricKn::Update_G_Down(float _DeltaTime, GameEngineState* _State)\
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (IsFrameOnce(10))
 	{
 		Enum_LothricKn_State FindState = GetStateToAttackTable();
@@ -1147,6 +1427,12 @@ void Monster_LothricKn::Update_G_Down(float _DeltaTime, GameEngineState* _State)
 
 void Monster_LothricKn::Update_G_Walk(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	const float fStateTime = _State->GetStateTime();
 
 	bool AngleCheck = (false == IsTargetInAngle(MIN_ROT_ANGLE));
@@ -1173,6 +1459,12 @@ void Monster_LothricKn::Update_G_Walk(float _DeltaTime, GameEngineState* _State)
 
 void Monster_LothricKn::Update_G_L_Turn(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (true == MainRenderer->IsCurAnimationEnd())
 	{
 		Enum_LothricKn_State FindState = GetStateToAggroTable();
@@ -1183,6 +1475,12 @@ void Monster_LothricKn::Update_G_L_Turn(float _DeltaTime, GameEngineState* _Stat
 
 void Monster_LothricKn::Update_G_R_Turn(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (true == MainRenderer->IsCurAnimationEnd())
 	{
 		Enum_LothricKn_State FindState = GetStateToAggroTable();
@@ -1193,6 +1491,12 @@ void Monster_LothricKn::Update_G_R_Turn(float _DeltaTime, GameEngineState* _Stat
 
 void Monster_LothricKn::Update_G_L_TurnTwice(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (true == MainRenderer->IsCurAnimationEnd())
 	{
 		Enum_LothricKn_State FindState = GetStateToAggroTable();
@@ -1203,6 +1507,12 @@ void Monster_LothricKn::Update_G_L_TurnTwice(float _DeltaTime, GameEngineState* 
 
 void Monster_LothricKn::Update_G_R_TurnTwice(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (true == MainRenderer->IsCurAnimationEnd())
 	{
 		Enum_LothricKn_State FindState = GetStateToAggroTable();
@@ -1213,6 +1523,12 @@ void Monster_LothricKn::Update_G_R_TurnTwice(float _DeltaTime, GameEngineState* 
 
 void Monster_LothricKn::Update_G_Run(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (fMaxStateTime > _State->GetStateTime())
 	{
 		// ReturnPatrolRoute
@@ -1243,6 +1559,12 @@ void Monster_LothricKn::Update_G_Run(float _DeltaTime, GameEngineState* _State)
 
 void Monster_LothricKn::Update_G_Att_Bash(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (IsFrameOnce(46))
 	{
 		Enum_LothricKn_State FindState = GetStateToAttackTable();
@@ -1266,6 +1588,135 @@ void Monster_LothricKn::Update_G_Att_Bash(float _DeltaTime, GameEngineState* _St
 		return;
 	}
 }
+
+void Monster_LothricKn::Update_Hit_W(float _DeltaTime, GameEngineState* _State)
+{
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
+	if (IsFrameOnce(10))
+	{
+		// Attack Logic
+		if (true == CheckAndSetAttackState())
+		{
+			return;
+		}
+	}
+	
+	if (IsFrame(11))
+	{
+		Enum_LothricKn_State FindDodgeState = GetStateToDodgeTable();
+		if (Enum_LothricKn_State::None != FindDodgeState)
+		{
+			_State->ChangeState(FindDodgeState);
+			return;
+		}
+
+		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
+		if (Enum_LothricKn_State::None == FindMovementState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindMovementState);
+		return;
+	}
+}
+
+void Monster_LothricKn::Update_G_F_Hit_W(float _DeltaTime, GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::Update_G_F_Hit_W_PushBack(float _DeltaTime, GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::Update_G_F_Hit(float _DeltaTime, GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::Update_G_F_Hit_PushBack(float _DeltaTime, GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::Update_G_F_Hit_S_PushBack(float _DeltaTime, GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::Update_Block_Shield(float _DeltaTime, GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::Update_G_Break(float _DeltaTime, GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::Update_Break_Down(float _DeltaTime, GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::Update_F_Death(float _DeltaTime, GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::Update_F_Death_End(float _DeltaTime, GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::Update_F_Death_B(float _DeltaTime, GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::Update_F_Death_B_End(float _DeltaTime, GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::Update_B_Stab(float _DeltaTime, GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::Update_B_Stab_Death(float _DeltaTime, GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::Update_B_Stab_Death_End(float _DeltaTime, GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::Update_F_Stab(float _DeltaTime, GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::Update_F_Stab_Death(float _DeltaTime, GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::Update_F_Stab_Death_End(float _DeltaTime, GameEngineState* _State)
+{
+
+}
+
 
 
 
@@ -1325,12 +1776,28 @@ void Monster_LothricKn::RotToTarget(float _DeltaTime, float _fSpeed)
 	Capsule->AddWorldRotation(float4(0.0f, RotAngle, 0.0f));
 }
 
-void Monster_LothricKn::HitLogic()
+bool Monster_LothricKn::CheckAndSetHitState()
 {
-	if (true == IsFlag(Enum_ActorStatus::HitValue))
+	Enum_LothricKn_State FindState = GetStateToHitTable();
+	if (Enum_LothricKn_State::None != FindState)
 	{
-		SetFlag(Enum_ActorStatus::HitValue, false);
+		MainState.ChangeState(FindState);
+		return true;
 	}
+
+	return false;
+}
+
+bool Monster_LothricKn::CheckAndSetAttackState()
+{
+	Enum_LothricKn_State FindState = GetStateToAttackTable();
+	if (Enum_LothricKn_State::None != FindState)
+	{
+		MainState.ChangeState(FindState);
+		return true;
+	}
+
+	return false;
 }
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToAggroTable()
@@ -1851,7 +2318,15 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToGDodgeTable(Enum_TargetDist _e
 	return Enum_LothricKn_State::None;
 }
 
-Enum_LothricKn_State Monster_LothricKn::GetStateToHitTable() const
+Enum_LothricKn_State Monster_LothricKn::GetStateToHitTable()
 {
+	bool bHit = (true == IsFlag(Enum_ActorStatus::Hit));
+	if (bHit)
+	{
+		SetFlag(Enum_ActorStatus::Hit, false);
+
+		return Enum_LothricKn_State::F_Hit_W;
+	}
+
 	return Enum_LothricKn_State::None;
 }

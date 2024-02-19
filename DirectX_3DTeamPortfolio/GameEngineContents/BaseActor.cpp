@@ -26,9 +26,9 @@ private:
 
 void ContentsActorInitial::Init()
 {
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorStatus::HitValue, Enum_ActorFlag::HitValue));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorStatus::GaurdingValue, Enum_ActorFlag::GaurdingValue));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorStatus::DeathValue, Enum_ActorFlag::DeathValue));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorStatus::Hit, Enum_ActorFlag::Hit));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorStatus::GaurdSuccess, Enum_ActorFlag::GaurdSuccess));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorStatus::Death, Enum_ActorFlag::Death));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorStatus::JumpPossible, Enum_ActorFlag::JumpPossible));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorStatus::ParryPossible, Enum_ActorFlag::ParryPossible));
 }
@@ -186,10 +186,10 @@ void BaseActor::SetWPosition(const float4& _wPos)
 	Capsule->SetWorldPosition(_wPos);
 }
 
-void BaseActor::GetHit(int _Value)
+void BaseActor::GetHit(int _Value, HitParameter _Para /*= HitParameter()*/)
 {
 	Stat.AddHp(_Value);
-	SetFlag(Enum_ActorStatus::HitValue, true);
+	SetFlag(Enum_ActorStatus::Hit, true);
 }
 
 int BaseActor::FindFlag(Enum_ActorStatus _Status) const
@@ -229,9 +229,9 @@ void BaseActor::SubFlag(Enum_ActorStatus _Flag)
 
 void BaseActor::DebugFlag()
 {
-	bool HitValue = IsFlag(Enum_ActorStatus::HitValue);
-	bool GaurdingValue = IsFlag(Enum_ActorStatus::GaurdingValue);
-	bool DeathValue = IsFlag(Enum_ActorStatus::DeathValue);
+	bool HitValue = IsFlag(Enum_ActorStatus::Hit);
+	bool GaurdingValue = IsFlag(Enum_ActorStatus::GaurdSuccess);
+	bool DeathValue = IsFlag(Enum_ActorStatus::Death);
 	bool JumpPossible = IsFlag(Enum_ActorStatus::JumpPossible);
 	bool ParryPossible = IsFlag(Enum_ActorStatus::ParryPossible);
 	int a = 0;

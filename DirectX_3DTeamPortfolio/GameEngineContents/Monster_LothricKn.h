@@ -180,6 +180,29 @@ private:
 	void Start_G_R_TurnTwice(GameEngineState* _State);
 	void Start_G_Run(GameEngineState* _State);
 	void Start_G_Att_Bash(GameEngineState* _State);
+
+	void Start_F_Hit_W(GameEngineState* _State);
+	void Start_B_Hit_W(GameEngineState* _State);
+	void Start_R_Hit_W(GameEngineState* _State);
+	void Start_L_Hit_W(GameEngineState* _State);
+	void Start_G_F_Hit_W(GameEngineState* _State);
+	void Start_G_F_Hit_W_PushBack(GameEngineState* _State);
+	void Start_G_F_Hit(GameEngineState* _State);
+	void Start_G_F_Hit_PushBack(GameEngineState* _State);
+	void Start_G_F_Hit_S_PushBack(GameEngineState* _State);
+	void Start_Block_Shield(GameEngineState* _State);
+	void Start_G_Break(GameEngineState* _State);
+	void Start_Break_Down(GameEngineState* _State);
+	void Start_F_Death(GameEngineState* _State);
+	void Start_F_Death_End(GameEngineState* _State);
+	void Start_F_Death_B(GameEngineState* _State);
+	void Start_F_Death_B_End(GameEngineState* _State);
+	void Start_B_Stab(GameEngineState* _State);
+	void Start_B_Stab_Death(GameEngineState* _State);
+	void Start_B_Stab_Death_End(GameEngineState* _State);
+	void Start_F_Stab(GameEngineState* _State);
+	void Start_F_Stab_Death(GameEngineState* _State);
+	void Start_F_Stab_Death_End(GameEngineState* _State);
 	
 		// Update  G_Run
 	void Update_Debug(float _DeltaTime, GameEngineState* _State);
@@ -219,6 +242,26 @@ private:
 	void Update_G_R_TurnTwice(float _DeltaTime, GameEngineState* _State);
 	void Update_G_Run(float _DeltaTime, GameEngineState* _State);
 	void Update_G_Att_Bash(float _DeltaTime, GameEngineState* _State);
+
+	void Update_Hit_W(float _DeltaTime, GameEngineState* _State);
+	void Update_G_F_Hit_W(float _DeltaTime, GameEngineState* _State);
+	void Update_G_F_Hit_W_PushBack(float _DeltaTime, GameEngineState* _State);
+	void Update_G_F_Hit(float _DeltaTime, GameEngineState* _State);
+	void Update_G_F_Hit_PushBack(float _DeltaTime, GameEngineState* _State);
+	void Update_G_F_Hit_S_PushBack(float _DeltaTime, GameEngineState* _State);
+	void Update_Block_Shield(float _DeltaTime, GameEngineState* _State);
+	void Update_G_Break(float _DeltaTime, GameEngineState* _State);
+	void Update_Break_Down(float _DeltaTime, GameEngineState* _State);
+	void Update_F_Death(float _DeltaTime, GameEngineState* _State);
+	void Update_F_Death_End(float _DeltaTime, GameEngineState* _State);
+	void Update_F_Death_B(float _DeltaTime, GameEngineState* _State);
+	void Update_F_Death_B_End(float _DeltaTime, GameEngineState* _State);
+	void Update_B_Stab(float _DeltaTime, GameEngineState* _State);
+	void Update_B_Stab_Death(float _DeltaTime, GameEngineState* _State);
+	void Update_B_Stab_Death_End(float _DeltaTime, GameEngineState* _State);
+	void Update_F_Stab(float _DeltaTime, GameEngineState* _State);
+	void Update_F_Stab_Death(float _DeltaTime, GameEngineState* _State);
+	void Update_F_Stab_Death_End(float _DeltaTime, GameEngineState* _State);
 	
 
 
@@ -249,8 +292,8 @@ private:
 	bool IsTargetInAngle(float _fAngle) const;
 
 	void RotToTarget(float _DeltaTime, float _fSpeed);
-	
-	void HitLogic();
+	bool CheckAndSetHitState();
+	bool CheckAndSetAttackState();
 	
 	Enum_LothricKn_State GetStateToAggroTable();
 
@@ -272,7 +315,7 @@ private:
 	Enum_LothricKn_State GetStateToDHDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
 	Enum_LothricKn_State GetStateToGDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
 
-	Enum_LothricKn_State GetStateToHitTable() const;
+	Enum_LothricKn_State GetStateToHitTable();
 
 	// Collision
 	void FindTarget();

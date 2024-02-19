@@ -11,29 +11,37 @@ enum class Enum_ActorType
 };
 
 // 상태 Enum 
-// 최대 30개까지 bool값 지원
-// 만든 목적은 에디터에서 몬스터의 Flag 수치를 변경하기 위해 만들었습니다.
+// 이론상 31개까지 bool값 지원
 enum class Enum_ActorStatus
 {
 	None = 0,
-	WakeValue,
-	DeathValue,
-	HitValue,
-	GaurdingValue,
+	Wake,
+	Death,
 	ParryPossible,
 	JumpPossible,
+	Hit,
+	GaurdSuccess,
+	BreakDown,
+	FrontStab,
+	BackStab,
 };
 
 // 실제 상태 비트값
+// 아직까진 FrameEvent가 없습니다. 필요하면 만들겠습니다.
+// FrameEvent가 생성되면 함부로 변경해선 안됩니다. 
+// 파일 바이너리가 이상해질 수 있어요.
 enum class Enum_ActorFlag
 {
 	None = 0,
-	WakeValue = (1 << 0),
-	DeathValue = (1 << 1),
-	HitValue = (1 << 11),
-	GaurdingValue = (1 << 21),
-	ParryPossible = (1 << 22),
-	JumpPossible = (1 << 26),
+	Wake = (1 << 0),
+	Death = (1 << 1),
+	ParryPossible = (1 << 2),
+	JumpPossible = (1 << 3),
+	Hit = (1 << 10),
+	GaurdSuccess = (1 << 11), // 방패 막기
+	BreakDown = (1 << 12), // 그로기
+	FrontStab = (1 << 17),
+	BackStab = (1 << 18),
 };
 
 // Collision, BoneIndex
@@ -99,6 +107,42 @@ private:
 
 };
 
+// XZ평면 방향 정의
+// 순서 : Z축으로 시계방향
+enum class Enum_DirectionXZ
+{
+	F = 0, // float4::FORWARD
+	FL,
+	L,
+	BL,
+	B,
+	BR,
+	R,
+	FR,
+	Center, // None 취급
+};
+
+class HitParameter
+{
+public:
+	HitParameter() {}
+	~HitParameter() 
+	{
+		pHitter = nullptr;
+	}
+
+	HitParameter(GameEngineActor* _pHitter, Enum_DirectionXZ _eDir)
+		:pHitter(_pHitter), eDir(_eDir)
+	{
+
+	}
+
+private:
+	GameEngineActor* pHitter = nullptr;
+	Enum_DirectionXZ eDir = Enum_DirectionXZ::Center;
+
+};
+
 // 설명 :
 class BoneSocketCollision;
 class BaseActor : public GameEngineActor
@@ -132,7 +176,7 @@ public:
 	void SetWPosition(const float4& _wPos);
 
 	// Interaction To Character
-	void GetHit(int _Value);    // 함수명 바꾸셔도 됩니다
+	void GetHit(int _Value, HitParameter _Para = HitParameter());    // 함수명 바꾸셔도 됩니다
 
 	// Getter
 	inline std::shared_ptr<GameContentsFBXRenderer>& GetFBXRenderer() { return MainRenderer; }
@@ -140,6 +184,14 @@ public:
 	std::shared_ptr<BoneSocketCollision> GetSocketCollision(int _Index);
 	inline int* GetFlagPointer() { return &Flags; }
 	inline class GameEnginePhysXCapsule* GetPhysxCapsulePointer() { return Capsule.get(); }
+	inline int GetHp() const { return Stat.GetHp(); }
+
+	// Debug
+	inline int GetCurStateInt() const
+	{
+		int StateNum = MainState.GetCurState();
+		return StateNum;
+	}
 
 protected:
 	void Start() override;
