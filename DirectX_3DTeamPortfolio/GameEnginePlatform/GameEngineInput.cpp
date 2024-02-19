@@ -37,6 +37,8 @@ void GameEngineInput::InputInit()
 
 	AllKeys[VK_LBUTTON] = GameEngineKey(VK_LBUTTON);
 	AllKeys[VK_RBUTTON] = GameEngineKey(VK_RBUTTON);
+	AllKeys[VK_XBUTTON1] = GameEngineKey(VK_XBUTTON1);
+	AllKeys[VK_XBUTTON2] = GameEngineKey(VK_XBUTTON2);
 	AllKeys[VK_CANCEL] = GameEngineKey(VK_CANCEL);
 	AllKeys[VK_MBUTTON] = GameEngineKey(VK_MBUTTON);
 	AllKeys[VK_BACK] = GameEngineKey(VK_BACK);

@@ -1,6 +1,20 @@
 #include "PreCompile.h"
 #include "ContentsControlInput.h"
 
+// #define _ArrowInput 1
+#if defined(_ArrowInput)
+#define MYINPUT_LEFT VK_LEFT
+#define MYINPUT_UP VK_UP
+#define MYINPUT_DOWN VK_DOWN
+#define MYINPUT_RIGHT VK_RIGHT
+#else
+#define MYINPUT_LEFT 'A'
+#define MYINPUT_UP 'W'
+#define MYINPUT_DOWN 'S'
+#define MYINPUT_RIGHT 'D'
+#endif
+
+
 ContentsControlInput::ContentsControlInput() 
 {
 }
@@ -83,13 +97,13 @@ bool ContentsControlInput::DetectVerticalMovement()
 
 	bool isMoveVertical = false;
 
-	if (true == GameEngineInput::IsPress(VK_UP, pParent))
+	if (true == GameEngineInput::IsPress(MYINPUT_UP, pParent))
 	{
 		isPressUp = true;
 		isMoveVertical = true;
 	}
 
-	if (true == GameEngineInput::IsPress(VK_DOWN, pParent))
+	if (true == GameEngineInput::IsPress(MYINPUT_DOWN, pParent))
 	{
 		isPressDown = true;
 		isMoveVertical = true;
@@ -126,13 +140,13 @@ bool ContentsControlInput::DetectHorizontalMovement()
 
 	bool isMoveHorizontal = false;
 
-	if (true == GameEngineInput::IsPress(VK_LEFT, pParent))
+	if (true == GameEngineInput::IsPress(MYINPUT_LEFT, pParent))
 	{
 		isPressLeft = true;
 		isMoveHorizontal = true;
 	}
 
-	if (true == GameEngineInput::IsPress(VK_RIGHT, pParent))
+	if (true == GameEngineInput::IsPress(MYINPUT_RIGHT, pParent))
 	{
 		isPressRight = true;
 		isMoveHorizontal = true;

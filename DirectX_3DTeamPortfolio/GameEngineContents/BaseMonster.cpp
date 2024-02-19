@@ -51,6 +51,19 @@ float BaseMonster::ConvertDistance_eTof(Enum_TargetDist _eTDist) const
 	return 0.0f;
 }
 
+bool BaseMonster::TargetRangeCmp(Enum_TargetDist _eTDist, Enum_TargetDist _eCompareDist) const
+{
+	int iTargetDist = static_cast<int>(_eTDist);
+	int iCompareDist = static_cast<int>(_eCompareDist);
+
+	if (iTargetDist <= iCompareDist)
+	{
+		return true;
+	}
+
+	return false;
+}
+
 bool BaseMonster::IsTargetInRange(Enum_TargetDist _eTDist)
 {
 	const float fRange = ConvertDistance_eTof(_eTDist);

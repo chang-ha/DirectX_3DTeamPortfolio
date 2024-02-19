@@ -98,6 +98,25 @@ public:
 		return &States;
 	}
 
+	int GetCurState() const
+	{
+		if (nullptr == CurState)
+		{
+			return -1;
+		}
+
+		for (const std::pair<const int, State>& Pair : States)
+		{
+			if (CurState == &Pair.second)
+			{
+				return Pair.first;
+			}
+		}
+
+		MsgBoxAssert("현재 상태가 이상합니다.")
+		return -1;
+	}
+
 protected:
 
 private:

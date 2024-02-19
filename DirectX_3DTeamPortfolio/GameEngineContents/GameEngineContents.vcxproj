@@ -239,11 +239,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="DummyGUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="DummyPath.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="FogGUI.cpp">
+    <ClCompile Include="DummyProjectile.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -256,6 +260,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="MainUIActor.cpp" />
+    <ClCompile Include="MonsterInfoGUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Monster_HollowSoldier_Crossbow.cpp">
       <SubType>
       </SubType>
@@ -464,11 +472,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="DummyGUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="DummyPath.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="FogGUI.h">
+    <ClInclude Include="DummyProjectile.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -481,6 +493,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MainUIActor.h" />
+    <ClInclude Include="MonsterInfoGUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Monster_HollowSoldier_Crossbow.h">
       <SubType>
       </SubType>
