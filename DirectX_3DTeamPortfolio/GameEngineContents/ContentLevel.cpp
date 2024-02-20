@@ -25,7 +25,7 @@ void ContentLevel::LevelEnd(GameEngineLevel* _NextLevel)
 void ContentLevel::Start()
 {
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
-	//GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<FXAAEffect>();
+	
 	PhysXLevelInit();
 }
 

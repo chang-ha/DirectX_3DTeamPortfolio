@@ -155,18 +155,16 @@ void TestLevel_Shader::Start()
 
 
 
-	//{
-	//	std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
-	//	std::shared_ptr<GameEngineRenderer> NewRenderer = Object->CreateComponent<GameEngineRenderer>();
-	//	NewRenderer->RenderBaseInfoValue.IsDiffuse = 0;
-	//	NewRenderer->SetMesh("Box");
-	//	NewRenderer->SetMaterial("FBXDeferredStatic");
-	//	// NewRenderer->GetShaderResHelper().SetTexture("NormalTexture", "BumpNormal.gif");
-	//	NewRenderer->Transform.SetLocalPosition({ 0.0f, -200.0f, 0.0f });
-	//	NewRenderer->Transform.SetLocalScale({ 3000.0f, 100.0f, 3000.0f });
-	//	NewRenderer->RenderBaseInfoValue.BaseColor = float4(0.5f,0.0f,0.0f,1.0f);
-	//	NewRenderer->RenderBaseInfoValue.IsShadow = 1;
-	//}
+	{
+		std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
+		std::shared_ptr<GameEngineRenderer> NewRenderer = Object->CreateComponent<GameEngineRenderer>();
+		NewRenderer->SetMesh("Box");
+		NewRenderer->SetMaterial("FBX_Static_Color");
+		// NewRenderer->GetShaderResHelper().SetTexture("NormalTexture", "BumpNormal.gif");
+		NewRenderer->Transform.SetLocalPosition({ 0.0f, -200.0f, 0.0f });
+		NewRenderer->Transform.SetLocalScale({ 3000.0f, 100.0f, 3000.0f });
+		NewRenderer->RenderBaseInfoValue.BaseColor = float4(0.2f,0.2f,0.0f,1.0f);
+	}
 
 	//{
 	//	std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);

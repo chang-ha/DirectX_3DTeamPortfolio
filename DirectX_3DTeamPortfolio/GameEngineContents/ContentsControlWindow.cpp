@@ -100,7 +100,7 @@ void LevelChangeTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	static int FrameResult = 0;
 
 
-	FrameSecond += _DeltaTime;
+	FrameSecond += GameEngineCore::MainTime.GetDeltaTime();
 	FrameCount++;
 
 	
@@ -121,7 +121,7 @@ void LevelChangeTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 	std::string Frame2 = "Average Frame: " + std::to_string(FrameResult);
 
-	ImGui::Text(std::to_string(FrameResult).c_str());
+	ImGui::Text(Frame2.c_str());
 }
 
 
