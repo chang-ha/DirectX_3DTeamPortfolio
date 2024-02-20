@@ -231,14 +231,13 @@ protected:
 	float4x4& GetBoneMatrixToIndex(int _Index);
 
 	// SocketCollision
-	template<typename OrderType>
-	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(OrderType _Order, Enum_BoneType _Type, std::string ColName = "")
+	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(Enum_CollisionOrder _Order, Enum_BoneType _Type, std::string ColName = "")
 	{
 		int SocketIndex = GetBoneIndex(_Type);
-		return CreateSocketCollision(static_cast<int>(_Order), SocketIndex, ColName);
+		return CreateSocketCollision(_Order, SocketIndex, ColName);
 	}
 
-	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(int _Order, int _SocketIndex, std::string _ColName = "");
+	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(Enum_CollisionOrder _Order, int _SocketIndex, std::string _ColName = "");
 
 	std::shared_ptr<BoneSocketCollision> FindSocketCollision(Enum_BoneType _Type); 
 
