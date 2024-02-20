@@ -321,7 +321,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 				{
 					if (EPROJECTIONTYPE::Perspective != ProjectionType or InCamera(Unit->GetParentRenderer()->Transform, Unit->GetMesh()->GetMeshBaseInfo()) == true)
 					{
-
+						int a = 0;
 						Unit->Render();
 					}
 				}
