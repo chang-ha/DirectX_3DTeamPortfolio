@@ -24,7 +24,7 @@ void TestMapObjcet::Start()
 		GameEngineFBXMesh::Load(File.GetStringPath());
 	}
 
-	//1배
+	////1배
 	//{
 	//	FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
 	//	FBXRenderer->SetFBXMesh("o000200.FBX", "FBXAnimationTexture");
@@ -42,38 +42,38 @@ void TestMapObjcet::Start()
 
 	//}
 
-	////10배
-	//{
-	//	FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
-	//	FBXRenderer->SetFBXMesh("o000200.FBX", "FBXAnimationTexture");
-	//	FBXRenderer->Transform.SetLocalScale({ 10, 10 , 10 });
-	//	FBXRenderer->Transform.AddLocalRotation({ 0, 180 , 0 });
-	//}
-
-	//
-	//{
-	//	FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
-	//	FBXRenderer->SetFBXMesh("o000200.FBX", "FBXAnimationTexture");
-	//	FBXRenderer->Transform.SetLocalScale({ 10, 10 , 10 });
-	//	FBXRenderer->Transform.AddLocalRotation({ 0, 180 , 0 });
-	//	FBXRenderer->Transform.AddLocalPosition({ 0, 0 , 10 });
-	//}
-
-	//100배
+	//10배SS
 	{
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
-		FBXRenderer->SetFBXMesh("o000200.FBX", "FBXAnimationTexture");
+		FBXRenderer->SetFBXMesh("o309400.FBX", "FBXAnimationTexture");
 		FBXRenderer->Transform.SetLocalScale({ 100, 100 , 100 });
 		FBXRenderer->Transform.AddLocalRotation({ 0, 180 , 0 });
 	}
 
-	{
+	
+	/*{
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
-		FBXRenderer->SetFBXMesh("o000200.FBX", "FBXAnimationTexture");
-		FBXRenderer->Transform.SetLocalScale({ 100, 100 , 100 });
+		FBXRenderer->SetFBXMesh("o000371.FBX", "FBXAnimationTexture");
+		FBXRenderer->Transform.SetLocalScale({ 10, 10 , 10 });
 		FBXRenderer->Transform.AddLocalRotation({ 0, 180 , 0 });
-		FBXRenderer->Transform.AddLocalPosition({ 0, 0 , 100 });
-	}
+		FBXRenderer->Transform.AddLocalPosition({ 0, 0 , 10 });
+	}*/
+
+	////100배
+	//{
+	//	FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
+	//	FBXRenderer->SetFBXMesh("o000200.FBX", "FBXAnimationTexture");
+	//	FBXRenderer->Transform.SetLocalScale({ 100, 100 , 100 });
+	//	FBXRenderer->Transform.AddLocalRotation({ 0, 180 , 0 });
+	//}
+
+	//{
+	//	FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
+	//	FBXRenderer->SetFBXMesh("o000200.FBX", "FBXAnimationTexture");
+	//	FBXRenderer->Transform.SetLocalScale({ 100, 100 , 100 });
+	//	FBXRenderer->Transform.AddLocalRotation({ 0, 180 , 0 });
+	//	FBXRenderer->Transform.AddLocalPosition({ 0, 0 , 100 });
+	//}
 }
 
 void TestMapObjcet::Update(float _Delta)
