@@ -23,7 +23,7 @@ enum class Enum_ActorFlag
 	GuardSuccess,
 	Block_Shield,
 	Gaurd_Break,
-	Break_Down,
+	Break_Posture,
 	TwoHand,
 	FrontStab,
 	BackStab,
@@ -41,11 +41,10 @@ enum class Enum_ActorFlagBit
 	Parrying = (1 << 2),
 	Guarding = (1 << 3),
 	Hit = (1 << 10),
-	GuardSuccess = (1 << 11), // 방패 막기
 	Block_Shield = (1 << 12), // 방패에 막힘
 	Gaurd_Break = (1 <<  13), // 가드 브레이크
-	Break_Down = (1 << 14), // 패링 당함  << 마땅한 명칭이 없음
-	TwoHand = (1 << 15), // 패링 당함  << 마땅한 명칭이 없음
+	Break_Posture = (1 << 14), // 패링 당함  << 마땅한 명칭이 없음
+	TwoHand = (1 << 15), 
 	FrontStab = (1 << 15), // 앞잡
 	BackStab = (1 << 16), // 뒤잡
 };
@@ -157,6 +156,16 @@ public:
 
 };
 
+
+
+class CollisionEventStruct
+{
+public:
+	void CollisionToShield(class BaseActor* _pThis, GameEngineCollision* _pCol, Enum_CollisionOrder _Order);
+	void CollisionToBody(GameEngineCollision* _pCol, Enum_CollisionOrder _Order);
+
+};
+
 class HitStruct
 {
 public:
@@ -213,7 +222,8 @@ public:
 	// Interaction To Character
 	void GetHit(int _Att, HitParameter _Para = HitParameter());    // 생각나는게 없어서 아무렇게나 작명했습니다. 함수명 바꾸셔도 됩니다
 	void HitLogic(int _Att, HitParameter _Para);
-	bool GaurdHitLogic(int _Att = 0);
+	bool FrontStabLogic();
+	bool GetHitToShield(BaseActor* _pAttacker, int _Att = 0);
 	virtual int HitFormula(int _Att) { return _Att; }
 	virtual int GuardHitFormula(int _Att) { return _Att; }
 
@@ -224,6 +234,7 @@ public:
 	inline int* GetFlagPointer() { return &Flags; }
 	inline class GameEnginePhysXCapsule* GetPhysxCapsulePointer() { return Capsule.get(); }
 	inline int GetHp() const { return Stat.GetHp(); }
+	inline int GetAtt() const { return Stat.GetAtt(); }
 
 	// Debug
 	inline int GetCurStateInt() const
@@ -254,13 +265,13 @@ protected:
 
 	// SocketCollision
 	template<typename OrderType>
-	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(OrderType _Order, Enum_BoneType _Type, std::string ColName = "")
+	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(OrderType _Order, Enum_BoneType _Type, std::string_view ColName = "")
 	{
 		int SocketIndex = GetBoneIndex(_Type);
 		return CreateSocketCollision(static_cast<int>(_Order), SocketIndex, ColName);
 	}
 
-	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(int _Order, int _SocketIndex, std::string _ColName = "");
+	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(int _Order, int _SocketIndex, std::string_view _ColName = "");
 
 	std::shared_ptr<BoneSocketCollision> FindSocketCollision(Enum_BoneType _Type); 
 
@@ -293,14 +304,15 @@ protected:
 	GameEngineState MainState;
 	StatusStruct Stat; // 플레이어와 몬스터가 공용으로 사용하는 기본스텟 구조체
 	HitStruct Hit; // 플레이어와 몬스터가 공용으로 사용하는 히트 로직 구조체
+	CollisionEventStruct CollisionEvent; // 플레이어와 몬스터가 공용으로 사용하는 충돌 로직 구조체 (임시) << 좋은 로직있으면 대체해주세요;;;;
 
-	int Flags = 0;
 	
 private:
 	static std::unordered_map<Enum_ActorFlag, Enum_ActorFlagBit> FlagIndex;
 	std::unordered_map<Enum_BoneType, int> BoneIndex;
 
 	int ActorID = EMPTY_ID;
+	int Flags = 0;
 	
 // Targeting
 public:

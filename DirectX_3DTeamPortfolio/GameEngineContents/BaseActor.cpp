@@ -72,16 +72,41 @@ void ContentsActorInitial::Init()
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Parrying, Enum_ActorFlagBit::Parrying));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Guarding, Enum_ActorFlagBit::Guarding));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Hit, Enum_ActorFlagBit::Hit));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::GuardSuccess, Enum_ActorFlagBit::GuardSuccess));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Block_Shield, Enum_ActorFlagBit::Block_Shield));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Gaurd_Break, Enum_ActorFlagBit::Gaurd_Break));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Break_Down, Enum_ActorFlagBit::Break_Down));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Break_Posture, Enum_ActorFlagBit::Break_Posture));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::TwoHand, Enum_ActorFlagBit::TwoHand));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::FrontStab, Enum_ActorFlagBit::FrontStab));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::BackStab, Enum_ActorFlagBit::BackStab));
 }
 
+void CollisionEventStruct::CollisionToShield(BaseActor* _pThis, GameEngineCollision* _pCol, Enum_CollisionOrder _Order)
+{
+	std::function ColEvent = [_pThis](std::vector<GameEngineCollision*> _Other)
+		{
+			for (GameEngineCollision* pCol : _Other) 
+			{
+				if (nullptr == pCol)
+				{
+					MsgBoxAssert("결과값이 잘못되어 있습니다.");
+					return;
+				}
 
+				std::shared_ptr<BaseActor> pActor = pCol->GetActor()->GetDynamic_Cast_This<BaseActor>();
+				if (nullptr == pActor)
+				{
+					MsgBoxAssert("형변환에 실패했습니다.");
+					return;
+				}
+
+				const int Att = _pThis->GetAtt();
+				pActor->GetHitToShield(_pThis, Att);
+				pActor->GetHit(Att);
+			}
+		};
+
+	_pCol->Collision(_Order, ColEvent);
+}
 
 std::unordered_map<Enum_ActorFlag, Enum_ActorFlagBit> BaseActor::FlagIndex;
 ContentsActorInitial ContentsActorInitial::s_ActorInit;
@@ -150,11 +175,6 @@ void BaseActor::GetHit(int _Att, HitParameter _Para /*= HitParameter()*/)
 		return;
 	}
 
-	if (true == GaurdHitLogic(_Att))
-	{
-		return;
-	}
-
 	HitLogic(_Att, _Para);
 }
 
@@ -174,11 +194,34 @@ void BaseActor::HitLogic(int _Att, HitParameter _Para)
 	Hit.SetHitDir(_Para.eDir);
 }
 
-bool BaseActor::GaurdHitLogic(int _Att /*= 0*/)
+bool BaseActor::FrontStabLogic()
 {
+	if (true == IsFlag(Enum_ActorFlag::FrontStab))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool BaseActor::GetHitToShield(BaseActor* _pAttacker, int _Att /*= 0*/)
+{
+	if (nullptr == _pAttacker)
+	{
+		MsgBoxAssert("공격자의 포인터를 모르고 사용할 수 없는 기능입니다.");
+		return false;
+	}
+
 	if (true == Hit.IsHit())
 	{
 		return false;
+	}
+
+	// 패링상태
+	if (true == IsFlag(Enum_ActorFlag::Parrying))
+	{
+		_pAttacker->SetFlag(Enum_ActorFlag::Break_Posture, true);
+		return true;
 	}
 
 	if (true == IsFlag(Enum_ActorFlag::Guarding))
@@ -272,7 +315,7 @@ float4x4& BaseActor::GetBoneMatrixToIndex(int _Index)
 	return BoneMats[_Index];
 }
 
-std::shared_ptr<BoneSocketCollision> BaseActor::CreateSocketCollision(int _Order, int _SocketIndex, std::string _ColName)
+std::shared_ptr<BoneSocketCollision> BaseActor::CreateSocketCollision(int _Order, int _SocketIndex, std::string_view _ColName)
 {
 	if (auto FindIter = SocketCollisions.find(_SocketIndex); FindIter != SocketCollisions.end())
 	{

@@ -272,6 +272,8 @@ private:
 
 	// End
 	void EndSleep(GameEngineState* _State);
+	void End_F_Stab(GameEngineState* _State);
+	void End_B_Stab(GameEngineState* _State);
 
 	// State Func
 	bool IsFrame(int _StartFrame, int _EndFrame = -1) const;

@@ -19,6 +19,7 @@ enum class Enum_CollisionOrder
 	Player,
 	Monster,
 	MonsterAttack,
+	Monster_Shield,
 	Detect,
 	Dummy,
 };

@@ -123,10 +123,10 @@ void Monster_LothricKn::CreateFSM()
 	MainState.CreateState(Enum_LothricKn_State::F_Death_End, { .Start = std::bind(&Monster_LothricKn::Start_F_Death_End,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Death_End,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::F_Death_B, { .Start = std::bind(&Monster_LothricKn::Start_F_Death_B,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Death_B,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::F_Death_B_End, { .Start = std::bind(&Monster_LothricKn::Start_F_Death_B_End,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Death_B_End,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::B_Stab, { .Start = std::bind(&Monster_LothricKn::Start_B_Stab,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_B_Stab,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::B_Stab, { .Start = std::bind(&Monster_LothricKn::Start_B_Stab,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_B_Stab,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_B_Stab,this, std::placeholders::_1) });
 	MainState.CreateState(Enum_LothricKn_State::B_Stab_Death, { .Start = std::bind(&Monster_LothricKn::Start_B_Stab_Death,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_B_Stab_Death,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::B_Stab_Death_End, { .Start = std::bind(&Monster_LothricKn::Start_B_Stab_Death_End,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_B_Stab_Death_End,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::F_Stab, { .Start = std::bind(&Monster_LothricKn::Start_F_Stab,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Stab,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::F_Stab, { .Start = std::bind(&Monster_LothricKn::Start_F_Stab,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Stab,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_F_Stab,this, std::placeholders::_1) });
 	MainState.CreateState(Enum_LothricKn_State::F_Stab_Death, { .Start = std::bind(&Monster_LothricKn::Start_F_Stab_Death,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Stab_Death,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::F_Stab_Death_End, { .Start = std::bind(&Monster_LothricKn::Start_F_Stab_Death_End,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Stab_Death_End,this, std::placeholders::_1,std::placeholders::_2) });
 
@@ -468,7 +468,7 @@ void Monster_LothricKn::Start_G_Break(GameEngineState * _State)
 
 void Monster_LothricKn::Start_Break_Down(GameEngineState * _State)
 {
-	MainRenderer->ChangeAnimation("Break_Down");
+	MainRenderer->ChangeAnimation("Break_Posture");
 }
 
 void Monster_LothricKn::Start_F_Death(GameEngineState * _State)
@@ -493,6 +493,7 @@ void Monster_LothricKn::Start_F_Death_B_End(GameEngineState * _State)
 
 void Monster_LothricKn::Start_B_Stab(GameEngineState * _State)
 {
+	SetFlag(Enum_ActorFlag::Break_Posture, true);
 	MainRenderer->ChangeAnimation("B_Stab");
 }
 
@@ -508,6 +509,7 @@ void Monster_LothricKn::Start_B_Stab_Death_End(GameEngineState * _State)
 
 void Monster_LothricKn::Start_F_Stab(GameEngineState * _State)
 {
+	SetFlag(Enum_ActorFlag::Break_Posture, true);
 	MainRenderer->ChangeAnimation("F_Stab");
 }
 
@@ -2146,6 +2148,15 @@ void Monster_LothricKn::EndSleep(GameEngineState* _State)
 	On();
 }
 
+void Monster_LothricKn::End_F_Stab(GameEngineState* _State)
+{
+	SetFlag(Enum_ActorFlag::BackStab, false);
+}
+
+void Monster_LothricKn::End_B_Stab(GameEngineState* _State)
+{
+	SetFlag(Enum_ActorFlag::BackStab, false);
+}
 
 
 ////////////////////////////////////////////////////////////
@@ -2746,12 +2757,22 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToHitTable()
 	bool bHit = (true == Hit.IsHit());
 	if (bHit)
 	{
+		CombatState = Enum_Combat_State::Normal;
+
 		if (true == Hit.IsGuardSuccesss())
 		{
 			return Enum_LothricKn_State::G_F_Hit_W;
 		}
 
-		CombatState = Enum_Combat_State::Normal;
+		if (true == IsFlag(Enum_ActorFlag::Gaurd_Break))
+		{
+			return Enum_LothricKn_State::G_Break;
+		}
+
+		if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+		{
+			return Enum_LothricKn_State::Break_Down;
+		}
 
 		Enum_DirectionXZ_Quat eDir = Hit.GetHitDir();
 		switch (eDir)
