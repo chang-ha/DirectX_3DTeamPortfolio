@@ -95,6 +95,7 @@ void Player::Player_State()
 
 				if (GameEngineInput::IsPress('W', this))
 				{
+					//Player_Pos = Camera_Pos_X;
 					MainRenderer->ChangeAnimation("Walk_Forward");
 					_Parent->ChangeState(PlayerState::Move);
 					return;
@@ -358,7 +359,7 @@ void Player::Player_State()
 				}
 				else if (GameEngineInput::IsUp('W', this) && Rotation_Check == true)
 				{
-					Camera_Pos_X = Player_Pos.X;
+					//Camera_Pos_X = Player_Pos.X;
 					Rotation_Check = false;
 					MainRenderer->ChangeAnimation("Forward_Stop");
 					PlayerStates.ChangeState(PlayerState::Move_Stop);

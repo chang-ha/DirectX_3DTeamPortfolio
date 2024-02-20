@@ -77,9 +77,12 @@ void FogGUI::LUTEditor(GameEngineLevel* _Level)
 	ImGui::SliderFloat("FogMaxHeight", &InfoSlieder.FogMaxHeight, -5000.0f, 5000.0f);
 	//ImGui::InputFloat("FogMaxHeight", &Info.FogMaxHeight);
 
-	ImGui::SliderFloat("NoiseScale", &InfoSlieder.NoiseScale, 0.0f, 100.0f);
+	ImGui::SliderFloat("NoiseScale", &InfoSlieder.NoiseScale, 0.0f, 1.0f);
 	ImGui::SliderFloat("NoiseOffset", &InfoSlieder.NoiseOffset, 0.0f, 100.0f);
-	ImGui::SliderFloat("NoiseIntensity", &InfoSlieder.NoiseIntensity, -0.0f, 100.0f);
+	ImGui::SliderFloat("NoiseIntensity", &InfoSlieder.NoiseIntensity, -0.0f, 1.0f);
+	ImGui::SliderFloat("WorldScale", &InfoSlieder.WorldScale, -0.0f, 1000.0f);
+
+	ImGui::SliderFloat("FogTimeScale", &FogEffect::FogTimeScale, 0.0f, 10.0f);
 
 	//*FogEffect::MainFogInfo = Info;
 	*FogEffect::MainFogInfo = InfoSlieder;
