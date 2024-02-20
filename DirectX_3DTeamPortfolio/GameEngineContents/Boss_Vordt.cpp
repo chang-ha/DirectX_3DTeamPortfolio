@@ -385,14 +385,13 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	//// Detect Collision
 #define DETECT_SCALE 15
 	{
-		// DetectCollision->SetCollisionType(ColType::SPHERE3D);
-		// DetectCollision->Transform.SetLocalPosition({ 0.f, 0.f, DETECT_SCALE * 0.3f });
-		// DetectCollision->Transform.SetLocalScale({ DETECT_SCALE, DETECT_SCALE, DETECT_SCALE });
+		DetectCollision->SetCollisionType(ColType::SPHERE3D);
+		DetectCollision->Transform.SetLocalPosition({ 0.f, 0.f, DETECT_SCALE * 0.3f });
+		DetectCollision->Transform.SetLocalScale({ DETECT_SCALE, DETECT_SCALE, DETECT_SCALE });
 		// GameEngineDebug::DrawSphere2D(Transform, float4::GREEN, GetLevel()->GetMainCamera().get());
 	}
 
 	Capsule->PhysXComponentInit(10.0f, 5.0f);
-	// Capsule->SetMass(100.f);
 	Capsule->SetPositioningComponent();
 
 	if (nullptr == GameEngineGUI::FindGUIWindow<Boss_State_GUI>("Boss_State"))
@@ -731,43 +730,6 @@ void Boss_Vordt::Update(float _Delta)
 
 	}
 
-	std::vector<AnimationBoneData> BoneMats = MainRenderer->GetBoneDatas();
-	float4x4 WorldMat = Transform.GetConstTransformDataRef().WorldMatrix;
-	AnimationBoneData BoneMatrix = BoneMats[47];
-	BoneMatrix.Pos += float4(-1.7338171f, 1.709533f, -1.8454881f);
-	// BoneMatrix._30 -= -1.7338171f; // x
-	// BoneMatrix._31 -= 1.709533f; // y
-	// BoneMatrix._32 -= -1.8454881f; // z
-
-	// WorldMat = BoneMatrix * WorldMat;
-	// float4 wBoneScale;
-	// float4 wBoneQuat;
-	// float4 wBonePos;
-	
-	// WorldMat.Decompose(wBoneScale, wBoneQuat, wBonePos);
-	float4 Pos = Transform.GetWorldPosition() * BoneMatrix.Pos;
-	GameEngineDebug::DrawSphere2D(float4(100.f, 100.f, 100.f), float4::ZERO, Pos, float4::BLUE);
-
-	// float4x4 LocalMat = Transform.GetConstTransformDataRef().LocalWorldMatrix;
-	// BoneMatrix._30 -= -1.7338171f; // x
-	// BoneMatrix._31 -= 1.709533f; // y
-	// BoneMatrix._32 -= -1.8454881f; // z
-	// LocalMat = BoneMatrix * LocalMat;
-	// 
-	// // LocalMat._30 *= -1.7338171f;
-	// // LocalMat._31 *= 1.709533f;
-	// // LocalMat._32 *= -1.8454881f;
-	// 
-	// // LocalMat = LocalMat * Transform.GetConstTransformDataRef().WorldMatrix;
-	// 
-	// float4 lBoneScale;
-	// float4 lBoneQuat;
-	// float4 lBonePos;
-	// LocalMat.Decompose(lBoneScale, lBoneQuat, lBonePos);
-	// 
-	// GameEngineDebug::DrawSphere2D(lBoneScale, lBoneQuat, lBonePos, float4::GREEN);
-
-
 	if (true == GameEngineInput::IsDown('B', this))
 	{
 		Capsule->CollisionOff();
@@ -842,6 +804,6 @@ float4 Boss_Vordt::BoneWorldPos(int _BoneIndex)
 		MsgBoxAssert("BoneData가 존재하지 않습니다.");
 	}
 
-	float4 Result = Transform.GetWorldPosition() * (*pBoneData).Pos;
-	return Result;
+	// float4 Result = Transform.GetWorldPosition() * (*pBoneData).Pos;
+	return Transform.GetWorldPosition();
 }
