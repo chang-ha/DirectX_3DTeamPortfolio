@@ -4,6 +4,7 @@
 #include "WorldMap.h"
 #include "ContentsLight.h"
 #include <GameEngineCore\FogEffect.h>
+#include "FXAAEffect.h"
 
 TestLevel_Map::TestLevel_Map()
 {
@@ -65,8 +66,22 @@ void TestLevel_Map::Start()
 	// 
 	//GetMainCamera()->Transform.SetLocalPosition({ -13921.0f, 3438.0f, -4173.0f });
 
+	// 포그 관련
 	std::shared_ptr< FogEffect> Effect =GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FogEffect>();
 	Effect->Init(GetMainCamera());
+	GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FXAAEffect>();
+	//{
+	//	std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
+	//	std::shared_ptr<GameEngineRenderer> NewRenderer = Object->CreateComponent<GameEngineRenderer>();
+	//	NewRenderer->SetMesh("Box");
+	//	NewRenderer->SetMaterial("FBX_Static_Color");
+	//	// NewRenderer->GetShaderResHelper().SetTexture("NormalTexture", "BumpNormal.gif");
+	//	NewRenderer->Transform.SetLocalPosition({ 0.0f, -4000.0f, 0.0f });
+	//	NewRenderer->Transform.SetLocalScale({ 3000.0f, 100.0f, 3000.0f });
+	//	NewRenderer->RenderBaseInfoValue.BaseColor = float4(0.1f, 0.1f, 0.1f, 1.0f);
+	//}
+
+
 
 	// 빛
 	std::shared_ptr<ContentsLight> TestObject0 = CreateActor<ContentsLight>(0);
