@@ -95,6 +95,16 @@ void LevelChangeTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	ImGui::Text(Frame.c_str());
 
 	static std::string FrameSelect = "Off";
+	static int FrameCount = 0;
+	static float FrameSecond = 0.0f;
+	static int FrameResult = 0;
+
+
+	FrameSecond += _DeltaTime;
+	FrameCount++;
+
+	
+
 
 	if (ImGui::Button("FrameCatch"))
 	{
@@ -102,7 +112,16 @@ void LevelChangeTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	}
 	ImGui::Text(FrameSelect.c_str());
 
+	if (FrameSecond >= 1.0f)
+	{
+		FrameResult = FrameCount;
+		FrameCount = 0;
+		FrameSecond = 0.0f;
+	}
 
+	std::string Frame2 = "Average Frame: " + std::to_string(FrameResult);
+
+	ImGui::Text(std::to_string(FrameResult).c_str());
 }
 
 
