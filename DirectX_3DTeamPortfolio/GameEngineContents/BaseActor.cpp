@@ -361,11 +361,11 @@ void BaseActor::CalcuTargetAngle()
 	TargetAngle = Angle.X * GameEngineMath::R2D;
 	if (0.0f <= RotationDir.Y)
 	{
-		//RotDir = Enum_RotDir::Right;
+		RotDir = Enum_RotDir::Right;
 	}
 	else
 	{
-		//RotDir = Enum_RotDir::Left;
+		RotDir = Enum_RotDir::Left;
 		TargetAngle *= -1.f;
 	}
 }

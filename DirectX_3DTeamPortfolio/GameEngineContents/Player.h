@@ -91,14 +91,18 @@ private:
 	float DeltaTime = 0.0f;
 
 	float4 Player_Pos = {};
+
 	bool IsFreeCameraValue = false;
+	bool Rock_OnOff = false;
+
 
 	float Angle = 0.0f;
 	float MonsterAngle = 0.0f;
+
 	std::shared_ptr<GameEngineActor> Actor_test;
 	std::shared_ptr<GameEngineActor> Actor_test_02;
-
-
+	std::shared_ptr<GameEngineActor> Actor_test_03;
+	std::shared_ptr<GameEngineActor> Actor_test_04;
 	float4 CameraPos = {};
 	float Mouse_Ro_X = 0.0f;
 	float Mouse_Ro_Y = 0.0f;

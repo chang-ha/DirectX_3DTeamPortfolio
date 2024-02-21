@@ -191,6 +191,7 @@ void Player::Start()
 
 	{
 		Actor_test = GetLevel()->CreateActor<GameEngineActor>();
+		
 	}
 
 	{
@@ -198,19 +199,24 @@ void Player::Start()
 		Actor_test_02->SetParent(Actor_test);
 		Actor_test_02->Transform.SetWorldPosition({ 0.0f,140.0f,-300.0f });
 	}
+
+	{
+		Actor_test_03 = GetLevel()->CreateActor<GameEngineActor>();
+		//Actor_test_03->Transform.SetWorldPosition({ 0.0f,140.0f,-300.0f });
+	}
+	{
+		Actor_test_04 = GetLevel()->CreateActor<GameEngineActor>();
+		//Actor_test_04->Transform.SetWorldPosition({ 0.0f,140.0f,-300.0f });
+	}
+
 }
 
 void Player::Update(float _Delta)
 {
 	BaseActor::Update(_Delta);
-	float ad = GetTargetDistance();
 
-	
-
-	float ads = GetTargetAngle(); 
-
-	//CalcuTargetAngle(); 
-
+	Actor_test_03->Transform.SetWorldPosition({ GetTargetPos() });
+	//Actor_test_04->Transform.SetLocalPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
 
 
 
@@ -244,15 +250,25 @@ void Player::Update(float _Delta)
 
 	Time += _Delta;
 
+	
+
 	if (GameEngineInput::IsDown('Q', this))
 	{
-		MainRenderer->SwitchPause();
+		Rock_OnOff = !Rock_OnOff;
 	}
-	
+
+	if (true == Rock_OnOff)
+	{
+		this->SetParent(Actor_test_03);
+	}
+	else
+	{
+		//Actor_test->SetParent(nullptr);
+	}
 	AnimationBoneData Data = MainRenderer->GetBoneData(Bone_index_01);
 
 	SwordActor->Transform.SetLocalRotation(Data.RotQuaternion.QuaternionToEulerDeg());
-	SwordActor->Transform.SetWorldPosition(Data.Pos+Transform.GetWorldPosition());
+	SwordActor->Transform.SetWorldPosition(Data.Pos +float4{Capsule->GetWorldPosition().x, Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
 	
 
 	
@@ -295,7 +311,7 @@ void Player::Update(float _Delta)
 	/*Capsule->AddWorldRotation({ 0.0f, 1.0f,0.0f });
 	Capsule->MoveForce({ float4::LEFT * Speed });*/
 
-		float4 WorldMousePos = ads;
+	float4 WorldMousePos;
 
 		OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
 
@@ -338,7 +354,7 @@ void Player::LevelStart(GameEngineLevel* _PrevLevel)
 
 void Player::CameraRotation(float Delta)
 {
-	Actor_test->Transform.SetWorldPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z});
+	Actor_test->Transform.SetLocalPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z});
 	
 
 
@@ -443,9 +459,7 @@ void Player::CameraRotation(float Delta)
 	// 마우스 고정하고 싶을떄 
 	if (GameEngineInput::IsDown('Z', this))
 	{
-		IsFreeCameraValue = !IsFreeCameraValue;
-
-		
+		IsFreeCameraValue = !IsFreeCameraValue;	
 	}
 
 	if (true == IsFreeCameraValue)
