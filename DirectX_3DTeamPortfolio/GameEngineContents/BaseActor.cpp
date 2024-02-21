@@ -80,34 +80,6 @@ void ContentsActorInitial::Init()
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::BackStab, Enum_ActorFlagBit::BackStab));
 }
 
-void CollisionEventStruct::CollisionToShield(BaseActor* _pThis, GameEngineCollision* _pCol, Enum_CollisionOrder _Order)
-{
-	std::function ColEvent = [_pThis](std::vector<GameEngineCollision*> _Other)
-		{
-			for (GameEngineCollision* pCol : _Other) 
-			{
-				if (nullptr == pCol)
-				{
-					MsgBoxAssert("결과값이 잘못되어 있습니다.");
-					return;
-				}
-
-				std::shared_ptr<BaseActor> pActor = pCol->GetActor()->GetDynamic_Cast_This<BaseActor>();
-				if (nullptr == pActor)
-				{
-					MsgBoxAssert("형변환에 실패했습니다.");
-					return;
-				}
-
-				const int Att = _pThis->GetAtt();
-				pActor->GetHitToShield(_pThis, Att);
-				pActor->GetHit(Att);
-			}
-		};
-
-	_pCol->Collision(_Order, ColEvent);
-}
-
 std::unordered_map<Enum_ActorFlag, Enum_ActorFlagBit> BaseActor::FlagIndex;
 ContentsActorInitial ContentsActorInitial::s_ActorInit;
 BaseActor::BaseActor()
@@ -166,75 +138,6 @@ void BaseActor::SetWPosition(const float4& _wPos)
 	}
 
 	Capsule->SetWorldPosition(_wPos);
-}
-
-void BaseActor::GetHit(int _Att, HitParameter _Para /*= HitParameter()*/)
-{
-	if (true == Hit.IsHit())
-	{
-		return;
-	}
-
-	HitLogic(_Att, _Para);
-}
-
-void BaseActor::HitLogic(int _Att, HitParameter _Para)
-{
-	const int Damage = HitFormula(_Att);
-	Stat.AddHp(Damage);
-	Hit.SetHit(true);
-
-	if (nullptr != _Para.pHitter)
-	{
-		// 다른 플레이어한테 맞아도 타겟팅이 유지되는 
-		// 경우도 있기 때문에 임시 로직으로 뒀습니다.
-		SetTargeting(_Para.pHitter);
-	}
-
-	Hit.SetHitDir(_Para.eDir);
-}
-
-bool BaseActor::FrontStabLogic()
-{
-	if (true == IsFlag(Enum_ActorFlag::FrontStab))
-	{
-		return true;
-	}
-
-	return false;
-}
-
-bool BaseActor::GetHitToShield(BaseActor* _pAttacker, int _Att /*= 0*/)
-{
-	if (nullptr == _pAttacker)
-	{
-		MsgBoxAssert("공격자의 포인터를 모르고 사용할 수 없는 기능입니다.");
-		return false;
-	}
-
-	if (true == Hit.IsHit())
-	{
-		return false;
-	}
-
-	// 패링상태
-	if (true == IsFlag(Enum_ActorFlag::Parrying))
-	{
-		_pAttacker->SetFlag(Enum_ActorFlag::Break_Posture, true);
-		return true;
-	}
-
-	if (true == IsFlag(Enum_ActorFlag::Guarding))
-	{
-		const int FinalDamage = GuardHitFormula(_Att);
-		Stat.AddHp(FinalDamage);
-		Hit.SetGuardSuccesss(true);
-		Hit.SetHit(true);
-
-		return true;
-	}
-
-	return false;
 }
 
 int BaseActor::FindFlag(Enum_ActorFlag _Status) const
