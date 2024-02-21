@@ -26,9 +26,9 @@ void PlayLevel::Start()
 	ContentLevel::Start();
 	GameEngineInput::AddInputObject(this);
 
-	{
+	/*{
 		std::shared_ptr<WorldMap> GameMap = CreateActor<WorldMap>(0, "WorldMap");
-	}
+	}*/
 
 	GetMainCamera()->Transform.SetWorldRotation({ 0.0f,0.0f,0.0f });
 	GetMainCamera()->Transform.SetWorldPosition({ 0.0f, 0.0f, -1000.0f });
@@ -54,16 +54,16 @@ void PlayLevel::Start()
 	}*/
 
 	{
-		/*std::shared_ptr<Boss_Vordt> GameMap = CreateActor<Boss_Vordt>(0, "WorldMap");
-		GameMap->Transform.SetWorldPosition({ 0.0f,0.0f,1000.0f });*/
+		std::shared_ptr<Boss_Vordt> GameMap = CreateActor<Boss_Vordt>(0, "WorldMap");
+		GameMap->Transform.SetWorldPosition({ 0.0f,0.0f,1000.0f });
 
 		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
-		//Object->SetTargeting(GameMap.get());
+		Object->SetTargeting(GameMap.get());
 
 		PlayerObject = Object;
 
 		// 시작위치
-		PlayerObject->Transform.SetLocalPosition({ -1400.0f, 5101.0f, -5331.0f });
+		//PlayerObject->Transform.SetLocalPosition({ -1400.0f, 5101.0f, -5331.0f });
 
 		Ptr->MainPlayer = PlayerObject.get();
 	}

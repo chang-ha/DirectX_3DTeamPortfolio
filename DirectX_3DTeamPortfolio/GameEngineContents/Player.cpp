@@ -126,6 +126,8 @@ void Player::Start()
 	MainRenderer->SetRootMotion("Walk_Forward","",Enum_RootMotionMode::RealTimeDir);
 	MainRenderer->SetRootMotion("Roll_Forward");
 
+
+
 	//MainRenderer->Off();
 
 
@@ -200,6 +202,46 @@ void Player::Start()
 
 void Player::Update(float _Delta)
 {
+	BaseActor::Update(_Delta);
+	float ad = GetTargetDistance();
+
+	
+
+	float ads = GetTargetAngle(); 
+
+	//CalcuTargetAngle(); 
+
+
+
+
+	//{
+	//	float4 TargetPos =
+	//	float4 MyPos = Actor_test->Transform.GetWorldPosition();
+
+	//	// YÃà °í·Á X
+	//	TargetPos.Y = MyPos.Y = 0.f;
+
+	//	float4 FrontVector = float4(0.f, 0.f, -1.f, 0.f);
+	//	FrontVector.VectorRotationToDegY(Capsule->GetDir());
+
+	//	float4 LocationVector = (TargetPos - MyPos).NormalizeReturn();
+
+	//	float4 Angle_ = DirectX::XMVector3AngleBetweenNormals(FrontVector.DirectXVector, LocationVector.DirectXVector);
+
+	//	float4 RotationDir = DirectX::XMVector3Cross(FrontVector.DirectXVector, LocationVector.DirectXVector);
+
+	//	MonsterAngle = Angle_.X * GameEngineMath::R2D;
+
+	//	if (0.0f <= RotationDir.Y)
+	//	{
+
+	//	}
+	//	else
+	//	{
+	//		MonsterAngle *= -1.f;
+	//	}
+	//}
+
 	Time += _Delta;
 
 	if (GameEngineInput::IsDown('Q', this))
@@ -217,7 +259,7 @@ void Player::Update(float _Delta)
 	
 
 
-
+	{
 		float4 TargetPos = GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
 		float4 MyPos = Actor_test->Transform.GetWorldPosition();
 
@@ -246,7 +288,14 @@ void Player::Update(float _Delta)
 
 
 
-		float4 WorldMousePos = Angle;
+
+
+	}
+
+	/*Capsule->AddWorldRotation({ 0.0f, 1.0f,0.0f });
+	Capsule->MoveForce({ float4::LEFT * Speed });*/
+
+		float4 WorldMousePos = ads;
 
 		OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
 
@@ -289,7 +338,10 @@ void Player::LevelStart(GameEngineLevel* _PrevLevel)
 
 void Player::CameraRotation(float Delta)
 {
-	Actor_test->Transform.SetWorldPosition({ Transform.GetWorldPosition() });
+	Actor_test->Transform.SetWorldPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z});
+	
+
+
 
 	CameraPos = { GameEngineCore::MainWindow.GetMousePos().X,GameEngineCore::MainWindow.GetMousePos().Y };
 	CameraPos.Normalize();
@@ -416,9 +468,6 @@ void Player::CameraRotation(float Delta)
 	
 
 	GetLevel()->GetMainCamera()->Transform.SetWorldRotation(Actor_test_02->Transform.GetWorldRotationEuler());
-
-
-
 	GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Actor_test_02->Transform.GetWorldPosition());
 
 }

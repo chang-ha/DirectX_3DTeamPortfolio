@@ -94,7 +94,7 @@ private:
 	bool IsFreeCameraValue = false;
 
 	float Angle = 0.0f;
-
+	float MonsterAngle = 0.0f;
 	std::shared_ptr<GameEngineActor> Actor_test;
 	std::shared_ptr<GameEngineActor> Actor_test_02;
 
