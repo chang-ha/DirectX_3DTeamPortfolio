@@ -41,7 +41,7 @@ void Monster_Hollow::Start()
 
 void Monster_Hollow::Update(float _Delta)
 {
-	
+	BaseMonster::Update(_Delta);
 }
 
 void Monster_Hollow::Release()
