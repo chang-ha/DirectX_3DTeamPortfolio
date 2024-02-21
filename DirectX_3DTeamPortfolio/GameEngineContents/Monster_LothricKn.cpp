@@ -5,80 +5,6 @@
 #include "ContentsMath.h"
 
 
-void Monster_LothricKn::Lothric_Kn_CollisionEvent::CollisionToShield(BaseActor* _pThis, GameEngineCollision* _pCol, Enum_CollisionOrder _Order)
-{
-	if (nullptr == _pThis
-		|| nullptr == _pCol)
-	{
-		MsgBoxAssert("존재하지 않는 포인터를 인자로 넣었습니다.")
-	}
-
-	std::function ToShieldColEvent = [_pThis](std::vector<GameEngineCollision*> _Other)
-		{
-			for (GameEngineCollision* pCol : _Other)
-			{
-				if (nullptr == pCol)
-				{
-					MsgBoxAssert("결과값이 잘못되어 있습니다.");
-					return;
-				}
-
-				std::shared_ptr<BaseActor> pActor = pCol->GetActor()->GetDynamic_Cast_This<BaseActor>();
-				if (nullptr == pActor)
-				{
-					MsgBoxAssert("형변환에 실패했습니다.");
-					return;
-				}
-
-				const int Att = _pThis->GetAtt();
-				pActor->GetHitToShield({ _pThis });
-			}
-		};
-
-	std::function ToBodyColEvent = [_pThis](std::vector<GameEngineCollision*> _Other)
-		{
-			for (GameEngineCollision* pCol : _Other)
-			{
-				if (nullptr == pCol)
-				{
-					MsgBoxAssert("결과값이 잘못되어 있습니다.");
-					return;
-				}
-
-				std::shared_ptr<BaseActor> pActor = pCol->GetActor()->GetDynamic_Cast_This<BaseActor>();
-				if (nullptr == pActor)
-				{
-					MsgBoxAssert("형변환에 실패했습니다.");
-					return;
-				}
-
-				const int Att = _pThis->GetAtt();
-				pActor->GetHit({ _pThis });
-			}
-		};
-
-	switch (_Order)
-	{
-	case Enum_CollisionOrder::Player:
-		_pCol->Collision(_Order, ToBodyColEvent);
-		break;
-	case Enum_CollisionOrder::Monster:
-		_pCol->Collision(_Order, ToBodyColEvent);
-		break;
-	case Enum_CollisionOrder::MonsterAttack:
-		_pCol->Collision(_Order, ToBodyColEvent);
-		break;
-	case Enum_CollisionOrder::Monster_Shield:
-		_pCol->Collision(_Order, ToShieldColEvent);
-		break;
-	case Enum_CollisionOrder::Dummy:
-		break;
-	default:
-		break;
-	}
-}
-
-
 Monster_LothricKn::Monster_LothricKn() 
 {
 	SetID(Enum_ActorType::LothricKn);
@@ -192,6 +118,84 @@ void Monster_LothricKn::Start()
 	MainRenderer->CreateFBXAnimation("F_Stab_Death", "c1280_011011.fbx");
 	MainRenderer->CreateFBXAnimation("F_Stab_Death_End", "c1280_011012.fbx");
 
+	MainRenderer->SetBlendTime("Idle_Standing1", 7);
+	MainRenderer->SetBlendTime("Idle_Standing2", 7);
+	MainRenderer->SetBlendTime("Idle_Gaurding", 7);
+	MainRenderer->SetBlendTime("Idle_Aiming", 7);
+	MainRenderer->SetBlendTime("Idle_Sit", 7);
+	MainRenderer->SetBlendTime("G_Up", 7);
+	MainRenderer->SetBlendTime("G_Down", 7);
+	MainRenderer->SetBlendTime("DH_Hold", 7);
+	MainRenderer->SetBlendTime("DH_UnHold", 7);
+	MainRenderer->SetBlendTime("SitUp", 4);
+	MainRenderer->SetBlendTime("F_Step", 10);
+	MainRenderer->SetBlendTime("B_Step", 10);
+	MainRenderer->SetBlendTime("L_Side_Step", 10);
+	MainRenderer->SetBlendTime("R_Side_Step", 10);
+	MainRenderer->SetBlendTime("G_F_Step", 10);
+	MainRenderer->SetBlendTime("G_B_Step", 10);
+	MainRenderer->SetBlendTime("G_L_Side_Step", 10);
+	MainRenderer->SetBlendTime("G_R_Side_Step", 10);
+	MainRenderer->SetBlendTime("DH_F_Step", 7);
+	MainRenderer->SetBlendTime("DH_B_Step", 7);
+	MainRenderer->SetBlendTime("DH_L_Side_Step", 7);
+	MainRenderer->SetBlendTime("DH_R_Side_Step", 7);
+	MainRenderer->SetBlendTime("Run", 10);
+	MainRenderer->SetBlendTime("G_Run", 10);
+	MainRenderer->SetBlendTime("Patrol", 10);
+	MainRenderer->SetBlendTime("Combo_Att_11", 7);
+	MainRenderer->SetBlendTime("Combo_Att_12", 5);
+	MainRenderer->SetBlendTime("Combo_Att_13", 5);
+	MainRenderer->SetBlendTime("Combo_Att_21", 7);
+	MainRenderer->SetBlendTime("Combo_Att_22", 5);
+	MainRenderer->SetBlendTime("Combo_Att_23", 7);
+	MainRenderer->SetBlendTime("G_Att_Bash", 7);
+	MainRenderer->SetBlendTime("DH_Stab_Att", 7);
+	MainRenderer->SetBlendTime("DH_Swing_Att", 7);
+	MainRenderer->SetBlendTime("Hit_Mid", 7);
+	MainRenderer->SetBlendTime("RH_Att_HitDown", 7);
+	MainRenderer->SetBlendTime("LH_ShieldAttack", 7);
+	MainRenderer->SetBlendTime("RH_Rear_Att", 7);
+	MainRenderer->SetBlendTime("L_FastTurn", 5);
+	MainRenderer->SetBlendTime("R_FastTurn", 5);
+	MainRenderer->SetBlendTime("L_FastTurnTwice", 5);
+	MainRenderer->SetBlendTime("R_FastTurnTwice", 5);
+	MainRenderer->SetBlendTime("L_Turn", 5);
+	MainRenderer->SetBlendTime("R_Turn", 5);
+	MainRenderer->SetBlendTime("L_TurnTwice", 5);
+	MainRenderer->SetBlendTime("R_TurnTwice", 5);
+	MainRenderer->SetBlendTime("G_L_Turn", 5);
+	MainRenderer->SetBlendTime("G_R_Turn", 5);
+	MainRenderer->SetBlendTime("G_L_TurnTwice", 5);
+	MainRenderer->SetBlendTime("G_R_TurnTwice",5);
+
+	MainRenderer->SetBlendTime("F_Hit_W", 2);
+	MainRenderer->SetBlendTime("B_Hit_W", 2);
+	MainRenderer->SetBlendTime("R_Hit_W", 2);
+	MainRenderer->SetBlendTime("L_Hit_W", 2);
+	MainRenderer->SetBlendTime("F_Hit", 2);
+	MainRenderer->SetBlendTime("B_Hit", 2);
+	MainRenderer->SetBlendTime("R_Hit", 2);
+	MainRenderer->SetBlendTime("L_Hit", 2);
+	MainRenderer->SetBlendTime("G_F_Hit_W", 2);
+	MainRenderer->SetBlendTime("G_F_Hit_W_PushBack", 2);
+	MainRenderer->SetBlendTime("G_F_Hit", 2);
+	MainRenderer->SetBlendTime("G_F_Hit_PushBack", 2);
+	MainRenderer->SetBlendTime("G_F_Hit_S_PushBack", 2);
+	MainRenderer->SetBlendTime("Block_Shield", 3);
+	MainRenderer->SetBlendTime("G_Break", 3);
+	MainRenderer->SetBlendTime("Break_Posture", 3);
+	MainRenderer->SetBlendTime("F_Death", 5);
+	MainRenderer->SetBlendTime("F_Death_End", 1);
+	MainRenderer->SetBlendTime("F_Death_B", 3);
+	MainRenderer->SetBlendTime("F_Death_B_End", 1);
+	MainRenderer->SetBlendTime("B_Stab", 7);
+	MainRenderer->SetBlendTime("B_Stab_Death", 7);
+	MainRenderer->SetBlendTime("B_Stab_Death_End", 1);
+	MainRenderer->SetBlendTime("F_Stab", 7);
+	MainRenderer->SetBlendTime("F_Stab_Death", 7);
+	MainRenderer->SetBlendTime("F_Stab_Death_End", 1);
+
 
 	MainRenderer->SetRootMotionComponent(Capsule.get());
 	MainRenderer->SetRootMotion("Idle_Standing1");
@@ -263,7 +267,11 @@ void Monster_LothricKn::Start()
 	SetMeshVisibility(eMeshInfo::Weapon_Cloth, false);
 
 	// Collision
-	CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
+	std::shared_ptr<BoneSocketCollision> AttackCol = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
+	std::vector<GameEngineCollision*> Para;
+	Para.push_back(AttackCol.get());
+	Sword.Init(Para);
+
 	std::shared_ptr<BoneSocketCollision> BodyCol = CreateSocketCollision(Enum_CollisionOrder::Monster, Enum_BoneType::B_01_Spine, "B_01_Spine");
 	BodyCol->On();
 
@@ -374,4 +382,73 @@ float Monster_LothricKn::ConvertDistance_eTof(Enum_TargetDist _eTDist) const
 
 	MsgBoxAssert("해당 타입은 존재하지 않습니다.");
 	return 0.0f;
+}
+
+void Monster_LothricKn::AttackTo(eAttackType _eBoneType, Enum_CollisionOrder _Order)
+{
+	std::function ToShieldColEvent = [=](std::vector<GameEngineCollision*> _Other)
+		{
+			for (GameEngineCollision* pCol : _Other)
+			{
+				if (nullptr == pCol)
+				{
+					MsgBoxAssert("결과값이 잘못되어 있습니다.");
+					return;
+				}
+
+				std::shared_ptr<BaseActor> pActor = pCol->GetActor()->GetDynamic_Cast_This<BaseActor>();
+				if (nullptr == pActor)
+				{
+					MsgBoxAssert("형변환에 실패했습니다.");
+					return;
+				}
+
+				pActor->GetHitToShield({ this });
+			}
+		};
+
+	std::function ToBodyColEvent = [=](std::vector<GameEngineCollision*> _Other)
+		{
+			for (GameEngineCollision* pCol : _Other)
+			{
+				if (nullptr == pCol)
+				{
+					MsgBoxAssert("결과값이 잘못되어 있습니다.");
+					return;
+				}
+
+				std::shared_ptr<BaseActor> pActor = pCol->GetActor()->GetDynamic_Cast_This<BaseActor>();
+				if (nullptr == pActor)
+				{
+					MsgBoxAssert("형변환에 실패했습니다.");
+					return;
+				}
+
+				pActor->GetHit({ this });
+			}
+		};
+
+	switch (_eBoneType)
+	{
+	case Monster_LothricKn::eAttackType::None:
+		break;
+	case Monster_LothricKn::eAttackType::Sword:
+		Sword.Collision(_Order, ToBodyColEvent);
+		break;
+	case Monster_LothricKn::eAttackType::Shield:
+		break;
+	case Monster_LothricKn::eAttackType::CrossBow:
+		break;
+	default:
+		break;
+	}
+}
+
+void Monster_LothricKn::AttackToPlayerInFrame(eAttackType _eBoneType, int _iStart, int _iEnd /*= -1*/)
+{
+	if (IsFrame(_iStart, _iEnd))
+	{
+		AttackTo(_eBoneType, Enum_CollisionOrder::Player);
+		// AttackTo(_eBoneType, _Order);
+	}
 }

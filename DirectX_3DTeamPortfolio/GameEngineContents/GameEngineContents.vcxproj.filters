@@ -229,6 +229,12 @@
     <ClCompile Include="DummyProjectile.cpp">
       <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
     </ClCompile>
+    <ClCompile Include="Interaction_Sword.cpp">
+      <Filter>Actor\Monster\LothricKnight</Filter>
+    </ClCompile>
+    <ClCompile Include="SwordCollision.cpp">
+      <Filter>Actor\Monster\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -455,6 +461,12 @@
     </ClInclude>
     <ClInclude Include="DummyProjectile.h">
       <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="Interaction_Sword.h">
+      <Filter>Actor\Monster\LothricKnight</Filter>
+    </ClInclude>
+    <ClInclude Include="SwordCollision.h">
+      <Filter>Actor\Monster\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

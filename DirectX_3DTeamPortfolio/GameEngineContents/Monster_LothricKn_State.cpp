@@ -308,62 +308,73 @@ void Monster_LothricKn::Start_DH_B_Step(GameEngineState* _State)
 
 void Monster_LothricKn::Start_G_Up(GameEngineState* _State)
 {
+	SetFlag(Enum_ActorFlag::Guarding, true);
 	CombatState = Enum_Combat_State::Gaurding;
 	MainRenderer->ChangeAnimation("G_Up");
 }
 
 void Monster_LothricKn::Start_G_Down(GameEngineState* _State)
 {
+	SetFlag(Enum_ActorFlag::Guarding, false);
 	CombatState = Enum_Combat_State::Normal;
 	MainRenderer->ChangeAnimation("G_Down");
 }
 
 void Monster_LothricKn::Start_G_L_Side_Step(GameEngineState* _State) 
 {
+	SetFlag(Enum_ActorFlag::Guarding, true);
 	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("G_L_Side_Step");
 }
 
 void Monster_LothricKn::Start_G_R_Side_Step(GameEngineState* _State) 
 {
+	SetFlag(Enum_ActorFlag::Guarding, true);
 	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("G_R_Side_Step");
 }
 
 void Monster_LothricKn::Start_G_F_Step(GameEngineState* _State) 
 {
+	SetFlag(Enum_ActorFlag::Guarding, true);
 	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("G_F_Step");
 }
 
 void Monster_LothricKn::Start_G_B_Step(GameEngineState* _State) 
 {
+	SetFlag(Enum_ActorFlag::Guarding, true);
 	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("G_B_Step");
 }
 
 void Monster_LothricKn::Start_G_L_Turn(GameEngineState* _State) 
 {
+	SetFlag(Enum_ActorFlag::Guarding, true);
 	MainRenderer->ChangeAnimation("G_L_Turn");
 }
 
 void Monster_LothricKn::Start_G_R_Turn(GameEngineState* _State) 
 {
+	SetFlag(Enum_ActorFlag::Guarding, true);
 	MainRenderer->ChangeAnimation("G_R_Turn");
 }
 
 void Monster_LothricKn::Start_G_L_TurnTwice(GameEngineState* _State) 
 {
+	SetFlag(Enum_ActorFlag::Guarding, true);
 	MainRenderer->ChangeAnimation("G_L_TurnTwice");
 }
 
 void Monster_LothricKn::Start_G_R_TurnTwice(GameEngineState* _State) 
 {
+	SetFlag(Enum_ActorFlag::Guarding, true);
 	MainRenderer->ChangeAnimation("G_R_TurnTwice");
 }
 
 void Monster_LothricKn::Start_G_Run(GameEngineState* _State)
 {
+	SetFlag(Enum_ActorFlag::Guarding, true);
 	MainRenderer->ChangeAnimation("G_Run");
 }
 
@@ -376,48 +387,72 @@ void Monster_LothricKn::Start_G_Att_Bash(GameEngineState* _State)
 void Monster_LothricKn::Start_F_Hit_W(GameEngineState* _State)
 {
 	Hit.SetHit(false);
+	SetFlag(Enum_ActorFlag::Break_Posture, false);
+	SetFlag(Enum_ActorFlag::Guard_Break, false);
+	SetFlag(Enum_ActorFlag::Block_Shield, false);
 	MainRenderer->ChangeAnimation("F_Hit_W", true);
 }
 
 void Monster_LothricKn::Start_B_Hit_W(GameEngineState * _State)
 {
 	Hit.SetHit(false);
+	SetFlag(Enum_ActorFlag::Break_Posture, false);
+	SetFlag(Enum_ActorFlag::Guard_Break, false);
+	SetFlag(Enum_ActorFlag::Block_Shield, false);
 	MainRenderer->ChangeAnimation("B_Hit_W", true);
 }
 
 void Monster_LothricKn::Start_R_Hit_W(GameEngineState * _State)
 {
 	Hit.SetHit(false);
+	SetFlag(Enum_ActorFlag::Break_Posture, false);
+	SetFlag(Enum_ActorFlag::Guard_Break, false);
+	SetFlag(Enum_ActorFlag::Block_Shield, false);
 	MainRenderer->ChangeAnimation("R_Hit_W", true);
 }
 
 void Monster_LothricKn::Start_L_Hit_W(GameEngineState * _State)
 {
 	Hit.SetHit(false);
+	SetFlag(Enum_ActorFlag::Break_Posture, false);
+	SetFlag(Enum_ActorFlag::Guard_Break, false);
+	SetFlag(Enum_ActorFlag::Block_Shield, false);
 	MainRenderer->ChangeAnimation("L_Hit_W", true);
 }
 
 void Monster_LothricKn::Start_F_Hit(GameEngineState* _State)
 {
 	Hit.SetHit(false);
+	SetFlag(Enum_ActorFlag::Break_Posture, false);
+	SetFlag(Enum_ActorFlag::Guard_Break, false);
+	SetFlag(Enum_ActorFlag::Block_Shield, false);
 	MainRenderer->ChangeAnimation("F_Hit", true);
 }
 
 void Monster_LothricKn::Start_B_Hit(GameEngineState* _State)
 {
 	Hit.SetHit(false);
+	SetFlag(Enum_ActorFlag::Break_Posture, false);
+	SetFlag(Enum_ActorFlag::Guard_Break, false);
+	SetFlag(Enum_ActorFlag::Block_Shield, false);
 	MainRenderer->ChangeAnimation("B_Hit", true);
 }
 
 void Monster_LothricKn::Start_R_Hit(GameEngineState* _State)
 {
 	Hit.SetHit(false);
+	SetFlag(Enum_ActorFlag::Break_Posture, false);
+	SetFlag(Enum_ActorFlag::Guard_Break, false);
+	SetFlag(Enum_ActorFlag::Block_Shield, false);
 	MainRenderer->ChangeAnimation("R_Hit", true);
 }
 
 void Monster_LothricKn::Start_L_Hit(GameEngineState* _State) 
 {
 	Hit.SetHit(false);
+	SetFlag(Enum_ActorFlag::Break_Posture, false);
+	SetFlag(Enum_ActorFlag::Guard_Break, false);
+	SetFlag(Enum_ActorFlag::Block_Shield, false);
 	MainRenderer->ChangeAnimation("L_Hit", true);
 }
 
@@ -493,7 +528,7 @@ void Monster_LothricKn::Start_F_Death_B_End(GameEngineState * _State)
 
 void Monster_LothricKn::Start_B_Stab(GameEngineState * _State)
 {
-	SetFlag(Enum_ActorFlag::Break_Posture, true);
+	Hit.SetInvincible(true);
 	MainRenderer->ChangeAnimation("B_Stab");
 }
 
@@ -509,7 +544,7 @@ void Monster_LothricKn::Start_B_Stab_Death_End(GameEngineState * _State)
 
 void Monster_LothricKn::Start_F_Stab(GameEngineState * _State)
 {
-	SetFlag(Enum_ActorFlag::Break_Posture, true);
+	Hit.SetInvincible(true);
 	MainRenderer->ChangeAnimation("F_Stab");
 }
 
@@ -607,6 +642,12 @@ void Monster_LothricKn::Update_Combo_Att_11(float _DeltaTime, GameEngineState* _
 		_State->ChangeState(FindMovementState);
 		return;
 	}
+
+	if (IsFrame(17, 19))
+	{
+		AttackTo(eAttackType::Sword, Enum_CollisionOrder::Player);
+		// AttackTo(_eBoneType, _Order);
+	}
 }
 
 void Monster_LothricKn::Update_Combo_Att_12(float _DeltaTime, GameEngineState* _State)
@@ -657,6 +698,12 @@ void Monster_LothricKn::Update_Combo_Att_12(float _DeltaTime, GameEngineState* _
 		_State->ChangeState(FindMovementState);
 		return;
 	}
+
+	if (IsFrame(19, 21))
+	{
+		AttackTo(eAttackType::Sword, Enum_CollisionOrder::Player);
+		// AttackTo(_eBoneType, _Order);
+	}
 }
 
 void Monster_LothricKn::Update_Combo_Att_13(float _DeltaTime, GameEngineState* _State)
@@ -697,6 +744,12 @@ void Monster_LothricKn::Update_Combo_Att_13(float _DeltaTime, GameEngineState* _
 
 		_State->ChangeState(FindMovementState);
 		return;
+	}
+
+	if (IsFrame(20, 22))
+	{
+		AttackTo(eAttackType::Sword, Enum_CollisionOrder::Player);
+		// AttackTo(_eBoneType, _Order);
 	}
 }
 
@@ -748,6 +801,12 @@ void Monster_LothricKn::Update_Combo_Att_21(float _DeltaTime, GameEngineState* _
 		_State->ChangeState(FindMovementState);
 		return;
 	}
+
+	if (IsFrame(21, 23))
+	{
+		AttackTo(eAttackType::Sword, Enum_CollisionOrder::Player);
+		// AttackTo(_eBoneType, _Order);
+	}
 }
 
 void Monster_LothricKn::Update_Combo_Att_22(float _DeltaTime, GameEngineState* _State)
@@ -798,6 +857,12 @@ void Monster_LothricKn::Update_Combo_Att_22(float _DeltaTime, GameEngineState* _
 		_State->ChangeState(FindMovementState);
 		return;
 	}
+
+	if (IsFrame(22, 24))
+	{
+		AttackTo(eAttackType::Sword, Enum_CollisionOrder::Player);
+		// AttackTo(_eBoneType, _Order);
+	}
 }
 
 void Monster_LothricKn::Update_Combo_Att_23(float _DeltaTime, GameEngineState* _State)
@@ -838,6 +903,12 @@ void Monster_LothricKn::Update_Combo_Att_23(float _DeltaTime, GameEngineState* _
 
 		_State->ChangeState(FindMovementState);
 		return;
+	}
+
+	if (IsFrame(17, 19))
+	{
+		AttackTo(eAttackType::Sword, Enum_CollisionOrder::Player);
+		// AttackTo(_eBoneType, _Order);
 	}
 }
 
@@ -881,6 +952,12 @@ void Monster_LothricKn::Update_RH_Att_HitDown(float _DeltaTime, GameEngineState*
 		_State->ChangeState(FindMovementState);
 		return;
 	}
+
+	if (IsFrame(24, 26))
+	{
+		AttackTo(eAttackType::Sword, Enum_CollisionOrder::Player);
+		// AttackTo(_eBoneType, _Order);
+	}
 }
 
 void Monster_LothricKn::UpdateLH_ShieldAttack(float _DeltaTime, GameEngineState* _State)
@@ -922,6 +999,12 @@ void Monster_LothricKn::UpdateLH_ShieldAttack(float _DeltaTime, GameEngineState*
 		_State->ChangeState(FindMovementState);
 		return;
 	}
+
+	if (IsFrame(17, 19))
+	{
+		AttackTo(eAttackType::Shield, Enum_CollisionOrder::Player);
+		// AttackTo(_eBoneType, _Order);
+	}
 }
 
 void Monster_LothricKn::Update_RH_Rear_Att(float _DeltaTime, GameEngineState* _State)
@@ -962,6 +1045,12 @@ void Monster_LothricKn::Update_RH_Rear_Att(float _DeltaTime, GameEngineState* _S
 
 		_State->ChangeState(FindMovementState);
 		return;
+	}
+
+	if (IsFrame(17, 21))
+	{
+		AttackTo(eAttackType::Sword, Enum_CollisionOrder::Player);
+		// AttackTo(_eBoneType, _Order);
 	}
 }
 
@@ -1331,6 +1420,12 @@ void Monster_LothricKn::Update_DH_Stab_Att(float _DeltaTime, GameEngineState* _S
 		_State->ChangeState(FindState);
 		return;
 	}
+
+	if (IsFrame(16, 20))
+	{
+		AttackTo(eAttackType::Sword, Enum_CollisionOrder::Player);
+		// AttackTo(_eBoneType, _Order);
+	}
 }
 
 void Monster_LothricKn::Update_DH_Swing_Att(float _DeltaTime, GameEngineState* _State)
@@ -1362,6 +1457,12 @@ void Monster_LothricKn::Update_DH_Swing_Att(float _DeltaTime, GameEngineState* _
 
 		_State->ChangeState(FindState);
 		return;
+	}
+
+	if (IsFrame(15, 18))
+	{
+		AttackTo(eAttackType::Sword, Enum_CollisionOrder::Player);
+		// AttackTo(_eBoneType, _Order);
 	}
 }
 
@@ -1630,6 +1731,12 @@ void Monster_LothricKn::Update_G_Att_Bash(float _DeltaTime, GameEngineState* _St
 
 		_State->ChangeState(FindState);
 		return;
+	}
+
+	if (IsFrame(26, 31))
+	{
+		AttackTo(eAttackType::Sword, Enum_CollisionOrder::Player);
+		// AttackTo(_eBoneType, _Order);
 	}
 }
 
@@ -2002,7 +2109,6 @@ void Monster_LothricKn::Update_F_Death(float _DeltaTime, GameEngineState* _State
 
 void Monster_LothricKn::Update_F_Death_End(float _DeltaTime, GameEngineState* _State)
 {
-
 }
 
 void Monster_LothricKn::Update_F_Death_B(float _DeltaTime, GameEngineState* _State)
@@ -2066,6 +2172,11 @@ void Monster_LothricKn::Update_B_Stab(float _DeltaTime, GameEngineState* _State)
 
 void Monster_LothricKn::Update_B_Stab_Death(float _DeltaTime, GameEngineState* _State)
 {
+	if (IsFrameOnce(50))
+	{
+		SetFlag(Enum_ActorFlag::Death, true);
+	}
+
 	if (true == MainRenderer->IsCurAnimationEnd())
 	{
 		_State->ChangeState(Enum_LothricKn_State::F_Death_End);
@@ -2125,6 +2236,11 @@ void Monster_LothricKn::Update_F_Stab(float _DeltaTime, GameEngineState* _State)
 
 void Monster_LothricKn::Update_F_Stab_Death(float _DeltaTime, GameEngineState* _State)
 {
+	if (IsFrameOnce(50))
+	{
+		SetFlag(Enum_ActorFlag::Death, true);
+	}
+
 	if (true == MainRenderer->IsCurAnimationEnd())
 	{
 		_State->ChangeState(Enum_LothricKn_State::F_Death_End);
@@ -2764,7 +2880,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToHitTable()
 			return Enum_LothricKn_State::G_F_Hit_W;
 		}
 
-		if (true == IsFlag(Enum_ActorFlag::Gaurd_Break))
+		if (true == IsFlag(Enum_ActorFlag::Guard_Break))
 		{
 			return Enum_LothricKn_State::G_Break;
 		}

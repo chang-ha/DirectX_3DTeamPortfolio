@@ -73,7 +73,7 @@ void ContentsActorInitial::Init()
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Guarding, Enum_ActorFlagBit::Guarding));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Hit, Enum_ActorFlagBit::Hit));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Block_Shield, Enum_ActorFlagBit::Block_Shield));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Gaurd_Break, Enum_ActorFlagBit::Gaurd_Break));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Guard_Break, Enum_ActorFlagBit::Gaurd_Break));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Break_Posture, Enum_ActorFlagBit::Break_Posture));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::TwoHand, Enum_ActorFlagBit::TwoHand));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::FrontStab, Enum_ActorFlagBit::FrontStab));

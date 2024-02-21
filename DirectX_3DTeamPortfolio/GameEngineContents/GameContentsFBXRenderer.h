@@ -1,6 +1,8 @@
 #pragma once
 #include <GameEngineCore/GameEngineRenderer.h>
 
+#define ONE_FRAME_DTIME 0.033333f
+
 enum class Enum_RootMotionMode
 {
 	StartDir,
@@ -214,6 +216,7 @@ public:
 
 	void BlendReset();
 	void SetBlendTime(std::string_view _AnimationName, float _fBlendTime);
+	void SetBlendTime(std::string_view _AnimationName, int _iBlendFrame);
 	void AddNotBlendBoneIndex(int _Index);
 
 	// Root Motion

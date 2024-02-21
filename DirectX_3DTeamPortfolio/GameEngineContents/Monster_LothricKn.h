@@ -1,6 +1,8 @@
 #pragma once
 #include "BaseMonster.h"
 
+#include "Interaction_Sword.h"
+
 enum class Enum_LothricKn_State
 {
 	None,
@@ -111,12 +113,12 @@ class Monster_LothricKn : public BaseMonster
 		None,
 	};
 
-	class Lothric_Kn_CollisionEvent
+	enum class eAttackType
 	{
-	public:
-		void CollisionToShield(class BaseActor* _pThis, GameEngineCollision* _pCol, Enum_CollisionOrder _Order);
-		void CollisionToBody(GameEngineCollision* _pCol, Enum_CollisionOrder _Order);
-
+		None,
+		Sword,
+		Shield,
+		CrossBow,
 	};
 
 public:
@@ -333,9 +335,12 @@ private:
 
 	// Collision
 	void FindTarget();
+	void AttackTo(eAttackType _eBoneType, Enum_CollisionOrder _Order);
+	void AttackToPlayerInFrame(eAttackType _eBoneType, int _iStart, int _iEnd = -1);
 
 private:
 	std::shared_ptr<GameEngineCollision> PatrolCollision;  
+	Interaction_Sword Sword;
 
 	Enum_IdleType IdleType = Enum_IdleType::None;
 	Enum_Combat_State CombatState = Enum_Combat_State::None;

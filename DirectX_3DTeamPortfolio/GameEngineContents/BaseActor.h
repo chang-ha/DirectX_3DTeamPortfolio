@@ -22,7 +22,7 @@ enum class Enum_ActorFlag
 	Hit,
 	GuardSuccess,
 	Block_Shield,
-	Gaurd_Break,
+	Guard_Break,
 	Break_Posture,
 	TwoHand,
 	FrontStab,

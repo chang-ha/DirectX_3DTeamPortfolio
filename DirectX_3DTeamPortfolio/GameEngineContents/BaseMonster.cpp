@@ -159,7 +159,7 @@ bool BaseMonster::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 		Stat.AddPoise(Stiffness);
 		if (0 >= Stat.GetPoise())
 		{
-			SetFlag(Enum_ActorFlag::Gaurd_Break, true);
+			SetFlag(Enum_ActorFlag::Guard_Break, true);
 			Stat.SetPoise(0);
 		}
 

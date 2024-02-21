@@ -3,6 +3,7 @@
 
 #include "ContentsDebug.h"
 
+
 class BaseMonster : public BaseActor
 {
 protected:
@@ -169,6 +170,7 @@ protected:
 	virtual int GuardHitFormula(int _Att) { return _Att; }
 
 private:
+	
 
 };
 
