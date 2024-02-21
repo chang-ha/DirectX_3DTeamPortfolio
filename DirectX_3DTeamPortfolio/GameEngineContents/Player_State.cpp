@@ -305,8 +305,9 @@ void Player::Player_State()
 				if (true == GameEngineInput::IsPress('W', this) && Rotation_Check == true)
 				{
 					
-					/*Capsule->setw
-					Player_Pos*/
+					Capsule->MoveForce({ float4::FORWARD * Speed }, Capsule->GetDir());
+					
+
 					
 				}
 
@@ -317,26 +318,7 @@ void Player::Player_State()
 				
 				}
 
-				if (true == GameEngineInput::IsPress('A', this) )
-				{
-					/*float ads = GetTargetAngle();
-					float4 asd = GetTargetDirection();
-
-					Capsule->SetWorldRotation({ 0.0f,GetTargetAngle(),0.0f });
-
-					Capsule->MoveForce({ float4::LEFT * Speed });*/
 				
-					Actor_test_04->Transform.AddWorldRotation({ 0.0f,1.0f,0.0f });
-				}
-
-				if (true == GameEngineInput::IsPress('D', this) )
-				{
-					/*float ads = GetTargetAngle();
-
-					Capsule->SetWorldRotation({ 0.0f,GetTargetAngle(),0.0f });
-					Capsule->MoveForce({ float4::RIGHT * Speed });*/
-					Actor_test_04->Transform.AddWorldRotation({ 0.0f,-1.0f,0.0f });
-				}
 				if (GameEngineInput::IsPress(VK_CONTROL, this) && Rotation_Check == true)
 				{
 					Rotation_Check = false;
@@ -1251,6 +1233,108 @@ void Player::Player_State()
 		PlayerStates.CreateState(PlayerState::Parrying, NewPara);
 	}
 
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+			
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+
+
+
+
+
+
+
+
+
+
+
+				float x = GetTargetPos().X;
+				float y = GetTargetPos().Z;
+
+				// 타원의 반지름
+				float a = GetTargetDistance(); 
+				float b = GetTargetDistance();
+
+
+
+				//test += 1* _Time;
+				float Pos_x = x + a * cos(test);
+				float Pos_y = y + b * sin(test);
+
+
+
+				float4 Dir = GetTargetPos() - GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
+
+				float4 Monster = { 0,0,0,1.0f };
+
+				float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
+				float radian = atan2(Dir.X, Dir.Z) - atan2(Monster.X, Monster.Z);
+				degree = float(radian * (180.0 / 3.141592));
+
+
+				Capsule->SetWorldPosition({ Pos_x,0.0f,Pos_y });
+				Capsule->SetWorldRotation({ 0.0f,degree });
+				Actor_test->Transform.SetLocalRotation({ 0.0f,degree });
+
+
+
+				if (true == GameEngineInput::IsPress('W', this))
+				{
+					float4 Dir = GetTargetPos() - float4{ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y,Capsule->GetWorldPosition().z};
+					Dir.Normalize(); 
+
+					Actor_test->Transform.AddLocalPosition({ Dir *Speed * _DeltaTime });
+				}
+
+				if (true == GameEngineInput::IsPress('S', this))
+				{
+					float4 Dir = GetTargetPos() - float4{ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y,Capsule->GetWorldPosition().z };
+					Dir.Normalize();
+					Actor_test->Transform.AddLocalPosition({ Dir * Speed * _DeltaTime });
+				}
+
+				if (true == GameEngineInput::IsPress('A', this))
+				{			
+
+					MainRenderer->ChangeAnimation("Walk_Left");
+
+					test += _DeltaTime;
+					
+
+					
+				}
+
+				if (true == GameEngineInput::IsPress('D', this))
+				{	
+
+					MainRenderer->ChangeAnimation("Walk_Right");
+					test -= _DeltaTime;
+				
+					
+				}
+
+
+
+				/*Capsule->SetWorldPosition({ Actor_test_04->Transform.GetWorldPosition().X, Actor_test_04->Transform.GetWorldPosition().Y, Actor_test_04->Transform.GetWorldPosition().Z });
+				Capsule->SetWorldRotation({ Actor_test_04->Transform.GetWorldRotationEuler().X, Actor_test_04->Transform.GetWorldRotationEuler().Y,Actor_test_04->Transform.GetWorldRotationEuler().Z });*/
+
+				/*if (GameEngineInput::IsDown('Q',this))
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+				}*/
+
+
+			};
+
+		PlayerStates.CreateState(PlayerState::RockOn, NewPara);
+	}
 	PlayerStates.ChangeState(PlayerState::Idle);
 
 

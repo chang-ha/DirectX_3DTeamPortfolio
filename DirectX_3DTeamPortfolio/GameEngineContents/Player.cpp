@@ -121,10 +121,10 @@ void Player::Start()
 	MainRenderer->ChangeAnimation("Shield_Idle");
 	
 
-	MainRenderer->SetRootMotionComponent(Capsule.get());
+	/*MainRenderer->SetRootMotionComponent(Capsule.get());
 	MainRenderer->SetRootMotion("Attack_01");
 	MainRenderer->SetRootMotion("Walk_Forward","",Enum_RootMotionMode::RealTimeDir);
-	MainRenderer->SetRootMotion("Roll_Forward");
+	MainRenderer->SetRootMotion("Roll_Forward");*/
 
 
 
@@ -200,14 +200,15 @@ void Player::Start()
 		Actor_test_02->Transform.SetWorldPosition({ 0.0f,140.0f,-300.0f });
 	}
 
-	{
-		Actor_test_03 = GetLevel()->CreateActor<GameEngineActor>();
-		//Actor_test_03->Transform.SetWorldPosition({ 0.0f,140.0f,-300.0f });
-	}
-	{
-		Actor_test_04 = GetLevel()->CreateActor<GameEngineActor>();
-		//Actor_test_04->Transform.SetWorldPosition({ 0.0f,140.0f,-300.0f });
-	}
+	//{
+	//	Actor_test_03 = GetLevel()->CreateActor<GameEngineActor>();
+	//	//Actor_test_03->Transform.SetWorldPosition({ 0.0f,140.0f,-300.0f });
+	//}
+	//{
+	//	Actor_test_04 = GetLevel()->CreateActor<GameEngineActor>();
+	//	Actor_test_04->SetParent(Actor_test_03);
+	//	//Actor_test_04->Transform.SetWorldPosition({ 0.0f,140.0f,-300.0f });
+	//}
 
 }
 
@@ -215,8 +216,45 @@ void Player::Update(float _Delta)
 {
 	BaseActor::Update(_Delta);
 
-	Actor_test_03->Transform.SetWorldPosition({ GetTargetPos() });
-	//Actor_test_04->Transform.SetLocalPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
+	
+	
+	
+
+	//Capsule->SetWorldRotation({ 0.0f,GetTargetAngle(),0.0f });
+
+	//Capsule->MoveForce({ float4::LEFT * Speed }, GetTargetAngle());
+
+
+
+	//float x = GetTargetPos().X;
+	//float y = GetTargetPos().Z;
+
+	//// 타원의 반지름
+	//float a = GetTargetDistance();
+	//float b = GetTargetDistance();
+
+
+
+	////test += 1* _Time;
+	//float Pos_x = x + a * cos(test);
+	//float Pos_y = y + b * sin(test);
+
+
+
+	//float4 Dir = GetTargetPos() - GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
+
+	//float4 Monster = { 0,0,0,1.0f };
+
+	//float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
+	//float radian = atan2(Dir.X, Dir.Z) - atan2(Monster.X, Monster.Z);
+	//degree = float(radian * (180.0 / 3.141592));
+
+
+	//Capsule->SetWorldPosition({ Pos_x,0.0f,Pos_y });
+	//Capsule->SetWorldRotation({ 0.0f,degree });
+	//Actor_test->Transform.SetLocalRotation({ 0.0f,degree });
+
+
 
 
 
@@ -252,25 +290,15 @@ void Player::Update(float _Delta)
 
 	
 
-	if (GameEngineInput::IsDown('Q', this))
-	{
-		Rock_OnOff = !Rock_OnOff;
-	}
-
-	if (true == Rock_OnOff)
-	{
-		this->SetParent(Actor_test_03);
-	}
-	else
-	{
-		//Actor_test->SetParent(nullptr);
-	}
-	AnimationBoneData Data = MainRenderer->GetBoneData(Bone_index_01);
-
-	SwordActor->Transform.SetLocalRotation(Data.RotQuaternion.QuaternionToEulerDeg());
-	SwordActor->Transform.SetWorldPosition(Data.Pos +float4{Capsule->GetWorldPosition().x, Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
 	
 
+	/*if (true == Rock_OnOff)
+	{
+		
+		Rock_OnOff = false;
+	}*/
+	
+	
 	
 	
 
@@ -311,7 +339,7 @@ void Player::Update(float _Delta)
 	/*Capsule->AddWorldRotation({ 0.0f, 1.0f,0.0f });
 	Capsule->MoveForce({ float4::LEFT * Speed });*/
 
-	float4 WorldMousePos;
+	float4 WorldMousePos = degree;
 
 		OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
 
@@ -341,7 +369,22 @@ void Player::Update(float _Delta)
 	
 	PlayerStates.Update(_Delta);
 
+	
+
+	if (GameEngineInput::IsDown('Q', this))
+	{
+
+		PlayerStates.ChangeState(PlayerState::RockOn);
+	}
+
 	CameraRotation(_Delta);
+
+	AnimationBoneData Data = MainRenderer->GetBoneData(Bone_index_01);
+
+	SwordActor->Transform.SetLocalRotation(Data.RotQuaternion.QuaternionToEulerDeg());
+	SwordActor->Transform.SetWorldPosition(Data.Pos + float4{ Capsule->GetWorldPosition().x, Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
+
+
 
 }
 
@@ -402,6 +445,7 @@ void Player::CameraRotation(float Delta)
 
 
 	}
+	
 
 	else if (PrevPos.X < Mouse_Ro_X)
 	{
@@ -441,12 +485,12 @@ void Player::CameraRotation(float Delta)
 	PrevPos.X = Mouse_Ro_X;
 
 
-	if (StateValue == PlayerState::Idle)
+	/*if (StateValue == PlayerState::Idle)
 	{
 		Actor_test->Transform.SetWorldRotation({ Camera_Pos_Y,Player_Pos.X,0.0f });
-	}
+	}*/
 
-	if (StateValue != PlayerState::Idle )
+	if (StateValue != PlayerState::RockOn )
 	{
 		Actor_test->Transform.SetWorldRotation({ Camera_Pos_Y,Player_Pos.X,0.0f });
 	}

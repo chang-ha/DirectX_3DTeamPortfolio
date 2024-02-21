@@ -32,7 +32,7 @@ enum class PlayerState
 	Shield_Idle, 
 	Shield_Move,
 	Parrying,
-
+	RockOn,
 };
 
 // Ό³Έν :
@@ -78,7 +78,7 @@ private:
 	PlayerState StateValue = PlayerState::Idle;
 	float Mouse_Pos = 0.0f;
 	
-	
+	float4 etetet = {};
 
 	bool TimeCheck = false;
 	bool Attack_Check = false;
@@ -110,5 +110,6 @@ private:
 	float Camera_Pos_Y = 0.0f;
 	float Camera_Pos_X = 0.0f;
 
-
+	float test = 0.0f;
+	float degree = 0.0f;
 };
