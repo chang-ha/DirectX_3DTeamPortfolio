@@ -96,3 +96,80 @@ void BaseMonster::LoadRes3DSound(std::string_view _LoadCheck) const
 		}
 	}
 }
+
+
+bool BaseMonster::GetHit(const HitParameter& _Para /*= HitParameter()*/)
+{
+	if (nullptr == _Para.pAttacker)
+	{
+		MsgBoxAssert("공격자를 모르고 사용할 수 없는 기능입니다.");
+		return false;
+	}
+
+	BaseActor* pAttacker = _Para.pAttacker;
+
+	if (true == Hit.IsHit())
+	{
+		return false;
+	}
+
+	const int AttackerAtt = pAttacker->GetAtt();
+
+	const int Damage = HitFormula(AttackerAtt);
+	Stat.AddHp(Damage);
+	Hit.SetHit(true);
+
+	if (nullptr != pAttacker)
+	{
+		SetTargeting(pAttacker);
+	}
+
+	Hit.SetHitDir(_Para.eDir);
+
+	return true;
+}
+
+bool BaseMonster::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
+{
+	if (nullptr == _Para.pAttacker)
+	{
+		MsgBoxAssert("공격자의 포인터를 모르고 사용할 수 없는 기능입니다.");
+		return false;
+	}
+
+	BaseActor* pAttacker = _Para.pAttacker;
+
+	int AttackerAtt = pAttacker->GetAtt();
+
+	if (true == Hit.IsHit())
+	{
+		return false;
+	}
+
+	// 패링상태
+	if (true == IsFlag(Enum_ActorFlag::Parrying))
+	{
+		pAttacker->SetFlag(Enum_ActorFlag::Break_Posture, true);
+		return true;
+	}
+
+	if (true == IsFlag(Enum_ActorFlag::Guarding))
+	{
+		const int Stiffness = _Para.iStiffness;
+		Stat.AddPoise(Stiffness);
+		if (0 >= Stat.GetPoise())
+		{
+			SetFlag(Enum_ActorFlag::Gaurd_Break, true);
+			Stat.SetPoise(0);
+		}
+
+		const int FinalDamage = GuardHitFormula(AttackerAtt);
+		Stat.AddHp(FinalDamage);
+		Hit.SetGuardSuccesss(true);
+		Hit.SetHit(true);
+
+		return true;
+	}
+
+	return false;
+}

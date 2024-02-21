@@ -116,11 +116,16 @@ public:
 	inline void SetSouls(int _Value) { Souls = _Value; }
 	inline int GetSouls() const { return Souls; }
 
+	inline void SetPoise(int _Value) { Poise = _Value; }
+	inline void AddPoise(int _Value) { Poise += _Value; }
+	inline int GetPoise() const { return Poise; }
+
 private:
-	int Hp = 0;
-	int Att = 0;
-	int Def = 0;
-	int Souls = 0;
+	int Hp = 0; // 체력
+	int Att = 0; // 공격력
+	int Def = 0; // 방어력
+	int Souls = 0; // 소울량
+	int Poise = 0; // 강인도
 
 };
 
@@ -141,28 +146,19 @@ public:
 	HitParameter() {}
 	~HitParameter() 
 	{
-		pHitter = nullptr;
+		pAttacker = nullptr;
 	}
 
-	HitParameter(GameEngineActor* _pHitter, Enum_DirectionXZ_Quat _eDir)
-		:pHitter(_pHitter), eDir(_eDir)
+	HitParameter(class BaseActor* _pAttacker, int _Stiffness = 0, Enum_DirectionXZ_Quat _eDir = Enum_DirectionXZ_Quat::Center)
+		:pAttacker(_pAttacker), iStiffness(_Stiffness), eDir(_eDir)
 	{
 
 	}
 
 public:
-	GameEngineActor* pHitter = nullptr;
-	Enum_DirectionXZ_Quat eDir = Enum_DirectionXZ_Quat::Center;
-
-};
-
-
-
-class CollisionEventStruct
-{
-public:
-	void CollisionToShield(class BaseActor* _pThis, GameEngineCollision* _pCol, Enum_CollisionOrder _Order);
-	void CollisionToBody(GameEngineCollision* _pCol, Enum_CollisionOrder _Order);
+	class BaseActor* pAttacker = nullptr; // 공격상대
+	Enum_DirectionXZ_Quat eDir = Enum_DirectionXZ_Quat::Center; // 맞는 DIR
+	int iStiffness = 0; // 경직도
 
 };
 
@@ -214,18 +210,18 @@ public:
 	inline int GetID() const { return ActorID; }
 	std::string GetIDName() const;
 
+	// Transform Function
 	void AddWDirection(float _Degree);
 	void SetWDirection(float _Degree);
 	float GetWDirection() const;
 	void SetWPosition(const float4& _wPos);
 
-	// Interaction To Character
-	void GetHit(int _Att, HitParameter _Para = HitParameter());    // 생각나는게 없어서 아무렇게나 작명했습니다. 함수명 바꾸셔도 됩니다
-	void HitLogic(int _Att, HitParameter _Para);
-	bool FrontStabLogic();
-	bool GetHitToShield(BaseActor* _pAttacker, int _Att = 0);
-	virtual int HitFormula(int _Att) { return _Att; }
-	virtual int GuardHitFormula(int _Att) { return _Att; }
+	// Flag
+	bool IsFlag(Enum_ActorFlag _Flag) const;
+	void SetFlag(Enum_ActorFlag _Flag, bool _Value);
+	void AddFlag(Enum_ActorFlag _Flag);
+	void SubFlag(Enum_ActorFlag _Flag);
+	void DebugFlag();
 
 	// Getter
 	inline std::shared_ptr<GameContentsFBXRenderer>& GetFBXRenderer() { return MainRenderer; }
@@ -235,6 +231,11 @@ public:
 	inline class GameEnginePhysXCapsule* GetPhysxCapsulePointer() { return Capsule.get(); }
 	inline int GetHp() const { return Stat.GetHp(); }
 	inline int GetAtt() const { return Stat.GetAtt(); }
+	inline int GetPoise() const { return Stat.GetPoise(); }
+
+	// CollisionEvent
+	virtual bool GetHit(const HitParameter& _Para = HitParameter()) { return false; }
+	virtual bool GetHitToShield(const HitParameter& _Para = HitParameter()) { return false; }
 
 	// Debug
 	inline int GetCurStateInt() const
@@ -249,13 +250,6 @@ protected:
 	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
-	
-	// Flag
-	bool IsFlag(Enum_ActorFlag _Flag) const;
-	void SetFlag(Enum_ActorFlag _Flag, bool _Value);
-	void AddFlag(Enum_ActorFlag _Flag);
-	void SubFlag(Enum_ActorFlag _Flag);
-	void DebugFlag();
 
 	// BoneIndex
 	void AddBoneIndex(Enum_BoneType _BoneType, int _BoneNum);
@@ -304,7 +298,6 @@ protected:
 	GameEngineState MainState;
 	StatusStruct Stat; // 플레이어와 몬스터가 공용으로 사용하는 기본스텟 구조체
 	HitStruct Hit; // 플레이어와 몬스터가 공용으로 사용하는 히트 로직 구조체
-	CollisionEventStruct CollisionEvent; // 플레이어와 몬스터가 공용으로 사용하는 충돌 로직 구조체 (임시) << 좋은 로직있으면 대체해주세요;;;;
 
 	
 private:

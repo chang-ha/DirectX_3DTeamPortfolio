@@ -76,7 +76,6 @@ enum class Enum_LothricKn_State
 	F_Stab_Death_End,
 };
 
-
 // Ό³Έν :
 class Monster_LothricKn : public BaseMonster
 {
@@ -110,6 +109,14 @@ class Monster_LothricKn : public BaseMonster
 		Two_Handed,
 		Gaurding,
 		None,
+	};
+
+	class Lothric_Kn_CollisionEvent
+	{
+	public:
+		void CollisionToShield(class BaseActor* _pThis, GameEngineCollision* _pCol, Enum_CollisionOrder _Order);
+		void CollisionToBody(GameEngineCollision* _pCol, Enum_CollisionOrder _Order);
+
 	};
 
 public:

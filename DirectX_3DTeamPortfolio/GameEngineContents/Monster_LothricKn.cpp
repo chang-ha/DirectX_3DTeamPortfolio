@@ -4,6 +4,81 @@
 #include "BoneSocketCollision.h"
 #include "ContentsMath.h"
 
+
+void Monster_LothricKn::Lothric_Kn_CollisionEvent::CollisionToShield(BaseActor* _pThis, GameEngineCollision* _pCol, Enum_CollisionOrder _Order)
+{
+	if (nullptr == _pThis
+		|| nullptr == _pCol)
+	{
+		MsgBoxAssert("존재하지 않는 포인터를 인자로 넣었습니다.")
+	}
+
+	std::function ToShieldColEvent = [_pThis](std::vector<GameEngineCollision*> _Other)
+		{
+			for (GameEngineCollision* pCol : _Other)
+			{
+				if (nullptr == pCol)
+				{
+					MsgBoxAssert("결과값이 잘못되어 있습니다.");
+					return;
+				}
+
+				std::shared_ptr<BaseActor> pActor = pCol->GetActor()->GetDynamic_Cast_This<BaseActor>();
+				if (nullptr == pActor)
+				{
+					MsgBoxAssert("형변환에 실패했습니다.");
+					return;
+				}
+
+				const int Att = _pThis->GetAtt();
+				pActor->GetHitToShield({ _pThis });
+			}
+		};
+
+	std::function ToBodyColEvent = [_pThis](std::vector<GameEngineCollision*> _Other)
+		{
+			for (GameEngineCollision* pCol : _Other)
+			{
+				if (nullptr == pCol)
+				{
+					MsgBoxAssert("결과값이 잘못되어 있습니다.");
+					return;
+				}
+
+				std::shared_ptr<BaseActor> pActor = pCol->GetActor()->GetDynamic_Cast_This<BaseActor>();
+				if (nullptr == pActor)
+				{
+					MsgBoxAssert("형변환에 실패했습니다.");
+					return;
+				}
+
+				const int Att = _pThis->GetAtt();
+				pActor->GetHit({ _pThis });
+			}
+		};
+
+	switch (_Order)
+	{
+	case Enum_CollisionOrder::Player:
+		_pCol->Collision(_Order, ToBodyColEvent);
+		break;
+	case Enum_CollisionOrder::Monster:
+		_pCol->Collision(_Order, ToBodyColEvent);
+		break;
+	case Enum_CollisionOrder::MonsterAttack:
+		_pCol->Collision(_Order, ToBodyColEvent);
+		break;
+	case Enum_CollisionOrder::Monster_Shield:
+		_pCol->Collision(_Order, ToShieldColEvent);
+		break;
+	case Enum_CollisionOrder::Dummy:
+		break;
+	default:
+		break;
+	}
+}
+
+
 Monster_LothricKn::Monster_LothricKn() 
 {
 	SetID(Enum_ActorType::LothricKn);
@@ -262,6 +337,8 @@ void Monster_LothricKn::FindTarget()
 					MsgBoxAssert("다이나믹 캐스팅 변환에 실패했습니다.");
 					return;
 				}
+
+				break;
 			}
 		});
 
