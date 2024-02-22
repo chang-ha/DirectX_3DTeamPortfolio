@@ -5,48 +5,6 @@
 #include "BoneSocketCollision.h"
 #include "ContentsDebug.h"
 
-Enum_DirectionXZ_Quat HitStruct::ReturnDirectionToVector(const float4& _V)
-{
-	float4 DirVector = _V;
-	DirVector.Y = 0.0f;
-	DirVector.Normalize();
-	const float DotResult = float4::DotProduct3D(float4::FORWARD, DirVector); 
-	const float Quater = CIRCLE * 0.25f;
-	const float Eighth = CIRCLE * 0.125f;
-	float Angle = (DotResult + 1.0f) * Quater;
-	
-	if (DirVector.X > 0.0f)
-	{
-		Angle = CIRCLE - Angle;
-	}
-
-	if (Angle <= Eighth || Angle > Eighth * 7.0f)
-	{
-		return Enum_DirectionXZ_Quat::F;
-	}
-
-	int i = 1;
-	float CheckAngle = Eighth;
-
-	for (; i < 4; i++)
-	{
-		CheckAngle += Eighth * 2.0f;
-		if (Angle < CheckAngle)
-		{
-			break;
-		}
-	}
-
-	Enum_DirectionXZ_Quat ReturnValue = static_cast<Enum_DirectionXZ_Quat>(i);
-
-	if (false)
-	{
-		ContentsDebug::DebugOuput(DotResult, "DotResult");
-		ContentsDebug::DebugOuput(Angle, "Angle");
-		ContentsDebug::DebugOuput(i, "eDir");
-	}
-	return ReturnValue;
-}
 
 class ContentsActorInitial
 {
@@ -257,7 +215,13 @@ std::shared_ptr<BoneSocketCollision> BaseActor::FindSocketCollision(Enum_BoneTyp
 
 void BaseActor::OnSocketCollision(Enum_BoneType _Type)
 {
-	std::shared_ptr<BoneSocketCollision> pCollision = FindSocketCollision(_Type);
+	int SocketIndex = GetBoneIndex(_Type);
+	OnSocketCollision(SocketIndex);
+}
+
+void BaseActor::OnSocketCollision(int _BoneIndex)
+{
+	std::shared_ptr<BoneSocketCollision> pCollision = GetSocketCollision(_BoneIndex);
 	if (nullptr == pCollision)
 	{
 		MsgBoxAssert("존재하지 않는 충돌체를 끄려고 했습니다.");
@@ -267,9 +231,16 @@ void BaseActor::OnSocketCollision(Enum_BoneType _Type)
 	pCollision->On();
 }
 
+
 void BaseActor::OffSocketCollision(Enum_BoneType _Type)
 {
-	std::shared_ptr<BoneSocketCollision> pCollision = FindSocketCollision(_Type);
+	int SocketIndex = GetBoneIndex(_Type);
+	OffSocketCollision(SocketIndex);
+}
+
+void BaseActor::OffSocketCollision(int _BoneIndex)
+{
+	std::shared_ptr<BoneSocketCollision> pCollision = GetSocketCollision(_BoneIndex);
 	if (nullptr == pCollision)
 	{
 		MsgBoxAssert("존재하지 않는 충돌체를 끄려고 했습니다.");

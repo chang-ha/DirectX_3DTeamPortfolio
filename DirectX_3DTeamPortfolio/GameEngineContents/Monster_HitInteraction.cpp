@@ -11,7 +11,7 @@ Monster_HitInteraction::~Monster_HitInteraction()
 {
 }
 
-void Monster_HitInteraction::CollisionToBody(Enum_CollisionOrder _Order)
+void Monster_HitInteraction::CollisionToBody(Enum_CollisionOrder _Order, int _iStiffness /*= 0*/)
 {
 	ValidityCheck();
 	
@@ -37,7 +37,12 @@ void Monster_HitInteraction::CollisionToBody(Enum_CollisionOrder _Order)
 					continue;
 				}
 
-				pActor->GetHit({ pParent });
+				const float4 ColPos = pCollision->Transform.GetWorldPosition();
+				const float4 OtherPos = pCol->Transform.GetWorldPosition();
+				const float4 DirVector = ColPos - OtherPos;
+				Enum_DirectionXZ_Quat eDir = ContentsMath::ReturnXZDirectionToVector(DirVector);
+
+				pActor->GetHit({ pParent, _iStiffness, eDir });
 				RecordCollision(pActor.get());
 			}
 		};
@@ -45,7 +50,7 @@ void Monster_HitInteraction::CollisionToBody(Enum_CollisionOrder _Order)
 	pCollision->Collision(_Order, ColEvent);
 }
 
-void Monster_HitInteraction::CollisionToShield(Enum_CollisionOrder _Order)
+void Monster_HitInteraction::CollisionToShield(Enum_CollisionOrder _Order, int _iStiffness /*= 0*/)
 {
 	ValidityCheck();
 
@@ -72,7 +77,7 @@ void Monster_HitInteraction::CollisionToShield(Enum_CollisionOrder _Order)
 				}
 
 				RecordCollision(pActor.get());
-				pActor->GetHitToShield({ pParent });
+				pActor->GetHitToShield({ pParent, _iStiffness });
 			}
 		};
 

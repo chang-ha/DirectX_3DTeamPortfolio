@@ -15,8 +15,8 @@ public:
 	Monster_HitInteraction& operator=(const Monster_HitInteraction& _Other) = delete;
 	Monster_HitInteraction& operator=(Monster_HitInteraction&& _Other) noexcept = delete;
 
-	void CollisionToBody(Enum_CollisionOrder _Order) override;
-	void CollisionToShield(Enum_CollisionOrder _Order) override;
+	void CollisionToBody(Enum_CollisionOrder _Order, int _iStiffness = 0) override;
+	void CollisionToShield(Enum_CollisionOrder _Order, int _iStiffness = 0) override;
 
 protected:
 

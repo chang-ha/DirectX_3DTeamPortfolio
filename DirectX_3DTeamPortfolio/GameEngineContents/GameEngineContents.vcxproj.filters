@@ -229,9 +229,6 @@
     <ClCompile Include="DummyProjectile.cpp">
       <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
     </ClCompile>
-    <ClCompile Include="SwordCollision.cpp">
-      <Filter>Actor\Monster\Component</Filter>
-    </ClCompile>
     <ClCompile Include="HitInteraction.cpp">
       <Filter>Actor\Struct</Filter>
     </ClCompile>
@@ -464,9 +461,6 @@
     </ClInclude>
     <ClInclude Include="DummyProjectile.h">
       <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
-    </ClInclude>
-    <ClInclude Include="SwordCollision.h">
-      <Filter>Actor\Monster\Component</Filter>
     </ClInclude>
     <ClInclude Include="HitInteraction.h">
       <Filter>Actor\Struct</Filter>

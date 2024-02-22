@@ -117,17 +117,6 @@ private:
 
 };
 
-// XZ평면 방향 정의
-// 순서 : Z축으로 시계방향
-enum class Enum_DirectionXZ_Quat
-{
-	F = 0, // float4::FORWARD
-	R,
-	B,
-	L,
-	Center, // None 취급
-};
-
 class HitParameter
 {
 public:
@@ -155,7 +144,6 @@ class HitStruct
 public:
 	inline void SetHitDir(Enum_DirectionXZ_Quat _eDir) { eHitDir = _eDir; }
 	inline Enum_DirectionXZ_Quat GetHitDir() const { return eHitDir; }
-	static Enum_DirectionXZ_Quat ReturnDirectionToVector(const float4& _V);
 
 	inline bool IsHit() const { return bHit; }
 	inline void SetHit(bool _bValue) { bHit = _bValue; }
@@ -165,7 +153,7 @@ public:
 	inline void SetInvincible(bool _bValue) { bInvincible = _bValue; }
 
 private:
-	Enum_DirectionXZ_Quat eHitDir = Enum_DirectionXZ_Quat::Center; // 임시 멤버변수입니다.
+	Enum_DirectionXZ_Quat eHitDir = Enum_DirectionXZ_Quat::Center;
 	bool bHit = false;
 	bool bGuardSuccesss = false; // 가드 성공
 	bool bInvincible = false; // 무적
@@ -257,7 +245,9 @@ protected:
 
 	std::shared_ptr<BoneSocketCollision> FindSocketCollision(Enum_BoneType _Type); 
 	void OnSocketCollision(Enum_BoneType _Type);
+	void OnSocketCollision(int _BoneIndex);
 	void OffSocketCollision(Enum_BoneType _Type);
+	void OffSocketCollision(int _BoneIndex);
 
 	// Debug
 	void DrawRange(float _Range, const float4& _Color = float4::RED) const;
