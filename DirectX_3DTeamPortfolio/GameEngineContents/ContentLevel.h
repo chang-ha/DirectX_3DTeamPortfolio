@@ -42,7 +42,6 @@ protected:
 private:
 	void ChaseListener();
 	void DebugInput();
-	static ContentsCollisionCallBack  CollisionCallBack;
 };
 
 class ContentsCollisionCallBack : public physx::PxSimulationEventCallback
