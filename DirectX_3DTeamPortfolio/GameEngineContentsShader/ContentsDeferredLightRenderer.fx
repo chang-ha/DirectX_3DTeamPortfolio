@@ -1,5 +1,14 @@
 #include "Light.fx"
 
+cbuffer CameraBaseInfo : register(b1)
+{
+    float SizeX;
+    float SizeY;
+    float Temp0;
+    float Temp1;
+};
+
+
 struct GameEngineVertex2D
 {
     float4 POSITION : POSITION;
@@ -28,6 +37,7 @@ Texture2D ShadowTex : register(t2);
 Texture2D DiffuseTexture : register(t3);
 Texture2D MaterialTexture : register(t4);
 SamplerState POINTWRAP : register(s0);
+SamplerState LINEARClamp : register(s1);
 
 struct DeferredRenderOutPut
 {
@@ -56,6 +66,8 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
     float Roughness = Material.x;
     float Metalic = Material.y;
     
+    
+ 
     
     if (0.0f >= Pos.a)
     {
@@ -99,8 +111,22 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
   
     
     // 빛마다 그림자를 계산하는 방식을 다르게 해야하하기 때문이다.
+    
+ 
+ 
     if (0 <= Result.DifLight.x)
     {
+           
+         // PCF를 위한 오프셋
+        float2 texelSize = 1.0f / float2(SizeX, SizeY);
+    
+        float2 offsets[9] =
+        {
+            float2(-texelSize.x, texelSize.y), float2(0, texelSize.y), float2(texelSize.x, texelSize.y),
+        float2(-texelSize.x, 0), float2(0, 0), float2(texelSize.x, 0),
+        float2(-texelSize.x, -texelSize.y), float2(0, -texelSize.y), float2(texelSize.x, -texelSize.y)
+        };
+    
         // 빛이 드는 곳이라는 것.
         // Pos 카메라의 View공간에 존재하는 Pos
         float4 WorldPos = Pos;
@@ -117,7 +143,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
         // 그런데 놀랍게도.
         float3 LightProjection = LightPos.xyz / LightPos.w;
         float2 ShadowUV = float2(LightProjection.x * 0.5f + 0.5f, LightProjection.y * -0.5f + 0.5f);
-        float fShadowDepth = ShadowTex.Sample(POINTWRAP, ShadowUV).r;
+        float fShadowDepth = ShadowTex.Sample(LINEARClamp, ShadowUV).r;
         // xy는 뭐로 압축됬나요? => -1 ~ 1사이의 공간으로 간거죠? 직교투영
         // LightProjection.z
 

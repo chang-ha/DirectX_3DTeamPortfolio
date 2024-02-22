@@ -18,6 +18,14 @@ struct ShadowAniInfo
 	float4x4 WorldViewProjectionMatrix;
 };
 
+struct CameraBaseInfo
+{
+	float SizeX = 0.0f;
+	float SizeY = 0.0f;
+	float Temp0;
+	float Temp1;
+};
+
 // Ό³Έν :
 class GameEngineCamera : public GameEngineActor, public DebugObject
 {
@@ -252,5 +260,7 @@ private:
 	void CameraUpdate(float _DeltaTime);
 
 	TransformData  UnitTransform;
+
+	CameraBaseInfo  CameraBaseInfoValue;
 };
 

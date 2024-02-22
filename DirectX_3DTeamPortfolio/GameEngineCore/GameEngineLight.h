@@ -73,6 +73,11 @@ public:
 
     void ShadowTargetSetting();
 
+    void SetShadowRange(float4 _Range)
+    {
+        ShadowRange = _Range;
+    }
+
 
 protected:
 	void Start() override;

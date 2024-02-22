@@ -28,7 +28,12 @@ void GameEngineCamera::Start()
 
 	ZoomValue = 1.0f;
 
+	CameraBaseInfoValue.SizeX = GameEngineCore::MainWindow.GetScale().X;
+	CameraBaseInfoValue.SizeY = GameEngineCore::MainWindow.GetScale().Y;
+
 	GameEngineLevel* Level = GetLevel();
+
+
 
 	if (nullptr == Level)
 	{
@@ -109,7 +114,12 @@ void GameEngineCamera::Start()
 		DeferredLightRenderUnit.ShaderResHelper.SetTexture("NormalTex", AllRenderTarget->GetTexture(3));
 		DeferredLightRenderUnit.ShaderResHelper.SetTexture("DiffuseTexture", AllRenderTarget->GetTexture(1));
 		DeferredLightRenderUnit.ShaderResHelper.SetTexture("MaterialTexture", AllRenderTarget->GetTexture(5));
+		//DeferredLightRenderUnit.ShaderResHelper.SetConstantBufferLink("CameraBaseInfo", CameraBaseInfoValue);
+
 		DeferredLightRenderUnit.ShaderResHelper.SetSampler("POINTWRAP", "POINT");
+		DeferredLightRenderUnit.ShaderResHelper.SetSampler("LinearClamp", "LINEAR");
+
+		
 
 
 		DeferredTarget = GameEngineRenderTarget::Create();
@@ -134,7 +144,8 @@ void GameEngineCamera::Start()
 		//DeferredMergeUnit.ShaderResHelper.SetTexture("SpecularTex", AllRenderTarget->GetTexture(4));
 		DeferredMergeUnit.ShaderResHelper.SetTexture("HBAOTex", HBAO.HBAOTarget->GetTexture());
 		DeferredMergeUnit.ShaderResHelper.SetTexture("PBRTex", DeferredLightTarget->GetTexture(5));
-		DeferredMergeUnit.ShaderResHelper.SetSampler("POINTWRAP", "POINT");
+		DeferredMergeUnit.ShaderResHelper.SetSampler("POINTClamp", "POINT");
+		DeferredMergeUnit.ShaderResHelper.SetSampler("LinearClamp", "LINEAR");
 	}
 
 	ShadowRenderUnit.SetMesh("Box");
@@ -321,8 +332,12 @@ void GameEngineCamera::Render(float _DeltaTime)
 				{
 					if (EPROJECTIONTYPE::Perspective != ProjectionType or InCamera(Unit->GetParentRenderer()->Transform, Unit->GetMesh()->GetMeshBaseInfo()) == true)
 					{
-						int a = 0;
 						Unit->Render();
+						Unit->InCameraValue = true;
+					}
+					else
+					{
+						Unit->InCameraValue = false;
 					}
 				}
 			}
@@ -360,11 +375,18 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 				for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPair : RenderPath.second)
 				{
+
+
 					std::list<std::shared_ptr<class GameEngineRenderUnit>>& UnitList = RenderPair.second;
 
 					for (std::shared_ptr<class GameEngineRenderUnit> Unit : UnitList)
 					{
-						// if (Unit->GetParentRenderer()->RenderBaseInfoValue.isShadow)
+
+						// 컬링되면 카메라 밖이면 처리x
+						if (Unit->InCameraValue == false)
+						{
+							continue;
+						}
 
 						GameEngineRenderer* ParentRenderer = Unit->GetParentRenderer();
 
@@ -425,7 +447,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 			for (std::shared_ptr<GameEngineLight> Light : Lights)
 			{
-				DeferredLightRenderUnit.ShaderResHelper.SetTexture("ShadowTex", Light->GetShadowTarget()->GetTexture(0));
+				DeferredLightRenderUnit.ShaderResHelper.SetTexture("ShadowTex", Light->GetShadowTarget()->GetDepthTexture());
 				DeferredLightRenderUnit.ShaderResHelper.SetConstantBufferLink("OneLightData", Light->GetLightData());
 				DeferredLightTarget->Setting();
 				DeferredLightRenderUnit.Render();
@@ -445,11 +467,11 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 					for (std::shared_ptr<class GameEngineRenderUnit> Unit : UnitList)
 					{
-
-						if (EPROJECTIONTYPE::Perspective != ProjectionType or InCamera(Unit->GetParentRenderer()->Transform, Unit->GetMesh()->GetMeshBaseInfo()) == true)
-						{
-							Unit->Render();
-						}
+						Unit->Render();
+						//if (EPROJECTIONTYPE::Perspective != ProjectionType /*or InCamera(Unit->GetParentRenderer()->Transform, Unit->GetMesh()->GetMeshBaseInfo()) == true*/)
+						//{
+						//	
+						//}
 					}
 				}
 			
