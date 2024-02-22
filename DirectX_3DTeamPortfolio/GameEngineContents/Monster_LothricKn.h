@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseMonster.h"
 
-#include "Interaction_Sword.h"
+#include "Monster_HitInteraction.h"
 
 enum class Enum_LothricKn_State
 {
@@ -391,7 +391,8 @@ private:
 
 private:
 	std::shared_ptr<GameEngineCollision> PatrolCollision;  
-	Interaction_Sword Sword;
+	Monster_HitInteraction Sword;
+	Monster_HitInteraction Shield;
 
 	Enum_IdleType IdleType = Enum_IdleType::None;
 	Enum_Combat_State CombatState = Enum_Combat_State::None;

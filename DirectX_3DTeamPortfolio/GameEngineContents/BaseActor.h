@@ -45,8 +45,8 @@ enum class Enum_ActorFlagBit
 	Gaurd_Break = (1 <<  13), // 가드 브레이크
 	Break_Posture = (1 << 14), // 패링 당함  << 마땅한 명칭이 없음
 	TwoHand = (1 << 15), 
-	FrontStab = (1 << 15), // 앞잡
-	BackStab = (1 << 16), // 뒤잡
+	FrontStab = (1 << 16), // 앞잡
+	BackStab = (1 << 17), // 뒤잡
 };
 
 // Collision, BoneIndex
@@ -97,15 +97,7 @@ public:
 	inline void SetHp(int _Value) { Hp = _Value; }
 	inline int GetHp() const { return Hp; }
 	inline void AddHp(int _Value) { Hp += _Value; }
-	inline bool IsDeath() const
-	{
-		if (Att <= 0)
-		{
-			return true;
-		}
-
-		return false;
-	}
+	inline bool IsDeath() const { return (Hp <= 0); }
 
 	inline void SetAtt(int _Value) { Att = _Value; }
 	inline int GetAtt() const { return Att; }
@@ -264,6 +256,8 @@ protected:
 	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(int _Order, int _SocketIndex, std::string_view _ColName = "");
 
 	std::shared_ptr<BoneSocketCollision> FindSocketCollision(Enum_BoneType _Type); 
+	void OnSocketCollision(Enum_BoneType _Type);
+	void OffSocketCollision(Enum_BoneType _Type);
 
 	// Debug
 	void DrawRange(float _Range, const float4& _Color = float4::RED) const;
@@ -312,12 +306,7 @@ public:
 
 	inline bool IsTargeting() const
 	{
-		if (nullptr != Target)
-		{
-			return true;
-		}
-
-		return false;
+		return (nullptr != Target);
 	}
 
 	inline float GetTargetAngle() const
