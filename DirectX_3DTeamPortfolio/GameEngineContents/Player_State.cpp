@@ -1238,7 +1238,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-			
+				StateValue = PlayerState::RockOn;
 			};
 
 
@@ -1247,8 +1247,8 @@ void Player::Player_State()
 
 
 
-
-
+				Prev_Pos_X = Circle_Pos_X;
+				Prev_Pos_Y = Circle_Pos_Y;
 
 
 
@@ -1265,8 +1265,8 @@ void Player::Player_State()
 
 
 				//test += 1* _Time;
-				float Pos_x = x + a * cos(test);
-				float Pos_y = y + b * sin(test);
+				Circle_Pos_X = x + a * cos(test);
+				Circle_Pos_Y = y + b * sin(test);
 
 
 
@@ -1279,25 +1279,29 @@ void Player::Player_State()
 				degree = float(radian * (180.0 / 3.141592));
 
 
-				Capsule->SetWorldPosition({ Pos_x,0.0f,Pos_y });
+				Cur_Pos_X = Prev_Pos_X - Circle_Pos_X;
+				Cur_Pos_Y = Prev_Pos_Y - Circle_Pos_Y;
+
+				Capsule->SetWorldPosition(float4{ Circle_Pos_X + sdsd.X,0.0f,Circle_Pos_Y + sdsd.Z });
 				Capsule->SetWorldRotation({ 0.0f,degree });
 				Actor_test->Transform.SetLocalRotation({ 0.0f,degree });
-
 
 
 				if (true == GameEngineInput::IsPress('W', this))
 				{
 					float4 Dir = GetTargetPos() - float4{ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y,Capsule->GetWorldPosition().z};
 					Dir.Normalize(); 
-
-					Actor_test->Transform.AddLocalPosition({ Dir *Speed * _DeltaTime });
+					Capsule->AddForce(float4{ 0.0f,0.0f,100.0f });
+					sdsd += Dir * Speed * _DeltaTime;
+					//Actor_test->Transform.AddLocalPosition({ Dir *Speed * _DeltaTime });
 				}
 
 				if (true == GameEngineInput::IsPress('S', this))
 				{
 					float4 Dir = GetTargetPos() - float4{ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y,Capsule->GetWorldPosition().z };
 					Dir.Normalize();
-					Actor_test->Transform.AddLocalPosition({ Dir * Speed * _DeltaTime });
+					sdsd += -Dir * Speed * _DeltaTime;
+					//Actor_test->Transform.AddLocalPosition({ Dir * Speed * _DeltaTime });
 				}
 
 				if (true == GameEngineInput::IsPress('A', this))
@@ -1321,15 +1325,7 @@ void Player::Player_State()
 				}
 
 
-
-				/*Capsule->SetWorldPosition({ Actor_test_04->Transform.GetWorldPosition().X, Actor_test_04->Transform.GetWorldPosition().Y, Actor_test_04->Transform.GetWorldPosition().Z });
-				Capsule->SetWorldRotation({ Actor_test_04->Transform.GetWorldRotationEuler().X, Actor_test_04->Transform.GetWorldRotationEuler().Y,Actor_test_04->Transform.GetWorldRotationEuler().Z });*/
-
-				/*if (GameEngineInput::IsDown('Q',this))
-				{
-					PlayerStates.ChangeState(PlayerState::Idle);
-				}*/
-
+				
 
 			};
 

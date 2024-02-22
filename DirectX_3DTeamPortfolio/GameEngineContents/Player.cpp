@@ -121,8 +121,9 @@ void Player::Start()
 	MainRenderer->ChangeAnimation("Shield_Idle");
 	
 
-	/*MainRenderer->SetRootMotionComponent(Capsule.get());
-	MainRenderer->SetRootMotion("Attack_01");
+	MainRenderer->SetRootMotionComponent(Capsule.get());
+
+	/*MainRenderer->SetRootMotion("Attack_01");
 	MainRenderer->SetRootMotion("Walk_Forward","",Enum_RootMotionMode::RealTimeDir);
 	MainRenderer->SetRootMotion("Roll_Forward");*/
 
@@ -190,8 +191,7 @@ void Player::Start()
 	GameEngineCore::MainWindow.SetMousePos(1280,720);
 
 	{
-		Actor_test = GetLevel()->CreateActor<GameEngineActor>();
-		
+		Actor_test = GetLevel()->CreateActor<GameEngineActor>();		
 	}
 
 	{
@@ -364,12 +364,12 @@ void Player::Update(float _Delta)
 		}
 
 	}
-
 	
 	
 	PlayerStates.Update(_Delta);
 
 	
+	CameraRotation(_Delta);
 
 	if (GameEngineInput::IsDown('Q', this))
 	{
@@ -377,7 +377,7 @@ void Player::Update(float _Delta)
 		PlayerStates.ChangeState(PlayerState::RockOn);
 	}
 
-	CameraRotation(_Delta);
+
 
 	AnimationBoneData Data = MainRenderer->GetBoneData(Bone_index_01);
 
@@ -397,7 +397,8 @@ void Player::LevelStart(GameEngineLevel* _PrevLevel)
 
 void Player::CameraRotation(float Delta)
 {
-	Actor_test->Transform.SetLocalPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z});
+	
+	Actor_test->Transform.SetLocalPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
 	
 
 
@@ -485,21 +486,14 @@ void Player::CameraRotation(float Delta)
 	PrevPos.X = Mouse_Ro_X;
 
 
-	/*if (StateValue == PlayerState::Idle)
-	{
-		Actor_test->Transform.SetWorldRotation({ Camera_Pos_Y,Player_Pos.X,0.0f });
-	}*/
+	
 
 	if (StateValue != PlayerState::RockOn )
 	{
 		Actor_test->Transform.SetWorldRotation({ Camera_Pos_Y,Player_Pos.X,0.0f });
 	}
-	//Actor_test->Transform.SetWorldRotation({ Camera_Pos_Y,Camera_Pos_X,0.0f });
 
-
-
-
-
+	
 	// 마우스 고정하고 싶을떄 
 	if (GameEngineInput::IsDown('Z', this))
 	{

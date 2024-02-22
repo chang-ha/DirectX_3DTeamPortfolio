@@ -90,6 +90,14 @@ private:
 	float MoveSpeed = 0.0f;
 	float DeltaTime = 0.0f;
 
+
+	float Prev_Pos_X = 0.0f;
+	float Prev_Pos_Y = 0.0f;
+		
+	float Cur_Pos_X = 0.0f;
+	float Cur_Pos_Y = 0.0f;
+
+
 	float4 Player_Pos = {};
 
 	bool IsFreeCameraValue = false;
@@ -101,8 +109,10 @@ private:
 
 	std::shared_ptr<GameEngineActor> Actor_test;
 	std::shared_ptr<GameEngineActor> Actor_test_02;
-	std::shared_ptr<GameEngineActor> Actor_test_03;
-	std::shared_ptr<GameEngineActor> Actor_test_04;
+
+
+
+
 	float4 CameraPos = {};
 	float Mouse_Ro_X = 0.0f;
 	float Mouse_Ro_Y = 0.0f;
@@ -112,4 +122,12 @@ private:
 
 	float test = 0.0f;
 	float degree = 0.0f;
+
+	float4 sdsd = 0.0f;
+
+	float Circle_Pos_X = 0.0f;
+	float Circle_Pos_Y = 0.0f;;
 };
+
+
+

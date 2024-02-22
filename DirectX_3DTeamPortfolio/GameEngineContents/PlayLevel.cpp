@@ -21,21 +21,33 @@ PlayLevel::~PlayLevel()
 
 void PlayLevel::Start()
 {
-
-
 	ContentLevel::Start();
 	GameEngineInput::AddInputObject(this);
+
+	GetMainCamera()->Transform.SetWorldRotation({ 0.0f,0.0f,0.0f });
+	GetMainCamera()->Transform.SetWorldPosition({ 0.0f, 0.0f, -1000.0f });
+
+}
+
+void PlayLevel::Update(float _Delta)
+{
+	ContentLevel::Update(_Delta);
+
+}
+
+void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
+{
+	
 
 	/*{
 		std::shared_ptr<WorldMap> GameMap = CreateActor<WorldMap>(0, "WorldMap");
 	}*/
 
-	GetMainCamera()->Transform.SetWorldRotation({ 0.0f,0.0f,0.0f });
-	GetMainCamera()->Transform.SetWorldPosition({ 0.0f, 0.0f, -1000.0f });
+	
 
 
 	{
-		
+
 	}
 
 	//GameEngineGUI::CreateGUIWindow<ContentsControlWindow>("Test");
@@ -45,14 +57,9 @@ void PlayLevel::Start()
 
 	CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 
-	// ¾ø¾Ù²¨ÀÓ
-	std::shared_ptr<GameEngineNetWindow> Ptr = GameEngineGUI::CreateGUIWindow<GameEngineNetWindow>("GameEngineNetWIndow");
+	
 
-	/*if (nullptr != CoreWindow)
-	{
-		CoreWindow->AddDebugRenderTarget(0, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
-	}*/
-
+	
 	{
 		std::shared_ptr<Boss_Vordt> GameMap = CreateActor<Boss_Vordt>(0, "WorldMap");
 		GameMap->Transform.SetWorldPosition({ 0.0f,0.0f,1000.0f });
@@ -65,7 +72,7 @@ void PlayLevel::Start()
 		// ½ÃÀÛÀ§Ä¡
 		//PlayerObject->Transform.SetLocalPosition({ -1400.0f, 5101.0f, -5331.0f });
 
-		Ptr->MainPlayer = PlayerObject.get();
+		
 	}
 
 	//{
@@ -87,9 +94,7 @@ void PlayLevel::Start()
 		std::shared_ptr<MainUIActor> MainUI = CreateActor<MainUIActor>();
 	}
 
-	{
-		//std::shared_ptr<UIPlayerGaugeBar> Test = CreateActor<UIPlayerGaugeBar>();
-	}
+	
 
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 1, 1, 1, 1 });
 
@@ -98,18 +103,6 @@ void PlayLevel::Start()
 	physx::PxMaterial* mMaterial = GameEnginePhysX::GetDefaultMaterial();
 	physx::PxRigidStatic* groundPlane = PxCreatePlane(*Physics, physx::PxPlane(0, 1, 0, 50), *mMaterial);
 	Scene->addActor(*groundPlane);
-
-
-}
-
-void PlayLevel::Update(float _Delta)
-{
-	ContentLevel::Update(_Delta);
-
-}
-
-void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
-{
 
 }
 
