@@ -24,15 +24,7 @@ void Monster_HollowSoldier_Sword::Start()
 	AddBoneIndex(Enum_BoneType::B_01_RightHand, 44);
 	CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
 	
-	RecognizeCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
-	RecognizeCollision->SetCollisionType(ColType::SPHERE3D);
-	RecognizeCollision->SetCollisionColor(float4::BLACK);
-	RecognizeCollision->Transform.SetWorldScale(float4(500, 500, 500));
-
-	AttackRangeCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
-	AttackRangeCollision->SetCollisionType(ColType::SPHERE3D);
-	AttackRangeCollision->SetCollisionColor(float4::RED);
-	AttackRangeCollision->Transform.SetWorldScale(float4(300, 300, 300));
+	
 
 	ChangeState(Enum_HollowSoldier_Sword_State::Idle1);
 
@@ -44,70 +36,6 @@ void Monster_HollowSoldier_Sword::Update(float _Delta)
 	StateUpdate(_Delta);
 
 	
-}
-
-void Monster_HollowSoldier_Sword::FindTarget()
-{
-	if (true == IsTargeting())
-	{
-		return;
-	}
-
-	if (nullptr == RecognizeCollision)
-	{
-		MsgBoxAssert("충돌체 없음.");
-		return;
-	}
-
-	std::shared_ptr<GameEngineActor> OtherActor;
-
-	RecognizeCollision->Collision(Enum_CollisionOrder::Dummy, [&OtherActor](std::vector<GameEngineCollision*>& _Other)
-		{
-			for (GameEngineCollision* OtherCol : _Other)
-			{
-				if (nullptr == OtherCol)
-				{
-					MsgBoxAssert("OtherCol 없음.");
-					return;
-				}
-
-				OtherActor = OtherCol->GetActor()->GetDynamic_Cast_This<GameEngineActor>();
-
-				if (nullptr == OtherActor)
-				{
-					MsgBoxAssert("OtherActor 실패.");
-					return;
-				}
-
-			}
-		});
-
-	bool FindValue = (nullptr != OtherActor);
-	if (FindValue)
-	{
-		RecognizeCollision->Off();
-		SetTargeting(OtherActor.get());
-	}
-}
-
-bool Monster_HollowSoldier_Sword::IsTargetInAngle(float _fAngle) const
-{
-	const float AbsTargetAngle = std::fabs(BaseActor::GetTargetAngle());
-
-	if (AbsTargetAngle < _fAngle)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-void Monster_HollowSoldier_Sword::RotToTarget(float _Delta)
-{
-	const float fRotDir = BaseActor::GetRotDir_f();
-	const float RotAngle = fRotDir * 300.0f * _Delta;
-
-	Capsule->AddWorldRotation(float4(0.0f, RotAngle, 0.0f));
 }
 
 void Monster_HollowSoldier_Sword::ChangeState(Enum_HollowSoldier_Sword_State _State)
@@ -122,11 +50,11 @@ void Monster_HollowSoldier_Sword::ChangeState(Enum_HollowSoldier_Sword_State _St
 		case Enum_HollowSoldier_Sword_State::Idle2:
 			State_Idle2_Start();
 			break;
-		case Enum_HollowSoldier_Sword_State::Idle1ToIdle2:
-			State_Idle1ToIdle2_Start();
-			break;
 		case Enum_HollowSoldier_Sword_State::Idle2ToIdle1:
 			State_Idle2ToIdle1_Start();
+			break;
+		case Enum_HollowSoldier_Sword_State::Idle1ToIdle2:
+			State_Idle1ToIdle2_Start();
 			break;
 		case Enum_HollowSoldier_Sword_State::Scout:
 			State_Scout_Start();
@@ -247,10 +175,10 @@ void Monster_HollowSoldier_Sword::StateUpdate(float _Delta)
 		return State_Idle1_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::Idle2:
 		return State_Idle2_Update(_Delta);
-	case Enum_HollowSoldier_Sword_State::Idle1ToIdle2:
-		return State_Idle1ToIdle2_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::Idle2ToIdle1:
 		return State_Idle2ToIdle1_Update(_Delta);
+	case Enum_HollowSoldier_Sword_State::Idle1ToIdle2:
+		return State_Idle1ToIdle2_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::Scout:
 		return State_Scout_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::Walk:
@@ -328,7 +256,7 @@ void Monster_HollowSoldier_Sword::StateUpdate(float _Delta)
 
 void Monster_HollowSoldier_Sword::ChangeAttackState()
 {
-	AttackPattern = RandomAttack.RandomInt(1, 13);
+	AttackPattern = ContentsRandom::RandomInt(1, 13);
 	switch (AttackPattern)
 	{
 	case 1:
@@ -503,6 +431,18 @@ void Monster_HollowSoldier_Sword::State_Idle2_Update(float _Delta)
 	int b = 0;
 }
 
+void Monster_HollowSoldier_Sword::State_Idle2ToIdle1_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Idle2ToIdle1");
+}
+void Monster_HollowSoldier_Sword::State_Idle2ToIdle1_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 39)
+	{
+		ChangeState(Enum_HollowSoldier_Sword_State::Idle1);
+	}
+}
+
 void Monster_HollowSoldier_Sword::State_Idle1ToIdle2_Start()
 {
 	MainRenderer->ChangeAnimation("c1100_Idle1ToIdle2");
@@ -517,18 +457,6 @@ void Monster_HollowSoldier_Sword::State_Idle1ToIdle2_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 29)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
-	}
-}
-
-void Monster_HollowSoldier_Sword::State_Idle2ToIdle1_Start()
-{
-	MainRenderer->ChangeAnimation("c1100_Idle2ToIdle1");
-}
-void Monster_HollowSoldier_Sword::State_Idle2ToIdle1_Update(float _Delta)
-{
-	if (MainRenderer->GetCurAnimationFrame() >= 39)
-	{
-		ChangeState(Enum_HollowSoldier_Sword_State::Idle1);
 	}
 }
 

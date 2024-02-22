@@ -5,8 +5,8 @@ enum class Enum_HollowSoldier_Sword_State
 {
 	Idle1,
 	Idle2,
-	Idle1ToIdle2,
 	Idle2ToIdle1,
+	Idle1ToIdle2,
 	Scout,
 	Walk,
 	Run,
@@ -80,7 +80,7 @@ protected:
 private:
 	float StateTime = 0.0f;
 
-	int AttackPattern = 0;
+	
 
 
 protected:
@@ -91,18 +91,12 @@ protected:
 
 	void ChangeAttackState();
 
-	void FindTarget();
-	bool IsTargetInAngle(float _fAngle) const;
-	void RotToTarget(float _Delta);
+	
 
 private:
-	std::shared_ptr<GameEngineCollision> RecognizeCollision;
-	std::shared_ptr<GameEngineCollision> AttackRangeCollision;
-
 	bool IsRecognize = false;
 	bool IsAttack = false;
 
-	class GameEngineRandom RandomAttack;
 
 protected:
 	//State Function

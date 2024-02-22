@@ -48,8 +48,29 @@ void Monster_HollowSoldier_RoundShield::ChangeState(Enum_HollowSoldier_RoundShie
 		case Enum_HollowSoldier_RoundShield_State::Idle3:
 			State_Idle3_Start();
 			break;
+		case Enum_HollowSoldier_RoundShield_State::Idle2ToIdle1:
+			State_Idle2ToIdle1_Start();
+			break;
+		case Enum_HollowSoldier_RoundShield_State::Idle1ToIdle2:
+			State_Idle1ToIdle2_Start();
+			break;
+		case Enum_HollowSoldier_RoundShield_State::Idle2ToIdle3:
+			State_Idle2ToIdle3_Start();
+			break;
+		case Enum_HollowSoldier_RoundShield_State::Idle3ToIdle2:
+			State_Idle3ToIdle2_Start();
+			break;
 		case Enum_HollowSoldier_RoundShield_State::Scout:
 			State_Scout_Start();
+			break;
+		case Enum_HollowSoldier_RoundShield_State::Walk:
+			State_Walk_Start();
+			break;
+		case Enum_HollowSoldier_RoundShield_State::Walk3:
+			State_Walk3_Start();
+			break;
+		case Enum_HollowSoldier_RoundShield_State::Run:
+			State_Run_Start();
 			break;
 		case Enum_HollowSoldier_RoundShield_State::RH_VerticalSlash:
 			State_RH_VerticalSlash_Start();
@@ -83,6 +104,42 @@ void Monster_HollowSoldier_RoundShield::ChangeState(Enum_HollowSoldier_RoundShie
 			break;
 		case Enum_HollowSoldier_RoundShield_State::Attack7:
 			State_Attack7_Start();
+			break;
+		case Enum_HollowSoldier_RoundShield_State::Turn_Left2:
+			State_Turn_Left2_Start();
+			break;
+		case Enum_HollowSoldier_RoundShield_State::Turn_Right2:
+			State_Turn_Right2_Start();
+			break;
+		case Enum_HollowSoldier_RoundShield_State::Turn_Left_Twice2:
+			State_Turn_Left_Twice2_Start();
+			break;
+		case Enum_HollowSoldier_RoundShield_State::Turn_Right_Twice2:
+			State_Turn_Right_Twice2_Start();
+			break;
+		case Enum_HollowSoldier_RoundShield_State::Turn_Left1:
+			State_Turn_Left1_Start();
+			break;
+		case Enum_HollowSoldier_RoundShield_State::Turn_Right1:
+			State_Turn_Right1_Start();
+			break;
+		case Enum_HollowSoldier_RoundShield_State::Turn_Left_Twice1:
+			State_Turn_Left_Twice1_Start();
+			break;
+		case Enum_HollowSoldier_RoundShield_State::Turn_Right_Twice1:
+			State_Turn_Right_Twice1_Start();
+			break;
+		case Enum_HollowSoldier_RoundShield_State::Turn_Left3:
+			State_Turn_Left3_Start();
+			break;
+		case Enum_HollowSoldier_RoundShield_State::Turn_Right3:
+			State_Turn_Right3_Start();
+			break;
+		case Enum_HollowSoldier_RoundShield_State::Turn_Left_Twice3:
+			State_Turn_Left_Twice3_Start();
+			break;
+		case Enum_HollowSoldier_RoundShield_State::Turn_Right_Twice3:
+			State_Turn_Right_Twice3_Start();
 			break;
 		case Enum_HollowSoldier_RoundShield_State::Guard:
 			State_Guard_Start();
@@ -124,8 +181,22 @@ void Monster_HollowSoldier_RoundShield::StateUpdate(float _Delta)
 		return State_Idle2_Update(_Delta);
 	case Enum_HollowSoldier_RoundShield_State::Idle3:
 		return State_Idle3_Update(_Delta);
+	case Enum_HollowSoldier_RoundShield_State::Idle2ToIdle1:
+		return State_Idle2ToIdle1_Update(_Delta);
+	case Enum_HollowSoldier_RoundShield_State::Idle1ToIdle2:
+		return State_Idle1ToIdle2_Update(_Delta);
+	case Enum_HollowSoldier_RoundShield_State::Idle2ToIdle3:
+		return State_Idle2ToIdle3_Update(_Delta);
+	case Enum_HollowSoldier_RoundShield_State::Idle3ToIdle2:
+		return State_Idle3ToIdle2_Update(_Delta);
 	case Enum_HollowSoldier_RoundShield_State::Scout:
 		return State_Scout_Update(_Delta);
+	case Enum_HollowSoldier_RoundShield_State::Walk:
+		return State_Walk_Update(_Delta);
+	case Enum_HollowSoldier_RoundShield_State::Walk3:
+		return State_Walk3_Update(_Delta);
+	case Enum_HollowSoldier_RoundShield_State::Run:
+		return State_Run_Update(_Delta);
 	case Enum_HollowSoldier_RoundShield_State::RH_VerticalSlash:
 		return State_RH_VerticalSlash_Update(_Delta);
 	case Enum_HollowSoldier_RoundShield_State::RH_HorizontalSlash:
@@ -148,6 +219,30 @@ void Monster_HollowSoldier_RoundShield::StateUpdate(float _Delta)
 		return State_Attack6_Update(_Delta);
 	case Enum_HollowSoldier_RoundShield_State::Attack7:
 		return State_Attack7_Update(_Delta);
+	case Enum_HollowSoldier_RoundShield_State::Turn_Left2:
+		return State_Turn_Left2_Update(_Delta);
+	case Enum_HollowSoldier_RoundShield_State::Turn_Right2:
+		return State_Turn_Right2_Update(_Delta);
+	case Enum_HollowSoldier_RoundShield_State::Turn_Left_Twice2:
+		return State_Turn_Left_Twice2_Update(_Delta);
+	case Enum_HollowSoldier_RoundShield_State::Turn_Right_Twice2:
+		return State_Turn_Right_Twice2_Update(_Delta);
+	case Enum_HollowSoldier_RoundShield_State::Turn_Left1:
+		return State_Turn_Left1_Update(_Delta);
+	case Enum_HollowSoldier_RoundShield_State::Turn_Right1:
+		return State_Turn_Right1_Update(_Delta);
+	case Enum_HollowSoldier_RoundShield_State::Turn_Left_Twice1:
+		return State_Turn_Left_Twice1_Update(_Delta);
+	case Enum_HollowSoldier_RoundShield_State::Turn_Right_Twice1:
+		return State_Turn_Right_Twice1_Update(_Delta);
+	case Enum_HollowSoldier_RoundShield_State::Turn_Left3:
+		return State_Turn_Left3_Update(_Delta);
+	case Enum_HollowSoldier_RoundShield_State::Turn_Right3:
+		return State_Turn_Right3_Update(_Delta);
+	case Enum_HollowSoldier_RoundShield_State::Turn_Left_Twice3:
+		return State_Turn_Left_Twice3_Update(_Delta);
+	case Enum_HollowSoldier_RoundShield_State::Turn_Right_Twice3:
+		return State_Turn_Right_Twice3_Update(_Delta);
 	case Enum_HollowSoldier_RoundShield_State::Guard:
 		return State_Guard_Update(_Delta);
 	case Enum_HollowSoldier_RoundShield_State::GuardBreak:
@@ -236,11 +331,86 @@ void Monster_HollowSoldier_RoundShield::State_Idle3_Update(float _Delta)
 	}
 }
 
+void Monster_HollowSoldier_RoundShield::State_Idle2ToIdle1_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Idle2ToIdle1");
+}
+void Monster_HollowSoldier_RoundShield::State_Idle2ToIdle1_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 39)
+	{
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle1);
+	}
+}
+
+void Monster_HollowSoldier_RoundShield::State_Idle1ToIdle2_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Idle1ToIdle2");
+}
+void Monster_HollowSoldier_RoundShield::State_Idle1ToIdle2_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 29)
+	{
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
+	}
+}
+
+void Monster_HollowSoldier_RoundShield::State_Idle2ToIdle3_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Idle2ToIdle3");
+}
+void Monster_HollowSoldier_RoundShield::State_Idle2ToIdle3_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 19)
+	{
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle3);
+	}
+}
+
+void Monster_HollowSoldier_RoundShield::State_Idle3ToIdle2_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Idle3ToIdle2");
+}
+void Monster_HollowSoldier_RoundShield::State_Idle3ToIdle2_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 31)
+	{
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
+	}
+}
+
 void Monster_HollowSoldier_RoundShield::State_Scout_Start()
 {
 	MainRenderer->ChangeAnimation("c1100_Scout");
 }
 void Monster_HollowSoldier_RoundShield::State_Scout_Update(float _Delta)
+{
+
+}
+
+void Monster_HollowSoldier_RoundShield::State_Walk_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Walk");
+}
+void Monster_HollowSoldier_RoundShield::State_Walk_Update(float _Delat)
+{
+
+}
+
+void Monster_HollowSoldier_RoundShield::State_Walk3_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Walk3");
+}
+void Monster_HollowSoldier_RoundShield::State_Walk3_Update(float _Delat)
+{
+
+}
+
+void Monster_HollowSoldier_RoundShield::State_Run_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Run");
+}
+void Monster_HollowSoldier_RoundShield::State_Run_Update(float _Delta)
 {
 
 }
@@ -440,6 +610,150 @@ void Monster_HollowSoldier_RoundShield::State_Attack7_Update(float _Delta)
 		{
 			ChangeState(Enum_HollowSoldier_RoundShield_State::Idle3);
 		}
+	}
+}
+
+void Monster_HollowSoldier_RoundShield::State_Turn_Left2_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Turn_Left2");
+}
+void Monster_HollowSoldier_RoundShield::State_Turn_Left2_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 35)
+	{
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
+	}
+}
+
+void Monster_HollowSoldier_RoundShield::State_Turn_Right2_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Turn_Right2");
+}
+void Monster_HollowSoldier_RoundShield::State_Turn_Right2_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 35)
+	{
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
+	}
+}
+
+void Monster_HollowSoldier_RoundShield::State_Turn_Left_Twice2_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Turn_Left_Twice2");
+}
+void Monster_HollowSoldier_RoundShield::State_Turn_Left_Twice2_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 38)
+	{
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
+	}
+}
+
+void Monster_HollowSoldier_RoundShield::State_Turn_Right_Twice2_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Turn_Right_Twice2");
+}
+void Monster_HollowSoldier_RoundShield::State_Turn_Right_Twice2_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 38)
+	{
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
+	}
+}
+
+void Monster_HollowSoldier_RoundShield::State_Turn_Left1_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Turn_Left1");
+}
+void Monster_HollowSoldier_RoundShield::State_Turn_Left1_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 35)
+	{
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle1);
+	}
+}
+
+void Monster_HollowSoldier_RoundShield::State_Turn_Right1_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Turn_Right1");
+}
+void Monster_HollowSoldier_RoundShield::State_Turn_Right1_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 35)
+	{
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle1);
+	}
+}
+
+void Monster_HollowSoldier_RoundShield::State_Turn_Left_Twice1_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Turn_Left_Twice1");
+}
+void Monster_HollowSoldier_RoundShield::State_Turn_Left_Twice1_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 38)
+	{
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle1);
+	}
+}
+
+void Monster_HollowSoldier_RoundShield::State_Turn_Right_Twice1_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Turn_Right_Twice1");
+}
+void Monster_HollowSoldier_RoundShield::State_Turn_Right_Twice1_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 38)
+	{
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle1);
+	}
+}
+
+void Monster_HollowSoldier_RoundShield::State_Turn_Left3_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Turn_Left3");
+}
+void Monster_HollowSoldier_RoundShield::State_Turn_Left3_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 35)
+	{
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle3);
+	}
+}
+
+void Monster_HollowSoldier_RoundShield::State_Turn_Right3_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Turn_Right3");
+}
+void Monster_HollowSoldier_RoundShield::State_Turn_Right3_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 35)
+	{
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle3);
+	}
+}
+
+void Monster_HollowSoldier_RoundShield::State_Turn_Left_Twice3_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Turn_Left_Twice3");
+}
+void Monster_HollowSoldier_RoundShield::State_Turn_Left_Twice3_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 38)
+	{
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle3);
+	}
+}
+
+void Monster_HollowSoldier_RoundShield::State_Turn_Right_Twice3_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Turn_Right_Twice3");
+}
+void Monster_HollowSoldier_RoundShield::State_Turn_Right_Twice3_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 38)
+	{
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle3);
 	}
 }
 
