@@ -232,6 +232,12 @@
     <ClCompile Include="FogGUI.cpp">
       <Filter>ImGui\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="Monster_HitInteraction.cpp">
+      <Filter>Actor\Monster\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="HitInteraction.cpp">
+      <Filter>Actor\Struct</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -463,7 +469,7 @@
       <Filter>Actor\Struct</Filter>
     </ClInclude>
     <ClInclude Include="Monster_HitInteraction.h">
-      <Filter>Actor\Monster\LothricKnight</Filter>
+      <Filter>Actor\Monster\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
