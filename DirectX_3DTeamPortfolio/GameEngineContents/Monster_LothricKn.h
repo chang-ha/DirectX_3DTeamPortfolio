@@ -141,7 +141,13 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
+	// Mask
+	void MaskReset();
+	void HideWeaponMask();
+	void OnWeaponMask();
+
 private:
+
 	void CreateFSM();
 
 	// Start

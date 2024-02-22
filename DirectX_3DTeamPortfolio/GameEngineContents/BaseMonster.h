@@ -163,7 +163,7 @@ protected:
 
 	void LoadRes3DSound(std::string_view _LoadCheck) const;
 
-	// 의미가 이상합니다. << 로직으론 문제가 없을껍니다.
+	// 충돌 후 상호작용 처리
 	bool GetHit(const HitParameter& _Para = HitParameter()) override;
 	bool GetHitToShield(const HitParameter& _Para = HitParameter()) override;
 	virtual int HitFormula(int _Att) { return _Att; }

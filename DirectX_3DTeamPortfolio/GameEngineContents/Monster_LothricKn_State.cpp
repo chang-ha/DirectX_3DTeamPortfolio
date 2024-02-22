@@ -179,41 +179,50 @@ void Monster_LothricKn::Start_Idle_Standing1(GameEngineState* _State)
 
 void Monster_LothricKn::Start_Patrol(GameEngineState* _State)
 {
+	OnWeaponMask();
+	SetCombatMode(Enum_Combat_State::Normal);
 	MainRenderer->ChangeAnimation("Patrol");
 }
 
 void Monster_LothricKn::Start_Combo_Att_11(GameEngineState* _State)
 {
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("Combo_Att_11");
 }
 
 void Monster_LothricKn::Start_Combo_Att_12(GameEngineState* _State)
 {
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("Combo_Att_12");
 }
 
 void Monster_LothricKn::Start_Combo_Att_13(GameEngineState* _State)
 {
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("Combo_Att_13");
 }
 
 void Monster_LothricKn::Start_Combo_Att_21(GameEngineState* _State)
 {
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("Combo_Att_21");
 }
 
 void Monster_LothricKn::Start_Combo_Att_22(GameEngineState* _State)
 {
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("Combo_Att_22");
 }
 
 void Monster_LothricKn::Start_Combo_Att_23(GameEngineState* _State)
 {
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("Combo_Att_23");
 }
 
 void Monster_LothricKn::Start_RH_Att_HitDown(GameEngineState* _State)
 {
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("RH_Att_HitDown");
 }
 
@@ -224,6 +233,7 @@ void Monster_LothricKn::Start_LH_ShieldAttack(GameEngineState* _State)
 
 void Monster_LothricKn::Start_RH_Rear_Att(GameEngineState* _State)
 {
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("RH_Rear_Att");
 }
 
@@ -279,6 +289,7 @@ void Monster_LothricKn::Start_Run(GameEngineState* _State)
 
 void Monster_LothricKn::Start_Idle_Sit(GameEngineState* _State)
 {
+	MaskReset();
 	MainRenderer->ChangeAnimation("Idle_Sit");
 }
 
@@ -295,18 +306,19 @@ void Monster_LothricKn::Start_DH_Hold(GameEngineState* _State)
 
 void Monster_LothricKn::Start_DH_UnHold(GameEngineState* _State)
 {
-	SetCombatMode(Enum_Combat_State::Normal);
 	MainRenderer->ChangeAnimation("DH_UnHold");
 }
 
 void Monster_LothricKn::Start_DH_Stab_Att(GameEngineState* _State)
 {
+	Sword.ResetRecord();
 	SetCombatMode(Enum_Combat_State::Normal);
 	MainRenderer->ChangeAnimation("DH_Stab_Att");
 }
 
 void Monster_LothricKn::Start_DH_Swing_Att(GameEngineState* _State)
 {
+	Sword.ResetRecord();
 	SetCombatMode(Enum_Combat_State::Normal);
 	MainRenderer->ChangeAnimation("DH_Swing_Att");
 }
@@ -1393,6 +1405,11 @@ void Monster_LothricKn::Update_DH_Hold(float _DeltaTime, GameEngineState* _State
 
 void Monster_LothricKn::Update_DH_UnHold(float _DeltaTime, GameEngineState* _State)
 {
+	if (IsFrameOnce(17))
+	{
+		SetCombatMode(Enum_Combat_State::Normal);
+	}
+
 	// Hit Logic
 	if (true == CheckAndSetHitState())
 	{
@@ -2130,6 +2147,16 @@ void Monster_LothricKn::Update_Break_Down(float _DeltaTime, GameEngineState* _St
 
 void Monster_LothricKn::Update_F_Death(float _DeltaTime, GameEngineState* _State)
 {
+	if (IsFrameOnce(55))
+	{
+		SetFlag(Enum_ActorFlag::Death, true);
+	}
+
+	if (IsFrameOnce(105))
+	{
+		HideWeaponMask();
+	}
+
 	if (true == MainRenderer->IsCurAnimationEnd())
 	{
 		_State->ChangeState(Enum_LothricKn_State::F_Death_End);
@@ -2143,6 +2170,16 @@ void Monster_LothricKn::Update_F_Death_End(float _DeltaTime, GameEngineState* _S
 
 void Monster_LothricKn::Update_F_Death_B(float _DeltaTime, GameEngineState* _State)
 {
+	if (IsFrameOnce(45))
+	{
+		SetFlag(Enum_ActorFlag::Death, true);
+	}
+
+	if (IsFrameOnce(50))
+	{
+		HideWeaponMask();
+	}
+
 	if (true == MainRenderer->IsCurAnimationEnd())
 	{
 		_State->ChangeState(Enum_LothricKn_State::F_Death_End);
@@ -2207,6 +2244,11 @@ void Monster_LothricKn::Update_B_Stab_Death(float _DeltaTime, GameEngineState* _
 		SetFlag(Enum_ActorFlag::Death, true);
 	}
 
+	if (IsFrameOnce(52))
+	{
+		HideWeaponMask();
+	}
+
 	if (true == MainRenderer->IsCurAnimationEnd())
 	{
 		_State->ChangeState(Enum_LothricKn_State::F_Death_End);
@@ -2266,9 +2308,14 @@ void Monster_LothricKn::Update_F_Stab(float _DeltaTime, GameEngineState* _State)
 
 void Monster_LothricKn::Update_F_Stab_Death(float _DeltaTime, GameEngineState* _State)
 {
-	if (IsFrameOnce(50))
+	if (IsFrameOnce(55))
 	{
 		SetFlag(Enum_ActorFlag::Death, true);
+	}
+
+	if (IsFrameOnce(64))
+	{
+		HideWeaponMask();
 	}
 
 	if (true == MainRenderer->IsCurAnimationEnd())

@@ -94,6 +94,8 @@ void BaseActor::Start()
 {
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
 
+	Stat.SetPoise(100); // 모든 객체가 강인도 100을 가지고 있음 << DS3 Official
+
 	Transform.SetLocalScale(float4(W_SCALE, W_SCALE, W_SCALE));
 }
 

@@ -258,13 +258,7 @@ void Monster_LothricKn::Start()
 	MainRenderer->SetRootMotion("F_Stab");
 	MainRenderer->SetRootMotion("F_Stab_Death");
 
-
-	SetMeshVisibility(eMeshInfo::Spear, false);
-	SetMeshVisibility(eMeshInfo::LSword, false);
-	SetMeshVisibility(eMeshInfo::Crossbow, false);
-	SetMeshVisibility(eMeshInfo::Open, false);
-	SetMeshVisibility(eMeshInfo::LShield, false);
-	SetMeshVisibility(eMeshInfo::Weapon_Cloth, false);
+	MaskReset();
 
 	// Collision
 	std::shared_ptr<BoneSocketCollision> AttackCol = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
@@ -313,6 +307,36 @@ void Monster_LothricKn::Release()
 	Sword.Release();
 
 	BaseMonster::Release();
+}
+
+
+void Monster_LothricKn::MaskReset()
+{
+	SetMeshVisibility(eMeshInfo::Body, true);
+	SetMeshVisibility(eMeshInfo::Cloak, true);
+	SetMeshVisibility(eMeshInfo::Spear, false);
+	SetMeshVisibility(eMeshInfo::Sword, false);
+	SetMeshVisibility(eMeshInfo::Shield, false);
+	SetMeshVisibility(eMeshInfo::LSword, false);
+	SetMeshVisibility(eMeshInfo::Crossbow, false);
+	SetMeshVisibility(eMeshInfo::Cloak_cloth, true);
+	SetMeshVisibility(eMeshInfo::Close, true);
+	SetMeshVisibility(eMeshInfo::Open, false);
+	SetMeshVisibility(eMeshInfo::LShield, false);
+	SetMeshVisibility(eMeshInfo::Weapon_Cloth, false);
+	SetMeshVisibility(eMeshInfo::SwordCover, true);
+}
+
+void Monster_LothricKn::HideWeaponMask()
+{
+	SetMeshVisibility(eMeshInfo::Sword, false);
+	SetMeshVisibility(eMeshInfo::Shield, false);
+}
+
+void Monster_LothricKn::OnWeaponMask()
+{
+	SetMeshVisibility(eMeshInfo::Sword, true);
+	SetMeshVisibility(eMeshInfo::Shield, true);
 }
 
 bool Monster_LothricKn::FindAndSetTarget()
