@@ -64,8 +64,6 @@ void GameEnginePhysXBox::PhysXComponentInit(float _hX, float _hY, float _hZ, con
 	physx::PxTransform Transform(Pos, Quat);
 	ComponentActor = Physics->createRigidDynamic(Transform);
 	ComponentActor->attachShape(*Boxshape);
-	physx::PxRigidBodyExt::updateMassAndInertia(*ComponentActor, 0.001f);
-	physx::PxReal Mass = ComponentActor->getMass();
 
 	Scene->addActor(*ComponentActor);
 

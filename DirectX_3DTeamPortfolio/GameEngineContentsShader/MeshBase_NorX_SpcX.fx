@@ -23,6 +23,7 @@ struct PixelOutPut
     float4 VIEWNORMAL : NORMAL;
     float4 VIEWTANGENT : TANGENT;
     float4 VIEWBINORMAL : BINORMAL;
+    float4 WorldPOSITION : POSITION1;
 };
 
 
@@ -34,6 +35,9 @@ void Mesh_VS_Update(inout GameEngineVertex3D _Input, inout PixelOutPut Result)
     _Input.POSITION.w = 1.0f;
     Result.VIEWPOSITION = mul(_Input.POSITION, WorldViewMatrix);
     Result.VIEWPOSITION.w = 1.0f;
+    
+    Result.WorldPOSITION = mul(_Input.POSITION, WorldMatrix);
+    Result.WorldPOSITION.w = 1.0f;
     
     _Input.NORMAL.w = 0.0f;
     Result.VIEWNORMAL = mul(_Input.NORMAL, WorldViewMatrix);
@@ -60,6 +64,7 @@ struct DeferrdOut
     float4 NorColor : SV_Target3;
     float4 SpcColor : SV_Target4;
     float4 MatColor : SV_Target5;
+    float4 WorldPosColor : SV_Target6;
 };
 
 
@@ -83,6 +88,7 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout DeferrdOut _Result)
     Color.w = 1.0f;    
     _Result.DifColor = Color;
     _Result.PosColor = _Input.VIEWPOSITION;    
+    _Result.WorldPosColor = _Input.WorldPOSITION;
            
     _Result.SpcColor = float4(1.f, 1.f, 1.f,1.f);     
      

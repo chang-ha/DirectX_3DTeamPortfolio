@@ -84,6 +84,12 @@
     <FxCompile Include="LUT.fx">
       <Filter>PostEffect</Filter>
     </FxCompile>
+    <FxCompile Include="ContentsStaticAlphaMesh.fx">
+      <Filter>MeshShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Fog.fx">
+      <Filter>PostEffect</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BloomCombine.fx">

@@ -18,21 +18,19 @@ public:
 
 	physx::PxVec3 GetLinearVelocity()
 	{
-		return ComponentActor->getLinearVelocity();
+		return CapsuleActor->getLinearVelocity();
 	}
 
 	inline float GetMass()
 	{
-		return ComponentActor->getMass();
+		return CapsuleActor->getMass();
 	}
 
 	void SetMass(float _MassValue)
 	{
 		// F = M * A
-		return ComponentActor->setMass(_MassValue);
+		return CapsuleActor->setMass(_MassValue);
 	}
-
-	void SetMaxSpeed(float _MaxSpeed);
 
 	inline void SetPositioningComponent()
 	{
@@ -41,12 +39,12 @@ public:
 
 	physx::PxVec3 GetWorldPosition()
 	{
-		return ComponentActor->getGlobalPose().p;
+		return CapsuleActor->getGlobalPose().p;
 	}
 
 	bool IsGravity()
 	{
-		physx::PxActorFlags Flags = ComponentActor->getActorFlags();
+		physx::PxActorFlags Flags = CapsuleActor->getActorFlags();
 		bool Result = Flags & physx::PxActorFlag::eDISABLE_GRAVITY;
 		return !Result;
 	}
@@ -68,6 +66,7 @@ protected:
 private:
 	bool IsPositioningComponent = false;
 	physx::PxShape* CapsuleShape = nullptr;
+	physx::PxRigidDynamic* CapsuleActor = nullptr;
 
 	void Positioning(float _Delta);
 };

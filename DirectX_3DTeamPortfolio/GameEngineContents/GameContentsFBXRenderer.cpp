@@ -134,7 +134,10 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 			else
 			{
 				--CurFrame;
-				ParentRenderer->RootMotionComponent->ResetMove(Enum_Axies::X | Enum_Axies::Z);
+				if (nullptr != ParentRenderer->RootMotionComponent)
+				{
+					ParentRenderer->RootMotionComponent->ResetMove(Enum_Axies::X | Enum_Axies::Z);
+				}
 			}
 		}
 
@@ -350,10 +353,10 @@ void GameContentsFBXAnimationInfo::RootMotionUpdate(float _Delta)
 	switch (mRootMotionData.RootMotionMode)
 	{
 	case Enum_RootMotionMode::StartDir:
-		ParentRenderer->RootMotionComponent->MoveForce(MotionVector, mRootMotionData.RootMotion_StartDir, true);
+		ParentRenderer->RootMotionComponent->MoveForce(MotionVector, mRootMotionData.RootMotion_StartDir, false);
 		break;
 	case Enum_RootMotionMode::RealTimeDir:
-		ParentRenderer->RootMotionComponent->MoveForce(MotionVector, true);
+		ParentRenderer->RootMotionComponent->MoveForce(MotionVector, false);
 		break;
 	default:
 		MsgBoxAssert("존재하지 않는 루트모션 모드입니다.");
@@ -372,9 +375,10 @@ GameContentsFBXRenderer::~GameContentsFBXRenderer()
 {
 }
 
-void GameContentsFBXRenderer::SetFBXMesh(std::string_view _Name, std::string_view _Material)
+void GameContentsFBXRenderer::SetFBXMesh(std::string_view _Name, std::string_view _Material, RenderPath _RenderPath)
 {
 	Name = _Name;
+	DefalutRenderPathValue = _RenderPath;
 
 	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
 
@@ -476,7 +480,7 @@ std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetFBXMesh(std::s
 
 	//체크용 메테리얼
 	Unit->SetMaterial(_Material);
-	Unit->Camerapushback();
+	Unit->Camerapushback(DefalutRenderPathValue);
 
 
 	if (Unit->ShaderResHelper.IsStructedBuffer("ArrAniMationMatrix"))
@@ -740,10 +744,13 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 
 	if (nullptr != CurAnimation)
 	{
-		if (0.0f != CurAnimation->PlayTime)
+		if (0.0f != CurAnimation->PlayTime) 
 		{
-			AnimationBoneData Data = AnimationBoneDatas[53];
-			Prev_BoneDate.Pos = Data.Pos;
+			if (false == NotBlendBoneIndexs.empty())
+			{
+				AnimationBoneData Data = AnimationBoneDatas[*NotBlendBoneIndexs.begin()];
+				Prev_BoneDate.Pos = Data.Pos;
+			}
 
 			BlendBoneData = AnimationBoneDatas;
 		}

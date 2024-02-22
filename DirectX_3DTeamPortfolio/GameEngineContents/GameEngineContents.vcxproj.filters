@@ -229,11 +229,8 @@
     <ClCompile Include="DummyProjectile.cpp">
       <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
     </ClCompile>
-    <ClCompile Include="HitInteraction.cpp">
-      <Filter>Actor\Struct</Filter>
-    </ClCompile>
-    <ClCompile Include="Monster_HitInteraction.cpp">
-      <Filter>Actor\Monster\LothricKnight</Filter>
+    <ClCompile Include="FogGUI.cpp">
+      <Filter>ImGui\Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

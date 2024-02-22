@@ -25,8 +25,9 @@ void ContentLevel::LevelEnd(GameEngineLevel* _NextLevel)
 void ContentLevel::Start()
 {
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
-	//GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<FXAAEffect>();
+	
 	PhysXLevelInit();
+	// Scene->setSimulationEventCallback(CollisionCallBack);
 }
 
 void ContentLevel::Update(float _Delta)
@@ -34,7 +35,7 @@ void ContentLevel::Update(float _Delta)
 	DebugInput();
 	RunSimulation(_Delta);
 	ChaseListener();
-	
+
 	// float4 Pos = GetMainCamera()->Transform.GetWorldPosition();
 	// float4 Up = GetMainCamera()->Transform.GetWorldUpVector();
 	// float4 Forward = GetMainCamera()->Transform.GetWorldForwardVector();
@@ -94,4 +95,9 @@ void ContentLevel::DebugInput()
 	{
 		GameEngineLevel::IsDebug = !GameEngineLevel::IsDebug;
 	}
+}
+
+void ContentsCollisionCallBack::onContact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair* pairs, physx::PxU32 nbPairs)
+{
+	
 }

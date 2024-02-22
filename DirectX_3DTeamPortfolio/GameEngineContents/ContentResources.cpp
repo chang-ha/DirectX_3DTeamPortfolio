@@ -4,6 +4,7 @@
 
 #include "Monster_LothricKn.h"
 #include "LUTEffect.h"
+#include <GameEngineCore\FogEffect.h>
 
 ContentResources::ContentResources()
 {
@@ -110,6 +111,11 @@ void ContentResources::ContentResourcesInit()
 		Mat->SetVertexShader("ContentsStaticMesh_Color_VS");
 		Mat->SetPixelShader("ContentsStaticMesh_Color_PS");
 	}
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FBX_Static_Alpha");
+		Mat->SetVertexShader("ContentsStaticAlphaMesh_VS");
+		Mat->SetPixelShader("ContentsStaticAlphaMesh_PS");
+	}
 
 
 
@@ -193,6 +199,23 @@ void ContentResources::ContentResourcesInit()
 		Mat->SetBlendState("MaxMergeBlend");
 		Mat->SetDepthState("AlwaysDepth");
 	}
+
+	//Fog
+	{
+		FogEffect::Load();
+	}
+
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("Fog");
+
+		Mat->SetVertexShader("Fog_VS");
+		Mat->SetPixelShader("Fog_PS");
+		Mat->SetRasterizer("EngineRasterizer");
+		Mat->SetBlendState("MergeBlend");
+		Mat->SetDepthState("AlwaysDepth");
+	}
+
 
 	// LUT
 	{

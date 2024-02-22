@@ -251,14 +251,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="HitInteraction.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Monster_HitInteraction.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
+    <ClCompile Include="FogGUI.cpp" />
     <ClCompile Include="LUTEffect.cpp">
       <SubType>
       </SubType>

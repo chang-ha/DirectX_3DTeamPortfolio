@@ -244,12 +244,8 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 			GameEngineFBXMesh::Load(File.GetStringPath());
 		}
 
-		//if (nullptr == MainRenderer)
-		//{
-		// 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
-		//}
-
 		MainRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBX_Animation"); // Bone 136
+
 		MainRenderer->Transform.SetLocalScale({ 1.f, 1.f, 1.f });
 		MainRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.f });
 	}
@@ -389,14 +385,12 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	//// Detect Collision
 #define DETECT_SCALE 15
 	{
-		DetectCollision->SetCollisionType(ColType::SPHERE3D);
-		DetectCollision->Transform.SetLocalPosition({ 0.f, 0.f, DETECT_SCALE * 0.3f });
-		DetectCollision->Transform.SetLocalScale({ DETECT_SCALE, DETECT_SCALE, DETECT_SCALE });
-		// GameEngineDebug::DrawSphere2D(Transform, float4::GREEN, GetLevel()->GetMainCamera().get());
+		// DetectCollision->SetCollisionType(ColType::SPHERE3D);
+		// DetectCollision->Transform.SetLocalPosition({ 0.f, 0.f, DETECT_SCALE * 0.3f });
+		// DetectCollision->Transform.SetLocalScale({ DETECT_SCALE, DETECT_SCALE, DETECT_SCALE });
 	}
 
 	Capsule->PhysXComponentInit(10.0f, 5.0f);
-	// Capsule->SetMass(100.f);
 	Capsule->SetPositioningComponent();
 
 	if (nullptr == GameEngineGUI::FindGUIWindow<Boss_State_GUI>("Boss_State"))
@@ -649,6 +643,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BossCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::None);
 	}
 
+	Capsule->SetFiltering(Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
@@ -692,7 +687,6 @@ void Boss_Vordt::Update(float _Delta)
 		Cool = 3.f;
 	}
 
-
 	BaseActor::Update(_Delta);
 
 	if (true == GameEngineInput::IsPress('W', this))
@@ -730,7 +724,7 @@ void Boss_Vordt::Update(float _Delta)
 		// Capsule->AddForce({ 0.0f, 2000.0f, 0.0f, 0.0f });
 	}
 
-	if (true == GameEngineInput::IsDown('V', this))
+	if (true == GameEngineInput::IsPress('V', this))
 	{
 
 	}
@@ -750,6 +744,8 @@ void Boss_Vordt::Update(float _Delta)
 
 void Boss_Vordt::Release()
 {
+	mBoneDatas.clear();
+
 	if (nullptr != MainRenderer)
 	{
 		MainRenderer->Death();
@@ -778,10 +774,35 @@ void Boss_Vordt::Release()
 	BaseActor::Release();
 }
 
+float4 Boss_Vordt::BoneWorldPos(std::string_view _BoneName)
+{
+	std::shared_ptr<GameEngineFBXMesh> Mesh = MainRenderer->GetFBXMesh();
+	Bone* _Bone = Mesh->FindBone(_BoneName);
+	
+	std::string Name = _Bone->Name;
+	int Index = _Bone->Index;
+	int a = 0;
+	return BoneWorldPos(Index);
+}
+
 float4 Boss_Vordt::BoneWorldPos(int _BoneIndex)
 {
-	// AnimationBoneData Bone = MainRenderer->GetBoneData(_BoneIndex);
-	// Bone.Pos;
+	// BoneWorldPos("CenterBody");
 
+	mBoneDatas = MainRenderer->GetBoneDatas();
+
+	if (_BoneIndex >= mBoneDatas.size())
+	{
+		MsgBoxAssert("BoneIndex보다 큰 값이 들어왔습니다.");
+	}
+
+	const AnimationBoneData* pBoneData = &mBoneDatas[_BoneIndex];
+
+	if (nullptr == pBoneData)
+	{
+		MsgBoxAssert("BoneData가 존재하지 않습니다.");
+	}
+
+	// float4 Result = Transform.GetWorldPosition() * (*pBoneData).Pos;
 	return Transform.GetWorldPosition();
 }

@@ -32,7 +32,7 @@ enum class PlayerState
 	Shield_Idle, 
 	Shield_Move,
 	Parrying,
-
+	RockOn,
 };
 
 // Ό³Έν :
@@ -54,6 +54,7 @@ public:
 	void Player_State();
 	bool check = false;
 	std::shared_ptr<GameContentsFBXRenderer> Weapon;
+	void CameraRotation(float Delta);
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -68,16 +69,16 @@ protected:
 
 private:
 	float4 MoveDir;
-	GameEngineState PlayerState;
+	GameEngineState PlayerStates;
 	EventParameter Mini_Event;
 	std::string BoneName;
 	std::shared_ptr<GameEngineCollision> Col;
 	std::shared_ptr<GameEngineActor> SwordActor;
 	
-
+	PlayerState StateValue = PlayerState::Idle;
 	float Mouse_Pos = 0.0f;
 	
-	
+	float4 etetet = {};
 
 	bool TimeCheck = false;
 	bool Attack_Check = false;
@@ -89,9 +90,44 @@ private:
 	float MoveSpeed = 0.0f;
 	float DeltaTime = 0.0f;
 
-	
-	
+
+	float Prev_Pos_X = 0.0f;
+	float Prev_Pos_Y = 0.0f;
+		
+	float Cur_Pos_X = 0.0f;
+	float Cur_Pos_Y = 0.0f;
+
+
+	float4 Player_Pos = {};
+
+	bool IsFreeCameraValue = false;
+	bool Rock_OnOff = false;
+
 
 	float Angle = 0.0f;
+	float MonsterAngle = 0.0f;
 
+	std::shared_ptr<GameEngineActor> Actor_test;
+	std::shared_ptr<GameEngineActor> Actor_test_02;
+
+
+
+
+	float4 CameraPos = {};
+	float Mouse_Ro_X = 0.0f;
+	float Mouse_Ro_Y = 0.0f;
+	float4 PrevPos = {};
+	float Camera_Pos_Y = 0.0f;
+	float Camera_Pos_X = 0.0f;
+
+	float test = 0.0f;
+	float degree = 0.0f;
+
+	float4 sdsd = 0.0f;
+
+	float Circle_Pos_X = 0.0f;
+	float Circle_Pos_Y = 0.0f;;
 };
+
+
+

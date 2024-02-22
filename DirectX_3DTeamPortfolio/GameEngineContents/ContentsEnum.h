@@ -23,6 +23,7 @@ enum class Enum_CollisionOrder
 	Monster_Shield,
 	Detect,
 	Dummy,
+	Map,
 };
 
 enum class Enum_RenderDepth

@@ -234,14 +234,13 @@ protected:
 	float4x4& GetBoneMatrixToIndex(int _Index);
 
 	// SocketCollision
-	template<typename OrderType>
-	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(OrderType _Order, Enum_BoneType _Type, std::string_view ColName = "")
+	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(Enum_CollisionOrder _Order, Enum_BoneType _Type, std::string ColName = "")
 	{
 		int SocketIndex = GetBoneIndex(_Type);
-		return CreateSocketCollision(static_cast<int>(_Order), SocketIndex, ColName);
+		return CreateSocketCollision(_Order, SocketIndex, ColName);
 	}
 
-	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(int _Order, int _SocketIndex, std::string_view _ColName = "");
+	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(Enum_CollisionOrder _Order, int _SocketIndex, std::string _ColName = "");
 
 	std::shared_ptr<BoneSocketCollision> FindSocketCollision(Enum_BoneType _Type); 
 	void OnSocketCollision(Enum_BoneType _Type);
@@ -253,6 +252,7 @@ protected:
 	void DrawRange(float _Range, const float4& _Color = float4::RED) const;
 
 	// 나중에 지움 
+	
 	std::shared_ptr<GameEngineActor> Actor_test;
 	std::shared_ptr<GameEngineActor> Actor_test_02;
 	std::shared_ptr<GameContentsFBXRenderer> test_Render;
@@ -308,7 +308,11 @@ public:
 	{
 		return RotDir;
 	}
-
+	
+	float4 GetTargetPos()
+	{
+		return Target->Transform.GetWorldPosition();
+	}
 	float GetRotDir_f()
 	{
 		return static_cast<float>(RotDir);

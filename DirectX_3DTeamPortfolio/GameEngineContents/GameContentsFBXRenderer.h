@@ -155,7 +155,7 @@ public:
 
 	void Update(float _DeltaTime) override;
 
-	void SetFBXMesh(std::string_view _Name, std::string_view _Material);
+	void SetFBXMesh(std::string_view _Name, std::string_view _Material, RenderPath _DefaultRenderPath = RenderPath::None);
 	void SetFBXMesh(std::string_view _Name, std::string_view _Material, int _RenderUnitInfoIndex);
 
 	void SetMapFBXMesh(std::string_view _Name, std::string_view _Material);
@@ -220,10 +220,7 @@ public:
 	void AddNotBlendBoneIndex(int _Index);
 
 	// Root Motion
-	AnimationBoneData Get_Prev_BoneDate()
-	{
-		return Prev_BoneDate; 
-	}
+	
 	AnimationBoneData GetBoneData(std::string_view _Name);
 
 	AnimationBoneData GetBoneData(int _Index)
