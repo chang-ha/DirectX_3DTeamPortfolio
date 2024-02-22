@@ -13,6 +13,30 @@ physx::PxMaterial* GameEnginePhysX::Material = nullptr;
 
 std::map<std::string, physx::PxScene*> GameEnginePhysX::AllLevelScene;
 
+
+physx::PxFilterFlags PhysXFilterShader(
+	physx::PxFilterObjectAttributes attribute0,
+	physx::PxFilterData filterData0, 
+	physx::PxFilterObjectAttributes attribute1,
+	physx::PxFilterData filterData1, 
+	physx::PxPairFlags& pairFlags, 
+	const void* constantBlock, 
+	physx::PxU32 constantBlockSize)
+{
+	if (physx::PxFilterObjectIsTrigger(attribute0) || physx::PxFilterObjectIsTrigger(attribute1)) 
+	{
+		pairFlags = physx::PxPairFlag::eTRIGGER_DEFAULT | physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS;
+		return physx::PxFilterFlag::eDEFAULT;
+	}
+
+	pairFlags = physx::PxPairFlag::eNOTIFY_TOUCH_FOUND |
+		physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS |
+		physx::PxPairFlag::eDETECT_DISCRETE_CONTACT |
+		physx::PxPairFlag::eSOLVE_CONTACT;
+
+	return  physx::PxFilterFlag::eDEFAULT;
+}
+
 GameEnginePhysX::GameEnginePhysX()
 {
 
@@ -98,7 +122,7 @@ physx::PxScene* GameEnginePhysX::CreateLevelScene()
 	physx::PxVec3 vec = SceneDesc.gravity;
 
 	// FilterShader
-	SceneDesc.filterShader = physx::PxDefaultSimulationFilterShader; // 추후 자체 함수 만들어서 포인터 넘길 예정
+	SceneDesc.filterShader = PhysXFilterShader; // 충돌 필터링을 위한 FilterShader
 	
 	// Set Scenes Limit Datas
 	physx::PxSceneLimits SceneLimitsData = physx::PxSceneLimits();

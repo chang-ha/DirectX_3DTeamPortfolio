@@ -189,7 +189,6 @@ void GameEnginePhysXComponent::SetFiltering(int _CollisionOrder, int _TargetColl
 	for (physx::PxU32 i = 0; i < ShapeCount; i++)
 	{
 		physx::PxShape* CurShape = Shapes[i];
-		bool b = CurShape->isExclusive();
 		ComponentActor->detachShape(*CurShape);
 		CurShape->setSimulationFilterData(FilterData);
 		ComponentActor->attachShape(*CurShape);

@@ -2,6 +2,8 @@
 #include "ContentLevel.h"
 #include "FXAAEffect.h"
 
+ContentsCollisionCallBack  ContentLevel::CollisionCallBack;
+
 ContentLevel::ContentLevel()
 {
 	GameEngineInput::AddInputObject(this);
@@ -99,5 +101,20 @@ void ContentLevel::DebugInput()
 
 void ContentsCollisionCallBack::onContact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair* pairs, physx::PxU32 nbPairs)
 {
-	
+	while (nbPairs--)
+	{
+		physx::PxContactPair current = *pairs++;
+
+		physx::PxShape* tmpContactActor = current.shapes[0];
+		physx::PxShape* tmpOtherActor = current.shapes[1];
+
+		if (tmpContactActor->userData == nullptr || tmpOtherActor->userData == nullptr)
+		{
+			continue;
+		}
+
+		physx::PxFilterData ContactFilterdata = tmpContactActor->getSimulationFilterData(); // 주체
+		physx::PxFilterData OtherFilterdata = tmpOtherActor->getSimulationFilterData();     // 대상
+
+	}
 }
