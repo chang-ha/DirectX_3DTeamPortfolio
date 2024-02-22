@@ -255,6 +255,30 @@ std::shared_ptr<BoneSocketCollision> BaseActor::FindSocketCollision(Enum_BoneTyp
 	return GetSocketCollision(SocketIndex);
 }
 
+void BaseActor::OnSocketCollision(Enum_BoneType _Type)
+{
+	std::shared_ptr<BoneSocketCollision> pCollision = FindSocketCollision(_Type);
+	if (nullptr == pCollision)
+	{
+		MsgBoxAssert("존재하지 않는 충돌체를 끄려고 했습니다.");
+		return;
+	}
+
+	pCollision->On();
+}
+
+void BaseActor::OffSocketCollision(Enum_BoneType _Type)
+{
+	std::shared_ptr<BoneSocketCollision> pCollision = FindSocketCollision(_Type);
+	if (nullptr == pCollision)
+	{
+		MsgBoxAssert("존재하지 않는 충돌체를 끄려고 했습니다.");
+		return;
+	}
+
+	pCollision->Off();
+}
+
 void BaseActor::DrawRange(float _Range, const float4& _Color /*= float4::RED*/) const
 {
 	if (GameEngineLevel::IsDebug)

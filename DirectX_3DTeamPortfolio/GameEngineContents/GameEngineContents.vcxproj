@@ -251,7 +251,11 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Interaction_Sword.cpp">
+    <ClCompile Include="HitInteraction.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Monster_HitInteraction.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -492,7 +496,11 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Interaction_Sword.h">
+    <ClInclude Include="HitInteraction.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Monster_HitInteraction.h">
       <SubType>
       </SubType>
     </ClInclude>
