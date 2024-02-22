@@ -19,8 +19,10 @@ public:
 
 	void Init(const std::vector<GameEngineCollision*>& _pCols);
 	void Collision(Enum_CollisionOrder _Order, std::function<void (std::vector<class GameEngineCollision*>& _Other)> _CallBack);
+	void RecordCollision(class BaseActor* _pActor);
+	bool IsContain(class BaseActor* _pActor) const;
 
-	void Reset();
+	void ResetRecord();
 	void Release();
 
 private:

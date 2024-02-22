@@ -162,10 +162,13 @@ bool BaseMonster::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 			SetFlag(Enum_ActorFlag::Guard_Break, true);
 			Stat.SetPoise(0);
 		}
+		else
+		{
+			Hit.SetGuardSuccesss(true);
+		}
 
 		const int FinalDamage = GuardHitFormula(AttackerAtt);
 		Stat.AddHp(FinalDamage);
-		Hit.SetGuardSuccesss(true);
 		Hit.SetHit(true);
 
 		return true;

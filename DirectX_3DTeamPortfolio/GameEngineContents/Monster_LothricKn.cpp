@@ -310,21 +310,22 @@ void Monster_LothricKn::Update(float _Delta)
 void Monster_LothricKn::Release()
 {
 	PatrolCollision = nullptr;
+	Sword.Release();
 
 	BaseMonster::Release();
 }
 
-void Monster_LothricKn::FindTarget()
+bool Monster_LothricKn::FindAndSetTarget()
 {
 	if (true == IsTargeting())
 	{
-		return;
+		return false;
 	}
 
 	if (nullptr == PatrolCollision)
 	{
 		MsgBoxAssert("충돌체를 생성하지 않고 사용하려고 했습니다.");
-		return;
+		return false;
 	}
 
 	std::shared_ptr<GameEngineActor> pActor;
@@ -355,7 +356,11 @@ void Monster_LothricKn::FindTarget()
 	{
 		PatrolCollision->Off();
 		SetTargeting(pActor.get());
+
+		return true;
 	}
+
+	return false;
 };
 
 void Monster_LothricKn::WakeUp() 
@@ -384,9 +389,15 @@ float Monster_LothricKn::ConvertDistance_eTof(Enum_TargetDist _eTDist) const
 	return 0.0f;
 }
 
-void Monster_LothricKn::AttackTo(eAttackType _eBoneType, Enum_CollisionOrder _Order)
+void Monster_LothricKn::AttackToPlayer(eAttackType _eBoneType)
 {
-	std::function ToShieldColEvent = [=](std::vector<GameEngineCollision*> _Other)
+	AttackToBody(_eBoneType, Enum_CollisionOrder::Player);
+	AttackToShield(_eBoneType, Enum_CollisionOrder::Player_Shield);
+}
+
+void Monster_LothricKn::AttackToBody(eAttackType _eBoneType, Enum_CollisionOrder _Order)
+{
+	std::function ColEvent = [=](std::vector<GameEngineCollision*> _Other)
 		{
 			for (GameEngineCollision* pCol : _Other)
 			{
@@ -403,28 +414,15 @@ void Monster_LothricKn::AttackTo(eAttackType _eBoneType, Enum_CollisionOrder _Or
 					return;
 				}
 
-				pActor->GetHitToShield({ this });
-			}
-		};
-
-	std::function ToBodyColEvent = [=](std::vector<GameEngineCollision*> _Other)
-		{
-			for (GameEngineCollision* pCol : _Other)
-			{
-				if (nullptr == pCol)
+				if (true == Sword.IsContain(pActor.get()))
 				{
-					MsgBoxAssert("결과값이 잘못되어 있습니다.");
-					return;
+					continue;
 				}
-
-				std::shared_ptr<BaseActor> pActor = pCol->GetActor()->GetDynamic_Cast_This<BaseActor>();
-				if (nullptr == pActor)
+				else
 				{
-					MsgBoxAssert("형변환에 실패했습니다.");
-					return;
+					Sword.RecordCollision(pActor.get());
+					pActor->GetHit({ this });
 				}
-
-				pActor->GetHit({ this });
 			}
 		};
 
@@ -433,7 +431,7 @@ void Monster_LothricKn::AttackTo(eAttackType _eBoneType, Enum_CollisionOrder _Or
 	case Monster_LothricKn::eAttackType::None:
 		break;
 	case Monster_LothricKn::eAttackType::Sword:
-		Sword.Collision(_Order, ToBodyColEvent);
+		Sword.Collision(_Order, ColEvent);
 		break;
 	case Monster_LothricKn::eAttackType::Shield:
 		break;
@@ -444,11 +442,49 @@ void Monster_LothricKn::AttackTo(eAttackType _eBoneType, Enum_CollisionOrder _Or
 	}
 }
 
-void Monster_LothricKn::AttackToPlayerInFrame(eAttackType _eBoneType, int _iStart, int _iEnd /*= -1*/)
+void Monster_LothricKn::AttackToShield(eAttackType _eBoneType, Enum_CollisionOrder _Order)
 {
-	if (IsFrame(_iStart, _iEnd))
+	std::function ColEvent = [=](std::vector<GameEngineCollision*> _Other)
+		{
+			for (GameEngineCollision* pCol : _Other)
+			{
+				if (nullptr == pCol)
+				{
+					MsgBoxAssert("결과값이 잘못되어 있습니다.");
+					return;
+				}
+
+				std::shared_ptr<BaseActor> pActor = pCol->GetActor()->GetDynamic_Cast_This<BaseActor>();
+				if (nullptr == pActor)
+				{
+					MsgBoxAssert("형변환에 실패했습니다.");
+					return;
+				}
+
+				if (true == Sword.IsContain(pActor.get()))
+				{
+					continue;
+				}
+				else
+				{
+					Sword.RecordCollision(pActor.get());
+					pActor->GetHitToShield({ this });
+				}
+			}
+		};
+
+	switch (_eBoneType)
 	{
-		AttackTo(_eBoneType, Enum_CollisionOrder::Player);
-		// AttackTo(_eBoneType, _Order);
+	case Monster_LothricKn::eAttackType::None:
+		break;
+	case Monster_LothricKn::eAttackType::Sword:
+		Sword.Collision(_Order, ColEvent);
+		break;
+	case Monster_LothricKn::eAttackType::Shield:
+		break;
+	case Monster_LothricKn::eAttackType::CrossBow:
+		break;
+	default:
+		break;
 	}
 }
