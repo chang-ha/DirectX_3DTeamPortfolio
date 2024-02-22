@@ -21,6 +21,7 @@ enum class Enum_CollisionOrder
 	MonsterAttack,
 	Detect,
 	Dummy,
+	Map,
 };
 
 enum class Enum_RenderDepth

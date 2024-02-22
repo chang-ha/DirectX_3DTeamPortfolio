@@ -24,7 +24,7 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
 		// Boss_Object->Transform.SetWorldPosition({ 0.f, 200.f, 3000.f });
-		Boss_Object->Transform.SetWorldPosition({ -500.f, -2000.f, 2500.f });
+		Boss_Object->Transform.SetWorldPosition({ -1000.f, -2000.f, 3500.f });
 	}
 
 	// Light

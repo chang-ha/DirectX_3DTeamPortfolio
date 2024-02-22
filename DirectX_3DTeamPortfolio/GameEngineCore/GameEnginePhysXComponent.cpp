@@ -42,7 +42,11 @@ void GameEnginePhysXComponent::Update(float _Delta)
 
 void GameEnginePhysXComponent::Release()
 {
-
+	if (nullptr != ComponentActor)
+	{
+		ComponentActor->release();
+		ComponentActor = nullptr;
+	}
 }
 
 /*
@@ -55,18 +59,31 @@ eACCELERATION  == unit of distance/ time^2, i.e. an acceleration. It gets treate
 
 void GameEnginePhysXComponent::MoveForce(const physx::PxVec3 _Force, bool _IgnoreGravity/* = false*/)
 {
+	if (false == JudgeDynamic())
+	{
+		MsgBoxAssert("Dynamic객체만 움직일 수 있습니다.");
+	}
+
+	physx::PxRigidDynamic* DynamicActor = ComponentActor->is<physx::PxRigidDynamic>();
+
 	physx::PxVec3 CurLV = physx::PxVec3({ 0.0f });
 	if (false == _IgnoreGravity)
 	{
-		CurLV = ComponentActor->getLinearVelocity();
+		CurLV = DynamicActor->getLinearVelocity();
 	}
 
-	ComponentActor->setLinearVelocity({ _Force.x, _Force.y + CurLV.y, _Force.z }); // 현재 중력을 받아오기 위해
+	DynamicActor->setLinearVelocity({ _Force.x, _Force.y + CurLV.y, _Force.z }); // 현재 중력을 받아오기 위해
 }
 
 void GameEnginePhysXComponent::AddForce(const physx::PxVec3 _Force)
 {
-	ComponentActor->addForce(_Force, physx::PxForceMode::eVELOCITY_CHANGE);
+	if (false == JudgeDynamic())
+	{
+		MsgBoxAssert("Dynamic객체만 움직일 수 있습니다.");
+	}
+	physx::PxRigidDynamic* DynamicActor = ComponentActor->is<physx::PxRigidDynamic>();
+
+	DynamicActor->addForce(_Force, physx::PxForceMode::eVELOCITY_CHANGE);
 }
 
 void GameEnginePhysXComponent::SetWorldPosition(const float4& _Pos)
@@ -126,7 +143,13 @@ void GameEnginePhysXComponent::AddWorldRotation(const float4& _Degree)
 
 void GameEnginePhysXComponent::ResetMove(int _Axies)
 {
-	physx::PxVec3 CurLV = ComponentActor->getLinearVelocity();
+	if (false == JudgeDynamic())
+	{
+		MsgBoxAssert("Dynamic객체만 움직일 수 있습니다.");
+	}
+	physx::PxRigidDynamic* DynamicActor = ComponentActor->is<physx::PxRigidDynamic>();
+
+	physx::PxVec3 CurLV = DynamicActor->getLinearVelocity();
 
 	if (Enum_Axies::X & _Axies)
 	{
@@ -143,5 +166,46 @@ void GameEnginePhysXComponent::ResetMove(int _Axies)
 		CurLV.z = 0.0f;
 	}
 
-	ComponentActor->setLinearVelocity({ CurLV.x, CurLV.y, CurLV.z });
+	DynamicActor->setLinearVelocity({ CurLV.x, CurLV.y, CurLV.z });
+}
+
+void GameEnginePhysXComponent::SetFiltering(int _CollisionOrder, int _TargetCollisionOrder)
+{
+	physx::PxFilterData FilterData;
+	FilterData.word0 = _CollisionOrder;
+	FilterData.word1 = _TargetCollisionOrder;
+
+	physx::PxU32 ShapeCount = ComponentActor->getNbShapes();
+	
+	if (0 >= ShapeCount)
+	{
+		return;
+	}
+
+	physx::PxShape** Shapes = (physx::PxShape**)malloc(sizeof(physx::PxShape*) * ShapeCount);
+
+	ComponentActor->getShapes(Shapes, ShapeCount);
+
+	for (physx::PxU32 i = 0; i < ShapeCount; i++)
+	{
+		physx::PxShape* CurShape = Shapes[i];
+		bool b = CurShape->isExclusive();
+		ComponentActor->detachShape(*CurShape);
+		CurShape->setSimulationFilterData(FilterData);
+		ComponentActor->attachShape(*CurShape);
+	}
+
+	free(Shapes);
+}
+
+bool GameEnginePhysXComponent::JudgeDynamic()
+{
+	physx::PxType Type = ComponentActor->getConcreteType();
+
+	if (physx::PxConcreteType::eRIGID_DYNAMIC != Type)
+	{
+		return false;
+	}
+
+	return true;
 }
