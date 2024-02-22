@@ -305,7 +305,11 @@ public:
 	{
 		return RotDir;
 	}
-
+	
+	float4 GetTargetPos()
+	{
+		return Target->Transform.GetWorldPosition();
+	}
 	float GetRotDir_f()
 	{
 		return static_cast<float>(RotDir);

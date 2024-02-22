@@ -744,9 +744,9 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 
 	if (nullptr != CurAnimation)
 	{
-		if (0.0f != CurAnimation->PlayTime)
+		if (0.0f != CurAnimation->PlayTime && NotBlendBoneIndexs.size() != 0 ) 
 		{
-			AnimationBoneData Data = AnimationBoneDatas[53];
+			AnimationBoneData Data = AnimationBoneDatas[*NotBlendBoneIndexs.begin()];
 			Prev_BoneDate.Pos = Data.Pos;
 
 			BlendBoneData = AnimationBoneDatas;

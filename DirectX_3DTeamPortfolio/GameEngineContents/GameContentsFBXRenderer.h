@@ -217,10 +217,7 @@ public:
 	void AddNotBlendBoneIndex(int _Index);
 
 	// Root Motion
-	AnimationBoneData Get_Prev_BoneDate()
-	{
-		return Prev_BoneDate; 
-	}
+	
 	AnimationBoneData GetBoneData(std::string_view _Name);
 
 	AnimationBoneData GetBoneData(int _Index)
