@@ -3148,6 +3148,12 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToGDodgeTable(Enum_TargetDist _e
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToHitTable()
 {
+	bool DeathCheck = (0 >= Stat.GetHp());
+	if (DeathCheck)
+	{
+		return Enum_LothricKn_State::F_Death;
+	}
+
 	bool bHit = (true == Hit.IsHit());
 	if (bHit)
 	{

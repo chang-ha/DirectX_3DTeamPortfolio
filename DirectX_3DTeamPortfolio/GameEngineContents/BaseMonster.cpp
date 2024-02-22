@@ -113,6 +113,14 @@ bool BaseMonster::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 		return false;
 	}
 
+	const int Stiffness = _Para.iStiffness;
+	Stat.AddPoise(Stiffness);
+	if (0 >= Stat.GetPoise())
+	{
+		SetFlag(Enum_ActorFlag::Break_Posture, true);
+		Stat.SetPoise(0);
+	}
+
 	const int AttackerAtt = pAttacker->GetAtt();
 
 	const int Damage = HitFormula(AttackerAtt);

@@ -110,9 +110,6 @@ public:
 	inline void SetAtt(int _Value) { Att = _Value; }
 	inline int GetAtt() const { return Att; }
 
-	inline void SetDef(int _Value) { Def = _Value; }
-	inline int GetDef() const { return Def; }
-
 	inline void SetSouls(int _Value) { Souls = _Value; }
 	inline int GetSouls() const { return Souls; }
 
@@ -123,7 +120,6 @@ public:
 private:
 	int Hp = 0; // 체력
 	int Att = 0; // 공격력
-	int Def = 0; // 방어력
 	int Souls = 0; // 소울량
 	int Poise = 0; // 강인도
 

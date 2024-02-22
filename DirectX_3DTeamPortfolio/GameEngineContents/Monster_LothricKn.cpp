@@ -34,7 +34,7 @@ void Monster_LothricKn::Start()
 	Capsule->SetPositioningComponent();
 
 	// Anmation
-	MainRenderer->SetFBXMesh("c1280.fbx", "FBXAnimationTexture");
+	MainRenderer->SetFBXMesh("c1280.fbx", "FBX_Animation");
 
 	MainRenderer->CreateFBXAnimation("Idle_Standing1", "c1280_000000.fbx");
 	MainRenderer->CreateFBXAnimation("Idle_Standing2", "c1280_000020.fbx");
@@ -258,7 +258,12 @@ void Monster_LothricKn::Start()
 	MainRenderer->SetRootMotion("F_Stab");
 	MainRenderer->SetRootMotion("F_Stab_Death");
 
+	// Mask
 	MaskReset();
+
+	// Stat
+	Stat.SetHp(326); // Official Hp
+	Stat.SetAtt(1);
 
 	// Collision
 	std::shared_ptr<BoneSocketCollision> AttackCol = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
