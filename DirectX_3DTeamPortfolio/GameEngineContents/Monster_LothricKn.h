@@ -133,6 +133,7 @@ public:
 	Monster_LothricKn& operator=(Monster_LothricKn&& _Other) noexcept = delete;
 
 	void WakeUp() override;
+	void Init();
 
 protected:
 	void Start() override;

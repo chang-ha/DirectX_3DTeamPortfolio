@@ -51,10 +51,9 @@ BaseActor::~BaseActor()
 void BaseActor::Start()
 {
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
+	MainRenderer->Transform.SetLocalScale(float4(W_SCALE, W_SCALE, W_SCALE));
 
 	Stat.SetPoise(100); // 모든 객체가 강인도 100을 가지고 있음 << DS3 Official
-
-	Transform.SetLocalScale(float4(W_SCALE, W_SCALE, W_SCALE));
 }
 
 void BaseActor::Update(float _Delta)
@@ -193,6 +192,7 @@ std::shared_ptr<BoneSocketCollision> BaseActor::CreateSocketCollision(Enum_Colli
 	NewCol->SetName(_ColName);
 	NewCol->SetBoneIndex(_SocketIndex);
 	NewCol->SetCollisionType(ColType::SPHERE3D);
+	NewCol->SetRendererTransformPointer(&MainRenderer->Transform);
 	NewCol->SetSocket(&GetBoneMatrixToIndex(_SocketIndex));
 	NewCol->Off();
 	SocketCollisions.insert(std::make_pair(_SocketIndex, NewCol));

@@ -265,15 +265,24 @@ void Monster_LothricKn::Start()
 	Stat.SetHp(326); // Official Hp
 	Stat.SetAtt(1);
 
+	const float AttackSize = 1.0f * W_SCALE;
+	const float BodySize = 1.0f * W_SCALE;
+	const float PatrolSize = 5.0f * W_SCALE;
+
 	// Collision
 	std::shared_ptr<BoneSocketCollision> AttackCol = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
-	Sword.Init(this, AttackCol.get());
+	AttackCol->Transform.SetLocalScale(float4(AttackSize, AttackSize, AttackSize));
+	AttackCol->On();
 
 	std::shared_ptr<BoneSocketCollision> BodyCol = CreateSocketCollision(Enum_CollisionOrder::Monster, Enum_BoneType::B_01_Spine, "B_01_Spine");
+	BodyCol->Transform.SetLocalScale(float4(BodySize, BodySize, BodySize));
 	BodyCol->On();
+	BodyCol->Transform.DebugOn();
+
+	Sword.Init(this, AttackCol.get());
 
 	PatrolCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
-	PatrolCollision->Transform.SetWorldScale(float4(300, 300, 300));
+	PatrolCollision->Transform.SetWorldScale(float4(PatrolSize, PatrolSize, PatrolSize));
 	PatrolCollision->SetCollisionType(ColType::SPHERE3D);
 	PatrolCollision->SetCollisionColor(float4::BLUE);
 
@@ -281,6 +290,8 @@ void Monster_LothricKn::Start()
 	CombatState = Enum_Combat_State::Normal;
 
 	CreateFSM();
+
+	Transform.SetLocalScale(float4(1.0f, 1.0f, 1.0f));
 }
 
 void Monster_LothricKn::Update(float _Delta)
@@ -530,6 +541,7 @@ float4 Monster_LothricKn::GetBackStabPosition()
 float4 Monster_LothricKn::GetFrontStabPosition()
 {
 	SetFlag(Enum_ActorFlag::FrontStab, true);
+	Hit.SetHit(true);
 	const float4 MyPos = Transform.GetWorldPosition();
 	const float4 MyRot = Transform.GetWorldRotationEuler();
 	const float4 DirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);
