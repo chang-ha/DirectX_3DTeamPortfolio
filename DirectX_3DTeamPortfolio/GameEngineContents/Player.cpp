@@ -123,9 +123,9 @@ void Player::Start()
 
 	MainRenderer->SetRootMotionComponent(Capsule.get());
 
-	/*MainRenderer->SetRootMotion("Attack_01");
+	MainRenderer->SetRootMotion("Attack_01");
 	MainRenderer->SetRootMotion("Walk_Forward","",Enum_RootMotionMode::RealTimeDir);
-	MainRenderer->SetRootMotion("Roll_Forward");*/
+	MainRenderer->SetRootMotion("Roll_Forward");
 
 
 
@@ -222,7 +222,6 @@ void Player::Update(float _Delta)
 
 	//Capsule->SetWorldRotation({ 0.0f,GetTargetAngle(),0.0f });
 
-	//Capsule->MoveForce({ float4::LEFT * Speed }, GetTargetAngle());
 
 
 
@@ -329,19 +328,17 @@ void Player::Update(float _Delta)
 		{
 			Angle *= -1.f;
 		}
-
-
-
-
-
 	}
 
-	/*Capsule->AddWorldRotation({ 0.0f, 1.0f,0.0f });
-	Capsule->MoveForce({ float4::LEFT * Speed });*/
+	
 
 	float4 WorldMousePos = degree;
 
-		OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
+	OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
+	/*Capsule->AddWorldRotation({ 0.0f, 1.0f,0.0f });
+	Capsule->MoveForce({ float4::LEFT * Speed });*/
+
+	
 
 
 	/*Col->CollisionEvent(0, { .Stay = [&](class GameEngineCollision* _This,class GameEngineCollision* _collisions)

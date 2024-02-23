@@ -42,6 +42,7 @@ public:
 		return CapsuleActor->getGlobalPose().p;
 	}
 
+	
 	bool IsGravity()
 	{
 		physx::PxActorFlags Flags = CapsuleActor->getActorFlags();

@@ -27,6 +27,10 @@ void PlayLevel::Start()
 	GetMainCamera()->Transform.SetWorldRotation({ 0.0f,0.0f,0.0f });
 	GetMainCamera()->Transform.SetWorldPosition({ 0.0f, 0.0f, -1000.0f });
 
+	{
+		std::shared_ptr<GameEngineLight> Object = CreateActor<GameEngineLight>(0);
+	}
+
 }
 
 void PlayLevel::Update(float _Delta)
@@ -85,10 +89,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	//	Object->check = true;
 	//}
 
-	{
-		std::shared_ptr<GameEngineLight> Object = CreateActor<GameEngineLight>(0);
-	}
-
+	
 
 	{
 		std::shared_ptr<MainUIActor> MainUI = CreateActor<MainUIActor>();
