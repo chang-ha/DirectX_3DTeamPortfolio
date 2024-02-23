@@ -1,6 +1,6 @@
 #include "Light.fx"
 
-cbuffer CameraBaseInfo : register(b1)
+cbuffer CameraBaseInfo : register(b2)
 {
     float SizeX;
     float SizeY;
@@ -28,6 +28,8 @@ PixelOutPut ContentsDeferredLightRender_VS(GameEngineVertex2D _Input)
     PixelOutPut Result = (PixelOutPut) 0;
     Result.POSITION = _Input.POSITION;
     Result.TEXCOORD = _Input.TEXCOORD;
+    
+    
     return Result;
 }
 
@@ -38,6 +40,7 @@ Texture2D DiffuseTexture : register(t3);
 Texture2D MaterialTexture : register(t4);
 SamplerState POINTWRAP : register(s0);
 SamplerState LINEARClamp : register(s1);
+SamplerComparisonState CompareSampler : register(s2);
 
 struct DeferredRenderOutPut
 {
@@ -118,7 +121,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
     {
            
          // PCF를 위한 오프셋
-        float2 texelSize = 1.0f / float2(SizeX, SizeY);
+        float2 texelSize = 1.0f / float2(LightDataValue.ShadowTargetSizeX, LightDataValue.ShadowTargetSizeY);
     
         float2 offsets[9] =
         {
@@ -142,24 +145,72 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
         
         // 그런데 놀랍게도.
         float3 LightProjection = LightPos.xyz / LightPos.w;
+        float CurrentDepth = LightProjection.z;
         float2 ShadowUV = float2(LightProjection.x * 0.5f + 0.5f, LightProjection.y * -0.5f + 0.5f);
-        float fShadowDepth = ShadowTex.Sample(LINEARClamp, ShadowUV).r;
+        //float fShadowDepth = ShadowTex.SampleCmpLevelZero(CompareSampler, ShadowUV, CurrentDepth - 0.01f);
+        //float fShadowDepth = ShadowTex.Sample(POINTWRAP, ShadowUV).r;
         // xy는 뭐로 압축됬나요? => -1 ~ 1사이의 공간으로 간거죠? 직교투영
         // LightProjection.z
 
-        if (
-            fShadowDepth >= 0.0f
-            && 0.01f < ShadowUV.x && 0.999f > ShadowUV.x
-            && 0.01f < ShadowUV.y && 0.999f > ShadowUV.y
-            && LightProjection.z >= (fShadowDepth + 0.001f)
-            )
+        
+       
+        
+        if ( 0.01f > ShadowUV.x && 0.999f < ShadowUV.x
+           && 0.01f > ShadowUV.y && 0.999f < ShadowUV.y)
         {
-            
-            Result.Shadow = 0.1f;
-            //Result.DifLight = 0.0f;
-            //Result.SpcLight = 0.0f;
-            // 그림자
+            Result.Shadow = 1.0f;
         }
+        else
+        {
+            float shadow = 0.0f;
+            
+            [unroll]
+            for (int i = 0; i < 9; ++i)
+            {
+                float fShadowDepth = ShadowTex.Sample(POINTWRAP, ShadowUV + offsets[i]).r;
+            
+            
+            
+            if (
+                fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.001f)
+             )
+                {
+            
+                    shadow += 1.0f;
+                }
+            }
+            
+            shadow /= 9.0f;
+            
+            Result.Shadow = shadow;
+
+        }
+        
+        
+        
+
+        
+        
+        //if (
+        //    fShadowDepth >= 0.0f
+        //    && 0.01f < ShadowUV.x && 0.999f > ShadowUV.x
+        //    && 0.01f < ShadowUV.y && 0.999f > ShadowUV.y
+        //    && LightProjection.z >= (fShadowDepth + 0.001f)
+        //    )
+        
+        //if (
+        //   fShadowDepth >= 0.0f
+        //   && 0.01f < ShadowUV.x && 0.999f > ShadowUV.x
+        //   && 0.01f < ShadowUV.y && 0.999f > ShadowUV.y
+        //   && LightProjection.z >= (fShadowDepth + 0.001f)
+        //     )
+        //{
+            
+        //    Result.Shadow = 0.1f;
+        //    //Result.DifLight = 0.0f;
+        //    //Result.SpcLight = 0.0f;
+        //    // 그림자
+        //}
         
     }
     

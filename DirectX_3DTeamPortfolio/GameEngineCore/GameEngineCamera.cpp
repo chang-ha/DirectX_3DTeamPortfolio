@@ -117,7 +117,8 @@ void GameEngineCamera::Start()
 		//DeferredLightRenderUnit.ShaderResHelper.SetConstantBufferLink("CameraBaseInfo", CameraBaseInfoValue);
 
 		DeferredLightRenderUnit.ShaderResHelper.SetSampler("POINTWRAP", "POINT");
-		DeferredLightRenderUnit.ShaderResHelper.SetSampler("LinearClamp", "LINEAR");
+		//DeferredLightRenderUnit.ShaderResHelper.SetSampler("LinearClamp", "LINEAR");
+		//DeferredLightRenderUnit.ShaderResHelper.SetSampler("CompareSampler", "CompareSampler");
 
 		
 
@@ -146,6 +147,7 @@ void GameEngineCamera::Start()
 		DeferredMergeUnit.ShaderResHelper.SetTexture("PBRTex", DeferredLightTarget->GetTexture(5));
 		DeferredMergeUnit.ShaderResHelper.SetSampler("POINTClamp", "POINT");
 		DeferredMergeUnit.ShaderResHelper.SetSampler("LinearClamp", "LINEAR");
+		
 	}
 
 	ShadowRenderUnit.SetMesh("Box");
