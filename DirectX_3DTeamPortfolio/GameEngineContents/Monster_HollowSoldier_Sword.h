@@ -117,7 +117,7 @@ protected:
 	void State_Scout_Update(float _Delta);
 
 	void State_Walk_Start();
-	void State_Walk_Update(float _Delat);
+	void State_Walk_Update(float _Delta);
 
 	void State_Run_Start();
 	void State_Run_Update(float _Delta);

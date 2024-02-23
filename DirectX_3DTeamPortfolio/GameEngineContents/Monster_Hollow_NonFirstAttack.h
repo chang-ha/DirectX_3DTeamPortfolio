@@ -15,12 +15,20 @@ enum class Enum_Hollow_State
 	PrayToIdle3,
 	BeScaredToIdle,
 	Idle,
-	//Walk,
-	//Run,
+	Walk,
+	Run,
 	RH_VerticalSlash,
 	RH_HorizontalSlash,
 	RH_ComboAttack,
 	RH_TwinSlash,
+	Turn_Left2,
+	Turn_Right2,
+	Turn_Left_Twice2,
+	Turn_Right_Twice2,
+	Turn_Left1,
+	Turn_Right1,
+	Turn_Left_Twice1,
+	Turn_Right_Twice1,
 	AttackFail,
 	Parrying,
 	Hit,
@@ -64,11 +72,10 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 
-
-	
-
 private:
 	float StateTime = 0.0f;
+
+	bool IsAttack = false;
 
 protected:
 	Enum_Hollow_State HollowState = Enum_Hollow_State::Max;
@@ -77,6 +84,7 @@ protected:
 	void ChangeState(Enum_Hollow_State _State);
 	void StateUpdate(float _Delta);
 
+	void ChangeAttackState();
 
 protected:
 	// State Function
@@ -116,6 +124,12 @@ protected:
 	void State_Idle_Start();
 	void State_Idle_Update(float _Delta);
 
+	void State_Walk_Start();
+	void State_Walk_Update(float _Delta);
+
+	void State_Run_Start();
+	void State_Run_Update(float _Delta);
+
 	void State_RH_VerticalSlash_Start();
 	void State_RH_VerticalSlash_Update(float _Delta);
 
@@ -127,6 +141,18 @@ protected:
 
 	void State_RH_TwinSlash_Start();
 	void State_RH_TwinSlash_Update(float _Delta);
+
+	void State_Turn_Left2_Start();
+	void State_Turn_Left2_Update(float _Delta);
+
+	void State_Turn_Right2_Start();
+	void State_Turn_Right2_Update(float _Delta);
+
+	void State_Turn_Left_Twice2_Start();
+	void State_Turn_Left_Twice2_Update(float _Delta);
+
+	void State_Turn_Right_Twice2_Start();
+	void State_Turn_Right_Twice2_Update(float _Delta);
 
 	void State_AttackFail_Start();
 	void State_AttackFail_Update(float _Delta);

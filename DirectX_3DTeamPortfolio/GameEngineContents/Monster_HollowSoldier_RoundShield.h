@@ -14,6 +14,7 @@ enum class Enum_HollowSoldier_RoundShield_State
 	Walk,
 	Walk3,
 	Run,
+	Run3,
 	RH_VerticalSlash,
 	RH_HorizontalSlash,
 	RH_ComboAttack,
@@ -63,9 +64,9 @@ public:
 	Monster_HollowSoldier_RoundShield& operator=(const Monster_HollowSoldier_RoundShield & _Other) = delete;
 	Monster_HollowSoldier_RoundShield& operator=(Monster_HollowSoldier_RoundShield && _Other) noexcept = delete;
 
-	void SetStateIdle3()
+	void SetStateIdle1()
 	{
-		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle3);
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle1);
 	}
 
 protected:
@@ -73,13 +74,16 @@ protected:
 	void Update(float _Delta) override;
 private:
 	float StateTime = 0.0f;
-	int AttackPattern = 0;
+
+	bool IsAttack = false;
 	
 protected:
 	Enum_HollowSoldier_RoundShield_State ShieldState = Enum_HollowSoldier_RoundShield_State::Max;
 
 	void ChangeState(Enum_HollowSoldier_RoundShield_State _State);
 	void StateUpdate(float _Delta);
+
+	void ChangeAttackState();
 
 protected:
 	// State Function
@@ -109,13 +113,16 @@ protected:
 	void State_Scout_Update(float _Delta);
 
 	void State_Walk_Start();
-	void State_Walk_Update(float _Delat);
+	void State_Walk_Update(float _Delta);
 
 	void State_Walk3_Start();
-	void State_Walk3_Update(float _Delat);
+	void State_Walk3_Update(float _Delta);
 
 	void State_Run_Start();
 	void State_Run_Update(float _Delta);
+
+	void State_Run3_Start();
+	void State_Run3_Update(float _Delta);
 
 	void State_RH_VerticalSlash_Start();
 	void State_RH_VerticalSlash_Update(float _Delta);
@@ -129,24 +136,31 @@ protected:
 	void State_RH_TwinSlash_Start();
 	void State_RH_TwinSlash_Update(float _Delta);
 
+	// Vertical
 	void State_Attack1_Start();
 	void State_Attack1_Update(float _Delta);
 
+	// Vertical Horizontal
 	void State_Attack2_Start();
 	void State_Attack2_Update(float _Delta);
 
+	// Vertical Horizontal TH
 	void State_Attack3_Start();
 	void State_Attack3_Update(float _Delta);
 
+	// TH
 	void State_Attack4_Start();
 	void State_Attack4_Update(float _Delta);
 
+	// Twin
 	void State_Attack5_Start();
 	void State_Attack5_Update(float _Delta);
 
+	// Sting
 	void State_Attack6_Start();
 	void State_Attack6_Update(float _Delta);
 
+	// Fist Charging
 	void State_Attack7_Start();
 	void State_Attack7_Update(float _Delta);
 
