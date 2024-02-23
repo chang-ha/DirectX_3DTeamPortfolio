@@ -5,6 +5,8 @@ enum class Enum_HollowSoldier_Sword_State
 {
 	Idle1,
 	Idle2,
+	Idle2ToIdle1,
+	Idle1ToIdle2,
 	Scout,
 	Walk,
 	Run,
@@ -12,6 +14,7 @@ enum class Enum_HollowSoldier_Sword_State
 	RH_HorizontalSlash,
 	RH_ComboAttack,
 	RH_TwinSlash,
+	RH_RunToSting,
 	Attack1,
 	Attack2,
 	Attack3,
@@ -25,6 +28,14 @@ enum class Enum_HollowSoldier_Sword_State
 	Attack11,
 	//Attack12,
 	Attack13,
+	Turn_Left2,
+	Turn_Right2,
+	Turn_Left_Twice2,
+	Turn_Right_Twice2,
+	Turn_Left1,
+	Turn_Right1,
+	Turn_Left_Twice1,
+	Turn_Right_Twice1,
 	AttackFail,
 	Parrying,
 	Hit,
@@ -69,7 +80,8 @@ protected:
 private:
 	float StateTime = 0.0f;
 
-	int AttackPattern = 0;
+	
+
 
 protected:
 	Enum_HollowSoldier_Sword_State SoldierState = Enum_HollowSoldier_Sword_State::Max;
@@ -79,14 +91,12 @@ protected:
 
 	void ChangeAttackState();
 
-private:
-	std::shared_ptr<GameEngineCollision> RecognizeCollision;
-	std::shared_ptr<GameEngineCollision> AttackRangeCollision;
+	
 
+private:
 	bool IsRecognize = false;
 	bool IsAttack = false;
 
-	class GameEngineRandom RandomAttack;
 
 protected:
 	//State Function
@@ -96,6 +106,12 @@ protected:
 
 	void State_Idle2_Start();
 	void State_Idle2_Update(float _Delta);
+
+	void State_Idle1ToIdle2_Start();
+	void State_Idle1ToIdle2_Update(float _Delta);
+
+	void State_Idle2ToIdle1_Start();
+	void State_Idle2ToIdle1_Update(float _Delta);
 
 	void State_Scout_Start();
 	void State_Scout_Update(float _Delta);
@@ -117,6 +133,9 @@ protected:
 
 	void State_RH_TwinSlash_Start();
 	void State_RH_TwinSlash_Update(float _Delta);
+
+	void State_RH_RunToSting_Start();
+	void State_RH_RunToSting_Update(float _Delta);
 
 	// Vertical
 	void State_Attack1_Start();
@@ -167,6 +186,30 @@ protected:
 	// TH
 	void State_Attack13_Start();
 	void State_Attack13_Update(float _Delta);
+
+	void State_Turn_Left2_Start();
+	void State_Turn_Left2_Update(float _Delta);
+
+	void State_Turn_Right2_Start();
+	void State_Turn_Right2_Update(float _Delta);
+
+	void State_Turn_Left_Twice2_Start();
+	void State_Turn_Left_Twice2_Update(float _Delta);
+
+	void State_Turn_Right_Twice2_Start();
+	void State_Turn_Right_Twice2_Update(float _Delta);
+
+	void State_Turn_Left1_Start();
+	void State_Turn_Left1_Update(float _Delta);
+
+	void State_Turn_Right1_Start();
+	void State_Turn_Right1_Update(float _Delta);
+
+	void State_Turn_Left_Twice1_Start();
+	void State_Turn_Left_Twice1_Update(float _Delta);
+
+	void State_Turn_Right_Twice1_Start();
+	void State_Turn_Right_Twice1_Update(float _Delta);
 
 	void State_AttackFail_Start();
 	void State_AttackFail_Update(float _Delta);

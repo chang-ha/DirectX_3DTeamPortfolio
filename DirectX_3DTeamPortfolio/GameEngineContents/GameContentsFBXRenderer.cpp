@@ -1009,7 +1009,8 @@ void GameContentsFBXRenderer::BlendReset()
 
 void GameContentsFBXRenderer::SetBlendTime(std::string_view _AnimationName, float _fBlendTime)
 {
-	const std::shared_ptr<GameContentsFBXAnimationInfo>& AnimInfo = FindAnimation(_AnimationName);
+	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
+	const std::shared_ptr<GameContentsFBXAnimationInfo>& AnimInfo = FindAnimation(UpperName);
 	if (nullptr == AnimInfo)
 	{
 		std::string AnimName = _AnimationName.data();
@@ -1018,6 +1019,12 @@ void GameContentsFBXRenderer::SetBlendTime(std::string_view _AnimationName, floa
 	}
 
 	AnimInfo->SetBlendTime(_fBlendTime);
+}
+
+void GameContentsFBXRenderer::SetBlendTime(std::string_view _AnimationName, int _iBlendFrame)
+{
+	float fBlendTime = static_cast<float>(_iBlendFrame)* ONE_FRAME_DTIME;
+	SetBlendTime(_AnimationName, fBlendTime);
 }
 
 void GameContentsFBXRenderer::AddNotBlendBoneIndex(int _Index)

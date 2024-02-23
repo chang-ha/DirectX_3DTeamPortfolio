@@ -37,11 +37,21 @@ void Monster_Hollow::Start()
 
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::Bone);
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::UpperBody);
+
+	RecognizeCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
+	RecognizeCollision->SetCollisionType(ColType::SPHERE3D);
+	RecognizeCollision->SetCollisionColor(float4::BLACK);
+	RecognizeCollision->Transform.SetWorldScale(float4(500, 500, 500));
+
+	AttackRangeCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
+	AttackRangeCollision->SetCollisionType(ColType::SPHERE3D);
+	AttackRangeCollision->SetCollisionColor(float4::RED);
+	AttackRangeCollision->Transform.SetWorldScale(float4(300, 300, 300));
 }
 
 void Monster_Hollow::Update(float _Delta)
 {
-	
+	BaseMonster::Update(_Delta);
 }
 
 void Monster_Hollow::Release()
@@ -308,6 +318,70 @@ void Monster_Hollow::SettingRootMotion()
 	MainRenderer->SetRootMotion("c1100_Lantern_Turn_Right");
 	MainRenderer->SetRootMotion("c1100_Lantern_Turn_Left_Twice");
 	MainRenderer->SetRootMotion("c1100_Lantern_Turn_Right_Twice");
+}
+
+void Monster_Hollow::FindTarget()
+{
+	if (true == IsTargeting())
+	{
+		return;
+	}
+
+	if (nullptr == RecognizeCollision)
+	{
+		MsgBoxAssert("충돌체 없음.");
+		return;
+	}
+
+	std::shared_ptr<GameEngineActor> OtherActor;
+
+	RecognizeCollision->Collision(Enum_CollisionOrder::Dummy, [&OtherActor](std::vector<GameEngineCollision*>& _Other)
+		{
+			for (GameEngineCollision* OtherCol : _Other)
+			{
+				if (nullptr == OtherCol)
+				{
+					MsgBoxAssert("OtherCol 없음.");
+					return;
+				}
+
+				OtherActor = OtherCol->GetActor()->GetDynamic_Cast_This<GameEngineActor>();
+
+				if (nullptr == OtherActor)
+				{
+					MsgBoxAssert("OtherActor 실패.");
+					return;
+				}
+
+			}
+		});
+
+	bool FindValue = (nullptr != OtherActor);
+	if (FindValue)
+	{
+		RecognizeCollision->Off();
+		SetTargeting(OtherActor.get());
+	}
+}
+
+bool Monster_Hollow::IsTargetInAngle(float _fAngle) const
+{
+	const float AbsTargetAngle = std::fabs(BaseActor::GetTargetAngle());
+
+	if (AbsTargetAngle < _fAngle)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void Monster_Hollow::RotToTarget(float _Delta)
+{
+	const float fRotDir = BaseActor::GetRotDir_f();
+	const float RotAngle = fRotDir * 300.0f * _Delta;
+
+	Capsule->AddWorldRotation(float4(0.0f, RotAngle, 0.0f));
 }
 
 

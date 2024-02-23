@@ -232,6 +232,12 @@
     <ClCompile Include="FogGUI.cpp">
       <Filter>ImGui\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="Monster_HitInteraction.cpp">
+      <Filter>Actor\Monster\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="HitInteraction.cpp">
+      <Filter>Actor\Struct</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -459,8 +465,11 @@
     <ClInclude Include="DummyProjectile.h">
       <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
     </ClInclude>
-    <ClInclude Include="FogGUI.h">
-      <Filter>ImGui\Editor</Filter>
+    <ClInclude Include="HitInteraction.h">
+      <Filter>Actor\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_HitInteraction.h">
+      <Filter>Actor\Monster\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -544,6 +553,9 @@
     </Filter>
     <Filter Include="Actor\Monster\LothricKnight\Dummy">
       <UniqueIdentifier>{92a2ac9b-d55f-436c-bcd2-979dcb35a03d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Struct">
+      <UniqueIdentifier>{b54b4e95-a146-4f3a-a889-9fe422f8bde0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

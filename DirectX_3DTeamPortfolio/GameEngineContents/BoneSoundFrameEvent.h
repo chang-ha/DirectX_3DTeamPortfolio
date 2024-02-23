@@ -46,7 +46,7 @@ private:
 	int BoneIndex = -1;
 	std::string SoundName;
 
-	const AnimationBoneData* pBoneData = nullptr;
+	float4x4 BoneMatrix;
 	GameEngineActor* pActor = nullptr;
 
 };

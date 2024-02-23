@@ -6,9 +6,14 @@ enum class Enum_HollowSoldier_RoundShield_State
 	Idle1,
 	Idle2,
 	Idle3,	// GuardOn
+	Idle2ToIdle1,
+	Idle1ToIdle2,
+	Idle2ToIdle3,
+	Idle3ToIdle2,
 	Scout,
-	//Walk,
-	//Run,
+	Walk,
+	Walk3,
+	Run,
 	RH_VerticalSlash,
 	RH_HorizontalSlash,
 	RH_ComboAttack,
@@ -20,6 +25,18 @@ enum class Enum_HollowSoldier_RoundShield_State
 	Attack5,
 	Attack6,
 	Attack7,
+	Turn_Left2,
+	Turn_Right2,
+	Turn_Left_Twice2,
+	Turn_Right_Twice2,
+	Turn_Left1,
+	Turn_Right1,
+	Turn_Left_Twice1,
+	Turn_Right_Twice1,
+	Turn_Left3,
+	Turn_Right3,
+	Turn_Left_Twice3,
+	Turn_Right_Twice3,
 	Guard,	// °ø°Ý ¸·Èû
 	GuardBreak,
 	AttackFail,
@@ -76,8 +93,29 @@ protected:
 	void State_Idle3_Start();
 	void State_Idle3_Update(float _Delta);
 
+	void State_Idle2ToIdle1_Start();
+	void State_Idle2ToIdle1_Update(float _Delta);
+
+	void State_Idle1ToIdle2_Start();
+	void State_Idle1ToIdle2_Update(float _Delta);
+
+	void State_Idle2ToIdle3_Start();
+	void State_Idle2ToIdle3_Update(float _Delta);
+
+	void State_Idle3ToIdle2_Start();
+	void State_Idle3ToIdle2_Update(float _Delta);
+
 	void State_Scout_Start();
 	void State_Scout_Update(float _Delta);
+
+	void State_Walk_Start();
+	void State_Walk_Update(float _Delat);
+
+	void State_Walk3_Start();
+	void State_Walk3_Update(float _Delat);
+
+	void State_Run_Start();
+	void State_Run_Update(float _Delta);
 
 	void State_RH_VerticalSlash_Start();
 	void State_RH_VerticalSlash_Update(float _Delta);
@@ -111,6 +149,42 @@ protected:
 
 	void State_Attack7_Start();
 	void State_Attack7_Update(float _Delta);
+
+	void State_Turn_Left2_Start();
+	void State_Turn_Left2_Update(float _Delta);
+
+	void State_Turn_Right2_Start();
+	void State_Turn_Right2_Update(float _Delta);
+
+	void State_Turn_Left_Twice2_Start();
+	void State_Turn_Left_Twice2_Update(float _Delta);
+
+	void State_Turn_Right_Twice2_Start();
+	void State_Turn_Right_Twice2_Update(float _Delta);
+
+	void State_Turn_Left1_Start();
+	void State_Turn_Left1_Update(float _Delta);
+
+	void State_Turn_Right1_Start();
+	void State_Turn_Right1_Update(float _Delta);
+
+	void State_Turn_Left_Twice1_Start();
+	void State_Turn_Left_Twice1_Update(float _Delta);
+
+	void State_Turn_Right_Twice1_Start();
+	void State_Turn_Right_Twice1_Update(float _Delta);
+
+	void State_Turn_Left3_Start();
+	void State_Turn_Left3_Update(float _Delta);
+
+	void State_Turn_Right3_Start();
+	void State_Turn_Right3_Update(float _Delta);
+
+	void State_Turn_Left_Twice3_Start();
+	void State_Turn_Left_Twice3_Update(float _Delta);
+
+	void State_Turn_Right_Twice3_Start();
+	void State_Turn_Right_Twice3_Update(float _Delta);
 
 	void State_Guard_Start();
 	void State_Guard_Update(float _Delta);

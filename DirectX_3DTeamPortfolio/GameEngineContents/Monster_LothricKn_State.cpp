@@ -52,6 +52,35 @@ void Monster_LothricKn::ResetStateTime()
 	fMaxStateTime = 0.0f;
 }
 
+void Monster_LothricKn::SetCombatMode(Enum_Combat_State _Combat)
+{
+	if (CombatState == _Combat)
+	{
+		return;
+	}
+
+	CombatState = _Combat;
+
+	switch (_Combat)
+	{
+	case Monster_LothricKn::Enum_Combat_State::Normal:
+		SetFlag(Enum_ActorFlag::TwoHand, false);
+		SetFlag(Enum_ActorFlag::Guarding, false);
+		break;
+	case Monster_LothricKn::Enum_Combat_State::Two_Handed:
+		SetFlag(Enum_ActorFlag::TwoHand, true);
+		SetFlag(Enum_ActorFlag::Guarding, false);
+		break;
+	case Monster_LothricKn::Enum_Combat_State::Guarding:
+		SetFlag(Enum_ActorFlag::TwoHand, false);
+		SetFlag(Enum_ActorFlag::Guarding, true);
+		break;
+	case Monster_LothricKn::Enum_Combat_State::None:
+		break;
+	default:
+		break;
+	}
+}
 
 
 
@@ -62,51 +91,55 @@ void Monster_LothricKn::ResetStateTime()
 void Monster_LothricKn::CreateFSM()
 {
 	MainState.CreateState(Enum_LothricKn_State::Debug ,{.Start = std::bind(&Monster_LothricKn::Start_Debug,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Debug,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::Idle_Standing1 ,{.Start = std::bind(&Monster_LothricKn::StartIdle_Standing1,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::UpdateIdle_Standing1,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::Idle_Standing1 ,{.Start = std::bind(&Monster_LothricKn::Start_Idle_Standing1,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Idle_Standing1,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::Sleep, { .Start = std::bind(&Monster_LothricKn::StartSleep,this, std::placeholders::_1), .End = std::bind(&Monster_LothricKn::EndSleep,this, std::placeholders::_1) });
-	MainState.CreateState(Enum_LothricKn_State::Patrol, { .Start = std::bind(&Monster_LothricKn::StartPatrol,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::UpdatePatrol,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::Combo_Att_11, { .Start = std::bind(&Monster_LothricKn::Start_Combo_Att_11,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Combo_Att_11,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::Combo_Att_12, { .Start = std::bind(&Monster_LothricKn::Start_Combo_Att_12,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Combo_Att_12,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::Combo_Att_13, { .Start = std::bind(&Monster_LothricKn::Start_Combo_Att_13,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Combo_Att_13,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::Combo_Att_21, { .Start = std::bind(&Monster_LothricKn::Start_Combo_Att_21,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Combo_Att_21,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::Combo_Att_22, { .Start = std::bind(&Monster_LothricKn::Start_Combo_Att_22,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Combo_Att_22,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::Combo_Att_23, { .Start = std::bind(&Monster_LothricKn::Start_Combo_Att_23,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Combo_Att_23,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::RH_Att_HitDown, { .Start = std::bind(&Monster_LothricKn::Start_RH_Att_HitDown,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_RH_Att_HitDown,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::LH_ShieldAttack, { .Start = std::bind(&Monster_LothricKn::StartLH_ShieldAttack,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::UpdateLH_ShieldAttack,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::RH_Rear_Att, { .Start = std::bind(&Monster_LothricKn::Start_RH_Rear_Att,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_RH_Rear_Att,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::L_Turn, { .Start = std::bind(&Monster_LothricKn::Start_L_Turn,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_L_Turn,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::R_Turn, { .Start = std::bind(&Monster_LothricKn::Start_R_Turn,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_R_Turn,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::L_TurnTwice, { .Start = std::bind(&Monster_LothricKn::Start_L_TurnTwice,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_L_TurnTwice,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::R_TurnTwice, { .Start = std::bind(&Monster_LothricKn::Start_R_TurnTwice,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_R_TurnTwice,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::L_Side_Step, { .Start = std::bind(&Monster_LothricKn::Start_L_Side_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_L_Side_Step,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::R_Side_Step, { .Start = std::bind(&Monster_LothricKn::Start_R_Side_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_R_Side_Step,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::F_Step, { .Start = std::bind(&Monster_LothricKn::Start_F_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Step,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::B_Step, { .Start = std::bind(&Monster_LothricKn::Start_B_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_B_Step,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::Run, { .Start = std::bind(&Monster_LothricKn::Start_Run,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Run,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::DH_Hold, { .Start = std::bind(&Monster_LothricKn::Start_DH_Hold,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Hold,this, std::placeholders::_1,std::placeholders::_2)});
-	MainState.CreateState(Enum_LothricKn_State::DH_UnHold, { .Start = std::bind(&Monster_LothricKn::Start_DH_UnHold,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_UnHold,this, std::placeholders::_1,std::placeholders::_2)});
-	MainState.CreateState(Enum_LothricKn_State::DH_Stab_Att, { .Start = std::bind(&Monster_LothricKn::Start_DH_Stab_Att,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Stab_Att,this, std::placeholders::_1,std::placeholders::_2)});
-	MainState.CreateState(Enum_LothricKn_State::DH_Swing_Att, { .Start = std::bind(&Monster_LothricKn::Start_DH_Swing_Att,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Swing_Att,this, std::placeholders::_1,std::placeholders::_2)});
-	MainState.CreateState(Enum_LothricKn_State::DH_L_Side_Step, { .Start = std::bind(&Monster_LothricKn::Start_DH_L_Side_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Walk,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::DH_R_Side_Step, { .Start = std::bind(&Monster_LothricKn::Start_DH_R_Side_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Walk,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::DH_F_Step, { .Start = std::bind(&Monster_LothricKn::Start_DH_F_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Walk,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::DH_B_Step, { .Start = std::bind(&Monster_LothricKn::Start_DH_B_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Walk,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::G_Up, { .Start = std::bind(&Monster_LothricKn::Start_G_Up,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Up,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::G_Down, { .Start = std::bind(&Monster_LothricKn::Start_G_Down,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Down,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::G_L_Side_Step, { .Start = std::bind(&Monster_LothricKn::Start_G_L_Side_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Walk,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::G_R_Side_Step, { .Start = std::bind(&Monster_LothricKn::Start_G_R_Side_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Walk,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::G_F_Step, { .Start = std::bind(&Monster_LothricKn::Start_G_F_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Walk,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::G_B_Step, { .Start = std::bind(&Monster_LothricKn::Start_G_B_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Walk,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::G_L_Turn, { .Start = std::bind(&Monster_LothricKn::Start_G_L_Turn,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_L_Turn,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::G_R_Turn, { .Start = std::bind(&Monster_LothricKn::Start_G_R_Turn,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_R_Turn,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::G_L_TurnTwice, { .Start = std::bind(&Monster_LothricKn::Start_G_L_TurnTwice,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_L_TurnTwice,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::G_R_TurnTwice, { .Start = std::bind(&Monster_LothricKn::Start_G_R_TurnTwice,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_R_TurnTwice,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::G_Run, { .Start = std::bind(&Monster_LothricKn::Start_G_Run,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Run,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::G_Att_Bash, { .Start = std::bind(&Monster_LothricKn::Start_G_Att_Bash,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Att_Bash,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::Patrol, { .Start = std::bind(&Monster_LothricKn::Start_Patrol,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Patrol,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::Combo_Att_11, { .Start = std::bind(&Monster_LothricKn::Start_Combo_Att_11,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Combo_Att_11,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_Combo_Att_11, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::Combo_Att_12, { .Start = std::bind(&Monster_LothricKn::Start_Combo_Att_12,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Combo_Att_12,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_Combo_Att_12, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::Combo_Att_13, { .Start = std::bind(&Monster_LothricKn::Start_Combo_Att_13,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Combo_Att_13,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_Combo_Att_13, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::Combo_Att_21, { .Start = std::bind(&Monster_LothricKn::Start_Combo_Att_21,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Combo_Att_21,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_Combo_Att_21, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::Combo_Att_22, { .Start = std::bind(&Monster_LothricKn::Start_Combo_Att_22,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Combo_Att_22,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_Combo_Att_22, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::Combo_Att_23, { .Start = std::bind(&Monster_LothricKn::Start_Combo_Att_23,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Combo_Att_23,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_Combo_Att_23, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::RH_Att_HitDown, { .Start = std::bind(&Monster_LothricKn::Start_RH_Att_HitDown,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_RH_Att_HitDown,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_RH_Att_HitDown, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::LH_ShieldAttack, { .Start = std::bind(&Monster_LothricKn::Start_LH_ShieldAttack,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_LH_ShieldAttack,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_LH_ShieldAttack, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::RH_Rear_Att, { .Start = std::bind(&Monster_LothricKn::Start_RH_Rear_Att,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_RH_Rear_Att,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_RH_Rear_Att, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::L_Turn, { .Start = std::bind(&Monster_LothricKn::Start_L_Turn,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_L_Turn,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_L_Turn, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::R_Turn, { .Start = std::bind(&Monster_LothricKn::Start_R_Turn,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_R_Turn,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_R_Turn, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::L_TurnTwice, { .Start = std::bind(&Monster_LothricKn::Start_L_TurnTwice,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_L_TurnTwice,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_L_TurnTwice, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::R_TurnTwice, { .Start = std::bind(&Monster_LothricKn::Start_R_TurnTwice,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_R_TurnTwice,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_R_TurnTwice, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::L_Side_Step, { .Start = std::bind(&Monster_LothricKn::Start_L_Side_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_L_Side_Step,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_L_Side_Step, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::R_Side_Step, { .Start = std::bind(&Monster_LothricKn::Start_R_Side_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_R_Side_Step,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_R_Side_Step, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::F_Step, { .Start = std::bind(&Monster_LothricKn::Start_F_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Step,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_F_Step, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::B_Step, { .Start = std::bind(&Monster_LothricKn::Start_B_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_B_Step,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_B_Step, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::Run, { .Start = std::bind(&Monster_LothricKn::Start_Run,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Run,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_Run, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::DH_Hold, { .Start = std::bind(&Monster_LothricKn::Start_DH_Hold,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Hold,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_DH_Hold, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::DH_UnHold, { .Start = std::bind(&Monster_LothricKn::Start_DH_UnHold,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_UnHold,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_DH_UnHold, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::DH_Stab_Att, { .Start = std::bind(&Monster_LothricKn::Start_DH_Stab_Att,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Stab_Att,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_DH_Stab_Att, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::DH_Swing_Att, { .Start = std::bind(&Monster_LothricKn::Start_DH_Swing_Att,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Swing_Att,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_DH_Swing_Att, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::DH_L_Side_Step, { .Start = std::bind(&Monster_LothricKn::Start_DH_L_Side_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Walk,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_DH_L_Side_Step, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::DH_R_Side_Step, { .Start = std::bind(&Monster_LothricKn::Start_DH_R_Side_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Walk,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_DH_R_Side_Step, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::DH_F_Step, { .Start = std::bind(&Monster_LothricKn::Start_DH_F_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Walk,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_DH_F_Step, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::DH_B_Step, { .Start = std::bind(&Monster_LothricKn::Start_DH_B_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_DH_Walk,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_DH_B_Step, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::G_Up, { .Start = std::bind(&Monster_LothricKn::Start_G_Up,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Up,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_G_Up, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::G_Down, { .Start = std::bind(&Monster_LothricKn::Start_G_Down,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Down,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_G_Down, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::G_L_Side_Step, { .Start = std::bind(&Monster_LothricKn::Start_G_L_Side_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Walk,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_G_L_Side_Step, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::G_R_Side_Step, { .Start = std::bind(&Monster_LothricKn::Start_G_R_Side_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Walk,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_G_R_Side_Step, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::G_F_Step, { .Start = std::bind(&Monster_LothricKn::Start_G_F_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Walk,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_G_F_Step, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::G_B_Step, { .Start = std::bind(&Monster_LothricKn::Start_G_B_Step,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Walk,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_G_B_Step, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::G_L_Turn, { .Start = std::bind(&Monster_LothricKn::Start_G_L_Turn,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_L_Turn,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_G_L_Turn, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::G_R_Turn, { .Start = std::bind(&Monster_LothricKn::Start_G_R_Turn,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_R_Turn,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_G_R_Turn, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::G_L_TurnTwice, { .Start = std::bind(&Monster_LothricKn::Start_G_L_TurnTwice,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_L_TurnTwice,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_G_L_TurnTwice, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::G_R_TurnTwice, { .Start = std::bind(&Monster_LothricKn::Start_G_R_TurnTwice,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_R_TurnTwice,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_G_R_TurnTwice, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::G_Run, { .Start = std::bind(&Monster_LothricKn::Start_G_Run,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Run,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_G_Run, this, std::placeholders::_1) });
+	MainState.CreateState(Enum_LothricKn_State::G_Att_Bash, { .Start = std::bind(&Monster_LothricKn::Start_G_Att_Bash,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_Att_Bash,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_G_Att_Bash, this, std::placeholders::_1) });
 	MainState.CreateState(Enum_LothricKn_State::F_Hit_W, { .Start = std::bind(&Monster_LothricKn::Start_F_Hit_W,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Hit_W,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::B_Hit_W, { .Start = std::bind(&Monster_LothricKn::Start_B_Hit_W,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Hit_W,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::R_Hit_W, { .Start = std::bind(&Monster_LothricKn::Start_R_Hit_W,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Hit_W,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::L_Hit_W, { .Start = std::bind(&Monster_LothricKn::Start_L_Hit_W,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Hit_W,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::F_Hit, { .Start = std::bind(&Monster_LothricKn::Start_F_Hit,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Hit,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::B_Hit, { .Start = std::bind(&Monster_LothricKn::Start_B_Hit,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Hit,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::R_Hit, { .Start = std::bind(&Monster_LothricKn::Start_R_Hit,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Hit,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::L_Hit, { .Start = std::bind(&Monster_LothricKn::Start_L_Hit,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Hit,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::G_F_Hit_W, { .Start = std::bind(&Monster_LothricKn::Start_G_F_Hit_W,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_F_Hit_W,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::G_F_Hit_W_PushBack, { .Start = std::bind(&Monster_LothricKn::Start_G_F_Hit_W_PushBack,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_F_Hit_W_PushBack,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::G_F_Hit, { .Start = std::bind(&Monster_LothricKn::Start_G_F_Hit,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_G_F_Hit,this, std::placeholders::_1,std::placeholders::_2) });
@@ -119,10 +152,10 @@ void Monster_LothricKn::CreateFSM()
 	MainState.CreateState(Enum_LothricKn_State::F_Death_End, { .Start = std::bind(&Monster_LothricKn::Start_F_Death_End,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Death_End,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::F_Death_B, { .Start = std::bind(&Monster_LothricKn::Start_F_Death_B,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Death_B,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::F_Death_B_End, { .Start = std::bind(&Monster_LothricKn::Start_F_Death_B_End,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Death_B_End,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::B_Stab, { .Start = std::bind(&Monster_LothricKn::Start_B_Stab,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_B_Stab,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::B_Stab, { .Start = std::bind(&Monster_LothricKn::Start_B_Stab,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_B_Stab,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_B_Stab,this, std::placeholders::_1) });
 	MainState.CreateState(Enum_LothricKn_State::B_Stab_Death, { .Start = std::bind(&Monster_LothricKn::Start_B_Stab_Death,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_B_Stab_Death,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::B_Stab_Death_End, { .Start = std::bind(&Monster_LothricKn::Start_B_Stab_Death_End,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_B_Stab_Death_End,this, std::placeholders::_1,std::placeholders::_2) });
-	MainState.CreateState(Enum_LothricKn_State::F_Stab, { .Start = std::bind(&Monster_LothricKn::Start_F_Stab,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Stab,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::F_Stab, { .Start = std::bind(&Monster_LothricKn::Start_F_Stab,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Stab,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Monster_LothricKn::End_F_Stab,this, std::placeholders::_1) });
 	MainState.CreateState(Enum_LothricKn_State::F_Stab_Death, { .Start = std::bind(&Monster_LothricKn::Start_F_Stab_Death,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Stab_Death,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::F_Stab_Death_End, { .Start = std::bind(&Monster_LothricKn::Start_F_Stab_Death_End,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_F_Stab_Death_End,this, std::placeholders::_1,std::placeholders::_2) });
 
@@ -139,58 +172,68 @@ void Monster_LothricKn::Start_Debug(GameEngineState* _State)
 	MainRenderer->ChangeAnimation("Idle_Standing1");
 }
 
-void Monster_LothricKn::StartIdle_Standing1(GameEngineState* _State)
+void Monster_LothricKn::Start_Idle_Standing1(GameEngineState* _State)
 {
 	MainRenderer->ChangeAnimation("Idle_Standing1");
 }
 
-void Monster_LothricKn::StartPatrol(GameEngineState* _State)
+void Monster_LothricKn::Start_Patrol(GameEngineState* _State)
 {
+	OnWeaponMask();
+	SetCombatMode(Enum_Combat_State::Normal);
 	MainRenderer->ChangeAnimation("Patrol");
 }
 
 void Monster_LothricKn::Start_Combo_Att_11(GameEngineState* _State)
 {
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("Combo_Att_11");
 }
 
 void Monster_LothricKn::Start_Combo_Att_12(GameEngineState* _State)
 {
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("Combo_Att_12");
 }
 
 void Monster_LothricKn::Start_Combo_Att_13(GameEngineState* _State)
 {
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("Combo_Att_13");
 }
 
 void Monster_LothricKn::Start_Combo_Att_21(GameEngineState* _State)
 {
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("Combo_Att_21");
 }
 
 void Monster_LothricKn::Start_Combo_Att_22(GameEngineState* _State)
 {
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("Combo_Att_22");
 }
 
 void Monster_LothricKn::Start_Combo_Att_23(GameEngineState* _State)
 {
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("Combo_Att_23");
 }
 
 void Monster_LothricKn::Start_RH_Att_HitDown(GameEngineState* _State)
 {
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("RH_Att_HitDown");
 }
 
-void Monster_LothricKn::StartLH_ShieldAttack(GameEngineState* _State)
+void Monster_LothricKn::Start_LH_ShieldAttack(GameEngineState* _State)
 {
 	MainRenderer->ChangeAnimation("LH_ShieldAttack");
 }
 
 void Monster_LothricKn::Start_RH_Rear_Att(GameEngineState* _State)
 {
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("RH_Rear_Att");
 }
 
@@ -246,6 +289,7 @@ void Monster_LothricKn::Start_Run(GameEngineState* _State)
 
 void Monster_LothricKn::Start_Idle_Sit(GameEngineState* _State)
 {
+	MaskReset();
 	MainRenderer->ChangeAnimation("Idle_Sit");
 }
 
@@ -256,161 +300,245 @@ void Monster_LothricKn::Start_SitUp(GameEngineState* _State)
 
 void Monster_LothricKn::Start_DH_Hold(GameEngineState* _State)
 {
-	CombatState = Enum_Combat_State::Two_Handed;
+	SetCombatMode(Enum_Combat_State::Two_Handed);
 	MainRenderer->ChangeAnimation("DH_Hold");
 }
 
 void Monster_LothricKn::Start_DH_UnHold(GameEngineState* _State)
 {
-	CombatState = Enum_Combat_State::Normal;
 	MainRenderer->ChangeAnimation("DH_UnHold");
 }
 
 void Monster_LothricKn::Start_DH_Stab_Att(GameEngineState* _State)
 {
-	CombatState = Enum_Combat_State::Normal;
+	Sword.ResetRecord();
+	SetCombatMode(Enum_Combat_State::Normal);
 	MainRenderer->ChangeAnimation("DH_Stab_Att");
 }
 
 void Monster_LothricKn::Start_DH_Swing_Att(GameEngineState* _State)
 {
-	CombatState = Enum_Combat_State::Normal;
+	Sword.ResetRecord();
+	SetCombatMode(Enum_Combat_State::Normal);
 	MainRenderer->ChangeAnimation("DH_Swing_Att");
 }
 
 void Monster_LothricKn::Start_DH_L_Side_Step(GameEngineState* _State)
 {
+	SetCombatMode(Enum_Combat_State::Two_Handed);
 	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("DH_L_Side_Step");
 }
 
 void Monster_LothricKn::Start_DH_R_Side_Step(GameEngineState* _State)
 {
+	SetCombatMode(Enum_Combat_State::Two_Handed);
 	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("DH_R_Side_Step");
 }
 
 void Monster_LothricKn::Start_DH_F_Step(GameEngineState* _State)
 {
+	SetCombatMode(Enum_Combat_State::Two_Handed);
 	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("DH_F_Step");
 }
 
 void Monster_LothricKn::Start_DH_B_Step(GameEngineState* _State)
 {
+	SetCombatMode(Enum_Combat_State::Two_Handed);
 	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("DH_B_Step");
 }
 
 void Monster_LothricKn::Start_G_Up(GameEngineState* _State)
 {
-	CombatState = Enum_Combat_State::Gaurding;
+	SetCombatMode(Enum_Combat_State::Guarding);
 	MainRenderer->ChangeAnimation("G_Up");
 }
 
 void Monster_LothricKn::Start_G_Down(GameEngineState* _State)
 {
-	CombatState = Enum_Combat_State::Normal;
+	SetCombatMode(Enum_Combat_State::Normal);
 	MainRenderer->ChangeAnimation("G_Down");
 }
 
 void Monster_LothricKn::Start_G_L_Side_Step(GameEngineState* _State) 
 {
+	SetCombatMode(Enum_Combat_State::Guarding);
 	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("G_L_Side_Step");
 }
 
 void Monster_LothricKn::Start_G_R_Side_Step(GameEngineState* _State) 
 {
+	SetCombatMode(Enum_Combat_State::Guarding);
 	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("G_R_Side_Step");
 }
 
 void Monster_LothricKn::Start_G_F_Step(GameEngineState* _State) 
 {
+	SetCombatMode(Enum_Combat_State::Guarding);
 	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("G_F_Step");
 }
 
 void Monster_LothricKn::Start_G_B_Step(GameEngineState* _State) 
 {
+	SetCombatMode(Enum_Combat_State::Guarding);
 	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("G_B_Step");
 }
 
 void Monster_LothricKn::Start_G_L_Turn(GameEngineState* _State) 
 {
+	SetCombatMode(Enum_Combat_State::Guarding);
 	MainRenderer->ChangeAnimation("G_L_Turn");
 }
 
 void Monster_LothricKn::Start_G_R_Turn(GameEngineState* _State) 
 {
+	SetCombatMode(Enum_Combat_State::Guarding);
 	MainRenderer->ChangeAnimation("G_R_Turn");
 }
 
 void Monster_LothricKn::Start_G_L_TurnTwice(GameEngineState* _State) 
 {
+	SetCombatMode(Enum_Combat_State::Guarding);
 	MainRenderer->ChangeAnimation("G_L_TurnTwice");
 }
 
 void Monster_LothricKn::Start_G_R_TurnTwice(GameEngineState* _State) 
 {
+	SetCombatMode(Enum_Combat_State::Guarding);
 	MainRenderer->ChangeAnimation("G_R_TurnTwice");
 }
 
 void Monster_LothricKn::Start_G_Run(GameEngineState* _State)
 {
+	SetCombatMode(Enum_Combat_State::Guarding);
 	MainRenderer->ChangeAnimation("G_Run");
 }
 
 void Monster_LothricKn::Start_G_Att_Bash(GameEngineState* _State) 
 {
-	CombatState = Enum_Combat_State::Normal;
+	SetCombatMode(Enum_Combat_State::Normal);
 	MainRenderer->ChangeAnimation("G_Att_Bash");
 }
 
 void Monster_LothricKn::Start_F_Hit_W(GameEngineState* _State)
 {
+	Hit.SetHit(false);
+	SetCombatMode(Enum_Combat_State::Normal);
+	SetFlag(Enum_ActorFlag::Break_Posture, false);
+	SetFlag(Enum_ActorFlag::Guard_Break, false);
+	SetFlag(Enum_ActorFlag::Block_Shield, false);
 	MainRenderer->ChangeAnimation("F_Hit_W", true);
 }
 
 void Monster_LothricKn::Start_B_Hit_W(GameEngineState * _State)
 {
+	Hit.SetHit(false);
+	SetCombatMode(Enum_Combat_State::Normal);
+	SetFlag(Enum_ActorFlag::Break_Posture, false);
+	SetFlag(Enum_ActorFlag::Guard_Break, false);
+	SetFlag(Enum_ActorFlag::Block_Shield, false);
 	MainRenderer->ChangeAnimation("B_Hit_W", true);
 }
 
 void Monster_LothricKn::Start_R_Hit_W(GameEngineState * _State)
 {
+	Hit.SetHit(false);
+	SetCombatMode(Enum_Combat_State::Normal);
+	SetFlag(Enum_ActorFlag::Break_Posture, false);
+	SetFlag(Enum_ActorFlag::Guard_Break, false);
+	SetFlag(Enum_ActorFlag::Block_Shield, false);
 	MainRenderer->ChangeAnimation("R_Hit_W", true);
 }
 
 void Monster_LothricKn::Start_L_Hit_W(GameEngineState * _State)
 {
+	Hit.SetHit(false);
+	SetCombatMode(Enum_Combat_State::Normal);
+	SetFlag(Enum_ActorFlag::Break_Posture, false);
+	SetFlag(Enum_ActorFlag::Guard_Break, false);
+	SetFlag(Enum_ActorFlag::Block_Shield, false);
 	MainRenderer->ChangeAnimation("L_Hit_W", true);
 }
 
+void Monster_LothricKn::Start_F_Hit(GameEngineState* _State)
+{
+	Hit.SetHit(false);
+	SetCombatMode(Enum_Combat_State::Normal);
+	SetFlag(Enum_ActorFlag::Break_Posture, false);
+	SetFlag(Enum_ActorFlag::Guard_Break, false);
+	SetFlag(Enum_ActorFlag::Block_Shield, false);
+	MainRenderer->ChangeAnimation("F_Hit", true);
+}
+
+void Monster_LothricKn::Start_B_Hit(GameEngineState* _State)
+{
+	Hit.SetHit(false);
+	SetCombatMode(Enum_Combat_State::Normal);
+	SetFlag(Enum_ActorFlag::Break_Posture, false);
+	SetFlag(Enum_ActorFlag::Guard_Break, false);
+	SetFlag(Enum_ActorFlag::Block_Shield, false);
+	MainRenderer->ChangeAnimation("B_Hit", true);
+}
+
+void Monster_LothricKn::Start_R_Hit(GameEngineState* _State)
+{
+	Hit.SetHit(false);
+	SetCombatMode(Enum_Combat_State::Normal);
+	SetFlag(Enum_ActorFlag::Break_Posture, false);
+	SetFlag(Enum_ActorFlag::Guard_Break, false);
+	SetFlag(Enum_ActorFlag::Block_Shield, false);
+	MainRenderer->ChangeAnimation("R_Hit", true);
+}
+
+void Monster_LothricKn::Start_L_Hit(GameEngineState* _State) 
+{
+	Hit.SetHit(false);
+	SetCombatMode(Enum_Combat_State::Normal);
+	SetFlag(Enum_ActorFlag::Break_Posture, false);
+	SetFlag(Enum_ActorFlag::Guard_Break, false);
+	SetFlag(Enum_ActorFlag::Block_Shield, false);
+	MainRenderer->ChangeAnimation("L_Hit", true);
+}
+
+
 void Monster_LothricKn::Start_G_F_Hit_W(GameEngineState * _State)
 {
+	Hit.SetHit(false);
 	MainRenderer->ChangeAnimation("G_F_Hit_W");
 }
 
 void Monster_LothricKn::Start_G_F_Hit_W_PushBack(GameEngineState * _State)
 {
+	Hit.SetHit(false);
+	Hit.SetGuardSuccesss(false);
 	MainRenderer->ChangeAnimation("G_F_Hit_W_PushBack");
 }
 
 void Monster_LothricKn::Start_G_F_Hit(GameEngineState * _State)
 {
+	Hit.SetHit(false);
+	Hit.SetGuardSuccesss(false);
 	MainRenderer->ChangeAnimation("G_F_Hit");
 }
 
 void Monster_LothricKn::Start_G_F_Hit_PushBack(GameEngineState * _State)
 {
+	Hit.SetHit(false);
+	Hit.SetGuardSuccesss(false);
 	MainRenderer->ChangeAnimation("G_F_Hit_PushBack");
 }
 
 void Monster_LothricKn::Start_G_F_Hit_S_PushBack(GameEngineState * _State)
 {
+	Hit.SetHit(false);
+	Hit.SetGuardSuccesss(false);
 	MainRenderer->ChangeAnimation("G_F_Hit_S_PushBack");
 }
 
@@ -421,12 +549,14 @@ void Monster_LothricKn::Start_Block_Shield(GameEngineState * _State)
 
 void Monster_LothricKn::Start_G_Break(GameEngineState * _State)
 {
+	SetCombatMode(Enum_Combat_State::Normal);
 	MainRenderer->ChangeAnimation("G_Break");
 }
 
 void Monster_LothricKn::Start_Break_Down(GameEngineState * _State)
 {
-	MainRenderer->ChangeAnimation("Break_Down");
+	SetCombatMode(Enum_Combat_State::Normal);
+	MainRenderer->ChangeAnimation("Break_Posture");
 }
 
 void Monster_LothricKn::Start_F_Death(GameEngineState * _State)
@@ -451,6 +581,7 @@ void Monster_LothricKn::Start_F_Death_B_End(GameEngineState * _State)
 
 void Monster_LothricKn::Start_B_Stab(GameEngineState * _State)
 {
+	Hit.SetInvincible(true);
 	MainRenderer->ChangeAnimation("B_Stab");
 }
 
@@ -466,6 +597,7 @@ void Monster_LothricKn::Start_B_Stab_Death_End(GameEngineState * _State)
 
 void Monster_LothricKn::Start_F_Stab(GameEngineState * _State)
 {
+	Hit.SetInvincible(true);
 	MainRenderer->ChangeAnimation("F_Stab");
 }
 
@@ -494,20 +626,20 @@ void Monster_LothricKn::Update_Debug(float _DeltaTime, GameEngineState* _State)
 	}
 }
 
-void Monster_LothricKn::UpdateIdle_Standing1(float _DeltaTime, GameEngineState* _State)
+void Monster_LothricKn::Update_Idle_Standing1(float _DeltaTime, GameEngineState* _State)
 {
 
 }
 
-void Monster_LothricKn::UpdatePatrol(float _DeltaTime, GameEngineState* _State)
+void Monster_LothricKn::Update_Patrol(float _DeltaTime, GameEngineState* _State)
 {
 	if (true == CheckAndSetHitState())
 	{
 		return;
 	}
 
-	FindTarget();
-	if (true == IsTargeting())
+	bool IsFindTarget = FindAndSetTarget();
+	if (IsFindTarget)
 	{
 		Enum_LothricKn_State FindState = GetStateToAggroTable();
 		_State->ChangeState(FindState);
@@ -563,6 +695,11 @@ void Monster_LothricKn::Update_Combo_Att_11(float _DeltaTime, GameEngineState* _
 		_State->ChangeState(FindMovementState);
 		return;
 	}
+
+	if (IsFrame(17, 19))
+	{
+		AttackToPlayer(eAttackType::Sword);
+	}
 }
 
 void Monster_LothricKn::Update_Combo_Att_12(float _DeltaTime, GameEngineState* _State)
@@ -613,6 +750,11 @@ void Monster_LothricKn::Update_Combo_Att_12(float _DeltaTime, GameEngineState* _
 		_State->ChangeState(FindMovementState);
 		return;
 	}
+
+	if (IsFrame(19, 21))
+	{
+		AttackToPlayer(eAttackType::Sword);
+	}
 }
 
 void Monster_LothricKn::Update_Combo_Att_13(float _DeltaTime, GameEngineState* _State)
@@ -653,6 +795,11 @@ void Monster_LothricKn::Update_Combo_Att_13(float _DeltaTime, GameEngineState* _
 
 		_State->ChangeState(FindMovementState);
 		return;
+	}
+
+	if (IsFrame(20, 22))
+	{
+		AttackToPlayer(eAttackType::Sword);
 	}
 }
 
@@ -704,6 +851,11 @@ void Monster_LothricKn::Update_Combo_Att_21(float _DeltaTime, GameEngineState* _
 		_State->ChangeState(FindMovementState);
 		return;
 	}
+
+	if (IsFrame(21, 23))
+	{
+		AttackToPlayer(eAttackType::Sword);
+	}
 }
 
 void Monster_LothricKn::Update_Combo_Att_22(float _DeltaTime, GameEngineState* _State)
@@ -754,6 +906,11 @@ void Monster_LothricKn::Update_Combo_Att_22(float _DeltaTime, GameEngineState* _
 		_State->ChangeState(FindMovementState);
 		return;
 	}
+
+	if (IsFrame(22, 24))
+	{
+		AttackToPlayer(eAttackType::Sword);
+	}
 }
 
 void Monster_LothricKn::Update_Combo_Att_23(float _DeltaTime, GameEngineState* _State)
@@ -794,6 +951,11 @@ void Monster_LothricKn::Update_Combo_Att_23(float _DeltaTime, GameEngineState* _
 
 		_State->ChangeState(FindMovementState);
 		return;
+	}
+
+	if (IsFrame(17, 19))
+	{
+		AttackToPlayer(eAttackType::Sword);
 	}
 }
 
@@ -837,9 +999,14 @@ void Monster_LothricKn::Update_RH_Att_HitDown(float _DeltaTime, GameEngineState*
 		_State->ChangeState(FindMovementState);
 		return;
 	}
+
+	if (IsFrame(24, 26))
+	{
+		AttackToPlayer(eAttackType::Sword);
+	}
 }
 
-void Monster_LothricKn::UpdateLH_ShieldAttack(float _DeltaTime, GameEngineState* _State)
+void Monster_LothricKn::Update_LH_ShieldAttack(float _DeltaTime, GameEngineState* _State)
 {
 	if (true == CheckAndSetHitState())
 	{
@@ -877,6 +1044,11 @@ void Monster_LothricKn::UpdateLH_ShieldAttack(float _DeltaTime, GameEngineState*
 
 		_State->ChangeState(FindMovementState);
 		return;
+	}
+
+	if (IsFrame(17, 19))
+	{
+		AttackToPlayer(eAttackType::Sword);
 	}
 }
 
@@ -918,6 +1090,11 @@ void Monster_LothricKn::Update_RH_Rear_Att(float _DeltaTime, GameEngineState* _S
 
 		_State->ChangeState(FindMovementState);
 		return;
+	}
+
+	if (IsFrame(17, 21))
+	{
+		AttackToPlayer(eAttackType::Sword);
 	}
 }
 
@@ -1153,8 +1330,9 @@ void Monster_LothricKn::Update_Idle_Sit(float _DeltaTime, GameEngineState* _Stat
 		return;
 	}
 
-	FindTarget();
-	if (true == IsTargeting())
+
+	bool IsFindTarget = FindAndSetTarget();
+	if (IsFindTarget)
 	{
 		_State->ChangeState(Enum_LothricKn_State::SitUp);
 		return;
@@ -1227,6 +1405,11 @@ void Monster_LothricKn::Update_DH_Hold(float _DeltaTime, GameEngineState* _State
 
 void Monster_LothricKn::Update_DH_UnHold(float _DeltaTime, GameEngineState* _State)
 {
+	if (IsFrameOnce(17))
+	{
+		SetCombatMode(Enum_Combat_State::Normal);
+	}
+
 	// Hit Logic
 	if (true == CheckAndSetHitState())
 	{
@@ -1287,6 +1470,11 @@ void Monster_LothricKn::Update_DH_Stab_Att(float _DeltaTime, GameEngineState* _S
 		_State->ChangeState(FindState);
 		return;
 	}
+
+	if (IsFrame(16, 20))
+	{
+		AttackToPlayer(eAttackType::Sword);
+	}
 }
 
 void Monster_LothricKn::Update_DH_Swing_Att(float _DeltaTime, GameEngineState* _State)
@@ -1318,6 +1506,11 @@ void Monster_LothricKn::Update_DH_Swing_Att(float _DeltaTime, GameEngineState* _
 
 		_State->ChangeState(FindState);
 		return;
+	}
+
+	if (IsFrame(15, 18))
+	{
+		AttackToPlayer(eAttackType::Sword);
 	}
 }
 
@@ -1587,6 +1780,11 @@ void Monster_LothricKn::Update_G_Att_Bash(float _DeltaTime, GameEngineState* _St
 		_State->ChangeState(FindState);
 		return;
 	}
+
+	if (IsFrame(26, 31))
+	{
+		AttackToPlayer(eAttackType::Sword);
+	}
 }
 
 void Monster_LothricKn::Update_Hit_W(float _DeltaTime, GameEngineState* _State)
@@ -1620,59 +1818,373 @@ void Monster_LothricKn::Update_Hit_W(float _DeltaTime, GameEngineState* _State)
 	}
 }
 
+void Monster_LothricKn::Update_Hit(float _DeltaTime, GameEngineState* _State)
+{
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
+	if (IsFrameOnce(23))
+	{
+		// Attack Logic
+		if (true == CheckAndSetAttackState())
+		{
+			return;
+		}
+	}
+
+	if (IsFrame(24))
+	{
+		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
+		if (Enum_LothricKn_State::None == FindMovementState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindMovementState);
+		return;
+	}
+}
+
 void Monster_LothricKn::Update_G_F_Hit_W(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
 
+	if (IsFrameOnce(10))
+	{
+		// Attack Logic
+		if (true == CheckAndSetAttackState())
+		{
+			return;
+		}
+	}
+
+	if (IsFrame(17))
+	{
+		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
+		if (Enum_LothricKn_State::None == FindMovementState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindMovementState);
+		return;
+	}
 }
 
 void Monster_LothricKn::Update_G_F_Hit_W_PushBack(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
 
+	if (IsFrameOnce(10))
+	{
+		// Attack Logic
+		if (true == CheckAndSetAttackState())
+		{
+			return;
+		}
+	}
+
+	if (IsFrame(17))
+	{
+		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
+		if (Enum_LothricKn_State::None == FindMovementState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindMovementState);
+		return;
+	}
 }
 
 void Monster_LothricKn::Update_G_F_Hit(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
 
+	if (IsFrameOnce(13))
+	{
+		// Attack Logic
+		if (true == CheckAndSetAttackState())
+		{
+			return;
+		}
+	}
+
+	if (IsFrameOnce(19))
+	{
+		Enum_LothricKn_State FindDodgeState = GetStateToDodgeTable();
+		if (Enum_LothricKn_State::None != FindDodgeState)
+		{
+			_State->ChangeState(FindDodgeState);
+			return;
+		}
+	}
+
+	if (IsFrame(20))
+	{
+		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
+		if (Enum_LothricKn_State::None == FindMovementState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindMovementState);
+		return;
+	}
 }
 
 void Monster_LothricKn::Update_G_F_Hit_PushBack(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
 
+	if (IsFrameOnce(13))
+	{
+		// Attack Logic
+		if (true == CheckAndSetAttackState())
+		{
+			return;
+		}
+	}
+
+	if (IsFrame(20))
+	{
+		Enum_LothricKn_State FindDodgeState = GetStateToDodgeTable();
+		if (Enum_LothricKn_State::None != FindDodgeState)
+		{
+			_State->ChangeState(FindDodgeState);
+			return;
+		}
+
+		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
+		if (Enum_LothricKn_State::None == FindMovementState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindMovementState);
+		return;
+	}
 }
 
 void Monster_LothricKn::Update_G_F_Hit_S_PushBack(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
 
+	if (IsFrameOnce(13))
+	{
+		// Attack Logic
+		if (true == CheckAndSetAttackState())
+		{
+			return;
+		}
+	}
+
+	if (IsFrame(20))
+	{
+		Enum_LothricKn_State FindDodgeState = GetStateToDodgeTable();
+		if (Enum_LothricKn_State::None != FindDodgeState)
+		{
+			_State->ChangeState(FindDodgeState);
+			return;
+		}
+
+		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
+		if (Enum_LothricKn_State::None == FindMovementState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindMovementState);
+		return;
+	}
 }
 
 void Monster_LothricKn::Update_Block_Shield(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
 
+	if (IsFrameOnce(34))
+	{
+		// Attack Logic
+		if (true == CheckAndSetAttackState())
+		{
+			return;
+		}
+	}
+
+	if (IsFrame(35))
+	{
+		Enum_LothricKn_State FindDodgeState = GetStateToDodgeTable();
+		if (Enum_LothricKn_State::None != FindDodgeState)
+		{
+			_State->ChangeState(FindDodgeState);
+			return;
+		}
+
+		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
+		if (Enum_LothricKn_State::None == FindMovementState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindMovementState);
+		return;
+	}
 }
 
 void Monster_LothricKn::Update_G_Break(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
 
+	if (IsFrameOnce(50))
+	{
+		// Attack Logic
+		if (true == CheckAndSetAttackState())
+		{
+			return;
+		}
+	}
+
+	if (IsFrame(51))
+	{
+		Enum_LothricKn_State FindDodgeState = GetStateToDodgeTable();
+		if (Enum_LothricKn_State::None != FindDodgeState)
+		{
+			_State->ChangeState(FindDodgeState);
+			return;
+		}
+
+		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
+		if (Enum_LothricKn_State::None == FindMovementState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindMovementState);
+		return;
+	}
 }
 
 void Monster_LothricKn::Update_Break_Down(float _DeltaTime, GameEngineState* _State)
 {
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
 
+	if (IsFrameOnce(56))
+	{
+		// Attack Logic
+		if (true == CheckAndSetAttackState())
+		{
+			return;
+		}
+	}
+
+	if (IsFrameOnce(58))
+	{
+		Enum_LothricKn_State FindDodgeState = GetStateToDodgeTable();
+		if (Enum_LothricKn_State::None != FindDodgeState)
+		{
+			_State->ChangeState(FindDodgeState);
+			return;
+		}
+	}
+
+	if (IsFrame(59))
+	{
+		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
+		if (Enum_LothricKn_State::None == FindMovementState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindMovementState);
+		return;
+	}
 }
 
 void Monster_LothricKn::Update_F_Death(float _DeltaTime, GameEngineState* _State)
 {
+	if (IsFrameOnce(55))
+	{
+		SetFlag(Enum_ActorFlag::Death, true);
+	}
 
+	if (IsFrameOnce(105))
+	{
+		HideWeaponMask();
+	}
+
+	if (true == MainRenderer->IsCurAnimationEnd())
+	{
+		_State->ChangeState(Enum_LothricKn_State::F_Death_End);
+		return;
+	}
 }
 
 void Monster_LothricKn::Update_F_Death_End(float _DeltaTime, GameEngineState* _State)
 {
-
 }
 
 void Monster_LothricKn::Update_F_Death_B(float _DeltaTime, GameEngineState* _State)
 {
+	if (IsFrameOnce(45))
+	{
+		SetFlag(Enum_ActorFlag::Death, true);
+	}
 
+	if (IsFrameOnce(50))
+	{
+		HideWeaponMask();
+	}
+
+	if (true == MainRenderer->IsCurAnimationEnd())
+	{
+		_State->ChangeState(Enum_LothricKn_State::F_Death_End);
+		return;
+	}
 }
 
 void Monster_LothricKn::Update_F_Death_B_End(float _DeltaTime, GameEngineState* _State)
@@ -1682,12 +2194,66 @@ void Monster_LothricKn::Update_F_Death_B_End(float _DeltaTime, GameEngineState* 
 
 void Monster_LothricKn::Update_B_Stab(float _DeltaTime, GameEngineState* _State)
 {
+	if (IsFrameOnce(125))
+	{
+		Hit.SetInvincible(false);
+	}
 
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
+	if (IsFrameOnce(80))
+	{
+		if (true == Stat.IsDeath())
+		{
+			_State->ChangeState(Enum_LothricKn_State::B_Stab_Death);
+			return;
+		}
+	}
+
+	if (IsFrameOnce(142))
+	{
+		// Attack Logic
+		if (true == CheckAndSetAttackState())
+		{
+			return;
+		}
+	}
+
+	if (IsFrame(144))
+	{
+		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
+		if (Enum_LothricKn_State::None == FindMovementState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindMovementState);
+		return;
+	}
 }
 
 void Monster_LothricKn::Update_B_Stab_Death(float _DeltaTime, GameEngineState* _State)
 {
+	if (IsFrameOnce(50))
+	{
+		SetFlag(Enum_ActorFlag::Death, true);
+	}
 
+	if (IsFrameOnce(52))
+	{
+		HideWeaponMask();
+	}
+
+	if (true == MainRenderer->IsCurAnimationEnd())
+	{
+		_State->ChangeState(Enum_LothricKn_State::F_Death_End);
+		return;
+	}
 }
 
 void Monster_LothricKn::Update_B_Stab_Death_End(float _DeltaTime, GameEngineState* _State)
@@ -1697,12 +2263,66 @@ void Monster_LothricKn::Update_B_Stab_Death_End(float _DeltaTime, GameEngineStat
 
 void Monster_LothricKn::Update_F_Stab(float _DeltaTime, GameEngineState* _State)
 {
+	if (IsFrameOnce(169))
+	{
+		Hit.SetInvincible(false);
+	}
 
+	// Hit Logic
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
+	if (IsFrameOnce(140))
+	{
+		if (true == Stat.IsDeath())
+		{
+			_State->ChangeState(Enum_LothricKn_State::B_Stab_Death);
+			return;
+		}
+	}
+
+	if (IsFrameOnce(174))
+	{
+		// Attack Logic
+		if (true == CheckAndSetAttackState())
+		{
+			return;
+		}
+	}
+
+	if (IsFrame(176))
+	{
+		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
+		if (Enum_LothricKn_State::None == FindMovementState)
+		{
+			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
+			return;
+		}
+
+		_State->ChangeState(FindMovementState);
+		return;
+	}
 }
 
 void Monster_LothricKn::Update_F_Stab_Death(float _DeltaTime, GameEngineState* _State)
 {
+	if (IsFrameOnce(55))
+	{
+		SetFlag(Enum_ActorFlag::Death, true);
+	}
 
+	if (IsFrameOnce(64))
+	{
+		HideWeaponMask();
+	}
+
+	if (true == MainRenderer->IsCurAnimationEnd())
+	{
+		_State->ChangeState(Enum_LothricKn_State::F_Death_End);
+		return;
+	}
 }
 
 void Monster_LothricKn::Update_F_Stab_Death_End(float _DeltaTime, GameEngineState* _State)
@@ -1721,6 +2341,216 @@ void Monster_LothricKn::EndSleep(GameEngineState* _State)
 	On();
 }
 
+void Monster_LothricKn::End_Combo_Att_11(GameEngineState* _State)
+{
+	Sword.ResetRecord();
+}
+
+void Monster_LothricKn::End_Combo_Att_12(GameEngineState* _State)
+{
+	Sword.ResetRecord();
+}
+
+void Monster_LothricKn::End_Combo_Att_13(GameEngineState* _State)
+{
+	Sword.ResetRecord();
+}
+
+void Monster_LothricKn::End_Combo_Att_21(GameEngineState* _State)
+{
+	Sword.ResetRecord();
+}
+
+void Monster_LothricKn::End_Combo_Att_22(GameEngineState* _State)
+{
+	Sword.ResetRecord();
+}
+
+void Monster_LothricKn::End_Combo_Att_23(GameEngineState* _State)
+{
+	Sword.ResetRecord();
+}
+
+void Monster_LothricKn::End_RH_Att_HitDown(GameEngineState* _State)
+{
+	Sword.ResetRecord();
+}
+
+void Monster_LothricKn::End_LH_ShieldAttack(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_RH_Rear_Att(GameEngineState* _State)
+{
+	Sword.ResetRecord();
+}
+
+void Monster_LothricKn::End_L_Turn(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_R_Turn(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_L_TurnTwice(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_R_TurnTwice(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_L_Side_Step(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_R_Side_Step(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_F_Step(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_B_Step(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_Run(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_Idle_Sit(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_SitUp(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_DH_Hold(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_DH_UnHold(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_DH_Stab_Att(GameEngineState* _State)
+{
+	Sword.ResetRecord();
+}
+
+void Monster_LothricKn::End_DH_Swing_Att(GameEngineState* _State)
+{
+	Sword.ResetRecord();
+}
+
+void Monster_LothricKn::End_DH_L_Side_Step(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_DH_R_Side_Step(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_DH_F_Step(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_DH_B_Step(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_G_Up(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_G_Down(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_G_L_Side_Step(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_G_R_Side_Step(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_G_F_Step(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_G_B_Step(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_G_L_Turn(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_G_R_Turn(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_G_L_TurnTwice(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_G_R_TurnTwice(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_G_Run(GameEngineState* _State)
+{
+
+}
+
+void Monster_LothricKn::End_G_Att_Bash(GameEngineState* _State)
+{
+
+}
+
+
+void Monster_LothricKn::End_F_Stab(GameEngineState* _State)
+{
+	SetFlag(Enum_ActorFlag::BackStab, false);
+}
+
+void Monster_LothricKn::End_B_Stab(GameEngineState* _State)
+{
+	SetFlag(Enum_ActorFlag::BackStab, false);
+}
 
 
 ////////////////////////////////////////////////////////////
@@ -1771,6 +2601,11 @@ void Monster_LothricKn::RotToTarget(float _DeltaTime, float _fSpeed)
 
 bool Monster_LothricKn::CheckAndSetHitState()
 {
+	if (true == Hit.IsInvincible())
+	{
+		return false;
+	}
+
 	Enum_LothricKn_State FindState = GetStateToHitTable();
 	if (Enum_LothricKn_State::None != FindState)
 	{
@@ -1844,7 +2679,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToMovementTable(Enum_TargetDist 
 		return GetStateToNormalMovementTable(_eTDist, _eTAngle);
 	case Monster_LothricKn::Enum_Combat_State::Two_Handed:
 		return GetStateToDHMovementTable(_eTDist, _eTAngle);
-	case Monster_LothricKn::Enum_Combat_State::Gaurding:
+	case Monster_LothricKn::Enum_Combat_State::Guarding:
 		return GetStateToGMovementTable(_eTDist, _eTAngle);
 	case Monster_LothricKn::Enum_Combat_State::None:
 	default:
@@ -1973,7 +2808,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToDHMovementTable(Enum_TargetDis
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToGMovementTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const
 {
-	if (Enum_Combat_State::Gaurding != CombatState)
+	if (Enum_Combat_State::Guarding != CombatState)
 	{
 		MsgBoxAssert("현재 상태로 해당 테이블을 반환할 수 없습니다.");
 		return Enum_LothricKn_State::None;
@@ -2051,7 +2886,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToAttackTable(Enum_TargetDist _e
 		return GetStateToNormalAttackTable(_eTDist, _eTAngle);
 	case Monster_LothricKn::Enum_Combat_State::Two_Handed:
 		return GetStateToDHAttackTable(_eTDist, _eTAngle);
-	case Monster_LothricKn::Enum_Combat_State::Gaurding:
+	case Monster_LothricKn::Enum_Combat_State::Guarding:
 		return GetStateToGAttackTable(_eTDist, _eTAngle);
 	case Monster_LothricKn::Enum_Combat_State::None:
 		break;
@@ -2170,7 +3005,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToDHAttackTable(Enum_TargetDist 
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToGAttackTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const
 {
-	if (Enum_Combat_State::Gaurding != CombatState)
+	if (Enum_Combat_State::Guarding != CombatState)
 	{
 		MsgBoxAssert("현재 상태로 해당 테이블을 반환할 수 없습니다.");
 		return Enum_LothricKn_State::None;
@@ -2208,7 +3043,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToDodgeTable(Enum_TargetDist _eT
 		return GetStateToNormalDodgeTable(_eTDist, _eTAngle);
 	case Monster_LothricKn::Enum_Combat_State::Two_Handed:
 		return GetStateToDHDodgeTable(_eTDist, _eTAngle);
-	case Monster_LothricKn::Enum_Combat_State::Gaurding:
+	case Monster_LothricKn::Enum_Combat_State::Guarding:
 		return GetStateToGDodgeTable(_eTDist, _eTAngle);
 	case Monster_LothricKn::Enum_Combat_State::None:
 	default:
@@ -2273,7 +3108,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToDHDodgeTable(Enum_TargetDist _
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToGDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const
 {
-	if (Enum_Combat_State::Gaurding != CombatState)
+	if (Enum_Combat_State::Guarding != CombatState)
 	{
 		MsgBoxAssert("현재 상태로 해당 테이블을 반환할 수 없습니다.");
 		return Enum_LothricKn_State::None;
@@ -2313,24 +3148,45 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToGDodgeTable(Enum_TargetDist _e
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToHitTable()
 {
+	bool DeathCheck = (0 >= Stat.GetHp());
+	if (DeathCheck)
+	{
+		return Enum_LothricKn_State::F_Death;
+	}
+
 	bool bHit = (true == Hit.IsHit());
 	if (bHit)
 	{
-		Hit.SetHit(false);
+		CombatState = Enum_Combat_State::Normal;
+
+		if (true == Hit.IsGuardSuccesss())
+		{
+			return Enum_LothricKn_State::G_F_Hit_W;
+		}
+
+		if (true == IsFlag(Enum_ActorFlag::Guard_Break))
+		{
+			return Enum_LothricKn_State::G_Break;
+		}
+
+		if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+		{
+			return Enum_LothricKn_State::Break_Down;
+		}
 
 		Enum_DirectionXZ_Quat eDir = Hit.GetHitDir();
 		switch (eDir)
 		{
 		case Enum_DirectionXZ_Quat::F:
-			return Enum_LothricKn_State::F_Hit_W;
+			return Enum_LothricKn_State::F_Hit;
 		case Enum_DirectionXZ_Quat::R:
-			return Enum_LothricKn_State::R_Hit_W;
+			return Enum_LothricKn_State::R_Hit;
 		case Enum_DirectionXZ_Quat::B:
-			return Enum_LothricKn_State::B_Hit_W;
+			return Enum_LothricKn_State::B_Hit;
 		case Enum_DirectionXZ_Quat::L:
-			return Enum_LothricKn_State::L_Hit_W;
+			return Enum_LothricKn_State::L_Hit;
 		default:
-			return Enum_LothricKn_State::F_Hit_W;
+			return Enum_LothricKn_State::F_Hit;
 		}
 	}
 

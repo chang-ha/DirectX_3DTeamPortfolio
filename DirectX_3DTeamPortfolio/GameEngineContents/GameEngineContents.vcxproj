@@ -252,6 +252,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="FogGUI.cpp" />
+    <ClCompile Include="HitInteraction.cpp" />
     <ClCompile Include="LUTEffect.cpp">
       <SubType>
       </SubType>
@@ -265,6 +266,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Monster_HitInteraction.cpp" />
     <ClCompile Include="Monster_HollowSoldier_Crossbow.cpp">
       <SubType>
       </SubType>
@@ -485,7 +487,14 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="FogGUI.h" />
+    <ClInclude Include="HitInteraction.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Monster_HitInteraction.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="LUTEffect.h">
       <SubType>
       </SubType>

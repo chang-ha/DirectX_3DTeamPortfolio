@@ -3,43 +3,8 @@
 
 #include "FrameEventHelper.h"
 #include "BoneSocketCollision.h"
+#include "ContentsDebug.h"
 
-
-Enum_DirectionXZ_Quat HitStruct::ReturnDirectionToVector(const float4& _V)
-{
-	float4 DirVector = _V;
-	DirVector.Y = 0.0f;
-	DirVector.Normalize();
-	const float DotResult = float4::DotProduct3D(float4::FORWARD, DirVector); 
-	const float Quater = CIRCLE * 0.25f;
-	const float Eighth = CIRCLE * 0.125f;
-	float Angle = (DotResult + 1.0f) * Quater;
-	
-	if (DirVector.X > 0.0f)
-	{
-		Angle = CIRCLE - Angle;
-	}
-
-	if (Angle <= Eighth || Angle > Eighth * 7.0f)
-	{
-		return Enum_DirectionXZ_Quat::F;
-	}
-
-	int i = 1;
-	float CheckAngle = Eighth;
-
-	for (; i < 4; i++)
-	{
-		CheckAngle += Eighth * 2.0f;
-		if (Angle < CheckAngle)
-		{
-			break;
-		}
-	}
-
-	Enum_DirectionXZ_Quat ReturnValue = static_cast<Enum_DirectionXZ_Quat>(i);
-	return ReturnValue;
-}
 
 class ContentsActorInitial
 {
@@ -62,18 +27,16 @@ void ContentsActorInitial::Init()
 {
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Wake, Enum_ActorFlagBit::Wake));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Death, Enum_ActorFlagBit::Death));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::ParryPossible, Enum_ActorFlagBit::ParryPossible));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::JumpPossible, Enum_ActorFlagBit::JumpPossible));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Parrying, Enum_ActorFlagBit::Parrying));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Guarding, Enum_ActorFlagBit::Guarding));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Hit, Enum_ActorFlagBit::Hit));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::GaurdSuccess, Enum_ActorFlagBit::GaurdSuccess));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Block_Shield, Enum_ActorFlagBit::Block_Shield));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Gaurd_Break, Enum_ActorFlagBit::Gaurd_Break));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Break_Down, Enum_ActorFlagBit::Break_Down));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Guard_Break, Enum_ActorFlagBit::Gaurd_Break));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Break_Posture, Enum_ActorFlagBit::Break_Posture));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::TwoHand, Enum_ActorFlagBit::TwoHand));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::FrontStab, Enum_ActorFlagBit::FrontStab));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::BackStab, Enum_ActorFlagBit::BackStab));
 }
-
-
 
 std::unordered_map<Enum_ActorFlag, Enum_ActorFlagBit> BaseActor::FlagIndex;
 ContentsActorInitial ContentsActorInitial::s_ActorInit;
@@ -88,6 +51,8 @@ BaseActor::~BaseActor()
 void BaseActor::Start()
 {
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
+
+	Stat.SetPoise(100); // 모든 객체가 강인도 100을 가지고 있음 << DS3 Official
 
 	Transform.SetLocalScale(float4(W_SCALE, W_SCALE, W_SCALE));
 }
@@ -138,26 +103,6 @@ void BaseActor::SetWPosition(const float4& _wPos)
 	Capsule->SetWorldPosition(_wPos);
 }
 
-void BaseActor::GetHit(int _AddHp, HitParameter _Para /*= HitParameter()*/)
-{
-	if (true == Hit.IsHit())
-	{
-		return;
-	}
-
-	Stat.AddHp(_AddHp);
-	Hit.SetHit(true);
-
-	if (nullptr != _Para.pHitter)
-	{
-		// 다른 플레이어한테 맞아도 타겟팅이 유지되는 
-		// 경우도 있기 때문에 임시 로직으로 뒀습니다.
-		SetTargeting(_Para.pHitter);
-	}
-	
-	Hit.SetHitDir(_Para.eDir);
-}
-
 int BaseActor::FindFlag(Enum_ActorFlag _Status) const
 {
 	if (auto FindIter = FlagIndex.find(_Status); FindIter != FlagIndex.end())
@@ -196,10 +141,9 @@ void BaseActor::SubFlag(Enum_ActorFlag _Flag)
 void BaseActor::DebugFlag()
 {
 	bool HitValue = IsFlag(Enum_ActorFlag::Hit);
-	bool GaurdingValue = IsFlag(Enum_ActorFlag::GaurdSuccess);
+	bool GaurdingValue = IsFlag(Enum_ActorFlag::GuardSuccess);
 	bool DeathValue = IsFlag(Enum_ActorFlag::Death);
-	bool JumpPossible = IsFlag(Enum_ActorFlag::JumpPossible);
-	bool ParryPossible = IsFlag(Enum_ActorFlag::ParryPossible);
+	bool ParryPossible = IsFlag(Enum_ActorFlag::Parrying);
 	int a = 0;
 }
 
@@ -270,6 +214,43 @@ std::shared_ptr<BoneSocketCollision> BaseActor::FindSocketCollision(Enum_BoneTyp
 {
 	int SocketIndex = GetBoneIndex(_Type);
 	return GetSocketCollision(SocketIndex);
+}
+
+void BaseActor::OnSocketCollision(Enum_BoneType _Type)
+{
+	int SocketIndex = GetBoneIndex(_Type);
+	OnSocketCollision(SocketIndex);
+}
+
+void BaseActor::OnSocketCollision(int _BoneIndex)
+{
+	std::shared_ptr<BoneSocketCollision> pCollision = GetSocketCollision(_BoneIndex);
+	if (nullptr == pCollision)
+	{
+		MsgBoxAssert("존재하지 않는 충돌체를 끄려고 했습니다.");
+		return;
+	}
+
+	pCollision->On();
+}
+
+
+void BaseActor::OffSocketCollision(Enum_BoneType _Type)
+{
+	int SocketIndex = GetBoneIndex(_Type);
+	OffSocketCollision(SocketIndex);
+}
+
+void BaseActor::OffSocketCollision(int _BoneIndex)
+{
+	std::shared_ptr<BoneSocketCollision> pCollision = GetSocketCollision(_BoneIndex);
+	if (nullptr == pCollision)
+	{
+		MsgBoxAssert("존재하지 않는 충돌체를 끄려고 했습니다.");
+		return;
+	}
+
+	pCollision->Off();
 }
 
 void BaseActor::DrawRange(float _Range, const float4& _Color /*= float4::RED*/) const

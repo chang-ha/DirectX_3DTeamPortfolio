@@ -17,8 +17,10 @@ enum class Enum_RenderOrder
 enum class Enum_CollisionOrder
 {
 	Player,
+	Player_Shield,
 	Monster,
 	MonsterAttack,
+	Monster_Shield,
 	Detect,
 	Dummy,
 	Map,
