@@ -166,7 +166,7 @@ void Monster_LothricKn::StartSleep(GameEngineState* _State)
 
 void Monster_LothricKn::Start_Debug(GameEngineState* _State)
 {
-	MainRenderer->ChangeAnimation("Idle_Standing1");
+	// MainRenderer->ChangeAnimation("Idle_Standing1");
 }
 
 void Monster_LothricKn::Start_Idle_Standing1(GameEngineState* _State)

@@ -272,11 +272,9 @@ void Monster_LothricKn::Start()
 	// Collision
 	std::shared_ptr<BoneSocketCollision> AttackCol = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
 	AttackCol->Transform.SetLocalScale(float4(AttackSize, AttackSize, AttackSize));
-	AttackCol->On();
 
 	std::shared_ptr<BoneSocketCollision> BodyCol = CreateSocketCollision(Enum_CollisionOrder::Monster, Enum_BoneType::B_01_Spine, "B_01_Spine");
 	BodyCol->Transform.SetLocalScale(float4(BodySize, BodySize, BodySize));
-	BodyCol->On();
 	BodyCol->Transform.DebugOn();
 
 	Sword.Init(this, AttackCol.get());
@@ -285,6 +283,7 @@ void Monster_LothricKn::Start()
 	PatrolCollision->Transform.SetWorldScale(float4(PatrolSize, PatrolSize, PatrolSize));
 	PatrolCollision->SetCollisionType(ColType::SPHERE3D);
 	PatrolCollision->SetCollisionColor(float4::BLUE);
+	PatrolCollision->Off();
 
 	// FSM
 	CombatState = Enum_Combat_State::Normal;
