@@ -224,6 +224,9 @@
     <ClCompile Include="UIEquipFrame.cpp">
       <Filter>Actor\UI\Player\PlayerEquip</Filter>
     </ClCompile>
+    <ClCompile Include="BossHpBar.cpp">
+      <Filter>Actor\UI\Monster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -446,6 +449,9 @@
     <ClInclude Include="UIEquipFrame.h">
       <Filter>Actor\UI\Player\PlayerEquip</Filter>
     </ClInclude>
+    <ClInclude Include="BossHpBar.h">
+      <Filter>Actor\UI\Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -534,6 +540,9 @@
     </Filter>
     <Filter Include="Actor\UI\Player\PlayerEquip">
       <UniqueIdentifier>{423908b1-e314-4f53-b90b-58c3bd0d6009}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\Monster">
+      <UniqueIdentifier>{00ca890d-7b4c-4d1d-8916-b493bf5f2eda}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -27,10 +27,6 @@ private:
 	std::shared_ptr<GameEngineUIRenderer> PlayerIcon;
 
 
-	std::shared_ptr<GameEngineUIRenderer> Equip_Frame;
-	std::shared_ptr<GameEngineUIRenderer> Equip_Shield;
-	std::shared_ptr<GameEngineUIRenderer> Equip_Bottle;
-
 	std::shared_ptr<GameEngineUIRenderer> Boss_HpBar;
 	std::shared_ptr<GameEngineUIRenderer> Boss_Hp;
 	std::shared_ptr<GameEngineUIRenderer> Boss_DamageBar;
