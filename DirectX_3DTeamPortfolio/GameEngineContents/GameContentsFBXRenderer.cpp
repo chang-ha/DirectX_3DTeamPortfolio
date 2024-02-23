@@ -48,7 +48,6 @@ void GameContentsFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh
 	Aniamtion = _Animation;
 
 	Start = 0;
-	End = static_cast<unsigned int>(FBXAnimationData->TimeEndCount);
 
 	float TotalTime = static_cast<float>(End) * Inter;
 	if (BlendIn > TotalTime)
@@ -152,6 +151,11 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 		}
 	}
 
+	if (nullptr != EventHelper)
+	{
+		EventHelper->UpdateEvent(_DeltaTime);
+	}
+
 	unsigned int NextFrame = CurFrame;
 	++NextFrame;
 
@@ -226,16 +230,19 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 			}
 		}
 
+		const std::vector<AnimationBoneData>& OtherBoneData = ParentRenderer->MultiBlendBoneData;
+		if (false == OtherBoneData.empty())
+		{
+			const float BlendRatio = ParentRenderer->MultiBlendRatio;
+			AnimationBoneDatas[i].Scale = float4::LerpClamp(OtherBoneData[i].Scale, AnimationBoneDatas[i].Scale, BlendRatio);
+			AnimationBoneDatas[i].RotQuaternion = float4::SLerpQuaternionClamp(OtherBoneData[i].RotQuaternion, AnimationBoneDatas[i].RotQuaternion, BlendRatio);
+			AnimationBoneDatas[i].Pos = float4::LerpClamp(OtherBoneData[i].Pos, AnimationBoneDatas[i].Pos, BlendRatio);
+		}
+
 		float4x4 Mat = float4x4::Affine(AnimationBoneDatas[i].Scale, AnimationBoneDatas[i].RotQuaternion, AnimationBoneDatas[i].Pos);
-		                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+		
 		AnimationBoneNotOffSet[i] = Mat;
 		AnimationBoneMatrix[i] = BoneData->BonePos.Offset * Mat;
-	}
-
-
-	if (nullptr != EventHelper)
-	{
-		EventHelper->UpdateEvent(_DeltaTime);
 	}
 }
 
@@ -364,6 +371,88 @@ void GameContentsFBXAnimationInfo::RootMotionUpdate(float _Delta)
 	}
 
 	mRootMotionData.MoveFrameTime = CurFrameTimeValue;
+}
+
+
+void MultiBlendAnimationInfo::SetInfo(const std::shared_ptr<GameContentsFBXAnimationInfo>& _AnimationInfo)
+{
+	if (nullptr == _AnimationInfo)
+	{
+		MsgBoxAssert("애니메이션 정보가 존재하지 않는데 기능을 사용하려했습니다.");
+		return;
+	}
+
+	FBXAnimationData = _AnimationInfo->FBXAnimationData;
+	AnimationName = _AnimationInfo->Aniamtion->GetName();
+	End = _AnimationInfo->End;
+	Inter = _AnimationInfo->Inter;
+
+	Reset();
+}
+
+void MultiBlendAnimationInfo::Reset()
+{
+	CurFrameTime = 0.0f;
+	PlayTime = 0.0f;
+	CurFrame = 0;
+	IsEnd = false;
+}
+
+void MultiBlendAnimationInfo::Done()
+{
+	IsEnd = true;
+	ParentRenderer->MultiBlendBoneData.clear();
+}
+
+void MultiBlendAnimationInfo::Update(float _DeltaTime)
+{
+	bool PauseCheck = ParentRenderer->Pause;
+	bool EndCheck = IsEnd;
+	if (PauseCheck || EndCheck)
+	{
+		return;
+	}
+
+	CurFrameTime += _DeltaTime;
+	PlayTime += _DeltaTime;
+
+	while (CurFrameTime >= Inter)
+	{
+		CurFrameTime -= Inter;
+		++CurFrame;
+
+		if (CurFrame > End)
+		{
+			Done();
+		}
+	}
+
+	unsigned int NextFrame = CurFrame;
+	++NextFrame;
+
+	if (NextFrame > End)
+	{
+		NextFrame = End;
+	}
+
+	std::vector<AnimationBoneData>& BlendBoneDatas = ParentRenderer->MultiBlendBoneData;
+
+	for (int i = 0; i < static_cast<int>(FBXAnimationData->AniFrameData.size()); i++)
+	{
+		if (true == FBXAnimationData->AniFrameData.empty())
+		{
+			MsgBoxAssert("로드가 안된 애니메이션을 행렬계산 하려고 했습니다.");
+			continue;
+		}
+
+		FbxExBoneFrameData& CurData = FBXAnimationData->AniFrameData[i].BoneMatData[CurFrame];
+		FbxExBoneFrameData& NextData = FBXAnimationData->AniFrameData[i].BoneMatData[NextFrame];
+
+		float FrameRatio = CurFrameTime / Inter;
+		BlendBoneDatas[i].Scale = float4::LerpClamp(CurData.S, NextData.S, FrameRatio);
+		BlendBoneDatas[i].RotQuaternion = float4::SLerpQuaternionClamp(CurData.Q, NextData.Q, FrameRatio);
+		BlendBoneDatas[i].Pos = float4::LerpClamp(CurData.T, NextData.T, FrameRatio);
+	}
 }
 
 
@@ -765,6 +854,11 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 
 	CurAnimation = Ptr;
 
+	if (nullptr != MultiBlendAnimation)
+	{
+		MultiBlendAnimation->Done();
+	}
+
 	if (nullptr == RootMotionComponent)
 	{
 		return;
@@ -785,6 +879,11 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 
 void GameContentsFBXRenderer::Update(float _DeltaTime)
 {
+	if (nullptr != MultiBlendAnimation && MultiBlendAnimation->IsUpdate())
+	{
+		MultiBlendAnimation->Update(_DeltaTime);
+	}
+
 	if (nullptr != CurAnimation)
 	{
 		CurAnimation->Update(_DeltaTime);
@@ -1035,6 +1134,26 @@ void GameContentsFBXRenderer::AddNotBlendBoneIndex(int _Index)
 	}
 
 	NotBlendBoneIndexs.insert(_Index);
+}
+
+void GameContentsFBXRenderer::SetMultiBlend(std::string_view _AnimationName)
+{
+	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
+	const std::shared_ptr<GameContentsFBXAnimationInfo>& AnimInfo = FindAnimation(UpperName);
+	if (nullptr == AnimInfo)
+	{
+		std::string AnimName = _AnimationName.data();
+		MsgBoxAssert(AnimName + "해당 이름을 가진 애니메이션이 존재하지 않습니다.");
+		return;
+	}
+
+	if (nullptr == MultiBlendAnimation)
+	{
+		MultiBlendAnimation = std::make_unique<MultiBlendAnimationInfo>();
+		MultiBlendBoneData.resize(AnimationBoneDatas.size());
+	}
+
+	MultiBlendAnimation->SetInfo(AnimInfo);
 }
 
 void GameContentsFBXRenderer::SetRootMotion(std::string_view _AniName, std::string_view _FileName, Enum_RootMotionMode _Mode, bool _RootMotion)

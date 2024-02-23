@@ -34,6 +34,7 @@ void AnimationInfoGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	TransformEditor();
 	AnimationList( _Level, _DeltaTime);
 	BoneEditor();
+	DummyEditor();
 }
 
 void AnimationInfoGUI::LevelEnd()
@@ -231,15 +232,60 @@ void AnimationInfoGUI::BoneEditor()
 
 		if (GameEngineLevel::IsDebug)
 		{
-			std::vector<float4x4>& BoneMats = SelectActor->GetFBXRenderer()->GetBoneSockets();
-			float4x4 WorldMat = SelectActor->Transform.GetConstTransformDataRef().WorldMatrix;
+			const std::shared_ptr<GameContentsFBXRenderer>& pRenderer = SelectActor->GetFBXRenderer();
+			if (nullptr == pRenderer)
+			{
+				MsgBoxAssert("렌더러가 존재하지 않습니다.");
+				return;
+			}
+			std::vector<float4x4>& BoneMats = pRenderer->GetBoneSockets();
+			float4x4 WorldMat = pRenderer->Transform.GetConstTransformDataRef().WorldMatrix;
 			float4x4& BoneMatrix = BoneMats[SelectBone];
 			WorldMat = BoneMatrix * WorldMat;
 			float4 wBoneScale;
 			float4 wBoneQuat;
 			float4 wBonePos;
 			WorldMat.Decompose(wBoneScale, wBoneQuat, wBonePos);
-			GameEngineDebug::DrawSphere2D(wBoneScale, wBoneQuat, wBonePos, float4::RED);
+			GameEngineDebug::DrawSphere2D(float4(2), wBoneQuat, wBonePos, float4(0.5f, 0.75f, 0.75f));
+		}
+
+		ImGui::TreePop();
+	}
+}
+
+void AnimationInfoGUI::DummyEditor()
+{
+	if (ImGui::TreeNode("Dummy Editor"))
+	{
+		if (GameEngineLevel::IsDebug)
+		{
+			const std::shared_ptr<GameContentsFBXRenderer>& pRenderer = SelectActor->GetFBXRenderer();
+			if (nullptr == pRenderer)
+			{
+				MsgBoxAssert("렌더러가 존재하지 않습니다.");
+				return;
+			}
+
+			JointPos& pPos = pRenderer->GetFBXMesh()->FindBoneToIndex(83)->BonePos;
+			float4 MeshBPos = pPos.GlobalTranslation;
+			const float4 WScale = pRenderer->Transform.GetWorldScale();
+
+			std::vector<float4x4>& BoneMats = pRenderer->GetBoneSockets();
+			float4x4& BoneMatrix = BoneMats[83];
+			float4x4 WorldMat = pRenderer->Transform.GetConstTransformDataRef().WorldMatrix;
+			float4 DummyPos = float4{ 0.0f, 1.9066906f, 0.067483485f } /**PosP*/;
+			float4 DummyFront = float4{ 0.19355309f, 0.0070433617f, 0.040424142f }.NormalizeReturn();
+			float4 Offset = (DummyPos - MeshBPos) * WScale;
+			float4x4 Mat;
+			float4 S = float4(1.0f, 1.0f, 1.0f);
+			Mat.Compose(S, DummyFront, Offset);
+			float4x4 DummyPolyMat = Mat* BoneMatrix;
+			float4 DP = Offset * BoneMatrix;
+			float4 WS;
+			float4 WR;
+			float4 WT;
+			DummyPolyMat.Decompose(WS, WR, WT);
+			GameEngineDebug::DrawSphere2D(float4(5), float4::ZERO, WT, float4(0.5f, 0.25f, 0.25f));
 		}
 
 		ImGui::TreePop();
