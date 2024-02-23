@@ -1239,93 +1239,151 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				StateValue = PlayerState::RockOn;
+				Rotation_Check = false; 
+				Rotation_Check_Plus = false;
+				Rotation_Check_Mus = false;
+
+				
+				
+
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
 
+				{
+					float4 Dir = GetTargetPos() - Actor_test_02->Transform.GetWorldPosition();
+					float4 Monster = { 0,0,0,-1.0f };
+					float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
+					float radian = atan2(Dir.X, Dir.Z) - atan2(Monster.X, Monster.Z);
+					degree = float(radian * (180.0 / 3.141592));
+				}
+				
+				
+
+				if (Rotation_Check == false)
+				{
+					if (degree > Actor_test->Transform.GetWorldRotationEuler().Y)
+					{
+						Rotation_Check_Plus = true;
+					}
+					else if (degree < Actor_test->Transform.GetWorldRotationEuler().Y)
+					{
+						Rotation_Check_Mus = true;
+					}
+				}
+				
+
+				if (Rotation_Check_Plus == true)
+				{
+					
+
+					Actor_test->Transform.AddLocalRotation({ 0.0f,0.5});
+					Capsule->AddWorldRotation({ 0.0f,0.5 });
+
+					if (degree < Actor_test->Transform.GetWorldRotationEuler().Y)
+					{
+
+						Rotation_Check_Plus = false;
+						Rotation_Check_Mus = false;
+						Rotation_Check = true;
+
+						//_Parent->ChangeState(PlayerState::RockOn);
+
+						
+					}
+
+				}
 
 
-				Prev_Pos_X = Circle_Pos_X;
-				Prev_Pos_Y = Circle_Pos_Y;
+				else if (Rotation_Check_Mus == true)
+				{
+				  
+					Actor_test->Transform.AddLocalRotation({ 0.0f,-0.5});
+					Capsule->AddWorldRotation({ 0.0f,-0.5 });
+					if (degree > Actor_test->Transform.GetWorldRotationEuler().Y)
+					{
+
+						Rotation_Check_Mus = false;
+						Rotation_Check_Plus = false;
+						Rotation_Check = true;
+
+						//_Parent->ChangeState(PlayerState::RockOn);
+
+						
+					}
+
+				}
 
 
+				
 
 
+			
 
 
-				float x = GetTargetPos().X;
-				float y = GetTargetPos().Z;
+				
 
-				// 타원의 반지름
-				float a = GetTargetDistance(); 
-				float b = GetTargetDistance();
+			
 
-
-
-				//test += 1* _Time;
-				Circle_Pos_X = x + a * cos(test);
-				Circle_Pos_Y = y + b * sin(test);
-
-
-
-				float4 Dir = GetTargetPos() - GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
-
-				float4 Monster = { 0,0,0,1.0f };
-
-				float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
-				float radian = atan2(Dir.X, Dir.Z) - atan2(Monster.X, Monster.Z);
-				degree = float(radian * (180.0 / 3.141592));
-
-
-				Cur_Pos_X = Prev_Pos_X - Circle_Pos_X;
-				Cur_Pos_Y = Prev_Pos_Y - Circle_Pos_Y;
-
-				Capsule->SetWorldPosition(float4{ Circle_Pos_X + sdsd.X,0.0f,Circle_Pos_Y + sdsd.Z });
-				Capsule->SetWorldRotation({ 0.0f,degree });
-				Actor_test->Transform.SetLocalRotation({ 0.0f,degree });
+				
 
 
 				if (true == GameEngineInput::IsPress('W', this))
 				{
-					float4 Dir = GetTargetPos() - float4{ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y,Capsule->GetWorldPosition().z};
-					Dir.Normalize(); 
-					Capsule->AddForce(float4{ 0.0f,0.0f,100.0f });
-					sdsd += Dir * Speed * _DeltaTime;
-					//Actor_test->Transform.AddLocalPosition({ Dir *Speed * _DeltaTime });
+					
+					
+					Capsule->MoveForce({ float4::FORWARD * Speed  });
+				
+					Capsule->SetWorldRotation({ 0.0f,degree });
+					
 				}
 
 				if (true == GameEngineInput::IsPress('S', this))
 				{
-					float4 Dir = GetTargetPos() - float4{ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y,Capsule->GetWorldPosition().z };
-					Dir.Normalize();
-					sdsd += -Dir * Speed * _DeltaTime;
-					//Actor_test->Transform.AddLocalPosition({ Dir * Speed * _DeltaTime });
+					
 				}
 
 				if (true == GameEngineInput::IsPress('A', this))
 				{			
 
-					MainRenderer->ChangeAnimation("Walk_Left");
-
-					test += _DeltaTime;
 					
-
+				//	Capsule->SetWorldRotation({ 0.0f,degree });
+					
+					Capsule->MoveForce({ float4::LEFT * Speed });
+					
+					
+					
+					
 					
 				}
 
 				if (true == GameEngineInput::IsPress('D', this))
 				{	
-
-					MainRenderer->ChangeAnimation("Walk_Right");
-					test -= _DeltaTime;
+					
+					//MainRenderer->ChangeAnimation("Walk_Right");
+					//Capsule->SetWorldRotation({ 0.0f,degree });
 				
+					Capsule->MoveForce({ float4::RIGHT * Speed });
+					
+					
+					
 					
 				}
-
-
 				
+				if (Rotation_Check == true)
+				{
+					Actor_test->Transform.GetWorldRotationEuler();
+					Actor_test->Transform.SetLocalRotation({ 0.0f,degree });
+					Capsule->SetWorldRotation({ 0.0f,degree });
+				}
+					
+				
+				
+				float4 WorldMousePos = degree;
+
+				OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
 
 			};
 
