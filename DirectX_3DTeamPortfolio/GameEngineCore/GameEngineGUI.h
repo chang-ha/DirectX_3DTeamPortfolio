@@ -82,6 +82,11 @@ public:
 	{
 		AllWindowOnOff = true;
 	}
+	
+	static void AllWindowSwitch()
+	{
+		AllWindowOnOff = !AllWindowOnOff;
+	}
 
 
 protected:

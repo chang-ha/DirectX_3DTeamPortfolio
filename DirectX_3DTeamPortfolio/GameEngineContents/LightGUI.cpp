@@ -103,7 +103,7 @@ void LightGUI::LightEditor()
 
 
 
-		if (ImGui::SliderFloat3("Rotation", &Rot.X,0.0f,360.0f))
+		if (ImGui::InputFloat3("Rotation", &Rot.X))
 		{
 			SelectActor->Transform.SetLocalRotation(Rot);
 		}
@@ -129,6 +129,10 @@ void LightGUI::LightEditor()
 		{
 		}*/
 		if (ImGui::InputFloat("AmbLightPower", &Data.AmbLightPower))
+		{
+		}
+
+		if (ImGui::InputFloat("LightFar", &Data.LightFar))
 		{
 		}
 		/*if (ImGui::InputFloat("SpcPow", &Data.SpcPow))

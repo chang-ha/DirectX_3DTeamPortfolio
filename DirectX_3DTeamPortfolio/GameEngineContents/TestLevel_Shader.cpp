@@ -270,10 +270,7 @@ void TestLevel_Shader::Update(float _Delta)
 		GameEngineCamera::FreeSpeed = 200.0f;
 	}
 
-	if (true == GameEngineInput::IsDown(VK_F7, this))
-	{
-		GameEngineGUI::AllWindowOff();
-	}
+	
 
 
 

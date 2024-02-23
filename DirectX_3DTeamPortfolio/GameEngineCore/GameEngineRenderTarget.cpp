@@ -150,7 +150,7 @@ void GameEngineRenderTarget::CreateDepthTexture(int _Index/* = 0*/)
 	// 0~부터 1사이의 float이기 때문에. 
 	// 1바이트를 남기고 24비트 float을 만듭니다.
 	// 남은 8비트를 스텐실이라는 것으로 사용하는데 내일 설명드리겠습니다.
-	Desc.Format = DXGI_FORMAT_R24G8_TYPELESS;
+	Desc.Format = DXGI_FORMAT_R32_TYPELESS;
 
 	Desc.SampleDesc.Count = 1;
 	Desc.SampleDesc.Quality = 0;
@@ -178,7 +178,7 @@ void GameEngineRenderTarget::CreateDepthTexture(float4 _Size)
 	// 0~부터 1사이의 float이기 때문에. 
 	// 1바이트를 남기고 24비트 float을 만듭니다.
 	// 남은 8비트를 스텐실이라는 것으로 사용하는데 내일 설명드리겠습니다.
-	Desc.Format = DXGI_FORMAT_R24G8_TYPELESS;
+	Desc.Format = DXGI_FORMAT_R32_TYPELESS;
 
 	Desc.SampleDesc.Count = 1;
 	Desc.SampleDesc.Quality = 0;

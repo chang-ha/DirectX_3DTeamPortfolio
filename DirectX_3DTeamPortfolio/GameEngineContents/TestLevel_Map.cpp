@@ -96,9 +96,11 @@ void TestLevel_Map::Start()
 
 	TestObject0->SetLightData(Data);
 	TestObject0->IsDebugValue = true;
-	TestObject0->CreateShadowMap(float4(4096, 4096));
-	TestObject0->SetShadowRange(float4(4096, 4096));
-	TestObject0->Transform.SetLocalPosition({ -3400.0f, 7101.0f, -5331.0f });
+	TestObject0->CreateShadowMap(/*float4(4096, 4096)*/);
+	//TestObject0->SetShadowRange(float4(4096, 4096));
+	TestObject0->SetShadowRange(float4{ 16384,16384 });
+	TestObject0->Transform.SetLocalPosition({ -3400.0f, 10101.0f, -5331.0f });
+	TestObject0->Transform.SetLocalRotation({ 40.0f, 0.0f, 0.0f });
 
 }
 
@@ -107,6 +109,12 @@ void TestLevel_Map::Update(float _Delta)
 	ContentLevel::Update(_Delta);
 
 	RayCast({ 100.0f, }, { 0.0f,0.0f, 5.0f }, 1000.0f);
+
+
+	if (true == GameEngineInput::IsDown(VK_F6, this))
+	{
+		GameEngineGUI::AllWindowSwitch();
+	}
 }
 
 void TestLevel_Map::Release()
