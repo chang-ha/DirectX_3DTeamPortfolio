@@ -41,9 +41,12 @@ void TestLevel_Shader::Start()
 	
 
 		Test_Light1 = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Direct");
+		Test_Light1->CreateShadowMap();
 		Test_Light1->Transform.SetWorldRotation({ 0.0f, 0.0f, 0.0f });
 
 		Test_Light1->Transform.AddLocalPosition({ 0.0f, 0.0f, -1000.0f });
+
+		Test_Light1->IsDebugValue = true;
 		LightData Data = Test_Light1->GetLightData();
 
 		Data.LightPower = 2.0f;
@@ -51,23 +54,23 @@ void TestLevel_Shader::Start()
 		Data.SpcPow = 50.0f;
 
 		Test_Light1->SetLightData(Data);
-		Test_Light1->SetShadowRange(float4{ 4096,4096 });
+		//Test_Light1->SetShadowRange(float4{ 16384,16384 });
 	
 
 	CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 
 
-	std::shared_ptr<GameEngineCoreWindow> CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+	//std::shared_ptr<GameEngineCoreWindow> CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 
-	if (nullptr != CoreWindow)
-	{
-		CoreWindow->AddDebugRenderTarget(1, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
-		CoreWindow->AddDebugRenderTarget(2, "ForwardTarget", GetMainCamera()->GetCameraForwardTarget());
-		CoreWindow->AddDebugRenderTarget(3, "DeferredLightTarget", GetMainCamera()->GetCameraDeferredLightTarget());
-		CoreWindow->AddDebugRenderTarget(4, "DeferredTarget", GetMainCamera()->GetCameraDeferredTarget());
-		CoreWindow->AddDebugRenderTarget(5, "LightTarget", Test_Light1->GetShadowTarget());
-		//CoreWindow->AddDebugRenderTarget(3, "HBAO", GetMainCamera()->GetCameraHBAOTarget());
-	}
+	//if (nullptr != CoreWindow)
+	//{
+	//	CoreWindow->AddDebugRenderTarget(1, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
+	//	CoreWindow->AddDebugRenderTarget(2, "ForwardTarget", GetMainCamera()->GetCameraForwardTarget());
+	//	CoreWindow->AddDebugRenderTarget(3, "DeferredLightTarget", GetMainCamera()->GetCameraDeferredLightTarget());
+	//	CoreWindow->AddDebugRenderTarget(4, "DeferredTarget", GetMainCamera()->GetCameraDeferredTarget());
+	//	CoreWindow->AddDebugRenderTarget(5, "LightTarget", Test_Light1->GetShadowTarget());
+	//	//CoreWindow->AddDebugRenderTarget(3, "HBAO", GetMainCamera()->GetCameraHBAOTarget());
+	//}
 
 
 	Scene->setVisualizationParameter(physx::PxVisualizationParameter::eACTOR_AXES, 0.0f);

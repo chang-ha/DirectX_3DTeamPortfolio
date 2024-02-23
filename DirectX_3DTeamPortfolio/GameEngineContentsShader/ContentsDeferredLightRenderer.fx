@@ -54,6 +54,8 @@ struct DeferredRenderOutPut
     float4 PBRLight : SV_Target5;
 };
 
+#define OffsetSize 13
+
 DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
 {
     DeferredRenderOutPut Result = (DeferredRenderOutPut) 0;
@@ -123,16 +125,32 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
          // PCF를 위한 오프셋
         float2 texelSize = 1.0f / float2(LightDataValue.ShadowTargetSizeX, LightDataValue.ShadowTargetSizeY);
     
-        float2 offsets[9] =
+        //float2 offsets[13] =
+        //{
+        //    float2(-texelSize.x, texelSize.y), float2(0, texelSize.y), float2(texelSize.x, texelSize.y),
+        //float2(-texelSize.x, 0), float2(0, 0), float2(texelSize.x, 0),
+        //float2(-texelSize.x, -texelSize.y), float2(0, -texelSize.y), float2(texelSize.x, -texelSize.y), float2(texelSize.x * 2.f, 0.0f),
+        //    float2(-texelSize.x * 2.f, 0.0f), float2(0.0f, texelSize.y * 2.f), float2(0.0f, -texelSize.y * 2.f)
+
+        //};
+        
+        
+        
+        float2 offsets[13] =
         {
             float2(-texelSize.x, texelSize.y), float2(0, texelSize.y), float2(texelSize.x, texelSize.y),
         float2(-texelSize.x, 0), float2(0, 0), float2(texelSize.x, 0),
         float2(-texelSize.x, -texelSize.y), float2(0, -texelSize.y), float2(texelSize.x, -texelSize.y)
+            , float2(texelSize.x * 2.f, 0.0f),
+            float2(-texelSize.x * 2.f, 0.0f), float2(0.0f, texelSize.y * 2.f), float2(0.0f, -texelSize.y * 2.f)
+
         };
+        
+        
     
         // 빛이 드는 곳이라는 것.
         // Pos 카메라의 View공간에 존재하는 Pos
-        float4 WorldPos = Pos;
+            float4 WorldPos = Pos;
         WorldPos.w = 1.0f;
         WorldPos = mul(WorldPos, LightDataValue.CameraViewInverseMatrix);
         WorldPos.w = 1.0f;
@@ -145,7 +163,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
         
         // 그런데 놀랍게도.
         float3 LightProjection = LightPos.xyz / LightPos.w;
-        float CurrentDepth = LightProjection.z;
+        //float CurrentDepth = LightProjection.z;
         float2 ShadowUV = float2(LightProjection.x * 0.5f + 0.5f, LightProjection.y * -0.5f + 0.5f);
         //float fShadowDepth = ShadowTex.SampleCmpLevelZero(CompareSampler, ShadowUV, CurrentDepth - 0.01f);
         //float fShadowDepth = ShadowTex.Sample(POINTWRAP, ShadowUV).r;
@@ -165,9 +183,9 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
             float shadow = 0.0f;
             
             [unroll]
-            for (int i = 0; i < 9; ++i)
+            for (int i = 0; i < 13; ++i)
             {
-                float fShadowDepth = ShadowTex.Sample(POINTWRAP, ShadowUV + offsets[i]).r;
+                float fShadowDepth = ShadowTex.Sample(LINEARClamp, ShadowUV + offsets[i]).r;
             
             
             
@@ -180,7 +198,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
                 }
             }
             
-            shadow /= 9.0f;
+            shadow /= 15.0f;
             
             Result.Shadow = shadow;
 

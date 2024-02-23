@@ -67,6 +67,7 @@ float4 ContentsDeferredMergeRender_PS(PixelOutPut _Input) : SV_Target0
     if (0.0f < Shadow.x)
     {
         Result.xyz *= (1.0f - Shadow.x);
+        //Result.xyz *= 0.1f;
     }
     
     Result.xyz += DifColor.xyz * AmbLight.xyz;

@@ -40,6 +40,13 @@ struct LightDatas
 	LightData AllLight[64];
 };
 
+enum class Enum_LightType
+{
+    Directional,
+    Point,
+    //Spot
+};
+
 // 설명 :
 class GameEngineLight : public GameEngineActor
 {
@@ -78,6 +85,24 @@ public:
         ShadowRange = _Range;
     }
 
+    inline void SetLightType(Enum_LightType _Type)
+    {
+        LightDataValue.LightType = static_cast<int>(_Type);
+    }
+
+    void CreateShadowMap(float4 _Size = float4{16384.f, 16384.f,0.0f});
+
+    bool IsShadow()
+    {
+        if (ShadowTarget == nullptr or ShadowTargetStatic == nullptr)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
 
 protected:
 	void Start() override;
@@ -86,7 +111,8 @@ protected:
 private:
 	LightData LightDataValue;
     // 그림자의 디테일을 계산할수 있다.
-    float4 ShadowRange = { 1024, 1024};
+    float4 ShadowRange = { 65536, 65536 };
     std::shared_ptr<class GameEngineRenderTarget> ShadowTarget = nullptr;
+    std::shared_ptr<class GameEngineRenderTarget> ShadowTargetStatic = nullptr;
 };
 

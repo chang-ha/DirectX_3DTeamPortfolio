@@ -8,7 +8,7 @@ GameEngineLight::GameEngineLight()
 	LightDataValue.ShadowTargetSizeX = 16384;
 	LightDataValue.ShadowTargetSizeY = 16384;
 	LightDataValue.LightNear = 0.1f;
-	LightDataValue.LightFar = 10000.0f;
+	LightDataValue.LightFar = 100000.0f;
 }
 
 void GameEngineLight::ShadowTargetSetting()
@@ -20,16 +20,27 @@ GameEngineLight::~GameEngineLight()
 {
 }
 
+void GameEngineLight::CreateShadowMap(float4 _Size)
+{
+	ShadowTarget = GameEngineRenderTarget::Create();
+	ShadowTargetStatic = GameEngineRenderTarget::Create();
+	LightDataValue.ShadowTargetSizeX = _Size.X ;
+	LightDataValue.ShadowTargetSizeY = _Size.Y ;
+
+
+	// 자신만의 깊이버퍼를 가져야 한다. 텍스쳐를 만들지 않으므로 뷰포트도 따로 생성
+	ShadowTarget->CreateDepthTexture(float4{ _Size.X, _Size.Y });
+	ShadowTarget->CreateViewports(float4{ _Size.X, _Size.Y });
+	ShadowTargetStatic->CreateDepthTexture(float4{ _Size.X, _Size.Y });
+	ShadowTargetStatic->CreateViewports(float4{ _Size.X, _Size.Y });
+}
+
 void GameEngineLight::Start()
 {
 	GetLevel()->PushLight(GetDynamic_Cast_This<GameEngineLight>());
 
 	// 이 텍스처 크기 바깥으로 나가면 그림자가 지지 않습니다.
-	ShadowTarget = GameEngineRenderTarget::Create();
-	//ShadowTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, { LightDataValue.ShadowTargetSizeX, LightDataValue.ShadowTargetSizeY }, float4::RED);
-	// 자신만의 깊이버퍼를 가져야 한다. 텍스쳐를 만들지 않으므로 뷰포트도 따로 생성
-	ShadowTarget->CreateDepthTexture(float4{ LightDataValue.ShadowTargetSizeX, LightDataValue.ShadowTargetSizeY });
-	ShadowTarget->CreateViewports(float4{ LightDataValue.ShadowTargetSizeX, LightDataValue.ShadowTargetSizeY });
+	
 }
 
 

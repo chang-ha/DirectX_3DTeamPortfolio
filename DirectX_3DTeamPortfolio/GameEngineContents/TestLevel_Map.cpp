@@ -48,6 +48,18 @@ void TestLevel_Map::Start()
 
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 0, 0, 0, 1 });
 
+	std::shared_ptr<GameEngineCoreWindow> CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+
+	if (nullptr != CoreWindow)
+	{
+		CoreWindow->AddDebugRenderTarget(1, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
+		CoreWindow->AddDebugRenderTarget(2, "ForwardTarget", GetMainCamera()->GetCameraForwardTarget());
+		CoreWindow->AddDebugRenderTarget(3, "DeferredLightTarget", GetMainCamera()->GetCameraDeferredLightTarget());
+		CoreWindow->AddDebugRenderTarget(4, "DeferredTarget", GetMainCamera()->GetCameraDeferredTarget());
+		//CoreWindow->AddDebugRenderTarget(5, "LightTarget", Test_Light1->GetShadowTarget());
+		//CoreWindow->AddDebugRenderTarget(3, "HBAO", GetMainCamera()->GetCameraHBAOTarget());
+	}
+
 
 
 	//float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
@@ -75,14 +87,18 @@ void TestLevel_Map::Start()
 
 
 	// 빛
-	std::shared_ptr<ContentsLight> TestObject0 = CreateActor<ContentsLight>(0);
+	std::shared_ptr<ContentsLight> TestObject0 = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "main");
 	LightData Data = TestObject0->GetLightData();
 
 	Data.DifLightPower = 0.1f;
-	Data.AmbientLight = float4(0.7f,0.7f,0.7f,1.0f);
+	Data.AmbientLight = float4(0.05f,0.05f,0.05f,1.0f);
 	Data.SpcPow = 200.0f;
 
 	TestObject0->SetLightData(Data);
+	TestObject0->IsDebugValue = true;
+	TestObject0->CreateShadowMap(float4(4096, 4096));
+	TestObject0->SetShadowRange(float4(4096, 4096));
+	TestObject0->Transform.SetLocalPosition({ -3400.0f, 7101.0f, -5331.0f });
 
 }
 

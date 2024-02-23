@@ -103,7 +103,7 @@ void LightGUI::LightEditor()
 
 
 
-		if (ImGui::InputFloat3("Rotation", &Rot.X))
+		if (ImGui::SliderFloat3("Rotation", &Rot.X,0.0f,360.0f))
 		{
 			SelectActor->Transform.SetLocalRotation(Rot);
 		}
