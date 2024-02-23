@@ -33,10 +33,7 @@ bool Monster_LothricKn::IsFrameOnce(int _StartFrame)
 	if (true == MainRenderer->IsFrameChange())
 	{
 		int CurFrame = MainRenderer->GetCurAnimationFrame();
-		if (_StartFrame == CurFrame)
-		{
-			return true;
-		}
+		return (_StartFrame == CurFrame);
 	}
 
 	return false;

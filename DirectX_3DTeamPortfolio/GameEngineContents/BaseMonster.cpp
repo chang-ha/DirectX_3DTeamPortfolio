@@ -106,22 +106,22 @@ bool BaseMonster::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 		return false;
 	}
 
-	BaseActor* pAttacker = _Para.pAttacker;
-
 	if (true == Hit.IsHit())
 	{
 		return false;
 	}
 
+	BaseActor* pAttacker = _Para.pAttacker;
+
+	const int AttackerAtt = pAttacker->GetAtt();
 	const int Stiffness = _Para.iStiffness;
+
 	Stat.AddPoise(Stiffness);
 	if (0 >= Stat.GetPoise())
 	{
 		SetFlag(Enum_ActorFlag::Break_Posture, true);
 		Stat.SetPoise(0);
 	}
-
-	const int AttackerAtt = pAttacker->GetAtt();
 
 	const int Damage = HitFormula(AttackerAtt);
 	Stat.AddHp(Damage);
@@ -145,24 +145,24 @@ bool BaseMonster::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 		return false;
 	}
 
-	BaseActor* pAttacker = _Para.pAttacker;
-
-	int AttackerAtt = pAttacker->GetAtt();
-
 	if (true == Hit.IsHit())
 	{
 		return false;
 	}
 
+	BaseActor* pAttacker = _Para.pAttacker;
+
 	// 패링상태
 	if (true == IsFlag(Enum_ActorFlag::Parrying))
 	{
+		pAttacker->SetHit(true);
 		pAttacker->SetFlag(Enum_ActorFlag::Break_Posture, true);
 		return true;
 	}
 
 	if (true == IsFlag(Enum_ActorFlag::Guarding))
 	{
+		const int AttackerAtt = pAttacker->GetAtt();
 		const int Stiffness = _Para.iStiffness;
 		Stat.AddPoise(Stiffness);
 		if (0 >= Stat.GetPoise())

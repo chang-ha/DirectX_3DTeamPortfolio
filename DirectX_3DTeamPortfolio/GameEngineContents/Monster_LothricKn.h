@@ -389,6 +389,11 @@ private:
 	void AttackToBody(eAttackType _eBoneType, Enum_CollisionOrder _Order);
 	void AttackToShield(eAttackType _eBoneType, Enum_CollisionOrder _Order);
 
+	bool FrontStabCheck(const float4& _WPos, float _RotY) const override;
+	bool BackStabCheck(const float4& _WPos, float _RotY) const override;
+	float4 GetBackStabPosition() override;
+	float4 GetFrontStabPosition() override;
+
 private:
 	std::shared_ptr<GameEngineCollision> PatrolCollision;  
 	Monster_HitInteraction Sword;

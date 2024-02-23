@@ -208,10 +208,17 @@ public:
 	inline int GetHp() const { return Stat.GetHp(); }
 	inline int GetAtt() const { return Stat.GetAtt(); }
 	inline int GetPoise() const { return Stat.GetPoise(); }
+	inline void SetHit(bool _Value) { Hit.SetHit(_Value); }
 
 	// CollisionEvent
 	virtual bool GetHit(const HitParameter& _Para = HitParameter()) { return false; }
 	virtual bool GetHitToShield(const HitParameter& _Para = HitParameter()) { return false; }
+
+	// Stab 
+	virtual bool FrontStabCheck(const float4& _WPos, float _RotY) const {return false;} // 상대방의 앞잡 조건문
+	virtual bool BackStabCheck(const float4& _WPos, float _RotY) const { return false; } // 상대방의 뒤잡 조건문
+	virtual float4 GetBackStabPosition() { return float4::ZERO; } // 뒤잡 위치
+	virtual float4 GetFrontStabPosition() { return float4::ZERO; } // 앞잡 위치
 
 	// Debug
 	inline int GetCurStateInt() const
