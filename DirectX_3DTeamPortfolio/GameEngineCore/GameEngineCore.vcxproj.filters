@@ -163,13 +163,11 @@
     <Filter Include="PhysX\Component">
       <UniqueIdentifier>{fdd8ce92-daa4-4af0-b9cf-f14560ef5036}</UniqueIdentifier>
     </Filter>
-<<<<<<< HEAD
     <Filter Include="ThirdParty\HBAO+">
       <UniqueIdentifier>{4e762afb-ba69-43f8-b4ae-6687c871a085}</UniqueIdentifier>
-=======
+    </Filter>
     <Filter Include="Global\Debug">
       <UniqueIdentifier>{659a6965-3a7a-4131-9d51-3cb386670c03}</UniqueIdentifier>
->>>>>>> origin/origin/Feature/MapObject
     </Filter>
   </ItemGroup>
   <ItemGroup>
