@@ -58,9 +58,6 @@
     <Filter Include="Resources\Material">
       <UniqueIdentifier>{e71f5898-ca16-4d09-8991-e2ed984d620f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Debug">
-      <UniqueIdentifier>{659a6965-3a7a-4131-9d51-3cb386670c03}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Global">
       <UniqueIdentifier>{9bf3d133-8ff4-4514-a4ae-d2ddbb969447}</UniqueIdentifier>
     </Filter>
@@ -169,6 +166,9 @@
     <Filter Include="ThirdParty\HBAO+">
       <UniqueIdentifier>{4e762afb-ba69-43f8-b4ae-6687c871a085}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Global\Debug">
+      <UniqueIdentifier>{659a6965-3a7a-4131-9d51-3cb386670c03}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineActor.h">
@@ -272,7 +272,7 @@
       <Filter>Resources\Material</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineDebugCore.h">
-      <Filter>Debug</Filter>
+      <Filter>Global\Debug</Filter>
     </ClInclude>
     <ClInclude Include="EngineEnum.h">
       <Filter>Global</Filter>
@@ -1074,7 +1074,7 @@
       <Filter>Resources\Material</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineDebugCore.cpp">
-      <Filter>Debug</Filter>
+      <Filter>Global\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineSpriteRenderer.cpp">
       <Filter>Rendering\Contents</Filter>
