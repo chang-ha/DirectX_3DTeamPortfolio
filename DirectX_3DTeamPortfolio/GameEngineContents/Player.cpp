@@ -75,10 +75,12 @@ void Player::Start()
 	MainRenderer->CreateFBXAnimation("Slow_Shield_Move", "020140.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Run", "020200.FBX", { Frame, true });
 	//FBXRenderer->CreateFBXAnimation("Shield_Move", "023050.FBX", { Frame, true });
+
 	MainRenderer->CreateFBXAnimation("Back_Step", "027000.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Roll_Behind", "027101.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Roll_Right", "027102.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Roll_Left", "027103.FBX", { Frame, true });
+
 	MainRenderer->CreateFBXAnimation("portion_Down", "029029.FBX", { Frame, true }); // ?? 
 
 	MainRenderer->CreateFBXAnimation("Weapon_Draw", "029090.FBX", { Frame, true });
@@ -91,9 +93,7 @@ void Player::Start()
 
 
 	MainRenderer->CreateFBXAnimation("Open_Door", "060030.FBX", { Frame, true });
-
 	MainRenderer->CreateFBXAnimation("String_Block", "19500.FBX", { Frame, true });
-
 	MainRenderer->CreateFBXAnimation("Parrying_Attack", "030400.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("DownAttack", "030810.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Parrying", "032100.FBX", { Frame, false });
@@ -123,9 +123,54 @@ void Player::Start()
 
 	MainRenderer->SetRootMotionComponent(Capsule.get());
 
-	MainRenderer->SetRootMotion("Attack_01");
+	
+
+	
+
 	MainRenderer->SetRootMotion("Walk_Forward","",Enum_RootMotionMode::RealTimeDir);
 	MainRenderer->SetRootMotion("Roll_Forward");
+
+	//MainRenderer->SetRootMotion("Weak_Shield_block", "", Enum_RootMotionMode::RealTimeDir);
+	//MainRenderer->SetRootMotion("Middle_Shield_block", "", Enum_RootMotionMode::RealTimeDir);
+
+	MainRenderer->SetRootMotion("Slow_Walk_Forward", "", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("Slow_Walk_Behind", "", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("Slow_Walk_Right", "", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("Slow_Walk_Left", "", Enum_RootMotionMode::RealTimeDir);
+
+	MainRenderer->SetRootMotion("Walk_Right", "", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("Walk_Left", "", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("Slow_Shield_Move", "", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("Run", "", Enum_RootMotionMode::RealTimeDir);
+
+	MainRenderer->SetRootMotion("Back_Step", "", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("Roll_Behind", "", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("Roll_Right", "", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("Roll_Left", "", Enum_RootMotionMode::RealTimeDir);
+
+//	MainRenderer->SetRootMotion("Weapon_Draw", "", Enum_RootMotionMode::RealTimeDir);
+	//MainRenderer->SetRootMotion("Shield_Draw", "", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("Attack_01" ,"", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("Attack_02", "", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("Attack_03", "", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("Attack_04", "", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("Attack_05", "", Enum_RootMotionMode::RealTimeDir);
+
+	MainRenderer->SetRootMotion("Open_Door", "", Enum_RootMotionMode::RealTimeDir);
+//	MainRenderer->SetRootMotion("String_Block", "", Enum_RootMotionMode::RealTimeDir);  // 2°Ô?
+//	MainRenderer->SetRootMotion("Parrying_Attack", "", Enum_RootMotionMode::RealTimeDir);
+//	MainRenderer->SetRootMotion("DownAttack", "", Enum_RootMotionMode::RealTimeDir);
+//	MainRenderer->SetRootMotion("Parrying", "", Enum_RootMotionMode::RealTimeDir);
+//	MainRenderer->SetRootMotion("Portion_Drink_01", "", Enum_RootMotionMode::RealTimeDir);
+//	MainRenderer->SetRootMotion("Portion_Drink_02", "", Enum_RootMotionMode::RealTimeDir);
+//	MainRenderer->SetRootMotion("Portion_Drink_03", "", Enum_RootMotionMode::RealTimeDir);
+	
+
+
+//	MainRenderer->SetRootMotion("Left_Stop", "", Enum_RootMotionMode::RealTimeDir);
+//	MainRenderer->SetRootMotion("Behind_Stop", "", Enum_RootMotionMode::RealTimeDir);
+//	MainRenderer->SetRootMotion("Right_Stop", "", Enum_RootMotionMode::RealTimeDir);
+//	MainRenderer->SetRootMotion("Forward_Stop", "", Enum_RootMotionMode::RealTimeDir);
 
 
 
