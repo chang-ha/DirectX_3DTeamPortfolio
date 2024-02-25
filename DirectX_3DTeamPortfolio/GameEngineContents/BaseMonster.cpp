@@ -55,13 +55,7 @@ bool BaseMonster::TargetRangeCmp(Enum_TargetDist _eTDist, Enum_TargetDist _eComp
 {
 	int iTargetDist = static_cast<int>(_eTDist);
 	int iCompareDist = static_cast<int>(_eCompareDist);
-
-	if (iTargetDist <= iCompareDist)
-	{
-		return true;
-	}
-
-	return false;
+	return (iTargetDist <= iCompareDist);
 }
 
 bool BaseMonster::IsTargetInRange(Enum_TargetDist _eTDist)
@@ -69,13 +63,7 @@ bool BaseMonster::IsTargetInRange(Enum_TargetDist _eTDist)
 	const float fRange = ConvertDistance_eTof(_eTDist);
 	const float fCheckDist = fRange * W_SCALE;
 	const float fTargetDist = BaseActor::GetTargetDistance();
-
-	if (fTargetDist < fCheckDist)
-	{
-		return true;
-	}
-
-	return false;
+	return (fTargetDist < fCheckDist);
 }
 
 void BaseMonster::LoadRes3DSound(std::string_view _LoadCheck) const

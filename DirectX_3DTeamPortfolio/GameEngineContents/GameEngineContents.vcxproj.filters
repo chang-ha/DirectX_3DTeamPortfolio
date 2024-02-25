@@ -223,9 +223,6 @@
     <ClCompile Include="DummyActor.cpp">
       <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
     </ClCompile>
-    <ClCompile Include="DummyPath.cpp">
-      <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
-    </ClCompile>
     <ClCompile Include="DummyProjectile.cpp">
       <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
     </ClCompile>
@@ -237,6 +234,9 @@
     </ClCompile>
     <ClCompile Include="HitInteraction.cpp">
       <Filter>Actor\Struct</Filter>
+    </ClCompile>
+    <ClCompile Include="DS3DummyData.cpp">
+      <Filter>Resource\Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -456,9 +456,6 @@
     <ClInclude Include="ContentsControlInput.h">
       <Filter>Actor\Monster\LothricKnight\Input</Filter>
     </ClInclude>
-    <ClInclude Include="DummyPath.h">
-      <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
-    </ClInclude>
     <ClInclude Include="DummyActor.h">
       <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
     </ClInclude>
@@ -470,6 +467,9 @@
     </ClInclude>
     <ClInclude Include="Monster_HitInteraction.h">
       <Filter>Actor\Monster\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="DS3DummyData.h">
+      <Filter>Resource\Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -556,6 +556,9 @@
     </Filter>
     <Filter Include="Actor\Struct">
       <UniqueIdentifier>{b54b4e95-a146-4f3a-a889-9fe422f8bde0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Data">
+      <UniqueIdentifier>{10a79a4b-715c-47b6-a761-e48179d81239}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -188,11 +188,11 @@ void Monster_Hollow_NonFirstAttack::StateUpdate(float _Delta)
 void Monster_Hollow_NonFirstAttack::ChangeAttackState()
 {
 	AttackPattern = ContentsRandom::RandomInt(1, 7);
-	switch (AttackPattern)
-	{
-	default:
-		break;
-	}
+	//switch (AttackPattern) // 오류나 ㅜㅜ 
+	//{
+	//default:
+	//	break;
+	//}
 }
 
 void Monster_Hollow_NonFirstAttack::State_Pray1_Start()
@@ -555,7 +555,7 @@ void Monster_Hollow_NonFirstAttack::State_Walk_Update(float _Delta)
 	EventParameter AttackParameter;
 	AttackParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
 		{
-			ChangeState(Enum_Hollow_State::Idle2);
+			// ChangeState(Enum_Hollow_State::Idle2); 빌드가 안되...ㅜ
 		};
 	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);
 }

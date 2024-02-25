@@ -37,6 +37,8 @@ public:
 	BaseMonster& operator=(BaseMonster&& _Other) noexcept = delete;
 
 	// State
+	// 외부에서 캐릭터를 깨우는 인터페이스
+	// 상태 정의
 	virtual void WakeUp() {}
 
 protected:
@@ -82,7 +84,7 @@ protected:
 		return Enum_TargetAngle::None;
 	}
 
-	// State
+	// 타겟 범윈 정의
 	Enum_TargetAngle GetTargetAngle_e(float _fFrontAngle, float _fSideAngle) const
 	{
 		if (false == IsTargeting())
@@ -125,6 +127,7 @@ protected:
 	// 자식에서 함수 재정의해서 사용할 것
 	virtual float ConvertDistance_eTof(Enum_TargetDist _eTDist) const;
 
+	// 타겟 거리 정의
 	Enum_TargetDist GetTargetDistance_e(float _fCloseRange, float _fmeleeRange, float _fMediumRange) const
 	{
 		if (false == IsTargeting())
@@ -156,11 +159,14 @@ protected:
 		return Enum_TargetDist::Long;
 	}
 	
+	// 타겟이 특정 범위에 들어와있으면 true
 	bool IsTargetInRange(Enum_TargetDist _eTDist);
 
-	// enum 타입의 거리 비교
+	// Enum_TargetDist 타입의 거리 비교
+	// _eCompareDist범위 안에 _eTDist 가 들어있으면 참을 반환
 	bool TargetRangeCmp(Enum_TargetDist _eTDist, Enum_TargetDist _eCompareDist) const;
 
+	// 3D Sound 로더
 	void LoadRes3DSound(std::string_view _LoadCheck) const;
 
 	// 충돌 후 상호작용 처리

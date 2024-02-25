@@ -235,15 +235,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="DS3DummyData.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="DummyActor.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="DummyGUI.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="DummyPath.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -471,15 +471,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="DS3DummyData.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="DummyActor.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="DummyGUI.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="DummyPath.h">
       <SubType>
       </SubType>
     </ClInclude>

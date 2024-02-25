@@ -255,6 +255,11 @@ void AnimationInfoGUI::BoneEditor()
 
 void AnimationInfoGUI::DummyEditor()
 {
+	if (nullptr == SelectActor)
+	{
+		return;
+	}
+
 	if (ImGui::TreeNode("Dummy Editor"))
 	{
 		if (GameEngineLevel::IsDebug)
@@ -266,26 +271,37 @@ void AnimationInfoGUI::DummyEditor()
 				return;
 			}
 
-			JointPos& pPos = pRenderer->GetFBXMesh()->FindBoneToIndex(83)->BonePos;
+			float4 DummyPos = float4{ 0.0f, 1.9066906f, 0.067483485f, 1.0f } /**PosP*/;
+			float4 DummyFront = float4{ 0.19355309f, 0.0070433617f, 0.040424142f }.NormalizeReturn();
+
+			JointPos& pPos = pRenderer->GetFBXMesh()->FindBoneToIndex(82)->BonePos;
 			float4 MeshBPos = pPos.GlobalTranslation;
 			const float4 WScale = pRenderer->Transform.GetWorldScale();
 
 			std::vector<float4x4>& BoneMats = pRenderer->GetBoneSockets();
-			float4x4& BoneMatrix = BoneMats[83];
+			float4x4& BoneMatrix = BoneMats[82];
 			float4x4 WorldMat = pRenderer->Transform.GetConstTransformDataRef().WorldMatrix;
-			float4 DummyPos = float4{ 0.0f, 1.9066906f, 0.067483485f } /**PosP*/;
-			float4 DummyFront = float4{ 0.19355309f, 0.0070433617f, 0.040424142f }.NormalizeReturn();
-			float4 Offset = (DummyPos - MeshBPos) * WScale;
-			float4x4 Mat;
-			float4 S = float4(1.0f, 1.0f, 1.0f);
-			Mat.Compose(S, DummyFront, Offset);
-			float4x4 DummyPolyMat = Mat* BoneMatrix;
-			float4 DP = Offset * BoneMatrix;
-			float4 WS;
-			float4 WR;
-			float4 WT;
-			DummyPolyMat.Decompose(WS, WR, WT);
-			GameEngineDebug::DrawSphere2D(float4(5), float4::ZERO, WT, float4(0.5f, 0.25f, 0.25f));
+
+			float4 GTPos = pPos.GlobalTranslation;
+			GTPos.W = 1.0f;
+
+			const float4 BoneMeshWPos = GTPos * WorldMat;
+			const float4 DummyMeshWPos = DummyPos * WorldMat;
+			float4 DummyOffset = DummyPos - GTPos;
+			const float4 Axis_Rot_Offset = float4(DummyOffset.Y, DummyOffset.X, -DummyOffset.Z);
+			const float4 Axis_Rot_Offset2 = float4(Axis_Rot_Offset.X, Axis_Rot_Offset.Y, Axis_Rot_Offset.Z);
+
+			float4x4 DummyMat;
+			float4 Scale = float4::ONE;
+			DummyMat.Compose(Scale, DummyFront, DummyOffset);
+
+			const float4 DummyPolyPos = Axis_Rot_Offset * BoneMatrix * WorldMat;
+			const float4 DummyPolyPos2 = Axis_Rot_Offset2 * BoneMatrix * WorldMat;
+
+			ContentsDebug::DistanceCheck(BoneMeshWPos, 5.0f ,float4(0.25f, 0.5f, 0.25f));
+			ContentsDebug::DistanceCheck(DummyMeshWPos, 5.0f ,float4(0.5f, 0.25f, 0.25f));
+			ContentsDebug::DistanceCheck(DummyPolyPos, 5.0f ,float4(0.5f, 0.25f, 0.75f));
+			ContentsDebug::DistanceCheck(DummyPolyPos2, 5.0f ,float4(0.75f, 0.25f, 0.75f));
 		}
 
 		ImGui::TreePop();

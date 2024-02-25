@@ -20,7 +20,7 @@ enum class Enum_ActorFlag
 	Parrying,
 	Guarding,
 	Hit,
-	GuardSuccess,
+	HyperArmor,
 	Block_Shield,
 	Guard_Break,
 	Break_Posture,
@@ -41,8 +41,9 @@ enum class Enum_ActorFlagBit
 	Parrying = (1 << 2),
 	Guarding = (1 << 3),
 	Hit = (1 << 10),
+	HyperArmor = (1 << 11),
 	Block_Shield = (1 << 12), // 방패에 막힘
-	Gaurd_Break = (1 <<  13), // 가드 브레이크
+	Guard_Break = (1 <<  13), // 가드 브레이크
 	Break_Posture = (1 << 14), // 패링 당함  << 마땅한 명칭이 없음
 	TwoHand = (1 << 15), 
 	FrontStab = (1 << 16), // 앞잡
@@ -177,22 +178,32 @@ public:
 	BaseActor& operator=(const BaseActor& _Other) = delete;
 	BaseActor& operator=(BaseActor&& _Other) noexcept = delete;
 
-	// Path
+	// Path 
+	// 나중에 다른 소스파일로 분리할 예정입니다.
 	static std::string GetEventPath(int _ID);
 	static bool LoadEvent(int _ID);
 
 	// ID
+	// 애니메이션 프레임 이벤트를 사용하려면 필수로 등록해줘야하는 자신의 고유 ID입니다.
+	// 등록하지 않으면 Animation Editor 기능을 사용할 수 없습니다. 
+	// 모두 확인하면 이 주석 삭제하겠습니다. - 확인 : xxx, 
 	inline void SetID(Enum_ActorType _Type) { ActorID = static_cast<int>(_Type); }
 	inline int GetID() const { return ActorID; }
 	std::string GetIDName() const;
 
 	// Transform Function
+	// 피직스와 관련된 방향, 이동 함수입니다. 
+	// BaseActor 내에서 사용은 거의 없겠지만, 외부에서 바꿔줄 상황이 생겨서 만들었습니다.
 	void AddWDirection(float _Degree);
 	void SetWDirection(float _Degree);
 	float GetWDirection() const;
 	void SetWPosition(const float4& _wPos);
 
 	// Flag
+	// 상대방의 행동을 지정해주려면 Flag 즉, 상대방의 State 변수를 바꿔주는 것이 효율적일 것 같아서 구현했습니다.
+	// 상대방의 State에 관련된 Flag Bit를 바꿔 그 Flag에 맞는 상태를 구현하는 것이 직접 State를 변경하는 것보다
+	// 더 신뢰된다고 생각합니다. 
+	// 모두 확인하면 이 주석 삭제하겠습니다. - 확인 : xxx, 
 	bool IsFlag(Enum_ActorFlag _Flag) const;
 	void SetFlag(Enum_ActorFlag _Flag, bool _Value);
 	void AddFlag(Enum_ActorFlag _Flag);
@@ -210,11 +221,20 @@ public:
 	inline int GetPoise() const { return Stat.GetPoise(); }
 	inline void SetHit(bool _Value) { Hit.SetHit(_Value); }
 
-	// CollisionEvent
+	// CollisionEvent 
+	// 캐릭터간 충돌시 상대방의 수치를 바꿔주기위한 상호작용 인터페이스입니다.
+	// 사용자는 GetHit만 사용해서 정의해주시면 되고, 방패히트와 분리하고 싶은 캐릭터분은
+	// 따로 사용하셔도 무방합니다. 또는 이 인터페이스를 사용하지 않으셔도 됩니다.
+	// 모두 확인하면 이 주석 삭제하겠습니다. - 확인 : xxx, 
 	virtual bool GetHit(const HitParameter& _Para = HitParameter()) { return false; }
 	virtual bool GetHitToShield(const HitParameter& _Para = HitParameter()) { return false; }
 
 	// Stab 
+	// 상대방의 앞뒤잡 판정을 정합니다. - 김태훈
+	// 가상함수로 둔 이유는 캐릭터마다 앞뒤잡 판정이 다를 가능성이 높습니다.
+	// 예시를 들자면 볼드와 할로우 나이트를 비교했을때 덩치 차이로 판정 다를 것입니다.
+	// 그래서 앞뒤잡을 당하는 캐릭터가 판정이나 위치를 정할 수 있게 가삼함수로 둬야한다고 생각해서 넣었습니다. 
+	// 모두 확인하면 이 주석 삭제하겠습니다. - 확인 : xxx, 
 	virtual bool FrontStabCheck(const float4& _WPos, float _RotY) const {return false;} // 상대방의 앞잡 조건문
 	virtual bool BackStabCheck(const float4& _WPos, float _RotY) const { return false; } // 상대방의 뒤잡 조건문
 	virtual float4 GetBackStabPosition() { return float4::ZERO; } // 뒤잡 위치
@@ -235,12 +255,18 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 	// BoneIndex
+	// BoneIndex를 Enum타입으로 쉽게 참조하기위해 구현했습니다.
+	// 하지만 사용하지 않는다면 내리겠습니다. 
+	// 사용하지 않으면 반대를 선택해주세요
+	// 투표 : 찬성(), 반대() << 2명이 반대할 경우 바로 내리겠습니다. 
 	void AddBoneIndex(Enum_BoneType _BoneType, int _BoneNum);
 	int GetBoneIndex(Enum_BoneType _BoneType);
 	float4x4& GetBoneMatrixToType(Enum_BoneType _BoneType);
 	float4x4& GetBoneMatrixToIndex(int _Index);
 
 	// SocketCollision
+	// 내부에서 렌더러의 Bone 위치로 충돌체를 동기화하는 기능이 있습니다.
+	// 나중에 뼈위치에서 더미폴리로 바꿀 예정입니다. 
 	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(Enum_CollisionOrder _Order, Enum_BoneType _Type, std::string ColName = "")
 	{
 		int SocketIndex = GetBoneIndex(_Type);
@@ -256,10 +282,10 @@ protected:
 	void OffSocketCollision(int _BoneIndex);
 
 	// Debug
-	void DrawRange(float _Range, const float4& _Color = float4::RED) const;
+	void DrawRange(float _Range, const float4& _Color = float4::RED) const; // 캐릭터 내 범위를 확인하기위한 편의성 디버깅 기능입니다.
 
 	// 나중에 지움 
-	
+	// 지워주세요
 	std::shared_ptr<GameEngineActor> Actor_test;
 	std::shared_ptr<GameEngineActor> Actor_test_02;
 	std::shared_ptr<GameContentsFBXRenderer> test_Render;
@@ -288,7 +314,7 @@ protected:
 
 	
 private:
-	static std::unordered_map<Enum_ActorFlag, Enum_ActorFlagBit> FlagIndex;
+	static std::unordered_map<Enum_ActorFlag, Enum_ActorFlagBit> FlagIndex; // 플레그를 매핑해놓은 구조체입니다. 에디터와 연계 가능합니다.
 	std::unordered_map<Enum_BoneType, int> BoneIndex;
 
 	int ActorID = EMPTY_ID;

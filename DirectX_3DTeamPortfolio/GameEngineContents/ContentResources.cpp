@@ -1,10 +1,12 @@
 ﻿#include "PreCompile.h"
 #include "ContentResources.h"
-#include <GameEngineCore/GameEngineBlend.h>
 
-#include "Monster_LothricKn.h"
-#include "LUTEffect.h"
+#include <GameEngineCore/GameEngineBlend.h>
 #include <GameEngineCore\FogEffect.h>
+
+#include "LUTEffect.h"
+#include "BaseActor.h"
+#include "DS3DummyData.h"
 
 ContentResources::ContentResources()
 {
@@ -237,6 +239,7 @@ void ContentResources::ContentResourcesInit()
 
 	BaseActor::LoadEvent(static_cast<int>(Enum_ActorType::LothricKn));
 	BaseActor::LoadEvent(static_cast<int>(Enum_ActorType::Boss_Vordt));
+	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::LothricKn));
 
 	{
 		GameEngineDirectory Dir;
