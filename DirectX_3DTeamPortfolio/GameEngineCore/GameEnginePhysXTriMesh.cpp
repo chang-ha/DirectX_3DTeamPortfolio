@@ -99,7 +99,10 @@ void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, phys
 				physx::PxTriangleMesh* TriMesh = GameEnginePhysX::GetPhysics()->createTriangleMesh(ReadBuffer);
 				physx::PxTriangleMeshGeometry Geom(TriMesh);
 				physx::PxShape* TriMeshShape = GameEnginePhysX::GetPhysics()->createShape(Geom, *_Material, true);
-				TriMeshShape->setSimulationFilterData(*_FilterData);
+				if (nullptr != _FilterData)
+				{
+					TriMeshShape->setSimulationFilterData(*_FilterData);
+				}
 				ComponentActor->attachShape(*TriMeshShape);
 			}
 			else
