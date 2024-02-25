@@ -24,7 +24,7 @@ std::string DS3DummyData::GetFullExtension()
 
 std::string DS3DummyData::GetFormatExt()
 {
-	return "User";
+	return "DummyData";
 }
 
 std::string DS3DummyData::GetNameToID(int _ID)
@@ -83,7 +83,7 @@ void DS3DummyData::Load(GameEngineFile& _File)
 	}
 }
 
-const DummyData& DS3DummyData::GetDataToRefIDAndAttachedBoneIndex(int _RefID, int _AttachBoneIndex)
+const DummyData& DS3DummyData::GetDummyData(int _RefID, int _AttachBoneIndex) const
 {
 	std::multimap<int, DummyData>::const_iterator Iter_Lower = DummyDataMap.lower_bound(_RefID);
 	std::multimap<int, DummyData>::const_iterator Iter_Upper = DummyDataMap.upper_bound(_RefID);
@@ -104,6 +104,19 @@ const DummyData& DS3DummyData::GetDataToRefIDAndAttachedBoneIndex(int _RefID, in
 	MsgBoxAssert("데이터를 찾을 수 없었습니다.");
 	static DummyData ReturnType;
 	return ReturnType;
+}
+
+std::vector<DummyData> DS3DummyData::GetDummyDatas() const
+{
+	std::vector<DummyData> Datas;
+	Datas.reserve(DummyDataMap.size());
+	for (const std::pair<int, DummyData>& Pair : DummyDataMap)
+	{
+		DummyData Data = Pair.second;
+		Datas.push_back(Data);
+	}
+
+	return Datas;
 }
 
 void DS3DummyData::Init(std::string_view _Path)

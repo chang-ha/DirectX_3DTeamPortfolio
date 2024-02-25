@@ -62,7 +62,8 @@ public:
 
 	static void LoadDummyData(int _ID);
 
-	const DummyData& GetDataToRefIDAndAttachedBoneIndex(int _RefID, int _AttachBoneIndex);
+	const DummyData& GetDummyData(int _RefID, int _AttachBoneIndex) const;
+	std::vector<DummyData> GetDummyDatas() const;
 
 protected:
 	static std::string GetExtName();

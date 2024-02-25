@@ -238,6 +238,12 @@
     <ClCompile Include="DS3DummyData.cpp">
       <Filter>Resource\Data</Filter>
     </ClCompile>
+    <ClCompile Include="TestMapObject.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="TestLevel_MapObject.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -470,6 +476,12 @@
     </ClInclude>
     <ClInclude Include="DS3DummyData.h">
       <Filter>Resource\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="TestLevel_MapObject.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TestMapObjcet.h">
+      <Filter>Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
