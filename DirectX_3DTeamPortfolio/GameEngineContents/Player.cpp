@@ -127,8 +127,8 @@ void Player::Start()
 
 	
 
-	MainRenderer->SetRootMotion("Walk_Forward","",Enum_RootMotionMode::RealTimeDir);
-	MainRenderer->SetRootMotion("Roll_Forward");
+	//MainRenderer->SetRootMotion("Walk_Forward","",Enum_RootMotionMode::RealTimeDir);
+	//MainRenderer->SetRootMotion("Roll_Forward");
 
 	//MainRenderer->SetRootMotion("Weak_Shield_block", "", Enum_RootMotionMode::RealTimeDir);
 	//MainRenderer->SetRootMotion("Middle_Shield_block", "", Enum_RootMotionMode::RealTimeDir);
@@ -138,15 +138,15 @@ void Player::Start()
 	MainRenderer->SetRootMotion("Slow_Walk_Right", "", Enum_RootMotionMode::RealTimeDir);
 	MainRenderer->SetRootMotion("Slow_Walk_Left", "", Enum_RootMotionMode::RealTimeDir);
 
-	MainRenderer->SetRootMotion("Walk_Right", "", Enum_RootMotionMode::RealTimeDir);
-	MainRenderer->SetRootMotion("Walk_Left", "", Enum_RootMotionMode::RealTimeDir);
+	//MainRenderer->SetRootMotion("Walk_Right", "", Enum_RootMotionMode::RealTimeDir);
+	//MainRenderer->SetRootMotion("Walk_Left", "", Enum_RootMotionMode::RealTimeDir);
 	MainRenderer->SetRootMotion("Slow_Shield_Move", "", Enum_RootMotionMode::RealTimeDir);
 	MainRenderer->SetRootMotion("Run", "", Enum_RootMotionMode::RealTimeDir);
 
-	MainRenderer->SetRootMotion("Back_Step", "", Enum_RootMotionMode::RealTimeDir);
-	MainRenderer->SetRootMotion("Roll_Behind", "", Enum_RootMotionMode::RealTimeDir);
-	MainRenderer->SetRootMotion("Roll_Right", "", Enum_RootMotionMode::RealTimeDir);
-	MainRenderer->SetRootMotion("Roll_Left", "", Enum_RootMotionMode::RealTimeDir);
+	//MainRenderer->SetRootMotion("Back_Step", "", Enum_RootMotionMode::RealTimeDir);
+	//MainRenderer->SetRootMotion("Roll_Behind", "", Enum_RootMotionMode::RealTimeDir);
+	//MainRenderer->SetRootMotion("Roll_Right", "", Enum_RootMotionMode::RealTimeDir);
+	//MainRenderer->SetRootMotion("Roll_Left", "", Enum_RootMotionMode::RealTimeDir);
 
 //	MainRenderer->SetRootMotion("Weapon_Draw", "", Enum_RootMotionMode::RealTimeDir);
 	//MainRenderer->SetRootMotion("Shield_Draw", "", Enum_RootMotionMode::RealTimeDir);
@@ -186,7 +186,7 @@ void Player::Start()
 		Weapon = SwordActor->CreateComponent<GameContentsFBXRenderer>();
 		Weapon->SetFBXMesh("WP_A_0221.FBX", "FBXAnimationTexture");
 
-		Weapon->Transform.SetLocalScale({ 50, 50, 50 });
+		Weapon->Transform.SetLocalScale({ 100, 100, 100 });
 		//Weapon->Transform.SetLocalPosition({ -4.0f, -152.0f, 165.0f });
 		Weapon->Transform.SetLocalRotation({ 0.0f, 0.0f, 180.0f });
 	}
@@ -375,9 +375,26 @@ void Player::Update(float _Delta)
 		}
 	}
 
-	
+	{
+		float4 Dir = GetTargetPos() - Actor_test_02->Transform.GetWorldPosition();
+		float4 Monster = { 0,0,0,-1.0f };
+		float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
+		float radian = atan2(Dir.X, Dir.Z) - atan2(Monster.X, Monster.Z);
+		degree_X = float(radian * (180.0 / 3.141592));
+	}
 
-	float4 WorldMousePos = degree;
+
+
+	{
+		float4 Dir = GetTargetPos() - Actor_test_02->Transform.GetWorldPosition();
+		float4 Monster = { 0,0,0,-1.0f };
+		float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
+		float radian = atan2(Dir.Y, Dir.Z) - atan2(Monster.Y, Monster.Z);
+		degree_Y = float(radian * (180.0 / 3.141592));
+	}
+
+
+	float4 WorldMousePos = Actor_test->Transform.GetWorldRotationEuler();
 
 	OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
 	/*Capsule->AddWorldRotation({ 0.0f, 1.0f,0.0f });
@@ -398,28 +415,34 @@ void Player::Update(float _Delta)
 	} });*/
 
 
-	if (nullptr != GameEngineNetWindow::Net)
-	{
-		if (0 != GetPacketCount())
-		{
-
-		}
-
-	}
+	
 	
 	
 	PlayerStates.Update(_Delta);
 
 	
+
+
 	CameraRotation(_Delta);
 
-	if (GameEngineInput::IsDown('Q', this))
-	{
 
+	
+
+	if (GameEngineInput::IsDown('Q', this) && Rock_On_Check==false)
+	{
+		
 		PlayerStates.ChangeState(PlayerState::RockOn);
+
+	}
+	else if (GameEngineInput::IsDown('Q', this) && Rock_On_Check == true)
+	{
+		Rock_On_Check = false;
+		Camera_Pos_Y = 0;
+		Player_Pos.X = degree_X;
 	}
 
-
+	
+	
 
 	AnimationBoneData Data = MainRenderer->GetBoneData(Bone_index_01);
 
@@ -454,25 +477,25 @@ void Player::CameraRotation(float Delta)
 
 
 
-	if (PrevPos.Y > Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) >= 250)
+	/*if (PrevPos.Y > Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) >= 250)
 	{
-		Camera_Pos_Y += CameraPos.Y * Delta * 300;
+		Camera_Pos_Y += CameraPos.Y * Delta * 200;
 
 		if (Camera_Pos_Y >= 60)
 		{
-			Camera_Pos_Y -= CameraPos.Y * Delta * 300;
+			Camera_Pos_Y -= CameraPos.Y * Delta * 200;
 		}
 	}
 
 	else if (PrevPos.Y < Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) >= 250)
 	{
-		Camera_Pos_Y -= CameraPos.Y * Delta * 300;
+		Camera_Pos_Y -= CameraPos.Y * Delta * 200;
 
 		if (Camera_Pos_Y <= 0)
 		{
 			Camera_Pos_Y = 0;
 		}
-	}
+	}*/
 
 
 	if (PrevPos.X > Mouse_Ro_X)
@@ -480,13 +503,11 @@ void Player::CameraRotation(float Delta)
 		Camera_Pos_X += CameraPos.X * Delta *300;
 		Player_Pos.X -= CameraPos.X * Delta * 300;
 
-		if (StateValue == PlayerState::Move && Rotation_Check ==true)
+		if (StateValue == PlayerState::Move && Rotation_Check_X ==true && Rock_On_Check == false)
 		{
 			Capsule->AddWorldRotation({ 0.0f,-CameraPos.X * Delta * 300, 0.0f });
 
 		}
-
-
 	}
 	
 
@@ -495,12 +516,11 @@ void Player::CameraRotation(float Delta)
 		Camera_Pos_X -= CameraPos.X * Delta * 300;
 		Player_Pos.X += CameraPos.X * Delta * 300;
 
-		if (StateValue == PlayerState::Move && Rotation_Check == true)
+		if (StateValue == PlayerState::Move && Rotation_Check_X == true && Rock_On_Check == false)
 		{
 			Capsule->AddWorldRotation({ 0.0f, CameraPos.X * Delta * 300, 0.0f });
 
-		}
-
+		}	
 	}
 
 	float4 A = Actor_test->Transform.GetWorldPosition() - float4{ Actor_test_02->Transform.GetWorldPosition().X, Actor_test_02->Transform.GetWorldPosition().Y - 100.0f, Actor_test_02->Transform.GetWorldPosition().Z };
@@ -530,7 +550,7 @@ void Player::CameraRotation(float Delta)
 
 	
 
-	if (StateValue != PlayerState::RockOn )
+	if (Rock_On_Check == false)
 	{
 		Actor_test->Transform.SetWorldRotation({ Camera_Pos_Y,Player_Pos.X,0.0f });
 	}
@@ -560,7 +580,7 @@ void Player::CameraRotation(float Delta)
 	}
 	
 	
-
+	//Actor_test->Transform.SetLocalPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
 	GetLevel()->GetMainCamera()->Transform.SetWorldRotation(Actor_test_02->Transform.GetWorldRotationEuler());
 	GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Actor_test_02->Transform.GetWorldPosition());
 
