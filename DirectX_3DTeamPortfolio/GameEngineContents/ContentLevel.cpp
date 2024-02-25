@@ -2,6 +2,8 @@
 #include "ContentLevel.h"
 #include "FXAAEffect.h"
 
+ContentsCollisionCallBack  ContentLevel::CollisionCallBack;
+
 ContentLevel::ContentLevel()
 {
 	GameEngineInput::AddInputObject(this);
@@ -99,5 +101,26 @@ void ContentLevel::DebugInput()
 
 void ContentsCollisionCallBack::onContact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair* pairs, physx::PxU32 nbPairs)
 {
-	
+	for (physx::PxU32 i = 0; i < nbPairs; i++)
+	{
+		physx::PxContactPair current = *pairs++;
+
+		physx::PxShape* thisActor = current.shapes[0];
+		physx::PxShape* CollisionActor = current.shapes[1];
+
+		physx::PxFilterData thisFilterdata = thisActor->getSimulationFilterData(); // 주체
+		physx::PxFilterData CollisionFilterdata = CollisionActor->getSimulationFilterData();     // 대상
+
+		if (thisFilterdata.word0 == 0 || CollisionFilterdata.word0 == 0)
+		{
+			continue;
+		}
+
+		if ((thisFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Monster))
+			&& (CollisionFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Map)))
+		{
+			int a = 0;
+		}
+
+	}
 }
