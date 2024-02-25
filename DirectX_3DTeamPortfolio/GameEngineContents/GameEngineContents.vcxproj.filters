@@ -259,6 +259,15 @@
     <ClCompile Include="Object_StartDoor.cpp">
       <Filter>MapObj</Filter>
     </ClCompile>
+    <ClCompile Include="Object_Sword.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Desk.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Table.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -511,6 +520,15 @@
       <Filter>MapObj</Filter>
     </ClInclude>
     <ClInclude Include="Object_StartDoor.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Sword.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Desk.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Table.h">
       <Filter>MapObj</Filter>
     </ClInclude>
   </ItemGroup>
