@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "ContentsControlInput.h"
 
-// #define _ArrowInput 1
+// #define _ArrowInput 1 
 #if defined(_ArrowInput)
 #define MYINPUT_LEFT VK_LEFT
 #define MYINPUT_UP VK_UP

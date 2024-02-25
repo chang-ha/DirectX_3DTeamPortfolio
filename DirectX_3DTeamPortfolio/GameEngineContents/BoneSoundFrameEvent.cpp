@@ -30,8 +30,12 @@ void BoneSoundFrameEvent::PlayEvent()
 		Init();
 	}
 
-	float4 wBonePos = pActor->Transform.GetWorldPosition() * (*pBoneData).Pos;
-	GameEngineSound::Sound3DPlay(SoundName, wBonePos);
+	float4x4 BoneWMat = BoneMatrix * pActor->Transform.GetWorldMatrix();
+	float4 S;
+	float4 Q;
+	float4 P;
+	BoneWMat.Decompose(S, Q, P);
+	GameEngineSound::Sound3DPlay(SoundName, P);
 }
 
 void BoneSoundFrameEvent::Init()
@@ -43,8 +47,8 @@ void BoneSoundFrameEvent::Init()
 		return;
 	}
 
-	const std::vector<AnimationBoneData>& BoneDatas = pInfo->ParentRenderer->GetBoneDatas();
-	pBoneData = &BoneDatas.at(BoneIndex);
+	std::vector<float4x4>& BoneMats = pInfo->ParentRenderer->GetBoneSockets();
+	BoneMatrix = BoneMats.at(BoneIndex);
 
 	pActor = pInfo->ParentRenderer->GetActor();
 	if (nullptr == pActor)

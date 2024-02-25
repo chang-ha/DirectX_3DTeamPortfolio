@@ -1,5 +1,13 @@
 #pragma once
 
+enum class Enum_B_S_Collision_Type
+{
+	None,
+	Body,
+	Weapon,
+	Shield,
+};
+
 // Ό³Έν :
 class BoneSocketCollision : public GameEngineCollision
 {

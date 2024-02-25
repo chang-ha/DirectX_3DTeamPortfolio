@@ -134,7 +134,10 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 			else
 			{
 				--CurFrame;
-				ParentRenderer->RootMotionComponent->ResetMove(Enum_Axies::X | Enum_Axies::Z);
+				if (nullptr != ParentRenderer->RootMotionComponent)
+				{
+					ParentRenderer->RootMotionComponent->ResetMove(Enum_Axies::X | Enum_Axies::Z);
+				}
 			}
 		}
 
@@ -741,10 +744,13 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 
 	if (nullptr != CurAnimation)
 	{
-		if (0.0f != CurAnimation->PlayTime)
+		if (0.0f != CurAnimation->PlayTime) 
 		{
-			AnimationBoneData Data = AnimationBoneDatas[53];
-			Prev_BoneDate.Pos = Data.Pos;
+			if (false == NotBlendBoneIndexs.empty())
+			{
+				AnimationBoneData Data = AnimationBoneDatas[*NotBlendBoneIndexs.begin()];
+				Prev_BoneDate.Pos = Data.Pos;
+			}
 
 			BlendBoneData = AnimationBoneDatas;
 		}
@@ -1003,7 +1009,8 @@ void GameContentsFBXRenderer::BlendReset()
 
 void GameContentsFBXRenderer::SetBlendTime(std::string_view _AnimationName, float _fBlendTime)
 {
-	const std::shared_ptr<GameContentsFBXAnimationInfo>& AnimInfo = FindAnimation(_AnimationName);
+	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
+	const std::shared_ptr<GameContentsFBXAnimationInfo>& AnimInfo = FindAnimation(UpperName);
 	if (nullptr == AnimInfo)
 	{
 		std::string AnimName = _AnimationName.data();
@@ -1012,6 +1019,12 @@ void GameContentsFBXRenderer::SetBlendTime(std::string_view _AnimationName, floa
 	}
 
 	AnimInfo->SetBlendTime(_fBlendTime);
+}
+
+void GameContentsFBXRenderer::SetBlendTime(std::string_view _AnimationName, int _iBlendFrame)
+{
+	float fBlendTime = static_cast<float>(_iBlendFrame)* ONE_FRAME_DTIME;
+	SetBlendTime(_AnimationName, fBlendTime);
 }
 
 void GameContentsFBXRenderer::AddNotBlendBoneIndex(int _Index)

@@ -30,10 +30,10 @@ void GameEnginePhysXCapsule::Release()
 		CapsuleShape = nullptr;
 	}
 
-	if (nullptr != ComponentActor)
+	if (nullptr != CapsuleActor)
 	{
-		ComponentActor->release();
-		ComponentActor = nullptr;
+		CapsuleActor->release();
+		CapsuleActor = nullptr;
 	}
 }
 
@@ -59,10 +59,12 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 	CapsuleShape->setLocalPose(physx::PxTransform(Pivot, physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1))));
 
 	physx::PxTransform Transform(Pos, Quat);
-	ComponentActor = Physics->createRigidDynamic(Transform);
-	ComponentActor->attachShape(*CapsuleShape);
-	physx::PxRigidBodyExt::updateMassAndInertia(*ComponentActor, 0.01f);
-	ComponentActor->setMassSpaceInertiaTensor(physx::PxVec3(0.f));
+	CapsuleActor = Physics->createRigidDynamic(Transform);
+	CapsuleActor->attachShape(*CapsuleShape);
+	physx::PxRigidBodyExt::updateMassAndInertia(*CapsuleActor, 0.01f);
+	CapsuleActor->setMassSpaceInertiaTensor(physx::PxVec3(0.f));
+
+	ComponentActor = CapsuleActor;
 
 	// 축 고정 기능 (추후 필요시 사용)
 	// ComponentActor->setRigidDynamicLockFlags
@@ -75,11 +77,6 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 	Scene->addActor(*ComponentActor);
 	// CapsuleShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
 	// CapsuleShape->release();
-}
-
-void GameEnginePhysXCapsule::SetMaxSpeed(float _MaxSpeed)
-{
-	ComponentActor->setMaxLinearVelocity(_MaxSpeed);
 }
 
 void GameEnginePhysXCapsule::Positioning(float _Delta)

@@ -252,6 +252,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="FogGUI.cpp" />
+    <ClCompile Include="HitInteraction.cpp" />
     <ClCompile Include="LUTEffect.cpp">
       <SubType>
       </SubType>
@@ -265,6 +266,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Monster_HitInteraction.cpp" />
     <ClCompile Include="Monster_HollowSoldier_Crossbow.cpp">
       <SubType>
       </SubType>
@@ -362,6 +364,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TestLevel_Map.cpp" />
+    <ClCompile Include="TestLevel_MapObject.cpp" />
     <ClCompile Include="TestLevel_Monster.cpp">
       <SubType>
       </SubType>
@@ -375,6 +378,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TestMap.cpp" />
+    <ClCompile Include="TestMapObject.cpp" />
     <ClCompile Include="TestObject.cpp">
       <SubType>
       </SubType>
@@ -485,7 +489,14 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="FogGUI.h" />
+    <ClInclude Include="HitInteraction.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Monster_HitInteraction.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="LUTEffect.h">
       <SubType>
       </SubType>
@@ -593,6 +604,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TestLevel_Map.h" />
+    <ClInclude Include="TestLevel_MapObject.h" />
     <ClInclude Include="TestLevel_Monster.h">
       <SubType>
       </SubType>
@@ -606,6 +618,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TestMap.h" />
+    <ClInclude Include="TestMapObjcet.h" />
     <ClInclude Include="TestObject.h">
       <SubType>
       </SubType>

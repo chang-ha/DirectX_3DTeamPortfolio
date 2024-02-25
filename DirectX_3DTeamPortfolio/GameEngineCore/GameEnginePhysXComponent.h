@@ -80,6 +80,14 @@ public:
 		return true;
 	}
 
+	template <typename EnumType>
+	void SetFiltering(EnumType _CollisionOrder, EnumType _TargetCollisionOrder)
+	{
+		SetFiltering(static_cast<int>(_CollisionOrder), static_cast<int>(_TargetCollisionOrder));
+	}
+
+	void SetFiltering(int _MyCollisionOrder, int _TargetCollisionOrder);
+
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override; 
@@ -92,7 +100,8 @@ protected:
 
 	float Dir = 0.f;
 	GameEngineActor* ParentActor = nullptr;
-	physx::PxRigidDynamic* ComponentActor = nullptr;
+	physx::PxRigidActor* ComponentActor = nullptr;
+
 private:
 
 	inline void SetDir(float _Dir)
@@ -124,5 +133,7 @@ private:
 			Dir += 360.f;
 		}
 	}
+
+	bool JudgeDynamic();
 };
 

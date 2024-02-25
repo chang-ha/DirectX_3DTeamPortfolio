@@ -385,10 +385,9 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	//// Detect Collision
 #define DETECT_SCALE 15
 	{
-		DetectCollision->SetCollisionType(ColType::SPHERE3D);
-		DetectCollision->Transform.SetLocalPosition({ 0.f, 0.f, DETECT_SCALE * 0.3f });
-		DetectCollision->Transform.SetLocalScale({ DETECT_SCALE, DETECT_SCALE, DETECT_SCALE });
-		// GameEngineDebug::DrawSphere2D(Transform, float4::GREEN, GetLevel()->GetMainCamera().get());
+		// DetectCollision->SetCollisionType(ColType::SPHERE3D);
+		// DetectCollision->Transform.SetLocalPosition({ 0.f, 0.f, DETECT_SCALE * 0.3f });
+		// DetectCollision->Transform.SetLocalScale({ DETECT_SCALE, DETECT_SCALE, DETECT_SCALE });
 	}
 
 	Capsule->PhysXComponentInit(10.0f, 5.0f);
@@ -644,6 +643,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BossCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::None);
 	}
 
+	Capsule->SetFiltering(Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
@@ -686,7 +686,6 @@ void Boss_Vordt::Update(float _Delta)
 	{
 		Cool = 3.f;
 	}
-
 
 	BaseActor::Update(_Delta);
 
