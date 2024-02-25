@@ -5,6 +5,9 @@
 #include "ContentsLight.h"
 #include <GameEngineCore\FogEffect.h>
 #include "FXAAEffect.h"
+#include "TestMapObjcet.h"
+#include "Object_BossDoor.h"
+
 
 TestLevel_Map::TestLevel_Map()
 {
@@ -21,10 +24,16 @@ void TestLevel_Map::LevelStart(GameEngineLevel* _PrevLevel)
 	ContentLevel::LevelStart(_PrevLevel);
 
 	{
-		std::shared_ptr<WorldMap> Object = CreateActor<WorldMap>(0, "WorldMap");
+		std::shared_ptr<WorldMap> Object = CreateActor<WorldMap>(1, "WorldMap");
 		
 	}
 
+
+	{
+		std::shared_ptr<TestMapObjcet> Object = CreateActor<TestMapObjcet>(0, "TestMapObjcet");
+	}
+
+	//GetMainCamera()->Transform.SetLocalPosition({ -1400.0f, 5101.0f, -5331.0f });
 	//{
 	//	std::shared_ptr<TestMap> Object = CreateActor<TestMap>(0, "TestMap");
 	//}
@@ -62,7 +71,8 @@ void TestLevel_Map::Start()
 	//float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 
 	// 시작위치
-	GetMainCamera()->Transform.SetLocalPosition({ -1400.0f, 5101.0f, -5331.0f });
+	//GetMainCamera()->Transform.SetLocalPosition({ -1400.0f, 5101.0f, -5331.0f });
+	GetMainCamera()->Transform.SetWorldPosition({ 2500.0f, -3000.0f, -9000.0f });
 	// 
 	//GetMainCamera()->Transform.SetLocalPosition({ -13921.0f, 3438.0f, -4173.0f });
 
@@ -100,6 +110,16 @@ void TestLevel_Map::Update(float _Delta)
 	ContentLevel::Update(_Delta);
 
 	RayCast({ 100.0f, }, { 0.0f,0.0f, 5.0f }, 1000.0f);
+
+	if (true == GameEngineInput::IsDown('1',this))
+	{
+		GameEngineCamera::FreeSpeed = 50.0f;
+	}
+	
+	if (true == GameEngineInput::IsDown('2', this))
+	{
+		GameEngineCamera::FreeSpeed = 1000.0f;
+	}
 }
 
 void TestLevel_Map::Release()
