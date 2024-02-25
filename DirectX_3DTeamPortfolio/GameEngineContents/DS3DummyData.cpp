@@ -22,6 +22,11 @@ std::string DS3DummyData::GetFullExtension()
 	return ".flver.dummyData.json";
 }
 
+std::string DS3DummyData::GetFormatExt()
+{
+	return "User";
+}
+
 std::string DS3DummyData::GetNameToID(int _ID)
 {
 	if (EMPTY_ID == _ID)
@@ -74,7 +79,6 @@ void DS3DummyData::Load(GameEngineFile& _File)
 	if (nullptr == Find(Name))
 	{
 		std::shared_ptr<DS3DummyData> Res = CreateRes(Name);
-		Res->Path_ = _File.GetStringPath();
 		Res->Init(_File.GetStringPath());
 	}
 }
@@ -105,16 +109,38 @@ const DummyData& DS3DummyData::GetDataToRefIDAndAttachedBoneIndex(int _RefID, in
 void DS3DummyData::Init(std::string_view _Path)
 {
 	GameEngineFile File = GameEngineFile(_Path.data());
-	//File.ChangeExtension(".User");
-	//if (File.IsExits())
-	//{
-	//	GameEngineSerializer Bin;
-	//	File.Open(FileOpenType::Read, FileDataType::Text);
-	//	File.DataAllRead(Bin);
-	//	AllDataRead(Bin);
-	//	return;
-	//}
+	std::string FileName = File.GetFileName();
+	size_t ExtNum = FileName.find_first_of(".");
+	FileName = FileName.substr(0, ExtNum);
+	File.MoveParent();
+	File.AppendPath(FileName);
+	File.ChangeExtension(GetFormatExt());
 
+	if (true == File.IsExits())
+	{
+		GameEngineSerializer Ser;
+
+		File.Open(FileOpenType::Read, FileDataType::Binary);
+		File.DataAllRead(Ser);
+
+		AllDataRead(Ser);
+		return;
+	}
+
+	DummyInit(_Path);
+
+	GameEngineSerializer Ser;
+	AllDataWrite(Ser);
+
+	File.Open(FileOpenType::Write, FileDataType::Binary);
+	File.Write(Ser);
+
+	File.Close();
+}
+
+void DS3DummyData::DummyInit(std::string_view _Path)
+{
+	GameEngineFile File = GameEngineFile(_Path.data());
 	File.Open(FileOpenType::Read, FileDataType::Text);
 
 	GameEngineSerializer Bin;
@@ -142,11 +168,9 @@ void DS3DummyData::Init(std::string_view _Path)
 		size_t EndNum = DataString.find(UnitEndString, Offset) + EndStringLen;
 		std::string NumberString = std::string(DataString, StartNum, EndNum - StartNum);
 		Interpret(NumberString);
-		
+
 		Offset = EndNum;
 	}
-
-	File.Close();
 }
 
 void DS3DummyData::Interpret(std::string_view _Data)
@@ -172,7 +196,7 @@ void DS3DummyData::CreateData(const DummyData& _Data)
 
 void DS3DummyData::AllDataRead(class GameEngineSerializer& _Ser)
 {
-	int Size;
+	int Size = 0;
 	_Ser >> Size;
 
 	for (int i = 0; i < Size; i++)

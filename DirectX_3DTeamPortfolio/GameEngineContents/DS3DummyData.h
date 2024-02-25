@@ -69,6 +69,8 @@ protected:
 
 	static std::string GetFullExtension();
 
+	static std::string GetFormatExt();
+
 	static std::string GetNameToID(int _ID);
 
 	static std::string GetFilePath(std::string_view _Name);
@@ -76,6 +78,7 @@ protected:
 	static void Load(GameEngineFile& _File);
 
 	void Init(std::string_view _Path);
+	void DummyInit(std::string_view _Path);
 	void Interpret(std::string_view _Data);
 
 	void CreateData(const DummyData& _Data);
@@ -169,7 +172,6 @@ protected:
 
 private:
 	std::multimap<int, DummyData> DummyDataMap;
-	std::string Path_;
 
 };
 

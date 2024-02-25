@@ -137,6 +137,11 @@ std::string GameEnginePath::PlusFilePath(std::string_view _ChildPath)
 	return CheckPath.string();
 }
 
+void GameEnginePath::AppendPath(std::string_view _ChildPath)
+{
+	Path.append(_ChildPath);
+}
+
 bool GameEnginePath::IsDirectory()
 {
 	return std::filesystem::is_directory(Path);

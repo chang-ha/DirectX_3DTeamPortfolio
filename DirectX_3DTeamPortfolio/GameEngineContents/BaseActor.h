@@ -186,7 +186,6 @@ public:
 	// ID
 	// 애니메이션 프레임 이벤트를 사용하려면 필수로 등록해줘야하는 자신의 고유 ID입니다.
 	// 등록하지 않으면 Animation Editor 기능을 사용할 수 없습니다. 
-	// 모두 확인하면 이 주석 삭제하겠습니다. - 확인 : xxx, 
 	inline void SetID(Enum_ActorType _Type) { ActorID = static_cast<int>(_Type); }
 	inline int GetID() const { return ActorID; }
 	std::string GetIDName() const;
@@ -201,9 +200,7 @@ public:
 
 	// Flag
 	// 상대방의 행동을 지정해주려면 Flag 즉, 상대방의 State 변수를 바꿔주는 것이 효율적일 것 같아서 구현했습니다.
-	// 상대방의 State에 관련된 Flag Bit를 바꿔 그 Flag에 맞는 상태를 구현하는 것이 직접 State를 변경하는 것보다
-	// 더 신뢰된다고 생각합니다. 
-	// 모두 확인하면 이 주석 삭제하겠습니다. - 확인 : xxx, 
+	// 상대방의 State에 관련된 Flag Bit를 바꿔 그 Flag에 맞는 상태를 구현하는게 직접 State를 변경하는 것보다 더 낫다고 생각합니다. 
 	bool IsFlag(Enum_ActorFlag _Flag) const;
 	void SetFlag(Enum_ActorFlag _Flag, bool _Value);
 	void AddFlag(Enum_ActorFlag _Flag);
@@ -225,16 +222,14 @@ public:
 	// 캐릭터간 충돌시 상대방의 수치를 바꿔주기위한 상호작용 인터페이스입니다.
 	// 사용자는 GetHit만 사용해서 정의해주시면 되고, 방패히트와 분리하고 싶은 캐릭터분은
 	// 따로 사용하셔도 무방합니다. 또는 이 인터페이스를 사용하지 않으셔도 됩니다.
-	// 모두 확인하면 이 주석 삭제하겠습니다. - 확인 : xxx, 
 	virtual bool GetHit(const HitParameter& _Para = HitParameter()) { return false; }
 	virtual bool GetHitToShield(const HitParameter& _Para = HitParameter()) { return false; }
 
 	// Stab 
-	// 상대방의 앞뒤잡 판정을 정합니다. - 김태훈
+	// 상대방의 앞뒤잡 판정을 정합니다.
 	// 가상함수로 둔 이유는 캐릭터마다 앞뒤잡 판정이 다를 가능성이 높습니다.
 	// 예시를 들자면 볼드와 할로우 나이트를 비교했을때 덩치 차이로 판정 다를 것입니다.
 	// 그래서 앞뒤잡을 당하는 캐릭터가 판정이나 위치를 정할 수 있게 가삼함수로 둬야한다고 생각해서 넣었습니다. 
-	// 모두 확인하면 이 주석 삭제하겠습니다. - 확인 : xxx, 
 	virtual bool FrontStabCheck(const float4& _WPos, float _RotY) const {return false;} // 상대방의 앞잡 조건문
 	virtual bool BackStabCheck(const float4& _WPos, float _RotY) const { return false; } // 상대방의 뒤잡 조건문
 	virtual float4 GetBackStabPosition() { return float4::ZERO; } // 뒤잡 위치
