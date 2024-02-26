@@ -13,6 +13,22 @@ WorldMap::~WorldMap()
 
 void WorldMap::Start()
 {
+
+
+	//// Sound
+	{
+		GameEngineDirectory Dir;
+		Dir.SetCurrentPath();
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources\\Sound\\m30");
+		std::vector<GameEngineFile> AllFile = Dir.GetAllFile();
+
+		for (int i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineSound::Sound3DLoad(AllFile[i].GetStringPath());
+		}
+	}
+
 	{
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
 		FBXRenderer->SetMapFBXMesh("World1.FBX", "FBX_Static");
