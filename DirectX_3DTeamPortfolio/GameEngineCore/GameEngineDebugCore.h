@@ -6,6 +6,9 @@ namespace GameEngineDebug
 	void DrawBox2D(const GameEngineTransform& _Trans, float4 _Color = float4::RED, class GameEngineCamera* _Camera = nullptr);
 	void DrawBox2D(float4 _Scale, float4 _Rot, float4 _Pos, float4 _Color = float4::RED,class GameEngineCamera* _Camera = nullptr);
 
+	void DrawBox3D(const GameEngineTransform& _Trans, float4 _Color = float4::RED, class GameEngineCamera* _Camera = nullptr);
+	void DrawBox3D(float4 _Scale, float4 _Rot, float4 _Pos, float4 _Color = float4::RED,class GameEngineCamera* _Camera = nullptr);
+
 	void DrawSphere2D(const GameEngineTransform& _Trans, float4 _Color = float4::RED, class GameEngineCamera* _Camera = nullptr);
 	void DrawSphere2D(float4 _Scale, float4 _Rot, float4 _Pos, float4 _Color = float4::RED, class GameEngineCamera* _Camera = nullptr);
 
