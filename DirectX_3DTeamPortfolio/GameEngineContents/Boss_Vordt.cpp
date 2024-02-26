@@ -1,7 +1,9 @@
 ﻿#include "PreCompile.h"
 #include "Boss_Vordt.h"
 
-#define BOSS_ANI_SPEED 0.033333f
+#define BOSS_ANI_SPEED 0.05f
+
+#include "BoneSocketCollision.h"
 
 void Boss_State_GUI::Start()
 {
@@ -14,7 +16,7 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	{
 		return;
 	}
-
+		
 	int AniIndex = 0;
 
 	if (0 == AniNames.size())
@@ -246,7 +248,6 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 		MainRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBX_Animation"); // Bone 136
 
-		MainRenderer->Transform.SetLocalScale({ 1.f, 1.f, 1.f });
 		MainRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.f });
 	}
 
@@ -643,6 +644,15 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	Capsule->SetFiltering(Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);
+
+
+	if (nullptr == BodyCollision)
+	{
+		BodyCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 46);
+		BodyCollision->SetCollisionType(ColType::OBBBOX3D);
+		BodyCollision->Transform.SetLocalScale({2.f, 2.f, 2.f});
+		BodyCollision->On();
+	}
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
@@ -658,14 +668,14 @@ void Boss_Vordt::Start()
 	GameEngineInput::AddInputObject(this);
 
 // #define RENDER_SCALE 75.f
-	Transform.SetLocalScale({ W_SCALE, W_SCALE, W_SCALE });
 
 	if (nullptr == MainRenderer)
 	{
 		MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
 	}
 
-	MainRenderer->Transform.SetLocalPosition({0.f, 0.f, -1.7f});
+	MainRenderer->Transform.SetLocalScale({ W_SCALE, W_SCALE, W_SCALE });
+	// MainRenderer->Transform.SetLocalPosition({0.f, 0.f, -1.7f});
 
 	if (nullptr == Capsule)
 	{
