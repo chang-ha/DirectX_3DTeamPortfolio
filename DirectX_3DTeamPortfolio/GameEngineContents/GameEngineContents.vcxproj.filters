@@ -227,6 +227,9 @@
     <ClCompile Include="BossHpBar.cpp">
       <Filter>Actor\UI\Monster</Filter>
     </ClCompile>
+    <ClCompile Include="AddSouls.cpp">
+      <Filter>Actor\UI\Souls</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -452,6 +455,9 @@
     <ClInclude Include="BossHpBar.h">
       <Filter>Actor\UI\Monster</Filter>
     </ClInclude>
+    <ClInclude Include="AddSouls.h">
+      <Filter>Actor\UI\Souls</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -543,6 +549,9 @@
     </Filter>
     <Filter Include="Actor\UI\Monster">
       <UniqueIdentifier>{00ca890d-7b4c-4d1d-8916-b493bf5f2eda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\Souls">
+      <UniqueIdentifier>{20ac1fdf-f796-487c-8ec7-6c0978d77ae6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

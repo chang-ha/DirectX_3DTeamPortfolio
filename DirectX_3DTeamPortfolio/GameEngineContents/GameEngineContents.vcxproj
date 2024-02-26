@@ -167,6 +167,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AddSouls.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="AnimationInfoGUI.cpp">
       <SubType>
       </SubType>
@@ -404,6 +408,10 @@
     <ClCompile Include="WorldMap.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AddSouls.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="AnimationInfoGUI.h">
       <SubType>
       </SubType>

@@ -7,6 +7,8 @@
 #include "UIPlayerEquip.h"
 #include "BossHpBar.h"
 
+#include "AddSouls.h"
+
 MainUIActor::MainUIActor()
 {
 
@@ -104,6 +106,8 @@ void MainUIActor::Start()
 
 	GetLevel()->CreateActor<UIPlayerGaugeBar>();
 	GetLevel()->CreateActor<UIPlayerEquip>();
+
+	GetLevel()->CreateActor<AddSouls>();
 }
 
 void MainUIActor::Update(float _Delta)
