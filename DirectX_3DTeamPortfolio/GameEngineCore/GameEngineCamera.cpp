@@ -288,27 +288,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 	ForwardTarget->EffectUpdate(_DeltaTime, std::static_pointer_cast<GameEngineCamera>(shared_from_this()));
 	DeferredTarget->EffectUpdate(_DeltaTime, std::static_pointer_cast<GameEngineCamera>(shared_from_this()));
 
-	//for ( FogEffect* Effect : FogPostEffect)
-	//{
-	//	Effect->Update(*this);
-	//}
-
-	;
-
-	// 포워드 그리고
-	{
-		//std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPath = Units[RenderPath::Forward];
-		//for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPair : RenderPath)
-		//{
-		//	std::list<std::shared_ptr<class GameEngineRenderUnit>>& UnitList = RenderPair.second;
-
-		//	for (std::shared_ptr<class GameEngineRenderUnit> Unit : UnitList)
-		//	{
-		//		Unit->Render();
-		//	}
-		//}
-
-	}
+	
 
 	AllRenderTarget->Setting();
 
@@ -355,36 +335,35 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 		// 빛연산 및 그림자 연산용 
 		std::list<std::shared_ptr<class GameEngineLight>>& Lights = GetLevel()->AllLight;
-		static bool a = true;
-		if (true)
+
+		// 스태틱용 딱 한 번 만 계산하는 그림자
+		if (StaticRenderInitValue == false)
 		{
-			a = false;
+			StaticRenderInitValue = true;
 			for (std::shared_ptr<GameEngineLight> Light : Lights)
 			{
-				// 그림자용 타겟 세팅
 				if (false == Light->IsShadow())
 				{
 					continue;
 				}
-				Light->ShadowTargetSetting();
+
+				Light->ShadowTargetStatic->Clear();
+				Light->ShadowTargetStatic->Setting();
+
 
 				std::unordered_set<GameEngineRenderer*> TransformRenderer;
-
-
-				for (std::pair<const RenderPath, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>& RenderPath : Units)
+				for (std::pair<const RenderPath, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>& RenderPathvalue : Units)
 				{
-					if (RenderPath.first != RenderPath::Deferred)
+
+					for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPair : RenderPathvalue.second)
 					{
-
-						continue;
-					}
-					else {
-						IsDeferredResult = true;
-					}
-
-					for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPair : RenderPath.second)
-					{
-
+						if (RenderPathvalue.first != RenderPath::Deferred)
+						{
+							continue;
+						}
+						else {
+							IsDeferredResult = true;
+						}
 
 						std::list<std::shared_ptr<class GameEngineRenderUnit>>& UnitList = RenderPair.second;
 
@@ -405,6 +384,11 @@ void GameEngineCamera::Render(float _DeltaTime)
 								return;
 							}
 
+							//움직이는 물체면
+							if (ParentRenderer->StaticValue == false)
+							{
+								continue;
+							}
 
 							if (false == ParentRenderer->RenderBaseInfoValue.IsShadow)
 							{
@@ -442,6 +426,97 @@ void GameEngineCamera::Render(float _DeltaTime)
 				}
 			}
 		}
+		
+
+
+
+		for (std::shared_ptr<GameEngineLight> Light : Lights)
+		{
+			// 그림자용 타겟 세팅
+			if (false == Light->IsShadow())
+			{
+				continue;
+			}
+			Light->ShadowTargetSetting();
+
+			std::unordered_set<GameEngineRenderer*> TransformRenderer;
+
+
+			for (std::pair<const RenderPath, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>& RenderPathvalue : Units)
+			{
+				if (RenderPathvalue.first != RenderPath::Deferred)
+				{
+
+					continue;
+				}
+				else {
+					IsDeferredResult = true;
+				}
+
+				for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPair : RenderPathvalue.second)
+				{
+
+
+					std::list<std::shared_ptr<class GameEngineRenderUnit>>& UnitList = RenderPair.second;
+
+					for (std::shared_ptr<class GameEngineRenderUnit> Unit : UnitList)
+					{
+
+						// 컬링되면 카메라 밖이면 처리x
+						/*if (Unit->InCameraValue == false)
+						{
+							continue;
+						}*/
+
+						GameEngineRenderer* ParentRenderer = Unit->GetParentRenderer();
+
+						if (nullptr == ParentRenderer)
+						{
+							MsgBoxAssert("랜더러가 존재하지 않는 유니티가 있습니다");
+							return;
+						}
+						//움직이지 않는 물체면
+						if (ParentRenderer->StaticValue == true)
+						{
+							continue;
+						}
+
+						if (false == ParentRenderer->RenderBaseInfoValue.IsShadow)
+						{
+							continue;
+						}
+
+						const LightData& Data = Light->GetLightData();
+						if (false == TransformRenderer.contains(ParentRenderer))
+						{
+							ParentRenderer->Transform.CalculationViewAndProjection(Data.LightViewMatrix, Data.LightProjectionMatrix);
+							TransformRenderer.insert(ParentRenderer);
+						}
+
+
+						ShadowAniInfoValue.IsShadowAnimation = ParentRenderer->RenderBaseInfoValue.IsAnimation;
+
+						if (1 == ShadowAniInfoValue.IsShadowAnimation)
+						{
+							GameEngineStructedBufferSetter* Buffer = Unit->ShaderResHelper.GetStructedBufferSetter("ArrAniMationMatrix", ShaderType::Vertex);
+
+							if (nullptr == Buffer)
+							{
+								MsgBoxAssert("존재하지 않는 스트럭처드 버퍼를 그림자 랜더링에 이용하려고 했습니다.");
+							}
+
+							Buffer->Setting();
+						}
+
+						ShadowAniInfoValue.WorldViewProjectionMatrix = ParentRenderer->Transform.GetWorldViewProjectionMatrix();
+						ShadowRenderUnit.SetMesh(Unit->GetMesh());
+						ShadowRenderUnit.Render();
+
+					}
+				}
+			}
+			
+		}
 
 
 
@@ -463,6 +538,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 					continue;
 				}
 				DeferredLightRenderUnit.ShaderResHelper.SetTexture("ShadowTex", Light->GetShadowTarget()->GetDepthTexture());
+				DeferredLightRenderUnit.ShaderResHelper.SetTexture("ShadowStaticTex", Light->ShadowTargetStatic->GetDepthTexture());
 				DeferredLightRenderUnit.ShaderResHelper.SetConstantBufferLink("OneLightData", Light->GetLightData());
 				DeferredLightTarget->Setting();
 				DeferredLightRenderUnit.Render();

@@ -262,5 +262,7 @@ private:
 	TransformData  UnitTransform;
 
 	CameraBaseInfo  CameraBaseInfoValue;
+
+	bool StaticRenderInitValue = false;
 };
 

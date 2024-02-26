@@ -50,6 +50,7 @@ enum class Enum_LightType
 // Ό³Έν :
 class GameEngineLight : public GameEngineActor
 {
+    friend class GameEngineCamera;
 public:
 	// constrcuter destructer
 	GameEngineLight();

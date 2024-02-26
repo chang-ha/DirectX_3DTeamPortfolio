@@ -17,6 +17,7 @@ void WorldMap::Start()
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
 		FBXRenderer->SetMapFBXMesh("World1.FBX", "FBX_Static");
 		FBXRenderer->RenderBaseInfoValue.Roughness = 0.0f;
+		FBXRenderer->SetStatic();
 
 		TriMesh = CreateComponent<GameEnginePhysXTriMesh>();
 		TriMesh->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.0f });
@@ -25,6 +26,7 @@ void WorldMap::Start()
 		FBXRenderer2 = CreateComponent<GameContentsFBXRenderer>();
 		FBXRenderer2->SetMapFBXMesh("World2.FBX", "FBX_Static");
 		FBXRenderer2->RenderBaseInfoValue.Roughness = 0.0f;
+		FBXRenderer2->SetStatic();
 
 		TriMesh2 = CreateComponent<GameEnginePhysXTriMesh>();
 		TriMesh2->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.0f });
@@ -37,6 +39,7 @@ void WorldMap::Start()
 		BackGroundRenderer = CreateComponent<GameContentsFBXRenderer>();
 		BackGroundRenderer->SetMapFBXMesh("BackGround.FBX", "FBX_Static");
 		BackGroundRenderer->RenderBaseInfoValue.Roughness = 0.0f;
+		BackGroundRenderer->SetStatic();
 		//MapMesh = FBXRenderer->GetFBXMesh("WorldMap.FBX0");
 
 		//MapDatas = MapMesh->GetMapDatas();

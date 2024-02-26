@@ -38,6 +38,7 @@ Texture2D NormalTex : register(t1); //w는 roughness
 Texture2D ShadowTex : register(t2);
 Texture2D DiffuseTexture : register(t3);
 Texture2D MaterialTexture : register(t4);
+Texture2D ShadowStaticTex : register(t5);
 SamplerState POINTWRAP : register(s0);
 SamplerState LINEARClamp : register(s1);
 SamplerComparisonState CompareSampler : register(s2);
@@ -173,16 +174,18 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
         // xy는 뭐로 압축됬나요? => -1 ~ 1사이의 공간으로 간거죠? 직교투영
         // LightProjection.z
 
-        
+        float DynamicShadow = 0.f;
+        float StaticShadow = 0.f;
        
         
         if ( 0.01f > ShadowUV.x && 0.999f < ShadowUV.x
            && 0.01f > ShadowUV.y && 0.999f < ShadowUV.y)
         {
-            Result.Shadow = 1.0f;
+            DynamicShadow = 1.0f;
         }
         else
         {
+            // 동적 쉐도우 계산
             float shadow = 0.0f;
             
             [unroll]
@@ -203,9 +206,39 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
             
             shadow /= 15.0f;
             
-            Result.Shadow = shadow;
+            DynamicShadow = shadow;
+            
+            // 정적 쉐도우 계산
+            
+
+            shadow = 0.0f;
+            {
+                [unroll]
+                for (int i = 0; i < 13; ++i)
+                {
+                    float fShadowDepth = ShadowStaticTex.Sample(LINEARClamp, ShadowUV + offsets[i]).r;
+            
+            
+            
+                    if (fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.001f))
+                    {
+            
+                        shadow += 1.0f;
+                    }
+                }
+            }
+            
+            
+            
+            shadow /= 15.0f;
+            
+            StaticShadow = shadow;
+            
+            
+            Result.Shadow = saturate(StaticShadow + DynamicShadow);
 
         }
+        
         
         
         
