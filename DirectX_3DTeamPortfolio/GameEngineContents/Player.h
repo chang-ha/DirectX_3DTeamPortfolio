@@ -123,6 +123,7 @@ private:
 	float4 Player_Pos = {};
 
 	bool IsFreeCameraValue = false;
+	bool Cameratest = false;
 	bool Rock_OnOff = false;
 
 

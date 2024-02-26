@@ -349,8 +349,21 @@ void Player::Update(float _Delta)
 
 	
 
+	if (GameEngineInput::IsDown(VK_F1, this))
+	{
+		Cameratest = !Cameratest;
+	}
 
-	CameraRotation(_Delta);
+	if (true == Cameratest)
+	{
+		int a = 0;
+	}
+	else if (false == Cameratest)
+	{
+		CameraRotation(_Delta);
+	}
+	
+	
 
 
 	
