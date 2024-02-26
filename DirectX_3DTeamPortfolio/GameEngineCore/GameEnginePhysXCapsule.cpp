@@ -55,7 +55,7 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 	// Basically RayCastTarget is Off
 	CapsuleShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
 	// Pivot to Bottom
-	physx::PxVec3 Pivot = { 0, 0.0f + _Radius * 0.5f + _HalfHeight , 0 };
+	physx::PxVec3 Pivot = { 0, 0.0f + _Radius * 1.f + _HalfHeight , 0 };
 	CapsuleShape->setLocalPose(physx::PxTransform(Pivot, physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1))));
 
 	physx::PxTransform Transform(Pos, Quat);
