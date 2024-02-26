@@ -179,7 +179,7 @@ void GameEngineCamera::Update(float _Delta)
 
 	if (GameEngineInput::IsPress(VK_LSHIFT, this))
 	{
-		Speed *= 5.0f;
+		Speed *= 50.0f;
 	}
 
 	if (GameEngineInput::IsPress('A', this))

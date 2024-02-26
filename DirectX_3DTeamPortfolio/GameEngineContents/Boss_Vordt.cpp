@@ -316,7 +316,6 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 		MainRenderer->SetFrameEvent("Rush&Hit&Turn&Rush", 133, [&](GameContentsFBXRenderer* _Renderer)
 			{
-				// 반대로 가는현상 해결 필요
 				std::shared_ptr<GameContentsFBXAnimationInfo> AniInfo = MainRenderer->GetCurAnimation();
 				AniInfo->SetStartDir(Capsule->GetDir() + 180.f);
 				MainRenderer->SetRootMotionMode("Rush&Hit&Turn&Rush", Enum_RootMotionMode::StartDir);
@@ -390,7 +389,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		// DetectCollision->Transform.SetLocalScale({ DETECT_SCALE, DETECT_SCALE, DETECT_SCALE });
 	}
 
-	Capsule->PhysXComponentInit(50.0f, 5.0f);
+	Capsule->PhysXComponentInit(400.0f, 5.0f);
 	Capsule->SetPositioningComponent();
 
 	if (nullptr == GameEngineGUI::FindGUIWindow<Boss_State_GUI>("Boss_State"))
@@ -666,6 +665,8 @@ void Boss_Vordt::Start()
 		MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
 	}
 
+	MainRenderer->Transform.SetLocalPosition({0.f, 0.f, -1.7f});
+
 	if (nullptr == Capsule)
 	{
 		Capsule = CreateComponent<GameEnginePhysXCapsule>();
@@ -679,13 +680,6 @@ void Boss_Vordt::Start()
 
 void Boss_Vordt::Update(float _Delta)
 {
-	static float Cool = 3.f;
-	Cool -= _Delta;
-	if (0.f >= Cool)
-	{
-		Cool = 3.f;
-	}
-
 	BaseActor::Update(_Delta);
 
 	if (true == GameEngineInput::IsDown('B', this))
