@@ -46,8 +46,32 @@ void Monster_HollowSoldier_Spear::ChangeState(Enum_HollowSoldier_Spear_State _St
 		case Enum_HollowSoldier_Spear_State::Idle3:
 			State_Idle3_Start();
 			break;
+		case Enum_HollowSoldier_Spear_State::Idle2ToIdle1:
+			State_Idle2ToIdle1_Start();
+			break;
+		case Enum_HollowSoldier_Spear_State::Idle1ToIdle2:
+			State_Idle1ToIdle2_Start();
+			break;
+		case Enum_HollowSoldier_Spear_State::Idle2ToIdle3:
+			State_Idle2ToIdle3_Start();
+			break;
+		case Enum_HollowSoldier_Spear_State::Idle3ToIdle2:
+			State_Idle3ToIdle2_Start();
+			break;
 		case Enum_HollowSoldier_Spear_State::Scout:
 			State_Scout_Start();
+			break;
+		case Enum_HollowSoldier_Spear_State::Walk:
+			State_Walk_Start();
+			break;
+		case Enum_HollowSoldier_Spear_State::Walk3:
+			State_Walk3_Start();
+			break;
+		case Enum_HollowSoldier_Spear_State::Run:
+			State_Run_Start();
+			break;
+		case Enum_HollowSoldier_Spear_State::Run3:
+			State_Run3_Start();
 			break;
 		case Enum_HollowSoldier_Spear_State::Attack1:
 			State_Attack1_Start();
@@ -63,6 +87,42 @@ void Monster_HollowSoldier_Spear::ChangeState(Enum_HollowSoldier_Spear_State _St
 			break;
 		case Enum_HollowSoldier_Spear_State::Attack5:
 			State_Attack5_Start();
+			break;
+		case Enum_HollowSoldier_Spear_State::Turn_Left2:
+			State_Turn_Left2_Start();
+			break;
+		case Enum_HollowSoldier_Spear_State::Turn_Right2:
+			State_Turn_Right2_Start();
+			break;
+		case Enum_HollowSoldier_Spear_State::Turn_Left_Twice2:
+			State_Turn_Left_Twice2_Start();
+			break;
+		case Enum_HollowSoldier_Spear_State::Turn_Right_Twice2:
+			State_Turn_Right_Twice2_Start();
+			break;
+		case Enum_HollowSoldier_Spear_State::Turn_Left1:
+			State_Turn_Left1_Start();
+			break;
+		case Enum_HollowSoldier_Spear_State::Turn_Right1:
+			State_Turn_Right1_Start();
+			break;
+		case Enum_HollowSoldier_Spear_State::Turn_Left_Twice1:
+			State_Turn_Left_Twice1_Start();
+			break;
+		case Enum_HollowSoldier_Spear_State::Turn_Right_Twice1:
+			State_Turn_Right_Twice1_Start();
+			break;
+		case Enum_HollowSoldier_Spear_State::Turn_Left3:
+			State_Turn_Left3_Start();
+			break;
+		case Enum_HollowSoldier_Spear_State::Turn_Right3:
+			State_Turn_Right3_Start();
+			break;
+		case Enum_HollowSoldier_Spear_State::Turn_Left_Twice3:
+			State_Turn_Left_Twice3_Start();
+			break;
+		case Enum_HollowSoldier_Spear_State::Turn_Right_Twice3:
+			State_Turn_Right_Twice3_Start();
 			break;
 		case Enum_HollowSoldier_Spear_State::Guard:
 			State_Guard_Start();
@@ -104,8 +164,24 @@ void Monster_HollowSoldier_Spear::StateUpdate(float _Delta)
 		return State_Idle2_Update(_Delta);
 	case Enum_HollowSoldier_Spear_State::Idle3:
 		return State_Idle3_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Idle2ToIdle1:
+		return State_Idle2ToIdle1_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Idle1ToIdle2:
+		return State_Idle1ToIdle2_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Idle2ToIdle3:
+		return State_Idle2ToIdle3_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Idle3ToIdle2:
+		return State_Idle3ToIdle2_Update(_Delta);
 	case Enum_HollowSoldier_Spear_State::Scout:
 		return State_Scout_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Walk:
+		return State_Walk_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Walk3:
+		return State_Walk3_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Run:
+		return State_Run_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Run3:
+		return State_Run3_Update(_Delta);
 	case Enum_HollowSoldier_Spear_State::Attack1:
 		return State_Attack1_Update(_Delta);
 	case Enum_HollowSoldier_Spear_State::Attack2:
@@ -116,6 +192,30 @@ void Monster_HollowSoldier_Spear::StateUpdate(float _Delta)
 		return State_Attack4_Update(_Delta);
 	case Enum_HollowSoldier_Spear_State::Attack5:
 		return State_Attack5_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Turn_Left2:
+		return State_Turn_Left2_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Turn_Right2:
+		return State_Turn_Right2_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Turn_Left_Twice2:
+		return State_Turn_Left_Twice2_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Turn_Right_Twice2:
+		return State_Turn_Right_Twice2_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Turn_Left1:
+		return State_Turn_Left1_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Turn_Right1:
+		return State_Turn_Right1_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Turn_Left_Twice1:
+		return State_Turn_Left_Twice1_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Turn_Right_Twice1:
+		return State_Turn_Right_Twice1_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Turn_Left3:
+		return State_Turn_Left3_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Turn_Right3:
+		return State_Turn_Right3_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Turn_Left_Twice3:
+		return State_Turn_Left_Twice3_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Turn_Right_Twice3:
+		return State_Turn_Right_Twice3_Update(_Delta);
 	case Enum_HollowSoldier_Spear_State::Guard:
 		return State_Guard_Update(_Delta);
 	case Enum_HollowSoldier_Spear_State::GuardBreak:
@@ -139,7 +239,8 @@ void Monster_HollowSoldier_Spear::StateUpdate(float _Delta)
 
 void Monster_HollowSoldier_Spear::ChangeAttackState()
 {
-	AttackPattern = ContentsRandom::RandomInt(1, 5);
+	//AttackPattern = ContentsRandom::RandomInt(1, 5);
+	AttackPattern = ContentsRandom::RandomInt(1, 2);
 	switch (AttackPattern)
 	{
 	case 1:
@@ -148,7 +249,7 @@ void Monster_HollowSoldier_Spear::ChangeAttackState()
 	case 2:
 		ChangeState(Enum_HollowSoldier_Spear_State::Attack2);
 		break;
-	case 3:
+	/*case 3:
 		ChangeState(Enum_HollowSoldier_Spear_State::Attack3);
 		break;
 	case 4:
@@ -156,7 +257,7 @@ void Monster_HollowSoldier_Spear::ChangeAttackState()
 		break;
 	case 5:
 		ChangeState(Enum_HollowSoldier_Spear_State::Attack5);
-		break;
+		break;*/
 	default:
 		break;
 	}
@@ -168,7 +269,33 @@ void Monster_HollowSoldier_Spear::State_Idle1_Start()
 }
 void Monster_HollowSoldier_Spear::State_Idle1_Update(float _Delta)
 {
+	// 트리거 발동시
+	if (false)
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Scout);
+	}
 
+	EventParameter RecognizeParameter;
+	RecognizeParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
+		{
+
+		};
+	
+	if (false == IsTargeting())
+	{
+		if (true == RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, RecognizeParameter))
+		{
+			FindTarget();
+			ChangeState(Enum_HollowSoldier_Spear_State::Idle1ToIdle2);
+		}
+	}
+
+	// test
+	StateTime += _Delta;
+	if (StateTime >= 5.0f)
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Scout);
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Idle2_Start()
@@ -178,6 +305,11 @@ void Monster_HollowSoldier_Spear::State_Idle2_Start()
 void Monster_HollowSoldier_Spear::State_Idle2_Update(float _Delta)
 {
 
+	// 아마 상시로?
+	if (true)
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle2ToIdle3);
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Idle3_Start()
@@ -186,7 +318,76 @@ void Monster_HollowSoldier_Spear::State_Idle3_Start()
 }
 void Monster_HollowSoldier_Spear::State_Idle3_Update(float _Delta)
 {
+	StateTime += _Delta;
 
+	const float AbsTargetAngle = std::fabs(BaseActor::GetTargetAngle());
+	if (AbsTargetAngle >= 90.0f && AbsTargetAngle <= 150.0f)
+	{
+		//Turn
+		if (Enum_RotDir::Left == GetRotDir_e())
+		{
+			ChangeState(Enum_HollowSoldier_Spear_State::Turn_Left3);
+		}
+		else
+		{
+			ChangeState(Enum_HollowSoldier_Spear_State::Turn_Right3);
+		}
+	}
+	else if (AbsTargetAngle > 150.0f)
+	{
+		// TurnTwice
+		if (Enum_RotDir::Left == GetRotDir_e())
+		{
+			ChangeState(Enum_HollowSoldier_Spear_State::Turn_Left_Twice3);
+		}
+		else
+		{
+			ChangeState(Enum_HollowSoldier_Spear_State::Turn_Right_Twice3);
+		}
+	}
+	else if (AbsTargetAngle < 80.0f)
+	{
+		if (false == IsTargetInAngle(3.0f))
+		{
+			RotToTarget(_Delta);
+		}
+	}
+
+	EventParameter AttackParameter;
+	AttackParameter.Stay = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
+		{
+			IsAttack = true;
+		};
+	AttackParameter.Exit = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
+		{
+			IsAttack = false;
+		};
+	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);
+
+	if (StateTime >= 2.0f)
+	{
+		// 거리 구하기
+		if (false)
+		{
+			//RunToSting
+			StateTime = 0.0;
+			//ChangeState(Enum_HollowSoldier_Spear_State::Attack4);
+		}
+		else
+		{
+			if (IsAttack == false)
+			{
+				StateTime = 0.0f;
+				ChangeState(Enum_HollowSoldier_Spear_State::Walk3);
+			}
+			else
+			{
+				StateTime = 0.0f;
+				ChangeAttackState();
+			}
+		}
+
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Idle2ToIdle1_Start()
@@ -208,7 +409,9 @@ void Monster_HollowSoldier_Spear::State_Idle1ToIdle2_Start()
 void Monster_HollowSoldier_Spear::State_Idle1ToIdle2_Update(float _Delta)
 {
 	if (MainRenderer->GetCurAnimationFrame() >= 29)
-	ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Idle2ToIdle3_Start()
@@ -218,7 +421,9 @@ void Monster_HollowSoldier_Spear::State_Idle2ToIdle3_Start()
 void Monster_HollowSoldier_Spear::State_Idle2ToIdle3_Update(float _Delta)
 {
 	if (MainRenderer->GetCurAnimationFrame() >= 19)
-	ChangeState(Enum_HollowSoldier_Spear_State::Idle3);
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle3);
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Idle3ToIdle2_Start()
@@ -228,7 +433,9 @@ void Monster_HollowSoldier_Spear::State_Idle3ToIdle2_Start()
 void Monster_HollowSoldier_Spear::State_Idle3ToIdle2_Update(float _Delta)
 {
 	if (MainRenderer->GetCurAnimationFrame() >= 31)
-	ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Scout_Start()
@@ -237,7 +444,16 @@ void Monster_HollowSoldier_Spear::State_Scout_Start()
 }
 void Monster_HollowSoldier_Spear::State_Scout_Update(float _Delta)
 {
+	EventParameter RecognizeParameter;
+	RecognizeParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
+		{
 
+		};
+	if (true == RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, RecognizeParameter))
+	{
+		FindTarget();
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle1ToIdle2);
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Walk_Start() 
@@ -255,7 +471,17 @@ void Monster_HollowSoldier_Spear::State_Walk3_Start()
 }
 void Monster_HollowSoldier_Spear::State_Walk3_Update(float _Delta)
 {
+	if (false == IsTargetInAngle(3.0f))
+	{
+		RotToTarget(_Delta);
+	}
 
+	EventParameter AttackParameter;
+	AttackParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
+		{
+			ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
+		};
+	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);
 }
 
 void Monster_HollowSoldier_Spear::State_Run_Start()
@@ -279,19 +505,50 @@ void Monster_HollowSoldier_Spear::State_Run3_Update(float _Delta)
 void Monster_HollowSoldier_Spear::State_Attack1_Start()
 {
 	// Pike1
+	MainRenderer->ChangeAnimation("c1100_Spear_Pike1");
 }
 void Monster_HollowSoldier_Spear::State_Attack1_Update(float _Delta)
 {
-
+	if (CheckAnimationName("c1100_Spear_Pike1"))
+	{
+		if (MainRenderer->GetCurAnimationFrame() >= 64)
+		{
+			ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
+		}
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Attack2_Start()
 {
 	// Pike1 - Pike2
+	MainRenderer->ChangeAnimation("c1100_Spear_Pike1");
 }
 void Monster_HollowSoldier_Spear::State_Attack2_Update(float _Delta)
 {
+	if (CheckAnimationName("c1100_Spear_Pike1"))
+	{
+		if (MainRenderer->GetCurAnimationFrame() >= 25)
+		{
+			MainRenderer->ChangeAnimation("c1100_Spear_Pike2");
+		}
+	}
 
+	if (CheckAnimationName("c1100_Spear_Pike2"))
+	{
+		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 5)
+		{
+			if (false == IsTargetInAngle(3.0f))
+			{
+				RotToTarget(_Delta);
+			}
+			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 72)
+		{
+			ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
+		}
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Attack3_Start()
@@ -327,7 +584,10 @@ void Monster_HollowSoldier_Spear::State_Turn_Left2_Start()
 }
 void Monster_HollowSoldier_Spear::State_Turn_Left2_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 35)
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Turn_Right2_Start()
@@ -336,7 +596,10 @@ void Monster_HollowSoldier_Spear::State_Turn_Right2_Start()
 }
 void Monster_HollowSoldier_Spear::State_Turn_Right2_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 35)
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Turn_Left_Twice2_Start()
@@ -345,7 +608,10 @@ void Monster_HollowSoldier_Spear::State_Turn_Left_Twice2_Start()
 }
 void Monster_HollowSoldier_Spear::State_Turn_Left_Twice2_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 38)
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Turn_Right_Twice2_Start()
@@ -354,7 +620,10 @@ void Monster_HollowSoldier_Spear::State_Turn_Right_Twice2_Start()
 }
 void Monster_HollowSoldier_Spear::State_Turn_Right_Twice2_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 38)
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Turn_Left1_Start()
@@ -363,7 +632,10 @@ void Monster_HollowSoldier_Spear::State_Turn_Left1_Start()
 }
 void Monster_HollowSoldier_Spear::State_Turn_Left1_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 35)
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle1);
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Turn_Right1_Start()
@@ -372,7 +644,10 @@ void Monster_HollowSoldier_Spear::State_Turn_Right1_Start()
 }
 void Monster_HollowSoldier_Spear::State_Turn_Right1_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 35)
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle1);
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Turn_Left_Twice1_Start()
@@ -381,7 +656,10 @@ void Monster_HollowSoldier_Spear::State_Turn_Left_Twice1_Start()
 }
 void Monster_HollowSoldier_Spear::State_Turn_Left_Twice1_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 38)
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle1);
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Turn_Right_Twice1_Start()
@@ -390,7 +668,10 @@ void Monster_HollowSoldier_Spear::State_Turn_Right_Twice1_Start()
 }
 void Monster_HollowSoldier_Spear::State_Turn_Right_Twice1_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 38)
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle1);
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Turn_Left3_Start()
@@ -399,7 +680,10 @@ void Monster_HollowSoldier_Spear::State_Turn_Left3_Start()
 }
 void Monster_HollowSoldier_Spear::State_Turn_Left3_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 35)
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle3);
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Turn_Right3_Start()
@@ -408,7 +692,10 @@ void Monster_HollowSoldier_Spear::State_Turn_Right3_Start()
 }
 void Monster_HollowSoldier_Spear::State_Turn_Right3_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 35)
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle3);
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Turn_Left_Twice3_Start()
@@ -417,7 +704,10 @@ void Monster_HollowSoldier_Spear::State_Turn_Left_Twice3_Start()
 }
 void Monster_HollowSoldier_Spear::State_Turn_Left_Twice3_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 38)
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle3);
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Turn_Right_Twice3_Start()
@@ -426,7 +716,10 @@ void Monster_HollowSoldier_Spear::State_Turn_Right_Twice3_Start()
 }
 void Monster_HollowSoldier_Spear::State_Turn_Right_Twice3_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 38)
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle3);
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Guard_Start()

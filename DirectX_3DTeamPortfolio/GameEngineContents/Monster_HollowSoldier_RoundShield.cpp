@@ -573,7 +573,7 @@ void Monster_HollowSoldier_RoundShield::State_Attack1_Update(float _Delta)
 	{
 		if (MainRenderer->GetCurAnimationFrame() >= 100)
 		{
-			ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2ToIdle3);
+			ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
 		}
 	}
 }

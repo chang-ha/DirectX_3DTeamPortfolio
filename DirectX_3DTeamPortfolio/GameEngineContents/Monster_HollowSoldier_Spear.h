@@ -57,12 +57,19 @@ public:
 	Monster_HollowSoldier_Spear& operator=(const Monster_HollowSoldier_Spear & _Other) = delete;
 	Monster_HollowSoldier_Spear& operator=(Monster_HollowSoldier_Spear && _Other) noexcept = delete;
 
+	void SetStateIdle1()
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle1);
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 
 private:
 	float StateTime = 0.0f;
+
+	bool IsAttack = false;
 
 protected:
 	Enum_HollowSoldier_Spear_State SpearState = Enum_HollowSoldier_Spear_State::Max;

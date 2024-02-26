@@ -8,6 +8,9 @@
 #include "Monster_LothricKn.h"
 #include "Monster_HollowSoldier_RoundShield.h"
 #include "Monster_HollowSoldier_Sword.h"
+#include "Monster_HollowSoldier_Spear.h"
+#include "Monster_Hollow_Unarmed.h"
+#include "Monster_Hollow_RaggedRobes.h"
 
 TestLevel_Monster::TestLevel_Monster() 
 {
@@ -59,11 +62,11 @@ void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 	std::shared_ptr<Monster_LothricKn> LothricKn = CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn");
 	LothricKn->SetWPosition(float4(100.0f, 0.0f, 0.0f));
 
-	std::shared_ptr<Monster_HollowSoldier_Sword> Hollow = CreateActor<Monster_HollowSoldier_Sword>(static_cast<int>(Enum_UpdateOrder::Monster), "Hollow");
-	Hollow->SetWPosition(float4(-2000.0f, 0.0f, 0.0f));
+	std::shared_ptr<Monster_HollowSoldier_Spear> Hollow = CreateActor<Monster_HollowSoldier_Spear>(static_cast<int>(Enum_UpdateOrder::Monster), "Hollow");
+	Hollow->SetWPosition(float4(-500.0f, 0.0f, 0.0f));
 	//Hollow->Transform.SetWorldRotation(float4(0.0f, 180.0f, 0.0f));
 	//Hollow->Transform.SetWorldRotation(float4(0.0f, 90.0f, 0.0f));
-	Hollow->SetStateIdle1();
+	Hollow->SetStatePray1();
 
 	GetMainCamera()->Transform.SetWorldPosition(float4(0.0f, 0.0f, 0.0f));
 }
@@ -71,5 +74,5 @@ void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 void TestLevel_Monster::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	AllDeathObjectGroupConvert<Monster_LothricKn>(Enum_UpdateOrder::Monster);
-	AllDeathObjectGroupConvert<Monster_HollowSoldier_Sword>(Enum_UpdateOrder::Monster);
+	AllDeathObjectGroupConvert<Monster_HollowSoldier_Spear>(Enum_UpdateOrder::Monster);
 }

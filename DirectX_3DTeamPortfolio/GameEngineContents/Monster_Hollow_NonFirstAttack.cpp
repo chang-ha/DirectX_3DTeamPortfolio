@@ -219,6 +219,15 @@ void Monster_Hollow_NonFirstAttack::State_Pray1_Update(float _Delta)
 	{
 		ChangeState(Enum_Hollow_State::PrayToIdle1);
 	}
+
+	// Test
+	StateTime += _Delta;
+
+	if (StateTime >= 3.0f)
+	{
+		StateTime = 0.0f;
+		ChangeState(Enum_Hollow_State::PrayToBeScared1);
+	}
 }
 
 void Monster_Hollow_NonFirstAttack::State_Pray2_Start()
@@ -335,6 +344,14 @@ void Monster_Hollow_NonFirstAttack::State_BeScared_Update(float _Delta)
 	// 랜턴 효과 받았을때
 	if (false)
 	{
+		ChangeState(Enum_Hollow_State::BeScaredToIdle);
+	}
+
+	// Test
+	StateTime += _Delta;
+	if (StateTime >= 3.0f)
+	{
+		StateTime = 0.0f;
 		ChangeState(Enum_Hollow_State::BeScaredToIdle);
 	}
 }
@@ -534,7 +551,8 @@ void Monster_Hollow_NonFirstAttack::State_Idle_Update(float _Delta)
 			else
 			{
 				StateTime = 0.0f;
-				ChangeAttackState();
+				//ChangeAttackState();
+				ChangeState(Enum_Hollow_State::Walk);
 			}
 		}
 
@@ -555,7 +573,7 @@ void Monster_Hollow_NonFirstAttack::State_Walk_Update(float _Delta)
 	EventParameter AttackParameter;
 	AttackParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
 		{
-			// ChangeState(Enum_Hollow_State::Idle2); 빌드가 안되...ㅜ
+			ChangeState(Enum_Hollow_State::Idle);
 		};
 	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);
 }
