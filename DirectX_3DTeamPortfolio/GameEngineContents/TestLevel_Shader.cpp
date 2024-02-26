@@ -130,22 +130,22 @@ void TestLevel_Shader::Start()
 	//	//renderer->renderbaseinfovalue.alphavalue = -10.0f;
 
 
-	//}
+	//}Q
 
 		// 컬러 구체
-	//{
-	//	{
-	//		std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
-	//		std::shared_ptr<GameEngineRenderer> NewRenderer = Object->CreateComponent<GameEngineRenderer>();
-	//		//NewRenderer->RenderBaseInfoValue.IsNormal = 1;
-	//		NewRenderer->SetMesh("Sphere");
-	//		NewRenderer->SetMaterial("FBX_Static_NorX_SpcX");
-	//		NewRenderer->GetShaderResHelper().SetTexture("DiffuseTexture", "m30_00_sky_04_a.png");
-	//		//NewRenderer->Transform.SetLocalPosition({ 0.0f, 0.0f, 0.0f });
-	//		NewRenderer->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
-	//		//NewRenderer->RenderBaseInfoValue.BaseColor = float4::RED;
-	//	}
-	//}
+	{
+		{
+			std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
+			std::shared_ptr<GameEngineRenderer> NewRenderer = Object->CreateComponent<GameEngineRenderer>();
+			//NewRenderer->RenderBaseInfoValue.IsNormal = 1;
+			NewRenderer->SetMesh("Sphere");
+			NewRenderer->SetMaterial("FBX_Static_Color");
+			//NewRenderer->GetShaderResHelper().SetTexture("DiffuseTexture", "m30_00_sky_04_a.png");
+			NewRenderer->Transform.SetLocalPosition({ 0.0f, 0.0f, -500.0f });
+			NewRenderer->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
+			NewRenderer->RenderBaseInfoValue.BaseColor = float4::RED;
+		}
+	}
 
 	//SkyRenderer = CreateComponent<GameContentsFBXRenderer>();
 	//SkyRenderer->SetFBXMesh("WorldSky.FBX", "FBX_Static");

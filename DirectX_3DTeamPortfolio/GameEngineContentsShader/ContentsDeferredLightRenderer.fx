@@ -66,9 +66,12 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
     float4 Albedo = DiffuseTexture.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     float4 Material = MaterialTexture.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     Albedo.xyz = pow(Albedo.xyz, 2.2f); //gamma
+    Normal.w = 1.0f;
+    Pos.w = 1.0f;
+    Albedo.w = 1.0f;
+    Material.w = 1.0f;
     
-    
-    float Roughness = Material.x;
+    float Roughness = Material.r;
     float Metalic = Material.y;
     
     
@@ -233,7 +236,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
     }
     
  
-    Result.LightColor = (Result.DifLight + Result.SpcLight + Result.AmbLight);
+    Result.LightColor = float4(Roughness, Metalic, 0.0f, 1.0f);
     
     // 최종컬러는 빛이 여러겨개 적용되서 들어가야 한다.
     //float A = Result.DifColor.w;
