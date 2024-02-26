@@ -244,6 +244,9 @@
     <ClCompile Include="TestLevel_MapObject.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+    <ClCompile Include="Stage_Lothric.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -482,6 +485,9 @@
     </ClInclude>
     <ClInclude Include="TestMapObjcet.h">
       <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage_Lothric.h">
+      <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

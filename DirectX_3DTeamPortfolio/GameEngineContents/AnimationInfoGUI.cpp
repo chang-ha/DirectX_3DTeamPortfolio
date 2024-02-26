@@ -302,6 +302,7 @@ void AnimationInfoGUI::DummyEditor()
 			ContentsDebug::DistanceCheck(DummyMeshWPos, 5.0f ,float4(0.5f, 0.25f, 0.25f));
 			ContentsDebug::DistanceCheck(DummyPolyPos, 5.0f ,float4(0.5f, 0.25f, 0.75f));
 			ContentsDebug::DistanceCheck(DummyPolyPos2, 5.0f ,float4(0.75f, 0.25f, 0.75f));
+			GameEngineDebug::DrawBox3D(pRenderer->Transform, float4::BLACK);
 		}
 
 		ImGui::TreePop();

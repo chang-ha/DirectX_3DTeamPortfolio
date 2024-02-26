@@ -33,6 +33,21 @@ enum class PlayerState
 	Shield_Move,
 	Parrying,
 	RockOn,
+
+	Forward_Hit, 
+	Left_Hit,
+	Right_Hit,
+	Backward_Hit,
+
+	Forward_Middle_Hit,
+	Left_Middle_Hit,
+	Right_Middle_Hit,
+	Backward_Middle_Hit,
+
+	Forward_Big_Hit,
+	Backward_Big_Hit,
+
+
 };
 
 // Ό³Έν :

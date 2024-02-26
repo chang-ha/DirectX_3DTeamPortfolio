@@ -148,7 +148,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				StateValue = PlayerState::Move;
-				Rotation_Check_X = false;
+				//Rotation_Check_X = false;
 				//Player_Pos.X = Camera_Pos_X;
 			};
 
@@ -374,6 +374,12 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Move_Stop);
 					return;
 				}
+				if (GameEngineInput::IsPress(VK_CONTROL, this) && Rotation_Check_X == true)
+				{
+					Rotation_Check_X = false;
+					_Parent->ChangeState(PlayerState::Parrying);
+					return;
+				}
 
 				if (Rock_On_Check == true)
 				{
@@ -556,7 +562,7 @@ void Player::Player_State()
 		PlayerStates.CreateState(PlayerState::Slow_Walk, NewPara);
 	}
 
-	{
+	/*{
 		CreateStateParameter NewPara;
 
 
@@ -596,14 +602,16 @@ void Player::Player_State()
 		};
 
 	    PlayerStates.CreateState(PlayerState::Run, NewPara);
-	}
+	}*/
 
 	{
 		CreateStateParameter NewPara;
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Rotation_Check_X = true;
 				MainRenderer->ChangeAnimation("Run");
+				StateValue = PlayerState::Run;
 			};
 
 
@@ -612,7 +620,7 @@ void Player::Player_State()
 
 				if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SHIFT, this))
 				{
-					GetFBXRenderer()->Transform.AddLocalPosition({ 0.0f,0.0f,0.0f });
+					Capsule->MoveForce({ float4::FORWARD * Speed*1.5 });
 				}
 
 				if (GameEngineInput::IsUp('W', this))
@@ -645,6 +653,13 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 		{
+				if (Rock_On_Check == true)
+				{
+					Capsule->SetWorldRotation({ 0.0f,degree_X });
+					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+				}
+
+
 				if (MainRenderer->GetCurAnimationFrame() < 30)
 				{
 					if (GameEngineInput::IsDown(VK_LBUTTON, this))
@@ -715,6 +730,14 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+
+				if (Rock_On_Check == true)
+				{
+					Capsule->SetWorldRotation({ 0.0f,degree_X });
+					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+				}
+
+
 				if (MainRenderer->GetCurAnimationFrame() < 30)
 				{
 					if (GameEngineInput::IsDown(VK_LBUTTON, this))
@@ -785,6 +808,13 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+				if (Rock_On_Check == true)
+				{
+					Capsule->SetWorldRotation({ 0.0f,degree_X });
+					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+				}
+
+
 				if (MainRenderer->GetCurAnimationFrame() < 30)
 				{
 					if (GameEngineInput::IsDown(VK_LBUTTON, this))
@@ -856,6 +886,13 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+				if (Rock_On_Check == true)
+				{
+					Capsule->SetWorldRotation({ 0.0f,degree_X });
+					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+				}
+
+
 				if (MainRenderer->GetCurAnimationFrame() < 30)
 				{
 					if (GameEngineInput::IsDown(VK_LBUTTON, this))
@@ -1058,6 +1095,22 @@ void Player::Player_State()
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
 			
+				if (Rock_On_Check == true)
+				{
+					Capsule->SetWorldRotation({ 0.0f,degree_X });
+					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+					Capsule->MoveForce({ float4::BACKWARD * Speed * 1.2 }, degree_X);
+				}
+
+				else 
+				{
+					if (MainRenderer->GetCurAnimationFrame() < 25)
+					{
+						Capsule->MoveForce({ float4::BACKWARD * Speed * 1.2 });
+					}
+				}
+
+
 				if (MainRenderer->GetCurAnimationFrame() > 30)
 				{
 					PlayerStates.ChangeState(PlayerState::Idle);
@@ -1088,6 +1141,13 @@ void Player::Player_State()
 					Capsule->MoveForce({ float4::FORWARD * Speed*1.2},degree_X);
 				}
 
+				else
+				{
+					if (MainRenderer->GetCurAnimationFrame() < 25)
+					{
+						Capsule->MoveForce({ float4::FORWARD * Speed * 1.2 });
+					}
+				}
 				if (MainRenderer->GetCurAnimationFrame() > 30)
 				{
 					PlayerStates.ChangeState(PlayerState::Idle);
@@ -1119,13 +1179,21 @@ void Player::Player_State()
 
 				if (Rock_On_Check == true)
 				{
-				
-					Capsule->MoveForce({ float4::LEFT * Speed * 1.2 },degree_X);
-
+			
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
 					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+					Capsule->MoveForce({ float4::LEFT * Speed * 1.2 }, degree_X);
 				}
 
+				else
+				{
+					if (MainRenderer->GetCurAnimationFrame() < 25)
+					{
+						Capsule->MoveForce({ float4::LEFT * Speed * 1.2 });
+					}
+
+					
+				}
 				if (MainRenderer->GetCurAnimationFrame() > 30)
 				{
 					PlayerStates.ChangeState(PlayerState::Idle);
@@ -1152,6 +1220,14 @@ void Player::Player_State()
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
 					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
 					Capsule->MoveForce({ float4::RIGHT * Speed * 1.2 }, degree_X);
+				}
+
+				else
+				{
+					if (MainRenderer->GetCurAnimationFrame() < 25)
+					{
+						Capsule->MoveForce({ float4::RIGHT * Speed * 1.2 });
+					}
 				}
 
 				if (MainRenderer->GetCurAnimationFrame() > 30)
@@ -1182,7 +1258,13 @@ void Player::Player_State()
 					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
 					Capsule->MoveForce({ float4::BACKWARD * Speed * 1.2 }, degree_X);
 				}
-
+				else
+				{
+					if (MainRenderer->GetCurAnimationFrame() < 25)
+					{
+						Capsule->MoveForce({ float4::BACKWARD * Speed * 1.2 });
+					}
+				}
 				if (MainRenderer->GetCurAnimationFrame() > 20)
 				{
 					PlayerStates.ChangeState(PlayerState::Idle);
@@ -1519,10 +1601,6 @@ void Player::Player_State()
 						return;
 						//Capsule->MoveForce({ float4::LEFT * Speed }, GetTargetAngle());
 
-
-
-
-
 					}
 
 					else if (true == GameEngineInput::IsPress('D', this))
@@ -1566,6 +1644,227 @@ void Player::Player_State()
 
 		PlayerStates.CreateState(PlayerState::RockOn, NewPara);
 	}
+
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Hit_Forward");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}		
+			};
+
+		PlayerStates.CreateState(PlayerState::Forward_Hit, NewPara);
+	}
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Hit_Behind");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::Backward_Hit, NewPara);
+	}
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Hit_right");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::Right_Hit, NewPara);
+	}
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Hit_Left");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::Left_Hit, NewPara);
+	}
+
+
+
+
+
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Middle_Hit_Forward");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::Forward_Middle_Hit, NewPara);
+	}
+
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Middle_Hit_Behind");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::Backward_Middle_Hit, NewPara);
+	}
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Middle_Hit_Right");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::Right_Middle_Hit, NewPara);
+	}
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Middle_Hit_Left");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::Left_Middle_Hit, NewPara);
+	}
+
+
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("String_Hit_Forward");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::Forward_Big_Hit, NewPara);
+	}
+
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("String_Hit_Behind");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::Backward_Big_Hit, NewPara);
+	}
+
 	PlayerStates.ChangeState(PlayerState::Idle);
 
 

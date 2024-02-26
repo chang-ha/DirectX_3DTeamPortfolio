@@ -43,9 +43,9 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	
 
-	/*{
+	{
 		std::shared_ptr<WorldMap> GameMap = CreateActor<WorldMap>(0, "WorldMap");
-	}*/
+	}
 
 	
 
