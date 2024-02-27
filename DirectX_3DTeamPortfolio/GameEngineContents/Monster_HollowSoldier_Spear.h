@@ -11,8 +11,14 @@ enum class Enum_HollowSoldier_Spear_State
 	Idle2ToIdle3,
 	Idle3ToIdle2,
 	Scout,
-	Walk,
-	Walk3,
+	Walk_Front2,
+	Walk_Back2,
+	Walk_Left2,
+	Walk_Right2,
+	Walk_Front3,
+	Walk_Back3,
+	Walk_Left3,
+	Walk_Right3,
 	Run,
 	Run3,
 	Attack1,	// Pike1
@@ -72,6 +78,9 @@ private:
 
 	bool IsAttack = false;
 
+	float WalkToChangeTime = 0.0f;
+	float WalkTime = 0.0f;
+
 protected:
 	Enum_HollowSoldier_Spear_State SpearState = Enum_HollowSoldier_Spear_State::Max;
 
@@ -107,11 +116,29 @@ protected:
 	void State_Scout_Start();
 	void State_Scout_Update(float _Delta);
 
-	void State_Walk_Start();
-	void State_Walk_Update(float _Delta);
+	void State_Walk_Front2_Start();
+	void State_Walk_Front2_Update(float _Delta);
 
-	void State_Walk3_Start();
-	void State_Walk3_Update(float _Delta);
+	void State_Walk_Back2_Start();
+	void State_Walk_Back2_Update(float _Delta);
+
+	void State_Walk_Left2_Start();
+	void State_Walk_Left2_Update(float _Delta);
+
+	void State_Walk_Right2_Start();
+	void State_Walk_Right2_Update(float _Delta);
+
+	void State_Walk_Front3_Start();
+	void State_Walk_Front3_Update(float _Delta);
+
+	void State_Walk_Back3_Start();
+	void State_Walk_Back3_Update(float _Delta);
+
+	void State_Walk_Left3_Start();
+	void State_Walk_Left3_Update(float _Delta);
+
+	void State_Walk_Right3_Start();
+	void State_Walk_Right3_Update(float _Delta);
 
 	void State_Run_Start();
 	void State_Run_Update(float _Delta);

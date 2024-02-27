@@ -8,7 +8,10 @@ enum class Enum_HollowSoldier_Sword_State
 	Idle2ToIdle1,
 	Idle1ToIdle2,
 	Scout,
-	Walk,
+	Walk_Front,
+	Walk_Back,
+	Walk_Left,
+	Walk_Right,
 	Run,
 	RH_VerticalSlash,
 	RH_HorizontalSlash,
@@ -116,8 +119,17 @@ protected:
 	void State_Scout_Start();
 	void State_Scout_Update(float _Delta);
 
-	void State_Walk_Start();
-	void State_Walk_Update(float _Delta);
+	void State_Walk_Front_Start();
+	void State_Walk_Front_Update(float _Delta);
+
+	void State_Walk_Back_Start();
+	void State_Walk_Back_Update(float _Delta);
+
+	void State_Walk_Left_Start();
+	void State_Walk_Left_Update(float _Delta);
+
+	void State_Walk_Right_Start();
+	void State_Walk_Right_Update(float _Delta);
 
 	void State_Run_Start();
 	void State_Run_Update(float _Delta);

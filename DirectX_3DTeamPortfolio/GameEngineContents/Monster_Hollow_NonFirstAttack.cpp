@@ -65,8 +65,17 @@ void Monster_Hollow_NonFirstAttack::ChangeState(Enum_Hollow_State _State)
 		case Enum_Hollow_State::Idle:
 			State_Idle_Start();
 			break;
-		case Enum_Hollow_State::Walk:
-			State_Walk_Start();
+		case Enum_Hollow_State::Walk_Front:
+			State_Walk_Front_Start();
+			break;
+		case Enum_Hollow_State::Walk_Back:
+			State_Walk_Back_Start();
+			break;
+		case Enum_Hollow_State::Walk_Left:
+			State_Walk_Left_Start();
+			break;
+		case Enum_Hollow_State::Walk_Right:
+			State_Walk_Right_Start();
 			break;
 		case Enum_Hollow_State::Run:
 			State_Run_Start();
@@ -148,8 +157,14 @@ void Monster_Hollow_NonFirstAttack::StateUpdate(float _Delta)
 		return State_BeScaredToIdle_Update(_Delta);
 	case Enum_Hollow_State::Idle:
 		return State_Idle_Update(_Delta);
-	case Enum_Hollow_State::Walk:
-		return State_Walk_Update(_Delta);
+	case Enum_Hollow_State::Walk_Front:
+		return State_Walk_Front_Update(_Delta);
+	case Enum_Hollow_State::Walk_Back:
+		return State_Walk_Back_Update(_Delta);
+	case Enum_Hollow_State::Walk_Left:
+		return State_Walk_Left_Update(_Delta);
+	case Enum_Hollow_State::Walk_Right:
+		return State_Walk_Right_Update(_Delta);
 	case Enum_Hollow_State::Run:
 		return State_Run_Update(_Delta);
 	case Enum_Hollow_State::RH_VerticalSlash:
@@ -546,24 +561,24 @@ void Monster_Hollow_NonFirstAttack::State_Idle_Update(float _Delta)
 			if (IsAttack == false)
 			{
 				StateTime = 0.0f;
-				ChangeState(Enum_Hollow_State::Walk);
+				ChangeState(Enum_Hollow_State::Walk_Front);
 			}
 			else
 			{
 				StateTime = 0.0f;
 				//ChangeAttackState();
-				ChangeState(Enum_Hollow_State::Walk);
+				ChangeState(Enum_Hollow_State::Walk_Front);
 			}
 		}
 
 	}
 }
 
-void Monster_Hollow_NonFirstAttack::State_Walk_Start()
+void Monster_Hollow_NonFirstAttack::State_Walk_Front_Start()
 {
 	MainRenderer->ChangeAnimation("c1100_Walk_Front");
 }
-void Monster_Hollow_NonFirstAttack::State_Walk_Update(float _Delta)
+void Monster_Hollow_NonFirstAttack::State_Walk_Front_Update(float _Delta)
 {
 	if (false == IsTargetInAngle(3.0f))
 	{
@@ -576,6 +591,57 @@ void Monster_Hollow_NonFirstAttack::State_Walk_Update(float _Delta)
 			ChangeState(Enum_Hollow_State::Idle);
 		};
 	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);
+}
+
+void Monster_Hollow_NonFirstAttack::State_Walk_Back_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Walk_Back");
+}
+void Monster_Hollow_NonFirstAttack::State_Walk_Back_Update(float _Delta)
+{
+	if (false == IsTargetInAngle(3.0f))
+	{
+		RotToTarget(_Delta);
+	}
+
+	if (MainRenderer->GetCurAnimationFrame() >= 43)
+	{
+		ChangeState(Enum_Hollow_State::Idle);
+	}
+}
+
+void Monster_Hollow_NonFirstAttack::State_Walk_Left_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Walk_Left");
+}
+void Monster_Hollow_NonFirstAttack::State_Walk_Left_Update(float _Delta)
+{
+	if (false == IsTargetInAngle(3.0f))
+	{
+		RotToTarget(_Delta);
+	}
+
+	if (MainRenderer->GetCurAnimationFrame() >= 39)
+	{
+		ChangeState(Enum_Hollow_State::Idle);
+	}
+}
+
+void Monster_Hollow_NonFirstAttack::State_Walk_Right_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Walk_Right");
+}
+void Monster_Hollow_NonFirstAttack::State_Walk_Right_Update(float _Delta)
+{
+	if (false == IsTargetInAngle(3.0f))
+	{
+		RotToTarget(_Delta);
+	}
+
+	if (MainRenderer->GetCurAnimationFrame() >= 39)
+	{
+		ChangeState(Enum_Hollow_State::Idle);
+	}
 }
 
 void Monster_Hollow_NonFirstAttack::State_Run_Start()
