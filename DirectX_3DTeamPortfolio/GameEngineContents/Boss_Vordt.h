@@ -96,7 +96,6 @@ private:
 	void SoundEventInit();
 	std::vector<AnimationBoneData> mBoneDatas;
 	float4 BoneWorldPos(int _BoneIndex);
-	float4 BoneWorldPos(std::string_view _BoneName);
 
 	// State
 	////////////////////////// Move & Others
