@@ -29,6 +29,9 @@ void Player::Start()
 	
 	Capsule = CreateComponent<GameEnginePhysXCapsule>();
 	
+	Cameracapsule = GetLevel()->CreateActor<CameraCapsule>(0,"Camera");
+
+
 
 
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(0);
@@ -199,14 +202,18 @@ void Player::Start()
 
 
 	{
-		SwordActor = GetLevel()->CreateActor<GameEngineActor>();
+		//SwordActor = GetLevel()->CreateActor<GameEngineActor>();
 		//SwordActor->Transform.SetLocalPosition({ 0.0f - 300.0f });
-		Weapon = SwordActor->CreateComponent<GameContentsFBXRenderer>();
-		Weapon->SetFBXMesh("WP_A_0221.FBX", "FBXAnimationTexture");
+		Weapon_Actor = GetLevel()->CreateActor<Weapon>();
 
-		Weapon->Transform.SetLocalScale({ 100, 100, 100 });
-		//Weapon->Transform.SetLocalPosition({ -4.0f, -152.0f, 165.0f });
-		Weapon->Transform.SetLocalRotation({ 0.0f, 0.0f, 180.0f });
+
+
+
+		//Weapon->SetFBXMesh("WP_A_0221.FBX", "FBXAnimationTexture");
+
+		//Weapon->Transform.SetLocalScale({ 100, 100, 100 });
+		////Weapon->Transform.SetLocalPosition({ -4.0f, -152.0f, 165.0f });
+		//Weapon->Transform.SetLocalRotation({ 0.0f, 0.0f, 180.0f });
 	}
 
 
@@ -263,18 +270,9 @@ void Player::Start()
 		Actor_test_02->Transform.SetWorldPosition({ 0.0f,140.0f,-300.0f });
 	}
 
-	//{
-	//	Actor_test_03 = GetLevel()->CreateActor<GameEngineActor>();
-	//	//Actor_test_03->Transform.SetWorldPosition({ 0.0f,140.0f,-300.0f });
-	//}
-	//{
-	//	Actor_test_04 = GetLevel()->CreateActor<GameEngineActor>();
-	//	Actor_test_04->SetParent(Actor_test_03);
-	//	//Actor_test_04->Transform.SetWorldPosition({ 0.0f,140.0f,-300.0f });
-	//}
+	//Weapon_Actor->PlayerRender(MainRenderer);
 
-
-	Capsule->SetFiltering(Enum_CollisionOrder::Player, Enum_CollisionOrder::Map);
+	
 }
 
 void Player::Update(float _Delta)
@@ -381,13 +379,11 @@ void Player::Update(float _Delta)
 		Player_Pos.X = degree_X;
 	}
 
-	
-	
+
 
 	AnimationBoneData Data = MainRenderer->GetBoneData(Bone_index_01);
-
-	SwordActor->Transform.SetLocalRotation(Data.RotQuaternion.QuaternionToEulerDeg());
-	SwordActor->Transform.SetWorldPosition(Data.Pos + float4{ Capsule->GetWorldPosition().x, Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
+	Weapon_Actor->Transform.SetLocalRotation(Data.RotQuaternion.QuaternionToEulerDeg());
+	Weapon_Actor->Transform.SetWorldPosition(Data.Pos + float4{ Capsule->GetWorldPosition().x, Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
 
 
 
@@ -524,10 +520,8 @@ void Player::CameraRotation(float Delta)
 	GetLevel()->GetMainCamera()->Transform.SetWorldRotation(Actor_test_02->Transform.GetWorldRotationEuler());
 	GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Actor_test_02->Transform.GetWorldPosition());
 
-}
+	
 
-void Player::ConnectIDPacketProcess(std::shared_ptr<ConnectIDPacket> _Packet)
-{
-	int a = 0;
+
 }
 

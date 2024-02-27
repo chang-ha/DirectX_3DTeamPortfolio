@@ -247,7 +247,12 @@
     <ClCompile Include="Stage_Lothric.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="CameraCapsule.cpp" />
+    <ClCompile Include="CameraCapsule.cpp">
+      <Filter>Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Actor\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -490,7 +495,12 @@
     <ClInclude Include="Stage_Lothric.h">
       <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="CameraCapsule.h" />
+    <ClInclude Include="CameraCapsule.h">
+      <Filter>Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Actor\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
