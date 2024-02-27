@@ -60,6 +60,10 @@ void WorldMap::Start()
 		//MapDatas = MapMesh->GetMapDatas();
 	}
 
+	GameEngineSound::Sound3DPlay("1-06 Vordt Of The Boreal Valley.mp3", float4::ZERO, 1.0f, 10);
+
+
+
 	//Transdate.resize(MapDatas.size());
 	//for (size_t i = 0; i < MapDatas.size(); i++)
 	//{

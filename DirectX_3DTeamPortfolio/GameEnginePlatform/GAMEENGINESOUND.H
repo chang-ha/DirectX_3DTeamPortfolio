@@ -128,6 +128,10 @@ private:
 	// 추후 조정기능 필요시 구현
 	static FMOD_VECTOR Vel;
 
-	FMOD::Channel* Play3D(const float4& _Pos);
+	// _MinDistance  => _Pos기준으로 볼륨만큼의 소리가들릴 범위
+	// _MaxDistance  => _MinDistance이후로 소리가 들리게될 범위
+	// Min~Max로 비율나눠서 소리가 감소하며 들리게 됨.
+	// Max범위 벗어나면 소리 안들림.
+	FMOD::Channel* Play3D(const float4& _Pos, float _MinDistance = 50.0f, float _MaxDistance = 1000.0f);
 };
 

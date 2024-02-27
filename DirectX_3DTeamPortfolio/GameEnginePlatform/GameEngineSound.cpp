@@ -327,7 +327,7 @@ FMOD::Channel* GameEngineSound::Play()
 	return SoundControl;
 }
 
-FMOD::Channel* GameEngineSound::Play3D(const float4& _Pos)
+FMOD::Channel* GameEngineSound::Play3D(const float4& _Pos, float _MinDistance, float _MaxDistance)
 {
 	FMOD::Channel* SoundControl = nullptr;
 	
@@ -338,11 +338,11 @@ FMOD::Channel* GameEngineSound::Play3D(const float4& _Pos)
 	
 	Result = SoundSystem->playSound(SoundHandle, 0, true, &SoundControl);
 
-	Result = SoundControl->setMode(FMOD_3D);
+	Result = SoundControl->setMode(FMOD_3D_LINEARSQUAREROLLOFF);
 	Result = SoundControl->set3DAttributes(&Pos, &vel);
 	Result = SoundControl->setPaused(false);
 
-	SoundControl->set3DMinMaxDistance(100.f, 10000.f);
+	SoundControl->set3DMinMaxDistance(_MinDistance, _MaxDistance);
 
 	return SoundControl;
 }
