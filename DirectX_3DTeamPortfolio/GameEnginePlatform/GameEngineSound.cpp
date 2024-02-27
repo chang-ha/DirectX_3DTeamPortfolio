@@ -224,7 +224,7 @@ void GameEngineSound::Sound3DLoad(std::string_view _Name, std::string_view _Path
 	All3DSound.insert(std::make_pair(UpperName, NewSound));
 }
 
-GameEngineSoundPlayer GameEngineSound::Sound3DPlay(std::string_view _Name, const float4& _Pos, float _Volume /*= 1.0f*/, int _Loop/* = 0*/)
+GameEngineSoundPlayer GameEngineSound::Sound3DPlay(std::string_view _Name, const float4& _Pos, float _Volume /*= 1.0f*/, int _Loop/* = 0*/, float _MinDistance/* = 50.0f*/, float _MaxDistance/* = 1000.0f*/)
 {
 	std::shared_ptr<GameEngineSound> FindSoundPtr = Find3DSound(_Name);
 
@@ -234,7 +234,7 @@ GameEngineSoundPlayer GameEngineSound::Sound3DPlay(std::string_view _Name, const
 		return nullptr;
 	}
 
-	GameEngineSoundPlayer Player = FindSoundPtr->Play3D(_Pos);
+	GameEngineSoundPlayer Player = FindSoundPtr->Play3D(_Pos, _MinDistance, _MaxDistance);
 
 	Player.SetVolume(_Volume);
 
