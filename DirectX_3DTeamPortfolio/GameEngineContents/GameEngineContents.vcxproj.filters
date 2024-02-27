@@ -247,6 +247,7 @@
     <ClCompile Include="Stage_Lothric.cpp">
       <Filter>Level</Filter>
     </ClCompile>
+    <ClCompile Include="CameraCapsule.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -489,6 +490,7 @@
     <ClInclude Include="Stage_Lothric.h">
       <Filter>Level</Filter>
     </ClInclude>
+    <ClInclude Include="CameraCapsule.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">

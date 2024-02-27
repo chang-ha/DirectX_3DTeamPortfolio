@@ -119,7 +119,7 @@ void ContentsCollisionCallBack::onContact(const physx::PxContactPairHeader& pair
 		if ((thisFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Monster))
 			&& (CollisionFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Map)))
 		{
-			int a = 0;
+			
 		}
 
 	}

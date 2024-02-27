@@ -274,7 +274,7 @@ void Player::Start()
 	//}
 
 
-	//Capsule->SetFiltering(Enum_CollisionOrder::Player, Enum_CollisionOrder::Map);
+	Capsule->SetFiltering(Enum_CollisionOrder::Player, Enum_CollisionOrder::Map);
 }
 
 void Player::Update(float _Delta)

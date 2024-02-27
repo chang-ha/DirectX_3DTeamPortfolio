@@ -194,6 +194,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="CameraCapsule.cpp" />
     <ClCompile Include="CollisionUpdateFrameEvent.cpp">
       <SubType>
       </SubType>
@@ -435,6 +436,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="CameraCapsule.h" />
     <ClInclude Include="CollisionUpdateFrameEvent.h">
       <SubType>
       </SubType>
