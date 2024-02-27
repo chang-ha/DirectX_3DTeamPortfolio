@@ -29,7 +29,7 @@ void ContentLevel::Start()
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
 	
 	PhysXLevelInit();
-	// Scene->setSimulationEventCallback(CollisionCallBack);
+	Scene->setSimulationEventCallback(&CollisionCallBack);
 }
 
 void ContentLevel::Update(float _Delta)
@@ -116,10 +116,10 @@ void ContentsCollisionCallBack::onContact(const physx::PxContactPairHeader& pair
 			continue;
 		}
 
-		if ((thisFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Monster))
+		if ((thisFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Camera))
 			&& (CollisionFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Map)))
 		{
-			
+			int a = 0;
 		}
 
 	}
