@@ -129,6 +129,40 @@ public:
 	}
 };
 
+class MultiBlendAnimationInfo
+{
+	friend class GameContentsFBXRenderer;
+
+public:
+	MultiBlendAnimationInfo() {}
+	~MultiBlendAnimationInfo() {}
+
+private:
+	void SetInfo(const std::shared_ptr<GameContentsFBXAnimationInfo>& _AnimationInfo);
+	void Reset();
+	void Done();
+	void Update(float _DeltaTime);
+
+	inline bool IsUpdate() const { return !IsEnd; }
+	inline std::string_view GetAnmationName() const { return AnimationName; }
+
+private:
+	GameContentsFBXRenderer* ParentRenderer = nullptr;
+	FbxExAniData* FBXAnimationData = nullptr;
+
+	float CurFrameTime = 0.0f;
+	float PlayTime = 0.0f;
+	float Inter = 0.0f;
+
+	UINT CurFrame = 0;
+	UINT End = 0;
+
+	bool IsEnd = false;
+
+	std::string AnimationName;
+
+};
+
 struct BlendData
 {
 public:
@@ -141,6 +175,8 @@ public:
 class GameContentsFBXRenderer : public GameEngineRenderer
 {
 	friend GameContentsFBXAnimationInfo;
+	friend MultiBlendAnimationInfo;
+
 public:
 	// constrcuter destructer
 	GameContentsFBXRenderer();
@@ -218,6 +254,7 @@ public:
 	void SetBlendTime(std::string_view _AnimationName, float _fBlendTime);
 	void SetBlendTime(std::string_view _AnimationName, int _iBlendFrame);
 	void AddNotBlendBoneIndex(int _Index);
+	void SetMultiBlend(std::string_view _AnimationName);
 
 	// Root Motion
 	
@@ -260,6 +297,7 @@ protected:
 private:
 	bool Pause = false;
 	bool bFrameChange = false;
+	float MultiBlendRatio = 0.0f;
 
 	std::set<int> NotBlendBoneIndexs;
 
@@ -267,10 +305,12 @@ private:
 	std::shared_ptr<GameEngineFBXMesh> FBXMesh;
 	std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>> Animations;
 	std::shared_ptr<GameContentsFBXAnimationInfo> CurAnimation;
+	std::unique_ptr<MultiBlendAnimationInfo> MultiBlendAnimation;
 
 	std::vector<float4x4> AnimationBoneMatrixs;
 	std::vector<float4x4> AnimationBoneNotOffset;
 	std::vector<AnimationBoneData> BlendBoneData;
+	std::vector<AnimationBoneData> MultiBlendBoneData;
 	std::vector<AnimationBoneData> AnimationBoneDatas;
 
 	// Root Motion

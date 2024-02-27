@@ -12,6 +12,7 @@
 #include "PlayLevel.h"
 #include "ContentResources.h"
 #include "PlayLevel.h"
+#include "Stage_Lothric.h"
 #include "TestLevel_Boss.h"
 #include "TestLevel_Monster.h"
 #include "TestLevel_Shader.h"
@@ -44,6 +45,7 @@ void ContentsCore::Start()
 
 	GameEngineFont::Load("OptimusBold");
 	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
+	GameEngineCore::CreateLevel<Stage_Lothric>("Stage_Lothric");
 	GameEngineCore::CreateLevel<TestLevel_Boss>("TestLevel_Boss");
 	GameEngineCore::CreateLevel<TestLevel_Monster>("TestLevel_Monster");
 	GameEngineCore::CreateLevel<TestLevel_Shader>("TestLevel_Shader"); 

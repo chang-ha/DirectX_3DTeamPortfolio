@@ -89,6 +89,7 @@ protected:
 private:
 	std::shared_ptr<BoneSocketCollision> BossCollision;
 	std::shared_ptr<GameEngineCollision> DetectCollision;
+	std::shared_ptr<BoneSocketCollision> BodyCollision;
 	std::shared_ptr<Boss_State_GUI> GUI = nullptr;
 	float TargetAngle = 0.f;
 

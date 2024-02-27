@@ -2,6 +2,7 @@
 
 // 설명 : 충돌처리를 관리해주는 객체입니다. 
 //      내려받아서 충돌방식을 정의해주세요.
+// 주의 사항 : 액터 내 충돌체를 지우고 사용하면 100% 터집니다. 지울때 함께 Release 해주세요.
 class HitInteraction : public GameEngineObjectBase
 {
 public:

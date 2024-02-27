@@ -6,7 +6,8 @@
 #include <GameEngineBase/GameEngineNetObject.h>
 #include "ConnectIDPacket.h"
 #include "BaseActor.h"
-
+#include "CameraCapsule.h"
+#include "Weapon.h"
 enum class PlayerState
 {
 	Idle,
@@ -33,6 +34,21 @@ enum class PlayerState
 	Shield_Move,
 	Parrying,
 	RockOn,
+
+	Forward_Hit, 
+	Left_Hit,
+	Right_Hit,
+	Backward_Hit,
+
+	Forward_Middle_Hit,
+	Left_Middle_Hit,
+	Right_Middle_Hit,
+	Backward_Middle_Hit,
+
+	Forward_Big_Hit,
+	Backward_Big_Hit,
+
+
 };
 
 // 설명 :
@@ -53,19 +69,18 @@ public:
 	Player& operator=(Player&& _Other) noexcept = delete;
 	void Player_State();
 	bool check = false;
-	std::shared_ptr<GameContentsFBXRenderer> Weapon;
 	void CameraRotation(float Delta);
+
+	std::shared_ptr<Weapon> GetWeapon()
+	{
+		return Weapon_Actor;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
-	//void CameraRotation(float Delta);
-
-	// 서버용
-	void ConnectIDPacketProcess(std::shared_ptr<ConnectIDPacket> _Packet);
-
-	// 원래대로 
-	// void Smoke_Stay()
+	
 
 private:
 	float4 MoveDir;
@@ -73,12 +88,12 @@ private:
 	EventParameter Mini_Event;
 	std::string BoneName;
 	std::shared_ptr<GameEngineCollision> Col;
-	std::shared_ptr<GameEngineActor> SwordActor;
+	
 	
 	PlayerState StateValue = PlayerState::Idle;
 	float Mouse_Pos = 0.0f;
 	
-	float4 etetet = {};
+
 
 	bool TimeCheck = false;
 	bool Attack_Check = false;
@@ -108,6 +123,7 @@ private:
 	float4 Player_Pos = {};
 
 	bool IsFreeCameraValue = false;
+	bool Cameratest = false;
 	bool Rock_OnOff = false;
 
 
@@ -116,8 +132,8 @@ private:
 
 	std::shared_ptr<GameEngineActor> Actor_test;
 	std::shared_ptr<GameEngineActor> Actor_test_02;
-
-
+	std::shared_ptr<CameraCapsule> Cameracapsule;
+	std::shared_ptr<Weapon> Weapon_Actor;
 
 
 	float4 CameraPos = {};

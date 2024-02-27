@@ -155,6 +155,7 @@ protected:
 	}
 
 	void AnimationChange();
+	void DummyEditor();
 
 private:
 	class BaseActor* SelectActor = nullptr;

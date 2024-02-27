@@ -30,8 +30,9 @@ void ContentsActorInitial::Init()
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Parrying, Enum_ActorFlagBit::Parrying));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Guarding, Enum_ActorFlagBit::Guarding));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Hit, Enum_ActorFlagBit::Hit));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::HyperArmor, Enum_ActorFlagBit::HyperArmor));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Block_Shield, Enum_ActorFlagBit::Block_Shield));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Guard_Break, Enum_ActorFlagBit::Gaurd_Break));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Guard_Break, Enum_ActorFlagBit::Guard_Break));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Break_Posture, Enum_ActorFlagBit::Break_Posture));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::TwoHand, Enum_ActorFlagBit::TwoHand));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::FrontStab, Enum_ActorFlagBit::FrontStab));
@@ -51,10 +52,9 @@ BaseActor::~BaseActor()
 void BaseActor::Start()
 {
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
+	MainRenderer->Transform.SetLocalScale(float4(W_SCALE, W_SCALE, W_SCALE));
 
 	Stat.SetPoise(100); // 모든 객체가 강인도 100을 가지고 있음 << DS3 Official
-
-	Transform.SetLocalScale(float4(W_SCALE, W_SCALE, W_SCALE));
 }
 
 void BaseActor::Update(float _Delta)
@@ -141,7 +141,6 @@ void BaseActor::SubFlag(Enum_ActorFlag _Flag)
 void BaseActor::DebugFlag()
 {
 	bool HitValue = IsFlag(Enum_ActorFlag::Hit);
-	bool GaurdingValue = IsFlag(Enum_ActorFlag::GuardSuccess);
 	bool DeathValue = IsFlag(Enum_ActorFlag::Death);
 	bool ParryPossible = IsFlag(Enum_ActorFlag::Parrying);
 	int a = 0;
@@ -193,6 +192,7 @@ std::shared_ptr<BoneSocketCollision> BaseActor::CreateSocketCollision(Enum_Colli
 	NewCol->SetName(_ColName);
 	NewCol->SetBoneIndex(_SocketIndex);
 	NewCol->SetCollisionType(ColType::SPHERE3D);
+	NewCol->SetRendererTransformPointer(&MainRenderer->Transform);
 	NewCol->SetSocket(&GetBoneMatrixToIndex(_SocketIndex));
 	NewCol->Off();
 	SocketCollisions.insert(std::make_pair(_SocketIndex, NewCol));

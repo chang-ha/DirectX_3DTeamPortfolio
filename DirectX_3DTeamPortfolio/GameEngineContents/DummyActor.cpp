@@ -249,20 +249,21 @@ void DummyActor::CameraControl::InputUpdate(float _Delta)
 		return;
 	}
 
-	const float fHeight = 10.0f;
+	const float fUpSpeed = 100.0f;
 	const float ZoomSpeed = 20.0f;
 
 	if (nullptr != ColObject)
 	{
-		if (GameEngineInput::IsDown('Q', pParent))
+		if (GameEngineInput::IsPress('Q', pParent))
 		{
-			const float fHeight = 10.0f;
-			pParent->Transform.AddLocalPosition(float4::UP * fHeight);
+			const float4 MovePos = float4::UP* fUpSpeed* _Delta;
+			pParent->Transform.AddLocalPosition(MovePos);
 		}
 
-		if (GameEngineInput::IsDown('E', pParent))
+		if (GameEngineInput::IsPress('E', pParent))
 		{
-			pParent->Transform.AddLocalPosition(float4::DOWN * fHeight);
+			const float4 MovePos = float4::DOWN * fUpSpeed * _Delta;
+			pParent->Transform.AddLocalPosition(MovePos);
 		}
 	}
 

@@ -33,10 +33,7 @@ bool Monster_LothricKn::IsFrameOnce(int _StartFrame)
 	if (true == MainRenderer->IsFrameChange())
 	{
 		int CurFrame = MainRenderer->GetCurAnimationFrame();
-		if (_StartFrame == CurFrame)
-		{
-			return true;
-		}
+		return (_StartFrame == CurFrame);
 	}
 
 	return false;
@@ -169,7 +166,7 @@ void Monster_LothricKn::StartSleep(GameEngineState* _State)
 
 void Monster_LothricKn::Start_Debug(GameEngineState* _State)
 {
-	MainRenderer->ChangeAnimation("Idle_Standing1");
+	// MainRenderer->ChangeAnimation("Idle_Standing1");
 }
 
 void Monster_LothricKn::Start_Idle_Standing1(GameEngineState* _State)

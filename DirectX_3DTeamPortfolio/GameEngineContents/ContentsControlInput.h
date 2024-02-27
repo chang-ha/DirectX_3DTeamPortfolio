@@ -29,7 +29,8 @@ enum class Enum_VERTICAL_KEY_STATE
 	Down,
 };
 
-// 설명 :
+// 설명 : 이전 프로젝트에서 가져온 입력 방식입니다.
+// DummyActor가 사용합니다.
 class ContentsControlInput
 {
 public:

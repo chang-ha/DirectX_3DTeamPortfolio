@@ -25,6 +25,7 @@ public:
 	inline void SetBoneIndex(int _Index) { BoneIndex = _Index; }
 	inline int GetBoneIndex() const { return BoneIndex; }
 	inline void SetSocket(float4x4* _Socket) { pSocket = _Socket; }
+	inline void SetRendererTransformPointer(GameEngineTransform* _pTransform) { pTransform = _pTransform; }
 
 protected:
 	void Start() override;
@@ -34,6 +35,7 @@ protected:
 private:
 	int BoneIndex = -1;
 	float4x4* pSocket = nullptr;
+	GameEngineTransform* pTransform = nullptr;
 
 };
 

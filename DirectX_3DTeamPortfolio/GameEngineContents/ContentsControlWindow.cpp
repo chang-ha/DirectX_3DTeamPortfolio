@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "ContentsControlWindow.h"
 #include "Player.h"
-
+#include "Weapon.h"
 void TestTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
 	
@@ -224,13 +224,13 @@ void TestTabB::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	ImGui::InputInt("SPos", &BoneIndex);
 	Player::Main_Player->Bone_index_01 = BoneIndex;
 
-	float4 Pos = Player::Main_Player->Weapon->Transform.GetLocalPosition();
+	float4 Pos = Player::Main_Player->GetWeapon()->Transform.GetLocalPosition();
 	ImGui::DragFloat4("SPos", Pos.Arr1D);
 
-	float4 Rot = Player::Main_Player->Weapon->Transform.GetLocalRotationEuler();
+	float4 Rot = Player::Main_Player->GetWeapon()->Transform.GetLocalRotationEuler();
 	ImGui::DragFloat4("SRot", Rot.Arr1D);
 
-	Player::Main_Player->Weapon->Transform.SetLocalPosition(Pos);
-	Player::Main_Player->Weapon->Transform.SetLocalRotation(Rot);
+	Player::Main_Player->GetWeapon()->Transform.SetLocalPosition(Pos);
+	Player::Main_Player->GetWeapon()->Transform.SetLocalRotation(Rot);
 
 }

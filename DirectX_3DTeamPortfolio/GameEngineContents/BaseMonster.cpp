@@ -55,13 +55,7 @@ bool BaseMonster::TargetRangeCmp(Enum_TargetDist _eTDist, Enum_TargetDist _eComp
 {
 	int iTargetDist = static_cast<int>(_eTDist);
 	int iCompareDist = static_cast<int>(_eCompareDist);
-
-	if (iTargetDist <= iCompareDist)
-	{
-		return true;
-	}
-
-	return false;
+	return (iTargetDist <= iCompareDist);
 }
 
 bool BaseMonster::IsTargetInRange(Enum_TargetDist _eTDist)
@@ -69,13 +63,7 @@ bool BaseMonster::IsTargetInRange(Enum_TargetDist _eTDist)
 	const float fRange = ConvertDistance_eTof(_eTDist);
 	const float fCheckDist = fRange * W_SCALE;
 	const float fTargetDist = BaseActor::GetTargetDistance();
-
-	if (fTargetDist < fCheckDist)
-	{
-		return true;
-	}
-
-	return false;
+	return (fTargetDist < fCheckDist);
 }
 
 void BaseMonster::LoadRes3DSound(std::string_view _LoadCheck) const
@@ -106,22 +94,22 @@ bool BaseMonster::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 		return false;
 	}
 
-	BaseActor* pAttacker = _Para.pAttacker;
-
 	if (true == Hit.IsHit())
 	{
 		return false;
 	}
 
+	BaseActor* pAttacker = _Para.pAttacker;
+
+	const int AttackerAtt = pAttacker->GetAtt();
 	const int Stiffness = _Para.iStiffness;
+
 	Stat.AddPoise(Stiffness);
 	if (0 >= Stat.GetPoise())
 	{
 		SetFlag(Enum_ActorFlag::Break_Posture, true);
 		Stat.SetPoise(0);
 	}
-
-	const int AttackerAtt = pAttacker->GetAtt();
 
 	const int Damage = HitFormula(AttackerAtt);
 	Stat.AddHp(Damage);
@@ -145,24 +133,24 @@ bool BaseMonster::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 		return false;
 	}
 
-	BaseActor* pAttacker = _Para.pAttacker;
-
-	int AttackerAtt = pAttacker->GetAtt();
-
 	if (true == Hit.IsHit())
 	{
 		return false;
 	}
 
+	BaseActor* pAttacker = _Para.pAttacker;
+
 	// 패링상태
 	if (true == IsFlag(Enum_ActorFlag::Parrying))
 	{
+		pAttacker->SetHit(true);
 		pAttacker->SetFlag(Enum_ActorFlag::Break_Posture, true);
 		return true;
 	}
 
 	if (true == IsFlag(Enum_ActorFlag::Guarding))
 	{
+		const int AttackerAtt = pAttacker->GetAtt();
 		const int Stiffness = _Para.iStiffness;
 		Stat.AddPoise(Stiffness);
 		if (0 >= Stat.GetPoise())

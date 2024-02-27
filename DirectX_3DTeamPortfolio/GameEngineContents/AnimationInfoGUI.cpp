@@ -34,6 +34,7 @@ void AnimationInfoGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	TransformEditor();
 	AnimationList( _Level, _DeltaTime);
 	BoneEditor();
+	DummyEditor();
 }
 
 void AnimationInfoGUI::LevelEnd()
@@ -231,15 +232,77 @@ void AnimationInfoGUI::BoneEditor()
 
 		if (GameEngineLevel::IsDebug)
 		{
-			std::vector<float4x4>& BoneMats = SelectActor->GetFBXRenderer()->GetBoneSockets();
-			float4x4 WorldMat = SelectActor->Transform.GetConstTransformDataRef().WorldMatrix;
+			const std::shared_ptr<GameContentsFBXRenderer>& pRenderer = SelectActor->GetFBXRenderer();
+			if (nullptr == pRenderer)
+			{
+				MsgBoxAssert("렌더러가 존재하지 않습니다.");
+				return;
+			}
+			std::vector<float4x4>& BoneMats = pRenderer->GetBoneSockets();
+			float4x4 WorldMat = pRenderer->Transform.GetConstTransformDataRef().WorldMatrix;
 			float4x4& BoneMatrix = BoneMats[SelectBone];
 			WorldMat = BoneMatrix * WorldMat;
 			float4 wBoneScale;
 			float4 wBoneQuat;
 			float4 wBonePos;
 			WorldMat.Decompose(wBoneScale, wBoneQuat, wBonePos);
-			GameEngineDebug::DrawSphere2D(wBoneScale, wBoneQuat, wBonePos, float4::RED);
+			GameEngineDebug::DrawSphere2D(float4(2), wBoneQuat, wBonePos, float4(0.5f, 0.75f, 0.75f));
+		}
+
+		ImGui::TreePop();
+	}
+}
+
+void AnimationInfoGUI::DummyEditor()
+{
+	if (nullptr == SelectActor)
+	{
+		return;
+	}
+
+	if (ImGui::TreeNode("Dummy Editor"))
+	{
+		if (GameEngineLevel::IsDebug)
+		{
+			const std::shared_ptr<GameContentsFBXRenderer>& pRenderer = SelectActor->GetFBXRenderer();
+			if (nullptr == pRenderer)
+			{
+				MsgBoxAssert("렌더러가 존재하지 않습니다.");
+				return;
+			}
+
+			float4 DummyPos = float4{ 0.0f, 1.9066906f, 0.067483485f, 1.0f } /**PosP*/;
+			float4 DummyFront = float4{ 0.19355309f, 0.0070433617f, 0.040424142f }.NormalizeReturn();
+
+			JointPos& pPos = pRenderer->GetFBXMesh()->FindBoneToIndex(82)->BonePos;
+			float4 MeshBPos = pPos.GlobalTranslation;
+			const float4 WScale = pRenderer->Transform.GetWorldScale();
+
+			std::vector<float4x4>& BoneMats = pRenderer->GetBoneSockets();
+			float4x4& BoneMatrix = BoneMats[82];
+			float4x4 WorldMat = pRenderer->Transform.GetConstTransformDataRef().WorldMatrix;
+
+			float4 GTPos = pPos.GlobalTranslation;
+			GTPos.W = 1.0f;
+
+			const float4 BoneMeshWPos = GTPos * WorldMat;
+			const float4 DummyMeshWPos = DummyPos * WorldMat;
+			float4 DummyOffset = DummyPos - GTPos;
+			const float4 Axis_Rot_Offset = float4(DummyOffset.Y, DummyOffset.X, -DummyOffset.Z);
+			const float4 Axis_Rot_Offset2 = float4(Axis_Rot_Offset.X, Axis_Rot_Offset.Y, Axis_Rot_Offset.Z);
+
+			float4x4 DummyMat;
+			float4 Scale = float4::ONE;
+			DummyMat.Compose(Scale, DummyFront, DummyOffset);
+
+			const float4 DummyPolyPos = Axis_Rot_Offset * BoneMatrix * WorldMat;
+			const float4 DummyPolyPos2 = Axis_Rot_Offset2 * BoneMatrix * WorldMat;
+
+			ContentsDebug::DistanceCheck(BoneMeshWPos, 5.0f ,float4(0.25f, 0.5f, 0.25f));
+			ContentsDebug::DistanceCheck(DummyMeshWPos, 5.0f ,float4(0.5f, 0.25f, 0.25f));
+			ContentsDebug::DistanceCheck(DummyPolyPos, 5.0f ,float4(0.5f, 0.25f, 0.75f));
+			ContentsDebug::DistanceCheck(DummyPolyPos2, 5.0f ,float4(0.75f, 0.25f, 0.75f));
+			GameEngineDebug::DrawBox3D(pRenderer->Transform, float4::BLACK);
 		}
 
 		ImGui::TreePop();

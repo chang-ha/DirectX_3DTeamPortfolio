@@ -137,9 +137,34 @@ void Monster_HollowSoldier_Spear::StateUpdate(float _Delta)
 	}
 }
 
+void Monster_HollowSoldier_Spear::ChangeAttackState()
+{
+	AttackPattern = ContentsRandom::RandomInt(1, 5);
+	switch (AttackPattern)
+	{
+	case 1:
+		ChangeState(Enum_HollowSoldier_Spear_State::Attack1);
+		break;
+	case 2:
+		ChangeState(Enum_HollowSoldier_Spear_State::Attack2);
+		break;
+	case 3:
+		ChangeState(Enum_HollowSoldier_Spear_State::Attack3);
+		break;
+	case 4:
+		ChangeState(Enum_HollowSoldier_Spear_State::Attack4);
+		break;
+	case 5:
+		ChangeState(Enum_HollowSoldier_Spear_State::Attack5);
+		break;
+	default:
+		break;
+	}
+}
+
 void Monster_HollowSoldier_Spear::State_Idle1_Start()
 {
-	//MainRenderer->ChangeAnimation("c1100_Spear_Idle1");
+	MainRenderer->ChangeAnimation("c1100_Spear_Idle1");
 }
 void Monster_HollowSoldier_Spear::State_Idle1_Update(float _Delta)
 {
@@ -148,7 +173,7 @@ void Monster_HollowSoldier_Spear::State_Idle1_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Idle2_Start()
 {
-	//MainRenderer->ChangeAnimation("c1100_Spear_Idle2");
+	MainRenderer->ChangeAnimation("c1100_Spear_Idle2");
 }
 void Monster_HollowSoldier_Spear::State_Idle2_Update(float _Delta)
 {
@@ -157,18 +182,96 @@ void Monster_HollowSoldier_Spear::State_Idle2_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Idle3_Start()
 {
-	//MainRenderer->ChangeAnimation("c1100_Spear_Idle3");
+	MainRenderer->ChangeAnimation("c1100_Spear_Idle3");
 }
 void Monster_HollowSoldier_Spear::State_Idle3_Update(float _Delta)
 {
 
 }
 
+void Monster_HollowSoldier_Spear::State_Idle2ToIdle1_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Idle2ToIdle1");
+}
+void Monster_HollowSoldier_Spear::State_Idle2ToIdle1_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 39)
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle1);
+	}
+}
+
+void Monster_HollowSoldier_Spear::State_Idle1ToIdle2_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Idle1ToIdle2");
+}
+void Monster_HollowSoldier_Spear::State_Idle1ToIdle2_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 29)
+	ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
+}
+
+void Monster_HollowSoldier_Spear::State_Idle2ToIdle3_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Idle2ToIdle3");
+}
+void Monster_HollowSoldier_Spear::State_Idle2ToIdle3_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 19)
+	ChangeState(Enum_HollowSoldier_Spear_State::Idle3);
+}
+
+void Monster_HollowSoldier_Spear::State_Idle3ToIdle2_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Idle3ToIdle2");
+}
+void Monster_HollowSoldier_Spear::State_Idle3ToIdle2_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 31)
+	ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
+}
+
 void Monster_HollowSoldier_Spear::State_Scout_Start()
 {
-	//MainRenderer->ChangeAnimation("c1100_Spear_Scout");
+	MainRenderer->ChangeAnimation("c1100_Spear_Scout");
 }
 void Monster_HollowSoldier_Spear::State_Scout_Update(float _Delta)
+{
+
+}
+
+void Monster_HollowSoldier_Spear::State_Walk_Start() 
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Walk_Front2");
+}
+void Monster_HollowSoldier_Spear::State_Walk_Update(float _Delta)
+{
+
+}
+
+void Monster_HollowSoldier_Spear::State_Walk3_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Walk_Front3");
+}
+void Monster_HollowSoldier_Spear::State_Walk3_Update(float _Delta)
+{
+
+}
+
+void Monster_HollowSoldier_Spear::State_Run_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Run2");
+}
+void Monster_HollowSoldier_Spear::State_Run_Update(float _Delta)
+{
+	
+}
+
+void Monster_HollowSoldier_Spear::State_Run3_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Run3");
+}
+void Monster_HollowSoldier_Spear::State_Run3_Update(float _Delta)
 {
 
 }
@@ -218,9 +321,117 @@ void Monster_HollowSoldier_Spear::State_Attack5_Update(float _Delta)
 
 }
 
+void Monster_HollowSoldier_Spear::State_Turn_Left2_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Turn_Left2");
+}
+void Monster_HollowSoldier_Spear::State_Turn_Left2_Update(float _Delta)
+{
+
+}
+
+void Monster_HollowSoldier_Spear::State_Turn_Right2_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Turn_Right2");
+}
+void Monster_HollowSoldier_Spear::State_Turn_Right2_Update(float _Delta)
+{
+
+}
+
+void Monster_HollowSoldier_Spear::State_Turn_Left_Twice2_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Turn_Left_Twice2");
+}
+void Monster_HollowSoldier_Spear::State_Turn_Left_Twice2_Update(float _Delta)
+{
+
+}
+
+void Monster_HollowSoldier_Spear::State_Turn_Right_Twice2_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Turn_Right_Twice2");
+}
+void Monster_HollowSoldier_Spear::State_Turn_Right_Twice2_Update(float _Delta)
+{
+
+}
+
+void Monster_HollowSoldier_Spear::State_Turn_Left1_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Turn_Left1");
+}
+void Monster_HollowSoldier_Spear::State_Turn_Left1_Update(float _Delta)
+{
+
+}
+
+void Monster_HollowSoldier_Spear::State_Turn_Right1_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Turn_Right1");
+}
+void Monster_HollowSoldier_Spear::State_Turn_Right1_Update(float _Delta)
+{
+
+}
+
+void Monster_HollowSoldier_Spear::State_Turn_Left_Twice1_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Turn_Left_Twice1");
+}
+void Monster_HollowSoldier_Spear::State_Turn_Left_Twice1_Update(float _Delta)
+{
+
+}
+
+void Monster_HollowSoldier_Spear::State_Turn_Right_Twice1_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Turn_Right_Twice1");
+}
+void Monster_HollowSoldier_Spear::State_Turn_Right_Twice1_Update(float _Delta)
+{
+
+}
+
+void Monster_HollowSoldier_Spear::State_Turn_Left3_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Turn_Left3");
+}
+void Monster_HollowSoldier_Spear::State_Turn_Left3_Update(float _Delta)
+{
+
+}
+
+void Monster_HollowSoldier_Spear::State_Turn_Right3_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Turn_Right3");
+}
+void Monster_HollowSoldier_Spear::State_Turn_Right3_Update(float _Delta)
+{
+
+}
+
+void Monster_HollowSoldier_Spear::State_Turn_Left_Twice3_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Turn_Left_Twice3");
+}
+void Monster_HollowSoldier_Spear::State_Turn_Left_Twice3_Update(float _Delta)
+{
+
+}
+
+void Monster_HollowSoldier_Spear::State_Turn_Right_Twice3_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Turn_Right_Twice3");
+}
+void Monster_HollowSoldier_Spear::State_Turn_Right_Twice3_Update(float _Delta)
+{
+
+}
+
 void Monster_HollowSoldier_Spear::State_Guard_Start()
 {
-	//MainRenderer->ChangeAnimation("c1100_Spear_Guard");
+	MainRenderer->ChangeAnimation("c1100_Spear_Guard");
 }
 void Monster_HollowSoldier_Spear::State_Guard_Update(float _Delta)
 {
@@ -229,7 +440,7 @@ void Monster_HollowSoldier_Spear::State_Guard_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_GuardBreak_Start()
 {
-	//MainRenderer->ChangeAnimation("c1100_Spear_GuardBreak");
+	MainRenderer->ChangeAnimation("c1100_Spear_GuardBreak");
 }
 void Monster_HollowSoldier_Spear::State_GuardBreak_Update(float _Delta)
 {
@@ -238,7 +449,7 @@ void Monster_HollowSoldier_Spear::State_GuardBreak_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_AttackFail_Start()
 {
-	//MainRenderer->ChangeAnimation("c1100_Spear_AttackFail");
+	MainRenderer->ChangeAnimation("c1100_Spear_AttackFail");
 }
 void Monster_HollowSoldier_Spear::State_AttackFail_Update(float _Delta)
 {
@@ -247,7 +458,7 @@ void Monster_HollowSoldier_Spear::State_AttackFail_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Parrying_Start()
 {
-	//MainRenderer->ChangeAnimation("c1100_Spear_Parrying");
+	MainRenderer->ChangeAnimation("c1100_Spear_Parrying");
 }
 void Monster_HollowSoldier_Spear::State_Parrying_Update(float _Delta)
 {
@@ -256,7 +467,7 @@ void Monster_HollowSoldier_Spear::State_Parrying_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Hit_Start()
 {
-	//MainRenderer->ChangeAnimation("c1100_Spear_Hit_Front");
+	MainRenderer->ChangeAnimation("c1100_Spear_Hit_Front");
 }
 void Monster_HollowSoldier_Spear::State_Hit_Update(float _Delta)
 {

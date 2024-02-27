@@ -1059,25 +1059,13 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
     </CopyFileToFolders>
-    <None Include="ThirdParty\Fbx\lib\debug\libfbxsdk-md.7z">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="ThirdParty\Fbx\lib\debug\libfbxsdk-mt.7z">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-      <FileType>Document</FileType>
-    </None>
     <CopyFileToFolders Include="ThirdParty\Fbx\lib\debug\libfbxsdk.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </CopyFileToFolders>
-    <None Include="ThirdParty\Fbx\lib\release\libfbxsdk-md.7z">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="ThirdParty\Fbx\lib\release\libfbxsdk-mt.7z">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
+    <None Include="ThirdParty\Fbx\lib\debug\libfbxsdk-md.zip" />
+    <None Include="ThirdParty\Fbx\lib\debug\libfbxsdk-mt.zip" />
     <CopyFileToFolders Include="ThirdParty\Fbx\lib\release\libfbxsdk.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <FileType>Document</FileType>
@@ -1088,6 +1076,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <FileType>Document</FileType>
     </CopyFileToFolders>
+    <None Include="ThirdParty\Fbx\lib\release\libfbxsdk-md.zip" />
+    <None Include="ThirdParty\Fbx\lib\release\libfbxsdk-mt.zip" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="ThirdParty\DirectXTex\lib\Debug\DirectXTex.lib">

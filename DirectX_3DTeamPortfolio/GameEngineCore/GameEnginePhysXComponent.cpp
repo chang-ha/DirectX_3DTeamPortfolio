@@ -171,6 +171,11 @@ void GameEnginePhysXComponent::ResetMove(int _Axies)
 
 void GameEnginePhysXComponent::SetFiltering(int _CollisionOrder, int _TargetCollisionOrder)
 {
+	if (nullptr == ComponentActor)
+	{
+		MsgBoxAssert("Component를 Init후 사용해 주세요.");
+	}
+
 	physx::PxFilterData FilterData;
 	FilterData.word0 = _CollisionOrder;
 	FilterData.word1 = _TargetCollisionOrder;
@@ -189,7 +194,6 @@ void GameEnginePhysXComponent::SetFiltering(int _CollisionOrder, int _TargetColl
 	for (physx::PxU32 i = 0; i < ShapeCount; i++)
 	{
 		physx::PxShape* CurShape = Shapes[i];
-		bool b = CurShape->isExclusive();
 		ComponentActor->detachShape(*CurShape);
 		CurShape->setSimulationFilterData(FilterData);
 		ComponentActor->attachShape(*CurShape);
