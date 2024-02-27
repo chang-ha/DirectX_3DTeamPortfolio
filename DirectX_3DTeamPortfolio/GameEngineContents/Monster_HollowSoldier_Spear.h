@@ -18,8 +18,9 @@ enum class Enum_HollowSoldier_Spear_State
 	Attack1,	// Pike1
 	Attack2,	// Pike1 - Pike2
 	Attack3,	// Pike1 - Swing	// 어울리지 않는 콤보, 다시 확인해볼것.
-	Attack4,	// RunToPike
+	Attack4,	// StepAndPike
 	Attack5,	// Swing
+	Attack6,	// Swing - Pike1
 	Turn_Left2,
 	Turn_Right2,
 	Turn_Left_Twice2,
@@ -132,6 +133,9 @@ protected:
 
 	void State_Attack5_Start();
 	void State_Attack5_Update(float _Delta);
+
+	void State_Attack6_Start();
+	void State_Attack6_Update(float _Delta);
 
 	void State_Turn_Left2_Start();
 	void State_Turn_Left2_Update(float _Delta);
