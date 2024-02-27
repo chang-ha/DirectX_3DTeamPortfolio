@@ -29,7 +29,7 @@ void ContentLevel::Start()
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
 	
 	PhysXLevelInit();
-	// Scene->setSimulationEventCallback(CollisionCallBack);
+	Scene->setSimulationEventCallback(&CollisionCallBack);
 }
 
 void ContentLevel::Update(float _Delta)
