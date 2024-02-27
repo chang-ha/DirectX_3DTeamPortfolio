@@ -14,19 +14,23 @@ WorldMap::~WorldMap()
 void WorldMap::Start()
 {
 	{
+		physx::PxFilterData FilterData;
+		FilterData.word0 = static_cast<int>(Enum_CollisionOrder::Map);
+		FilterData.word1 = static_cast<int>(Enum_CollisionOrder::Camera);
+
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
 		FBXRenderer->SetMapFBXMesh("World1.FBX", "FBX_Static");
-
+		 
 		TriMesh = CreateComponent<GameEnginePhysXTriMesh>();
 		TriMesh->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.0f });
-		TriMesh->PhysXComponentInit("World1.FBX0");
+		TriMesh->PhysXComponentInit("World1.FBX0", &FilterData);
 
 		FBXRenderer2 = CreateComponent<GameContentsFBXRenderer>();
 		FBXRenderer2->SetMapFBXMesh("World2.FBX", "FBX_Static");
-
+		
 		TriMesh2 = CreateComponent<GameEnginePhysXTriMesh>();
 		TriMesh2->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.0f });
-		TriMesh2->PhysXComponentInit("World2.FBX0");
+		TriMesh2->PhysXComponentInit("World2.FBX0" , &FilterData);
 
 		SkyRenderer = CreateComponent<GameContentsFBXRenderer>();
 		SkyRenderer->SetFBXMesh("WorldSky.FBX", "FBX_Static_Alpha", RenderPath::Alpha);

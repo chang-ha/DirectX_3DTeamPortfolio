@@ -274,7 +274,6 @@ void Player::Start()
 	//}
 
 
-	Capsule->SetFiltering(Enum_CollisionOrder::Player, Enum_CollisionOrder::Map);
 }
 
 void Player::Update(float _Delta)
@@ -397,7 +396,7 @@ void Player::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	Capsule->PhysXComponentInit(50.0f, 50.0f);
 	Capsule->SetPositioningComponent();
-
+	Capsule->SetFiltering(Enum_CollisionOrder::Camera, Enum_CollisionOrder::Map);
 }
 
 void Player::CameraRotation(float Delta)
