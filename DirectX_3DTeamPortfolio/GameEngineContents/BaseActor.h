@@ -279,20 +279,7 @@ protected:
 	// Debug
 	void DrawRange(float _Range, const float4& _Color = float4::RED) const; // 캐릭터 내 범위를 확인하기위한 편의성 디버깅 기능입니다.
 
-	// 나중에 지움 
-	// 지워주세요
-	std::shared_ptr<GameEngineActor> Actor_test;
-	std::shared_ptr<GameEngineActor> Actor_test_02;
-	std::shared_ptr<GameContentsFBXRenderer> test_Render;
-	float4 CameraPos = {};
-	float Mouse_Ro_X = 0.0f;
-	float Mouse_Ro_Y = 0.0f;
-	float4 PrevPos = {};
-	float Camera_Pos_Y = 0.0f;
-	float Camera_Pos_X = 0.0f;
-	float Time = 0.0f;
-	void CameraRotation(float _Delta);
-
+	
 private:
 	int FindFlag(Enum_ActorFlag _Status) const;
 
