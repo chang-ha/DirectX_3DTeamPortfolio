@@ -16,17 +16,28 @@ std::set<int> GameEnginePhysX::SkipCollisionPair;
 
 physx::PxFilterFlags PhysXFilterShader(
 	physx::PxFilterObjectAttributes attribute0,
-	physx::PxFilterData filterData0, 
+	physx::PxFilterData filterData0,
 	physx::PxFilterObjectAttributes attribute1,
-	physx::PxFilterData filterData1, 
-	physx::PxPairFlags& pairFlags, 
-	const void* constantBlock, 
+	physx::PxFilterData filterData1,
+	physx::PxPairFlags& pairFlags,
+	const void* constantBlock,
 	physx::PxU32 constantBlockSize)
 {
-	if (physx::PxFilterObjectIsTrigger(attribute0) || physx::PxFilterObjectIsTrigger(attribute1)) 
+	if (physx::PxFilterObjectIsTrigger(attribute0) || physx::PxFilterObjectIsTrigger(attribute1))
 	{
 		pairFlags = physx::PxPairFlag::eTRIGGER_DEFAULT | physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS;
 		return physx::PxFilterFlag::eDEFAULT;
+	}
+
+	for (int _Pair : GameEnginePhysX::SkipCollisionPair)
+	{
+		if ((_Pair & filterData0.word0) && (_Pair & filterData1.word0))
+		{
+			pairFlags = physx::PxPairFlag::eNOTIFY_TOUCH_FOUND |
+				physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS |
+				physx::PxPairFlag::eDETECT_DISCRETE_CONTACT;
+			return physx::PxFilterFlag::eDEFAULT;
+		}
 	}
 
 	pairFlags = physx::PxPairFlag::eNOTIFY_TOUCH_FOUND |

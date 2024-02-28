@@ -8,6 +8,15 @@
 
 #define PVD_HOST "127.0.0.1"	//Set this to the IP address of the system running the PhysX Visual Debugger that you want to connect to.
 
+physx::PxFilterFlags PhysXFilterShader(
+	physx::PxFilterObjectAttributes attribute0,
+	physx::PxFilterData filterData0,
+	physx::PxFilterObjectAttributes attribute1,
+	physx::PxFilterData filterData1,
+	physx::PxPairFlags& pairFlags,
+	const void* constantBlock,
+	physx::PxU32 constantBlockSize);
+
 class PhysXErrorCallback : public physx::PxErrorCallback
 {
 private:
@@ -61,6 +70,8 @@ private:
 
 class GameEnginePhysX
 {
+	friend physx::PxFilterFlags PhysXFilterShader(	physx::PxFilterObjectAttributes attribute0,	physx::PxFilterData filterData0, physx::PxFilterObjectAttributes attribute1, physx::PxFilterData filterData1, physx::PxPairFlags& pairFlags, const void* constantBlock, physx::PxU32 constantBlockSize);
+
 public:
 	// constructer destructer
 	GameEnginePhysX();
