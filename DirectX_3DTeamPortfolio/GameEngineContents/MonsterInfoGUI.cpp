@@ -97,7 +97,10 @@ void MonsterInfoGUI::MonsterInfo()
 		pMonster->WakeUp();
 	}
 
-	ImGui::Checkbox("Zero Pos", &bFixPos);
+	if (ImGui::Checkbox("Zero Pos", &bFixPos))
+	{
+		bFixPos ? pMonster->GravityOff() : pMonster->GravityOn();
+	}
 
 	if (bFixPos)
 	{

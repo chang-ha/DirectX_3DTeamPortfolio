@@ -6,8 +6,6 @@
 #include "ContentsControlWindow.h"
 #include "TreeWindow.h"
 
-#include "ContentsMouseInput.h"
-
 #include "TitleLevel.h"
 #include "PlayLevel.h"
 #include "ContentResources.h"
@@ -53,7 +51,7 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<TestLevel_PhysX>("TestLevel_PhysX");
 	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
 	GameEngineCore::CreateLevel<TestLevel_MapObject>("TestLevel_MapObject");
-	GameEngineCore::ChangeLevel("Stage_Lothric");
+	GameEngineCore::ChangeLevel("TestLevel_Monster");
 }
 
 void ContentsCore::Update(float _Delta)

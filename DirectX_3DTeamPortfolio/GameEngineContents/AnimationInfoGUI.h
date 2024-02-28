@@ -137,8 +137,6 @@ public:
 	void BoneEditor();
 	void EventEditor(class GameEngineLevel* _Level, float _DeltaTime);
 
-
-
 protected:
 	void Start() override;
 	void OnGUI(class GameEngineLevel* _Level, float _DeltaTime) override;
@@ -156,6 +154,9 @@ protected:
 
 	void AnimationChange();
 	void DummyEditor();
+	void DummyEditorReset();
+	void DpEditorRefReset();
+	void DpEditorAttachReset();
 
 private:
 	class BaseActor* SelectActor = nullptr;
@@ -177,6 +178,18 @@ private:
 	std::vector<const char*> CBoneNames;
 
 	std::vector<std::shared_ptr<EventTree>> EventTrees;
+
+	std::map<int, class DummyData> DummyPolyDatas;
+	std::set<int> DummyPolyRefIndexCheck;
+	std::vector<std::string> DummyPolyRefIndexs;
+	std::vector<const char*> CDummyPolyRefIndexs;
+	std::vector<std::string> DummyPolyAttachIndexs;
+	std::vector<const char*> CDummyPolyAttachIndexs;
+	const class DummyData* SelectDPData = nullptr;
+
+	int Dummy_RefIndex = -1;
+	int Dummy_ParentIndex = -1;
+	float4 DummyR0t = float4::ZERO;	
 
 };
 
