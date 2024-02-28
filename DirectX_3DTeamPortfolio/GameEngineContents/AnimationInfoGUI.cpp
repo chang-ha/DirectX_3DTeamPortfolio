@@ -432,7 +432,7 @@ void AnimationInfoGUI::EventEditor(GameEngineLevel* _Level, float _DeltaTime)
 	}
 
 	if (nullptr == SelectAnimation->EventHelper)
-	
+	{
 		std::string Path = SelectActor->GetEventPath(SelectActor->GetID());
 		if (Path.empty())
 		{
