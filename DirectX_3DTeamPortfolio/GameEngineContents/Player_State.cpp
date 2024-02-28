@@ -345,21 +345,21 @@ void Player::Player_State()
 					_Parent->ChangeState(PlayerState::Back_Step);
 					return;
 				}
-				else if (GameEngineInput::IsUp('A', this) && Rotation_Check_X == true)
+				else if (GameEngineInput::IsUp('A', this))
 				{
 					Rotation_Check_X = false;
 					MainRenderer->ChangeAnimation("Left_Stop");
 					PlayerStates.ChangeState(PlayerState::Move_Stop);
 					return;
 				}
-				else if (GameEngineInput::IsUp('D', this) && Rotation_Check_X == true)
+				else if (GameEngineInput::IsUp('D', this) )
 				{
 					Rotation_Check_X = false;
 					MainRenderer->ChangeAnimation("Right_Stop");
 					PlayerStates.ChangeState(PlayerState::Move_Stop);
 					return;
 				}
-				else if (GameEngineInput::IsUp('W', this) && Rotation_Check_X == true)
+				else if (GameEngineInput::IsUp('W', this))
 				{
 					//Camera_Pos_X = Player_Pos.X;
 					Rotation_Check_X = false;
@@ -367,7 +367,7 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Move_Stop);
 					return;
 				}
-				else if (GameEngineInput::IsUp('S', this) && Rotation_Check_X == true)
+				else if (GameEngineInput::IsUp('S', this))
 				{
 					Rotation_Check_X = false;
 					MainRenderer->ChangeAnimation("Behind_Stop");
@@ -380,6 +380,14 @@ void Player::Player_State()
 					_Parent->ChangeState(PlayerState::Parrying);
 					return;
 				}
+
+				if (GameEngineInput::IsPress(VK_RBUTTON, this) && Rotation_Check_X == true )
+				{
+					_Parent->ChangeState(PlayerState::Shield_Idle);
+					return;
+				}
+				
+
 
 				if (Rock_On_Check == true)
 				{
@@ -1138,12 +1146,15 @@ void Player::Player_State()
 				{
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
 					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
-					Capsule->MoveForce({ float4::FORWARD * Speed*1.2},degree_X);
+					if (MainRenderer->GetCurAnimationFrame() < 10)
+					{
+						Capsule->MoveForce({ float4::FORWARD * Speed * 1.2 });
+					}
 				}
 
 				else
 				{
-					if (MainRenderer->GetCurAnimationFrame() < 25)
+					if (MainRenderer->GetCurAnimationFrame() < 10)
 					{
 						Capsule->MoveForce({ float4::FORWARD * Speed * 1.2 });
 					}
@@ -1182,12 +1193,15 @@ void Player::Player_State()
 			
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
 					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
-					Capsule->MoveForce({ float4::LEFT * Speed * 1.2 }, degree_X);
+					if (MainRenderer->GetCurAnimationFrame() < 10)
+					{
+						Capsule->MoveForce({ float4::LEFT * Speed * 1.2 });
+					}
 				}
 
 				else
 				{
-					if (MainRenderer->GetCurAnimationFrame() < 25)
+					if (MainRenderer->GetCurAnimationFrame() < 10)
 					{
 						Capsule->MoveForce({ float4::LEFT * Speed * 1.2 });
 					}
@@ -1219,12 +1233,15 @@ void Player::Player_State()
 				{
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
 					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
-					Capsule->MoveForce({ float4::RIGHT * Speed * 1.2 }, degree_X);
+					if (MainRenderer->GetCurAnimationFrame() < 10)
+					{
+						Capsule->MoveForce({ float4::RIGHT * Speed * 1.2 });
+					}
 				}
 
 				else
 				{
-					if (MainRenderer->GetCurAnimationFrame() < 25)
+					if (MainRenderer->GetCurAnimationFrame() < 10)
 					{
 						Capsule->MoveForce({ float4::RIGHT * Speed * 1.2 });
 					}
@@ -1256,11 +1273,15 @@ void Player::Player_State()
 				{
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
 					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
-					Capsule->MoveForce({ float4::BACKWARD * Speed * 1.2 }, degree_X);
+
+					if (MainRenderer->GetCurAnimationFrame() < 10)
+					{
+						Capsule->MoveForce({ float4::BACKWARD * Speed * 1.2 });
+					}
 				}
 				else
 				{
-					if (MainRenderer->GetCurAnimationFrame() < 25)
+					if (MainRenderer->GetCurAnimationFrame() < 10)
 					{
 						Capsule->MoveForce({ float4::BACKWARD * Speed * 1.2 });
 					}

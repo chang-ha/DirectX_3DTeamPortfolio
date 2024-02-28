@@ -24,6 +24,8 @@ enum class Enum_CollisionOrder
 	Detect,
 	Dummy,
 	Map,
+	Camera,
+	Sound,
 };
 
 enum class Enum_RenderDepth

@@ -731,21 +731,8 @@ void Boss_Vordt::Release()
 	BaseActor::Release();
 }
 
-float4 Boss_Vordt::BoneWorldPos(std::string_view _BoneName)
-{
-	std::shared_ptr<GameEngineFBXMesh> Mesh = MainRenderer->GetFBXMesh();
-	Bone* _Bone = Mesh->FindBone(_BoneName);
-	
-	std::string Name = _Bone->Name;
-	int Index = _Bone->Index;
-	int a = 0;
-	return BoneWorldPos(0);
-}
-
 float4 Boss_Vordt::BoneWorldPos(int _BoneIndex)
 {
-	// BoneWorldPos("CenterBody");
-
 	mBoneDatas = MainRenderer->GetBoneDatas();
 
 	if (_BoneIndex >= mBoneDatas.size())
@@ -753,13 +740,14 @@ float4 Boss_Vordt::BoneWorldPos(int _BoneIndex)
 		MsgBoxAssert("BoneIndex보다 큰 값이 들어왔습니다.");
 	}
 
-	const AnimationBoneData* pBoneData = &mBoneDatas[_BoneIndex];
+	std::vector<float4x4>& BoneMats = MainRenderer->GetBoneSockets();
+	float4x4 BoneMatrix = BoneMats.at(_BoneIndex);
 
-	if (nullptr == pBoneData)
-	{
-		MsgBoxAssert("BoneData가 존재하지 않습니다.");
-	}
+	float4x4 BoneWMat = BoneMatrix * Transform.GetWorldMatrix();
+	float4 S;
+	float4 Q;
+	float4 P;
+	BoneWMat.Decompose(S, Q, P);
 
-	// float4 Result = Transform.GetWorldPosition() * (*pBoneData).Pos;
-	return Transform.GetWorldPosition();
+	return P;
 }

@@ -224,7 +224,7 @@ void GameEngineSound::Sound3DLoad(std::string_view _Name, std::string_view _Path
 	All3DSound.insert(std::make_pair(UpperName, NewSound));
 }
 
-GameEngineSoundPlayer GameEngineSound::Sound3DPlay(std::string_view _Name, const float4& _Pos, float _Volume /*= 1.0f*/, int _Loop/* = 0*/)
+GameEngineSoundPlayer GameEngineSound::Sound3DPlay(std::string_view _Name, const float4& _Pos, float _Volume /*= 1.0f*/, int _Loop/* = 0*/, float _MinDistance/* = 50.0f*/, float _MaxDistance/* = 1000.0f*/)
 {
 	std::shared_ptr<GameEngineSound> FindSoundPtr = Find3DSound(_Name);
 
@@ -234,7 +234,7 @@ GameEngineSoundPlayer GameEngineSound::Sound3DPlay(std::string_view _Name, const
 		return nullptr;
 	}
 
-	GameEngineSoundPlayer Player = FindSoundPtr->Play3D(_Pos);
+	GameEngineSoundPlayer Player = FindSoundPtr->Play3D(_Pos, _MinDistance, _MaxDistance);
 
 	Player.SetVolume(_Volume);
 
@@ -327,7 +327,7 @@ FMOD::Channel* GameEngineSound::Play()
 	return SoundControl;
 }
 
-FMOD::Channel* GameEngineSound::Play3D(const float4& _Pos)
+FMOD::Channel* GameEngineSound::Play3D(const float4& _Pos, float _MinDistance, float _MaxDistance)
 {
 	FMOD::Channel* SoundControl = nullptr;
 	
@@ -338,11 +338,11 @@ FMOD::Channel* GameEngineSound::Play3D(const float4& _Pos)
 	
 	Result = SoundSystem->playSound(SoundHandle, 0, true, &SoundControl);
 
-	Result = SoundControl->setMode(FMOD_3D);
+	Result = SoundControl->setMode(FMOD_3D_LINEARSQUAREROLLOFF);
 	Result = SoundControl->set3DAttributes(&Pos, &vel);
 	Result = SoundControl->setPaused(false);
 
-	SoundControl->set3DMinMaxDistance(100.f, 10000.f);
+	SoundControl->set3DMinMaxDistance(_MinDistance, _MaxDistance);
 
 	return SoundControl;
 }

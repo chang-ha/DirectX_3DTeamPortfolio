@@ -1197,17 +1197,17 @@
     <None Include="ThirdParty\DirectXTex\inc\DirectXTex.inl">
       <Filter>ThirdParty\inc</Filter>
     </None>
-    <None Include="ThirdParty\Fbx\lib\release\libfbxsdk-mt.7z">
-      <Filter>ThirdParty\Release</Filter>
-    </None>
-    <None Include="ThirdParty\Fbx\lib\release\libfbxsdk-md.7z">
-      <Filter>ThirdParty\Release</Filter>
-    </None>
-    <None Include="ThirdParty\Fbx\lib\debug\libfbxsdk-md.7z">
+    <None Include="ThirdParty\Fbx\lib\debug\libfbxsdk-md.zip">
       <Filter>ThirdParty\Debug</Filter>
     </None>
-    <None Include="ThirdParty\Fbx\lib\debug\libfbxsdk-mt.7z">
+    <None Include="ThirdParty\Fbx\lib\debug\libfbxsdk-mt.zip">
       <Filter>ThirdParty\Debug</Filter>
+    </None>
+    <None Include="ThirdParty\Fbx\lib\release\libfbxsdk-md.zip">
+      <Filter>ThirdParty\Release</Filter>
+    </None>
+    <None Include="ThirdParty\Fbx\lib\release\libfbxsdk-mt.zip">
+      <Filter>ThirdParty\Release</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

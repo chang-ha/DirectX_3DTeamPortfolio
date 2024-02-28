@@ -194,6 +194,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="CameraCapsule.cpp" />
     <ClCompile Include="CollisionUpdateFrameEvent.cpp">
       <SubType>
       </SubType>
@@ -406,6 +407,7 @@
     </ClCompile>
     <ClCompile Include="UIPlayerGaugeBar.cpp" />
     <ClCompile Include="UIUnit.cpp" />
+    <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WorldMap.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -435,6 +437,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="CameraCapsule.h" />
     <ClInclude Include="CollisionUpdateFrameEvent.h">
       <SubType>
       </SubType>
@@ -650,6 +653,7 @@
     </ClInclude>
     <ClInclude Include="UIPlayerGaugeBar.h" />
     <ClInclude Include="UIUnit.h" />
+    <ClInclude Include="Weapon.h" />
     <ClInclude Include="WorldMap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
