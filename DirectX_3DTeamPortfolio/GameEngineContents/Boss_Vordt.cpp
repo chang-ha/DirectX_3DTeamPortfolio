@@ -677,6 +677,9 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BodyCollision->Transform.SetLocalScale({2.f, 2.f, 2.f});
 		BodyCollision->On();
 	}
+
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Camera);
+	GameEnginePhysX::PopSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Camera);
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)

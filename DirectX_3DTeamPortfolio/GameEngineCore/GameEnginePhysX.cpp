@@ -12,7 +12,7 @@ physx::PxDefaultCpuDispatcher* GameEnginePhysX::CpuDispatcher = nullptr;
 physx::PxMaterial* GameEnginePhysX::Material = nullptr;
 
 std::map<std::string, physx::PxScene*> GameEnginePhysX::AllLevelScene;
-
+std::set<int> GameEnginePhysX::SkipCollisionPair;
 
 physx::PxFilterFlags PhysXFilterShader(
 	physx::PxFilterObjectAttributes attribute0,
@@ -231,4 +231,52 @@ physx::PxScene* GameEnginePhysX::FindScene(std::string_view _SceneName)
 	}
 
 	return AllLevelScene[UpperName];
+}
+
+void GameEnginePhysX::PushSkipCollisionPair(int _ArgCount, ...)
+{
+	va_list Args;
+	va_start(Args, _ArgCount);
+
+	int PushValue = -1;
+	for (int i = 0; i < _ArgCount; i++)
+	{
+		if (0 == i)
+		{
+			PushValue = va_arg(Args, int);
+		}
+		else
+		{
+			PushValue |= va_arg(Args, int);
+		}
+	}
+	SkipCollisionPair.insert(PushValue);
+	va_end(Args);
+	return;
+}
+
+void GameEnginePhysX::PopSkipCollisionPair(int _ArgCount, ...)
+{
+	va_list Args;
+	va_start(Args, _ArgCount);
+
+	int PopValue = -1;
+	for (int i = 0; i < _ArgCount; i++)
+	{
+		if (0 == i)
+		{
+			PopValue = va_arg(Args, int);
+		}
+		else
+		{
+			PopValue |= va_arg(Args, int);
+		}
+	}
+
+	if (true == SkipCollisionPair.contains(PopValue))
+	{
+		SkipCollisionPair.erase(PopValue);
+	}
+	va_end(Args);
+	return;
 }

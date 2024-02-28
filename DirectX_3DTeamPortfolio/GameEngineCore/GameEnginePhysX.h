@@ -1,4 +1,5 @@
 #pragma once
+#include <stdarg.h>
 
 #include <PxPhysicsAPI.h>
 
@@ -93,6 +94,10 @@ public:
 
 	static physx::PxScene* FindScene(std::string_view _SceneName);
 
+	static void PushSkipCollisionPair(int _ArgCount, ...);
+
+	static void PopSkipCollisionPair(int _ArgCount, ...);
+
 protected:
 
 private:
@@ -106,4 +111,5 @@ private:
 	static physx::PxMaterial* Material;
 
 	static std::map<std::string, physx::PxScene*> AllLevelScene;
+	static std::set<int> SkipCollisionPair;
 };
