@@ -539,51 +539,62 @@ void Monster_HollowSoldier_Sword::State_Walk_Front_Update(float _Delta)
 
 void Monster_HollowSoldier_Sword::State_Walk_Back_Start()
 {
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
 	MainRenderer->ChangeAnimation("c1100_Walk_Back");
 }
 void Monster_HollowSoldier_Sword::State_Walk_Back_Update(float _Delta)
 {
+	WalkTime += _Delta;
+
 	if (false == IsTargetInAngle(3.0f))
 	{
 		RotToTarget(_Delta);
 	}
 
-	if (MainRenderer->GetCurAnimationFrame() >= 43)
+	if (WalkTime >= WalkToChangeTime)
 	{
+		WalkTime = 0.0f;
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 	}
 }
 
 void Monster_HollowSoldier_Sword::State_Walk_Left_Start()
 {
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
 	MainRenderer->ChangeAnimation("c1100_Walk_Left");
 }
 void Monster_HollowSoldier_Sword::State_Walk_Left_Update(float _Delta)
 {
+	WalkTime += _Delta;
+
 	if (false == IsTargetInAngle(3.0f))
 	{
 		RotToTarget(_Delta);
 	}
 
-	if (MainRenderer->GetCurAnimationFrame() >= 39)
+	if (WalkTime >= WalkToChangeTime)
 	{
+		WalkTime = 0.0f;
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 	}
 }
 
 void Monster_HollowSoldier_Sword::State_Walk_Right_Start()
 {
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
 	MainRenderer->ChangeAnimation("c1100_Walk_Right");
 }
 void Monster_HollowSoldier_Sword::State_Walk_Right_Update(float _Delta)
 {
+	WalkTime += _Delta;
 	if (false == IsTargetInAngle(3.0f))
 	{
 		RotToTarget(_Delta);
 	}
 
-	if (MainRenderer->GetCurAnimationFrame() >= 39)
+	if (WalkTime >= WalkToChangeTime)
 	{
+		WalkTime = 0.0f;
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 	}
 }

@@ -82,6 +82,9 @@ private:
 	float StateTime = 0.0f;
 
 	bool IsAttack = false;
+
+	float WalkToChangeTime = 0.0f;
+	float WalkTime = 0.0f;
 	
 protected:
 	Enum_HollowSoldier_RoundShield_State ShieldState = Enum_HollowSoldier_RoundShield_State::Max;

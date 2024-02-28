@@ -80,6 +80,9 @@ private:
 
 	bool IsAttack = false;
 
+	float WalkToChangeTime = 0.0f;
+	float WalkTime = 0.0f;
+
 protected:
 	Enum_Hollow_State HollowState = Enum_Hollow_State::Max;
 	//Enum_Hollow_State PrevState = Enum_Hollow_State::Max;

@@ -83,7 +83,8 @@ protected:
 private:
 	float StateTime = 0.0f;
 
-	
+	float WalkToChangeTime = 0.0f;
+	float WalkTime = 0.0f;
 
 
 protected:
