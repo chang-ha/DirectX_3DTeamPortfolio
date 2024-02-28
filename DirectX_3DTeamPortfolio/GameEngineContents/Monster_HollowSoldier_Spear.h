@@ -11,15 +11,22 @@ enum class Enum_HollowSoldier_Spear_State
 	Idle2ToIdle3,
 	Idle3ToIdle2,
 	Scout,
-	Walk,
-	Walk3,
+	Walk_Front2,
+	Walk_Back2,
+	Walk_Left2,
+	Walk_Right2,
+	Walk_Front3,
+	Walk_Back3,
+	Walk_Left3,
+	Walk_Right3,
 	Run,
 	Run3,
 	Attack1,	// Pike1
 	Attack2,	// Pike1 - Pike2
 	Attack3,	// Pike1 - Swing	// 어울리지 않는 콤보, 다시 확인해볼것.
-	Attack4,	// RunToPike
+	Attack4,	// StepAndPike
 	Attack5,	// Swing
+	Attack6,	// Swing - Pike1
 	Turn_Left2,
 	Turn_Right2,
 	Turn_Left_Twice2,
@@ -57,12 +64,22 @@ public:
 	Monster_HollowSoldier_Spear& operator=(const Monster_HollowSoldier_Spear & _Other) = delete;
 	Monster_HollowSoldier_Spear& operator=(Monster_HollowSoldier_Spear && _Other) noexcept = delete;
 
+	void SetStateIdle1()
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle1);
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 
 private:
 	float StateTime = 0.0f;
+
+	bool IsAttack = false;
+
+	float WalkToChangeTime = 0.0f;
+	float WalkTime = 0.0f;
 
 protected:
 	Enum_HollowSoldier_Spear_State SpearState = Enum_HollowSoldier_Spear_State::Max;
@@ -99,11 +116,29 @@ protected:
 	void State_Scout_Start();
 	void State_Scout_Update(float _Delta);
 
-	void State_Walk_Start();
-	void State_Walk_Update(float _Delta);
+	void State_Walk_Front2_Start();
+	void State_Walk_Front2_Update(float _Delta);
 
-	void State_Walk3_Start();
-	void State_Walk3_Update(float _Delta);
+	void State_Walk_Back2_Start();
+	void State_Walk_Back2_Update(float _Delta);
+
+	void State_Walk_Left2_Start();
+	void State_Walk_Left2_Update(float _Delta);
+
+	void State_Walk_Right2_Start();
+	void State_Walk_Right2_Update(float _Delta);
+
+	void State_Walk_Front3_Start();
+	void State_Walk_Front3_Update(float _Delta);
+
+	void State_Walk_Back3_Start();
+	void State_Walk_Back3_Update(float _Delta);
+
+	void State_Walk_Left3_Start();
+	void State_Walk_Left3_Update(float _Delta);
+
+	void State_Walk_Right3_Start();
+	void State_Walk_Right3_Update(float _Delta);
 
 	void State_Run_Start();
 	void State_Run_Update(float _Delta);
@@ -125,6 +160,9 @@ protected:
 
 	void State_Attack5_Start();
 	void State_Attack5_Update(float _Delta);
+
+	void State_Attack6_Start();
+	void State_Attack6_Update(float _Delta);
 
 	void State_Turn_Left2_Start();
 	void State_Turn_Left2_Update(float _Delta);
