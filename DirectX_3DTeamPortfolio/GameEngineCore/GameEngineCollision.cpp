@@ -147,10 +147,10 @@ void GameEngineCollision::Update(float _Delta)
 			GameEngineDebug::DrawSphere2D(Transform, ColColor);
 			break;
 		case ColType::AABBBOX3D:
-			GameEngineDebug::DrawBox2D(Transform, ColColor);
+			GameEngineDebug::DrawBox3D(Transform, ColColor);
 			break;
 		case ColType::OBBBOX3D:
-			GameEngineDebug::DrawBox2D(Transform, ColColor);
+			GameEngineDebug::DrawBox3D(Transform, ColColor);
 			break;
 		case ColType::MAX:
 			break;

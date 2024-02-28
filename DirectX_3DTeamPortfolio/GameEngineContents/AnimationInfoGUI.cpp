@@ -10,6 +10,8 @@
 #include "CollisionUpdateFrameEvent.h"
 #include "TurnSpeedFrameEvent.h"
 
+#include "DS3DummyData.h"
+
 AnimationInfoGUI::AnimationInfoGUI() 
 {
 }
@@ -43,6 +45,7 @@ void AnimationInfoGUI::LevelEnd()
 	ActorNames.clear();
 	CObjectNames.clear();
 	ActorChange();
+	DummyEditorReset();
 }
 
 void AnimationInfoGUI::ShowActorList(GameEngineLevel* _Level)
@@ -112,6 +115,7 @@ void AnimationInfoGUI::ActorChange()
 	BoneNames.clear();
 	CBoneNames.clear();
 	SelectAnimation = nullptr;
+	DummyEditorReset();
 }
 
 void AnimationInfoGUI::TransformEditor()
@@ -260,53 +264,164 @@ void AnimationInfoGUI::DummyEditor()
 		return;
 	}
 
-	if (ImGui::TreeNode("Dummy Editor"))
+	if (ImGui::TreeNode("DummyPoly Editor"))
 	{
-		if (GameEngineLevel::IsDebug)
+		if (!GameEngineLevel::IsDebug)
 		{
-			const std::shared_ptr<GameContentsFBXRenderer>& pRenderer = SelectActor->GetFBXRenderer();
-			if (nullptr == pRenderer)
+			ImGui::TreePop();
+			return;
+		}
+
+		const std::shared_ptr<GameContentsFBXRenderer>& pRenderer = SelectActor->GetFBXRenderer();
+		if (nullptr == pRenderer)
+		{
+			MsgBoxAssert("렌더러가 존재하지 않습니다.");
+			return;
+		}
+
+		if (DummyPolyRefIndexCheck.empty())
+		{
+			const std::shared_ptr<DS3DummyData>& pDPData = DS3DummyData::Find(SelectActor->GetIDName());
+			if (nullptr == pDPData)
 			{
-				MsgBoxAssert("렌더러가 존재하지 않습니다.");
+				MsgBoxAssert("존재하지않는 자료입니다. 더미데이터를 Mesh폴더에 로드해주세요.");
 				return;
 			}
 
-			float4 DummyPos = float4{ 0.0f, 1.9066906f, 0.067483485f, 1.0f } /**PosP*/;
-			float4 DummyFront = float4{ 0.19355309f, 0.0070433617f, 0.040424142f }.NormalizeReturn();
+			std::vector<DummyData> DPDatas = pDPData->GetDummyDatas();
+				
+			for (const DummyData& Data : DPDatas)
+			{
+				DummyPolyRefIndexCheck.insert(Data.ReferenceID);
+			}
 
-			JointPos& pPos = pRenderer->GetFBXMesh()->FindBoneToIndex(82)->BonePos;
-			float4 MeshBPos = pPos.GlobalTranslation;
-			const float4 WScale = pRenderer->Transform.GetWorldScale();
+			int Cnt = 0;
 
-			std::vector<float4x4>& BoneMats = pRenderer->GetBoneSockets();
-			float4x4& BoneMatrix = BoneMats[82];
-			float4x4 WorldMat = pRenderer->Transform.GetConstTransformDataRef().WorldMatrix;
+			DummyPolyRefIndexs.reserve(DummyPolyRefIndexCheck.size());
+			CDummyPolyRefIndexs.reserve(DummyPolyRefIndexCheck.size());
+			for (int Index : DummyPolyRefIndexCheck)
+			{
+				DummyPolyRefIndexs.push_back(std::to_string(Index));
+				CDummyPolyRefIndexs.push_back(DummyPolyRefIndexs[Cnt].c_str());
+				Cnt++;
+			}
+		}
 
-			float4 GTPos = pPos.GlobalTranslation;
-			GTPos.W = 1.0f;
+		if (false == CDummyPolyRefIndexs.empty())
+		{
+			if (ImGui::Combo("Ref ID", &Dummy_RefIndex, &CDummyPolyRefIndexs[0], static_cast<int>(CDummyPolyRefIndexs.size())))
+			{
+				DpEditorRefReset();
 
-			const float4 BoneMeshWPos = GTPos * WorldMat;
-			const float4 DummyMeshWPos = DummyPos * WorldMat;
-			float4 DummyOffset = DummyPos - GTPos;
-			const float4 Axis_Rot_Offset = float4(DummyOffset.Y, DummyOffset.X, -DummyOffset.Z);
-			const float4 Axis_Rot_Offset2 = float4(Axis_Rot_Offset.X, Axis_Rot_Offset.Y, Axis_Rot_Offset.Z);
+				int RefIndex = std::stoi(DummyPolyRefIndexs[Dummy_RefIndex]);
 
-			float4x4 DummyMat;
-			float4 Scale = float4::ONE;
-			DummyMat.Compose(Scale, DummyFront, DummyOffset);
+				const std::shared_ptr<DS3DummyData>& pDPData = DS3DummyData::Find(SelectActor->GetIDName());
+				if (nullptr == pDPData)
+				{
+					MsgBoxAssert("존재하지않는 자료입니다. 터지면 김태훈에게 문의하세요.");
+					return;
+				}
 
-			const float4 DummyPolyPos = Axis_Rot_Offset * BoneMatrix * WorldMat;
-			const float4 DummyPolyPos2 = Axis_Rot_Offset2 * BoneMatrix * WorldMat;
+				DummyPolyDatas = pDPData->GetRefAllData(RefIndex);
 
-			ContentsDebug::DistanceCheck(BoneMeshWPos, 5.0f ,float4(0.25f, 0.5f, 0.25f));
-			ContentsDebug::DistanceCheck(DummyMeshWPos, 5.0f ,float4(0.5f, 0.25f, 0.25f));
-			ContentsDebug::DistanceCheck(DummyPolyPos, 5.0f ,float4(0.5f, 0.25f, 0.75f));
-			ContentsDebug::DistanceCheck(DummyPolyPos2, 5.0f ,float4(0.75f, 0.25f, 0.75f));
-			GameEngineDebug::DrawBox3D(pRenderer->Transform, float4::BLACK);
+				int Cnt = 0;
+
+				DummyPolyAttachIndexs.clear();
+				CDummyPolyAttachIndexs.clear();
+				DummyPolyAttachIndexs.reserve(DummyPolyDatas.size());
+				CDummyPolyAttachIndexs.reserve(DummyPolyDatas.size());
+
+				for (const std::pair<int, DummyData>& Pair : DummyPolyDatas)
+				{
+					DummyPolyAttachIndexs.push_back(std::to_string(Pair.first));
+					CDummyPolyAttachIndexs.push_back(DummyPolyAttachIndexs[Cnt].c_str());
+					Cnt++;
+				}
+			}
+
+			if (CDummyPolyAttachIndexs.empty())
+			{
+				ImGui::TreePop();
+				return;
+			}
+
+			if (ImGui::Combo("Attach Bone Index", &Dummy_ParentIndex, &CDummyPolyAttachIndexs[0], static_cast<int>(CDummyPolyAttachIndexs.size())))
+			{
+				DpEditorAttachReset();
+
+				const std::shared_ptr<DS3DummyData>& pDPData = DS3DummyData::Find(SelectActor->GetIDName());
+				if (nullptr == pDPData)
+				{
+					MsgBoxAssert("존재하지않는 자료입니다. 터지면 김태훈에게 문의하세요.");
+					return;
+				}
+
+				int RefIndex = std::stoi(DummyPolyRefIndexs[Dummy_RefIndex]);
+				int ParentIndex = std::stoi(DummyPolyAttachIndexs[Dummy_ParentIndex]);
+
+				SelectDPData = &pDPData->GetDummyData(RefIndex, ParentIndex);
+			}
+
+			if (nullptr != SelectDPData)
+			{
+				int AttachIndex = SelectDPData->AttachBoneIndex;
+				const float4 DummyPos = SelectDPData->Position;
+
+				float4 DPStartPos = float4::ZERO;
+				if (-1 != AttachIndex)
+				{
+					const JointPos& StaticBoneData = pRenderer->GetFBXMesh()->FindBoneToIndex(AttachIndex)->BonePos;
+					DPStartPos = StaticBoneData.GlobalTranslation;
+				}
+
+				ImGui::SliderFloat3("Dummy Rot", &DummyR0t.X, 0.0f, 360.0f, "%.f");
+
+				float4 DummyOffset = DummyPos - DPStartPos;
+				const float4 Axis_Rot_DummyOffset = DummyOffset.VectorRotationToDegXReturn(DummyR0t.X).VectorRotationToDegYReturn(DummyR0t.Y).VectorRotationToDegZReturn(DummyR0t.Z);
+
+				std::vector<float4x4>& BoneMats = pRenderer->GetBoneSockets();
+				const float4x4 BoneMatrix = BoneMats.at(AttachIndex);
+				float4x4 WorldMatrix = pRenderer->Transform.GetConstTransformDataRef().WorldMatrix;
+
+				const float4 DummyPolyWPos = DummyOffset * BoneMatrix * WorldMatrix; 
+				const float4 Axis_Rot_DummyPolyWPos = Axis_Rot_DummyOffset * BoneMatrix * WorldMatrix;
+				const float4 BoneWPos = float4::ZERO * BoneMatrix * WorldMatrix;
+
+				ContentsDebug::DistanceCheck(DummyPolyWPos, 5.0f, float4(0.f, 1.f, 1.f));
+				ContentsDebug::DistanceCheck(Axis_Rot_DummyPolyWPos, 5.0f, float4(0.2f, 0.2f, 1.f));
+				// GameEngineDebug::DrawBox3D(float4::ONE * 5.0f, float4::ZERO, Axis_Rot_DummyPolyWPos, );
+				ContentsDebug::DistanceCheck(BoneWPos, 5.0f, float4(0.25f, 1.f, 0.25f));
+			}
 		}
 
 		ImGui::TreePop();
 	}
+}
+
+void AnimationInfoGUI::DummyEditorReset()
+{
+	DpEditorRefReset();
+
+	DummyPolyRefIndexs.clear();
+	CDummyPolyRefIndexs.clear();
+	DummyPolyRefIndexCheck.clear();
+	Dummy_RefIndex = -1;
+}
+
+void AnimationInfoGUI::DpEditorRefReset()
+{
+	DpEditorAttachReset();
+
+	Dummy_ParentIndex = -1;
+	DummyPolyAttachIndexs.clear();
+	CDummyPolyAttachIndexs.clear();
+
+	DummyPolyDatas.clear();
+}
+
+void AnimationInfoGUI::DpEditorAttachReset()
+{
+	SelectDPData = nullptr;
 }
 
 void AnimationInfoGUI::EventEditor(GameEngineLevel* _Level, float _DeltaTime)

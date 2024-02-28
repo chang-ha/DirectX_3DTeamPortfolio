@@ -45,6 +45,28 @@ bool BaseMonster::CheckAnimationName(std::string _AnimationName)
 	}
 }
 
+void BaseMonster::GravityOn()
+{
+	if (nullptr == Capsule)
+	{
+		MsgBoxAssert("존재하지 않는 피직스 객체를 사용하려 했습니다.");
+		return;
+	}
+
+	Capsule->GravityOn();
+}
+
+void BaseMonster::GravityOff()
+{
+	if (nullptr == Capsule)
+	{
+		MsgBoxAssert("존재하지 않는 피직스 객체를 사용하려 했습니다.");
+		return;
+	}
+
+	Capsule->GravityOff();
+}
+
 float BaseMonster::ConvertDistance_eTof(Enum_TargetDist _eTDist) const
 {
 	MsgBoxAssert("자식에서 재정의해야하는 함수입니다.");

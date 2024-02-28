@@ -6,8 +6,6 @@
 #include "ContentsControlWindow.h"
 #include "TreeWindow.h"
 
-#include "ContentsMouseInput.h"
-
 #include "TitleLevel.h"
 #include "PlayLevel.h"
 #include "ContentResources.h"
