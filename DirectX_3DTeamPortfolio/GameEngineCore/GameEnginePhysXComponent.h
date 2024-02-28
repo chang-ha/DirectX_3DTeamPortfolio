@@ -86,6 +86,11 @@ public:
 		SetFiltering(static_cast<int>(_CollisionOrder), static_cast<int>(_TargetCollisionOrder));
 	}
 
+	void SetFiltering(int _MyCollisionOrder)
+	{
+		SetFiltering(_MyCollisionOrder, 0);
+	}
+
 	void SetFiltering(int _MyCollisionOrder, int _TargetCollisionOrder);
 
 protected:
