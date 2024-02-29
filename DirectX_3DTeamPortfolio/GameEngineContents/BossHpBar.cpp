@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "BossHpBar.h"
+#include <algorithm>
 
 BossHpBar::BossHpBar()
 {
@@ -98,19 +99,6 @@ void BossHpBar::Update(float _Delta)
 
 		Dam = true;
 	}
-	if (GameEngineInput::IsDown('9', this))
-	{
-		BossCurHp -= 10;
-		Boss_DamageBar->SetImageScale({ 10.0f, 14.0f });
-		Damage = 10;
-	}
-	if (GameEngineInput::IsDown('0', this))
-	{
-		BossCurHp -= 10;
-		Damage = 10;
-		Dam = true;
-	}
-	
 	BossHpBarUpdate();
 
 	StateUpdate(_Delta);
@@ -118,14 +106,34 @@ void BossHpBar::Update(float _Delta)
 
 void BossHpBar::BossHpBarUpdate()
 {
-	Boss_DamageBar->Transform.SetLocalPosition({
-	Boss_Hp->Transform.GetLocalPosition().X, Boss_Hp->Transform.GetLocalPosition().Y });
-	Boss_Hp->SetImageScale({ (BossCurHp / BossHp) * 1000.0f, 13.0f });
+	if (BossCurHp <= 0.0f)
+	{
+		Boss_DamageBar->Transform.SetLocalPosition({
+		Boss_Hp->Transform.GetLocalPosition().X, Boss_Hp->Transform.GetLocalPosition().Y });
+		Boss_Hp->SetImageScale({ (0.0f / BossHp) * 1000.0f, 13.0f });
+		return;
+	}
+
+	if (BossCurHp > 0.0f)
+	{
+		Boss_DamageBar->Transform.SetLocalPosition({
+		Boss_Hp->Transform.GetLocalPosition().X, Boss_Hp->Transform.GetLocalPosition().Y });
+		Boss_Hp->SetImageScale({ (BossCurHp / BossHp) * 1000.0f, 13.0f });
+	}
 }
 
 void BossHpBar::DamageCal()
 {
-	Boss_DamageBar->SetImageScale({ (BossCurHp / BossHp) * 1000.0f, 13.0f });
+	if (BossCurHp <= 0.0f)
+	{
+		Boss_DamageBar->SetImageScale({ (0.0f / BossHp) * 1000.0f, 13.0f });
+		return;
+	}
+
+	if (BossCurHp > 0.0f)
+	{
+		Boss_DamageBar->SetImageScale({ (BossCurHp / BossHp) * 1000.0f, 13.0f });
+	}
 }
 
 void BossHpBar::Release()
@@ -181,6 +189,11 @@ void BossHpBar::OffStart()
 
 void BossHpBar::OffUpdate(float _Delta)
 {
+	if (BossCurHp <= 0.0f)
+	{
+		return;
+	}
+
 	if (BossCurHp == BossPrevHp)
 	{
 		return;
