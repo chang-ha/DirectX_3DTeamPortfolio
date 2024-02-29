@@ -104,9 +104,34 @@ void PlayLevel::Update(float _Delta)
 
 void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
-
+	if (nullptr == GameEngineSprite::Find("Dark.png"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources");
+		Dir.MoveChild("UITexture");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pFiles : Files)
+		{
+			GameEngineTexture::Load(pFiles.GetStringPath());
+			GameEngineSprite::CreateSingle(pFiles.GetFileName());
+		}
+	}
 }
 
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
+	if (nullptr != GameEngineSprite::Find("Dark.Png"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources");
+		Dir.MoveChild("UITexture");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pFiles : Files)
+		{
+			GameEngineSprite::Release(pFiles.GetFileName());
+			GameEngineTexture::Release(pFiles.GetFileName());
+		}
+	}
 }

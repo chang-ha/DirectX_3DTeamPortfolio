@@ -44,8 +44,8 @@ private:
 	UIEquipFrame* EsteFrame = nullptr;
 	std::shared_ptr<class GameEngineUIRenderer> EsteFont;
 	std::shared_ptr<class GameEngineUIRenderer> EsteCount;
-	int CurEsteCount = 3;
 	int MaxEsteCount = 5;
+	int CurEsteCount = 5;
 	double StandardEste = 0;
 	std::string CurEste = "";
 

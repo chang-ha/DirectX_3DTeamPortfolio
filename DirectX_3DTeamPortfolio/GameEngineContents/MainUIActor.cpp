@@ -8,6 +8,7 @@
 #include "BossHpBar.h"
 
 #include "AddSouls.h"
+#include "AppearTextures.h"
 
 MainUIActor::MainUIActor()
 {
@@ -71,26 +72,6 @@ void MainUIActor::Start()
 
 
 	{
-		//Boss_HpBar = CreateComponent<GameEngineUIRenderer>();
-		//Boss_HpBar->SetSprite("BossBar.Png");
-		//Boss_HpBar->AutoSpriteSizeOn();
-		//Boss_HpBar->Transform.SetLocalPosition({ 200.0f, -350.0f });
-
-		//Boss_Hp = CreateComponent<GameEngineUIRenderer>();
-		//Boss_Hp->SetSprite("BossHp.Png");
-		//Boss_Hp->SetImageScale({ 960.0f, 13.0f });
-		//Boss_Hp->SetPivotType(PivotType::Left);
-		//Boss_Hp->Transform.SetLocalPosition({ -281.5f, -350.0f });
-
-
-		//Boss_DamageBar = CreateComponent<GameEngineUIRenderer>();
-		//Boss_DamageBar->SetSprite("DamageBar.Png");
-		//Boss_DamageBar->AutoSpriteSizeOn();
-		//Boss_DamageBar->Transform.SetLocalPosition({
-		//	Boss_Hp->Transform.GetLocalPosition().X + 960.0f,
-		//	Boss_Hp->Transform.GetLocalPosition().Y });
-		//Boss_DamageBar->SetPivotType(PivotType::Right);
-
 		GetLevel()->CreateActor<BossHpBar>();
 	}
 
@@ -108,6 +89,8 @@ void MainUIActor::Start()
 	GetLevel()->CreateActor<UIPlayerEquip>();
 
 	GetLevel()->CreateActor<AddSouls>();
+
+	GetLevel()->CreateActor<AppearTextures>();
 }
 
 void MainUIActor::Update(float _Delta)

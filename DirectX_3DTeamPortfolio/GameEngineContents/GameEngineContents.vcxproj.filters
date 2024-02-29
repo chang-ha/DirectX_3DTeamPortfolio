@@ -230,6 +230,9 @@
     <ClCompile Include="AddSouls.cpp">
       <Filter>Actor\UI\Souls</Filter>
     </ClCompile>
+    <ClCompile Include="AppearTextures.cpp">
+      <Filter>Actor\UI\Textures</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -458,6 +461,9 @@
     <ClInclude Include="AddSouls.h">
       <Filter>Actor\UI\Souls</Filter>
     </ClInclude>
+    <ClInclude Include="AppearTextures.h">
+      <Filter>Actor\UI\Textures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -552,6 +558,9 @@
     </Filter>
     <Filter Include="Actor\UI\Souls">
       <UniqueIdentifier>{20ac1fdf-f796-487c-8ec7-6c0978d77ae6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\Textures">
+      <UniqueIdentifier>{67cb520f-aee9-4164-8fa0-9c21a7ca4a46}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
