@@ -31,8 +31,6 @@ void BossHpBar::Start()
 
 	Boss_Hp = CreateComponent<GameEngineUIRenderer>();
 	Boss_Hp->SetSprite("BossHp.Png");
-	//Boss_Hp->SetImageScale({ 960.0f, 13.0f });
-	//Boss_Hp->SetImageScale({ (BossCurHp / BossHp) * 960.0f, 13.0f});
 	Boss_Hp->AutoSpriteSizeOff();
 	Boss_Hp->SetImageScale({ (BossCurHp / BossHp) * 1000.0f, 13.0f });
 	Boss_Hp->SetPivotType(PivotType::Left);
@@ -44,11 +42,13 @@ void BossHpBar::Start()
 	Boss_Name->Off();
 	Boss_Name->Transform.SetLocalPosition({ Boss_Hp->Transform.GetLocalPosition().X + 5.0f,
 	Boss_Hp->Transform.GetLocalPosition().Y + 40.0f });
-
+	
+	BossPrevHp = BossCurHp;
 	{
 		BossDamageFont = CreateComponent<GameEngineUIRenderer>();
 		BossDamageFont->SetText("OptimusBold", "0", 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
 		BossDamageFont->Transform.SetLocalPosition(DamagePos);
+		BossDamageFont->Off();
 	}
 
 	GameEngineInput::AddInputObject(this);
@@ -56,6 +56,20 @@ void BossHpBar::Start()
 
 void BossHpBar::Update(float _Delta)
 {
+	if (GameEngineInput::IsDown('5', this))
+	{
+		DamRan.SetSeed(time(nullptr));
+		DamageRandom = (DamRan.RandomInt(50, 100));
+
+		Damage = DamageRandom;
+
+		BossPrevHp = BossCurHp;
+		BossCurHp -= Damage;
+	}
+	if (GameEngineInput::IsDown('6', this))
+	{
+		ChangeState(BossHpActor::Appear);
+	}
 	if (GameEngineInput::IsDown('7', this))
 	{
 		BossCurHp = 1328;
@@ -96,27 +110,17 @@ void BossHpBar::Update(float _Delta)
 		Damage = 10;
 		Dam = true;
 	}
-		
-	if (Dam == true)
-	{
-		if (CurTime += _Delta)
-		{
-			if (CurTime >= Time)
-			{
-				DamageCal();
-				Dam = false;
-				CurTime = 0;
-			}
-		}
-	}
+	
+	BossHpBarUpdate();
 
+	StateUpdate(_Delta);
+}
+
+void BossHpBar::BossHpBarUpdate()
+{
 	Boss_DamageBar->Transform.SetLocalPosition({
-	Boss_Hp->Transform.GetLocalPosition().X, Boss_Hp->Transform.GetLocalPosition().Y });// -30.0f});
-
+	Boss_Hp->Transform.GetLocalPosition().X, Boss_Hp->Transform.GetLocalPosition().Y });
 	Boss_Hp->SetImageScale({ (BossCurHp / BossHp) * 1000.0f, 13.0f });
-
-	float Test = (BossCurHp / BossHp) * 963.0f;
-	int a = 0;
 }
 
 void BossHpBar::DamageCal()
@@ -127,4 +131,126 @@ void BossHpBar::DamageCal()
 void BossHpBar::Release()
 {
 	Death();
+}
+
+void BossHpBar::ChangeState(BossHpActor _State)
+{
+	if (_State != BHpActor)
+	{
+		switch (_State)
+		{
+		case BossHpActor::Off:
+			OffStart();
+			break;
+		case BossHpActor::Appear:
+			AppearStart();
+			break;
+		case BossHpActor::Add:
+			AddStart();
+			break;
+		case BossHpActor::None:
+		default:
+			MsgBoxAssert("없는 상태로 BossHpBar의 상태를 바꾸려 했습니다.");
+			break;
+		}
+	}
+
+	BHpActor = _State;
+}
+
+void BossHpBar::StateUpdate(float _Delta)
+{
+	switch (BHpActor)
+	{
+	case BossHpActor::Off:
+		return OffUpdate(_Delta);
+	case BossHpActor::Appear:
+		return AppearUpdate(_Delta);
+	case BossHpActor::Add:
+		return AddUpdate(_Delta);
+	case BossHpActor::None:
+	default:
+		break;
+	}
+}
+
+void BossHpBar::OffStart()
+{
+	BossDamageFont->Off();
+}
+
+void BossHpBar::OffUpdate(float _Delta)
+{
+	if (BossCurHp == BossPrevHp)
+	{
+		return;
+	}
+
+	ChangeState(BossHpActor::Appear);
+}
+
+void BossHpBar::AppearStart()
+{
+	BossDamageFont->On();
+
+	DamRan.SetSeed(time(nullptr));
+	DamageRandom = (DamRan.RandomInt(50, 100));
+	Damage = DamageRandom;
+
+	BossCurHp -= Damage;
+	BossPrevHp = BossCurHp;
+
+	SumDam = Damage;
+	Dam = true;
+}
+
+void BossHpBar::AppearUpdate(float _Delta)
+{
+	BossDamageFont->SetText("OptimusBold", std::to_string(Damage), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
+
+	if (Dam == true)
+	{
+		if (BossCurHp != BossPrevHp)
+		{
+			ChangeState(BossHpActor::Add);
+			return;
+		}
+
+		CurTime += _Delta;
+		{
+			if (CurTime >= Time)
+			{
+				DamageCal();
+				Dam = false;
+				CurTime = 0;
+				ChangeState(BossHpActor::Off);
+				return;
+			}
+		}
+	}
+}
+
+void BossHpBar::AddStart()
+{
+	SumDam += Damage;
+
+	BossCurHp -= Damage;
+	BossPrevHp = BossCurHp;
+}
+
+void BossHpBar::AddUpdate(float _Delta)
+{
+	BossDamageFont->SetText("OptimusBold", std::to_string(SumDam), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
+	CurTime += _Delta;
+	{
+		if (CurTime >= Time)
+		{
+			SumDam = 0;
+			DamageCal();
+			Dam = false;
+			CurTime = 0;
+			ChangeState(BossHpActor::Off);
+			return;
+		}
+	}
 }
