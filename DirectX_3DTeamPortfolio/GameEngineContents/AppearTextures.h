@@ -1,7 +1,14 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
 
-// Ό³Έν :
+enum struct TextureActor
+{
+	None,
+	Off,
+	Appear,
+	Disappear,
+};
+
+#include <GameEngineCore/GameEngineActor.h>
 class AppearTextures : public GameEngineActor
 {
 public:
@@ -15,9 +22,21 @@ public:
 	AppearTextures& operator = (const AppearTextures& _Other) = delete;
 	AppearTextures& operator = (AppearTextures&& _Other) noexcept = delete;
 
+	void ChangeState(TextureActor _State);
+	void StateUpdate(float _Delta);
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
+
+	void OffStart();
+	void OffUpdate(float _Delta);
+
+	void AppearStart();
+	void AppearUpdate(float _Delta);
+
+	void DisappearStart();
+	void DisappearUpdate(float _Delta);
 
 private:
 	std::shared_ptr<GameEngineUIRenderer> Lit;
@@ -25,6 +44,9 @@ private:
 	float4 ImageScale = float4::ZERO;
 
 	float TextureTime = 0.0f;
-	float TextureLimitTime = 4.0f;
+	float TextureLimitTime = 2.0f;
+	//float TextureLimitTime = 4.0f;
+
+	TextureActor TextActor = TextureActor::Off;
 };
 
