@@ -242,15 +242,31 @@ void AnimationInfoGUI::BoneEditor()
 				MsgBoxAssert("렌더러가 존재하지 않습니다.");
 				return;
 			}
+			const float4 RendererRot = pRenderer->Transform.GetWorldRotationEuler(); 
+
+			float4 MeshGlobalRot = pRenderer->GetFBXMesh()->FindBoneToIndex(SelectBone)->BonePos.GlobalRotation;
+			float4 MeshGlobalPos = pRenderer->GetFBXMesh()->FindBoneToIndex(SelectBone)->BonePos.GlobalTranslation;
+
+			const std::vector<AnimationBoneData>& BoneDatas = pRenderer->GetBoneDatas();
+			const AnimationBoneData& BData = BoneDatas.at(SelectBone);
 			std::vector<float4x4>& BoneMats = pRenderer->GetBoneSockets();
 			float4x4 WorldMat = pRenderer->Transform.GetConstTransformDataRef().WorldMatrix;
 			float4x4& BoneMatrix = BoneMats[SelectBone];
-			WorldMat = BoneMatrix * WorldMat;
-			float4 wBoneScale;
-			float4 wBoneQuat;
-			float4 wBonePos;
-			WorldMat.Decompose(wBoneScale, wBoneQuat, wBonePos);
-			GameEngineDebug::DrawSphere2D(float4(2), wBoneQuat, wBonePos, float4(0.5f, 0.75f, 0.75f));
+
+			ImGui::SliderFloat3("Model Scale", &BoneS.X, 1.0f, 100.0f, "%.f");
+			ImGui::SliderFloat3("Model Rot", &BoneRot.X, 0.0f, 360.0f, "%.f");
+			ImGui::SliderFloat3("Model Pos", &BonePos.X, 0.0f, 1.f, "%.3f");
+
+			const float4 BoneWPos = BonePos * BoneMatrix * WorldMat;
+
+			static float GUIBoneRot = 0.0f;
+			ImGui::SliderFloat("Bone Rot", &GUIBoneRot, 0.0f, 360.0f, "%.f");
+
+			float4 Quat  =BData.RotQuaternion;
+			const float4 Euler = Quat.QuaternionToEulerDeg();
+
+			const float4 Rot4 = Euler + RendererRot;
+			GameEngineDebug::DrawBox3D(BoneS, Rot4, BoneWPos, float4(0.25f, 0.75f, 0.75f));
 		}
 
 		ImGui::TreePop();
@@ -319,6 +335,7 @@ void AnimationInfoGUI::DummyEditor()
 				if (nullptr == pDPData)
 				{
 					MsgBoxAssert("존재하지않는 자료입니다. 터지면 김태훈에게 문의하세요.");
+					ImGui::TreePop();
 					return;
 				}
 
@@ -353,6 +370,7 @@ void AnimationInfoGUI::DummyEditor()
 				if (nullptr == pDPData)
 				{
 					MsgBoxAssert("존재하지않는 자료입니다. 터지면 김태훈에게 문의하세요.");
+					ImGui::TreePop();
 					return;
 				}
 
@@ -422,6 +440,34 @@ void AnimationInfoGUI::DpEditorRefReset()
 void AnimationInfoGUI::DpEditorAttachReset()
 {
 	SelectDPData = nullptr;
+}
+
+void AnimationInfoGUI::BoneCollisionEditor()
+{
+	if (nullptr == SelectActor)
+	{
+		return;
+	}
+
+	if (ImGui::TreeNode("Socket Col Editor"))
+	{
+		if (!GameEngineLevel::IsDebug)
+		{
+			ImGui::TreePop();
+			return;
+		}
+
+		const std::shared_ptr<GameContentsFBXRenderer>& pRenderer = SelectActor->GetFBXRenderer();
+		if (nullptr == pRenderer)
+		{
+			MsgBoxAssert("렌더러가 존재하지 않습니다.");
+			ImGui::TreePop();
+			return;
+		}
+
+
+		ImGui::TreePop();
+	}
 }
 
 void AnimationInfoGUI::EventEditor(GameEngineLevel* _Level, float _DeltaTime)
