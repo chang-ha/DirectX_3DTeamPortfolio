@@ -180,7 +180,15 @@ void Monster_Hollow::CreateAnimation()
 	MainRenderer->CreateFBXAnimation("c1100_Spear_GuardBreak", "c1100_Spear_GuardBreak.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_Spear_Parrying", "c1100_Spear_Parrying.FBX", { Inter, false });
 
+	MainRenderer->CreateFBXAnimation("c1100_BrokenSword_RH_VerticalSlash", "c1100_BrokenSword_RH_VerticalSlash.FBX", { Inter, false });
+	MainRenderer->CreateFBXAnimation("c1100_BrokenSword_RH_HorizontalSlash", "c1100_BrokenSword_RH_HorizontalSlash.FBX", { Inter, false });
+	MainRenderer->CreateFBXAnimation("c1100_BrokenSword_TH_VerticalSlash", "c1100_BrokenSword_TH_VerticalSlash.FBX", { Inter, false });
+	MainRenderer->CreateFBXAnimation("c1100_BrokenSword_RH_ComboAttack", "c1100_BrokenSword_RH_ComboAttack.FBX", { Inter, false });
+	MainRenderer->CreateFBXAnimation("c1100_BrokenSword_RH_RunToSlash", "c1100_BrokenSword_RH_RunToSlash.FBX", { Inter, false });
+
 	MainRenderer->CreateFBXAnimation("c1100_Lantern_Idle", "c1100_Lantern_Idle.FBX", { Inter, true });
+	MainRenderer->CreateFBXAnimation("c1100_Lantern_IdleToStay", "c1100_Lantern_IdleToStay.FBX", { Inter, false });
+	MainRenderer->CreateFBXAnimation("c1100_Lantern_StayToIdle", "c1100_Lantern_StayToIdle.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_Lantern_Walk_Front", "c1100_Lantern_Walk_Front.FBX", { Inter, true });
 	MainRenderer->CreateFBXAnimation("c1100_Lantern_Walk_Back", "c1100_Lantern_Walk_Back.FBX", { Inter, true });
 	MainRenderer->CreateFBXAnimation("c1100_Lantern_Walk_Left", "c1100_Lantern_Walk_Left.FBX", { Inter, true });
@@ -307,6 +315,12 @@ void Monster_Hollow::SettingRootMotion()
 	//MainRenderer->SetRootMotion("c1100_Spear_AttackFail");
 	//MainRenderer->SetRootMotion("c1100_Spear_GuardBreak");
 	//MainRenderer->SetRootMotion("c1100_Spear_Parrying");
+
+	MainRenderer->SetRootMotion("c1100_BrokenSword_RH_VerticalSlash");
+	MainRenderer->SetRootMotion("c1100_BrokenSword_RH_HorizontalSlash");
+	MainRenderer->SetRootMotion("c1100_BrokenSword_TH_VerticalSlash");
+	MainRenderer->SetRootMotion("c1100_BrokenSword_RH_ComboAttack");
+	MainRenderer->SetRootMotion("c1100_BrokenSword_RH_RunToSlash");
 
 	MainRenderer->SetRootMotion("c1100_Lantern_Idle");
 	MainRenderer->SetRootMotion("c1100_Lantern_Walk_Front");

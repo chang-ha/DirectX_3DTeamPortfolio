@@ -22,8 +22,9 @@ enum class Enum_Hollow_State
 	Run,
 	RH_VerticalSlash,
 	RH_HorizontalSlash,
+	TH_VerticalSlash,
 	RH_ComboAttack,
-	RH_TwinSlash,
+	RH_RunToSlash,
 	Turn_Left2,
 	Turn_Right2,
 	Turn_Left_Twice2,
@@ -151,11 +152,14 @@ protected:
 	void State_RH_HorizontalSlash_Start();
 	void State_RH_HorizontalSlash_Update(float _Delta);
 
+	void State_TH_VerticalSlash_Start();
+	void State_TH_VerticalSlash_Update(float _Delta);
+
 	void State_RH_ComboAttack_Start();
 	void State_RH_ComboAttack_Update(float _Delta);
 
-	void State_RH_TwinSlash_Start();
-	void State_RH_TwinSlash_Update(float _Delta);
+	void State_RH_RunToSlash_Start();
+	void State_RH_RunToSlash_Update(float _Delta);
 
 	void State_Turn_Left2_Start();
 	void State_Turn_Left2_Update(float _Delta);
