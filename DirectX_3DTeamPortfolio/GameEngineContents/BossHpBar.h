@@ -33,9 +33,7 @@ private:
 	int BossSoul = 3000;
 	//float Damage = 0;
 
-	std::shared_ptr<GameEngineUIRenderer> BossDamageNumberRender1;
-	std::shared_ptr<GameEngineUIRenderer> BossDamageNumberRender2;
-	std::shared_ptr<GameEngineUIRenderer> BossDamageNumberRender3;
+	std::shared_ptr<GameEngineUIRenderer> BossDamageFont;
 	
 	float CurTime = 0.0f;
 	float Time = 1.0f;

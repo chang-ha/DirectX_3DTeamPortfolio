@@ -13,7 +13,7 @@ BossHpBar::~BossHpBar()
 
 #define BossHpBarPos {200.0f, -350.0f}
 #define BossHpPos {-301.5f, -350.0f}
-#define DamagePos {670.0f, -330.0f}
+#define DamagePos {690.0f, -310.0f}
 
 void BossHpBar::Start()
 {
@@ -41,25 +41,14 @@ void BossHpBar::Start()
 	// GetBossName();
 	Boss_Name = CreateComponent<GameEngineUIRenderer>();
 	Boss_Name->SetText("OptimusBold", "차가운 골짜기의 볼드", 14.0f, float4{ 1,1,1,1 }, FW1_LEFT);
-	Boss_Name->On();
+	Boss_Name->Off();
 	Boss_Name->Transform.SetLocalPosition({ Boss_Hp->Transform.GetLocalPosition().X + 5.0f,
 	Boss_Hp->Transform.GetLocalPosition().Y + 40.0f });
 
 	{
-		BossDamageNumberRender1 = CreateComponent<GameEngineUIRenderer>();
-		BossDamageNumberRender1->SetSprite("Number_0.Png");
-		BossDamageNumberRender1->AutoSpriteSizeOn();
-		BossDamageNumberRender1->Transform.SetLocalPosition(DamagePos);
-
-		BossDamageNumberRender2 = CreateComponent<GameEngineUIRenderer>();
-		BossDamageNumberRender2->SetSprite("Number_0.Png");
-		BossDamageNumberRender2->AutoSpriteSizeOn();
-		BossDamageNumberRender2->Transform.SetLocalPosition({ 670.0f - 20.0f, -330.0f });
-
-		BossDamageNumberRender3 = CreateComponent<GameEngineUIRenderer>();
-		BossDamageNumberRender3->SetSprite("Number_0.Png");
-		BossDamageNumberRender3->AutoSpriteSizeOn();
-		BossDamageNumberRender3->Transform.SetLocalPosition({ 670.0f - 40.0f, -330.0f });
+		BossDamageFont = CreateComponent<GameEngineUIRenderer>();
+		BossDamageFont->SetText("OptimusBold", "0", 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
+		BossDamageFont->Transform.SetLocalPosition(DamagePos);
 	}
 
 	GameEngineInput::AddInputObject(this);
@@ -80,7 +69,9 @@ void BossHpBar::Update(float _Delta)
 
 		BossPrevHp = BossCurHp;
 		BossCurHp -= Damage;
-		//Boss_DamageBar->SetImageScale({ 1000.0f - ((BossCurHp / BossPrevHp) * 1000.0f), 14.0f });
+
+		BossDamageFont->On();
+		BossDamageFont->SetText("OptimusBold", std::to_string(Damage), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
 
 		int NumArr[4] = { 0, };
 		int Digit;
@@ -91,28 +82,6 @@ void BossHpBar::Update(float _Delta)
 			Damage /= 10;
 		}
 
-		for (int i = Digit; i > 0; i--)
-		{
-			std::string TextureName = "Number_" + std::to_string(NumArr[i - 1]) + ".Png";
-
-			//BossDamageNumberRender1 = CreateComponent<GameEngineUIRenderer>();
-			if (i == 3)
-			{
-				BossDamageNumberRender3->SetSprite(TextureName);
-				BossDamageNumberRender3->On();
-			}
-			if (i == 2)
-			{
-				BossDamageNumberRender2->SetSprite(TextureName);
-				BossDamageNumberRender2->On();
-			}
-			if (i == 1)
-			{
-				BossDamageNumberRender1->SetSprite(TextureName);
-				BossDamageNumberRender1->On();
-			}
-			//BossDamageNumberRender1->Transform.SetLocalPosition({ 670.0f - i * 20.0f, -330.0f });
-		}
 		Dam = true;
 	}
 	if (GameEngineInput::IsDown('9', this))
@@ -120,9 +89,6 @@ void BossHpBar::Update(float _Delta)
 		BossCurHp -= 10;
 		Boss_DamageBar->SetImageScale({ 10.0f, 14.0f });
 		Damage = 10;
-		BossDamageNumberRender3->Off();
-		BossDamageNumberRender2->Off();
-		BossDamageNumberRender1->Off();
 	}
 	if (GameEngineInput::IsDown('0', this))
 	{
@@ -143,14 +109,6 @@ void BossHpBar::Update(float _Delta)
 			}
 		}
 	}
-
-	/*Boss_DamageBar->Transform.SetLocalPosition({
-	Boss_Hp->Transform.GetLocalPosition().X + (BossCurHp / BossHp) * 963.0f,
-	Boss_Hp->Transform.GetLocalPosition().Y - 30.0f });*/
-
-	//Boss_DamageBar->Transform.SetLocalPosition({
-	//Boss_Hp->Transform.GetLocalPosition().X + (BossCurHp / BossHp) * 1000.0f,
-	//Boss_Hp->Transform.GetLocalPosition().Y - 30.0f });
 
 	Boss_DamageBar->Transform.SetLocalPosition({
 	Boss_Hp->Transform.GetLocalPosition().X, Boss_Hp->Transform.GetLocalPosition().Y });// -30.0f});
