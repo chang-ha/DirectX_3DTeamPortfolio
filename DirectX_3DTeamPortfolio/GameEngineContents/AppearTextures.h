@@ -44,7 +44,7 @@ private:
 	float4 ImageScale = float4::ZERO;
 
 	float TextureTime = 0.0f;
-	float TextureLimitTime = 2.0f;
+	float TextureLimitTime = 1.5f;
 	//float TextureLimitTime = 4.0f;
 
 	TextureActor TextActor = TextureActor::Off;

@@ -268,6 +268,9 @@
     <ClCompile Include="BossHpBar.cpp">
       <Filter>Actor\UI\Monster\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="MonsterHpBar.cpp">
+      <Filter>Actor\UI\Monster\Monster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -531,6 +534,9 @@
     <ClInclude Include="BossHpBar.h">
       <Filter>Actor\UI\Monster\Boss</Filter>
     </ClInclude>
+    <ClInclude Include="MonsterHpBar.h">
+      <Filter>Actor\UI\Monster\Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -640,6 +646,9 @@
     </Filter>
     <Filter Include="Actor\UI\Monster\Boss">
       <UniqueIdentifier>{ee8ece56-c4ad-477b-8730-cb1c99b41701}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\Monster\Monster">
+      <UniqueIdentifier>{3b3a688c-2b0f-43c2-bb0a-3ab314950179}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

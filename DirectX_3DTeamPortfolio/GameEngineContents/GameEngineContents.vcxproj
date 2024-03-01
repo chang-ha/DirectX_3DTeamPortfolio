@@ -275,6 +275,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="MainUIActor.cpp" />
+    <ClCompile Include="MonsterHpBar.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MonsterInfoGUI.cpp">
       <SubType>
       </SubType>
@@ -526,6 +530,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="HitInteraction.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MonsterHpBar.h">
       <SubType>
       </SubType>
     </ClInclude>
