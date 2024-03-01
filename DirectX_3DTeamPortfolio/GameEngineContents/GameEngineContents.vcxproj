@@ -260,6 +260,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="DummyPolyCollision.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="DummyProjectile.cpp">
       <SubType>
       </SubType>
@@ -517,6 +521,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="DummyGUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DummyPolyCollision.h">
       <SubType>
       </SubType>
     </ClInclude>

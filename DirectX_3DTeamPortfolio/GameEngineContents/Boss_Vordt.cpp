@@ -664,7 +664,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 	if (nullptr == BossCollision)
 	{
-		BossCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::None);
+		BossCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 0);
 	}
 
 	Capsule->SetFiltering(Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);

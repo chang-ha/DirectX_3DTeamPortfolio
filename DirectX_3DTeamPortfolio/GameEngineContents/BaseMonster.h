@@ -50,6 +50,27 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
+
+	// BoneIndex
+	// BoneIndex를 Enum타입으로 쉽게 참조하기위해 구현했습니다.
+	// 하지만 사용하지 않는다면 내리겠습니다. 
+	// 사용하지 않으면 반대를 선택해주세요
+	// 투표 : 찬성(), 반대() << 2명이 반대할 경우 바로 내리겠습니다. 
+	void AddBoneIndex(Enum_BoneType _BoneType, int _BoneNum);
+	int GetBoneIndex(Enum_BoneType _BoneType);
+	float4x4& GetBoneMatrixToType(Enum_BoneType _BoneType);
+
+	// Socket Collision
+	std::shared_ptr<BoneSocketCollision> CreateBoneCollision(Enum_CollisionOrder _Order, Enum_BoneType _Type, std::string ColName = "")
+	{
+		int SocketIndex = GetBoneIndex(_Type);
+		return CreateSocketCollision(_Order, SocketIndex, ColName);
+	}
+
+	std::shared_ptr<BoneSocketCollision> FindSocketCollision(Enum_BoneType _Type);
+	void OnSocketCollisionInt(Enum_BoneType _Type);
+	void OffSocketCollisionInt(Enum_BoneType _Type);
+
 	// Mesh
 	template<typename EnumType>
 	void MeshOnOffSwitch(EnumType _MeshIndex)
@@ -178,7 +199,7 @@ protected:
 	virtual int GuardHitFormula(int _Att) { return _Att; }
 
 private:
-	
+	std::unordered_map<Enum_BoneType, int> BoneIndex;
 
 };
 

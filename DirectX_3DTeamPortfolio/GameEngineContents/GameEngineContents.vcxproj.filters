@@ -268,6 +268,9 @@
     <ClCompile Include="UIUnit.cpp">
       <Filter>Actor\UI</Filter>
     </ClCompile>
+    <ClCompile Include="DummyPolyCollision.cpp">
+      <Filter>Actor\Monster\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -527,6 +530,9 @@
     </ClInclude>
     <ClInclude Include="UIPlayerGaugeBar.h">
       <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyPolyCollision.h">
+      <Filter>Actor\Monster\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

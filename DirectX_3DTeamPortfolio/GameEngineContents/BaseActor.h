@@ -1,4 +1,5 @@
 #pragma once
+#include "DummyPolyCollision.h"
 
 static constexpr int EMPTY_ID = 9999;
 
@@ -249,31 +250,12 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
-	// BoneIndex
-	// BoneIndex를 Enum타입으로 쉽게 참조하기위해 구현했습니다.
-	// 하지만 사용하지 않는다면 내리겠습니다. 
-	// 사용하지 않으면 반대를 선택해주세요
-	// 투표 : 찬성(), 반대() << 2명이 반대할 경우 바로 내리겠습니다. 
-	void AddBoneIndex(Enum_BoneType _BoneType, int _BoneNum);
-	int GetBoneIndex(Enum_BoneType _BoneType);
-	float4x4& GetBoneMatrixToType(Enum_BoneType _BoneType);
 	float4x4& GetBoneMatrixToIndex(int _Index);
 
-	// SocketCollision
-	// 내부에서 렌더러의 Bone 위치로 충돌체를 동기화하는 기능이 있습니다.
-	// 나중에 뼈위치에서 더미폴리로 바꿀 예정입니다. 
-	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(Enum_CollisionOrder _Order, Enum_BoneType _Type, std::string ColName = "")
-	{
-		int SocketIndex = GetBoneIndex(_Type);
-		return CreateSocketCollision(_Order, SocketIndex, ColName);
-	}
-
 	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(Enum_CollisionOrder _Order, int _SocketIndex, std::string _ColName = "");
+	std::shared_ptr<class DummyPolyCollision> CreateDummyPolyCollision(Enum_CollisionOrder _Order, const SetDPMatrixParameter& _Para, std::string _ColName = "");
 
-	std::shared_ptr<BoneSocketCollision> FindSocketCollision(Enum_BoneType _Type); 
-	void OnSocketCollision(Enum_BoneType _Type);
 	void OnSocketCollision(int _BoneIndex);
-	void OffSocketCollision(Enum_BoneType _Type);
 	void OffSocketCollision(int _BoneIndex);
 
 	// Debug
@@ -297,7 +279,6 @@ protected:
 	
 private:
 	static std::unordered_map<Enum_ActorFlag, Enum_ActorFlagBit> FlagIndex; // 플레그를 매핑해놓은 구조체입니다. 에디터와 연계 가능합니다.
-	std::unordered_map<Enum_BoneType, int> BoneIndex;
 
 	int ActorID = EMPTY_ID;
 	int Flags = 0;
