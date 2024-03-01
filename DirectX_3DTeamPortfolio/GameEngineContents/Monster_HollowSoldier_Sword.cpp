@@ -22,7 +22,7 @@ void Monster_HollowSoldier_Sword::Start()
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::Pants);
 
 	AddBoneIndex(Enum_BoneType::B_01_RightHand, 44);
-	CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
+	CreateBoneCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
 	
 	
 

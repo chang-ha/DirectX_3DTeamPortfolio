@@ -264,6 +264,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="DummyPolyCollision.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="DummyProjectile.cpp">
       <SubType>
       </SubType>
@@ -283,6 +287,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="MainUIActor.cpp" />
+    <ClCompile Include="MonsterHpBar.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MonsterInfoGUI.cpp">
       <SubType>
       </SubType>
@@ -473,6 +481,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BossHpBar.h" />
     <ClInclude Include="CameraCapsule.h" />
     <ClInclude Include="CollisionUpdateFrameEvent.h">
       <SubType>
@@ -532,11 +541,19 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="DummyPolyCollision.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="DummyProjectile.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="HitInteraction.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MonsterHpBar.h">
       <SubType>
       </SubType>
     </ClInclude>

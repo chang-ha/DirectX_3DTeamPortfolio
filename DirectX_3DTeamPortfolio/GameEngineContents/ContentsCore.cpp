@@ -41,7 +41,6 @@ void ContentsCore::Start()
 	TreeGUIWindow = GameEngineGUI::CreateGUIWindow<TreeWindow>("TreeWindow");
 	TreeGUIWindow->On();
 
-	GameEngineFont::Load("OptimusBold");
 	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
 	GameEngineCore::CreateLevel<Stage_Lothric>("Stage_Lothric");
 	GameEngineCore::CreateLevel<TestLevel_Boss>("TestLevel_Boss");

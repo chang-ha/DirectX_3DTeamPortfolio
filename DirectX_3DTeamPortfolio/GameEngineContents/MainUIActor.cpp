@@ -75,14 +75,6 @@ void MainUIActor::Start()
 		GetLevel()->CreateActor<BossHpBar>();
 	}
 
-	//{
-	//	Textures = CreateComponent<GameEngineUIRenderer>();
-	//	Textures->SetSprite("Textures.Png");
-	//	Textures->AutoSpriteSizeOn();
-	//	Textures->Transform.SetLocalPosition({ 0.0f, 0.0f });
-	//}
-
-
 	GameEngineInput::AddInputObject(this);
 
 	GetLevel()->CreateActor<UIPlayerGaugeBar>();

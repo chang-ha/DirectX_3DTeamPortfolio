@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "BaseMonster.h"
 
+#include "MonsterHpBar.h"
 
 BaseMonster::BaseMonster()
 {
@@ -15,6 +16,8 @@ BaseMonster::~BaseMonster()
 void BaseMonster::Start()
 {
 	BaseActor::Start();
+
+	MonsterUI = GetLevel()->CreateActor<MonsterHpBar>();
 }
 
 void BaseMonster::Update(float _Delta)
@@ -43,6 +46,51 @@ bool BaseMonster::CheckAnimationName(std::string _AnimationName)
 	{
 		return false;
 	}
+}
+
+void BaseMonster::AddBoneIndex(Enum_BoneType _BoneType, int _BoneNum)
+{
+	BoneIndex.insert(std::make_pair(_BoneType, _BoneNum));
+}
+
+/// <summary>
+/// 엔진에서 정의한 해시와 본 인덱스를 매핑시킨 데이터를 반환합니다.
+/// </summary>
+/// <param name="_BoneType">해시 정보</param>
+/// <returns> Default Value : 0 </returns>
+int BaseMonster::GetBoneIndex(Enum_BoneType _BoneType)
+{
+	std::unordered_map<Enum_BoneType, int>::const_iterator FindIter = BoneIndex.find(_BoneType);
+	if (FindIter == BoneIndex.end())
+	{
+		return 0;
+	}
+
+	return FindIter->second;
+}
+
+float4x4& BaseMonster::GetBoneMatrixToType(Enum_BoneType _BoneType)
+{
+	int Index = GetBoneIndex(_BoneType);
+	return GetBoneMatrixToIndex(Index);
+}
+
+std::shared_ptr<BoneSocketCollision> BaseMonster::FindSocketCollision(Enum_BoneType _Type)
+{
+	int SocketIndex = GetBoneIndex(_Type);
+	return GetSocketCollision(SocketIndex);
+}
+
+void BaseMonster::OnSocketCollisionInt(Enum_BoneType _Type)
+{
+	int SocketIndex = GetBoneIndex(_Type);
+	OnSocketCollision(SocketIndex);
+}
+
+void BaseMonster::OffSocketCollisionInt(Enum_BoneType _Type)
+{
+	int SocketIndex = GetBoneIndex(_Type);
+	OffSocketCollision(SocketIndex);
 }
 
 void BaseMonster::GravityOn()

@@ -7,7 +7,7 @@
 #include "ContentsControlWindow.h"
 
 #include "MainUIActor.h"
-#include "UIPlayerGaugeBar.h"
+#include "MonsterHpBar.h"
 
 #include "WorldMap.h"
 #include "Boss_Vordt.h"
@@ -108,7 +108,9 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 		}
 
 
-		std::shared_ptr<MainUIActor> MainUI = CreateActor<MainUIActor>();
+		MainUI = CreateActor<MainUIActor>();
+
+		//std::shared_ptr<MonsterHpBar> Test = CreateActor<MonsterHpBar>();
 	}
 
 	

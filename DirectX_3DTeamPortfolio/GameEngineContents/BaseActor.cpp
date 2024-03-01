@@ -3,6 +3,7 @@
 
 #include "FrameEventHelper.h"
 #include "BoneSocketCollision.h"
+#include "DummyPolyCollision.h"
 #include "ContentsDebug.h"
 
 
@@ -146,34 +147,6 @@ void BaseActor::DebugFlag()
 	int a = 0;
 }
 
-
-void BaseActor::AddBoneIndex(Enum_BoneType _BoneType, int _BoneNum)
-{
-	BoneIndex.insert(std::make_pair(_BoneType, _BoneNum));
-}
-
-/// <summary>
-/// 엔진에서 정의한 해시와 본 인덱스를 매핑시킨 데이터를 반환합니다.
-/// </summary>
-/// <param name="_BoneType">해시 정보</param>
-/// <returns> Default Value : 0 </returns>
-int BaseActor::GetBoneIndex(Enum_BoneType _BoneType)
-{
-	std::unordered_map<Enum_BoneType, int>::const_iterator FindIter = BoneIndex.find(_BoneType);
-	if (FindIter == BoneIndex.end())
-	{
-		return 0;
-	}
-
-	return FindIter->second;
-}
-
-float4x4& BaseActor::GetBoneMatrixToType(Enum_BoneType _BoneType)
-{
-	int Index = GetBoneIndex(_BoneType);
-	return GetBoneMatrixToIndex(Index);
-}
-
 float4x4& BaseActor::GetBoneMatrixToIndex(int _Index)
 {
 	std::vector<float4x4>& BoneMats = GetFBXRenderer()->GetBoneSockets();
@@ -199,6 +172,22 @@ std::shared_ptr<BoneSocketCollision> BaseActor::CreateSocketCollision(Enum_Colli
 	return NewCol;
 }
 
+std::shared_ptr<DummyPolyCollision> BaseActor::CreateDummyPolyCollision(Enum_CollisionOrder _Order, const SetDPMatrixParameter& _Para, std::string _ColName /*= ""*/)
+{
+	std::shared_ptr<DummyPolyCollision> NewCol = CreateComponent<DummyPolyCollision>(_Order);
+	NewCol->SetName(_ColName);
+	NewCol->SetCollisionType(ColType::SPHERE3D);
+	NewCol->SetRendererTransformPointer(&MainRenderer->Transform);
+	int AttachBoneIndex = _Para.AttachBoneIndex;
+	if (-1 != AttachBoneIndex)
+	{
+		NewCol->SetSocket(&GetBoneMatrixToIndex(_Para.AttachBoneIndex));
+	}
+	NewCol->SetDummyPolyMatrix(_Para);
+	NewCol->Off();
+	return NewCol;
+}
+
 std::shared_ptr<BoneSocketCollision> BaseActor::GetSocketCollision(int _Index)
 {
 	if (auto FindIter = SocketCollisions.find(_Index); FindIter != SocketCollisions.end())
@@ -208,18 +197,6 @@ std::shared_ptr<BoneSocketCollision> BaseActor::GetSocketCollision(int _Index)
 
 	MsgBoxAssert("존재하지 않는 충돌체를 참조하려 했습니다.");
 	return nullptr;
-}
-
-std::shared_ptr<BoneSocketCollision> BaseActor::FindSocketCollision(Enum_BoneType _Type)
-{
-	int SocketIndex = GetBoneIndex(_Type);
-	return GetSocketCollision(SocketIndex);
-}
-
-void BaseActor::OnSocketCollision(Enum_BoneType _Type)
-{
-	int SocketIndex = GetBoneIndex(_Type);
-	OnSocketCollision(SocketIndex);
 }
 
 void BaseActor::OnSocketCollision(int _BoneIndex)
@@ -232,13 +209,6 @@ void BaseActor::OnSocketCollision(int _BoneIndex)
 	}
 
 	pCollision->On();
-}
-
-
-void BaseActor::OffSocketCollision(Enum_BoneType _Type)
-{
-	int SocketIndex = GetBoneIndex(_Type);
-	OffSocketCollision(SocketIndex);
 }
 
 void BaseActor::OffSocketCollision(int _BoneIndex)

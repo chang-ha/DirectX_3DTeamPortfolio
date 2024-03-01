@@ -12,42 +12,46 @@ BossHpBar::~BossHpBar()
 
 }
 
-#define BossHpBarPos {200.0f, -350.0f}
-#define BossHpPos {-301.5f, -350.0f}
-#define DamagePos {690.0f, -310.0f}
+#define BossHpBarPos {45.0f, -250.0f}
+#define BossHpPos {-300.0f, -250.0f}
+#define DamagePos {390.0f, -210.0f}
+
+#define ImageXScale 690.0f
+#define BackBarYScale 17.0f
+#define HpBarScale 11.0f
 
 void BossHpBar::Start()
 {
 	Boss_HpBar = CreateComponent<GameEngineUIRenderer>();
 	Boss_HpBar->SetSprite("BossBar.Png");
-	Boss_HpBar->SetImageScale({ 1000.0f, 19.0f });
+	Boss_HpBar->SetImageScale({ ImageXScale, BackBarYScale });
 	Boss_HpBar->Transform.SetLocalPosition(BossHpBarPos);
 
 	Boss_DamageBar = CreateComponent<GameEngineUIRenderer>();
 	Boss_DamageBar->SetSprite("DamageBar.Png");
 	Boss_DamageBar->AutoSpriteSizeOff();
-	Boss_DamageBar->SetImageScale({1000.0f, 13.0f});
+	Boss_DamageBar->SetImageScale({ ImageXScale, HpBarScale });
 	Boss_DamageBar->Transform.SetLocalPosition(BossHpPos);
 	Boss_DamageBar->SetPivotType(PivotType::Left);
 
 	Boss_Hp = CreateComponent<GameEngineUIRenderer>();
 	Boss_Hp->SetSprite("BossHp.Png");
 	Boss_Hp->AutoSpriteSizeOff();
-	Boss_Hp->SetImageScale({ (BossCurHp / BossHp) * 1000.0f, 13.0f });
+	Boss_Hp->SetImageScale({ (BossCurHp / BossHp) * ImageXScale, HpBarScale });
 	Boss_Hp->SetPivotType(PivotType::Left);
 	Boss_Hp->Transform.SetLocalPosition(BossHpPos);
 
 	// GetBossName();
 	Boss_Name = CreateComponent<GameEngineUIRenderer>();
-	Boss_Name->SetText("OptimusBold", "차가운 골짜기의 볼드", 14.0f, float4{ 1,1,1,1 }, FW1_LEFT);
-	Boss_Name->Off();
+	Boss_Name->SetText(GlobalValue::OptimusFont, "차가운 골짜기의 볼드", 14.0f, float4{ 1,1,1,1 }, FW1_LEFT);
+	//Boss_Name->Off();
 	Boss_Name->Transform.SetLocalPosition({ Boss_Hp->Transform.GetLocalPosition().X + 5.0f,
 	Boss_Hp->Transform.GetLocalPosition().Y + 40.0f });
 	
 	BossPrevHp = BossCurHp;
 	{
 		BossDamageFont = CreateComponent<GameEngineUIRenderer>();
-		BossDamageFont->SetText("OptimusBold", "0", 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
+		BossDamageFont->SetText(GlobalValue::OptimusFont, "0", 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
 		BossDamageFont->Transform.SetLocalPosition(DamagePos);
 		BossDamageFont->Off();
 	}
@@ -86,16 +90,7 @@ void BossHpBar::Update(float _Delta)
 		BossCurHp -= Damage;
 
 		BossDamageFont->On();
-		BossDamageFont->SetText("OptimusBold", std::to_string(Damage), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
-
-		int NumArr[4] = { 0, };
-		int Digit;
-
-		for (Digit = 0; Damage > 0; Digit++)
-		{
-			NumArr[Digit] = Damage % 10;
-			Damage /= 10;
-		}
+		BossDamageFont->SetText(GlobalValue::OptimusFont, std::to_string(Damage), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
 
 		Dam = true;
 	}
@@ -110,7 +105,7 @@ void BossHpBar::BossHpBarUpdate()
 	{
 		Boss_DamageBar->Transform.SetLocalPosition({
 		Boss_Hp->Transform.GetLocalPosition().X, Boss_Hp->Transform.GetLocalPosition().Y });
-		Boss_Hp->SetImageScale({ (0.0f / BossHp) * 1000.0f, 13.0f });
+		Boss_Hp->SetImageScale({ (0.0f / BossHp) * ImageXScale, HpBarScale });
 		return;
 	}
 
@@ -118,7 +113,7 @@ void BossHpBar::BossHpBarUpdate()
 	{
 		Boss_DamageBar->Transform.SetLocalPosition({
 		Boss_Hp->Transform.GetLocalPosition().X, Boss_Hp->Transform.GetLocalPosition().Y });
-		Boss_Hp->SetImageScale({ (BossCurHp / BossHp) * 1000.0f, 13.0f });
+		Boss_Hp->SetImageScale({ (BossCurHp / BossHp) * ImageXScale, HpBarScale });
 	}
 }
 
@@ -126,13 +121,13 @@ void BossHpBar::DamageCal()
 {
 	if (BossCurHp <= 0.0f)
 	{
-		Boss_DamageBar->SetImageScale({ (0.0f / BossHp) * 1000.0f, 13.0f });
+		Boss_DamageBar->SetImageScale({ (0.0f / BossHp) * ImageXScale, HpBarScale });
 		return;
 	}
 
 	if (BossCurHp > 0.0f)
 	{
-		Boss_DamageBar->SetImageScale({ (BossCurHp / BossHp) * 1000.0f, 13.0f });
+		Boss_DamageBar->SetImageScale({ (BossCurHp / BossHp) * ImageXScale, HpBarScale });
 	}
 }
 
@@ -219,7 +214,7 @@ void BossHpBar::AppearStart()
 
 void BossHpBar::AppearUpdate(float _Delta)
 {
-	BossDamageFont->SetText("OptimusBold", std::to_string(Damage), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
+	BossDamageFont->SetText(GlobalValue::OptimusFont, std::to_string(Damage), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
 
 	if (Dam == true)
 	{
@@ -253,7 +248,7 @@ void BossHpBar::AddStart()
 
 void BossHpBar::AddUpdate(float _Delta)
 {
-	BossDamageFont->SetText("OptimusBold", std::to_string(SumDam), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
+	BossDamageFont->SetText(GlobalValue::OptimusFont, std::to_string(SumDam), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
 	CurTime += _Delta;
 	{
 		if (CurTime >= Time)

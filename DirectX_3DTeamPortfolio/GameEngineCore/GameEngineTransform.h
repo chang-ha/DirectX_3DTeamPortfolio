@@ -304,6 +304,16 @@ public:
 		TransformUpdate();
 	}
 
+	void SetWorld(const float4& _S, const float4& _R, const float4& _T)
+	{
+		AbsoluteScale = true;
+		AbsoluteRotation = true;
+		AbsolutePosition = true;
+		TransData.WorldScale = _S;
+		TransData.WorldRotation = _R;
+		TransData.WorldPosition = _T;
+		TransformUpdate();
+	}
 
 	void AddWorldScale(const float4& _Value)
 	{

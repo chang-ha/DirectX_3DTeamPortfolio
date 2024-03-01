@@ -1,6 +1,14 @@
 #pragma once
 #include "HitInteraction.h"
 
+enum class Enum_B_S_Collision_Type
+{
+	None,
+	Body,
+	Weapon,
+	Shield,
+};
+
 // Ό³Έν :
 class Monster_HitInteraction : public HitInteraction
 {

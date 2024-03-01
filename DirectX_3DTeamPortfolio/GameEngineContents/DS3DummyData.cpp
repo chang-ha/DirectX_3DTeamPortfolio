@@ -240,10 +240,10 @@ void DS3DummyData::SetLocalMatrix(DummyData& _DummyPolyData)
 		return;
 	}
 
-	float4 WorldPos = _DummyPolyData.Position;
-	float4 WorldForward = _DummyPolyData.Forward;
-	float4 WorldUpward = _DummyPolyData.Upward;
-	int AttachIndex = _DummyPolyData.AttachBoneIndex;
+	const float4 WorldPos = _DummyPolyData.Position;
+	const float4 WorldForward = _DummyPolyData.Forward;
+	const float4 WorldUpward = _DummyPolyData.Upward;
+	const int AttachIndex = _DummyPolyData.AttachBoneIndex;
 
 	float4 DPStartPos = float4::ZERO;
 	float4 DPStartRot = float4::ZERONULL;
@@ -272,12 +272,12 @@ void DS3DummyData::SetLocalMatrix(DummyData& _DummyPolyData)
 	float4x4 mAffine;
 	mDPMat.Compose(mDPS, mDPQ, mDPT);
 	RmDPMat.Compose(mDPS, mDPQ, RmDPT);
+
 	_DummyPolyData.Offset = mDPT;
 	_DummyPolyData.Quaternion = WDPQ;
 	_DummyPolyData.Local = mDPMat;
 	_DummyPolyData.Local_ReversePos = RmDPMat;
 	_DummyPolyData.Local_NotPos = mAffine.Affine(mDPS, mDPQ, mDPT);
-
 }
 
 void DS3DummyData::CreateData(const DummyData& _Data)
