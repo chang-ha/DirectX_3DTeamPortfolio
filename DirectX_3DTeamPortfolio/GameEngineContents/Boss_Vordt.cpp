@@ -214,6 +214,24 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 		ImGui::Text(cDir.c_str());
 	}
+
+	ImGui::NewLine();
+
+	{
+		bool Result = Linked_Boss->Col;
+
+		std::string IsCol = "IsCol\n";
+		switch (Result)
+		{
+		case 0:
+			IsCol += " False";
+			break;
+		default:
+			IsCol += " True";
+			break;
+		}
+		ImGui::Text(IsCol.c_str());
+	}
 }
 
 void Boss_State_GUI::Reset()
@@ -323,7 +341,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 			});
 
 		/////// Sound
-		SoundEventInit();
+		// SoundEventInit();
 
 		// Root Motion
 		// Rotate to StartDir
@@ -385,12 +403,18 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	//// Detect Collision
 #define DETECT_SCALE 15
 	{
-		// DetectCollision->SetCollisionType(ColType::SPHERE3D);
-		// DetectCollision->Transform.SetLocalPosition({ 0.f, 0.f, DETECT_SCALE * 0.3f });
-		// DetectCollision->Transform.SetLocalScale({ DETECT_SCALE, DETECT_SCALE, DETECT_SCALE });
+		DetectCollision->SetCollisionType(ColType::AABBBOX3D);
+		DetectCollision->Transform.SetLocalPosition({ 0.f, 0.f, DETECT_SCALE * 0.3f });
+		DetectCollision->Transform.SetLocalScale({ DETECT_SCALE * W_SCALE, DETECT_SCALE * W_SCALE, DETECT_SCALE * W_SCALE });
 	}
 
+	Col = DetectCollision->Collision(Enum_CollisionOrder::Player, [&](std::vector<GameEngineCollision*>& _Collisions)
+		{
+			int a = 0;
+		});
+
 	Capsule->PhysXComponentInit(400.0f, 5.0f);
+	Capsule->SetMass(10000000.f);
 	Capsule->SetPositioningComponent();
 
 	if (nullptr == GameEngineGUI::FindGUIWindow<Boss_State_GUI>("Boss_State"))
@@ -653,6 +677,10 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BodyCollision->Transform.SetLocalScale({2.f, 2.f, 2.f});
 		BodyCollision->On();
 	}
+
+	// GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Camera, Enum_CollisionOrder::Map);
+	// GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);
+	// GameEnginePhysX::PopSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
@@ -750,4 +778,24 @@ float4 Boss_Vordt::BoneWorldPos(int _BoneIndex)
 	BoneWMat.Decompose(S, Q, P);
 
 	return P;
+}
+
+void Boss_Vordt::AI_MoveMent()
+{
+
+}
+
+void Boss_Vordt::AI_Attack()
+{
+
+}
+
+void Boss_Vordt::AI_Combo()
+{
+	
+}
+
+void Boss_Vordt::AI_Dodge()
+{
+
 }

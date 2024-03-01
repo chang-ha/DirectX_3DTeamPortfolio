@@ -12,21 +12,32 @@ physx::PxDefaultCpuDispatcher* GameEnginePhysX::CpuDispatcher = nullptr;
 physx::PxMaterial* GameEnginePhysX::Material = nullptr;
 
 std::map<std::string, physx::PxScene*> GameEnginePhysX::AllLevelScene;
-
+std::set<int> GameEnginePhysX::SkipCollisionPair;
 
 physx::PxFilterFlags PhysXFilterShader(
 	physx::PxFilterObjectAttributes attribute0,
-	physx::PxFilterData filterData0, 
+	physx::PxFilterData filterData0,
 	physx::PxFilterObjectAttributes attribute1,
-	physx::PxFilterData filterData1, 
-	physx::PxPairFlags& pairFlags, 
-	const void* constantBlock, 
+	physx::PxFilterData filterData1,
+	physx::PxPairFlags& pairFlags,
+	const void* constantBlock,
 	physx::PxU32 constantBlockSize)
 {
-	if (physx::PxFilterObjectIsTrigger(attribute0) || physx::PxFilterObjectIsTrigger(attribute1)) 
+	if (physx::PxFilterObjectIsTrigger(attribute0) || physx::PxFilterObjectIsTrigger(attribute1))
 	{
 		pairFlags = physx::PxPairFlag::eTRIGGER_DEFAULT | physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS;
 		return physx::PxFilterFlag::eDEFAULT;
+	}
+
+	for (int _Pair : GameEnginePhysX::SkipCollisionPair)
+	{
+		if ((_Pair & filterData0.word0) && (_Pair & filterData1.word0))
+		{
+			pairFlags = physx::PxPairFlag::eNOTIFY_TOUCH_FOUND |
+				physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS |
+				physx::PxPairFlag::eDETECT_DISCRETE_CONTACT;
+			return physx::PxFilterFlag::eDEFAULT;
+		}
 	}
 
 	pairFlags = physx::PxPairFlag::eNOTIFY_TOUCH_FOUND |
@@ -231,4 +242,52 @@ physx::PxScene* GameEnginePhysX::FindScene(std::string_view _SceneName)
 	}
 
 	return AllLevelScene[UpperName];
+}
+
+void GameEnginePhysX::PushSkipCollisionPair(int _ArgCount, ...)
+{
+	va_list Args;
+	va_start(Args, _ArgCount);
+
+	int PushValue = -1;
+	for (int i = 0; i < _ArgCount; i++)
+	{
+		if (0 == i)
+		{
+			PushValue = va_arg(Args, int);
+		}
+		else
+		{
+			PushValue |= va_arg(Args, int);
+		}
+	}
+	SkipCollisionPair.insert(PushValue);
+	va_end(Args);
+	return;
+}
+
+void GameEnginePhysX::PopSkipCollisionPair(int _ArgCount, ...)
+{
+	va_list Args;
+	va_start(Args, _ArgCount);
+
+	int PopValue = -1;
+	for (int i = 0; i < _ArgCount; i++)
+	{
+		if (0 == i)
+		{
+			PopValue = va_arg(Args, int);
+		}
+		else
+		{
+			PopValue |= va_arg(Args, int);
+		}
+	}
+
+	if (true == SkipCollisionPair.contains(PopValue))
+	{
+		SkipCollisionPair.erase(PopValue);
+	}
+	va_end(Args);
+	return;
 }
