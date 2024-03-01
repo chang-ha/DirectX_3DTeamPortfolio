@@ -6,7 +6,7 @@
 
 BoneSoundFrameEvent::BoneSoundFrameEvent()
 {
-	SetEventID(Enum_FrameEventType::DPSound);
+	SetEventID(Enum_FrameEventType::BSound);
 }
 
 BoneSoundFrameEvent::~BoneSoundFrameEvent()
