@@ -26,11 +26,6 @@ private:
 	//// PlayerIcon
 	std::shared_ptr<GameEngineUIRenderer> PlayerIcon;
 
-
-	std::shared_ptr<GameEngineUIRenderer> Boss_HpBar;
-	std::shared_ptr<GameEngineUIRenderer> Boss_Hp;
-	std::shared_ptr<GameEngineUIRenderer> Boss_DamageBar;
-
 	std::shared_ptr<GameEngineUIRenderer> Textures;
 
 	float ScaleSpeed = 100.0f;

@@ -45,12 +45,12 @@ private:
 	std::shared_ptr<GameEngineSpriteRenderer> Monster_HpBar;
 	std::shared_ptr<GameEngineSpriteRenderer> Monster_DamageBar;
 
-	std::shared_ptr<GameEngineUIRenderer> MonsterDamageFont;
+	std::shared_ptr<GameEngineSpriteRenderer> MonsterDamageFont;
 	MonsterHpActor MHpActor = MonsterHpActor::Off;
 
 	float MonsterPrevHp = 0.0f;
-	float MonsterCurHp = 0.0f;
-	float MosnterHp = 0.0f;
+	float MonsterCurHp = 100.0f;
+	float MosnterHp = 100.0f;
 	int MonsterSoul = 100;
 
 	float CurTime = 0.0f;

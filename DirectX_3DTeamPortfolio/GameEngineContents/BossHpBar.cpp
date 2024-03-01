@@ -12,14 +12,6 @@ BossHpBar::~BossHpBar()
 
 }
 
-//#define BossHpBarPos {200.0f, -200.0f}
-//#define BossHpPos {-301.5f, -200.0f}
-// 
-//#define BossHpBarPos {150.0f, -250.0f}
-//#define BossHpPos {-300.0f, -250.0f}
-//#define DamagePos {600.0f, -210.0f}
-//#define ImageScale 900.0f
-
 #define BossHpBarPos {45.0f, -250.0f}
 #define BossHpPos {-300.0f, -250.0f}
 #define DamagePos {390.0f, -210.0f}
@@ -99,15 +91,6 @@ void BossHpBar::Update(float _Delta)
 
 		BossDamageFont->On();
 		BossDamageFont->SetText(GlobalValue::OptimusFont, std::to_string(Damage), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
-
-		int NumArr[4] = { 0, };
-		int Digit;
-
-		for (Digit = 0; Damage > 0; Digit++)
-		{
-			NumArr[Digit] = Damage % 10;
-			Damage /= 10;
-		}
 
 		Dam = true;
 	}

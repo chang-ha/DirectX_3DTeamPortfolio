@@ -178,7 +178,7 @@ protected:
 	virtual int GuardHitFormula(int _Att) { return _Att; }
 
 private:
-	
+	std::shared_ptr<class MonsterHpBar> MonsterUI;
 
 };
 
