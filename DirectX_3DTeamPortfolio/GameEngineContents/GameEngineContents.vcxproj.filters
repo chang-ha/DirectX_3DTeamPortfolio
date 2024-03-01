@@ -274,6 +274,9 @@
     <ClCompile Include="FireGUI.cpp">
       <Filter>ImGui\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="DummyPolyCollision.cpp">
+      <Filter>Actor\Monster\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -542,6 +545,9 @@
     </ClInclude>
     <ClInclude Include="FireGUI.h">
       <Filter>ImGui\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyPolyCollision.h">
+      <Filter>Actor\Monster\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
