@@ -268,4 +268,8 @@ void ContentResources::ContentResourcesInit()
 		Mat->SetVertexShader("ContentsDeferredMergeRender_VS");
 		Mat->SetPixelShader("ContentsDeferredMergeRender_PS");
 	}
+
+	{
+		GameEngineFont::Load("OptimusPrincepsSemiBold");
+	}
 }

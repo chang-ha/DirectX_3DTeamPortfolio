@@ -39,15 +39,15 @@ void BossHpBar::Start()
 
 	// GetBossName();
 	Boss_Name = CreateComponent<GameEngineUIRenderer>();
-	Boss_Name->SetText("OptimusBold", "차가운 골짜기의 볼드", 14.0f, float4{ 1,1,1,1 }, FW1_LEFT);
-	Boss_Name->Off();
+	Boss_Name->SetText(GlobalValue::OptimusFont, "차가운 골짜기의 볼드", 14.0f, float4{ 1,1,1,1 }, FW1_LEFT);
+	//Boss_Name->Off();
 	Boss_Name->Transform.SetLocalPosition({ Boss_Hp->Transform.GetLocalPosition().X + 5.0f,
 	Boss_Hp->Transform.GetLocalPosition().Y + 40.0f });
 	
 	BossPrevHp = BossCurHp;
 	{
 		BossDamageFont = CreateComponent<GameEngineUIRenderer>();
-		BossDamageFont->SetText("OptimusBold", "0", 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
+		BossDamageFont->SetText(GlobalValue::OptimusFont, "0", 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
 		BossDamageFont->Transform.SetLocalPosition(DamagePos);
 		BossDamageFont->Off();
 	}
@@ -86,7 +86,7 @@ void BossHpBar::Update(float _Delta)
 		BossCurHp -= Damage;
 
 		BossDamageFont->On();
-		BossDamageFont->SetText("OptimusBold", std::to_string(Damage), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
+		BossDamageFont->SetText(GlobalValue::OptimusFont, std::to_string(Damage), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
 
 		int NumArr[4] = { 0, };
 		int Digit;
@@ -219,7 +219,7 @@ void BossHpBar::AppearStart()
 
 void BossHpBar::AppearUpdate(float _Delta)
 {
-	BossDamageFont->SetText("OptimusBold", std::to_string(Damage), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
+	BossDamageFont->SetText(GlobalValue::OptimusFont, std::to_string(Damage), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
 
 	if (Dam == true)
 	{
@@ -253,7 +253,7 @@ void BossHpBar::AddStart()
 
 void BossHpBar::AddUpdate(float _Delta)
 {
-	BossDamageFont->SetText("OptimusBold", std::to_string(SumDam), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
+	BossDamageFont->SetText(GlobalValue::OptimusFont, std::to_string(SumDam), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
 	CurTime += _Delta;
 	{
 		if (CurTime >= Time)

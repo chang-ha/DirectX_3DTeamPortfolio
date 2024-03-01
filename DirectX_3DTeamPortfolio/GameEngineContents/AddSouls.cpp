@@ -22,13 +22,13 @@ void AddSouls::Start()
 
 	// 합쳐질 소울
 	AddSoul = CreateComponent<GameEngineUIRenderer>();
-	AddSoul->SetText("OptimusBold", std::to_string(SoulAdd), 12.0f, float4{1,0,0,1}, FW1_RIGHT);
+	AddSoul->SetText(GlobalValue::OptimusFont, std::to_string(SoulAdd), 12.0f, float4{1,0,0,1}, FW1_RIGHT);
 	AddSoul->Transform.SetLocalPosition({ WindowScale.X + 30.0f , -360.0f });
 	AddSoul->Off();
 
 	// 합쳐진 소울
 	SumSouls = CreateComponent<GameEngineUIRenderer>();
-	SumSouls->SetText("OptimusBold", std::to_string(Souls), 12.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
+	SumSouls->SetText(GlobalValue::OptimusFont, std::to_string(Souls), 12.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
 	SumSouls->Transform.SetLocalPosition({ WindowScale.X + 30.0f , -385.0f });
 
 	GameEngineInput::AddInputObject(this);
@@ -95,7 +95,7 @@ void AddSouls::AppearStart()
 	AddSoul->On();
 	AddSoul->Transform.SetLocalPosition({ WindowScale.X + 30.0f , -360.0f });
 	SoulAdd += 100;
-	AddSoul->SetText("OptimusBold","+"+std::to_string(SoulAdd), 12.0f, float4{1,0,0,1}, FW1_RIGHT);
+	AddSoul->SetText(GlobalValue::OptimusFont,"+"+std::to_string(SoulAdd), 12.0f, float4{1,0,0,1}, FW1_RIGHT);
 }
 
 void AddSouls::AppearUpdate(float _Delta)
@@ -113,7 +113,7 @@ void AddSouls::AppearUpdate(float _Delta)
 void AddSouls::AddStart()
 {
 	Souls += SoulAdd;
-	SumSouls->SetText("OptimusBold", std::to_string(Souls), 12.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
+	SumSouls->SetText(GlobalValue::OptimusFont, std::to_string(Souls), 12.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
 }
 
 void AddSouls::AddUpdate(float _Delta)

@@ -54,13 +54,13 @@ void UIPlayerEquip::Start()
 		float EstePosY =  Este->GetSprite()->GetSpriteData(0).GetScale().hY();
 
 		EsteFont = CreateComponent<GameEngineUIRenderer>();
-		EsteFont->SetText("OptimusBold", "에스트 병", 14.0f, float4{ 1, 1, 1, 1, }, FW1_CENTER);
+		EsteFont->SetText(GlobalValue::OptimusFont, "에스트 병", 14.0f, float4{ 1, 1, 1, 1, }, FW1_CENTER);
 		EsteFont->On();
 		EsteFont->Transform.SetLocalPosition({ EsteFrame->Transform.GetWorldPosition().X,
 			EsteFrame->Transform.GetWorldPosition().Y - EstePosY * ImgaeRatio });
 
 		EsteCount = CreateComponent<GameEngineUIRenderer>();
-		EsteCount->SetText("OptimusBold", std::to_string(CurEsteCount), 15.0f, float4{1, 1, 1, 1,}, FW1_CENTER);
+		EsteCount->SetText(GlobalValue::OptimusFont, std::to_string(CurEsteCount), 15.0f, float4{1, 1, 1, 1,}, FW1_CENTER);
 		EsteCount->On();
 		EsteCount->Transform.SetLocalPosition({ EsteFrame->Transform.GetWorldPosition().X + 37.0f,
 			EsteFrame->Transform.GetWorldPosition().Y - 57.0f });
@@ -83,7 +83,7 @@ void UIPlayerEquip::Update(float _Delta)
 		CurEsteCount--;
 	}
 
-	EsteCount->SetText("OptimusBold", std::to_string(CurEsteCount), 15.0f, float4{ 1, 1, 1, 1, }, FW1_CENTER);
+	EsteCount->SetText(GlobalValue::OptimusFont, std::to_string(CurEsteCount), 15.0f, float4{ 1, 1, 1, 1, }, FW1_CENTER);
 	ChangeEsteImage();
 }
 
