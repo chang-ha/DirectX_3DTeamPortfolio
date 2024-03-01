@@ -11,6 +11,7 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 #include "LUTEffect.h"
 #include "BloomEffect.h"
+#include "ContentsFireRenderer.h"
 
 TestLevel_Shader::TestLevel_Shader()
 {
@@ -62,15 +63,15 @@ void TestLevel_Shader::Start()
 
 	//std::shared_ptr<GameEngineCoreWindow> CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 
-	//if (nullptr != CoreWindow)
-	//{
-	//	CoreWindow->AddDebugRenderTarget(1, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
-	//	CoreWindow->AddDebugRenderTarget(2, "ForwardTarget", GetMainCamera()->GetCameraForwardTarget());
-	//	CoreWindow->AddDebugRenderTarget(3, "DeferredLightTarget", GetMainCamera()->GetCameraDeferredLightTarget());
-	//	CoreWindow->AddDebugRenderTarget(4, "DeferredTarget", GetMainCamera()->GetCameraDeferredTarget());
-	//	CoreWindow->AddDebugRenderTarget(5, "LightTarget", Test_Light1->GetShadowTarget());
-	//	//CoreWindow->AddDebugRenderTarget(3, "HBAO", GetMainCamera()->GetCameraHBAOTarget());
-	//}
+	if (nullptr != CoreWindow)
+	{
+		CoreWindow->AddDebugRenderTarget(1, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
+		CoreWindow->AddDebugRenderTarget(2, "ForwardTarget", GetMainCamera()->GetCameraForwardTarget());
+		CoreWindow->AddDebugRenderTarget(3, "DeferredLightTarget", GetMainCamera()->GetCameraDeferredLightTarget());
+		CoreWindow->AddDebugRenderTarget(4, "DeferredTarget", GetMainCamera()->GetCameraDeferredTarget());
+		CoreWindow->AddDebugRenderTarget(5, "LightTarget", Test_Light1->GetShadowTarget());
+		//CoreWindow->AddDebugRenderTarget(3, "HBAO", GetMainCamera()->GetCameraHBAOTarget());
+	}
 
 
 	Scene->setVisualizationParameter(physx::PxVisualizationParameter::eACTOR_AXES, 0.0f);
@@ -94,7 +95,7 @@ void TestLevel_Shader::Start()
 	GetCamera(ECAMERAORDER::UI)->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
 
-	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
+	/*HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
 	HollowSoldier->Transform.AddLocalPosition({ 100.0f,0.0f,0.0f });
 
 
@@ -108,7 +109,7 @@ void TestLevel_Shader::Start()
 	HollowSoldier->Transform.AddLocalPosition({ 0.0f,100.0f,0.0f });
 
 	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
-	HollowSoldier->Transform.AddLocalPosition({ 0.0f,-100.0f,0.0f });
+	HollowSoldier->Transform.AddLocalPosition({ 0.0f,-100.0f,0.0f });*/
 
 
 	/*Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
@@ -133,18 +134,35 @@ void TestLevel_Shader::Start()
 	//}Q
 
 		// 컬러 구체
+	//{
+	//	{
+	//		std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
+	//		std::shared_ptr<GameEngineRenderer> NewRenderer = Object->CreateComponent<GameEngineRenderer>();
+	//		//NewRenderer->RenderBaseInfoValue.IsNormal = 1;
+	//		NewRenderer->SetMesh("Sphere");
+	//		NewRenderer->SetMaterial("FBX_Static_Color");
+	//		//NewRenderer->GetShaderResHelper().SetTexture("DiffuseTexture", "m30_00_sky_04_a.png");
+	//		NewRenderer->Transform.SetLocalPosition({ 0.0f, 0.0f, -500.0f });
+	//		NewRenderer->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
+	//		NewRenderer->RenderBaseInfoValue.BaseColor = float4::RED;
+	//	}
+	//}
+	//불
 	{
-		{
-			std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
-			std::shared_ptr<GameEngineRenderer> NewRenderer = Object->CreateComponent<GameEngineRenderer>();
-			//NewRenderer->RenderBaseInfoValue.IsNormal = 1;
-			NewRenderer->SetMesh("Sphere");
-			NewRenderer->SetMaterial("FBX_Static_Color");
-			//NewRenderer->GetShaderResHelper().SetTexture("DiffuseTexture", "m30_00_sky_04_a.png");
-			NewRenderer->Transform.SetLocalPosition({ 0.0f, 0.0f, -500.0f });
-			NewRenderer->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
-			NewRenderer->RenderBaseInfoValue.BaseColor = float4::RED;
-		}
+		std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
+		
+
+		std::shared_ptr<ContentsFireRenderer> Render = Object->CreateComponent<ContentsFireRenderer>();
+
+		Render->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
+		Render = Object->CreateComponent<ContentsFireRenderer>();
+
+		/*Render->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
+		Render->Transform.SetLocalRotation({ 0.0f, 30.0f, 0.0f });
+		Render = Object->CreateComponent<ContentsFireRenderer>();
+
+		Render->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
+		Render->Transform.SetLocalRotation({ 0.0f, 60.0f, 0.0f });*/
 	}
 
 	//SkyRenderer = CreateComponent<GameContentsFBXRenderer>();
@@ -271,7 +289,10 @@ void TestLevel_Shader::Update(float _Delta)
 	}
 
 	
-
+	if (true == GameEngineInput::IsDown(VK_F6, this))
+	{
+		GameEngineGUI::AllWindowSwitch();
+	}
 
 
 }

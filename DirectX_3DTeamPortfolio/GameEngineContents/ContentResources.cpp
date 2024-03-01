@@ -5,6 +5,7 @@
 #include "Monster_LothricKn.h"
 #include "LUTEffect.h"
 #include <GameEngineCore\FogEffect.h>
+#include "ContentsFireRenderer.h"
 
 ContentResources::ContentResources()
 {
@@ -117,6 +118,12 @@ void ContentResources::ContentResourcesInit()
 		Mat->SetPixelShader("ContentsStaticAlphaMesh_PS");
 	}
 
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("Fire");
+		Mat->SetVertexShader("ContentsFireMesh_VS");
+		Mat->SetPixelShader("ContentsFireMesh_PS");
+	}
+
 
 
 
@@ -215,7 +222,7 @@ void ContentResources::ContentResourcesInit()
 		Mat->SetBlendState("MergeBlend");
 		Mat->SetDepthState("AlwaysDepth");
 	}
-
+	
 
 	// LUT
 	{
@@ -265,4 +272,7 @@ void ContentResources::ContentResourcesInit()
 		Mat->SetVertexShader("ContentsDeferredMergeRender_VS");
 		Mat->SetPixelShader("ContentsDeferredMergeRender_PS");
 	}
+
+
+	ContentsFireRenderer::Load();
 }

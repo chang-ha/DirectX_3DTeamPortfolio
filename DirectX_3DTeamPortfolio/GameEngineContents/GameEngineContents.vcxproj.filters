@@ -232,6 +232,9 @@
     <ClCompile Include="FogGUI.cpp">
       <Filter>ImGui\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="ContentsFireRenderer.cpp">
+      <Filter>Resource\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -461,6 +464,9 @@
     </ClInclude>
     <ClInclude Include="FogGUI.h">
       <Filter>ImGui\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsFireRenderer.h">
+      <Filter>Resource\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

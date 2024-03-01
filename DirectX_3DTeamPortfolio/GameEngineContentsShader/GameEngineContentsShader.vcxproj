@@ -47,6 +47,7 @@
   <ItemGroup>
     <ClCompile Include="BloomCombine.fx" />
     <ClCompile Include="ContentsDeferredMergeRenderer.fx" />
+    <ClCompile Include="ContentsFireMesh.fx" />
     <ClCompile Include="ContentsStaticMesh_Color.fx" />
     <ClCompile Include="ContentsStaticMesh_SpcX.fx" />
   </ItemGroup>

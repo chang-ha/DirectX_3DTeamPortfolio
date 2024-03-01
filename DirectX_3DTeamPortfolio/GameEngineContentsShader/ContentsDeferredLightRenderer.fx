@@ -121,7 +121,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
     
     // 빛마다 그림자를 계산하는 방식을 다르게 해야하하기 때문이다.
     
- 
+    
  
     if (0 <= Result.DifLight.x)
     {
