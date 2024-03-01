@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "BaseMonster.h"
 
+#include "MonsterHpBar.h"
 
 BaseMonster::BaseMonster()
 {
@@ -15,6 +16,8 @@ BaseMonster::~BaseMonster()
 void BaseMonster::Start()
 {
 	BaseActor::Start();
+
+	MonsterUI = GetLevel()->CreateActor<MonsterHpBar>();
 }
 
 void BaseMonster::Update(float _Delta)

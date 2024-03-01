@@ -281,6 +281,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="MainUIActor.cpp" />
+    <ClCompile Include="MonsterHpBar.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MonsterInfoGUI.cpp">
       <SubType>
       </SubType>
@@ -471,6 +475,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BossHpBar.h" />
     <ClInclude Include="CameraCapsule.h" />
     <ClInclude Include="CollisionUpdateFrameEvent.h">
       <SubType>
@@ -538,6 +543,10 @@
     <ClInclude Include="FireGUI.h" />
     <ClInclude Include="FogGUI.h" />
     <ClInclude Include="HitInteraction.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MonsterHpBar.h">
       <SubType>
       </SubType>
     </ClInclude>

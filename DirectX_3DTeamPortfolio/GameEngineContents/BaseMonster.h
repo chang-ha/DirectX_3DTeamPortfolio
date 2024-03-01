@@ -200,6 +200,7 @@ protected:
 
 private:
 	std::unordered_map<Enum_BoneType, int> BoneIndex;
+	std::shared_ptr<class MonsterHpBar> MonsterUI;
 
 };
 

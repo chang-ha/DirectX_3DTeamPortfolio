@@ -9,6 +9,7 @@ UIPlayerEquip::~UIPlayerEquip()
 {
 }
 
+#define ImgaeRatio 0.7f
 void UIPlayerEquip::Start()
 {
 	{
@@ -21,6 +22,7 @@ void UIPlayerEquip::Start()
 		Sword = CreateComponent<GameEngineUIRenderer>();
 		Sword->SetSprite("Sword.Png");
 		Sword->AutoSpriteSizeOn();
+		Sword->SetAutoScaleRatio(ImgaeRatio);
 		Sword->Transform.SetLocalPosition(SwordFrame->Transform.GetWorldPosition());
 	}
 
@@ -30,6 +32,7 @@ void UIPlayerEquip::Start()
 		Shield = CreateComponent<GameEngineUIRenderer>();
 		Shield->SetSprite("Shield.Png");
 		Shield->AutoSpriteSizeOn();
+		Shield->SetAutoScaleRatio(ImgaeRatio);
 		Shield->Transform.SetLocalPosition(ShieldFrame->Transform.GetWorldPosition());
 	}
 
@@ -39,26 +42,30 @@ void UIPlayerEquip::Start()
 		EsteBack = CreateComponent<GameEngineUIRenderer>();
 		EsteBack->SetSprite("Sword.Png");
 		EsteBack->AutoSpriteSizeOn();
+		EsteBack->SetAutoScaleRatio(ImgaeRatio);
 		EsteBack->Transform.SetLocalPosition(EsteFrame->Transform.GetWorldPosition());
 
 		Este = CreateComponent<GameEngineUIRenderer>();
 		Este->SetSprite("EsteBottle_Full.Png");
 		Este->AutoSpriteSizeOn();
+		Este->SetAutoScaleRatio(ImgaeRatio);
 		Este->Transform.SetLocalPosition(EsteFrame->Transform.GetWorldPosition());
 
 		float EstePosY =  Este->GetSprite()->GetSpriteData(0).GetScale().hY();
 
 		EsteFont = CreateComponent<GameEngineUIRenderer>();
-		EsteFont->SetText("OptimusBold", "에스트 병", 14.0f, float4{ 1, 1, 1, 1, }, FW1_CENTER);
+		EsteFont->SetText(GlobalValue::OptimusFont, "에스트 병", 14.0f, float4{ 1, 1, 1, 1, }, FW1_CENTER);
 		EsteFont->On();
 		EsteFont->Transform.SetLocalPosition({ EsteFrame->Transform.GetWorldPosition().X,
-			EsteFrame->Transform.GetWorldPosition().Y - EstePosY });
+			EsteFrame->Transform.GetWorldPosition().Y - EstePosY * ImgaeRatio });
 
 		EsteCount = CreateComponent<GameEngineUIRenderer>();
-		EsteCount->SetText("OptimusBold", std::to_string(CurEsteCount), 15.0f, float4{1, 1, 1, 1,}, FW1_CENTER);
+		EsteCount->SetText(GlobalValue::OptimusFont, std::to_string(CurEsteCount), 15.0f, float4{1, 1, 1, 1,}, FW1_CENTER);
 		EsteCount->On();
-		EsteCount->Transform.SetLocalPosition({ EsteFrame->Transform.GetWorldPosition().X + 40.0f,
-			EsteFrame->Transform.GetWorldPosition().Y - 40.0f });
+		EsteCount->Transform.SetLocalPosition({ EsteFrame->Transform.GetWorldPosition().X + 30.0f,
+			EsteFrame->Transform.GetWorldPosition().Y - 30.0f });
+		/*EsteCount->Transform.SetLocalPosition({ EsteFrame->Transform.GetWorldPosition().X + 37.0f,
+			EsteFrame->Transform.GetWorldPosition().Y - 57.0f });*/
 
 	}
 
@@ -78,7 +85,7 @@ void UIPlayerEquip::Update(float _Delta)
 		CurEsteCount--;
 	}
 
-	EsteCount->SetText("OptimusBold", std::to_string(CurEsteCount), 15.0f, float4{ 1, 1, 1, 1, }, FW1_CENTER);
+	EsteCount->SetText(GlobalValue::OptimusFont, std::to_string(CurEsteCount), 15.0f, float4{ 1, 1, 1, 1, }, FW1_CENTER);
 	ChangeEsteImage();
 }
 
@@ -118,8 +125,8 @@ void UIPlayerEquip::Release()
 	EquipMent.clear();
 }
 
-#define XDistance 110.0f
-#define YDistance 80.0f
+#define XDistance 80.0f
+#define YDistance 57.0f
 UIEquipFrame* UIPlayerEquip::CreatEquipActor(Enum_EquipType _Type)
 {
 	std::shared_ptr<UIEquipFrame> UIFrame = GetLevel()->CreateActor<UIEquipFrame>();
@@ -129,7 +136,7 @@ UIEquipFrame* UIPlayerEquip::CreatEquipActor(Enum_EquipType _Type)
 	EquipMent.insert(std::make_pair(_Type, pFrame));
 
 	float4 WindowScale = GameEngineCore::MainWindow.GetScale().Half();
-	FixPos = { -WindowScale.X + 170.0f , -300.0f };
+	FixPos = { -WindowScale.X + 170.0f , -200.0f };
 
 	switch (_Type)
 	{
@@ -148,6 +155,7 @@ UIEquipFrame* UIPlayerEquip::CreatEquipActor(Enum_EquipType _Type)
 		Equip_Este_Sub = CreateComponent<GameEngineUIRenderer>();
 		Equip_Este_Sub->SetSprite("Este_Sub.Png");
 		Equip_Este_Sub->AutoSpriteSizeOn();
+		Equip_Este_Sub->SetAutoScaleRatio(ImgaeRatio);
 		Equip_Este_Sub->Transform.SetLocalPosition({ FixPos.X + XDistance  , FixPos.Y - YDistance });
 		Equip_Este_Sub->SetPivotType(PivotType::RightUp);
 		break;

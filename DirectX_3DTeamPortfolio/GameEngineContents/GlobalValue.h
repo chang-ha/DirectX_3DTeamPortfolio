@@ -3,6 +3,11 @@
 class GlobalValue
 {
 public:
+	static constexpr const char* OptimusFont = "OptimusPrincepsSemiBold";
+
+protected:
+
+private:
 	// constructer destructer
 	GlobalValue();
 	~GlobalValue();
@@ -12,10 +17,6 @@ public:
 	GlobalValue(GlobalValue&& _Ohter) noexcept = delete;
 	GlobalValue& operator=(const GlobalValue& _Other) = delete;
 	GlobalValue& operator=(GlobalValue&& _Other) noexcept = delete;
-
-protected:
-
-private:
 
 };
 

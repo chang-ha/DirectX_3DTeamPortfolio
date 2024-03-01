@@ -16,20 +16,14 @@ UIPlayerGaugeBar::~UIPlayerGaugeBar()
 
 void UIPlayerGaugeBar::Start()
 {
-	MaxHp = PlayerValue::GetValue()->GetMaxHp();
-	CurHp = PlayerValue::GetValue()->GetHp();
+	float MaxHp = PlayerValue::GetValue()->GetMaxHp();
+	float MaxMp = PlayerValue::GetValue()->GetMaxMp();
+	float MaxStamina = PlayerValue::GetValue()->GetMaxStamina();
+
+
 	HpBar = CreateBarActor(Enum_BarType::Hp, MaxHp);
-	HpBar->SetGauge(CurHp);
-
-	MaxMp = PlayerValue::GetValue()->GetMaxMp();
-	CurMp = PlayerValue::GetValue()->GetMp();
 	MpBar = CreateBarActor(Enum_BarType::Mp, MaxMp);
-	MpBar->SetGauge(CurMp);
-
-	MaxStamina = PlayerValue::GetValue()->GetMaxStamina();
-	CurStamina = PlayerValue::GetValue()->GetStamina();
 	StaminaBar = CreateBarActor(Enum_BarType::Stamina, MaxStamina);
-	StaminaBar->SetGauge(CurStamina);
 	
 	GameEngineInput::AddInputObject(this);
 }
@@ -73,9 +67,10 @@ UIUnit* UIPlayerGaugeBar::CreateBarActor(Enum_BarType _Type, float _TotalSize)
 
 	float4 Pos = First_Bar_Pos -WindowScale.X + float4(0.0f, - BarGap * (GaugeBarSize - 1));
 	UIBarUnit->Transform.SetWorldPosition(Pos);
-	UIBarUnit->SetTotalGauge(_TotalSize);
 	UIBarUnit->SetBarType(_Type);
 	UIBarUnit->SetBarSprite(_Type);
+	UIBarUnit->SetTotalGauge(_TotalSize);
+	UIBarUnit->SetGauge(1.0f);
 
 	return pBars;
 }

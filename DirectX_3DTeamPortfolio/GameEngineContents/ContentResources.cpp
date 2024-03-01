@@ -277,4 +277,8 @@ void ContentResources::ContentResourcesInit()
 
 
 	ContentsFireRenderer::Load();
+
+	{
+		GameEngineFont::Load("OptimusPrincepsSemiBold");
+	}
 }
