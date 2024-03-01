@@ -417,11 +417,19 @@ void AnimationInfoGUI::DummyEditor()
 
 				float4 mDPS = float4::ONE;
 				float4 mDPQ = DPStartRot * DirectX::XMQuaternionInverse(DPQ.DirectXVector);
-				float4 mDPT = -DPT;
+				float4 mDPT = -(DPStartPos + DPT);
+				static bool RotCheck = false;
+				ImGui::Checkbox("DummyPoly Rot Reverse",&RotCheck);
+				if (RotCheck)
+				{
+					mDPT.Z *= -1.0f;
+					mDPT = mDPT.VectorRotationToDegZReturn(-90.0f);
+				}
+
 				float4 Result = mDPQ.QuaternionToEulerDeg();
 
 				float4x4 mDPMat;
-				mDPMat.Affine(mDPS, mDPQ, mDPT);
+				mDPMat.Compose(mDPS, mDPQ, mDPT);
 
 				std::vector<float4x4>& BoneMats = pRenderer->GetBoneSockets();
 				float4x4 WorldMatrix = pRenderer->Transform.GetConstTransformDataRef().WorldMatrix;
@@ -436,8 +444,9 @@ void AnimationInfoGUI::DummyEditor()
 				FinMat.Decompose(WS, WQ, WT);
 				float4 WDeg = WQ.QuaternionToEulerDeg();
 
-				ContentsDebug::DistanceCheck(BoneWPos, 5.0f, float4(0.25f, 1.f, 0.25f));
+				ContentsDebug::DistanceCheck(BoneWPos, 5.0f, float4(1.f, 0.f, 0.25f));
 				GameEngineDebug::DrawBox3D(WS, WDeg, WT, float4(0.25f, 1.f, 0.75f));
+				GameEngineDebug::DrawBox3D(float4::ONE, WDeg, WT, float4(0.25f, 1.f, 0.75f));
 			}
 		}
 
