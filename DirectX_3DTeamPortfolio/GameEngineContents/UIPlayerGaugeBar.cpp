@@ -23,7 +23,7 @@ void UIPlayerGaugeBar::Start()
 
 	MaxMp = PlayerValue::GetValue()->GetMaxMp();
 	CurMp = PlayerValue::GetValue()->GetMp();
-	/*UIUnit* */MpBar = CreateBarActor(Enum_BarType::Mp, MaxMp);
+	MpBar = CreateBarActor(Enum_BarType::Mp, MaxMp);
 	MpBar->SetGauge(CurMp);
 
 	MaxStamina = PlayerValue::GetValue()->GetMaxStamina();

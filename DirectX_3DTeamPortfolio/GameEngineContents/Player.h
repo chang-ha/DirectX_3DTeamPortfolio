@@ -6,7 +6,8 @@
 #include <GameEngineBase/GameEngineNetObject.h>
 #include "ConnectIDPacket.h"
 #include "BaseActor.h"
-
+#include "CameraCapsule.h"
+#include "Weapon.h"
 enum class PlayerState
 {
 	Idle,
@@ -32,6 +33,21 @@ enum class PlayerState
 	Shield_Idle, 
 	Shield_Move,
 	Parrying,
+	RockOn,
+
+	Forward_Hit, 
+	Left_Hit,
+	Right_Hit,
+	Backward_Hit,
+
+	Forward_Middle_Hit,
+	Left_Middle_Hit,
+	Right_Middle_Hit,
+	Backward_Middle_Hit,
+
+	Forward_Big_Hit,
+	Backward_Big_Hit,
+
 
 };
 
@@ -53,19 +69,18 @@ public:
 	Player& operator=(Player&& _Other) noexcept = delete;
 	void Player_State();
 	bool check = false;
-	std::shared_ptr<GameContentsFBXRenderer> Weapon;
 	void CameraRotation(float Delta);
+
+	std::shared_ptr<Weapon> GetWeapon()
+	{
+		return Weapon_Actor;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
-	//void CameraRotation(float Delta);
-
-	// 서버용
-	void ConnectIDPacketProcess(std::shared_ptr<ConnectIDPacket> _Packet);
-
-	// 원래대로 
-	// void Smoke_Stay()
+	
 
 private:
 	float4 MoveDir;
@@ -73,30 +88,52 @@ private:
 	EventParameter Mini_Event;
 	std::string BoneName;
 	std::shared_ptr<GameEngineCollision> Col;
-	std::shared_ptr<GameEngineActor> SwordActor;
+	
 	
 	PlayerState StateValue = PlayerState::Idle;
 	float Mouse_Pos = 0.0f;
 	
-	
+
 
 	bool TimeCheck = false;
 	bool Attack_Check = false;
-	bool Rotation_Check = false;
-	bool Rotation_Check_Plus = false;
-	bool Rotation_Check_Mus = false;
+
+	bool Rotation_Check_X = false;
+	bool Rotation_Check_X_Plus = false;
+	bool Rotation_Check_X_Mus = false;
+
+	bool Rotation_Check_Y = false;
+	bool Rotation_Check_Y_Plus = false;
+	bool Rotation_Check_Y_Mus = false;
+
+	bool Rotation_Player_Check = false;
+	bool Rotation_Player_Plus = false;
+	bool Rotation_Player_Mus = false;
+
+	bool Rock_On_Check = false;
+
+
 	float Time = 0.0f;
 	float Speed = 1000.0f;
 	float MoveSpeed = 0.0f;
 	float DeltaTime = 0.0f;
 
+
+	
 	float4 Player_Pos = {};
+
 	bool IsFreeCameraValue = false;
+	bool Cameratest = false;
+	bool Rock_OnOff = false;
+
 
 	float Angle = 0.0f;
+	float MonsterAngle = 0.0f;
 
 	std::shared_ptr<GameEngineActor> Actor_test;
 	std::shared_ptr<GameEngineActor> Actor_test_02;
+	std::shared_ptr<CameraCapsule> Cameracapsule;
+	std::shared_ptr<Weapon> Weapon_Actor;
 
 
 	float4 CameraPos = {};
@@ -106,5 +143,13 @@ private:
 	float Camera_Pos_Y = 0.0f;
 	float Camera_Pos_X = 0.0f;
 
+	float test = 0.0f;
 
+	float degree_X = 0.0f;
+	float degree_Y = 0.0f;
+	
+	
 };
+
+
+

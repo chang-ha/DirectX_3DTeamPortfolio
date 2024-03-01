@@ -44,12 +44,26 @@ void GameEngineDebug::DrawBox2D(float4 _Scale, float4 _Rot, float4 _Pos, float4 
 	GameEngineDebug::DrawMesh("Rect", _Scale, _Rot, _Pos, _Color, _Camera);
 }
 
+void GameEngineDebug::DrawBox3D(const GameEngineTransform& _Trans, float4 _Color , GameEngineCamera* _Camera)
+{
+	GameEngineDebug::DrawBox3D(_Trans.GetWorldScale(), _Trans.GetWorldRotationEuler(), _Trans.GetWorldPosition(), _Color, _Camera);
+}
+
+void GameEngineDebug::DrawBox3D(float4 _Scale, float4 _Rot, float4 _Pos, float4 _Color , GameEngineCamera* _Camera)
+{
+	GameEngineDebug::DrawMesh("Box", _Scale, _Rot, _Pos, _Color, _Camera);
+}
+
 void GameEngineDebug::DrawSphere2D(const GameEngineTransform& _Trans, float4 _Color /*= float4::RED*/, class GameEngineCamera* _Camera /*= nullptr*/)
 {
 	GameEngineDebug::DrawSphere2D(_Trans.GetWorldScale(), _Trans.GetWorldRotationEuler(), _Trans.GetWorldPosition(), _Color, _Camera);
 }
 void GameEngineDebug::DrawSphere2D(float4 _Scale, float4 _Rot, float4 _Pos, float4 _Color /*= float4::RED*/, class GameEngineCamera* _Camera /*= nullptr*/)
 {
+	if (abs(_Scale.Y) >= abs(_Scale.X))
+	{
+		_Scale.X = _Scale.Y;
+	}
 	_Scale.Y = _Scale.Z = _Scale.X;
 	GameEngineDebug::DrawMesh("Sphere", _Scale, _Rot, _Pos, _Color, _Camera);
 }

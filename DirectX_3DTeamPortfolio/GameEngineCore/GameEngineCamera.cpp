@@ -10,8 +10,8 @@
 
 // std::shared_ptr<class GameEngineRenderTarget> GameEngineCamera::AllRenderTarget = nullptr;
 
-float GameEngineCamera::FreeRotSpeed = 180.0f;
-float GameEngineCamera::FreeSpeed = 200.0f;
+float GameEngineCamera::FreeRotSpeed = 360.0f;
+float GameEngineCamera::FreeSpeed = 100.0f;
 
 GameEngineCamera::GameEngineCamera() 
 {
@@ -188,6 +188,21 @@ void GameEngineCamera::Update(float _Delta)
 		}
 	}
 
+	if (GameEngineInput::IsDown('-', this))
+	{
+		FreeSpeed *= 0.1f;
+		FreeSpeed = std::clamp(FreeSpeed, 1.0f, 1000.0f);
+		std::string OutputStr = std::string("Camera Speed : ") + std::to_string(FreeSpeed) + "\n";
+		OutputDebugStringA(OutputStr.c_str());
+	}
+	if (GameEngineInput::IsDown('=', this))
+	{
+		FreeSpeed *= 10.0f;
+		FreeSpeed = std::clamp(FreeSpeed, 1.0f, 1000.0f);
+		std::string OutputStr = std::string("Camera Speed : ") + std::to_string(FreeSpeed) + "\n";
+		OutputDebugStringA(OutputStr.c_str());
+	}
+
 	float Speed = FreeSpeed;
 
 	if (GameEngineInput::IsPress(VK_LSHIFT, this))
@@ -227,8 +242,9 @@ void GameEngineCamera::Update(float _Delta)
 
 	if (GameEngineInput::IsPress(VK_RBUTTON, this))
 	{
+		const float FreeRotPower = FreeRotSpeed * _Delta;
 		float4 Dir = ScreenMouseDirNormal;
-
+		Dir *= FreeRotPower;
 		Transform.AddWorldRotation({ -Dir.Y, -Dir.X});
 	}
 
@@ -833,7 +849,13 @@ float4 GameEngineCamera::GetScreenPos(GameEngineTransform& _TargetTransform)
 	return Result;
 }
 
-//void GameEngineCamera::PushFogEffect(FogEffect* _FogEffect)
-//	{
-//		FogPostEffect.push_back(_FogEffect);
-//	}
+void GameEngineCamera::LevelEnd(GameEngineLevel* _NextLevel)
+{
+	if (false == IsFreeCameraValue)
+	{
+		IsFreeCameraValue = false;
+		GameEngineInput::IsObjectAllInputOn();
+		ProjectionType = PrevProjectionType;
+		Transform.SetTransformData(OriginData);
+	}
+}

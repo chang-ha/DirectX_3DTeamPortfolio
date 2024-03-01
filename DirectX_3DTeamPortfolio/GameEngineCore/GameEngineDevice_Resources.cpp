@@ -423,7 +423,7 @@ void GameEngineDevice::ResourcesInit()
 
 		D3D11_RASTERIZER_DESC Desc = {};
 		Desc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
-		Desc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
+		Desc.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
 		// Desc.DepthClipEnable = TRUE;
 		std::shared_ptr<GameEngineRasterizer> Rasterizer = GameEngineRasterizer::Create("EngineRasterizer", Desc);
 	}

@@ -1,8 +1,11 @@
 #include "PreCompile.h"
 #include "Monster_LothricKn.h"
 
+#include "DS3DummyData.h"
+
 #include "BoneSocketCollision.h"
 #include "ContentsMath.h"
+
 
 Monster_LothricKn::Monster_LothricKn() 
 {
@@ -33,7 +36,7 @@ void Monster_LothricKn::Start()
 	Capsule->SetPositioningComponent();
 
 	// Anmation
-	MainRenderer->SetFBXMesh("c1280.fbx", "FBXAnimationTexture");
+	MainRenderer->SetFBXMesh("c1280.fbx", "FBX_Animation");
 
 	MainRenderer->CreateFBXAnimation("Idle_Standing1", "c1280_000000.fbx");
 	MainRenderer->CreateFBXAnimation("Idle_Standing2", "c1280_000020.fbx");
@@ -90,6 +93,10 @@ void Monster_LothricKn::Start()
 	MainRenderer->CreateFBXAnimation("B_Hit_W", "c1280_008001.fbx");
 	MainRenderer->CreateFBXAnimation("R_Hit_W", "c1280_008002.fbx");
 	MainRenderer->CreateFBXAnimation("L_Hit_W", "c1280_008003.fbx");
+	MainRenderer->CreateFBXAnimation("F_Hit", "c1280_008010.fbx");
+	MainRenderer->CreateFBXAnimation("B_Hit", "c1280_008011.fbx");
+	MainRenderer->CreateFBXAnimation("R_Hit", "c1280_008012.fbx");
+	MainRenderer->CreateFBXAnimation("L_Hit", "c1280_008013.fbx");
 	MainRenderer->CreateFBXAnimation("G_F_Hit_W", "c1280_008200.fbx");
 	MainRenderer->CreateFBXAnimation("G_F_Hit_W_PushBack", "c1280_008201.fbx");
 	MainRenderer->CreateFBXAnimation("G_F_Hit", "c1280_008210.fbx");
@@ -97,7 +104,7 @@ void Monster_LothricKn::Start()
 	MainRenderer->CreateFBXAnimation("G_F_Hit_S_PushBack", "c1280_008221.fbx");
 	MainRenderer->CreateFBXAnimation("Block_Shield", "c1280_008300.fbx");
 	MainRenderer->CreateFBXAnimation("G_Break", "c1280_008410.fbx");
-	MainRenderer->CreateFBXAnimation("Break_Down", "c1280_008500.fbx");
+	MainRenderer->CreateFBXAnimation("Break_Posture", "c1280_008500.fbx");
 	MainRenderer->CreateFBXAnimation("Res_F_Hit_W", "c1280_009000.fbx");
 	MainRenderer->CreateFBXAnimation("Res_B_Hit_W", "c1280_009001.fbx");
 	MainRenderer->CreateFBXAnimation("Res_R_Hit_W", "c1280_009002.fbx");
@@ -112,6 +119,84 @@ void Monster_LothricKn::Start()
 	MainRenderer->CreateFBXAnimation("F_Stab", "c1280_011010.fbx");
 	MainRenderer->CreateFBXAnimation("F_Stab_Death", "c1280_011011.fbx");
 	MainRenderer->CreateFBXAnimation("F_Stab_Death_End", "c1280_011012.fbx");
+
+	MainRenderer->SetBlendTime("Idle_Standing1", 7);
+	MainRenderer->SetBlendTime("Idle_Standing2", 7);
+	MainRenderer->SetBlendTime("Idle_Gaurding", 7);
+	MainRenderer->SetBlendTime("Idle_Aiming", 7);
+	MainRenderer->SetBlendTime("Idle_Sit", 7);
+	MainRenderer->SetBlendTime("G_Up", 7);
+	MainRenderer->SetBlendTime("G_Down", 7);
+	MainRenderer->SetBlendTime("DH_Hold", 7);
+	MainRenderer->SetBlendTime("DH_UnHold", 7);
+	MainRenderer->SetBlendTime("SitUp", 4);
+	MainRenderer->SetBlendTime("F_Step", 10);
+	MainRenderer->SetBlendTime("B_Step", 10);
+	MainRenderer->SetBlendTime("L_Side_Step", 10);
+	MainRenderer->SetBlendTime("R_Side_Step", 10);
+	MainRenderer->SetBlendTime("G_F_Step", 10);
+	MainRenderer->SetBlendTime("G_B_Step", 10);
+	MainRenderer->SetBlendTime("G_L_Side_Step", 10);
+	MainRenderer->SetBlendTime("G_R_Side_Step", 10);
+	MainRenderer->SetBlendTime("DH_F_Step", 7);
+	MainRenderer->SetBlendTime("DH_B_Step", 7);
+	MainRenderer->SetBlendTime("DH_L_Side_Step", 7);
+	MainRenderer->SetBlendTime("DH_R_Side_Step", 7);
+	MainRenderer->SetBlendTime("Run", 10);
+	MainRenderer->SetBlendTime("G_Run", 10);
+	MainRenderer->SetBlendTime("Patrol", 10);
+	MainRenderer->SetBlendTime("Combo_Att_11", 7);
+	MainRenderer->SetBlendTime("Combo_Att_12", 5);
+	MainRenderer->SetBlendTime("Combo_Att_13", 5);
+	MainRenderer->SetBlendTime("Combo_Att_21", 7);
+	MainRenderer->SetBlendTime("Combo_Att_22", 5);
+	MainRenderer->SetBlendTime("Combo_Att_23", 7);
+	MainRenderer->SetBlendTime("G_Att_Bash", 7);
+	MainRenderer->SetBlendTime("DH_Stab_Att", 7);
+	MainRenderer->SetBlendTime("DH_Swing_Att", 7);
+	MainRenderer->SetBlendTime("Hit_Mid", 7);
+	MainRenderer->SetBlendTime("RH_Att_HitDown", 7);
+	MainRenderer->SetBlendTime("LH_ShieldAttack", 7);
+	MainRenderer->SetBlendTime("RH_Rear_Att", 7);
+	MainRenderer->SetBlendTime("L_FastTurn", 5);
+	MainRenderer->SetBlendTime("R_FastTurn", 5);
+	MainRenderer->SetBlendTime("L_FastTurnTwice", 5);
+	MainRenderer->SetBlendTime("R_FastTurnTwice", 5);
+	MainRenderer->SetBlendTime("L_Turn", 5);
+	MainRenderer->SetBlendTime("R_Turn", 5);
+	MainRenderer->SetBlendTime("L_TurnTwice", 5);
+	MainRenderer->SetBlendTime("R_TurnTwice", 5);
+	MainRenderer->SetBlendTime("G_L_Turn", 5);
+	MainRenderer->SetBlendTime("G_R_Turn", 5);
+	MainRenderer->SetBlendTime("G_L_TurnTwice", 5);
+	MainRenderer->SetBlendTime("G_R_TurnTwice",5);
+
+	MainRenderer->SetBlendTime("F_Hit_W", 2);
+	MainRenderer->SetBlendTime("B_Hit_W", 2);
+	MainRenderer->SetBlendTime("R_Hit_W", 2);
+	MainRenderer->SetBlendTime("L_Hit_W", 2);
+	MainRenderer->SetBlendTime("F_Hit", 2);
+	MainRenderer->SetBlendTime("B_Hit", 2);
+	MainRenderer->SetBlendTime("R_Hit", 2);
+	MainRenderer->SetBlendTime("L_Hit", 2);
+	MainRenderer->SetBlendTime("G_F_Hit_W", 2);
+	MainRenderer->SetBlendTime("G_F_Hit_W_PushBack", 2);
+	MainRenderer->SetBlendTime("G_F_Hit", 2);
+	MainRenderer->SetBlendTime("G_F_Hit_PushBack", 2);
+	MainRenderer->SetBlendTime("G_F_Hit_S_PushBack", 2);
+	MainRenderer->SetBlendTime("Block_Shield", 3);
+	MainRenderer->SetBlendTime("G_Break", 3);
+	MainRenderer->SetBlendTime("Break_Posture", 3);
+	MainRenderer->SetBlendTime("F_Death", 5);
+	MainRenderer->SetBlendTime("F_Death_End", 1);
+	MainRenderer->SetBlendTime("F_Death_B", 3);
+	MainRenderer->SetBlendTime("F_Death_B_End", 1);
+	MainRenderer->SetBlendTime("B_Stab", 7);
+	MainRenderer->SetBlendTime("B_Stab_Death", 7);
+	MainRenderer->SetBlendTime("B_Stab_Death_End", 1);
+	MainRenderer->SetBlendTime("F_Stab", 7);
+	MainRenderer->SetBlendTime("F_Stab_Death", 7);
+	MainRenderer->SetBlendTime("F_Stab_Death_End", 1);
 
 
 	MainRenderer->SetRootMotionComponent(Capsule.get());
@@ -175,28 +260,42 @@ void Monster_LothricKn::Start()
 	MainRenderer->SetRootMotion("F_Stab");
 	MainRenderer->SetRootMotion("F_Stab_Death");
 
+	// DummyData
+	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::LothricKn));
 
-	SetMeshVisibility(eMeshInfo::Spear, false);
-	SetMeshVisibility(eMeshInfo::LSword, false);
-	SetMeshVisibility(eMeshInfo::Crossbow, false);
-	SetMeshVisibility(eMeshInfo::Open, false);
-	SetMeshVisibility(eMeshInfo::LShield, false);
-	SetMeshVisibility(eMeshInfo::Weapon_Cloth, false);
+	// Mask
+	MaskReset();
+
+	// Stat
+	Stat.SetHp(326); // Official Hp
+	Stat.SetAtt(1);
+
+	const float AttackSize = 1.0f * W_SCALE;
+	const float BodySize = 1.0f * W_SCALE;
+	const float PatrolSize = 5.0f * W_SCALE;
 
 	// Collision
-	CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
+	std::shared_ptr<BoneSocketCollision> AttackCol = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
+	AttackCol->Transform.SetLocalScale(float4(AttackSize, AttackSize, AttackSize));
+
 	std::shared_ptr<BoneSocketCollision> BodyCol = CreateSocketCollision(Enum_CollisionOrder::Monster, Enum_BoneType::B_01_Spine, "B_01_Spine");
-	BodyCol->On();
+	BodyCol->Transform.SetLocalScale(float4(BodySize, BodySize, BodySize));
+	BodyCol->Transform.DebugOn();
+
+	Sword.Init(this, AttackCol.get());
 
 	PatrolCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
-	PatrolCollision->Transform.SetWorldScale(float4(300, 300, 300));
+	PatrolCollision->Transform.SetWorldScale(float4(PatrolSize, PatrolSize, PatrolSize));
 	PatrolCollision->SetCollisionType(ColType::SPHERE3D);
 	PatrolCollision->SetCollisionColor(float4::BLUE);
+	PatrolCollision->Off();
 
 	// FSM
 	CombatState = Enum_Combat_State::Normal;
 
 	CreateFSM();
+
+	Transform.SetLocalScale(float4(1.0f, 1.0f, 1.0f));
 }
 
 void Monster_LothricKn::Update(float _Delta)
@@ -223,21 +322,52 @@ void Monster_LothricKn::Update(float _Delta)
 void Monster_LothricKn::Release()
 {
 	PatrolCollision = nullptr;
+	Sword.Release();
 
 	BaseMonster::Release();
 }
 
-void Monster_LothricKn::FindTarget()
+
+void Monster_LothricKn::MaskReset()
+{
+	SetMeshVisibility(eMeshInfo::Body, true);
+	SetMeshVisibility(eMeshInfo::Cloak, true);
+	SetMeshVisibility(eMeshInfo::Spear, false);
+	SetMeshVisibility(eMeshInfo::Sword, false);
+	SetMeshVisibility(eMeshInfo::Shield, false);
+	SetMeshVisibility(eMeshInfo::LSword, false);
+	SetMeshVisibility(eMeshInfo::Crossbow, false);
+	SetMeshVisibility(eMeshInfo::Cloak_cloth, true);
+	SetMeshVisibility(eMeshInfo::Close, true);
+	SetMeshVisibility(eMeshInfo::Open, false);
+	SetMeshVisibility(eMeshInfo::LShield, false);
+	SetMeshVisibility(eMeshInfo::Weapon_Cloth, false);
+	SetMeshVisibility(eMeshInfo::SwordCover, true);
+}
+
+void Monster_LothricKn::HideWeaponMask()
+{
+	SetMeshVisibility(eMeshInfo::Sword, false);
+	SetMeshVisibility(eMeshInfo::Shield, false);
+}
+
+void Monster_LothricKn::OnWeaponMask()
+{
+	SetMeshVisibility(eMeshInfo::Sword, true);
+	SetMeshVisibility(eMeshInfo::Shield, true);
+}
+
+bool Monster_LothricKn::FindAndSetTarget()
 {
 	if (true == IsTargeting())
 	{
-		return;
+		return false;
 	}
 
 	if (nullptr == PatrolCollision)
 	{
 		MsgBoxAssert("충돌체를 생성하지 않고 사용하려고 했습니다.");
-		return;
+		return false;
 	}
 
 	std::shared_ptr<GameEngineActor> pActor;
@@ -258,6 +388,8 @@ void Monster_LothricKn::FindTarget()
 					MsgBoxAssert("다이나믹 캐스팅 변환에 실패했습니다.");
 					return;
 				}
+
+				break;
 			}
 		});
 
@@ -266,7 +398,11 @@ void Monster_LothricKn::FindTarget()
 	{
 		PatrolCollision->Off();
 		SetTargeting(pActor.get());
+
+		return true;
 	}
+
+	return false;
 };
 
 void Monster_LothricKn::WakeUp() 
@@ -293,4 +429,128 @@ float Monster_LothricKn::ConvertDistance_eTof(Enum_TargetDist _eTDist) const
 
 	MsgBoxAssert("해당 타입은 존재하지 않습니다.");
 	return 0.0f;
+}
+
+void Monster_LothricKn::AttackToPlayer(eAttackType _eBoneType)
+{
+	AttackToBody(_eBoneType, Enum_CollisionOrder::Player);
+	AttackToShield(_eBoneType, Enum_CollisionOrder::Player_Shield);
+}
+
+void Monster_LothricKn::AttackToBody(eAttackType _eBoneType, Enum_CollisionOrder _Order)
+{
+	switch (_eBoneType)
+	{
+	case Monster_LothricKn::eAttackType::Sword:
+		Sword.CollisionToBody(_Order);
+		break;
+	case Monster_LothricKn::eAttackType::Shield:
+		Shield.CollisionToBody(_Order);
+		break;
+	case Monster_LothricKn::eAttackType::CrossBow:
+		break;
+	default:
+		break;
+	}
+}
+
+void Monster_LothricKn::AttackToShield(eAttackType _eBoneType, Enum_CollisionOrder _Order)
+{
+	switch (_eBoneType)
+	{
+	case Monster_LothricKn::eAttackType::Sword:
+		Sword.CollisionToShield(_Order);
+		break;
+	case Monster_LothricKn::eAttackType::Shield:
+		Shield.CollisionToShield(_Order);
+		break;
+	case Monster_LothricKn::eAttackType::CrossBow:
+		break;
+	default:
+		break;
+	}
+}
+
+static constexpr float STAB_RECOGNITION_RANGE = 0.3f;
+static constexpr float STAB_POS_RANGE = 0.2f;
+static constexpr float STAB_HANGLE = 15.0f;
+
+bool Monster_LothricKn::FrontStabCheck(const float4& _WPos, float _RotY) const
+{
+	if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+	{
+		const float4 MyPos = Transform.GetWorldPosition();
+		const float4 MyRot = Transform.GetWorldRotationEuler();
+		const float4 MyXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);
+		const float4 OtherXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, _RotY);
+		// Y PosCheck << Y 높이 체크 해야됨
+		float4 VectorToOther = MyPos - _WPos;
+		VectorToOther.Y = 0;
+
+		const float Dist = ContentsMath::GetVector3Length(VectorToOther).X;
+		const float Dot = float4::DotProduct3D(MyXZDirVector, OtherXZDirVector);
+		const float SemiCircle = CIRCLE * 0.5f;
+
+		bool RangeCheck = (Dist < STAB_RECOGNITION_RANGE * W_SCALE);
+		bool DirCheck = (Dot > SemiCircle - STAB_HANGLE);
+		if (RangeCheck && DirCheck)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool Monster_LothricKn::BackStabCheck(const float4& _WPos, float _RotY) const
+{
+	if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+	{
+		const float4 MyPos = Transform.GetWorldPosition();
+		const float4 MyRot = Transform.GetWorldRotationEuler();
+		const float4 MyXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);
+		const float4 OtherXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, _RotY);
+		// Y PosCheck << Y 높이 체크 해야됨
+		float4 VectorToOther = MyPos - _WPos;
+		VectorToOther.Y = 0;
+
+		const float Dist = ContentsMath::GetVector3Length(VectorToOther).X;
+		const float Dot = float4::DotProduct3D(MyXZDirVector, OtherXZDirVector);
+		const float SemiCircle = CIRCLE * 0.5f;
+
+		bool RangeCheck = (Dist < STAB_RECOGNITION_RANGE * W_SCALE);
+		bool DirCheck = (Dot < STAB_HANGLE - SemiCircle);
+		if (RangeCheck && DirCheck)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+float4 Monster_LothricKn::GetBackStabPosition()
+{
+	SetFlag(Enum_ActorFlag::BackStab, true);
+	Hit.SetHit(true);
+	const float4 MyPos = Transform.GetWorldPosition();
+	const float4 MyRot = Transform.GetWorldRotationEuler();
+	const float4 BackDirVector = float4::VectorRotationToDegY(float4::BACKWARD, MyRot.Y);
+	const float StabDist = W_SCALE * STAB_POS_RANGE;
+	const float4 RelativePos = BackDirVector * StabDist;
+	const float4 OtherPos = RelativePos + MyPos;
+	return OtherPos;
+}
+
+float4 Monster_LothricKn::GetFrontStabPosition()
+{
+	SetFlag(Enum_ActorFlag::FrontStab, true);
+	Hit.SetHit(true);
+	const float4 MyPos = Transform.GetWorldPosition();
+	const float4 MyRot = Transform.GetWorldRotationEuler();
+	const float4 DirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);
+	const float StabDist = W_SCALE * STAB_POS_RANGE;
+	const float4 RelativePos = DirVector * StabDist;
+	const float4 OtherPos = RelativePos + MyPos;
+	return OtherPos;
 }

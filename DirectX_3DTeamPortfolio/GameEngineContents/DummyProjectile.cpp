@@ -123,7 +123,7 @@ void DummyProjectile::AttackCollision()
 				const float4 Bullet_WPos = AttackCol->Transform.GetWorldPosition();
 				const float4 Other_WPos = pCollsion->Transform.GetWorldPosition();
 				const float4 DirVec = Other_WPos - Bullet_WPos;
-				const Enum_DirectionXZ_Quat eDir = HitStruct::ReturnDirectionToVector(DirVec);
+				const Enum_DirectionXZ_Quat eDir = ContentsMath::ReturnXZDirectionToVector(DirVec);
 
 				std::weak_ptr<BaseActor> wpObject = pCollsion->GetActor()->GetDynamic_Cast_This<BaseActor>();
 				if (wpObject.expired())
@@ -133,7 +133,7 @@ void DummyProjectile::AttackCollision()
 				}
 
 				std::shared_ptr<BaseActor> pActor = wpObject.lock();
-				pActor->GetHit(Att, { pParent , eDir });
+				pActor->GetHit({ pParent ,0 ,eDir });
 
 				MainState.ChangeState(eState::Ready);
 				break;

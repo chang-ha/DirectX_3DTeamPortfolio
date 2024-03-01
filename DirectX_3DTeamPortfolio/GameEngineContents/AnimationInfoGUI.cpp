@@ -10,6 +10,8 @@
 #include "CollisionUpdateFrameEvent.h"
 #include "TurnSpeedFrameEvent.h"
 
+#include "DS3DummyData.h"
+
 AnimationInfoGUI::AnimationInfoGUI() 
 {
 }
@@ -34,6 +36,7 @@ void AnimationInfoGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	TransformEditor();
 	AnimationList( _Level, _DeltaTime);
 	BoneEditor();
+	DummyEditor();
 }
 
 void AnimationInfoGUI::LevelEnd()
@@ -42,6 +45,7 @@ void AnimationInfoGUI::LevelEnd()
 	ActorNames.clear();
 	CObjectNames.clear();
 	ActorChange();
+	DummyEditorReset();
 }
 
 void AnimationInfoGUI::ShowActorList(GameEngineLevel* _Level)
@@ -111,6 +115,7 @@ void AnimationInfoGUI::ActorChange()
 	BoneNames.clear();
 	CBoneNames.clear();
 	SelectAnimation = nullptr;
+	DummyEditorReset();
 }
 
 void AnimationInfoGUI::TransformEditor()
@@ -231,16 +236,251 @@ void AnimationInfoGUI::BoneEditor()
 
 		if (GameEngineLevel::IsDebug)
 		{
-			std::vector<float4x4>& BoneMats = SelectActor->GetFBXRenderer()->GetBoneSockets();
-			float4x4 WorldMat = SelectActor->Transform.GetConstTransformDataRef().WorldMatrix;
+			const std::shared_ptr<GameContentsFBXRenderer>& pRenderer = SelectActor->GetFBXRenderer();
+			if (nullptr == pRenderer)
+			{
+				MsgBoxAssert("렌더러가 존재하지 않습니다.");
+				return;
+			}
+			const float4 RendererRot = pRenderer->Transform.GetWorldRotationEuler(); 
+
+			float4 MeshGlobalRot = pRenderer->GetFBXMesh()->FindBoneToIndex(SelectBone)->BonePos.GlobalRotation;
+			float4 MeshGlobalPos = pRenderer->GetFBXMesh()->FindBoneToIndex(SelectBone)->BonePos.GlobalTranslation;
+
+			const std::vector<AnimationBoneData>& BoneDatas = pRenderer->GetBoneDatas();
+			const AnimationBoneData& BData = BoneDatas.at(SelectBone);
+			std::vector<float4x4>& BoneMats = pRenderer->GetBoneSockets();
+			float4x4 WorldMat = pRenderer->Transform.GetConstTransformDataRef().WorldMatrix;
 			float4x4& BoneMatrix = BoneMats[SelectBone];
-			WorldMat = BoneMatrix * WorldMat;
-			float4 wBoneScale;
-			float4 wBoneQuat;
-			float4 wBonePos;
-			WorldMat.Decompose(wBoneScale, wBoneQuat, wBonePos);
-			GameEngineDebug::DrawSphere2D(wBoneScale, wBoneQuat, wBonePos, float4::RED);
+
+			ImGui::SliderFloat3("Model Scale", &BoneS.X, 1.0f, 100.0f, "%.f");
+			ImGui::SliderFloat3("Model Rot", &BoneRot.X, 0.0f, 360.0f, "%.f");
+			ImGui::SliderFloat3("Model Pos", &BonePos.X, 0.0f, 1.f, "%.3f");
+
+			float4x4 BoneWMatrix = BoneMatrix* WorldMat;
+			float4 BS;
+			float4 BQ;
+			float4 BT;
+			BoneWMatrix.Decompose(BS, BQ, BT);
+			float4 BEuler = BQ.QuaternionToEulerDeg();
+
+			const float4 BoneWPos = BonePos * BoneMatrix * WorldMat;
+
+			static float GUIBoneRot = 0.0f;
+			ImGui::SliderFloat("Bone Rot", &GUIBoneRot, 0.0f, 360.0f, "%.f");
+
+			float4 Quat  = BData.RotQuaternion;
+			float4x4 BMat = Quat.QuaternionToMatrix();
+			float4x4 affine = float4x4::Affine(float4::ONE, Quat, float4::ZERO);
+			const float4 Euler = Quat.QuaternionToEulerDeg();
+
+			const float4 Rot4 = Euler + RendererRot;
+			float4x4 LocalMat = affine* WorldMat;
+			GameEngineDebug::DrawBox3D(BoneS, BEuler, BT, float4(0.25f, 0.75f, 0.75f));
 		}
+
+		ImGui::TreePop();
+	}
+}
+
+void AnimationInfoGUI::DummyEditor()
+{
+	if (nullptr == SelectActor)
+	{
+		return;
+	}
+
+	if (ImGui::TreeNode("DummyPoly Editor"))
+	{
+		if (!GameEngineLevel::IsDebug)
+		{
+			ImGui::TreePop();
+			return;
+		}
+
+		const std::shared_ptr<GameContentsFBXRenderer>& pRenderer = SelectActor->GetFBXRenderer();
+		if (nullptr == pRenderer)
+		{
+			MsgBoxAssert("렌더러가 존재하지 않습니다.");
+			return;
+		}
+
+		if (DummyPolyRefIndexCheck.empty())
+		{
+			const std::shared_ptr<DS3DummyData>& pDPData = DS3DummyData::Find(SelectActor->GetIDName());
+			if (nullptr == pDPData)
+			{
+				MsgBoxAssert("존재하지않는 자료입니다. 더미데이터를 Mesh폴더에 로드해주세요.");
+				return;
+			}
+
+			std::vector<DummyData> DPDatas = pDPData->GetDummyDatas();
+				
+			for (const DummyData& Data : DPDatas)
+			{
+				DummyPolyRefIndexCheck.insert(Data.ReferenceID);
+			}
+
+			int Cnt = 0;
+
+			DummyPolyRefIndexs.reserve(DummyPolyRefIndexCheck.size());
+			CDummyPolyRefIndexs.reserve(DummyPolyRefIndexCheck.size());
+			for (int Index : DummyPolyRefIndexCheck)
+			{
+				DummyPolyRefIndexs.push_back(std::to_string(Index));
+				CDummyPolyRefIndexs.push_back(DummyPolyRefIndexs[Cnt].c_str());
+				Cnt++;
+			}
+		}
+
+		if (false == CDummyPolyRefIndexs.empty())
+		{
+			if (ImGui::Combo("Ref ID", &Dummy_RefIndex, &CDummyPolyRefIndexs[0], static_cast<int>(CDummyPolyRefIndexs.size())))
+			{
+				DpEditorRefReset();
+
+				int RefIndex = std::stoi(DummyPolyRefIndexs[Dummy_RefIndex]);
+
+				const std::shared_ptr<DS3DummyData>& pDPData = DS3DummyData::Find(SelectActor->GetIDName());
+				if (nullptr == pDPData)
+				{
+					MsgBoxAssert("존재하지않는 자료입니다. 터지면 김태훈에게 문의하세요.");
+					ImGui::TreePop();
+					return;
+				}
+
+				DummyPolyDatas = pDPData->GetRefAllData(RefIndex);
+
+				int Cnt = 0;
+
+				DummyPolyAttachIndexs.clear();
+				CDummyPolyAttachIndexs.clear();
+				DummyPolyAttachIndexs.reserve(DummyPolyDatas.size());
+				CDummyPolyAttachIndexs.reserve(DummyPolyDatas.size());
+
+				for (const std::pair<int, DummyData>& Pair : DummyPolyDatas)
+				{
+					DummyPolyAttachIndexs.push_back(std::to_string(Pair.first));
+					CDummyPolyAttachIndexs.push_back(DummyPolyAttachIndexs[Cnt].c_str());
+					Cnt++;
+				}
+			}
+
+			if (CDummyPolyAttachIndexs.empty())
+			{
+				ImGui::TreePop();
+				return;
+			}
+
+			if (ImGui::Combo("Attach Bone Index", &Dummy_ParentIndex, &CDummyPolyAttachIndexs[0], static_cast<int>(CDummyPolyAttachIndexs.size())))
+			{
+				DpEditorAttachReset();
+
+				const std::shared_ptr<DS3DummyData>& pDPData = DS3DummyData::Find(SelectActor->GetIDName());
+				if (nullptr == pDPData)
+				{
+					MsgBoxAssert("존재하지않는 자료입니다. 터지면 김태훈에게 문의하세요.");
+					ImGui::TreePop();
+					return;
+				}
+
+				int RefIndex = std::stoi(DummyPolyRefIndexs[Dummy_RefIndex]);
+				int ParentIndex = std::stoi(DummyPolyAttachIndexs[Dummy_ParentIndex]);
+
+				SelectDPData = &pDPData->GetDummyData(RefIndex, ParentIndex);
+			}
+
+			if (nullptr != SelectDPData)
+			{
+				int AttachIndex = SelectDPData->AttachBoneIndex;
+
+				std::vector<float4x4>& BoneMats = pRenderer->GetBoneSockets();
+				float4x4 WorldMatrix = pRenderer->Transform.GetConstTransformDataRef().WorldMatrix;
+				float4x4 BoneMatrix = BoneMats.at(AttachIndex);
+
+				const float4 BoneWPos = float4::ZERO * BoneMatrix * WorldMatrix;
+
+				float4x4 FinDpMat;
+
+				static bool ReverseCheck = false;
+				ImGui::Checkbox("DummyPoly Pos Reverse",&ReverseCheck);
+				if (ReverseCheck)
+				{
+					FinDpMat = SelectDPData->Local_ReversePos;
+				}
+				else
+				{
+					FinDpMat = SelectDPData->Local;
+				}
+
+				float4x4 FinMat = FinDpMat * BoneMatrix* WorldMatrix;
+				float4 WS;
+				float4 WQ;
+				float4 WT;
+				FinMat.Decompose(WS, WQ, WT);
+				float4 WDeg = WQ.QuaternionToEulerDeg();
+
+				ImGui::SliderFloat3("Dummy Poly Scale", &DummyS.X, 1.0f, 300.0f, "%.f");
+
+				ContentsDebug::DistanceCheck(BoneWPos, 5.0f, float4(1.f, 0.f, 0.25f));
+				GameEngineDebug::DrawBox3D(DummyS, WDeg, WT, float4(0.25f, 1.f, 0.75f));
+				GameEngineDebug::DrawBox3D(float4::ONE, WDeg, WT, float4(0.25f, 1.f, 0.75f));
+			}
+		}
+
+		ImGui::TreePop();
+	}
+}
+
+void AnimationInfoGUI::DummyEditorReset()
+{
+	DpEditorRefReset();
+
+	DummyPolyRefIndexs.clear();
+	CDummyPolyRefIndexs.clear();
+	DummyPolyRefIndexCheck.clear();
+	Dummy_RefIndex = -1;
+}
+
+void AnimationInfoGUI::DpEditorRefReset()
+{
+	DpEditorAttachReset();
+
+	Dummy_ParentIndex = -1;
+	DummyPolyAttachIndexs.clear();
+	CDummyPolyAttachIndexs.clear();
+
+	DummyPolyDatas.clear();
+}
+
+void AnimationInfoGUI::DpEditorAttachReset()
+{
+	SelectDPData = nullptr;
+}
+
+void AnimationInfoGUI::BoneCollisionEditor()
+{
+	if (nullptr == SelectActor)
+	{
+		return;
+	}
+
+	if (ImGui::TreeNode("Socket Col Editor"))
+	{
+		if (!GameEngineLevel::IsDebug)
+		{
+			ImGui::TreePop();
+			return;
+		}
+
+		const std::shared_ptr<GameContentsFBXRenderer>& pRenderer = SelectActor->GetFBXRenderer();
+		if (nullptr == pRenderer)
+		{
+			MsgBoxAssert("렌더러가 존재하지 않습니다.");
+			ImGui::TreePop();
+			return;
+		}
+
 
 		ImGui::TreePop();
 	}

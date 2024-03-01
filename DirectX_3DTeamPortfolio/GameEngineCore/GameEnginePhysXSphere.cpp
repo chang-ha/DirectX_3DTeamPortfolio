@@ -64,29 +64,8 @@ void GameEnginePhysXSphere::PhysXComponentInit(float _Radius, const physx::PxMat
 	physx::PxShape* Sphereshape = Physics->createShape(physx::PxSphereGeometry(_Radius), *_Material);
 	ComponentActor = Physics->createRigidDynamic(Transform);
 	ComponentActor->attachShape(*Sphereshape);
-	physx::PxRigidBodyExt::updateMassAndInertia(*ComponentActor, 0.001f);
-	physx::PxReal Mass = ComponentActor->getMass();
 
 	Scene->addActor(*ComponentActor);
 
 	Sphereshape->release();
-}
-
-/*
-physx::PxForceMode
-eFORCE == unit of mass * distance/ time^2, i.e. a force
-eIMPULSE  == unit of mass * distance /time
-eVELOCITY_CHANGE  == unit of distance / time, i.e. the effect is mass independent: a velocity change.
-eACCELERATION  == unit of distance/ time^2, i.e. an acceleration. It gets treated just like a force except the mass is not divided out before integration.
-*/
-void GameEnginePhysXSphere::MoveForce(const physx::PxVec3 _Force)
-{
-	physx::PxVec3 Speed = ComponentActor->getLinearVelocity();
-	ComponentActor->setLinearVelocity({0, Speed.y, 0 });
-	ComponentActor->addForce(_Force, physx::PxForceMode::eVELOCITY_CHANGE);
-}
-
-void GameEnginePhysXSphere::AddForce(const physx::PxVec3 _Force)
-{
-	ComponentActor->addForce(_Force, physx::PxForceMode::eFORCE);
 }

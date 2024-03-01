@@ -2,6 +2,8 @@
 #include "ContentLevel.h"
 #include "FXAAEffect.h"
 
+ContentsCollisionCallBack  ContentLevel::CollisionCallBack;
+
 ContentLevel::ContentLevel()
 {
 	GameEngineInput::AddInputObject(this);
@@ -27,6 +29,7 @@ void ContentLevel::Start()
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
 	
 	PhysXLevelInit();
+	Scene->setSimulationEventCallback(&CollisionCallBack);
 }
 
 void ContentLevel::Update(float _Delta)
@@ -34,7 +37,7 @@ void ContentLevel::Update(float _Delta)
 	DebugInput();
 	RunSimulation(_Delta);
 	ChaseListener();
-	
+
 	// float4 Pos = GetMainCamera()->Transform.GetWorldPosition();
 	// float4 Up = GetMainCamera()->Transform.GetWorldUpVector();
 	// float4 Forward = GetMainCamera()->Transform.GetWorldForwardVector();
@@ -93,5 +96,31 @@ void ContentLevel::DebugInput()
 	if (GameEngineInput::IsDown(VK_F4, this))
 	{
 		GameEngineLevel::IsDebug = !GameEngineLevel::IsDebug;
+	}
+}
+
+void ContentsCollisionCallBack::onContact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair* pairs, physx::PxU32 nbPairs)
+{
+	for (physx::PxU32 i = 0; i < nbPairs; i++)
+	{
+		physx::PxContactPair current = *pairs++;
+
+		physx::PxShape* thisActor = current.shapes[0];
+		physx::PxShape* CollisionActor = current.shapes[1];
+
+		physx::PxFilterData thisFilterdata = thisActor->getSimulationFilterData(); // 주체
+		physx::PxFilterData CollisionFilterdata = CollisionActor->getSimulationFilterData();     // 대상
+
+		if (thisFilterdata.word0 == 0 || CollisionFilterdata.word0 == 0)
+		{
+			continue;
+		}
+
+		if ((thisFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Camera))
+			&& (CollisionFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Map)))
+		{
+			int a = 0;
+		}
+
 	}
 }

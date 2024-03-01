@@ -6,17 +6,17 @@
 #include "ContentsControlWindow.h"
 #include "TreeWindow.h"
 
-#include "ContentsMouseInput.h"
-
 #include "TitleLevel.h"
 #include "PlayLevel.h"
 #include "ContentResources.h"
 #include "PlayLevel.h"
+#include "Stage_Lothric.h"
 #include "TestLevel_Boss.h"
 #include "TestLevel_Monster.h"
 #include "TestLevel_Shader.h"
 #include "TestLevel_Map.h"
 #include "TestLevel_PhysX.h"
+#include "TestLevel_MapObject.h"
 
 ContentsCore::ContentsCore() 
 {
@@ -43,13 +43,15 @@ void ContentsCore::Start()
 
 	GameEngineFont::Load("OptimusBold");
 	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
+	GameEngineCore::CreateLevel<Stage_Lothric>("Stage_Lothric");
 	GameEngineCore::CreateLevel<TestLevel_Boss>("TestLevel_Boss");
 	GameEngineCore::CreateLevel<TestLevel_Monster>("TestLevel_Monster");
 	GameEngineCore::CreateLevel<TestLevel_Shader>("TestLevel_Shader"); 
 	GameEngineCore::CreateLevel<TestLevel_Map>("TestLevel_Map");
 	GameEngineCore::CreateLevel<TestLevel_PhysX>("TestLevel_PhysX");
 	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
-	GameEngineCore::ChangeLevel("TestLevel_Shader");
+	GameEngineCore::CreateLevel<TestLevel_MapObject>("TestLevel_MapObject");
+	GameEngineCore::ChangeLevel("PlayLevel");
 }
 
 void ContentsCore::Update(float _Delta)

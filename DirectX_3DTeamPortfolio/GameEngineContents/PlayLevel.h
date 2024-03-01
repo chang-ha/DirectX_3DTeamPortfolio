@@ -29,6 +29,6 @@ private:
 	std::shared_ptr<class FadePostEffect> FadeEffect;
 	std::shared_ptr<class Player> PlayerObject;
 	std::shared_ptr<class PlayMap> Map;
-	std::shared_ptr<class TileMap> TileMapObject;
+
 };
 

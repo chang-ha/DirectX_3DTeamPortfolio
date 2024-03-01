@@ -37,11 +37,23 @@ void Monster_Hollow::Start()
 
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::Bone);
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::UpperBody);
+
+	RecognizeCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
+	RecognizeCollision->SetCollisionType(ColType::SPHERE3D);
+	RecognizeCollision->SetCollisionColor(float4::BLACK);
+	RecognizeCollision->Transform.SetLocalPosition(float4(0, 100, 0));
+	RecognizeCollision->Transform.SetWorldScale(float4(500, 500, 500));
+
+	AttackRangeCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
+	AttackRangeCollision->SetCollisionType(ColType::SPHERE3D);
+	AttackRangeCollision->SetCollisionColor(float4::RED);
+	AttackRangeCollision->Transform.SetLocalPosition(float4(0, 100, 0));
+	AttackRangeCollision->Transform.SetWorldScale(float4(300, 300, 300));
 }
 
 void Monster_Hollow::Update(float _Delta)
 {
-	
+	BaseMonster::Update(_Delta);
 }
 
 void Monster_Hollow::Release()
@@ -168,7 +180,15 @@ void Monster_Hollow::CreateAnimation()
 	MainRenderer->CreateFBXAnimation("c1100_Spear_GuardBreak", "c1100_Spear_GuardBreak.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_Spear_Parrying", "c1100_Spear_Parrying.FBX", { Inter, false });
 
+	MainRenderer->CreateFBXAnimation("c1100_BrokenSword_RH_VerticalSlash", "c1100_BrokenSword_RH_VerticalSlash.FBX", { Inter, false });
+	MainRenderer->CreateFBXAnimation("c1100_BrokenSword_RH_HorizontalSlash", "c1100_BrokenSword_RH_HorizontalSlash.FBX", { Inter, false });
+	MainRenderer->CreateFBXAnimation("c1100_BrokenSword_TH_VerticalSlash", "c1100_BrokenSword_TH_VerticalSlash.FBX", { Inter, false });
+	MainRenderer->CreateFBXAnimation("c1100_BrokenSword_RH_ComboAttack", "c1100_BrokenSword_RH_ComboAttack.FBX", { Inter, false });
+	MainRenderer->CreateFBXAnimation("c1100_BrokenSword_RH_RunToSlash", "c1100_BrokenSword_RH_RunToSlash.FBX", { Inter, false });
+
 	MainRenderer->CreateFBXAnimation("c1100_Lantern_Idle", "c1100_Lantern_Idle.FBX", { Inter, true });
+	MainRenderer->CreateFBXAnimation("c1100_Lantern_IdleToStay", "c1100_Lantern_IdleToStay.FBX", { Inter, false });
+	MainRenderer->CreateFBXAnimation("c1100_Lantern_StayToIdle", "c1100_Lantern_StayToIdle.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_Lantern_Walk_Front", "c1100_Lantern_Walk_Front.FBX", { Inter, true });
 	MainRenderer->CreateFBXAnimation("c1100_Lantern_Walk_Back", "c1100_Lantern_Walk_Back.FBX", { Inter, true });
 	MainRenderer->CreateFBXAnimation("c1100_Lantern_Walk_Left", "c1100_Lantern_Walk_Left.FBX", { Inter, true });
@@ -296,6 +316,12 @@ void Monster_Hollow::SettingRootMotion()
 	//MainRenderer->SetRootMotion("c1100_Spear_GuardBreak");
 	//MainRenderer->SetRootMotion("c1100_Spear_Parrying");
 
+	MainRenderer->SetRootMotion("c1100_BrokenSword_RH_VerticalSlash");
+	MainRenderer->SetRootMotion("c1100_BrokenSword_RH_HorizontalSlash");
+	MainRenderer->SetRootMotion("c1100_BrokenSword_TH_VerticalSlash");
+	MainRenderer->SetRootMotion("c1100_BrokenSword_RH_ComboAttack");
+	MainRenderer->SetRootMotion("c1100_BrokenSword_RH_RunToSlash");
+
 	MainRenderer->SetRootMotion("c1100_Lantern_Idle");
 	MainRenderer->SetRootMotion("c1100_Lantern_Walk_Front");
 	MainRenderer->SetRootMotion("c1100_Lantern_Walk_Back");
@@ -308,6 +334,70 @@ void Monster_Hollow::SettingRootMotion()
 	MainRenderer->SetRootMotion("c1100_Lantern_Turn_Right");
 	MainRenderer->SetRootMotion("c1100_Lantern_Turn_Left_Twice");
 	MainRenderer->SetRootMotion("c1100_Lantern_Turn_Right_Twice");
+}
+
+void Monster_Hollow::FindTarget()
+{
+	if (true == IsTargeting())
+	{
+		return;
+	}
+
+	if (nullptr == RecognizeCollision)
+	{
+		MsgBoxAssert("충돌체 없음.");
+		return;
+	}
+
+	std::shared_ptr<GameEngineActor> OtherActor;
+
+	RecognizeCollision->Collision(Enum_CollisionOrder::Dummy, [&OtherActor](std::vector<GameEngineCollision*>& _Other)
+		{
+			for (GameEngineCollision* OtherCol : _Other)
+			{
+				if (nullptr == OtherCol)
+				{
+					MsgBoxAssert("OtherCol 없음.");
+					return;
+				}
+
+				OtherActor = OtherCol->GetActor()->GetDynamic_Cast_This<GameEngineActor>();
+
+				if (nullptr == OtherActor)
+				{
+					MsgBoxAssert("OtherActor 실패.");
+					return;
+				}
+
+			}
+		});
+
+	bool FindValue = (nullptr != OtherActor);
+	if (FindValue)
+	{
+		RecognizeCollision->Off();
+		SetTargeting(OtherActor.get());
+	}
+}
+
+bool Monster_Hollow::IsTargetInAngle(float _fAngle) const
+{
+	const float AbsTargetAngle = std::fabs(BaseActor::GetTargetAngle());
+
+	if (AbsTargetAngle < _fAngle)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void Monster_Hollow::RotToTarget(float _Delta)
+{
+	const float fRotDir = BaseActor::GetRotDir_f();
+	const float RotAngle = fRotDir * 300.0f * _Delta;
+
+	Capsule->AddWorldRotation(float4(0.0f, RotAngle, 0.0f));
 }
 
 

@@ -1,11 +1,21 @@
 #pragma once
+#include <stdarg.h>
 
 #include <PxPhysicsAPI.h>
 
 #define SCENE_MAX_ACTOR 512
-#define GRAVITY_FORCE 981.f
+#define GRAVITY_FORCE 1962.f
 
 #define PVD_HOST "127.0.0.1"	//Set this to the IP address of the system running the PhysX Visual Debugger that you want to connect to.
+
+physx::PxFilterFlags PhysXFilterShader(
+	physx::PxFilterObjectAttributes attribute0,
+	physx::PxFilterData filterData0,
+	physx::PxFilterObjectAttributes attribute1,
+	physx::PxFilterData filterData1,
+	physx::PxPairFlags& pairFlags,
+	const void* constantBlock,
+	physx::PxU32 constantBlockSize);
 
 class PhysXErrorCallback : public physx::PxErrorCallback
 {
@@ -60,6 +70,8 @@ private:
 
 class GameEnginePhysX
 {
+	friend physx::PxFilterFlags PhysXFilterShader(	physx::PxFilterObjectAttributes attribute0,	physx::PxFilterData filterData0, physx::PxFilterObjectAttributes attribute1, physx::PxFilterData filterData1, physx::PxPairFlags& pairFlags, const void* constantBlock, physx::PxU32 constantBlockSize);
+
 public:
 	// constructer destructer
 	GameEnginePhysX();
@@ -93,6 +105,10 @@ public:
 
 	static physx::PxScene* FindScene(std::string_view _SceneName);
 
+	static void PushSkipCollisionPair(int _ArgCount, ...);
+
+	static void PopSkipCollisionPair(int _ArgCount, ...);
+
 protected:
 
 private:
@@ -106,4 +122,5 @@ private:
 	static physx::PxMaterial* Material;
 
 	static std::map<std::string, physx::PxScene*> AllLevelScene;
+	static std::set<int> SkipCollisionPair;
 };

@@ -187,12 +187,6 @@
     <ClCompile Include="LUTGUI.cpp">
       <Filter>ImGui\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="UIPlayerGaugeBar.cpp">
-      <Filter>Actor\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UIUnit.cpp">
-      <Filter>Actor\UI</Filter>
-    </ClCompile>
     <ClCompile Include="MainUIActor.cpp">
       <Filter>Actor\UI</Filter>
     </ClCompile>
@@ -223,20 +217,56 @@
     <ClCompile Include="DummyActor.cpp">
       <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
     </ClCompile>
-    <ClCompile Include="DummyPath.cpp">
-      <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
-    </ClCompile>
     <ClCompile Include="DummyProjectile.cpp">
       <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
     </ClCompile>
     <ClCompile Include="FogGUI.cpp">
       <Filter>ImGui\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="ContentsFireRenderer.cpp">
-      <Filter>Resource\Renderer</Filter>
+    <ClCompile Include="Monster_HitInteraction.cpp">
+      <Filter>Actor\Monster\Component</Filter>
     </ClCompile>
-    <ClCompile Include="FireGUI.cpp">
-      <Filter>ImGui\Editor</Filter>
+    <ClCompile Include="HitInteraction.cpp">
+      <Filter>Actor\Struct</Filter>
+    </ClCompile>
+    <ClCompile Include="DS3DummyData.cpp">
+      <Filter>Resource\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="TestMapObject.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="TestLevel_MapObject.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage_Lothric.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraCapsule.cpp">
+      <Filter>Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="AddSouls.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="AppearTextures.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="BossHpBar.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIEquipFrame.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIPlayerEquip.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIPlayerGaugeBar.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIUnit.cpp">
+      <Filter>Actor\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -423,12 +453,6 @@
     <ClInclude Include="LUTGUI.h">
       <Filter>ImGui\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="UIPlayerGaugeBar.h">
-      <Filter>Actor\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UIUnit.h">
-      <Filter>Actor\UI</Filter>
-    </ClInclude>
     <ClInclude Include="MainUIActor.h">
       <Filter>Actor\UI</Filter>
     </ClInclude>
@@ -456,23 +480,53 @@
     <ClInclude Include="ContentsControlInput.h">
       <Filter>Actor\Monster\LothricKnight\Input</Filter>
     </ClInclude>
-    <ClInclude Include="DummyPath.h">
-      <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
-    </ClInclude>
     <ClInclude Include="DummyActor.h">
       <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
     </ClInclude>
     <ClInclude Include="DummyProjectile.h">
       <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
     </ClInclude>
-    <ClInclude Include="FogGUI.h">
-      <Filter>ImGui\Editor</Filter>
+    <ClInclude Include="HitInteraction.h">
+      <Filter>Actor\Struct</Filter>
     </ClInclude>
-    <ClInclude Include="ContentsFireRenderer.h">
-      <Filter>Resource\Renderer</Filter>
+    <ClInclude Include="Monster_HitInteraction.h">
+      <Filter>Actor\Monster\Component</Filter>
     </ClInclude>
-    <ClInclude Include="FireGUI.h">
-      <Filter>ImGui\Editor</Filter>
+    <ClInclude Include="DS3DummyData.h">
+      <Filter>Resource\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="TestLevel_MapObject.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TestMapObjcet.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage_Lothric.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraCapsule.h">
+      <Filter>Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="UIUnit.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="AddSouls.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="AppearTextures.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIEquipFrame.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIPlayerEquip.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIPlayerGaugeBar.h">
+      <Filter>Actor\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -556,6 +610,12 @@
     </Filter>
     <Filter Include="Actor\Monster\LothricKnight\Dummy">
       <UniqueIdentifier>{92a2ac9b-d55f-436c-bcd2-979dcb35a03d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Struct">
+      <UniqueIdentifier>{b54b4e95-a146-4f3a-a889-9fe422f8bde0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Data">
+      <UniqueIdentifier>{10a79a4b-715c-47b6-a761-e48179d81239}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

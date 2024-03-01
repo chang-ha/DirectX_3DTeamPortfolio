@@ -1,6 +1,8 @@
 #pragma once
 #include "BaseMonster.h"
 
+#include "Monster_HitInteraction.h"
+
 enum class Enum_LothricKn_State
 {
 	None,
@@ -52,6 +54,10 @@ enum class Enum_LothricKn_State
 	B_Hit_W,
 	R_Hit_W,
 	L_Hit_W,
+	F_Hit,
+	B_Hit,
+	R_Hit,
+	L_Hit,
 	G_F_Hit_W,
 	G_F_Hit_W_PushBack,
 	G_F_Hit,
@@ -60,10 +66,6 @@ enum class Enum_LothricKn_State
 	Block_Shield,
 	G_Break,
 	Break_Down,
-	Res_F_Hit_W,
-	Res_B_Hit_W,
-	Res_R_Hit_W,
-	Res_L_Hit_W,
 	F_Death,
 	F_Death_End,
 	F_Death_B,
@@ -75,7 +77,6 @@ enum class Enum_LothricKn_State
 	F_Stab_Death,
 	F_Stab_Death_End,
 };
-
 
 // 설명 :
 class Monster_LothricKn : public BaseMonster
@@ -108,8 +109,16 @@ class Monster_LothricKn : public BaseMonster
 	{
 		Normal,
 		Two_Handed,
-		Gaurding,
+		Guarding,
 		None,
+	};
+
+	enum class eAttackType
+	{
+		None,
+		Sword,
+		Shield,
+		CrossBow,
 	};
 
 public:
@@ -132,14 +141,20 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
+	// Mask
+	void MaskReset();
+	void HideWeaponMask();
+	void OnWeaponMask();
+
 private:
+
 	void CreateFSM();
 
 	// Start
 	void Start_Debug(GameEngineState* _State);
 	void StartSleep(GameEngineState* _State);
-	void StartIdle_Standing1(GameEngineState* _State);
-	void StartPatrol(GameEngineState* _State);
+	void Start_Idle_Standing1(GameEngineState* _State);
+	void Start_Patrol(GameEngineState* _State);
 	void Start_Combo_Att_11(GameEngineState* _State);
 	void Start_Combo_Att_12(GameEngineState* _State);
 	void Start_Combo_Att_13(GameEngineState* _State);
@@ -147,7 +162,7 @@ private:
 	void Start_Combo_Att_22(GameEngineState* _State);
 	void Start_Combo_Att_23(GameEngineState* _State);
 	void Start_RH_Att_HitDown(GameEngineState* _State);
-	void StartLH_ShieldAttack(GameEngineState* _State);
+	void Start_LH_ShieldAttack(GameEngineState* _State);
 	void Start_RH_Rear_Att(GameEngineState* _State);
 	void Start_L_Turn(GameEngineState* _State);
 	void Start_R_Turn(GameEngineState* _State);
@@ -185,6 +200,10 @@ private:
 	void Start_B_Hit_W(GameEngineState* _State);
 	void Start_R_Hit_W(GameEngineState* _State);
 	void Start_L_Hit_W(GameEngineState* _State);
+	void Start_F_Hit(GameEngineState* _State);
+	void Start_B_Hit(GameEngineState* _State);
+	void Start_R_Hit(GameEngineState* _State);
+	void Start_L_Hit(GameEngineState* _State);
 	void Start_G_F_Hit_W(GameEngineState* _State);
 	void Start_G_F_Hit_W_PushBack(GameEngineState* _State);
 	void Start_G_F_Hit(GameEngineState* _State);
@@ -206,8 +225,8 @@ private:
 	
 		// Update  G_Run
 	void Update_Debug(float _DeltaTime, GameEngineState* _State);
-	void UpdateIdle_Standing1(float _DeltaTime, GameEngineState* _State);
-	void UpdatePatrol(float _DeltaTime, GameEngineState* _State);
+	void Update_Idle_Standing1(float _DeltaTime, GameEngineState* _State);
+	void Update_Patrol(float _DeltaTime, GameEngineState* _State);
 	void Update_Combo_Att_11(float _DeltaTime, GameEngineState* _State);
 	void Update_Combo_Att_12(float _DeltaTime, GameEngineState* _State);
 	void Update_Combo_Att_13(float _DeltaTime, GameEngineState* _State);
@@ -215,7 +234,7 @@ private:
 	void Update_Combo_Att_22(float _DeltaTime, GameEngineState* _State);
 	void Update_Combo_Att_23(float _DeltaTime, GameEngineState* _State);
 	void Update_RH_Att_HitDown(float _DeltaTime, GameEngineState* _State);
-	void UpdateLH_ShieldAttack(float _DeltaTime, GameEngineState* _State);
+	void Update_LH_ShieldAttack(float _DeltaTime, GameEngineState* _State);
 	void Update_RH_Rear_Att(float _DeltaTime, GameEngineState* _State);
 	void Update_L_Turn(float _DeltaTime, GameEngineState* _State);
 	void Update_R_Turn(float _DeltaTime, GameEngineState* _State);
@@ -244,6 +263,7 @@ private:
 	void Update_G_Att_Bash(float _DeltaTime, GameEngineState* _State);
 
 	void Update_Hit_W(float _DeltaTime, GameEngineState* _State);
+	void Update_Hit(float _DeltaTime, GameEngineState* _State);
 	void Update_G_F_Hit_W(float _DeltaTime, GameEngineState* _State);
 	void Update_G_F_Hit_W_PushBack(float _DeltaTime, GameEngineState* _State);
 	void Update_G_F_Hit(float _DeltaTime, GameEngineState* _State);
@@ -268,12 +288,58 @@ private:
 	// End
 	void EndSleep(GameEngineState* _State);
 
+	void End_Combo_Att_11(GameEngineState* _State);
+	void End_Combo_Att_12(GameEngineState* _State);
+	void End_Combo_Att_13(GameEngineState* _State);
+	void End_Combo_Att_21(GameEngineState* _State);
+	void End_Combo_Att_22(GameEngineState* _State);
+	void End_Combo_Att_23(GameEngineState* _State);
+	void End_RH_Att_HitDown(GameEngineState* _State);
+	void End_LH_ShieldAttack(GameEngineState* _State);
+	void End_RH_Rear_Att(GameEngineState* _State);
+	void End_L_Turn(GameEngineState* _State);
+	void End_R_Turn(GameEngineState* _State);
+	void End_L_TurnTwice(GameEngineState* _State);
+	void End_R_TurnTwice(GameEngineState* _State);
+	void End_L_Side_Step(GameEngineState* _State);
+	void End_R_Side_Step(GameEngineState* _State);
+	void End_F_Step(GameEngineState* _State);
+	void End_B_Step(GameEngineState* _State);
+	void End_Run(GameEngineState* _State);
+	void End_Idle_Sit(GameEngineState* _State);
+	void End_SitUp(GameEngineState* _State);
+	void End_DH_Hold(GameEngineState* _State);
+	void End_DH_UnHold(GameEngineState* _State);
+	void End_DH_Stab_Att(GameEngineState* _State);
+	void End_DH_Swing_Att(GameEngineState* _State);
+	void End_DH_L_Side_Step(GameEngineState* _State);
+	void End_DH_R_Side_Step(GameEngineState* _State);
+	void End_DH_F_Step(GameEngineState* _State);
+	void End_DH_B_Step(GameEngineState* _State);
+	void End_G_Up(GameEngineState* _State);
+	void End_G_Down(GameEngineState* _State);
+	void End_G_L_Side_Step(GameEngineState* _State);
+	void End_G_R_Side_Step(GameEngineState* _State);
+	void End_G_F_Step(GameEngineState* _State);
+	void End_G_B_Step(GameEngineState* _State);
+	void End_G_L_Turn(GameEngineState* _State);
+	void End_G_R_Turn(GameEngineState* _State);
+	void End_G_L_TurnTwice(GameEngineState* _State);
+	void End_G_R_TurnTwice(GameEngineState* _State);
+	void End_G_Run(GameEngineState* _State);
+	void End_G_Att_Bash(GameEngineState* _State);
+
+	void End_F_Stab(GameEngineState* _State);
+	void End_B_Stab(GameEngineState* _State);
+
 	// State Func
 	bool IsFrame(int _StartFrame, int _EndFrame = -1) const;
 	bool IsFrameOnce(int _StartFrame);
 
 	void StateTimeSet(float _fMin, float _fMax);
 	void ResetStateTime();
+
+	void SetCombatMode(Enum_Combat_State _Combat);
 
 	// 자식에서 함수 재정의해서 사용할 것
 	Enum_TargetAngle GetTargetAngle_e() const override
@@ -318,10 +384,20 @@ private:
 	Enum_LothricKn_State GetStateToHitTable();
 
 	// Collision
-	void FindTarget();
+	bool FindAndSetTarget();
+	void AttackToPlayer(eAttackType _eBoneType);
+	void AttackToBody(eAttackType _eBoneType, Enum_CollisionOrder _Order);
+	void AttackToShield(eAttackType _eBoneType, Enum_CollisionOrder _Order);
+
+	bool FrontStabCheck(const float4& _WPos, float _RotY) const override;
+	bool BackStabCheck(const float4& _WPos, float _RotY) const override;
+	float4 GetBackStabPosition() override;
+	float4 GetFrontStabPosition() override;
 
 private:
 	std::shared_ptr<GameEngineCollision> PatrolCollision;  
+	Monster_HitInteraction Sword;
+	Monster_HitInteraction Shield;
 
 	Enum_IdleType IdleType = Enum_IdleType::None;
 	Enum_Combat_State CombatState = Enum_Combat_State::None;

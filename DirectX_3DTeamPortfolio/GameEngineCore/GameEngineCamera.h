@@ -198,6 +198,7 @@ protected:
 	void Update(float _Delta);
 
 	void Render(float _DeltaTime);
+	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 	void AllReleaseCheck() override;
 
