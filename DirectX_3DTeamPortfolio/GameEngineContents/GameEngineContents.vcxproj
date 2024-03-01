@@ -465,6 +465,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BossHpBar.h" />
     <ClInclude Include="CameraCapsule.h" />
     <ClInclude Include="CollisionUpdateFrameEvent.h">
       <SubType>

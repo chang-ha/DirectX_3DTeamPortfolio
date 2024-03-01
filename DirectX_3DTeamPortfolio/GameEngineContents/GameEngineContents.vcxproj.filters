@@ -247,26 +247,26 @@
     <ClCompile Include="Weapon.cpp">
       <Filter>Actor\Player</Filter>
     </ClCompile>
-    <ClCompile Include="AddSouls.cpp">
-      <Filter>Actor\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="AppearTextures.cpp">
-      <Filter>Actor\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="BossHpBar.cpp">
-      <Filter>Actor\UI</Filter>
-    </ClCompile>
     <ClCompile Include="UIEquipFrame.cpp">
-      <Filter>Actor\UI</Filter>
+      <Filter>Actor\UI\Player\Equip</Filter>
     </ClCompile>
     <ClCompile Include="UIPlayerEquip.cpp">
-      <Filter>Actor\UI</Filter>
+      <Filter>Actor\UI\Player\Equip</Filter>
     </ClCompile>
     <ClCompile Include="UIPlayerGaugeBar.cpp">
-      <Filter>Actor\UI</Filter>
+      <Filter>Actor\UI\Player\PlayerGauge</Filter>
     </ClCompile>
     <ClCompile Include="UIUnit.cpp">
-      <Filter>Actor\UI</Filter>
+      <Filter>Actor\UI\Player\PlayerGauge</Filter>
+    </ClCompile>
+    <ClCompile Include="AddSouls.cpp">
+      <Filter>Actor\UI\Souls</Filter>
+    </ClCompile>
+    <ClCompile Include="AppearTextures.cpp">
+      <Filter>Actor\UI\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="BossHpBar.cpp">
+      <Filter>Actor\UI\Monster\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -510,23 +510,26 @@
     <ClInclude Include="Weapon.h">
       <Filter>Actor\Player</Filter>
     </ClInclude>
-    <ClInclude Include="UIUnit.h">
-      <Filter>Actor\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="AddSouls.h">
-      <Filter>Actor\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="AppearTextures.h">
-      <Filter>Actor\UI</Filter>
+    <ClInclude Include="UIPlayerEquip.h">
+      <Filter>Actor\UI\Player\Equip</Filter>
     </ClInclude>
     <ClInclude Include="UIEquipFrame.h">
-      <Filter>Actor\UI</Filter>
+      <Filter>Actor\UI\Player\Equip</Filter>
     </ClInclude>
-    <ClInclude Include="UIPlayerEquip.h">
-      <Filter>Actor\UI</Filter>
+    <ClInclude Include="UIUnit.h">
+      <Filter>Actor\UI\Player\PlayerGauge</Filter>
     </ClInclude>
     <ClInclude Include="UIPlayerGaugeBar.h">
-      <Filter>Actor\UI</Filter>
+      <Filter>Actor\UI\Player\PlayerGauge</Filter>
+    </ClInclude>
+    <ClInclude Include="AddSouls.h">
+      <Filter>Actor\UI\Souls</Filter>
+    </ClInclude>
+    <ClInclude Include="AppearTextures.h">
+      <Filter>Actor\UI\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="BossHpBar.h">
+      <Filter>Actor\UI\Monster\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -616,6 +619,27 @@
     </Filter>
     <Filter Include="Resource\Data">
       <UniqueIdentifier>{10a79a4b-715c-47b6-a761-e48179d81239}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\Player">
+      <UniqueIdentifier>{4e63d6e4-a017-4220-8e71-60bbe80be57a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\Player\Equip">
+      <UniqueIdentifier>{51b68399-6235-49ab-9f24-3edcfc906e5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\Player\PlayerGauge">
+      <UniqueIdentifier>{ef90a5c7-8ceb-4789-88c3-1a30ed87e38d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\Souls">
+      <UniqueIdentifier>{5d4f813d-a2c5-43f5-9136-a4b956725a4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\Textures">
+      <UniqueIdentifier>{3487eafc-75ce-4aac-a8ab-bfd39d3e6c90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\Monster">
+      <UniqueIdentifier>{1f8a5241-c3e4-4f0c-b826-082b95cb57b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\Monster\Boss">
+      <UniqueIdentifier>{ee8ece56-c4ad-477b-8730-cb1c99b41701}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

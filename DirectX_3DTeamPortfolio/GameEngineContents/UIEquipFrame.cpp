@@ -23,6 +23,7 @@ void UIEquipFrame::Start()
 		Equip_Frame = CreateComponent<GameEngineUIRenderer>();
 		Equip_Frame->SetSprite("EquipFrame.Png");
 		Equip_Frame->AutoSpriteSizeOn();
+		Equip_Frame->SetAutoScaleRatio(0.7f);
 	}
 }
 
