@@ -62,8 +62,10 @@ void UIPlayerEquip::Start()
 		EsteCount = CreateComponent<GameEngineUIRenderer>();
 		EsteCount->SetText(GlobalValue::OptimusFont, std::to_string(CurEsteCount), 15.0f, float4{1, 1, 1, 1,}, FW1_CENTER);
 		EsteCount->On();
-		EsteCount->Transform.SetLocalPosition({ EsteFrame->Transform.GetWorldPosition().X + 37.0f,
-			EsteFrame->Transform.GetWorldPosition().Y - 57.0f });
+		EsteCount->Transform.SetLocalPosition({ EsteFrame->Transform.GetWorldPosition().X + 30.0f,
+			EsteFrame->Transform.GetWorldPosition().Y - 30.0f });
+		/*EsteCount->Transform.SetLocalPosition({ EsteFrame->Transform.GetWorldPosition().X + 37.0f,
+			EsteFrame->Transform.GetWorldPosition().Y - 57.0f });*/
 
 	}
 

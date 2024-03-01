@@ -12,28 +12,40 @@ BossHpBar::~BossHpBar()
 
 }
 
-#define BossHpBarPos {200.0f, -350.0f}
-#define BossHpPos {-301.5f, -350.0f}
-#define DamagePos {690.0f, -310.0f}
+//#define BossHpBarPos {200.0f, -200.0f}
+//#define BossHpPos {-301.5f, -200.0f}
+// 
+//#define BossHpBarPos {150.0f, -250.0f}
+//#define BossHpPos {-300.0f, -250.0f}
+//#define DamagePos {600.0f, -210.0f}
+//#define ImageScale 900.0f
+
+#define BossHpBarPos {45.0f, -250.0f}
+#define BossHpPos {-300.0f, -250.0f}
+#define DamagePos {390.0f, -210.0f}
+
+#define ImageScale 690.0f
+#define BackBarScale 17.0f
+#define HpBarScale 11.0f
 
 void BossHpBar::Start()
 {
 	Boss_HpBar = CreateComponent<GameEngineUIRenderer>();
 	Boss_HpBar->SetSprite("BossBar.Png");
-	Boss_HpBar->SetImageScale({ 1000.0f, 19.0f });
+	Boss_HpBar->SetImageScale({ ImageScale, BackBarScale });
 	Boss_HpBar->Transform.SetLocalPosition(BossHpBarPos);
 
 	Boss_DamageBar = CreateComponent<GameEngineUIRenderer>();
 	Boss_DamageBar->SetSprite("DamageBar.Png");
 	Boss_DamageBar->AutoSpriteSizeOff();
-	Boss_DamageBar->SetImageScale({1000.0f, 13.0f});
+	Boss_DamageBar->SetImageScale({ ImageScale, HpBarScale });
 	Boss_DamageBar->Transform.SetLocalPosition(BossHpPos);
 	Boss_DamageBar->SetPivotType(PivotType::Left);
 
 	Boss_Hp = CreateComponent<GameEngineUIRenderer>();
 	Boss_Hp->SetSprite("BossHp.Png");
 	Boss_Hp->AutoSpriteSizeOff();
-	Boss_Hp->SetImageScale({ (BossCurHp / BossHp) * 1000.0f, 13.0f });
+	Boss_Hp->SetImageScale({ (BossCurHp / BossHp) * ImageScale, HpBarScale });
 	Boss_Hp->SetPivotType(PivotType::Left);
 	Boss_Hp->Transform.SetLocalPosition(BossHpPos);
 
@@ -110,7 +122,7 @@ void BossHpBar::BossHpBarUpdate()
 	{
 		Boss_DamageBar->Transform.SetLocalPosition({
 		Boss_Hp->Transform.GetLocalPosition().X, Boss_Hp->Transform.GetLocalPosition().Y });
-		Boss_Hp->SetImageScale({ (0.0f / BossHp) * 1000.0f, 13.0f });
+		Boss_Hp->SetImageScale({ (0.0f / BossHp) * ImageScale, HpBarScale });
 		return;
 	}
 
@@ -118,7 +130,7 @@ void BossHpBar::BossHpBarUpdate()
 	{
 		Boss_DamageBar->Transform.SetLocalPosition({
 		Boss_Hp->Transform.GetLocalPosition().X, Boss_Hp->Transform.GetLocalPosition().Y });
-		Boss_Hp->SetImageScale({ (BossCurHp / BossHp) * 1000.0f, 13.0f });
+		Boss_Hp->SetImageScale({ (BossCurHp / BossHp) * ImageScale, HpBarScale });
 	}
 }
 
@@ -126,13 +138,13 @@ void BossHpBar::DamageCal()
 {
 	if (BossCurHp <= 0.0f)
 	{
-		Boss_DamageBar->SetImageScale({ (0.0f / BossHp) * 1000.0f, 13.0f });
+		Boss_DamageBar->SetImageScale({ (0.0f / BossHp) * ImageScale, HpBarScale });
 		return;
 	}
 
 	if (BossCurHp > 0.0f)
 	{
-		Boss_DamageBar->SetImageScale({ (BossCurHp / BossHp) * 1000.0f, 13.0f });
+		Boss_DamageBar->SetImageScale({ (BossCurHp / BossHp) * ImageScale, HpBarScale });
 	}
 }
 
