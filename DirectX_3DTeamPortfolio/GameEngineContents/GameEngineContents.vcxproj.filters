@@ -268,6 +268,24 @@
     <ClCompile Include="Object_Table.cpp">
       <Filter>MapObj</Filter>
     </ClCompile>
+    <ClCompile Include="Object_Ladder1.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Ladder2.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Ladder3.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Ladder4.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Ladder5.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Ladder6.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -529,6 +547,24 @@
       <Filter>MapObj</Filter>
     </ClInclude>
     <ClInclude Include="Object_Table.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder1.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder2.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder3.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder4.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder5.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder6.h">
       <Filter>MapObj</Filter>
     </ClInclude>
   </ItemGroup>

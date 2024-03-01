@@ -286,6 +286,12 @@
     <ClCompile Include="Object_BossDoor.cpp" />
     <ClCompile Include="Object_CastleDoor.cpp" />
     <ClCompile Include="Object_Desk.cpp" />
+    <ClCompile Include="Object_Ladder1.cpp" />
+    <ClCompile Include="Object_Ladder2.cpp" />
+    <ClCompile Include="Object_Ladder3.cpp" />
+    <ClCompile Include="Object_Ladder4.cpp" />
+    <ClCompile Include="Object_Ladder5.cpp" />
+    <ClCompile Include="Object_Ladder6.cpp" />
     <ClCompile Include="Object_Skeleton.cpp" />
     <ClCompile Include="Object_Skeleton1.cpp" />
     <ClCompile Include="Object_StartDoor.cpp" />
@@ -537,6 +543,12 @@
     <ClInclude Include="Object_BossDoor.h" />
     <ClInclude Include="Object_CastleDoor .h" />
     <ClInclude Include="Object_Desk.h" />
+    <ClInclude Include="Object_Ladder1.h" />
+    <ClInclude Include="Object_Ladder2.h" />
+    <ClInclude Include="Object_Ladder3.h" />
+    <ClInclude Include="Object_Ladder4.h" />
+    <ClInclude Include="Object_Ladder5.h" />
+    <ClInclude Include="Object_Ladder6.h" />
     <ClInclude Include="Object_Skeleton.h" />
     <ClInclude Include="Object_Skeleton1.h" />
     <ClInclude Include="Object_StartDoor.h" />
