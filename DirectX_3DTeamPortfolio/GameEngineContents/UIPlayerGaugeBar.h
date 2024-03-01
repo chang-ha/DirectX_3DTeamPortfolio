@@ -39,16 +39,8 @@ protected:
 private:
 	std::map<Enum_BarType, class UIUnit*> GaugeBars;
 
-	float CurHp = 0.0f;
-	float MaxHp = 0.0f;
 	UIUnit* HpBar = nullptr;
-
-	float CurMp = 0.0f;
-	float MaxMp = 0.0f;
 	UIUnit* MpBar = nullptr;
-
-	float CurStamina = 0.0f;
-	float MaxStamina = 0.0f;
 	UIUnit* StaminaBar = nullptr;
 
 };

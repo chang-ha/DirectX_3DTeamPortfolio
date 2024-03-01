@@ -18,25 +18,22 @@ void UIUnit::Start()
 	L_Bar->SetSprite("Bar_Left.Png");
 	L_Bar->SetPivotType(PivotType::Left);
 
-	LBarScale = L_Bar->GetSprite()->GetSpriteData(0).GetScale();
 	C_Bar = CreateComponent<GameEngineUIRenderer>();
 	C_Bar->SetSprite("Bar_Center.Png");
 	C_Bar->SetPivotType(PivotType::Left);
-
-	float4 CBarScale = C_Bar->GetSprite()->GetSpriteData(0).GetScale();
-	float4 LCScale = LBarScale + CBarScale;
 
 	R_Bar = CreateComponent<GameEngineUIRenderer>();
 	R_Bar->SetSprite("Bar_Right.Png");
 	R_Bar->SetPivotType(PivotType::Left);
 
-
 	GaugeBar = CreateComponent<GameEngineUIRenderer>();
+
+	LBarScale = L_Bar->GetSprite()->GetSpriteData(0).Texture->GetScale();
 }
 
 void UIUnit::Update(float _Delta)
 {
-
+	float PlayerGaugeValue = 0.0f;
 	if (Type == Enum_BarType::Hp)
 	{
 		PlayerGaugeValue = PlayerValue::GetValue()->GetHp();
@@ -73,13 +70,8 @@ void UIUnit::Update(float _Delta)
 		}
 	}
 
-	SetGauge(RenderGauge);
-
-	//CurHp = PlayerValue::GetValue()->GetHp();
-	//SetGauge(PlayerGaugeValue);
-
-	//////  
-
+	const float GaugeRatio = RenderGauge / RenderTotalGauge;
+	SetGauge(GaugeRatio);
 }
 
 void UIUnit::Release()
@@ -133,20 +125,24 @@ void UIUnit::SetTotalGauge(float _Value)
 		return;
 	}
 
-	float4 LBarScale = L_Bar->GetSprite()->GetSpriteData(0).GetScale();
-	float4 CBarScale = C_Bar->GetSprite()->GetSpriteData(0).GetScale();
+	RenderGauge = RenderTotalGauge = _Value;
 
-	CBarScale.X;
+	float4 LBarScale = L_Bar->GetSprite()->GetSpriteData(0).Texture->GetScale();
+	float4 CBarScale = C_Bar->GetSprite()->GetSpriteData(0).Texture->GetScale();
+	float4 GaugeOriginScale = GaugeBar->GetSprite()->GetSpriteData(0).Texture->GetScale();
+	float FullRatio = RenderTotalGauge / CBarScale.X;
+
+	PixelGauge = GaugeOriginScale.X;
 
 	// 1.0f 를 Value의 비율로
-	float Value = _Value / 100.0f;
 	C_Bar->AutoSpriteSizeOn();
-	C_Bar->SetAutoScaleRatio(float4{ Value, 1.0f });
+	C_Bar->SetAutoScaleRatio(float4{ FullRatio , 1.0f });
 	C_Bar->Transform.SetLocalPosition(LBarScale.X);
-	R_Bar->Transform.SetLocalPosition(CBarScale.X * Value + LBarScale.X);
+	R_Bar->Transform.SetLocalPosition(RenderTotalGauge + LBarScale.X);
 
 }
 
+// 풀피 기준 1.0f
 void UIUnit::SetGauge(float _Value)
 {
 	if (nullptr == GaugeBar)
@@ -155,8 +151,11 @@ void UIUnit::SetGauge(float _Value)
 		return;
 	}
 
+	const float TotalRatio = RenderTotalGauge / PixelGauge;
+	const float RenderGaugeRatio = _Value * TotalRatio;
+
 	GaugeBar->AutoSpriteSizeOn();
-	GaugeBar->SetAutoScaleRatio(float4(_Value * 5.4f / 100.0f, 1.0f));
+	GaugeBar->SetAutoScaleRatio(float4(RenderGaugeRatio, 1.0f));
 }
 
 void UIUnit::Reset()
