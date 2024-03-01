@@ -195,7 +195,7 @@ private:
 
 	int Dummy_RefIndex = -1;
 	int Dummy_ParentIndex = -1;
-	float4 DummyR0t = float4::ZERO;	
+	float4 DummyS = float4::ZERO;	
 
 };
 

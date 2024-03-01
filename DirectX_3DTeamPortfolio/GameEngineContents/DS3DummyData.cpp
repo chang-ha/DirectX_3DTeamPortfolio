@@ -1,8 +1,9 @@
-#include "PreCompile.h"
+#include "PreCompile.h" 
 #include "DS3DummyData.h"
 
+#include "GameEngineCore/GameEngineFBXMesh.h"
+
 #include "BaseActor.h"
-#include <algorithm>
 
 DS3DummyData::DS3DummyData() 
 {
@@ -223,8 +224,60 @@ void DS3DummyData::Interpret(std::string_view _Data)
 	NewData.ParentBoneIndex = InterpretType<int>(_Data, "ParentBoneIndex");
 	NewData.AttachBoneIndex = InterpretType<int>(_Data, "AttachBoneIndex");
 	NewData.Flag1 = InterpretType<bool>(_Data, "Flag1");
+
+	SetLocalMatrix(NewData);
 	
 	CreateData(NewData);
+}
+
+void DS3DummyData::SetLocalMatrix(DummyData& _DummyPolyData)
+{
+	std::string Name = std::string(GetName().data()) + ".fbx";
+	const std::shared_ptr<GameEngineFBXMesh>& Mesh = GameEngineFBXMesh::Find(Name);
+	if (nullptr == Mesh)
+	{
+		MsgBoxAssert("메쉬 데이터를 로드하지 않고 사용할 수 없는 기능입니다.");
+		return;
+	}
+
+	float4 WorldPos = _DummyPolyData.Position;
+	float4 WorldForward = _DummyPolyData.Forward;
+	float4 WorldUpward = _DummyPolyData.Upward;
+	int AttachIndex = _DummyPolyData.AttachBoneIndex;
+
+	float4 DPStartPos = float4::ZERO;
+	float4 DPStartRot = float4::ZERONULL;
+	if (-1 != AttachIndex)
+	{
+		const JointPos& MeshJointData = Mesh->FindBoneToIndex(AttachIndex)->BonePos;
+		DPStartPos = MeshJointData.GlobalTranslation;
+		DPStartRot = MeshJointData.GlobalRotation;
+	}
+
+	float4x4 GlobalDummyPolyMatrix = DirectX::XMMatrixLookAtLH(WorldPos.DirectXVector, (WorldPos + WorldForward).DirectXVector, WorldUpward.DirectXVector);
+	float4 WDPS;
+	float4 WDPQ;
+	float4 WDPT;
+	GlobalDummyPolyMatrix.Decompose(WDPS, WDPQ, WDPT);
+
+	float4 mDPS = float4::ONE;
+	float4 mDPQ = DPStartRot * DirectX::XMQuaternionInverse(WDPQ.DirectXVector);
+	float4 mDPT = -(DPStartPos + WDPT);
+	float4 RmDPT = mDPT;
+	RmDPT.Z *= -1.0f;
+	RmDPT = RmDPT.VectorRotationToDegZReturn(-90.0f);
+
+	float4x4 mDPMat;
+	float4x4 RmDPMat;
+	float4x4 mAffine;
+	mDPMat.Compose(mDPS, mDPQ, mDPT);
+	RmDPMat.Compose(mDPS, mDPQ, RmDPT);
+	_DummyPolyData.Offset = mDPT;
+	_DummyPolyData.Quaternion = WDPQ;
+	_DummyPolyData.Local = mDPMat;
+	_DummyPolyData.Local_ReversePos = RmDPMat;
+	_DummyPolyData.Local_NotPos = mAffine.Affine(mDPS, mDPQ, mDPT);
+
 }
 
 void DS3DummyData::CreateData(const DummyData& _Data)

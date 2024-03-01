@@ -239,7 +239,6 @@ void ContentResources::ContentResourcesInit()
 
 	BaseActor::LoadEvent(static_cast<int>(Enum_ActorType::LothricKn));
 	BaseActor::LoadEvent(static_cast<int>(Enum_ActorType::Boss_Vordt));
-	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::LothricKn));
 
 	{
 		GameEngineDirectory Dir;

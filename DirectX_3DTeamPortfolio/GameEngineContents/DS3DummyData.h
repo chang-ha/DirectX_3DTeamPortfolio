@@ -15,6 +15,11 @@ public:
 		_File << ParentBoneIndex;
 		_File << AttachBoneIndex;
 		_File << Flag1;
+		_File << Offset;
+		_File << Quaternion;
+		_File << Local;
+		_File << Local_ReversePos;
+		_File << Local_NotPos;
 	}
 
 	void Read(class GameEngineSerializer& _File) override
@@ -26,12 +31,23 @@ public:
 		_File >> ParentBoneIndex;
 		_File >> AttachBoneIndex;
 		_File >> Flag1;
+		_File >> Offset;
+		_File >> Quaternion;
+		_File >> Local;
+		_File >> Local_ReversePos;
+		_File >> Local_NotPos;
+
 	}
 
 public:
 	float4 Position;
 	float4 Forward;
 	float4 Upward;
+	float4 Offset;
+	float4 Quaternion;
+	float4x4 Local;
+	float4x4 Local_ReversePos;
+	float4x4 Local_NotPos;
 	int ReferenceID = -1;
 	int ParentBoneIndex = -1;
 	int AttachBoneIndex = -1;
@@ -39,7 +55,12 @@ public:
 
 };
 
-// 설명 :
+// 설명 : 다크소울3에서 특정 뼈를 기준으로 로컬 행렬 변환을 적용받는 기준점입니다.
+//			DummyData를 로드하기 전에 필수로 Mesh를 로드해야 사용이 가능합니다.
+//		 - 리소스 확장자 명 : .flver.dummyData.json
+//		 - 리소스 위치 : ContentsResources/Mesh/(CharacterID)
+//		 - 필요한 리소스 파일명 : (CharacterID).MeshFBX
+//		 - 생성되는 파일 : (CharacterID).DummyData
 class DS3DummyData : public GameEngineResources<DS3DummyData>
 {
 	enum class eInterpretation
@@ -82,6 +103,8 @@ protected:
 	void Init(std::string_view _Path);
 	void DummyInit(std::string_view _Path);
 	void Interpret(std::string_view _Data);
+
+	void SetLocalMatrix(DummyData& _DummyPolyData);
 
 	void CreateData(const DummyData& _Data);
 	void AllDataWrite(class GameEngineSerializer& _Ser);

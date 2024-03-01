@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "Monster_LothricKn.h"
 
+#include "DS3DummyData.h"
+
 #include "BoneSocketCollision.h"
 #include "ContentsMath.h"
 
@@ -257,6 +259,9 @@ void Monster_LothricKn::Start()
 	MainRenderer->SetRootMotion("B_Stab_Death");
 	MainRenderer->SetRootMotion("F_Stab");
 	MainRenderer->SetRootMotion("F_Stab_Death");
+
+	// DummyData
+	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::LothricKn));
 
 	// Mask
 	MaskReset();

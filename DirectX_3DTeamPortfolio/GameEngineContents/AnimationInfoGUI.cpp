@@ -393,43 +393,6 @@ void AnimationInfoGUI::DummyEditor()
 			if (nullptr != SelectDPData)
 			{
 				int AttachIndex = SelectDPData->AttachBoneIndex;
-				const float4 DummyPos = SelectDPData->Position;
-				const float4 DummyF = SelectDPData->Forward;
-				const float4 DummyU = SelectDPData->Upward;
-
-				float4 DPStartPos = float4::ZERO;
-				float4 DPStartRot = float4::ZERO;
-				if (-1 != AttachIndex)
-				{
-					const JointPos& StaticBoneData = pRenderer->GetFBXMesh()->FindBoneToIndex(AttachIndex)->BonePos;
-					DPStartPos = StaticBoneData.GlobalTranslation;
-					DPStartRot = StaticBoneData.GlobalRotation;
-				}
-
-				ImGui::SliderFloat3("Dummy Rot", &DummyR0t.X, 0.0f, 360.0f, "%.f");
-
-				float4x4 GlobalDummyPolyMatrix = DirectX::XMMatrixLookAtLH(DummyPos.DirectXVector, (DummyPos + DummyF).DirectXVector, DummyU.DirectXVector);
-				float4 DPS;
-				float4 DPQ;
-				float4 DPT;
-				GlobalDummyPolyMatrix.Decompose(DPS, DPQ, DPT);
-				float4 DPRot = DPQ.QuaternionToEulerDeg();
-
-				float4 mDPS = float4::ONE;
-				float4 mDPQ = DPStartRot * DirectX::XMQuaternionInverse(DPQ.DirectXVector);
-				float4 mDPT = -(DPStartPos + DPT);
-				static bool RotCheck = false;
-				ImGui::Checkbox("DummyPoly Rot Reverse",&RotCheck);
-				if (RotCheck)
-				{
-					mDPT.Z *= -1.0f;
-					mDPT = mDPT.VectorRotationToDegZReturn(-90.0f);
-				}
-
-				float4 Result = mDPQ.QuaternionToEulerDeg();
-
-				float4x4 mDPMat;
-				mDPMat.Compose(mDPS, mDPQ, mDPT);
 
 				std::vector<float4x4>& BoneMats = pRenderer->GetBoneSockets();
 				float4x4 WorldMatrix = pRenderer->Transform.GetConstTransformDataRef().WorldMatrix;
@@ -437,15 +400,30 @@ void AnimationInfoGUI::DummyEditor()
 
 				const float4 BoneWPos = float4::ZERO * BoneMatrix * WorldMatrix;
 
-				float4x4 FinMat = mDPMat* BoneMatrix* WorldMatrix;
+				float4x4 FinDpMat;
+
+				static bool ReverseCheck = false;
+				ImGui::Checkbox("DummyPoly Pos Reverse",&ReverseCheck);
+				if (ReverseCheck)
+				{
+					FinDpMat = SelectDPData->Local_ReversePos;
+				}
+				else
+				{
+					FinDpMat = SelectDPData->Local;
+				}
+
+				float4x4 FinMat = FinDpMat * BoneMatrix* WorldMatrix;
 				float4 WS;
 				float4 WQ;
 				float4 WT;
 				FinMat.Decompose(WS, WQ, WT);
 				float4 WDeg = WQ.QuaternionToEulerDeg();
 
+				ImGui::SliderFloat3("Dummy Poly Scale", &DummyS.X, 1.0f, 300.0f, "%.f");
+
 				ContentsDebug::DistanceCheck(BoneWPos, 5.0f, float4(1.f, 0.f, 0.25f));
-				GameEngineDebug::DrawBox3D(WS, WDeg, WT, float4(0.25f, 1.f, 0.75f));
+				GameEngineDebug::DrawBox3D(DummyS, WDeg, WT, float4(0.25f, 1.f, 0.75f));
 				GameEngineDebug::DrawBox3D(float4::ONE, WDeg, WT, float4(0.25f, 1.f, 0.75f));
 			}
 		}
