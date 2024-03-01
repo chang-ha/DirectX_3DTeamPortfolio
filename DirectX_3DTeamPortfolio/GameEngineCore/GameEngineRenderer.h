@@ -135,6 +135,9 @@ protected:
 
 	std::vector<std::shared_ptr<GameEngineRenderUnit>> Units;
 
+	//랜더 유닛 생성시 랜더패스 기본값
+	RenderPath DefalutRenderPathValue = RenderPath::None;
+
 
 private:
 	class GameEngineCamera* Camera = nullptr;

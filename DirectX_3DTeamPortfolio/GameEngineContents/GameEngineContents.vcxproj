@@ -206,6 +206,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="CameraCapsule.cpp" />
     <ClCompile Include="CollisionUpdateFrameEvent.cpp">
       <SubType>
       </SubType>
@@ -247,7 +248,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="DamageRenderer.cpp">
+    <ClCompile Include="DS3DummyData.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -255,10 +256,16 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="DummyPath.cpp">
+    <ClCompile Include="DummyGUI.cpp">
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="DummyProjectile.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="FogGUI.cpp" />
+    <ClCompile Include="HitInteraction.cpp" />
     <ClCompile Include="LUTEffect.cpp">
       <SubType>
       </SubType>
@@ -268,6 +275,11 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="MainUIActor.cpp" />
+    <ClCompile Include="MonsterInfoGUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Monster_HitInteraction.cpp" />
     <ClCompile Include="Monster_HollowSoldier_Crossbow.cpp">
       <SubType>
       </SubType>
@@ -285,6 +297,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PlayerValue.cpp" />
+    <ClCompile Include="Stage_Lothric.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="SwitchFlagFrameEvent.cpp">
       <SubType>
       </SubType>
@@ -365,6 +381,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TestLevel_Map.cpp" />
+    <ClCompile Include="TestLevel_MapObject.cpp" />
     <ClCompile Include="TestLevel_Monster.cpp">
       <SubType>
       </SubType>
@@ -378,6 +395,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TestMap.cpp" />
+    <ClCompile Include="TestMapObject.cpp" />
     <ClCompile Include="TestObject.cpp">
       <SubType>
       </SubType>
@@ -409,6 +427,7 @@
     </ClCompile>
     <ClCompile Include="UIPlayerGaugeBar.cpp" />
     <ClCompile Include="UIUnit.cpp" />
+    <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WorldMap.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -446,10 +465,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="BossHpBar.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
+    <ClInclude Include="CameraCapsule.h" />
     <ClInclude Include="CollisionUpdateFrameEvent.h">
       <SubType>
       </SubType>
@@ -492,7 +508,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="DamageRenderer.h">
+    <ClInclude Include="DS3DummyData.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -500,7 +516,19 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="DummyPath.h">
+    <ClInclude Include="DummyGUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DummyProjectile.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="HitInteraction.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Monster_HitInteraction.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -513,6 +541,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MainUIActor.h" />
+    <ClInclude Include="MonsterInfoGUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Monster_HollowSoldier_Crossbow.h">
       <SubType>
       </SubType>
@@ -530,6 +562,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="PlayerValue.h" />
+    <ClInclude Include="Stage_Lothric.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="SwitchFlagFrameEvent.h">
       <SubType>
       </SubType>
@@ -607,6 +643,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TestLevel_Map.h" />
+    <ClInclude Include="TestLevel_MapObject.h" />
     <ClInclude Include="TestLevel_Monster.h">
       <SubType>
       </SubType>
@@ -620,6 +657,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TestMap.h" />
+    <ClInclude Include="TestMapObjcet.h" />
     <ClInclude Include="TestObject.h">
       <SubType>
       </SubType>
@@ -651,6 +689,7 @@
     </ClInclude>
     <ClInclude Include="UIPlayerGaugeBar.h" />
     <ClInclude Include="UIUnit.h" />
+    <ClInclude Include="Weapon.h" />
     <ClInclude Include="WorldMap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

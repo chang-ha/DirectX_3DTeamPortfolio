@@ -19,6 +19,8 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 
+	void SetSoundCol(const float4& _Pos, const float4& _Scale);
+
 private:
 	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer;
 
@@ -31,6 +33,7 @@ private:
 	std::shared_ptr<GameContentsFBXRenderer> SkyRenderer;
 	std::shared_ptr<GameContentsFBXRenderer> BackGroundRenderer;
 
+	std::shared_ptr<GameEngineCollision>SoundCol;
 
 
 	//// ∏ µ•¿Ã≈Õ

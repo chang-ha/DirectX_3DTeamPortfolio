@@ -5,8 +5,8 @@
 
 GameEngineLight::GameEngineLight() 
 {
-	LightDataValue.ShadowTargetSizeX = 4096;
-	LightDataValue.ShadowTargetSizeY = 4096;
+	LightDataValue.ShadowTargetSizeX = 1024;
+	LightDataValue.ShadowTargetSizeY = 1024;
 	LightDataValue.LightNear = 0.1f;
 	LightDataValue.LightFar = 2000.0f;
 }
@@ -28,7 +28,7 @@ void GameEngineLight::Start()
 	ShadowTarget = GameEngineRenderTarget::Create();
 	ShadowTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, { LightDataValue.ShadowTargetSizeX, LightDataValue.ShadowTargetSizeY }, float4::RED);
 	// 자신만의 깊이버퍼를 가져야 한다.
-	ShadowTarget->CreateDepthTexture();
+	//ShadowTarget->CreateDepthTexture();
 }
 
 

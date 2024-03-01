@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "ContentsControlWindow.h"
 #include "Player.h"
-
+#include "Weapon.h"
 void TestTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
 	
@@ -93,6 +93,35 @@ void LevelChangeTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	std::string Frame = std::to_string(1.0f / GameEngineCore::MainTime.GetDeltaTime());
 
 	ImGui::Text(Frame.c_str());
+
+	static std::string FrameSelect = "Off";
+	static int FrameCount = 0;
+	static float FrameSecond = 0.0f;
+	static int FrameResult = 0;
+
+
+	FrameSecond += GameEngineCore::MainTime.GetDeltaTime();
+	FrameCount++;
+
+	
+
+
+	if (ImGui::Button("FrameCatch"))
+	{
+		FrameSelect = Frame;
+	}
+	ImGui::Text(FrameSelect.c_str());
+
+	if (FrameSecond >= 1.0f)
+	{
+		FrameResult = FrameCount;
+		FrameCount = 0;
+		FrameSecond = 0.0f;
+	}
+
+	std::string Frame2 = "Average Frame: " + std::to_string(FrameResult);
+
+	ImGui::Text(Frame2.c_str());
 }
 
 
@@ -195,13 +224,13 @@ void TestTabB::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	ImGui::InputInt("SPos", &BoneIndex);
 	Player::Main_Player->Bone_index_01 = BoneIndex;
 
-	float4 Pos = Player::Main_Player->Weapon->Transform.GetLocalPosition();
+	float4 Pos = Player::Main_Player->GetWeapon()->Transform.GetLocalPosition();
 	ImGui::DragFloat4("SPos", Pos.Arr1D);
 
-	float4 Rot = Player::Main_Player->Weapon->Transform.GetLocalRotationEuler();
+	float4 Rot = Player::Main_Player->GetWeapon()->Transform.GetLocalRotationEuler();
 	ImGui::DragFloat4("SRot", Rot.Arr1D);
 
-	Player::Main_Player->Weapon->Transform.SetLocalPosition(Pos);
-	Player::Main_Player->Weapon->Transform.SetLocalRotation(Rot);
+	Player::Main_Player->GetWeapon()->Transform.SetLocalPosition(Pos);
+	Player::Main_Player->GetWeapon()->Transform.SetLocalRotation(Rot);
 
 }

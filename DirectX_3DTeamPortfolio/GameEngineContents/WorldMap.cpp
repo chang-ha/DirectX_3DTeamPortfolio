@@ -13,23 +13,45 @@ WorldMap::~WorldMap()
 
 void WorldMap::Start()
 {
+
+
+	//// Sound
 	{
+		GameEngineDirectory Dir;
+		Dir.SetCurrentPath();
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources\\Sound\\m30");
+		std::vector<GameEngineFile> AllFile = Dir.GetAllFile();
+
+		for (int i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineSound::Sound3DLoad(AllFile[i].GetStringPath());
+			GameEngineSound::SoundLoad(AllFile[i].GetStringPath());
+		}
+	}
+
+	{
+		physx::PxFilterData FilterData;
+		FilterData.word0 = static_cast<int>(Enum_CollisionOrder::Map);
+		FilterData.word1 = static_cast<int>(Enum_CollisionOrder::Camera);
+
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
 		FBXRenderer->SetMapFBXMesh("World1.FBX", "FBX_Static");
-
+		 
 		TriMesh = CreateComponent<GameEnginePhysXTriMesh>();
 		TriMesh->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.0f });
-		TriMesh->PhysXComponentInit("World1.FBX0");
+		TriMesh->PhysXComponentInit("World1.FBX0", &FilterData);
 
 		FBXRenderer2 = CreateComponent<GameContentsFBXRenderer>();
 		FBXRenderer2->SetMapFBXMesh("World2.FBX", "FBX_Static");
-
+		
 		TriMesh2 = CreateComponent<GameEnginePhysXTriMesh>();
 		TriMesh2->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.0f });
-		TriMesh2->PhysXComponentInit("World2.FBX0");
+		TriMesh2->PhysXComponentInit("World2.FBX0" , &FilterData);
 
 		SkyRenderer = CreateComponent<GameContentsFBXRenderer>();
-		SkyRenderer->SetFBXMesh("WorldSky.FBX", "FBX_Static");
+		SkyRenderer->SetFBXMesh("WorldSky.FBX", "FBX_Static_Alpha", RenderPath::Alpha);
+		//SkyRenderer->RenderBaseInfoValue.TEXCOORDMult = 1.0f;
 
 		BackGroundRenderer = CreateComponent<GameContentsFBXRenderer>();
 		BackGroundRenderer->SetMapFBXMesh("BackGround.FBX", "FBX_Static");
@@ -38,6 +60,37 @@ void WorldMap::Start()
 
 		//MapDatas = MapMesh->GetMapDatas();
 	}
+
+	// BGM
+	GameEngineSound::SoundPlay("fdp_m30#148 (s960099990).wav", 100);
+
+	{
+		// WindSound 1备开
+		SetSoundCol(float4{ -6715.0f, 4840.0f, 572.0f }, float4{ 50.0f,4000.0f });
+		GameEngineSound::Sound3DPlay("fdp_m30#145 (s300220000).wav", SoundCol->Transform.GetWorldPosition(), 1.0f, 100, 50.0f, 4000.0f);
+	}
+
+	{
+		// WindSound 2备开
+		SetSoundCol(float4{ -11643.0f, 5000.0f, 505.0f }, float4{ 50.0f,4000.0f });
+		GameEngineSound::Sound3DPlay("fdp_m30#146 (s300220000b).wav", SoundCol->Transform.GetWorldPosition(), 1.0f, 100, 50.0f, 4000.0f);
+	}
+
+	{
+		// WindSound 3备开
+		SetSoundCol(float4{ -8460.0f, 500.0f, 1639.0f }, float4{ 50.0f,2000.0f });
+		GameEngineSound::Sound3DPlay("fdp_m30#146 (s300220000b).wav", SoundCol->Transform.GetWorldPosition(), 1.0f, 100, 50.0f, 2000.0f);
+	}
+
+	{
+		// WindSound 4备开
+		SetSoundCol(float4{ -7272.0f, 3610.0f, 8713.0f }, float4{ 50.0f,4000.0f });
+		GameEngineSound::Sound3DPlay("fdp_m30#145 (s300220000).wav", SoundCol->Transform.GetWorldPosition(), 1.0f, 100, 50.0f, 4000.0f);
+	}
+	
+	//GameEngineSound::Sound3DPlay("1-06 Vordt Of The Boreal Valley.mp3", float4::ZERO, 1.0f, 10);
+
+
 
 	//Transdate.resize(MapDatas.size());
 	//for (size_t i = 0; i < MapDatas.size(); i++)
@@ -83,4 +136,11 @@ void WorldMap::Update(float _Delta)
 	//	}
 	//}
 
+}
+
+void WorldMap::SetSoundCol(const float4& _Pos, const float4& _Scale)
+{
+	SoundCol = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Sound);
+	SoundCol->Transform.SetWorldPosition(_Pos);
+	SoundCol->Transform.SetLocalScale(_Scale);
 }

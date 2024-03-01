@@ -190,7 +190,7 @@ void GameEngineRenderUnit::SetMaterial(std::string_view _Name)
 }
 
 
-void GameEngineRenderUnit::Camerapushback()
+void GameEngineRenderUnit::Camerapushback(RenderPath _RenderPath)
 {
 	
 	//분리
@@ -201,20 +201,26 @@ void GameEngineRenderUnit::Camerapushback()
 
 		std::shared_ptr<GameEngineRenderUnit> Unit = shared_from_this();
 
-		if (false == Material->GetPixelShader()->IsDeferred())
+		if (_RenderPath == RenderPath::None)
 		{
-			Path = RenderPath::Forward;
-			Camera->Units[RenderPath::Forward][Unit->GetOrder()].push_back(Unit);
+			//기본 세팅
+			if (false == Material->GetPixelShader()->IsDeferred())
+			{
+				Path = RenderPath::Forward;
+				Camera->Units[RenderPath::Forward][Unit->GetOrder()].push_back(Unit);
+			}
+			else
+			{
+				Path = RenderPath::Deferred;
+				Camera->Units[RenderPath::Deferred][Unit->GetOrder()].push_back(Unit);
+			}
 		}
 		else
 		{
-			Path = RenderPath::Deferred;
-			Camera->Units[RenderPath::Deferred][Unit->GetOrder()].push_back(Unit);
+			// 강제
+			Path = _RenderPath;
+			Camera->Units[_RenderPath][Unit->GetOrder()].push_back(Unit);
 		}
-
-
-
-		// int CameraOrder = ParentRenderer->
 	}
 }
 

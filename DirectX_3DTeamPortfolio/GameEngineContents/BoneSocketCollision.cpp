@@ -18,13 +18,24 @@ void BoneSocketCollision::Update(float _DeltaTime)
 {
 	GameEngineCollision::Update(_DeltaTime);
 
-	if (nullptr != pSocket)
+	if (nullptr != pSocket 
+		&& nullptr != pTransform)
 	{
-		Transform.SetLocalMatrix(*pSocket);
+		const float4x4& wMat = pTransform->GetWorldMatrix();
+		const float4x4 Mat = (*pSocket)* wMat;
+		float4 WScale;
+		float4 WRot;
+		float4 WPos;
+		Mat.Decompose(WScale, WRot, WPos);
+		Transform.SetWorldRotation(WRot);
+		Transform.SetWorldPosition(WPos);
 	}
 }
 
 void BoneSocketCollision::Release()
 {
 	GameEngineCollision::Release();
+
+	pTransform = nullptr;
+	pSocket = nullptr;
 }

@@ -14,7 +14,12 @@ public:
 	GameEnginePhysXTriMesh& operator=(const GameEnginePhysXTriMesh& _Other) = delete;
 	GameEnginePhysXTriMesh& operator=(GameEnginePhysXTriMesh&& _Other) noexcept = delete;
 
-	void PhysXComponentInit(std::string_view _MeshName, const physx::PxMaterial* _Material = GameEnginePhysX::GetDefaultMaterial());
+	void PhysXComponentInit(std::string_view _MeshName, const physx::PxMaterial* _Material = GameEnginePhysX::GetDefaultMaterial())
+	{
+		PhysXComponentInit(_MeshName, nullptr, _Material);
+	}
+
+	void PhysXComponentInit(std::string_view _MeshName, physx::PxFilterData* _FilterData, const physx::PxMaterial* _Material = GameEnginePhysX::GetDefaultMaterial());
 
 protected:
 	void Start() override;
@@ -25,6 +30,5 @@ private:
 	void PhysXDeserialization();
 
 	GameEnginePath MeshPath = {};
-	physx::PxRigidStatic* StaticActor = nullptr;
 };
 

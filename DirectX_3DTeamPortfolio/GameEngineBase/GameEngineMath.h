@@ -379,6 +379,11 @@ public:
 		//	Z == _Value.Z;
 	}
 
+	float4 operator!()
+	{
+		return DirectX::XMVectorNegate(DirectXVector);
+	}
+
 	inline void Normalize()
 	{
 		// 길이를 1로 만드는 함수입니다.

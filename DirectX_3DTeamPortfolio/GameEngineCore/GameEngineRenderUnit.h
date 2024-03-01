@@ -48,7 +48,7 @@ public:
 
 	void SetMesh(std::shared_ptr<class GameEngineMesh> _Mesh);
 	void SetMaterial(std::shared_ptr<class GameEngineMaterial> _Material);
-	void Camerapushback();
+	void Camerapushback(RenderPath _RenderPath);
 
 	void ResSetting();
 	void ResReset();

@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "ContentsMath.h"
 
+#include "ContentsDebug.h"
+
 int ContentsRandom::Seed = 0;
 int ContentsRandom::RandomInt(int _iMin, int _iMax)
 {
@@ -66,6 +68,49 @@ float ContentsMath::GetDegreeToVec2(const float4& _Vec)
 float4 ContentsMath::GetVector3Length(const float4& _V)
 {
 	return DirectX::XMVector3Length(_V.DirectXVector);
+}
+
+Enum_DirectionXZ_Quat ContentsMath::ReturnXZDirectionToVector(const float4& _V)
+{
+	float4 DirVector = _V;
+	DirVector.Y = 0.0f;
+	DirVector.Normalize();
+	const float DotResult = float4::DotProduct3D(float4::FORWARD, DirVector);
+	const float Quater = CIRCLE * 0.25f;
+	const float Eighth = CIRCLE * 0.125f;
+	float Angle = (DotResult + 1.0f) * Quater;
+
+	if (DirVector.X > 0.0f)
+	{
+		Angle = CIRCLE - Angle;
+	}
+
+	if (Angle <= Eighth || Angle > Eighth * 7.0f)
+	{
+		return Enum_DirectionXZ_Quat::F;
+	}
+
+	int i = 1;
+	float CheckAngle = Eighth;
+
+	for (; i < 4; i++)
+	{
+		CheckAngle += Eighth * 2.0f;
+		if (Angle < CheckAngle)
+		{
+			break;
+		}
+	}
+
+	Enum_DirectionXZ_Quat ReturnValue = static_cast<Enum_DirectionXZ_Quat>(i);
+
+	if (false)
+	{
+		ContentsDebug::DebugOuput(DotResult, "DotResult");
+		ContentsDebug::DebugOuput(Angle, "Angle");
+		ContentsDebug::DebugOuput(i, "eDir");
+	}
+	return ReturnValue;
 }
 
 float ContentsMath::ClampDeg(float _D)

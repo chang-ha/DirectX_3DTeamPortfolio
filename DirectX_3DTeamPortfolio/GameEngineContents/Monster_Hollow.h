@@ -65,9 +65,19 @@ protected:
 	//void MeshOnOffSwitch(Enum_Hollow_MeshIndex _Index);
 
 	void CreateAnimation();
-	//void SettingRootMotion();
+	void SettingRootMotion();
 
 private:
+
+protected:
+	std::shared_ptr<GameEngineCollision> RecognizeCollision;
+	std::shared_ptr<GameEngineCollision> AttackRangeCollision;
+
+	void FindTarget();
+	bool IsTargetInAngle(float _fAngle) const;
+	void RotToTarget(float _Delta);
+
+	int AttackPattern = 0;
 
 };
 

@@ -170,12 +170,27 @@ public:
 	
 	float4 GetScreenPos(GameEngineTransform& Transform);
 
+	//void PushFogEffect(class FogEffect* _FogEffect);
+
+	//
+	//FogEffect* GetFogEffect(int _Num = 0)
+	//{
+	//	if (_Num >= FogPostEffect.size())
+	//	{
+	//		return nullptr;
+	//	}
+
+	//	return FogPostEffect[_Num];
+	//}
+	//
+
 protected:
 	void Start() override;
 
 	void Update(float _Delta);
 
 	void Render(float _DeltaTime);
+	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 	void AllReleaseCheck() override;
 
@@ -232,6 +247,8 @@ private:
 
 	ShadowAniInfo ShadowAniInfoValue;
 	GameEngineRenderUnit ShadowRenderUnit;
+
+	//std::vector < class FogEffect*> FogPostEffect;
 
 	void CameraUpdate(float _DeltaTime);
 

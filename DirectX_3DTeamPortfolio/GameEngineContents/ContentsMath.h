@@ -1,5 +1,7 @@
 #pragma once
 
+#define CIRCLE 360.0f
+
 class ContentsRandom
 {
 public:
@@ -22,6 +24,18 @@ private:
 	static int Seed;
 };
 
+
+// XZ평면 방향 정의
+// 순서 : Z축으로 시계방향
+enum class Enum_DirectionXZ_Quat
+{
+	F = 0, // float4::FORWARD
+	R,
+	B,
+	L,
+	Center, // None 취급
+};
+
 // 설명 :
 class ContentsMath
 {
@@ -32,6 +46,10 @@ public:
 	static float ClampDeg(float _D);
 
 	static float4 GetVector3Length(const float4& _V);
+
+	static Enum_DirectionXZ_Quat ReturnXZDirectionToVector(const float4& _V);
+
+	static float4x4 SubMatrixToMatrix();
 
 protected:
 

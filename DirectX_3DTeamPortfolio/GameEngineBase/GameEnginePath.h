@@ -30,6 +30,7 @@ public:
 	std::string GetExtension();
 
 	std::string PlusFilePath(std::string_view _ChildPath);
+	void AppendPath(std::string_view _ChildPath);
 
 	std::string GetStringPath() 
 	{

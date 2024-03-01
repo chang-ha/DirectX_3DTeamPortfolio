@@ -22,19 +22,14 @@ void GameEnginePhysXTriMesh::Start()
 
 void GameEnginePhysXTriMesh::Update(float _Delta)
 {
-	
+
 }
 
 void GameEnginePhysXTriMesh::Release()
 {
-	if (nullptr != StaticActor)
-	{
-		StaticActor->release();
-		StaticActor = nullptr;
-	}
 }
 
-void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, const physx::PxMaterial* _Material /*= GameEnginePhysX::GetDefaultMaterial()*/)
+void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, physx::PxFilterData* _FilterData /*= nullptr*/, const physx::PxMaterial* _Material /*= GameEnginePhysX::GetDefaultMaterial()*/)
 {
 	GameEnginePath FilePath = GameEnginePath(_MeshName);
 	FilePath.ChangeExtension("PhysXTriMesh");
@@ -68,7 +63,7 @@ void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, cons
 	physx::PxVec3 Pos = { WolrdPos.X, WolrdPos.Y , WolrdPos.Z };
 	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
 	physx::PxTransform PxTransform(Pos, Quat);
-	StaticActor = GameEnginePhysX::GetPhysics()->createRigidStatic(PxTransform);
+	ComponentActor = GameEnginePhysX::GetPhysics()->createRigidStatic(PxTransform);
 
 	for (int i = 0; i < RenderUnitInfos.size(); i++)
 	{
@@ -103,9 +98,12 @@ void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, cons
 				physx::PxDefaultMemoryInputData ReadBuffer(WriteBuffer.getData(), WriteBuffer.getSize());
 				physx::PxTriangleMesh* TriMesh = GameEnginePhysX::GetPhysics()->createTriangleMesh(ReadBuffer);
 				physx::PxTriangleMeshGeometry Geom(TriMesh);
-				physx::PxShape* TriMeshShape = GameEnginePhysX::GetPhysics()->createShape(Geom, *_Material);
-
-				StaticActor->attachShape(*TriMeshShape);
+				physx::PxShape* TriMeshShape = GameEnginePhysX::GetPhysics()->createShape(Geom, *_Material, true);
+				if (nullptr != _FilterData)
+				{
+					TriMeshShape->setSimulationFilterData(*_FilterData);
+				}
+				ComponentActor->attachShape(*TriMeshShape);
 			}
 			else
 			{
@@ -120,7 +118,7 @@ void GameEnginePhysXTriMesh::PhysXComponentInit(std::string_view _MeshName, cons
 		}
 	}
 
-	Scene->addActor(*StaticActor);
+	Scene->addActor(*ComponentActor);
 	PhysXSerialization();
 }
 
@@ -132,7 +130,7 @@ void GameEnginePhysXTriMesh::PhysXSerialization()
 
 	// Create a collection and all objects for serialization
 	physx::PxCollection* Collection = PxCreateCollection();
-	Collection->add(*StaticActor, OBJECT_ID);
+	Collection->add(*ComponentActor, OBJECT_ID);
 	physx::PxSerialization::complete(*Collection, *Registry);
 
 	// Serialize either to binary or RepX
@@ -154,26 +152,35 @@ void GameEnginePhysXTriMesh::PhysXDeserialization()
 
 	// Binary
 	// Open file and get file size
-	 FILE* File;
-	 errno_t Error = fopen_s(&File, MeshPath.GetStringPath().c_str(), "rb");
-	 
-	 if (Error != 0)
-	 {
-	 	MsgBoxAssert("파일 오픈에 문제가 있었습니다. 에러코드 : " + std::to_string(Error));
-	 }
-	 fseek(File, 0, SEEK_END);
-	 unsigned fileSize = ftell(File);
-	 fseek(File, 0, SEEK_SET);
-	
-	 // Allocate aligned memory, load data and deserialize
-	 void* Data = malloc(fileSize + PX_SERIAL_FILE_ALIGN);
-	 GameEnginePhysXLevel::AllData.push_back(Data);
-	 void* Data128 = (void*)((size_t(Data) + PX_SERIAL_FILE_ALIGN) & ~(PX_SERIAL_FILE_ALIGN - 1));
-	 fread(Data128, 1, fileSize, File);
-	 fclose(File);
-	 physx::PxCollection* Collection = physx::PxSerialization::createCollectionFromBinary(Data128, *Registry);
-	 physx::PxBase* Base = Collection->find(OBJECT_ID);
-	 StaticActor = Base->is<physx::PxRigidStatic>();
+	FILE* File;
+	errno_t Error = fopen_s(&File, MeshPath.GetStringPath().c_str(), "rb");
+
+	if (Error != 0)
+	{
+		MsgBoxAssert("파일 오픈에 문제가 있었습니다. 에러코드 : " + std::to_string(Error));
+	}
+	fseek(File, 0, SEEK_END);
+	unsigned fileSize = ftell(File);
+	fseek(File, 0, SEEK_SET);
+
+	// Allocate aligned memory, load data and deserialize
+	void* Data = malloc(fileSize + PX_SERIAL_FILE_ALIGN);
+	GameEnginePhysXLevel::AllData.push_back(Data);
+	void* Data128 = (void*)((size_t(Data) + PX_SERIAL_FILE_ALIGN) & ~(PX_SERIAL_FILE_ALIGN - 1));
+	fread(Data128, 1, fileSize, File);
+	fclose(File);
+	physx::PxCollection* Collection = physx::PxSerialization::createCollectionFromBinary(Data128, *Registry);
+	physx::PxBase* Base = Collection->find(OBJECT_ID);
+	ComponentActor = Base->is<physx::PxRigidStatic>();
+	Collection->remove(*ComponentActor);
+
+	physx::PxU32 ShapeCount = ComponentActor->getNbShapes();
+
+	physx::PxU32 CollectionCount = Collection->getNbObjects();
+	if (0 >= CollectionCount)
+	{
+		MsgBoxAssert("역직렬화할 객체가 존재하지 않는 파일입니다.");
+	}
 
 	float4 WolrdPos = Transform.GetWorldPosition();
 	float4 WorldQuat = Transform.GetWorldRotationEuler().EulerDegToQuaternion();
@@ -182,9 +189,9 @@ void GameEnginePhysXTriMesh::PhysXDeserialization()
 	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
 	physx::PxTransform PxTransform(Pos, Quat);
 
-	StaticActor->setGlobalPose(PxTransform);
+	ComponentActor->setGlobalPose(PxTransform);
 
-	Scene->addCollection(*Collection);
+	Scene->addActor(*ComponentActor);
 	Collection->release();
 	Registry->release();
 }

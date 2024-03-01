@@ -1,10 +1,9 @@
 #include "PreCompile.h"
 #include "BaseActor.h"
 
-#include "ContentsMath.h"
-
 #include "FrameEventHelper.h"
 #include "BoneSocketCollision.h"
+#include "ContentsDebug.h"
 
 
 class ContentsActorInitial
@@ -26,16 +25,21 @@ private:
 
 void ContentsActorInitial::Init()
 {
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorStatus::HitValue, Enum_ActorFlag::HitValue));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorStatus::GaurdingValue, Enum_ActorFlag::GaurdingValue));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorStatus::DeathValue, Enum_ActorFlag::DeathValue));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorStatus::JumpPossible, Enum_ActorFlag::JumpPossible));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorStatus::ParryPossible, Enum_ActorFlag::ParryPossible));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Wake, Enum_ActorFlagBit::Wake));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Death, Enum_ActorFlagBit::Death));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Parrying, Enum_ActorFlagBit::Parrying));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Guarding, Enum_ActorFlagBit::Guarding));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Hit, Enum_ActorFlagBit::Hit));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::HyperArmor, Enum_ActorFlagBit::HyperArmor));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Block_Shield, Enum_ActorFlagBit::Block_Shield));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Guard_Break, Enum_ActorFlagBit::Guard_Break));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Break_Posture, Enum_ActorFlagBit::Break_Posture));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::TwoHand, Enum_ActorFlagBit::TwoHand));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::FrontStab, Enum_ActorFlagBit::FrontStab));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::BackStab, Enum_ActorFlagBit::BackStab));
 }
 
-
-
-std::unordered_map<Enum_ActorStatus, Enum_ActorFlag> BaseActor::FlagIndex;
+std::unordered_map<Enum_ActorFlag, Enum_ActorFlagBit> BaseActor::FlagIndex;
 ContentsActorInitial ContentsActorInitial::s_ActorInit;
 BaseActor::BaseActor()
 {
@@ -48,19 +52,9 @@ BaseActor::~BaseActor()
 void BaseActor::Start()
 {
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
+	MainRenderer->Transform.SetLocalScale(float4(W_SCALE, W_SCALE, W_SCALE));
 
-	Transform.SetLocalScale(float4(W_SCALE, W_SCALE, W_SCALE));
-
-	{
-		Actor_test = GetLevel()->CreateActor<GameEngineActor>();
-	}
-
-	{
-		Actor_test_02 = GetLevel()->CreateActor<GameEngineActor>();
-		Actor_test_02->SetParent(Actor_test);
-		Actor_test_02->Transform.SetWorldPosition({ 0.0f,400.0f,-1000.0f });
-	}
-
+	Stat.SetPoise(100); // 모든 객체가 강인도 100을 가지고 있음 << DS3 Official
 }
 
 void BaseActor::Update(float _Delta)
@@ -80,100 +74,6 @@ void BaseActor::Release()
 	Target = nullptr;
 }
 
-void BaseActor::CameraRotation(float Delta)
-{
-	Time += Delta;
-	Actor_test->Transform.SetWorldPosition({ Transform.GetWorldPosition() });
-
-	CameraPos = { GameEngineCore::MainWindow.GetMousePos().X,GameEngineCore::MainWindow.GetMousePos().Y };
-	CameraPos.Normalize();
-
-	Mouse_Ro_X = GameEngineCore::MainWindow.GetMousePos().X;
-	Mouse_Ro_Y = GameEngineCore::MainWindow.GetMousePos().Y;
-
-
-
-
-	if (GameEngineInput::IsPress('W', this) )
-	{
-		Camera_Pos_Y += CameraPos.Y * Delta * 500;
-
-		if (Camera_Pos_Y >= 60)
-		{
-			Camera_Pos_Y -= CameraPos.Y * Delta * 500;
-		}
-	}
-
-	else if (GameEngineInput::IsPress('S', this) )
-	{
-		Camera_Pos_Y -= CameraPos.Y * Delta * 500;
-
-		if (Camera_Pos_Y <= 0)
-		{
-			Camera_Pos_Y = 0;
-		}
-	}
-
-
-
-
-	if (GameEngineInput::IsPress('D', this))
-	{
-		Camera_Pos_X -= CameraPos.X * Delta * 500;
-	}
-
-	else if (GameEngineInput::IsPress('A', this))
-	{
-		Camera_Pos_X += CameraPos.X * Delta * 500;
-	}
-
-
-	// 확대 기능 
-
-	/*float4 A = Actor_test->Transform.GetWorldPosition() - float4{ Actor_test_02->Transform.GetWorldPosition().X, Actor_test_02->Transform.GetWorldPosition().Y - 400.0f, Actor_test_02->Transform.GetWorldPosition().Z };
-
-	A.Normalize();
-
-	if (Camera_Pos_Y <= 0)
-	{
-
-		if (PrevPos.Y < Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) >= abs(500))
-		{
-			Actor_test_02->Transform.AddWorldPosition(A * Delta * 2000);
-		}
-
-		else if (PrevPos.Y > Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) <= abs(1000))
-		{
-			Actor_test_02->Transform.AddWorldPosition(-A * Delta * 2000);
-		}
-
-
-	}*/
-
-
-	
-
-	Actor_test->Transform.SetWorldRotation({ Camera_Pos_Y,Camera_Pos_X,0.0f });
-
-	// 마우스 고정하고 싶을떄 
-
-	/*if (Time > 0.1)
-	{
-		Time = 0;
-
-		PrevPos.Y = 258;
-		PrevPos.X = 864;
-		GameEngineCore::MainWindow.SetMousePos(1280, 720);
-	}*/
-
-	PrevPos.Y = Mouse_Ro_Y;
-	PrevPos.X = Mouse_Ro_X;
-
-
-	GetLevel()->GetMainCamera()->Transform.SetWorldRotation(Actor_test_02->Transform.GetWorldRotationEuler());
-	GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Actor_test_02->Transform.GetWorldPosition());
-
-}
 
 
 
@@ -192,23 +92,33 @@ float BaseActor::GetWDirection() const
 	return Transform.GetWorldRotationEuler().Z;
 }
 
+void BaseActor::SetWPosition(const float4& _wPos)
+{
+	if (nullptr == Capsule)
+	{
+		MsgBoxAssert("피직스 액터를 사용하지 않고 사용할 수 없는 기능입니다.");
+		return;
+	}
 
-int BaseActor::FindFlag(Enum_ActorStatus _Status) const
+	Capsule->SetWorldPosition(_wPos);
+}
+
+int BaseActor::FindFlag(Enum_ActorFlag _Status) const
 {
 	if (auto FindIter = FlagIndex.find(_Status); FindIter != FlagIndex.end())
 	{
 		return static_cast<int>(FindIter->second);
 	}
 
-	return static_cast<int>(Enum_ActorFlag::None);
+	return static_cast<int>(Enum_ActorFlagBit::None);
 }
 
-bool BaseActor::IsFlag(Enum_ActorStatus _Flag) const
+bool BaseActor::IsFlag(Enum_ActorFlag _Flag) const
 {
 	return (Flags / FindFlag(_Flag)) % 2;
 }
 
-void BaseActor::SetFlag(Enum_ActorStatus _Flag, bool _Value)
+void BaseActor::SetFlag(Enum_ActorFlag _Flag, bool _Value)
 {
 	AddFlag(_Flag);
 
@@ -218,23 +128,21 @@ void BaseActor::SetFlag(Enum_ActorStatus _Flag, bool _Value)
 	}
 }
 
-void BaseActor::AddFlag(Enum_ActorStatus _Flag)
+void BaseActor::AddFlag(Enum_ActorFlag _Flag)
 {
 	Flags |= FindFlag(_Flag);
 }
 
-void BaseActor::SubFlag(Enum_ActorStatus _Flag)
+void BaseActor::SubFlag(Enum_ActorFlag _Flag)
 {
 	SetFlag(_Flag, false);
 }
 
 void BaseActor::DebugFlag()
 {
-	bool HitValue = IsFlag(Enum_ActorStatus::HitValue);
-	bool GaurdingValue = IsFlag(Enum_ActorStatus::GaurdingValue);
-	bool DeathValue = IsFlag(Enum_ActorStatus::DeathValue);
-	bool JumpPossible = IsFlag(Enum_ActorStatus::JumpPossible);
-	bool ParryPossible = IsFlag(Enum_ActorStatus::ParryPossible);
+	bool HitValue = IsFlag(Enum_ActorFlag::Hit);
+	bool DeathValue = IsFlag(Enum_ActorFlag::Death);
+	bool ParryPossible = IsFlag(Enum_ActorFlag::Parrying);
 	int a = 0;
 }
 
@@ -262,14 +170,19 @@ int BaseActor::GetBoneIndex(Enum_BoneType _BoneType)
 
 float4x4& BaseActor::GetBoneMatrixToType(Enum_BoneType _BoneType)
 {
-	std::vector<float4x4>& BoneMats = GetFBXRenderer()->GetBoneSockets();
-	return BoneMats[GetBoneIndex(Enum_BoneType::B_01_RightHand)];
+	int Index = GetBoneIndex(_BoneType);
+	return GetBoneMatrixToIndex(Index);
 }
 
-std::shared_ptr<BoneSocketCollision> BaseActor::CreateSocketCollision(int _Order, Enum_BoneType _Type, std::string _ColName)
+float4x4& BaseActor::GetBoneMatrixToIndex(int _Index)
 {
-	int SocketIndex = GetBoneIndex(_Type);
-	if (auto FindIter = SocketCollisions.find(SocketIndex); FindIter != SocketCollisions.end())
+	std::vector<float4x4>& BoneMats = GetFBXRenderer()->GetBoneSockets();
+	return BoneMats[_Index];
+}
+
+std::shared_ptr<BoneSocketCollision> BaseActor::CreateSocketCollision(Enum_CollisionOrder _Order, int _SocketIndex, std::string _ColName)
+{
+	if (auto FindIter = SocketCollisions.find(_SocketIndex); FindIter != SocketCollisions.end())
 	{
 		MsgBoxAssert("이미 존재하는 충돌체를 생성하려 했습니다.");
 		return nullptr;
@@ -277,11 +190,12 @@ std::shared_ptr<BoneSocketCollision> BaseActor::CreateSocketCollision(int _Order
 
 	std::shared_ptr<BoneSocketCollision> NewCol = CreateComponent<BoneSocketCollision>(_Order);
 	NewCol->SetName(_ColName);
-	NewCol->SetBoneIndex(SocketIndex);
+	NewCol->SetBoneIndex(_SocketIndex);
 	NewCol->SetCollisionType(ColType::SPHERE3D);
-	NewCol->SetSocket(&GetBoneMatrixToType(_Type));
+	NewCol->SetRendererTransformPointer(&MainRenderer->Transform);
+	NewCol->SetSocket(&GetBoneMatrixToIndex(_SocketIndex));
 	NewCol->Off();
-	SocketCollisions.insert(std::make_pair(SocketIndex, NewCol));
+	SocketCollisions.insert(std::make_pair(_SocketIndex, NewCol));
 	return NewCol;
 }
 
@@ -300,6 +214,55 @@ std::shared_ptr<BoneSocketCollision> BaseActor::FindSocketCollision(Enum_BoneTyp
 {
 	int SocketIndex = GetBoneIndex(_Type);
 	return GetSocketCollision(SocketIndex);
+}
+
+void BaseActor::OnSocketCollision(Enum_BoneType _Type)
+{
+	int SocketIndex = GetBoneIndex(_Type);
+	OnSocketCollision(SocketIndex);
+}
+
+void BaseActor::OnSocketCollision(int _BoneIndex)
+{
+	std::shared_ptr<BoneSocketCollision> pCollision = GetSocketCollision(_BoneIndex);
+	if (nullptr == pCollision)
+	{
+		MsgBoxAssert("존재하지 않는 충돌체를 끄려고 했습니다.");
+		return;
+	}
+
+	pCollision->On();
+}
+
+
+void BaseActor::OffSocketCollision(Enum_BoneType _Type)
+{
+	int SocketIndex = GetBoneIndex(_Type);
+	OffSocketCollision(SocketIndex);
+}
+
+void BaseActor::OffSocketCollision(int _BoneIndex)
+{
+	std::shared_ptr<BoneSocketCollision> pCollision = GetSocketCollision(_BoneIndex);
+	if (nullptr == pCollision)
+	{
+		MsgBoxAssert("존재하지 않는 충돌체를 끄려고 했습니다.");
+		return;
+	}
+
+	pCollision->Off();
+}
+
+void BaseActor::DrawRange(float _Range, const float4& _Color /*= float4::RED*/) const
+{
+	if (GameEngineLevel::IsDebug)
+	{
+		float4 WScale = float4(_Range, _Range, _Range, 1.0f);
+		float4 WRot = Transform.GetWorldRotationEuler();
+		float4 WPos = Transform.GetWorldPosition();
+
+		GameEngineDebug::DrawSphere2D(WScale, WRot, WPos, _Color);
+	}
 }
 
 std::string BaseActor::GetEventPath(int _ID)
@@ -400,4 +363,20 @@ float BaseActor::GetTargetDistance() const
 	const float4 OtherPos = Target->Transform.GetWorldPosition();
 	const float Dist = ContentsMath::GetVector3Length(OtherPos - MyPos).X;
 	return Dist;
+}
+
+float4 BaseActor::GetTargetDirection() const
+{
+	if (nullptr == Target)
+	{
+		MsgBoxAssert("타겟이 존재하지 않습니다.");
+		return float4::ZERO;
+	}
+
+	const float4 MyPos = Transform.GetWorldPosition();
+	const float4 TargetPos = Target->Transform.GetWorldPosition();
+
+	float4 Direction = TargetPos - MyPos;
+	Direction.Normalize();
+	return Direction;
 }

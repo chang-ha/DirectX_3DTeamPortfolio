@@ -5,13 +5,19 @@ enum class Enum_HollowSoldier_Sword_State
 {
 	Idle1,
 	Idle2,
+	Idle2ToIdle1,
+	Idle1ToIdle2,
 	Scout,
-	//Walk,
-	//Run,
+	Walk_Front,
+	Walk_Back,
+	Walk_Left,
+	Walk_Right,
+	Run,
 	RH_VerticalSlash,
 	RH_HorizontalSlash,
 	RH_ComboAttack,
 	RH_TwinSlash,
+	RH_RunToSting,
 	Attack1,
 	Attack2,
 	Attack3,
@@ -25,6 +31,14 @@ enum class Enum_HollowSoldier_Sword_State
 	Attack11,
 	//Attack12,
 	Attack13,
+	Turn_Left2,
+	Turn_Right2,
+	Turn_Left_Twice2,
+	Turn_Right_Twice2,
+	Turn_Left1,
+	Turn_Right1,
+	Turn_Left_Twice1,
+	Turn_Right_Twice1,
 	AttackFail,
 	Parrying,
 	Hit,
@@ -69,13 +83,24 @@ protected:
 private:
 	float StateTime = 0.0f;
 
-	int AttackPattern = 0;
+	float WalkToChangeTime = 0.0f;
+	float WalkTime = 0.0f;
+
 
 protected:
 	Enum_HollowSoldier_Sword_State SoldierState = Enum_HollowSoldier_Sword_State::Max;
 
 	void ChangeState(Enum_HollowSoldier_Sword_State _State);
 	void StateUpdate(float _Delta);
+
+	void ChangeAttackState();
+
+	
+
+private:
+	bool IsRecognize = false;
+	bool IsAttack = false;
+
 
 protected:
 	//State Function
@@ -86,8 +111,29 @@ protected:
 	void State_Idle2_Start();
 	void State_Idle2_Update(float _Delta);
 
+	void State_Idle1ToIdle2_Start();
+	void State_Idle1ToIdle2_Update(float _Delta);
+
+	void State_Idle2ToIdle1_Start();
+	void State_Idle2ToIdle1_Update(float _Delta);
+
 	void State_Scout_Start();
 	void State_Scout_Update(float _Delta);
+
+	void State_Walk_Front_Start();
+	void State_Walk_Front_Update(float _Delta);
+
+	void State_Walk_Back_Start();
+	void State_Walk_Back_Update(float _Delta);
+
+	void State_Walk_Left_Start();
+	void State_Walk_Left_Update(float _Delta);
+
+	void State_Walk_Right_Start();
+	void State_Walk_Right_Update(float _Delta);
+
+	void State_Run_Start();
+	void State_Run_Update(float _Delta);
 
 	void State_RH_VerticalSlash_Start();
 	void State_RH_VerticalSlash_Update(float _Delta);
@@ -101,44 +147,82 @@ protected:
 	void State_RH_TwinSlash_Start();
 	void State_RH_TwinSlash_Update(float _Delta);
 
+	void State_RH_RunToSting_Start();
+	void State_RH_RunToSting_Update(float _Delta);
+
+	// Vertical
 	void State_Attack1_Start();
 	void State_Attack1_Update(float _Delta);
 
+	// Vertical Horizontal
 	void State_Attack2_Start();
 	void State_Attack2_Update(float _Delta);
 
+	// Vertical Horizontal TH
 	void State_Attack3_Start();
 	void State_Attack3_Update(float _Delta);
 
 	//void State_Attack4_Start();
 	//void State_Attack4_Update(float _Delta);
 
+	// Vertical Horizontal ChargingSting
 	void State_Attack5_Start();
 	void State_Attack5_Update(float _Delta);
 
+	// Vertical TwinSlash
 	void State_Attack6_Start();
 	void State_Attack6_Update(float _Delta);
 
+	// Vertical TwinSlash TH
 	void State_Attack7_Start();
 	void State_Attack7_Update(float _Delta);
 	
+	// Vertical TH
 	void State_Attack8_Start();
 	void State_Attack8_Update(float _Delta);
 
+	// TwinSlash
 	void State_Attack9_Start();
 	void State_Attack9_Update(float _Delta);
 
+	// TwinSlash TH
 	void State_Attack10_Start();
 	void State_Attack10_Update(float _Delta);
 
+	// Sting
 	void State_Attack11_Start();
 	void State_Attack11_Update(float _Delta);
 
 	//void State_Attack12_Start();
 	//void State_Attack12_Update(float _Delta);
 
+	// TH
 	void State_Attack13_Start();
 	void State_Attack13_Update(float _Delta);
+
+	void State_Turn_Left2_Start();
+	void State_Turn_Left2_Update(float _Delta);
+
+	void State_Turn_Right2_Start();
+	void State_Turn_Right2_Update(float _Delta);
+
+	void State_Turn_Left_Twice2_Start();
+	void State_Turn_Left_Twice2_Update(float _Delta);
+
+	void State_Turn_Right_Twice2_Start();
+	void State_Turn_Right_Twice2_Update(float _Delta);
+
+	void State_Turn_Left1_Start();
+	void State_Turn_Left1_Update(float _Delta);
+
+	void State_Turn_Right1_Start();
+	void State_Turn_Right1_Update(float _Delta);
+
+	void State_Turn_Left_Twice1_Start();
+	void State_Turn_Left_Twice1_Update(float _Delta);
+
+	void State_Turn_Right_Twice1_Start();
+	void State_Turn_Right_Twice1_Update(float _Delta);
 
 	void State_AttackFail_Start();
 	void State_AttackFail_Update(float _Delta);
