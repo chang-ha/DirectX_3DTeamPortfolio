@@ -2,6 +2,8 @@
 #include "CenterBodySoundFrameEvent.h"
 
 #include "FrameEventHelper.h"
+#include "DS3DummyData.h"
+#include "BaseActor.h"
 
 
 CenterBodySoundFrameEvent::CenterBodySoundFrameEvent()
@@ -14,46 +16,68 @@ CenterBodySoundFrameEvent::~CenterBodySoundFrameEvent()
 }
 
 
-std::shared_ptr<CenterBodySoundFrameEvent> CenterBodySoundFrameEvent::CreateEventObject(int _Frame, int _iBoneIndex, std::string_view _FileName)
+std::shared_ptr<CenterBodySoundFrameEvent> CenterBodySoundFrameEvent::CreateEventObject(int _Frame, int _RefID, int _AttachBoneIndex)
 {
-	std::shared_ptr<CenterBodySoundFrameEvent> SEvent = std::make_shared<CenterBodySoundFrameEvent>();
-	SEvent->StartFrame = _Frame;
-	SEvent->BoneIndex = _iBoneIndex;
-	SEvent->SoundName = _FileName;
-	return SEvent;
+	std::shared_ptr<CenterBodySoundFrameEvent> CDPSEvent = std::make_shared<CenterBodySoundFrameEvent>();
+	CDPSEvent->StartFrame = _Frame;
+	CDPSEvent->RefID = _RefID;
+	CDPSEvent->AttachBoneIndex = _AttachBoneIndex;
+	return CDPSEvent;
 }
 
 void CenterBodySoundFrameEvent::PlayEvent()
 {
-	if (nullptr == pActor)
+	if (nullptr == FbxRenderer || nullptr == pActor)
 	{
 		Init();
 	}
 
-	float4x4 BoneWMat = BoneMatrix * pActor->Transform.GetWorldMatrix();
-	float4 S;
-	float4 Q;
-	float4 P;
-	BoneWMat.Decompose(S, Q, P);
-	GameEngineSound::Sound3DPlay(SoundName, P);
+	std::string_view SoundName = pActor->GetFloorMaterialName();
+	if (SoundName.empty())
+	{
+		return;
+	}
+
+	const float4x4& WorldMatrix = FbxRenderer->Transform.GetWorldMatrix();
+	float4 WDPPOS = DPT* (*pBoneMatrix) * WorldMatrix;
+	GameEngineSound::Sound3DPlay(SoundName, WDPPOS);
 }
 
 void CenterBodySoundFrameEvent::Init()
 {
-	GameContentsFBXAnimationInfo* pInfo = ParentHelper->GetParentInfo();
-	if (nullptr == pInfo)
+	FbxRenderer = GetParentRenderer();
+	if (nullptr == FbxRenderer)
 	{
-		MsgBoxAssert("FBXAnimation 정보를 받아오지 못했습니다.");
+		MsgBoxAssert(GetTypeString() + "존재하지 않는 렌더러를 참조했습니다.");
 		return;
 	}
 
-	std::vector<float4x4>& BoneMats = pInfo->ParentRenderer->GetBoneSockets();
-	BoneMatrix = BoneMats.at(BoneIndex);
-
-	pActor = pInfo->ParentRenderer->GetActor();
+	pActor = GetDynamicCastParentActor<BaseActor>().get();
 	if (nullptr == pActor)
 	{
-		MsgBoxAssert("액터가 존재하지 않습니다.");
+		MsgBoxAssert(GetTypeString() + "존재하지 않는 부모를 참조하려 했습니다.");
 		return;
 	}
+
+	std::string IDName = pActor->GetIDName();
+	const std::shared_ptr<DS3DummyData>& pRes = DS3DummyData::Find(IDName);
+	if (nullptr == pRes)
+	{
+		MsgBoxAssert(GetTypeString() + "데이터를 불러오지 못했습니다");
+		return;
+	}
+
+	bool ISOK = (FE_NOINDEX != RefID && FE_NOINDEX != AttachBoneIndex);
+	if (false == ISOK)
+	{
+		MsgBoxAssert(GetTypeString() + "인벤트 설정값이 초기화되지 않았습니다.");
+		return;
+	}
+
+	const DummyData& pDummyData = pRes->GetDummyData(RefID, AttachBoneIndex);
+	const int ParentBIndex = pDummyData.ParentBoneIndex;
+	DPT = pDummyData.Position;
+
+	std::vector<float4x4>& BoneMats = FbxRenderer->GetBoneSockets();
+	pBoneMatrix = &BoneMats.at(ParentBIndex);
 }

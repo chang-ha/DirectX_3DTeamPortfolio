@@ -284,10 +284,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="FloorMaterialSoundFrameEvent.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="FogGUI.cpp" />
     <ClCompile Include="HitInteraction.cpp" />
     <ClCompile Include="LUTEffect.cpp">
@@ -566,10 +562,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="DummyProjectile.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="FloorMaterialSoundFrameEvent.h">
       <SubType>
       </SubType>
     </ClInclude>

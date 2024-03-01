@@ -2,6 +2,9 @@
 #include "FrameEventHelper.h"
 
 #include "SoundFrameEvent.h"
+#include "BoneSoundFrameEvent.h"
+#include "CenterBodySoundFrameEvent.h"
+#include "DummyPolySoundFrameEvent.h"
 #include "CollisionUpdateFrameEvent.h"
 #include "TurnSpeedFrameEvent.h"
 
@@ -57,16 +60,22 @@ void FrameEventHelper::Initialze(GameContentsFBXAnimationInfo* _AnimationInfo)
 
 		switch (static_cast<Enum_FrameEventType>(TypeNum))
 		{
-		case Enum_FrameEventType::None:
-			break;
 		case Enum_FrameEventType::Sound:
-		{
-			NewEvent = std::make_shared<SoundFrameEvent>();
-		}
+			// 사용하지 않는 이벤트 유형입니다. 기존의 파일을 삭제합니다.
 			break;
 		case Enum_FrameEventType::BSound:
 		{
-			NewEvent = std::make_shared<SoundFrameEvent>();
+			NewEvent = std::make_shared<BoneSoundFrameEvent>();
+		}
+			break;
+		case Enum_FrameEventType::CenterBodySound:
+		{
+			NewEvent = std::make_shared<CenterBodySoundFrameEvent>();
+		}
+			break;
+		case Enum_FrameEventType::DPSound:
+		{
+			NewEvent = std::make_shared<DummyPolySoundFrameEvent>();
 		}
 			break;
 		case Enum_FrameEventType::CollisionUpdate:
@@ -74,14 +83,14 @@ void FrameEventHelper::Initialze(GameContentsFBXAnimationInfo* _AnimationInfo)
 			NewEvent = std::make_shared<CollisionUpdateFrameEvent>();
 		}
 			break;
-		case Enum_FrameEventType::Transfrom:
-			break;
 		case Enum_FrameEventType::TurnSpeed:
 		{
 			NewEvent = std::make_shared<TurnSpeedFrameEvent>();
 		}
-		default:
 			break;
+		default:
+			MsgBoxAssert("처리되지 않은 유형의 이벤트입니다. 김태훈에게 문의하세요.");
+			return;
 		}
 
 		NewEvent->Read(Ser);

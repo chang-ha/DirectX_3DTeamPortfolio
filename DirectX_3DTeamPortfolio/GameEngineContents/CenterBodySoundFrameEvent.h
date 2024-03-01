@@ -17,24 +17,19 @@ public:
 	CenterBodySoundFrameEvent& operator=(const CenterBodySoundFrameEvent& _Other) = delete;
 	CenterBodySoundFrameEvent& operator=(CenterBodySoundFrameEvent&& _Other) noexcept = delete;
 
-	static std::shared_ptr<CenterBodySoundFrameEvent> CreateEventObject(int _Frame, int _iBoneIndex, std::string_view _FileName);
+	static std::shared_ptr<CenterBodySoundFrameEvent> CreateEventObject(int _Frame, int _RefID, int _AttachBoneIndex);
 
 	void Write(class GameEngineSerializer& _File) override
 	{
 		FrameEventObject::Write(_File);
-		_File << SoundName;
-		_File << BoneIndex;
+		_File << RefID;
+		_File << AttachBoneIndex;
 	}
 	void Read(class GameEngineSerializer& _File) override
 	{
 		FrameEventObject::Read(_File);
-		_File >> SoundName;
-		_File >> BoneIndex;
-	}
-
-	inline std::string_view GetSoundName() const
-	{
-		return SoundName;
+		_File >> RefID;
+		_File >> AttachBoneIndex;
 	}
 
 	void PlayEvent() override;
@@ -43,10 +38,14 @@ public:
 protected:
 
 private:
-	int BoneIndex = -1;
-	std::string SoundName;
+	int RefID = FE_NOINDEX;
+	int AttachBoneIndex = FE_NOINDEX;
 
-	float4x4 BoneMatrix;
-	GameEngineActor* pActor = nullptr;
+	class GameContentsFBXRenderer* FbxRenderer = nullptr;
+	class BaseActor* pActor = nullptr;
+
+	float4 DPT = float4::ZERO; // DummyPoly Transition
+	float4x4* pBoneMatrix = nullptr;
+
 
 };

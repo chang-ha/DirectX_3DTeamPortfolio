@@ -237,6 +237,9 @@ public:
 	virtual float4 GetBackStabPosition() { return float4::ZERO; } // 뒤잡 위치
 	virtual float4 GetFrontStabPosition() { return float4::ZERO; } // 앞잡 위치
 
+	// Floor Foot Sound
+	std::string_view GetFloorMaterialName();
+
 	// Debug
 	inline int GetCurStateInt() const
 	{
@@ -259,6 +262,9 @@ protected:
 	void OnSocketCollision(int _BoneIndex);
 	void OffSocketCollision(int _BoneIndex);
 
+	// Floor Foot Sound Initial
+	void SetFloorMaterialSoundRes(std::string_view _ResName);
+
 	// Debug
 	void DrawRange(float _Range, const float4& _Color = float4::RED) const; // 캐릭터 내 범위를 확인하기위한 편의성 디버깅 기능입니다.
 
@@ -272,20 +278,21 @@ protected:
 	std::shared_ptr<GameContentsFBXRenderer> MainRenderer;
 	std::shared_ptr<class GameEnginePhysXCapsule> Capsule;
 	std::map<int, std::shared_ptr<BoneSocketCollision>> SocketCollisions; // 소켓 콜리전
-	std::vector<std::string> FloorMaterialSoundRes; // 재질에 따른 발소리 리소스
 
 	GameEngineState MainState;
 	StatusStruct Stat; // 플레이어와 몬스터가 공용으로 사용하는 기본스텟 구조체
 	HitStruct Hit; // 플레이어와 몬스터가 공용으로 사용하는 히트 로직 구조체
 
 	int CenterBodyIndex = 0; // FrameEvent에서 사용할 DummyPoly Center Body를 등록해주세요
-	int FloorMaterialIndex = 0; // 
 	
 private:
 	static std::unordered_map<Enum_ActorFlag, Enum_ActorFlagBit> FlagIndex; // 플레그를 매핑해놓은 구조체입니다. 에디터와 연계 가능합니다.
+	std::vector<std::string> FloorMaterialSoundRes; // 재질에 따른 발소리 리소스
 
 	int ActorID = EMPTY_ID;
 	int Flags = 0;
+
+	int FloorMaterialIndex = 0; // 발소리 재질 인덱스
 	
 // Targeting
 public:

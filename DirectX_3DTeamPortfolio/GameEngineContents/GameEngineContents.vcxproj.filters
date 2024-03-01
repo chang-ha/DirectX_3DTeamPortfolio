@@ -286,9 +286,6 @@
     <ClCompile Include="DummyPolySoundFrameEvent.cpp">
       <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClCompile>
-    <ClCompile Include="FloorMaterialSoundFrameEvent.cpp">
-      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -568,9 +565,6 @@
       <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClInclude>
     <ClInclude Include="DummyPolySoundFrameEvent.h">
-      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
-    </ClInclude>
-    <ClInclude Include="FloorMaterialSoundFrameEvent.h">
       <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClInclude>
   </ItemGroup>

@@ -6,6 +6,7 @@
 #define EVENT_ERROR -1
 #define EVENT_DONE 0
 #define EVENT_PLAY 1
+#define FE_NOINDEX -1
 
 
 enum class Enum_FrameEventType
@@ -15,7 +16,6 @@ enum class Enum_FrameEventType
 	BSound = 2,
 	CenterBodySound = 3,
 	DPSound = 4,
-	FloorMaterialSound = 4,
 	CollisionUpdate = 11,
 	SwitchFlag = 16,
 	Transfrom = 21,
@@ -76,11 +76,13 @@ protected:
 
 	inline void SetEventID(int _ID) { EventID = _ID; }
 	int GetCurFrame();
+
+	GameContentsFBXRenderer* GetParentRenderer() const;
 	
 	template<typename ObjectType>
 	std::shared_ptr<ObjectType> GetDynamicCastParentActor()
 	{
-		GameContentsFBXRenderer* FBXRenderer = ParentHelper->GetAnimationInfo()->ParentRenderer;
+		GameContentsFBXRenderer* FBXRenderer = GetParentRenderer();
 		if (nullptr == FBXRenderer)
 		{
 			MsgBoxAssert("렌더러가 존재하지 않습니다.");
