@@ -30,6 +30,7 @@ void PlayLevel::Start()
 
 	{
 		std::shared_ptr<GameEngineLight> Object = CreateActor<GameEngineLight>(0);
+		//Object->CreateShadowMap();
 	}
 
 }

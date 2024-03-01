@@ -31,6 +31,7 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 	if (nullptr == Test_Light)
 	{
 		Test_Light = CreateActor<ContentsLight>(0);
+		Test_Light->CreateShadowMap();
 		LightData Data = Test_Light->GetLightData();
 
 		Data.DifLightPower = 0.1f;

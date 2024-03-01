@@ -97,6 +97,11 @@ public:
     {
         if (ShadowTarget == nullptr or ShadowTargetStatic == nullptr)
         {
+            if (static_cast<Enum_LightType>(LightDataValue.LightType) == Enum_LightType::Directional)
+            {
+                CreateShadowMap();
+                return true;
+            }
             return false;
         }
         else

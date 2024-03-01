@@ -29,6 +29,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		Light = CreateActor<ContentsLight>(0);
 		LightData Data = Light->GetLightData();
+		Light->CreateShadowMap();
 
 		Data.DifLightPower = 0.1f;
 		Data.AmbientLight = float4(0.7f, 0.7f, 0.7f, 1.0f);

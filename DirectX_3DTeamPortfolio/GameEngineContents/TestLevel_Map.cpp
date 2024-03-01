@@ -88,6 +88,7 @@ void TestLevel_Map::Start()
 
 	// 빛
 	std::shared_ptr<ContentsLight> TestObject0 = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "main");
+	TestObject0->CreateShadowMap();
 	LightData Data = TestObject0->GetLightData();
 
 	Data.DifLightPower = 0.1f;
