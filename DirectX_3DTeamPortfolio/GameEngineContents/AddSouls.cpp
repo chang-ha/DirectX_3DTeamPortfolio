@@ -9,7 +9,7 @@ AddSouls::~AddSouls()
 {
 }
 
-#define SoulsPos {}
+#define SoulsPos {390.0f, -210.0f}
 
 void AddSouls::Start()
 {
@@ -17,19 +17,19 @@ void AddSouls::Start()
 
 	SoulsBack = CreateComponent<GameEngineUIRenderer>();
 	SoulsBack->AutoSpriteSizeOn();
-	SoulsBack->Transform.SetLocalPosition({ WindowScale.X - 30.0f, -400.0f });
+	SoulsBack->Transform.SetLocalPosition({ WindowScale.X - 90.0f, -WindowScale.Y + 50.0f });
 	SoulsBack->SetSprite("SoulsBack.Png");
 
 	// 합쳐질 소울
 	AddSoul = CreateComponent<GameEngineUIRenderer>();
-	AddSoul->SetText(GlobalValue::OptimusFont, std::to_string(SoulAdd), 12.0f, float4{1,0,0,1}, FW1_RIGHT);
-	AddSoul->Transform.SetLocalPosition({ WindowScale.X + 30.0f , -360.0f });
+	AddSoul->SetText(GlobalValue::OptimusFont, std::to_string(SoulAdd), 14.0f, float4{1,0,0,1}, FW1_RIGHT);
+	AddSoul->Transform.SetLocalPosition({ WindowScale.X - 30.0f , -WindowScale.Y + 90.0f });
 	AddSoul->Off();
 
 	// 합쳐진 소울
 	SumSouls = CreateComponent<GameEngineUIRenderer>();
-	SumSouls->SetText(GlobalValue::OptimusFont, std::to_string(Souls), 12.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
-	SumSouls->Transform.SetLocalPosition({ WindowScale.X + 30.0f , -385.0f });
+	SumSouls->SetText(GlobalValue::OptimusFont, std::to_string(Souls), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
+	SumSouls->Transform.SetLocalPosition({ WindowScale.X - 30.0f ,  -WindowScale.Y + 65.0f});
 
 	GameEngineInput::AddInputObject(this);
 }
@@ -93,9 +93,9 @@ void AddSouls::StateUpdate(float _Delta)
 void AddSouls::AppearStart()
 {
 	AddSoul->On();
-	AddSoul->Transform.SetLocalPosition({ WindowScale.X + 30.0f , -360.0f });
+	AddSoul->Transform.SetLocalPosition({ WindowScale.X - 30.0f , -WindowScale.Y + 90.0f });
 	SoulAdd += 100;
-	AddSoul->SetText(GlobalValue::OptimusFont,"+"+std::to_string(SoulAdd), 12.0f, float4{1,0,0,1}, FW1_RIGHT);
+	AddSoul->SetText(GlobalValue::OptimusFont,"+"+std::to_string(SoulAdd), 14.0f, float4{1,0,0,1}, FW1_RIGHT);
 }
 
 void AddSouls::AppearUpdate(float _Delta)
@@ -113,7 +113,7 @@ void AddSouls::AppearUpdate(float _Delta)
 void AddSouls::AddStart()
 {
 	Souls += SoulAdd;
-	SumSouls->SetText(GlobalValue::OptimusFont, std::to_string(Souls), 12.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
+	SumSouls->SetText(GlobalValue::OptimusFont, std::to_string(Souls), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
 }
 
 void AddSouls::AddUpdate(float _Delta)
