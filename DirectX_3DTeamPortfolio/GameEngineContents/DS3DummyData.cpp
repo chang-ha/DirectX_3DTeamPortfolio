@@ -214,9 +214,11 @@ void DS3DummyData::Interpret(std::string_view _Data)
 	NewData.Position.X *= -1.0f;
 	NewData.Position.Z *= -1.0f;
 	NewData.Forward = InterpretType<float4>(_Data, "Forward");
-	NewData.Forward.W = 0;
+	NewData.Forward.X *= -1.0f;
+	NewData.Forward.Z *= -1.0f;
 	NewData.Upward = InterpretType<float4>(_Data, "Upward");
-	NewData.Upward.W = 0;
+	NewData.Upward.X *= -1.0f;
+	NewData.Upward.Z *= -1.0f;
 	NewData.ReferenceID = InterpretType<int>(_Data, "ReferenceID");
 	NewData.ParentBoneIndex = InterpretType<int>(_Data, "ParentBoneIndex");
 	NewData.AttachBoneIndex = InterpretType<int>(_Data, "AttachBoneIndex");

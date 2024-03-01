@@ -257,16 +257,26 @@ void AnimationInfoGUI::BoneEditor()
 			ImGui::SliderFloat3("Model Rot", &BoneRot.X, 0.0f, 360.0f, "%.f");
 			ImGui::SliderFloat3("Model Pos", &BonePos.X, 0.0f, 1.f, "%.3f");
 
+			float4x4 BoneWMatrix = BoneMatrix* WorldMat;
+			float4 BS;
+			float4 BQ;
+			float4 BT;
+			BoneWMatrix.Decompose(BS, BQ, BT);
+			float4 BEuler = BQ.QuaternionToEulerDeg();
+
 			const float4 BoneWPos = BonePos * BoneMatrix * WorldMat;
 
 			static float GUIBoneRot = 0.0f;
 			ImGui::SliderFloat("Bone Rot", &GUIBoneRot, 0.0f, 360.0f, "%.f");
 
-			float4 Quat  =BData.RotQuaternion;
+			float4 Quat  = BData.RotQuaternion;
+			float4x4 BMat = Quat.QuaternionToMatrix();
+			float4x4 affine = float4x4::Affine(float4::ONE, Quat, float4::ZERO);
 			const float4 Euler = Quat.QuaternionToEulerDeg();
 
 			const float4 Rot4 = Euler + RendererRot;
-			GameEngineDebug::DrawBox3D(BoneS, Rot4, BoneWPos, float4(0.25f, 0.75f, 0.75f));
+			float4x4 LocalMat = affine* WorldMat;
+			GameEngineDebug::DrawBox3D(BoneS, BEuler, BT, float4(0.25f, 0.75f, 0.75f));
 		}
 
 		ImGui::TreePop();
@@ -384,31 +394,50 @@ void AnimationInfoGUI::DummyEditor()
 			{
 				int AttachIndex = SelectDPData->AttachBoneIndex;
 				const float4 DummyPos = SelectDPData->Position;
+				const float4 DummyF = SelectDPData->Forward;
+				const float4 DummyU = SelectDPData->Upward;
 
 				float4 DPStartPos = float4::ZERO;
+				float4 DPStartRot = float4::ZERO;
 				if (-1 != AttachIndex)
 				{
 					const JointPos& StaticBoneData = pRenderer->GetFBXMesh()->FindBoneToIndex(AttachIndex)->BonePos;
 					DPStartPos = StaticBoneData.GlobalTranslation;
+					DPStartRot = StaticBoneData.GlobalRotation;
 				}
 
 				ImGui::SliderFloat3("Dummy Rot", &DummyR0t.X, 0.0f, 360.0f, "%.f");
 
-				float4 DummyOffset = DummyPos - DPStartPos;
-				const float4 Axis_Rot_DummyOffset = DummyOffset.VectorRotationToDegXReturn(DummyR0t.X).VectorRotationToDegYReturn(DummyR0t.Y).VectorRotationToDegZReturn(DummyR0t.Z);
+				float4x4 GlobalDummyPolyMatrix = DirectX::XMMatrixLookAtLH(DummyPos.DirectXVector, (DummyPos + DummyF).DirectXVector, DummyU.DirectXVector);
+				float4 DPS;
+				float4 DPQ;
+				float4 DPT;
+				GlobalDummyPolyMatrix.Decompose(DPS, DPQ, DPT);
+				float4 DPRot = DPQ.QuaternionToEulerDeg();
+
+				float4 mDPS = float4::ONE;
+				float4 mDPQ = DPStartRot * DirectX::XMQuaternionInverse(DPQ.DirectXVector);
+				float4 mDPT = -DPT;
+				float4 Result = mDPQ.QuaternionToEulerDeg();
+
+				float4x4 mDPMat;
+				mDPMat.Affine(mDPS, mDPQ, mDPT);
 
 				std::vector<float4x4>& BoneMats = pRenderer->GetBoneSockets();
-				const float4x4 BoneMatrix = BoneMats.at(AttachIndex);
 				float4x4 WorldMatrix = pRenderer->Transform.GetConstTransformDataRef().WorldMatrix;
+				float4x4 BoneMatrix = BoneMats.at(AttachIndex);
 
-				const float4 DummyPolyWPos = DummyOffset * BoneMatrix * WorldMatrix; 
-				const float4 Axis_Rot_DummyPolyWPos = Axis_Rot_DummyOffset * BoneMatrix * WorldMatrix;
 				const float4 BoneWPos = float4::ZERO * BoneMatrix * WorldMatrix;
 
-				ContentsDebug::DistanceCheck(DummyPolyWPos, 5.0f, float4(0.f, 1.f, 1.f));
-				ContentsDebug::DistanceCheck(Axis_Rot_DummyPolyWPos, 5.0f, float4(0.2f, 0.2f, 1.f));
-				// GameEngineDebug::DrawBox3D(float4::ONE * 5.0f, float4::ZERO, Axis_Rot_DummyPolyWPos, );
+				float4x4 FinMat = mDPMat* BoneMatrix* WorldMatrix;
+				float4 WS;
+				float4 WQ;
+				float4 WT;
+				FinMat.Decompose(WS, WQ, WT);
+				float4 WDeg = WQ.QuaternionToEulerDeg();
+
 				ContentsDebug::DistanceCheck(BoneWPos, 5.0f, float4(0.25f, 1.f, 0.25f));
+				GameEngineDebug::DrawBox3D(WS, WDeg, WT, float4(0.25f, 1.f, 0.75f));
 			}
 		}
 
