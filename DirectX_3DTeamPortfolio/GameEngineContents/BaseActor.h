@@ -218,6 +218,7 @@ public:
 	inline int GetAtt() const { return Stat.GetAtt(); }
 	inline int GetPoise() const { return Stat.GetPoise(); }
 	inline void SetHit(bool _Value) { Hit.SetHit(_Value); }
+	inline int GetCenterDPIndex() const { return CenterBodyIndex; }
 
 	// CollisionEvent 
 	// 캐릭터간 충돌시 상대방의 수치를 바꿔주기위한 상호작용 인터페이스입니다.
@@ -271,11 +272,14 @@ protected:
 	std::shared_ptr<GameContentsFBXRenderer> MainRenderer;
 	std::shared_ptr<class GameEnginePhysXCapsule> Capsule;
 	std::map<int, std::shared_ptr<BoneSocketCollision>> SocketCollisions; // 소켓 콜리전
+	std::vector<std::string> FloorMaterialSoundRes; // 재질에 따른 발소리 리소스
 
 	GameEngineState MainState;
 	StatusStruct Stat; // 플레이어와 몬스터가 공용으로 사용하는 기본스텟 구조체
 	HitStruct Hit; // 플레이어와 몬스터가 공용으로 사용하는 히트 로직 구조체
 
+	int CenterBodyIndex = 0; // FrameEvent에서 사용할 DummyPoly Center Body를 등록해주세요
+	int FloorMaterialIndex = 0; // 
 	
 private:
 	static std::unordered_map<Enum_ActorFlag, Enum_ActorFlagBit> FlagIndex; // 플레그를 매핑해놓은 구조체입니다. 에디터와 연계 가능합니다.

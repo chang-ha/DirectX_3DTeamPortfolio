@@ -207,6 +207,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="CameraCapsule.cpp" />
+    <ClCompile Include="CenterBodySoundFrameEvent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="CollisionUpdateFrameEvent.cpp">
       <SubType>
       </SubType>
@@ -268,11 +272,19 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="DummyPolySoundFrameEvent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="DummyProjectile.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="FireGUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="FloorMaterialSoundFrameEvent.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -483,6 +495,10 @@
     </ClInclude>
     <ClInclude Include="BossHpBar.h" />
     <ClInclude Include="CameraCapsule.h" />
+    <ClInclude Include="CenterBodySoundFrameEvent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="CollisionUpdateFrameEvent.h">
       <SubType>
       </SubType>
@@ -545,7 +561,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="DummyPolySoundFrameEvent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="DummyProjectile.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FloorMaterialSoundFrameEvent.h">
       <SubType>
       </SubType>
     </ClInclude>

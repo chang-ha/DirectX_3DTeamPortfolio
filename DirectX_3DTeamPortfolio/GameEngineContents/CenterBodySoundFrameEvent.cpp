@@ -1,29 +1,29 @@
 #include "PreCompile.h"
-#include "BoneSoundFrameEvent.h"
+#include "CenterBodySoundFrameEvent.h"
 
 #include "FrameEventHelper.h"
 
 
-BoneSoundFrameEvent::BoneSoundFrameEvent()
+CenterBodySoundFrameEvent::CenterBodySoundFrameEvent()
 {
-	SetEventID(Enum_FrameEventType::DPSound);
+	SetEventID(Enum_FrameEventType::CenterBodySound);
 }
 
-BoneSoundFrameEvent::~BoneSoundFrameEvent()
+CenterBodySoundFrameEvent::~CenterBodySoundFrameEvent()
 {
 }
 
 
-std::shared_ptr<BoneSoundFrameEvent> BoneSoundFrameEvent::CreateEventObject(int _Frame, int _iBoneIndex, std::string_view _FileName)
+std::shared_ptr<CenterBodySoundFrameEvent> CenterBodySoundFrameEvent::CreateEventObject(int _Frame, int _iBoneIndex, std::string_view _FileName)
 {
-	std::shared_ptr<BoneSoundFrameEvent> SEvent = std::make_shared<BoneSoundFrameEvent>();
+	std::shared_ptr<CenterBodySoundFrameEvent> SEvent = std::make_shared<CenterBodySoundFrameEvent>();
 	SEvent->StartFrame = _Frame;
 	SEvent->BoneIndex = _iBoneIndex;
 	SEvent->SoundName = _FileName;
 	return SEvent;
 }
 
-void BoneSoundFrameEvent::PlayEvent()
+void CenterBodySoundFrameEvent::PlayEvent()
 {
 	if (nullptr == pActor)
 	{
@@ -38,7 +38,7 @@ void BoneSoundFrameEvent::PlayEvent()
 	GameEngineSound::Sound3DPlay(SoundName, P);
 }
 
-void BoneSoundFrameEvent::Init()
+void CenterBodySoundFrameEvent::Init()
 {
 	GameContentsFBXAnimationInfo* pInfo = ParentHelper->GetParentInfo();
 	if (nullptr == pInfo)

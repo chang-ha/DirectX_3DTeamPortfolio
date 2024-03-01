@@ -1,29 +1,29 @@
 #include "PreCompile.h"
-#include "BoneSoundFrameEvent.h"
+#include "FloorMaterialSoundFrameEvent.h"
 
 #include "FrameEventHelper.h"
 
 
-BoneSoundFrameEvent::BoneSoundFrameEvent()
+FloorMaterialSoundFrameEvent::FloorMaterialSoundFrameEvent()
 {
-	SetEventID(Enum_FrameEventType::DPSound);
+	SetEventID(Enum_FrameEventType::FloorMaterialSound);
 }
 
-BoneSoundFrameEvent::~BoneSoundFrameEvent()
+FloorMaterialSoundFrameEvent::~FloorMaterialSoundFrameEvent()
 {
 }
 
 
-std::shared_ptr<BoneSoundFrameEvent> BoneSoundFrameEvent::CreateEventObject(int _Frame, int _iBoneIndex, std::string_view _FileName)
+std::shared_ptr<FloorMaterialSoundFrameEvent> FloorMaterialSoundFrameEvent::CreateEventObject(int _Frame, int _iBoneIndex, std::string_view _FileName)
 {
-	std::shared_ptr<BoneSoundFrameEvent> SEvent = std::make_shared<BoneSoundFrameEvent>();
+	std::shared_ptr<FloorMaterialSoundFrameEvent> SEvent = std::make_shared<FloorMaterialSoundFrameEvent>();
 	SEvent->StartFrame = _Frame;
 	SEvent->BoneIndex = _iBoneIndex;
 	SEvent->SoundName = _FileName;
 	return SEvent;
 }
 
-void BoneSoundFrameEvent::PlayEvent()
+void FloorMaterialSoundFrameEvent::PlayEvent()
 {
 	if (nullptr == pActor)
 	{
@@ -38,7 +38,7 @@ void BoneSoundFrameEvent::PlayEvent()
 	GameEngineSound::Sound3DPlay(SoundName, P);
 }
 
-void BoneSoundFrameEvent::Init()
+void FloorMaterialSoundFrameEvent::Init()
 {
 	GameContentsFBXAnimationInfo* pInfo = ParentHelper->GetParentInfo();
 	if (nullptr == pInfo)

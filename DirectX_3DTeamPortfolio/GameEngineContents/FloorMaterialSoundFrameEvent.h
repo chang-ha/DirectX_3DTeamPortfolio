@@ -2,22 +2,22 @@
 #include "FrameEventObject.h"
 
 // Ό³Έν :
-class BoneSoundFrameEvent : public FrameEventObject
+class FloorMaterialSoundFrameEvent : public FrameEventObject
 {
 	friend class FrameEventHelper;
 
 public:
 	// constrcuter destructer
-	BoneSoundFrameEvent();
-	~BoneSoundFrameEvent();
+	FloorMaterialSoundFrameEvent();
+	~FloorMaterialSoundFrameEvent();
 
 	// delete Function
-	BoneSoundFrameEvent(const BoneSoundFrameEvent& _Other) = delete;
-	BoneSoundFrameEvent(BoneSoundFrameEvent&& _Other) noexcept = delete;
-	BoneSoundFrameEvent& operator=(const BoneSoundFrameEvent& _Other) = delete;
-	BoneSoundFrameEvent& operator=(BoneSoundFrameEvent&& _Other) noexcept = delete;
+	FloorMaterialSoundFrameEvent(const FloorMaterialSoundFrameEvent& _Other) = delete;
+	FloorMaterialSoundFrameEvent(FloorMaterialSoundFrameEvent&& _Other) noexcept = delete;
+	FloorMaterialSoundFrameEvent& operator=(const FloorMaterialSoundFrameEvent& _Other) = delete;
+	FloorMaterialSoundFrameEvent& operator=(FloorMaterialSoundFrameEvent&& _Other) noexcept = delete;
 
-	static std::shared_ptr<BoneSoundFrameEvent> CreateEventObject(int _Frame, int _iBoneIndex, std::string_view _FileName);
+	static std::shared_ptr<FloorMaterialSoundFrameEvent> CreateEventObject(int _Frame, int _iBoneIndex, std::string_view _FileName);
 
 	void Write(class GameEngineSerializer& _File) override
 	{

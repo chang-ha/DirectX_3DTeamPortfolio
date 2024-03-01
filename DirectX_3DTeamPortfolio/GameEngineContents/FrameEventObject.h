@@ -11,8 +11,11 @@
 enum class Enum_FrameEventType
 {
 	None,
-	Sound,
-	BSound,
+	Sound = 1,
+	BSound = 2,
+	CenterBodySound = 3,
+	DPSound = 4,
+	FloorMaterialSound = 4,
 	CollisionUpdate = 11,
 	SwitchFlag = 16,
 	Transfrom = 21,

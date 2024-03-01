@@ -122,22 +122,19 @@
       <Filter>ImGui\Window</Filter>
     </ClCompile>
     <ClCompile Include="CollisionUpdateFrameEvent.cpp">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClCompile>
     <ClCompile Include="FrameEventHelper.cpp">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClCompile>
     <ClCompile Include="FrameEventObject.cpp">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClCompile>
     <ClCompile Include="SoundFrameEvent.cpp">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClCompile>
     <ClCompile Include="TurnSpeedFrameEvent.cpp">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
-    </ClCompile>
-    <ClCompile Include="AnimationInfoGUI.cpp">
-      <Filter>ImGui\Editor</Filter>
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClCompile>
     <ClCompile Include="LightGUI.cpp">
       <Filter>ImGui\Editor</Filter>
@@ -146,7 +143,7 @@
       <Filter>Actor\Monster\LothricKnight</Filter>
     </ClCompile>
     <ClCompile Include="SwitchFlagFrameEvent.cpp">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClCompile>
     <ClCompile Include="BasePlayer.cpp">
       <Filter>Actor\Player</Filter>
@@ -199,14 +196,8 @@
     <ClCompile Include="DummyGUI.cpp">
       <Filter>ImGui\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="MonsterInfoGUI.cpp">
-      <Filter>ImGui\Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="DummyGUI.cpp">
-      <Filter>ImGui\Editor</Filter>
-    </ClCompile>
     <ClCompile Include="BoneSoundFrameEvent.cpp">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClCompile>
     <ClCompile Include="ContentsMouseInput.cpp">
       <Filter>Actor\Monster\LothricKnight\Input</Filter>
@@ -279,6 +270,24 @@
     </ClCompile>
     <ClCompile Include="DummyPolyCollision.cpp">
       <Filter>Actor\Monster\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationInfoGUI.cpp">
+      <Filter>ImGui\Editor\ActorGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterInfoGUI.cpp">
+      <Filter>ImGui\Editor\ActorGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="DummyGUI.cpp">
+      <Filter>ImGui\Editor\ActorGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CenterBodySoundFrameEvent.cpp">
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="DummyPolySoundFrameEvent.cpp">
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="FloorMaterialSoundFrameEvent.cpp">
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -400,31 +409,28 @@
       <Filter>ImGui\Window</Filter>
     </ClInclude>
     <ClInclude Include="TurnSpeedFrameEvent.h">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClInclude>
     <ClInclude Include="CollisionUpdateFrameEvent.h">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClInclude>
     <ClInclude Include="FrameEventHelper.h">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClInclude>
     <ClInclude Include="FrameEventObject.h">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClInclude>
     <ClInclude Include="SoundFrameEvent.h">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClInclude>
     <ClInclude Include="LightGUI.h">
-      <Filter>ImGui\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationInfoGUI.h">
       <Filter>ImGui\Editor</Filter>
     </ClInclude>
     <ClInclude Include="ContentsDebug.h">
       <Filter>Actor\Monster\LothricKnight</Filter>
     </ClInclude>
     <ClInclude Include="SwitchFlagFrameEvent.h">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClInclude>
     <ClInclude Include="BasePlayer.h">
       <Filter>Actor\Player</Filter>
@@ -477,14 +483,8 @@
     <ClInclude Include="DummyGUI.h">
       <Filter>ImGui\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="MonsterInfoGUI.h">
-      <Filter>ImGui\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="DummyGUI.h">
-      <Filter>ImGui\Editor</Filter>
-    </ClInclude>
     <ClInclude Include="BoneSoundFrameEvent.h">
-      <Filter>ImGui\Editor\FrameEvent</Filter>
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClInclude>
     <ClInclude Include="ContentsMouseInput.h">
       <Filter>Actor\Monster\LothricKnight\Input</Filter>
@@ -552,11 +552,26 @@
     <ClInclude Include="ContentsFireRenderer.h">
       <Filter>Resource\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="FireGUI.h">
-      <Filter>ImGui\Editor</Filter>
-    </ClInclude>
     <ClInclude Include="DummyPolyCollision.h">
       <Filter>Actor\Monster\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationInfoGUI.h">
+      <Filter>ImGui\Editor\ActorGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterInfoGUI.h">
+      <Filter>ImGui\Editor\ActorGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyGUI.h">
+      <Filter>ImGui\Editor\ActorGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CenterBodySoundFrameEvent.h">
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyPolySoundFrameEvent.h">
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="FloorMaterialSoundFrameEvent.h">
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -604,9 +619,6 @@
     </Filter>
     <Filter Include="ImGui\Window">
       <UniqueIdentifier>{dc68858f-391b-4957-80a7-e101690cead0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ImGui\Editor\FrameEvent">
-      <UniqueIdentifier>{9b67aff6-631c-41f5-b70f-b2ed5bf0a4dd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Actor">
       <UniqueIdentifier>{69024302-ace0-45ec-b90f-4d1d81ceff46}</UniqueIdentifier>
@@ -670,6 +682,12 @@
     </Filter>
     <Filter Include="Actor\UI\Monster\Monster">
       <UniqueIdentifier>{3b3a688c-2b0f-43c2-bb0a-3ab314950179}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\Editor\ActorGUI">
+      <UniqueIdentifier>{5c6df2e0-fc03-49ce-b102-7d5af3acb570}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\Editor\ActorGUI\FrameEvent">
+      <UniqueIdentifier>{9b67aff6-631c-41f5-b70f-b2ed5bf0a4dd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
