@@ -46,7 +46,7 @@ private:
 	std::shared_ptr<GameEngineUIRenderer> Boss_DamageBar;
 	std::shared_ptr<GameEngineUIRenderer> Boss_Name;
 
-	float BossPrevHp = 0;
+	float BossPrevHp = 0.0f;
 	float BossCurHp = 1328;
 	float BossHp = 1328;
 	int BossSoul = 3000;
@@ -55,7 +55,7 @@ private:
 	BossHpActor BHpActor = BossHpActor::Off;
 	
 	float CurTime = 0.0f;
-	float Time = 1.0f;
+	float Time = 1.5f;
 	int i = 0;
 
 	GameEngineRandom DamRan;
