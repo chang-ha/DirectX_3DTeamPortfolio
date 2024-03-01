@@ -44,10 +44,11 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout DeferrdOut _Result)
     _Result.NorColor = -NormalTexCalculate(NormalTexture, NormalTextureSAMPLER, _Input.TEXCOORD, _Input.VIEWTANGENT, _Input.VIEWBINORMAL, _Input.VIEWNORMAL);
     _Result.NorColor.w = 1.f;
     
+    float Rough = 1.0f - ((_Result.SpcColor.x + _Result.SpcColor.y + _Result.SpcColor.z) / 3.0f);
     
     if (Roughness < 0.0f)
     {
-        _Result.MatColor.x = 1.0f - ((_Result.SpcColor.x + _Result.SpcColor.y + _Result.SpcColor.z) / 3.0f); //Roughness
+        _Result.MatColor.x = Rough; //Roughness
     }
     else
     {
@@ -56,7 +57,7 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout DeferrdOut _Result)
     
     if (Metalic < 0.0f)
     {
-        _Result.MatColor.y = 1.0f - _Result.MatColor.x; //Metalic
+        _Result.MatColor.y = 1.0f - Rough; //Metalic
     }
     else
     {

@@ -268,8 +268,11 @@
     <ClCompile Include="UIUnit.cpp">
       <Filter>Actor\UI</Filter>
     </ClCompile>
-    <ClCompile Include="DummyPolyCollision.cpp">
-      <Filter>Actor\Monster\Component</Filter>
+    <ClCompile Include="ContentsFireRenderer.cpp">
+      <Filter>Resource\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="FireGUI.cpp">
+      <Filter>ImGui\Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -531,8 +534,14 @@
     <ClInclude Include="UIPlayerGaugeBar.h">
       <Filter>Actor\UI</Filter>
     </ClInclude>
-    <ClInclude Include="DummyPolyCollision.h">
-      <Filter>Actor\Monster\Component</Filter>
+    <ClInclude Include="FogGUI.h">
+      <Filter>ImGui\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsFireRenderer.h">
+      <Filter>Resource\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="FireGUI.h">
+      <Filter>ImGui\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

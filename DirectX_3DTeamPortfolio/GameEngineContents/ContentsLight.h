@@ -2,12 +2,7 @@
 #include <GameEngineCore/GameEngineLight.h>
 
 
-enum class Enum_LightType
-{
-	Directional,
-	Point,
-	//Spot
-};
+
 
 // Ό³Έν :
 class ContentsLight : public GameEngineLight
@@ -25,14 +20,7 @@ public:
 
 	bool IsDebugValue = false;
 
-	inline void SetLightType(Enum_LightType _Type)
-	{
-		LightData Data = GetLightData();
 
-		Data.LightType = static_cast<int>(_Type);
-
-		SetLightData(Data);
-	}
 
 protected:
 	void Start() override;

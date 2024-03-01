@@ -116,7 +116,7 @@ void LevelChangeTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	{
 		FrameResult = FrameCount;
 		FrameCount = 0;
-		FrameSecond = 0.0f;
+		FrameSecond -= 1.0f;
 	}
 
 	std::string Frame2 = "Average Frame: " + std::to_string(FrameResult);

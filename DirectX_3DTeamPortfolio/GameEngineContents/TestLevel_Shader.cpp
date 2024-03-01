@@ -11,6 +11,7 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 #include "LUTEffect.h"
 #include "BloomEffect.h"
+#include "ContentsFireRenderer.h"
 
 TestLevel_Shader::TestLevel_Shader()
 {
@@ -37,17 +38,40 @@ void TestLevel_Shader::Start()
 	// GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, 3000.0f });
 	// GetMainCamera()->Transform.AddWorldRotation({ 0.f, 180.f, 0.f });
 
+
+	
+
+		Test_Light1 = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Direct");
+		Test_Light1->CreateShadowMap();
+		Test_Light1->Transform.SetWorldRotation({ 0.0f, 0.0f, 0.0f });
+
+		Test_Light1->Transform.AddLocalPosition({ 0.0f, 0.0f, -1000.0f });
+
+		Test_Light1->IsDebugValue = true;
+		LightData Data = Test_Light1->GetLightData();
+
+		Data.LightPower = 2.0f;
+		Data.AmbientLight = float4(0.1f, 0.1f, 0.1f, 1.0f);
+		Data.SpcPow = 50.0f;
+
+		Test_Light1->SetLightData(Data);
+		//Test_Light1->SetShadowRange(float4{ 16384,16384 });
+	
+
 	CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 
 
-	//if (nullptr != CoreWindow)
-	//{
-	//	CoreWindow->AddDebugRenderTarget(1, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
-	//	CoreWindow->AddDebugRenderTarget(2, "ForwardTarget", GetMainCamera()->GetCameraForwardTarget());
-	//	CoreWindow->AddDebugRenderTarget(3, "DeferredLightTarget", GetMainCamera()->GetCameraDeferredLightTarget());
-	//	CoreWindow->AddDebugRenderTarget(4, "DeferredTarget", GetMainCamera()->GetCameraDeferredTarget());
-	//	//CoreWindow->AddDebugRenderTarget(3, "HBAO", GetMainCamera()->GetCameraHBAOTarget());
-	//}
+	//std::shared_ptr<GameEngineCoreWindow> CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+
+	if (nullptr != CoreWindow)
+	{
+		CoreWindow->AddDebugRenderTarget(1, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
+		CoreWindow->AddDebugRenderTarget(2, "ForwardTarget", GetMainCamera()->GetCameraForwardTarget());
+		CoreWindow->AddDebugRenderTarget(3, "DeferredLightTarget", GetMainCamera()->GetCameraDeferredLightTarget());
+		CoreWindow->AddDebugRenderTarget(4, "DeferredTarget", GetMainCamera()->GetCameraDeferredTarget());
+		CoreWindow->AddDebugRenderTarget(5, "LightTarget", Test_Light1->GetShadowTarget());
+		//CoreWindow->AddDebugRenderTarget(3, "HBAO", GetMainCamera()->GetCameraHBAOTarget());
+	}
 
 
 	Scene->setVisualizationParameter(physx::PxVisualizationParameter::eACTOR_AXES, 0.0f);
@@ -60,9 +84,9 @@ void TestLevel_Shader::Start()
 
 	//GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<FXAAEffect>();
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
-	GetMainCamera()->Transform.AddLocalPosition({ 0.0f, 0.0f, -300.0f });
-	GetLevelRenderTarget()->CreateEffect<BloomEffect>();
-	GetLevelRenderTarget()->CreateEffect<LUTEffect>();
+	GetMainCamera()->Transform.AddLocalPosition({ 0.0f, 0.0f, -500.0f });
+	//GetLevelRenderTarget()->CreateEffect<BloomEffect>();
+	//GetLevelRenderTarget()->CreateEffect<LUTEffect>();
 
 
 
@@ -71,15 +95,21 @@ void TestLevel_Shader::Start()
 	GetCamera(ECAMERAORDER::UI)->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
 
-	//HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
-	//HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,10.0f });
-
-
 	/*HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
+	HollowSoldier->Transform.AddLocalPosition({ 100.0f,0.0f,0.0f });
+
+
+	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
 	HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,100.0f });
 
 	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
-	HollowSoldier->Transform.AddLocalPosition({ -300.0f,0.0f,10.0f });*/
+	HollowSoldier->Transform.AddLocalPosition({ 0.0f,0.0f,0.0f });
+
+	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
+	HollowSoldier->Transform.AddLocalPosition({ 0.0f,100.0f,0.0f });
+
+	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
+	HollowSoldier->Transform.AddLocalPosition({ 0.0f,-100.0f,0.0f });*/
 
 
 	/*Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
@@ -88,52 +118,57 @@ void TestLevel_Shader::Start()
 
 
 	// 맵 오브젝트
-	{
-		std::shared_ptr<GameEngineActor> actor = CreateActor<GameEngineActor>();
+	//{
+	//	std::shared_ptr<GameEngineActor> actor = CreateActor<GameEngineActor>();
 
 
-		std::shared_ptr<GameContentsFBXRenderer> renderer = actor->CreateComponent<GameContentsFBXRenderer>();
+	//	std::shared_ptr<GameContentsFBXRenderer> renderer = actor->CreateComponent<GameContentsFBXRenderer>();
 
-		renderer->SetFBXMesh("WorldSky.FBX", "FBX_Static_Alpha",RenderPath::Alpha);
-		//renderer->RenderBaseInfoValue.TEXCOORDMult = 1.0f;
-		//renderer->transform.setlocalscale({ 50.f, 50.f, 50.f, 1.0f });
+	//	renderer->SetFBXMesh("WorldSky.FBX", "FBX_Static_Alpha",RenderPath::Alpha);
+	//	//renderer->RenderBaseInfoValue.TEXCOORDMult = 1.0f;
+	//	//renderer->transform.setlocalscale({ 50.f, 50.f, 50.f, 1.0f });
 
-		//renderer->renderbaseinfovalue.alphavalue = -10.0f;
+	//	//renderer->renderbaseinfovalue.alphavalue = -10.0f;
 
 
-	}
+	//}Q
 
 		// 컬러 구체
+	//{
+	//	{
+	//		std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
+	//		std::shared_ptr<GameEngineRenderer> NewRenderer = Object->CreateComponent<GameEngineRenderer>();
+	//		//NewRenderer->RenderBaseInfoValue.IsNormal = 1;
+	//		NewRenderer->SetMesh("Sphere");
+	//		NewRenderer->SetMaterial("FBX_Static_Color");
+	//		//NewRenderer->GetShaderResHelper().SetTexture("DiffuseTexture", "m30_00_sky_04_a.png");
+	//		NewRenderer->Transform.SetLocalPosition({ 0.0f, 0.0f, -500.0f });
+	//		NewRenderer->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
+	//		NewRenderer->RenderBaseInfoValue.BaseColor = float4::RED;
+	//	}
+	//}
+	//불
 	{
-		{
-			std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
-			std::shared_ptr<GameEngineRenderer> NewRenderer = Object->CreateComponent<GameEngineRenderer>();
-			//NewRenderer->RenderBaseInfoValue.IsNormal = 1;
-			NewRenderer->SetMesh("Sphere");
-			NewRenderer->SetMaterial("FBX_Static_NorX_SpcX");
-			NewRenderer->GetShaderResHelper().SetTexture("DiffuseTexture", "m30_00_sky_04_a.png");
-			//NewRenderer->Transform.SetLocalPosition({ 0.0f, 0.0f, 0.0f });
-			NewRenderer->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
-			//NewRenderer->RenderBaseInfoValue.BaseColor = float4::RED;
-		}
+		std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
+		
+
+		std::shared_ptr<ContentsFireRenderer> Render = Object->CreateComponent<ContentsFireRenderer>();
+
+		Render->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
+		//Render = Object->CreateComponent<ContentsFireRenderer>();
+
+		/*Render->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
+		Render->Transform.SetLocalRotation({ 0.0f, 30.0f, 0.0f });
+		Render = Object->CreateComponent<ContentsFireRenderer>();
+
+		Render->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
+		Render->Transform.SetLocalRotation({ 0.0f, 60.0f, 0.0f });*/
 	}
 
 	//SkyRenderer = CreateComponent<GameContentsFBXRenderer>();
 	//SkyRenderer->SetFBXMesh("WorldSky.FBX", "FBX_Static");
 
 
-	{
-
-		Test_Light1 = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Direct");
-		Test_Light1->Transform.SetWorldRotation({ 0.0f, 0.0f, 0.0f });
-		LightData Data = Test_Light1->GetLightData();
-
-		Data.LightPower = 2.0f;
-		Data.AmbientLight = float4(0.1f, 0.1f, 0.1f, 1.0f);
-		Data.SpcPow = 50.0f;
-
-		Test_Light1->SetLightData(Data);
-	}
 
 	//{
 	//	Test_Light1 = CreateActor<ContentsLight>(static_cast<int>(Enum_UpdateOrder::Light),"MainLight");
@@ -155,16 +190,16 @@ void TestLevel_Shader::Start()
 
 
 
-	{
-		std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
-		std::shared_ptr<GameEngineRenderer> NewRenderer = Object->CreateComponent<GameEngineRenderer>();
-		NewRenderer->SetMesh("Box");
-		NewRenderer->SetMaterial("FBX_Static_Color");
-		// NewRenderer->GetShaderResHelper().SetTexture("NormalTexture", "BumpNormal.gif");
-		NewRenderer->Transform.SetLocalPosition({ 0.0f, -200.0f, 0.0f });
-		NewRenderer->Transform.SetLocalScale({ 3000.0f, 100.0f, 3000.0f });
-		NewRenderer->RenderBaseInfoValue.BaseColor = float4(0.2f,0.2f,0.0f,1.0f);
-	}
+	//{
+	//	std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
+	//	std::shared_ptr<GameEngineRenderer> NewRenderer = Object->CreateComponent<GameEngineRenderer>();
+	//	NewRenderer->SetMesh("Box");
+	//	NewRenderer->SetMaterial("FBX_Static_Color");
+	//	// NewRenderer->GetShaderResHelper().SetTexture("NormalTexture", "BumpNormal.gif");
+	//	NewRenderer->Transform.SetLocalPosition({ 0.0f, -200.0f, 0.0f });
+	//	NewRenderer->Transform.SetLocalScale({ 3000.0f, 100.0f, 3000.0f });
+	//	NewRenderer->RenderBaseInfoValue.BaseColor = float4(0.2f,0.2f,0.0f,1.0f);
+	//}
 
 	//{
 	//	std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
@@ -253,11 +288,11 @@ void TestLevel_Shader::Update(float _Delta)
 		GameEngineCamera::FreeSpeed = 200.0f;
 	}
 
-	if (true == GameEngineInput::IsDown(VK_F7, this))
+	
+	if (true == GameEngineInput::IsDown(VK_F6, this))
 	{
-		GameEngineGUI::AllWindowOff();
+		GameEngineGUI::AllWindowSwitch();
 	}
-
 
 
 }

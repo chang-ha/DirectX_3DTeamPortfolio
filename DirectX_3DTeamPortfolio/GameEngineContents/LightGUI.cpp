@@ -131,6 +131,10 @@ void LightGUI::LightEditor()
 		if (ImGui::InputFloat("AmbLightPower", &Data.AmbLightPower))
 		{
 		}
+
+		if (ImGui::InputFloat("LightFar", &Data.LightFar))
+		{
+		}
 		/*if (ImGui::InputFloat("SpcPow", &Data.SpcPow))
 		{
 		}*/

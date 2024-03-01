@@ -108,7 +108,7 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout DeferrdOut _Result)
     
     if (Metalic < 0.0f)
     {
-        _Result.MatColor.y = 0.5f; //Metalic
+        _Result.MatColor.y = 0.0f; //Metalic
     }
     else
     {

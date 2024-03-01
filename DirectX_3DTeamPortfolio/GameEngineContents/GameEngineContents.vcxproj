@@ -236,6 +236,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ContentsFireRenderer.cpp" />
     <ClCompile Include="ContentsLight.cpp">
       <SubType>
       </SubType>
@@ -268,6 +269,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="FireGUI.cpp" />
     <ClCompile Include="FogGUI.cpp" />
     <ClCompile Include="HitInteraction.cpp" />
     <ClCompile Include="LUTEffect.cpp">
@@ -500,6 +502,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ContentsEnum.h" />
+    <ClInclude Include="ContentsFireRenderer.h" />
     <ClInclude Include="ContentsLight.h">
       <SubType>
       </SubType>
@@ -532,6 +535,8 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="FireGUI.h" />
+    <ClInclude Include="FogGUI.h" />
     <ClInclude Include="HitInteraction.h">
       <SubType>
       </SubType>

@@ -30,7 +30,8 @@ Texture2D ShadowTex : register(t4);
 Texture2D SpecularTex : register(t5);
 Texture2D HBAOTex : register(t6);
 Texture2D PBRTex : register(t7);
-SamplerState POINTWRAP : register(s0);
+SamplerState POINTClamp : register(s0);
+SamplerState LINEARClamp : register(s1);
 
 
 
@@ -39,7 +40,7 @@ float4 ContentsDeferredMergeRender_PS(PixelOutPut _Input) : SV_Target0
     float4 Result = (float4) 0;
     
     
-    float4 DifColor = DifColorTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
+    float4 DifColor = DifColorTex.Sample(POINTClamp, _Input.TEXCOORD.xy);
     if (DifColor.w <= 0.0f)
     {
         clip(-1);
@@ -47,13 +48,13 @@ float4 ContentsDeferredMergeRender_PS(PixelOutPut _Input) : SV_Target0
     
     DifColor.xyz = pow(DifColor.xyz, 2.2f); //gamma
     
-    float4 DifLight = DifLightTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
-    float4 SpcLight = SpcLightTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
-    float4 AmbLight = AmbLightTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
-    float4 Shadow = ShadowTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
-    float4 PBR = PBRTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
-	float3 SpecularColor = SpecularTex.Sample(POINTWRAP, _Input.TEXCOORD.xy).rgb;
-    float3 HBAOTexColor = HBAOTex.Sample(POINTWRAP, _Input.TEXCOORD.xy).rgb;
+    float4 DifLight = DifLightTex.Sample(POINTClamp, _Input.TEXCOORD.xy);
+    float4 SpcLight = SpcLightTex.Sample(POINTClamp, _Input.TEXCOORD.xy);
+    float4 AmbLight = AmbLightTex.Sample(POINTClamp, _Input.TEXCOORD.xy);
+    float4 Shadow = ShadowTex.Sample(LINEARClamp, _Input.TEXCOORD.xy);
+    float4 PBR = PBRTex.Sample(POINTClamp, _Input.TEXCOORD.xy);
+    float3 SpecularColor = SpecularTex.Sample(POINTClamp, _Input.TEXCOORD.xy).rgb;
+    float3 HBAOTexColor = HBAOTex.Sample(LINEARClamp, _Input.TEXCOORD.xy).rgb;
     
     
     //SpcLight.xyz *= SpecularColor;
@@ -65,7 +66,8 @@ float4 ContentsDeferredMergeRender_PS(PixelOutPut _Input) : SV_Target0
     
     if (0.0f < Shadow.x)
     {
-        Result.xyz *= 0.1f;
+        Result.xyz *= (1.0f - Shadow.x);
+        //Result.xyz *= 0.1f;
     }
     
     Result.xyz += DifColor.xyz * AmbLight.xyz;

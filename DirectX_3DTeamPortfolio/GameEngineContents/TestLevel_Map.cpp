@@ -50,14 +50,17 @@ void TestLevel_Map::Start()
 
 	std::shared_ptr<GameEngineCoreWindow> CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 
-	if (nullptr != CoreWindow)
-	{
-		CoreWindow->AddDebugRenderTarget(1, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
-		CoreWindow->AddDebugRenderTarget(2, "ForwardTarget", GetMainCamera()->GetCameraForwardTarget());
-		CoreWindow->AddDebugRenderTarget(3, "DeferredLightTarget", GetMainCamera()->GetCameraDeferredLightTarget());
-		CoreWindow->AddDebugRenderTarget(4, "DeferredTarget", GetMainCamera()->GetCameraDeferredTarget());
-		//CoreWindow->AddDebugRenderTarget(3, "HBAO", GetMainCamera()->GetCameraHBAOTarget());
-	}
+	//if (nullptr != CoreWindow)
+	//{
+	//	CoreWindow->AddDebugRenderTarget(1, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
+	//	CoreWindow->AddDebugRenderTarget(2, "ForwardTarget", GetMainCamera()->GetCameraForwardTarget());
+	//	CoreWindow->AddDebugRenderTarget(3, "DeferredLightTarget", GetMainCamera()->GetCameraDeferredLightTarget());
+	//	CoreWindow->AddDebugRenderTarget(4, "DeferredTarget", GetMainCamera()->GetCameraDeferredTarget());
+	//	//CoreWindow->AddDebugRenderTarget(5, "LightTarget", Test_Light1->GetShadowTarget());
+	//	//CoreWindow->AddDebugRenderTarget(3, "HBAO", GetMainCamera()->GetCameraHBAOTarget());
+	//}
+
+
 
 	//float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 
@@ -84,14 +87,20 @@ void TestLevel_Map::Start()
 
 
 	// 빛
-	std::shared_ptr<ContentsLight> TestObject0 = CreateActor<ContentsLight>(0);
+	std::shared_ptr<ContentsLight> TestObject0 = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "main");
 	LightData Data = TestObject0->GetLightData();
 
 	Data.DifLightPower = 0.1f;
-	Data.AmbientLight = float4(0.7f,0.7f,0.7f,1.0f);
+	Data.AmbientLight = float4(0.05f,0.05f,0.05f,1.0f);
 	Data.SpcPow = 200.0f;
 
 	TestObject0->SetLightData(Data);
+	TestObject0->IsDebugValue = true;
+	TestObject0->CreateShadowMap(/*float4(4096, 4096)*/);
+	//TestObject0->SetShadowRange(float4(4096, 4096));
+	TestObject0->SetShadowRange(float4{ 16384,16384 });
+	TestObject0->Transform.SetLocalPosition({ -3400.0f, 10101.0f, -5331.0f });
+	TestObject0->Transform.SetLocalRotation({ 40.0f, 0.0f, 0.0f });
 
 }
 
@@ -100,6 +109,12 @@ void TestLevel_Map::Update(float _Delta)
 	ContentLevel::Update(_Delta);
 
 	RayCast({ 100.0f, }, { 0.0f,0.0f, 5.0f }, 1000.0f);
+
+
+	if (true == GameEngineInput::IsDown(VK_F6, this))
+	{
+		GameEngineGUI::AllWindowSwitch();
+	}
 }
 
 void TestLevel_Map::Release()

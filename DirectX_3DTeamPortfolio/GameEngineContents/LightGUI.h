@@ -32,7 +32,6 @@ private:
 	class ContentsLight* SelectActor = nullptr;
 
 	std::vector<std::string> ActorNames;
-	//std::vector<ContentsLight*> ActorPointer;
 	std::vector<const char*> CObjectNames;
 };
 

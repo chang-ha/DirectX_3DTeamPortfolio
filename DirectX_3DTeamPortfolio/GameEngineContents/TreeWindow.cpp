@@ -8,6 +8,7 @@
 #include "LUTGUI.h"
 #include "BloomGUI.h"
 #include "FogGUI.h"
+#include "FireGUI.h"
 
 
 void TreeWindow::Start()
@@ -25,6 +26,7 @@ void RootTree::Start()
 	CreateTree<LUTGUI>("LUT Editor");
 	CreateTree<BloomGUI>("Bloom Editor");
 	CreateTree<FogGUI>("Fog Editor");
+	CreateTree<FireGUI>("Fire Editor");
 }
 
 void TreeWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
