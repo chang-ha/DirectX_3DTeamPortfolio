@@ -29,6 +29,7 @@ void TestLevel_Monster::Start()
 	{
 		std::shared_ptr<ContentsLight> Test_Light1 = CreateActor<ContentsLight>(0);
 		Test_Light1->SetLightType(Enum_LightType::Directional);
+		Test_Light1->CreateShadowMap();
 		Test_Light1->IsDebugValue = true;
 		LightData Data = Test_Light1->GetLightData();
 
