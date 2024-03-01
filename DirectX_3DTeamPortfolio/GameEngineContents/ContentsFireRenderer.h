@@ -26,7 +26,10 @@ struct FireInfo
 // Ό³Έν :
 class ContentsFireRenderer : public GameEngineRenderer
 {
+    friend class FireGUI;
 public:
+
+    static ContentsFireRenderer* MainFire;
 
 	// constrcuter destructer
 	ContentsFireRenderer();
@@ -49,6 +52,6 @@ protected:
 private:
 
     FireInfo FireInfoValue;
-
+    float TimeScale = 1.0f;
 };
 

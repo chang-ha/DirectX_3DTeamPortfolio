@@ -155,7 +155,7 @@ void TestLevel_Shader::Start()
 		std::shared_ptr<ContentsFireRenderer> Render = Object->CreateComponent<ContentsFireRenderer>();
 
 		Render->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
-		Render = Object->CreateComponent<ContentsFireRenderer>();
+		//Render = Object->CreateComponent<ContentsFireRenderer>();
 
 		/*Render->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
 		Render->Transform.SetLocalRotation({ 0.0f, 30.0f, 0.0f });

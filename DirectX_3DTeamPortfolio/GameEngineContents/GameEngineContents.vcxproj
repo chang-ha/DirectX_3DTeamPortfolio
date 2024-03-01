@@ -255,6 +255,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="FireGUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FogGUI.cpp" />
     <ClCompile Include="LUTEffect.cpp">
       <SubType>
@@ -490,6 +494,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="DummyProjectile.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FireGUI.h">
       <SubType>
       </SubType>
     </ClInclude>

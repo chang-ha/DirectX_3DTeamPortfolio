@@ -1,7 +1,8 @@
 #include "PreCompile.h"
 #include "ContentsFireRenderer.h"
 
-//FireInfo ContentsFireRenderer::FireInfoValue;
+
+ContentsFireRenderer* ContentsFireRenderer::MainFire = nullptr;
 
 ContentsFireRenderer::ContentsFireRenderer() 
 {
@@ -55,6 +56,7 @@ void ContentsFireRenderer::Start()
 	Unit->ShaderResHelper.SetSampler("ClampSampler", "EngineBaseSampler");
 	Unit->ShaderResHelper.SetConstantBufferLink("FireInfo", FireInfoValue);
 
+	MainFire = this;
 
 }
 
@@ -62,7 +64,7 @@ void ContentsFireRenderer::Update(float _Delta)
 {
 	GameEngineRenderer::Update(_Delta);
 
-	FireInfoValue.frameTime += _Delta;
+	FireInfoValue.frameTime += _Delta * TimeScale;
 
 	if (FireInfoValue.frameTime > 1000.0f)
 	{
