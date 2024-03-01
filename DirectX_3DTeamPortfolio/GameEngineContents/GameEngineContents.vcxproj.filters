@@ -187,12 +187,6 @@
     <ClCompile Include="LUTGUI.cpp">
       <Filter>ImGui\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="UIPlayerGaugeBar.cpp">
-      <Filter>Actor\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UIUnit.cpp">
-      <Filter>Actor\UI</Filter>
-    </ClCompile>
     <ClCompile Include="MainUIActor.cpp">
       <Filter>Actor\UI</Filter>
     </ClCompile>
@@ -252,6 +246,27 @@
     </ClCompile>
     <ClCompile Include="Weapon.cpp">
       <Filter>Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="AddSouls.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="AppearTextures.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="BossHpBar.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIEquipFrame.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIPlayerEquip.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIPlayerGaugeBar.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIUnit.cpp">
+      <Filter>Actor\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -438,12 +453,6 @@
     <ClInclude Include="LUTGUI.h">
       <Filter>ImGui\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="UIPlayerGaugeBar.h">
-      <Filter>Actor\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UIUnit.h">
-      <Filter>Actor\UI</Filter>
-    </ClInclude>
     <ClInclude Include="MainUIActor.h">
       <Filter>Actor\UI</Filter>
     </ClInclude>
@@ -500,6 +509,24 @@
     </ClInclude>
     <ClInclude Include="Weapon.h">
       <Filter>Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="UIUnit.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="AddSouls.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="AppearTextures.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIEquipFrame.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIPlayerEquip.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIPlayerGaugeBar.h">
+      <Filter>Actor\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

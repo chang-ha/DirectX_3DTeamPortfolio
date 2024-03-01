@@ -167,7 +167,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AddSouls.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="AnimationInfoGUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="AppearTextures.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -186,6 +194,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="BoneSoundFrameEvent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BossHpBar.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -405,13 +417,29 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UIEquipFrame.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UIPlayerEquip.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UIPlayerGaugeBar.cpp" />
     <ClCompile Include="UIUnit.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WorldMap.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AddSouls.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="AnimationInfoGUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="AppearTextures.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -648,6 +676,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TurnSpeedFrameEvent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UIEquipFrame.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UIPlayerEquip.h">
       <SubType>
       </SubType>
     </ClInclude>

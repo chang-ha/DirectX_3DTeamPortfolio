@@ -93,6 +93,21 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	
 
 	{
+		if (nullptr == GameEngineSprite::Find("Dark.png"))
+		{
+			GameEngineDirectory Dir;
+			Dir.MoveParentToExistsChild("ContentsResources");
+			Dir.MoveChild("ContentsResources");
+			Dir.MoveChild("UITexture");
+			std::vector<GameEngineFile> Files = Dir.GetAllFile();
+			for (GameEngineFile& pFiles : Files)
+			{
+				GameEngineTexture::Load(pFiles.GetStringPath());
+				GameEngineSprite::CreateSingle(pFiles.GetFileName());
+			}
+		}
+
+
 		std::shared_ptr<MainUIActor> MainUI = CreateActor<MainUIActor>();
 	}
 
@@ -105,9 +120,21 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	physx::PxMaterial* mMaterial = GameEnginePhysX::GetDefaultMaterial();
 	physx::PxRigidStatic* groundPlane = PxCreatePlane(*Physics, physx::PxPlane(0, 1, 0, 50), *mMaterial);
 	Scene->addActor(*groundPlane);
-
 }
 
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
+	if (nullptr != GameEngineSprite::Find("Dark.Png"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources");
+		Dir.MoveChild("UITexture");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pFiles : Files)
+		{
+			GameEngineSprite::Release(pFiles.GetFileName());
+			GameEngineTexture::Release(pFiles.GetFileName());
+		}
+	}
 }

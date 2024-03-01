@@ -26,20 +26,12 @@ private:
 	//// PlayerIcon
 	std::shared_ptr<GameEngineUIRenderer> PlayerIcon;
 
-	//// BackBar
-	std::shared_ptr<GameEngineUIRenderer> HpBackBar_Left;
-	std::shared_ptr<GameEngineUIRenderer> HpBackBar_Center;
-	std::shared_ptr<GameEngineUIRenderer> HpBackBar_Right;
 
-	std::shared_ptr<GameEngineUIRenderer> MpBackBar;
-	std::shared_ptr<GameEngineUIRenderer> StaminaBackBar;
+	std::shared_ptr<GameEngineUIRenderer> Boss_HpBar;
+	std::shared_ptr<GameEngineUIRenderer> Boss_Hp;
+	std::shared_ptr<GameEngineUIRenderer> Boss_DamageBar;
 
-	//// HP Bar
-	std::shared_ptr<GameEngineUIRenderer> MainHpBar;
-	float CurHpScale = 0.0f;
-
-	//// PP Bar
-	std::shared_ptr<GameEngineUIRenderer> MainPPBar;
+	std::shared_ptr<GameEngineUIRenderer> Textures;
 
 	float ScaleSpeed = 100.0f;
 };
