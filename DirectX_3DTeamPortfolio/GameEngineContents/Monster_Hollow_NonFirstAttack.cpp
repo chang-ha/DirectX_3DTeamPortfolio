@@ -86,11 +86,14 @@ void Monster_Hollow_NonFirstAttack::ChangeState(Enum_Hollow_State _State)
 		case Enum_Hollow_State::RH_HorizontalSlash:
 			State_RH_HorizontalSlash_Start();
 			break;
+		case Enum_Hollow_State::TH_VerticalSlash:
+			State_TH_VerticalSlash_Start();
+			break;
 		case Enum_Hollow_State::RH_ComboAttack:
 			State_RH_ComboAttack_Start();
 			break;
-		case Enum_Hollow_State::RH_TwinSlash:
-			State_RH_TwinSlash_Start();
+		case Enum_Hollow_State::RH_RunToSlash:
+			State_RH_RunToSlash_Start();
 			break;
 		case Enum_Hollow_State::Turn_Left2:
 			State_Turn_Left2_Start();
@@ -171,10 +174,12 @@ void Monster_Hollow_NonFirstAttack::StateUpdate(float _Delta)
 		return State_RH_VerticalSlash_Update(_Delta);
 	case Enum_Hollow_State::RH_HorizontalSlash:
 		return State_RH_HorizontalSlash_Update(_Delta);
+	case Enum_Hollow_State::TH_VerticalSlash:
+		return State_TH_VerticalSlash_Update(_Delta);
 	case Enum_Hollow_State::RH_ComboAttack:
 		return State_RH_ComboAttack_Update(_Delta);
-	case Enum_Hollow_State::RH_TwinSlash:
-		return State_RH_TwinSlash_Update(_Delta);
+	case Enum_Hollow_State::RH_RunToSlash:
+		return State_RH_RunToSlash_Update(_Delta);
 	case Enum_Hollow_State::Turn_Left2:
 		return State_Turn_Left2_Update(_Delta);
 	case Enum_Hollow_State::Turn_Right2:
@@ -202,8 +207,12 @@ void Monster_Hollow_NonFirstAttack::StateUpdate(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::ChangeAttackState()
 {
-	//AttackPattern = ContentsRandom::RandomInt(1, 7);
-	AttackPattern = ContentsRandom::RandomInt(1, 3);
+	AttackPattern = ContentsRandom::RandomInt(1, 7);
+	/*if (IsAttack == true)
+	{
+		AttackPattern = ContentsRandom::RandomInt(3, 7);
+	}*/
+	
 	switch (AttackPattern)  
 	{
 	case 1:
@@ -214,6 +223,18 @@ void Monster_Hollow_NonFirstAttack::ChangeAttackState()
 		break;
 	case 3:
 		ChangeState(Enum_Hollow_State::Walk_Right);
+		break;
+	case 4:
+		ChangeState(Enum_Hollow_State::RH_VerticalSlash);
+		break;
+	case 5:
+		ChangeState(Enum_Hollow_State::RH_HorizontalSlash);
+		break;
+	case 6:
+		ChangeState(Enum_Hollow_State::TH_VerticalSlash);
+		break;
+	case 7:
+		ChangeState(Enum_Hollow_State::RH_ComboAttack);
 		break;
 	default:
 		break;
@@ -557,7 +578,7 @@ void Monster_Hollow_NonFirstAttack::State_Idle_Update(float _Delta)
 		};
 	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);
 
-	if (StateTime >= 2.0f)
+	if (StateTime >= 0.1f)
 	{
 		// 거리 구하기
 		if (false)
@@ -576,8 +597,8 @@ void Monster_Hollow_NonFirstAttack::State_Idle_Update(float _Delta)
 			else
 			{
 				StateTime = 0.0f;
-				//ChangeAttackState();
-				ChangeState(Enum_Hollow_State::Walk_Front);
+				ChangeAttackState();
+				//ChangeState(Enum_Hollow_State::Walk_Front);
 			}
 		}
 
@@ -681,7 +702,10 @@ void Monster_Hollow_NonFirstAttack::State_RH_VerticalSlash_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_RH_VerticalSlash_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 61)
+	{
+		ChangeState(Enum_Hollow_State::Idle);
+	}
 }
 
 void Monster_Hollow_NonFirstAttack::State_RH_HorizontalSlash_Start()
@@ -690,7 +714,22 @@ void Monster_Hollow_NonFirstAttack::State_RH_HorizontalSlash_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_RH_HorizontalSlash_Update(float _Delta)
 {
+	if (MainRenderer->GetCurAnimationFrame() >= 53)
+	{
+		ChangeState(Enum_Hollow_State::Idle);
+	}
+}
 
+void Monster_Hollow_NonFirstAttack::State_TH_VerticalSlash_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_TH_VerticalSlash");
+}
+void Monster_Hollow_NonFirstAttack::State_TH_VerticalSlash_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 73)
+	{
+		ChangeState(Enum_Hollow_State::Idle);
+	}
 }
 
 void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Start()
@@ -699,16 +738,22 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 165)
+	{
+		ChangeState(Enum_Hollow_State::Idle);
+	}
 }
 
-void Monster_Hollow_NonFirstAttack::State_RH_TwinSlash_Start()
+void Monster_Hollow_NonFirstAttack::State_RH_RunToSlash_Start()
 {
-	MainRenderer->ChangeAnimation("c1100_RH_TwinSlash");
+	MainRenderer->ChangeAnimation("c1100_RH_RunToSlash");
 }
-void Monster_Hollow_NonFirstAttack::State_RH_TwinSlash_Update(float _Delta)
+void Monster_Hollow_NonFirstAttack::State_RH_RunToSlash_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 82)
+	{
+		ChangeState(Enum_Hollow_State::Idle);
+	}
 }
 
 void Monster_Hollow_NonFirstAttack::State_Turn_Left2_Start()
