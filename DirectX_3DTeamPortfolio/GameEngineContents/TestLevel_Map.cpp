@@ -121,21 +121,22 @@ void TestLevel_Map::Update(float _Delta)
 
 	RayCast({ 100.0f, }, { 0.0f,0.0f, 5.0f }, 1000.0f);
 
-<<<<<<< HEAD
+
 
 	if (true == GameEngineInput::IsDown(VK_F6, this))
 	{
 		GameEngineGUI::AllWindowSwitch();
-=======
-	if (true == GameEngineInput::IsDown('1',this))
-	{
-		GameEngineCamera::FreeSpeed = 50.0f;
-	}
-	
-	if (true == GameEngineInput::IsDown('2', this))
-	{
-		GameEngineCamera::FreeSpeed = 1000.0f;
->>>>>>> origin/Feature/MapObject
+
+		if (true == GameEngineInput::IsDown('1', this))
+		{
+			GameEngineCamera::FreeSpeed = 50.0f;
+		}
+
+		if (true == GameEngineInput::IsDown('2', this))
+		{
+			GameEngineCamera::FreeSpeed = 1000.0f;
+
+		}
 	}
 }
 
