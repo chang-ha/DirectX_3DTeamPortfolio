@@ -287,49 +287,49 @@
       <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClCompile>
     <ClCompile Include="Object_BossDoor.cpp">
-      <Filter>MapObj</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="Object_CastleDoor.cpp">
-      <Filter>MapObj</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_Skeleton.cpp">
-      <Filter>MapObj</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_Skeleton1.cpp">
-      <Filter>MapObj</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_StartDoor.cpp">
-      <Filter>MapObj</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_Sword.cpp">
-      <Filter>MapObj</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="Object_Desk.cpp">
-      <Filter>MapObj</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_Table.cpp">
-      <Filter>MapObj</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_Ladder1.cpp">
-      <Filter>MapObj</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_Ladder2.cpp">
-      <Filter>MapObj</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_Ladder3.cpp">
-      <Filter>MapObj</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_Ladder4.cpp">
-      <Filter>MapObj</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_Ladder5.cpp">
-      <Filter>MapObj</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_Ladder6.cpp">
-      <Filter>MapObj</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="Object_HumanTree.cpp">
-      <Filter>MapObj</Filter>
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Ladder1.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Ladder2.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Ladder3.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Ladder4.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Ladder5.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Ladder6.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Skeleton.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Skeleton1.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_StartDoor.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Sword.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Table.cpp">
+      <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -613,49 +613,49 @@
       <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClInclude>
     <ClInclude Include="Object_BossDoor.h">
-      <Filter>MapObj</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="Object_CastleDoor .h">
-      <Filter>MapObj</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_Skeleton.h">
-      <Filter>MapObj</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_Skeleton1.h">
-      <Filter>MapObj</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_StartDoor.h">
-      <Filter>MapObj</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_Sword.h">
-      <Filter>MapObj</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="Object_Desk.h">
-      <Filter>MapObj</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_Table.h">
-      <Filter>MapObj</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_Ladder1.h">
-      <Filter>MapObj</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_Ladder2.h">
-      <Filter>MapObj</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_Ladder3.h">
-      <Filter>MapObj</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_Ladder4.h">
-      <Filter>MapObj</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_Ladder5.h">
-      <Filter>MapObj</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_Ladder6.h">
-      <Filter>MapObj</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="Object_HumanTree.h">
-      <Filter>MapObj</Filter>
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder1.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder2.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder3.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder4.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder5.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder6.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Skeleton.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Skeleton1.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_StartDoor.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Sword.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Table.h">
+      <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -772,6 +772,9 @@
     </Filter>
     <Filter Include="ImGui\Editor\ActorGUI\FrameEvent">
       <UniqueIdentifier>{9b67aff6-631c-41f5-b70f-b2ed5bf0a4dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{4949b61b-b6b3-42f9-b607-52f7f08aafaa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
