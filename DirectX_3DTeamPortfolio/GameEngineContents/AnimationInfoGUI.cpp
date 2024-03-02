@@ -5,12 +5,15 @@
 #include "BaseActor.h"
 
 #include "FrameEventHelper.h"
-#include "BoneSocketCollision.h"
 #include "BoneSoundFrameEvent.h"
+#include "DummyPolySoundFrameEvent.h"
+#include "CenterBodySoundFrameEvent.h"
+#include "BoneSocketCollision.h"
 #include "CollisionUpdateFrameEvent.h"
 #include "TurnSpeedFrameEvent.h"
 
 #include "DS3DummyData.h"
+
 
 
 void DummyPolyStruct::Init(BaseActor* _pActor, int _Flag)
@@ -190,7 +193,8 @@ AnimationInfoGUI::~AnimationInfoGUI()
 void AnimationInfoGUI::Start()
 {
 	CreateEventTree<TotalEventTree>("Total Events");
-	CreateEventTree<BoneSoundEventTree>("BSound");
+	CreateEventTree<BoneSoundEventTree>("Bone Sound");
+	CreateEventTree<DPSoundEventTree>("Dummy Poly Sound");
 	CreateEventTree<CollisionEventTree>("Collision Switch");
 	CreateEventTree<TurnSpeedEventTree>("Turn Speed");
 }
@@ -483,6 +487,7 @@ void AnimationInfoGUI::DummyEditor()
 			if (nullptr == pRenderer)
 			{
 				MsgBoxAssert("렌더러가 존재하지 않습니다.");
+				ImGui::TreePop();
 				return;
 			}
 
@@ -599,6 +604,31 @@ void AnimationInfoGUI::EventEditor(GameEngineLevel* _Level, float _DeltaTime)
 	}
 }
 
+BaseActor* EventTree::GetSelectActor() const
+{
+	if (nullptr == Parent)
+	{
+		MsgBoxAssert("부모를 지정해주지 않았습니다.");
+		return nullptr;
+	}
+
+	BaseActor* pActor = Parent->SelectActor;
+	return pActor;
+}
+
+GameContentsFBXAnimationInfo* EventTree::GetSelectAnimation() const
+{
+	if (nullptr == Parent)
+	{
+		MsgBoxAssert("부모를 지정해주지 않았습니다.");
+		return nullptr;
+	}
+
+	class GameContentsFBXAnimationInfo* pAnimation = Parent->SelectAnimation.get();
+	return pAnimation;
+}
+
+
 void TotalEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 {
 	FrameEventHelper* EventHelper = Parent->SelectAnimation->EventHelper;
@@ -645,13 +675,19 @@ void SoundEventTree::ChangeActor()
 
 void SoundEventTree::LoadSoundList()
 {
+	BaseActor* pActor = Parent->SelectActor;
+	if (nullptr == pActor)
+	{
+		return;
+	}
+
 	if (false == SoundFileList.empty() || false == CSoundFileList.empty())
 	{
 		SoundFileList.clear();
 		CSoundFileList.clear();
 	}
 
-	std::string IDName = Parent->SelectActor->GetIDName();
+	std::string IDName = pActor->GetIDName();
 
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExistsChild("ContentsResources");
@@ -662,8 +698,6 @@ void SoundEventTree::LoadSoundList()
 	{
 		return;
 	}
-
-	Dir.MoveChild(IDName);
 
 	std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".wav" });
 	if (Files.empty())
@@ -728,6 +762,26 @@ void BoneSoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 	}
 }
 
+void BoneSoundEventTree::ChangeActor()
+{
+	BoneNames.clear();
+	CBoneNames.clear();
+	SoundFileList.clear();
+	CSoundFileList.clear();
+	BoneIndex = 0;
+	SoundIndex = 0;
+}
+
+void BoneSoundEventTree::ChangeAnimation()
+{
+	SoundFileList.clear();
+	CSoundFileList.clear();
+
+	LoadSoundList();
+
+	SoundIndex = 0;
+}
+
 void BoneSoundEventTree::LoadSoundList()
 {
 	std::string IDName = Parent->SelectActor->GetIDName();
@@ -765,42 +819,56 @@ void BoneSoundEventTree::LoadSoundList()
 
 void DPSoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 {
+	BaseActor* pActor = EventTree::GetSelectActor();
+	if (nullptr == pActor)
+	{
+		MsgBoxAssert("존재하지 않는 값을 반환하려 했습니다");
+		return;
+	}
 
+	int Flag = DummyPolyStruct::eDPFlag::Tree;
+	DpLoader.Init(pActor, Flag);
+
+	DpLoader.AutoLoadDummyPolyRefID();
+	DpLoader.AutoLoadDummyPolyAttachBoneIndex();
+	DpLoader.ComboDummyPolyAttachBoneIndex();
+
+	const DummyData* pDPData = DpLoader.GetDummyDataPointer();
+	if (nullptr != pDPData)
+	{
+		if (CSoundFileList.empty())
+		{
+			return;
+		}
+
+		GameContentsFBXAnimationInfo* pAnimation = EventTree::GetSelectAnimation();
+		if (nullptr == pAnimation)
+		{
+			MsgBoxAssert("존재하지 않는 애니메이션으로 이벤트를 세팅하려 했습니다");
+			return;
+		}
+		FrameEventHelper* EventHelper = pAnimation->EventHelper;
+
+		// 몇번째 프레임에
+		ImGui::SliderInt("Start Frame", &SelectStartFrame, pAnimation->Start, pAnimation->End);
+
+		ImGui::Combo("SoundList", &SoundIndex, &CSoundFileList[0], static_cast<int>(CSoundFileList.size()));
+
+		if (ImGui::Button("CreateEvent"))
+		{
+			int RefID = pDPData->ReferenceID;
+			int AttachBoneIndex = pDPData->AttachBoneIndex;
+			std::string SoundFileName = CSoundFileList[SoundIndex];
+			std::shared_ptr<DummyPolySoundFrameEvent> DPSEvent = DummyPolySoundFrameEvent::CreateEventObject(SelectStartFrame, SoundFileName, RefID, AttachBoneIndex);
+			EventHelper->SetEvent(DPSEvent);
+		}
+	}
 }
 
 void DPSoundEventTree::ChangeActor()
 {
-
-}
-
-void DPSoundEventTree::ChangeAnimation()
-{
-
-}
-
-void DPSoundEventTree::LoadSoundList()
-{
-
-}
-
-void BoneSoundEventTree::ChangeActor()
-{
-	BoneNames.clear();
-	CBoneNames.clear();
-	SoundFileList.clear();
-	CSoundFileList.clear();
-	BoneIndex = 0;
-	SoundIndex = 0;
-}
-
-void BoneSoundEventTree::ChangeAnimation()
-{
-	SoundFileList.clear();
-	CSoundFileList.clear();
-
+	DpLoader.DpLoaderAllReset();
 	LoadSoundList();
-
-	SoundIndex = 0;
 }
 
 void CollisionEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
