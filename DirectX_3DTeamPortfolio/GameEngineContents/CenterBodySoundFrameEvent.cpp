@@ -74,9 +74,15 @@ void CenterBodySoundFrameEvent::Init()
 		return;
 	}
 
-	const DummyData& pDummyData = pRes->GetDummyData(RefID, AttachBoneIndex);
-	const int ParentBIndex = pDummyData.ParentBoneIndex;
-	DPT = pDummyData.Position;
+	const DummyData* pDummyData = pRes->GetDummyData(RefID, AttachBoneIndex);
+	if (nullptr == pDummyData)
+	{
+		MsgBoxAssert(GetTypeString() + "더미 데이터가 존재하지 않습니다");
+		return;
+	}
+
+	const int ParentBIndex = pDummyData->ParentBoneIndex;
+	DPT = pDummyData->Position;
 
 	std::vector<float4x4>& BoneMats = FbxRenderer->GetBoneSockets();
 	pBoneMatrix = &BoneMats.at(ParentBIndex);
