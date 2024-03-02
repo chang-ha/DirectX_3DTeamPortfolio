@@ -117,7 +117,7 @@ protected:
 private:
 	LightData LightDataValue;
     // 그림자의 디테일을 계산할수 있다.
-    float4 ShadowRange = { 65536, 65536 };
+    float4 ShadowRange = { 16384, 16384 };
     std::shared_ptr<class GameEngineRenderTarget> ShadowTarget = nullptr;
     std::shared_ptr<class GameEngineRenderTarget> ShadowTargetStatic = nullptr;
 };

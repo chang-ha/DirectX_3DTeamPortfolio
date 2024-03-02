@@ -4,6 +4,8 @@
 #include "ContentsLight.h"
 #include "Player.h"
 #include "WorldMap.h"
+#include <GameEngineCore\FogEffect.h>
+#include "FXAAEffect.h"
 
 Stage_Lothric::Stage_Lothric()
 {
@@ -27,16 +29,30 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	// Light
 	if (nullptr == Light)
 	{
-		Light = CreateActor<ContentsLight>(0);
+		Light = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "mainDirect");
 		LightData Data = Light->GetLightData();
 		Light->CreateShadowMap();
 
 		Data.DifLightPower = 0.1f;
-		Data.AmbientLight = float4(0.7f, 0.7f, 0.7f, 1.0f);
-		Data.SpcPow = 200.0f;
+		Data.AmbientLight = float4(0.05f, 0.05f, 0.025f, 1.0f);
+		Data.LightColor = float4(1.0f, 1.0f, 0.7f); 
+		Data.LightPower = 3.0f;
+
+		Light->Transform.SetLocalPosition({ -3400.0f, 10101.0f, -5331.0f });
+		Light->Transform.SetLocalRotation({ 40.0f, 0.0f, 0.0f });
+
 
 		Light->SetLightData(Data);
+		Light->IsDebugValue = true;
 	}
+
+	// Fog
+	{
+		std::shared_ptr<FogEffect> Effect = GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FogEffect>();
+		Effect->Init(GetMainCamera());
+	}
+	//FXAA
+		GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FXAAEffect>();
 
 	// Building
 
@@ -84,6 +100,11 @@ void Stage_Lothric::Start()
 void Stage_Lothric::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
+
+	if (true == GameEngineInput::IsDown(VK_F6, this))
+	{
+		GameEngineGUI::AllWindowSwitch();
+	}
 }
 
 void Stage_Lothric::Release()

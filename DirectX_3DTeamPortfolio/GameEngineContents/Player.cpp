@@ -43,7 +43,7 @@ void Player::Start()
 	BoneName = "R_Hand";
 
 	
-	MainRenderer->SetFBXMesh("c0010.FBX", "FBXAnimationTexture"); // Bone 136
+	MainRenderer->SetFBXMesh("c0010.FBX", "FBX_Animation"); // Bone 136
 	
 
 	

@@ -117,17 +117,14 @@ void LightGUI::LightEditor()
 		{
 		}
 
-		if (ImGui::InputFloat3("AmbientLight", &Data.AmbientLight.X))
-		{
-		}
+		ImGui::SliderFloat3("FogColor", &Data.AmbientLight.X, 0.0f, 0.05f,"%.4f");
 
 		if (ImGui::InputFloat("LightPower", &Data.LightPower))
 		{
 		}
 		
-		/*if (ImGui::InputFloat("SpcLightPower", &Data.SpcLightPower))
-		{
-		}*/
+
+
 		if (ImGui::InputFloat("AmbLightPower", &Data.AmbLightPower))
 		{
 		}
