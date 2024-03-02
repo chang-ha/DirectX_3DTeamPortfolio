@@ -226,9 +226,6 @@
     <ClCompile Include="TestLevel_Map.cpp">
       <Filter>Level\TestLevel</Filter>
     </ClCompile>
-    <ClCompile Include="TestLevel_MapObject.cpp">
-      <Filter>Map</Filter>
-    </ClCompile>
     <ClCompile Include="Stage_Lothric.cpp">
       <Filter>Level</Filter>
     </ClCompile>
@@ -333,6 +330,9 @@
     </ClCompile>
     <ClCompile Include="Object_CandleHuman.cpp">
       <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="TestLevel_MapObject.cpp">
+      <Filter>Level\TestLevel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -552,9 +552,6 @@
     <ClInclude Include="TestLevel_Map.h">
       <Filter>Level\TestLevel</Filter>
     </ClInclude>
-    <ClInclude Include="TestLevel_MapObject.h">
-      <Filter>Map</Filter>
-    </ClInclude>
     <ClInclude Include="TestMapObjcet.h">
       <Filter>Map</Filter>
     </ClInclude>
@@ -662,6 +659,9 @@
     </ClInclude>
     <ClInclude Include="Object_CandleHuman.h">
       <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="TestLevel_MapObject.h">
+      <Filter>Level\TestLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
