@@ -51,4 +51,5 @@ private:
 	void ChaseListener();
 	void DebugInput();
 	static ContentsCollisionCallBack  CollisionCallBack;
+	
 };

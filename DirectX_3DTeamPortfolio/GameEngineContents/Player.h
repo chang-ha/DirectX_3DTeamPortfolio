@@ -70,12 +70,20 @@ public:
 	void Player_State();
 	bool check = false;
 	void CameraRotation(float Delta);
-
+	bool wrwrw = false;
 	std::shared_ptr<Weapon> GetWeapon()
 	{
 		return Weapon_Actor;
 	}
-
+	std::shared_ptr<GameEngineActor> Actor_test_02;
+	float4 CameraDir = {};
+	float4 Camera_Distance = {};
+	bool testa = false;
+	bool testaa = false;
+	bool testaaa = false;
+	int ererer = 0;
+	float4 PreP = {};
+	float4 PrePc = {};
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -131,7 +139,7 @@ private:
 	float MonsterAngle = 0.0f;
 
 	std::shared_ptr<GameEngineActor> Actor_test;
-	std::shared_ptr<GameEngineActor> Actor_test_02;
+	
 	std::shared_ptr<CameraCapsule> Cameracapsule;
 	std::shared_ptr<Weapon> Weapon_Actor;
 

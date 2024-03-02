@@ -16,15 +16,16 @@ enum class Enum_RenderOrder
 
 enum class Enum_CollisionOrder
 {
-	Player,
-	Player_Shield,
+	Player = 0,
+	Player_Shield = (1 << 0),
 	Monster,
 	MonsterAttack,
 	Monster_Shield,
 	Detect,
-	Dummy,
+	Dummy, 
 	Map,
-	Camera,
+	Camera = (1 << 8),
+	Camera_02 = (1 << 9),
 };
 
 enum class Enum_RenderDepth

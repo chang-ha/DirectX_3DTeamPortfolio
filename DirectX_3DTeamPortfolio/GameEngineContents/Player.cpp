@@ -283,6 +283,59 @@ void Player::Update(float _Delta)
 	
 	
 
+	
+
+
+	AnimationBoneData Data = MainRenderer->GetBoneData(Bone_index_01);
+	Weapon_Actor->Transform.SetLocalRotation(Data.RotQuaternion.QuaternionToEulerDeg());
+	Weapon_Actor->Transform.SetWorldPosition(Data.Pos + float4{ Capsule->GetWorldPosition().x, Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
+
+	
+
+	
+
+	/*if (abs(Actor_test_02->Transform.GetLocalPosition().Z) <= abs(300))
+	{
+		Actor_test_02->Transform.AddWorldPosition(-A * 20);
+	}
+
+	if (testa == true)
+	{
+		Actor_test_02->Transform.AddWorldPosition(A * 20);
+	}
+	if (testaa == true && testa ==true)
+	{
+
+	}*/
+
+
+
+	//if (testa == true)
+	//{
+	//	Actor_test_02->Transform.AddWorldPosition(A * 10);
+	//}
+	//else if (testa == false && abs(Actor_test_02->Transform.GetLocalPosition().Z) <= abs(300) && testaa == true)
+	//{
+	//	if (testaa == true)
+	//	{
+	//		Actor_test_02->Transform.AddWorldPosition(-A * 10);
+	//		testaa = false;
+	//	}
+	//
+	//}
+	//else if (testa == false && abs(Actor_test_02->Transform.GetLocalPosition().Z) <= abs(300))
+	//{
+	//	Actor_test_02->Transform.AddWorldPosition(-A * 10);
+	//}
+
+	//testa = false;
+
+
+
+
+
+
+
 
 	Time += _Delta;
 
@@ -381,9 +434,9 @@ void Player::Update(float _Delta)
 
 
 
-	AnimationBoneData Data = MainRenderer->GetBoneData(Bone_index_01);
-	Weapon_Actor->Transform.SetLocalRotation(Data.RotQuaternion.QuaternionToEulerDeg());
-	Weapon_Actor->Transform.SetWorldPosition(Data.Pos + float4{ Capsule->GetWorldPosition().x, Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
+	
+
+	
 
 
 
@@ -393,7 +446,7 @@ void Player::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	Capsule->PhysXComponentInit(50.0f, 50.0f);
 	Capsule->SetPositioningComponent();
-	Capsule->SetFiltering(Enum_CollisionOrder::Camera, Enum_CollisionOrder::Map);
+	//Capsule->SetFiltering(Enum_CollisionOrder::Camera, Enum_CollisionOrder::Map);
 }
 
 void Player::CameraRotation(float Delta)
@@ -431,17 +484,104 @@ void Player::CameraRotation(float Delta)
 		{
 			Camera_Pos_Y = 0;
 		}
+
+	}*/
+
+	float4 AS = Actor_test->Transform.GetWorldPosition() - float4{ Actor_test_02->Transform.GetWorldPosition().X, Actor_test_02->Transform.GetWorldPosition().Y - 100.0f, Actor_test_02->Transform.GetWorldPosition().Z };
+
+	AS.Normalize();
+
+
+	/*
+
+
+	if (PrevPos.X == Mouse_Ro_X)
+	{
+		testaaa = false;
+		wrwrw = true;
+	}
+
+
+	if (testaaa == true && testa == true)
+	{
+		Actor_test_02->Transform.AddWorldPosition(AS * 1000 * Delta);
+
+	}
+	else if (testaaa == true && testa == false && wrwrw==false)
+	{
+		wrwrw = true;
+
+		if (abs(Actor_test_02->Transform.GetLocalPosition().Z) <= abs(300))
+		{
+			Actor_test_02->Transform.AddWorldPosition(-AS * 1000 * Delta);
+		}
+
 	}*/
 
 
 	if (PrevPos.X > Mouse_Ro_X)
 	{
-		Camera_Pos_X += CameraPos.X * Delta *300;
-		Player_Pos.X -= CameraPos.X * Delta * 300;
+
+		if (testaa == true && testa == true)
+		{
+			Actor_test_02->Transform.AddWorldPosition(AS * 800 * Delta);
+		}
+
+		if (testa == true && testaa == false)
+		{
+			Actor_test_02->Transform.AddWorldPosition(-AS * 800 * Delta);
+		}
+
+		
+	}
+	if (PrevPos.X < Mouse_Ro_X)
+	{
+		if (testa == true && testaa == false)
+		{
+			Actor_test_02->Transform.AddWorldPosition(-AS * 800 * Delta);
+		}
+
+		if (testaa == true && testa == true)
+		{
+			Actor_test_02->Transform.AddWorldPosition(AS * 800 * Delta);
+		}
+	}
+
+
+
+	
+   /* if (testa == true && testaa == false)
+	{
+		Actor_test_02->Transform.AddWorldPosition(-AS * 800 * Delta);
+	}
+
+	if (testaa == true && testa == true)
+	{
+		Actor_test_02->Transform.AddWorldPosition(AS * 800 * Delta);
+	}*/
+
+	 if (testaa == false && testa == false)
+	{
+		//wrwrw = true;
+
+		if (abs(Actor_test_02->Transform.GetLocalPosition().Z) <= abs(300))
+		{
+			Actor_test_02->Transform.AddWorldPosition(-AS * 800 * Delta);
+		}
+	}
+
+	testaa = false;
+	testa = false;
+
+
+	if (PrevPos.X > Mouse_Ro_X)
+	{
+		Camera_Pos_X += CameraPos.X * Delta *150;
+		Player_Pos.X -= CameraPos.X * Delta * 150;
 
 		if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
 		{
-			Capsule->AddWorldRotation({ 0.0f,-CameraPos.X * Delta * 300, 0.0f });
+			Capsule->AddWorldRotation({ 0.0f,-CameraPos.X * Delta * 150, 0.0f });
 
 		}
 	}
@@ -449,12 +589,12 @@ void Player::CameraRotation(float Delta)
 
 	else if (PrevPos.X < Mouse_Ro_X)
 	{
-		Camera_Pos_X -= CameraPos.X * Delta * 300;
-		Player_Pos.X += CameraPos.X * Delta * 300;
+		Camera_Pos_X -= CameraPos.X * Delta * 150;
+		Player_Pos.X += CameraPos.X * Delta * 150;
 
 		if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
 		{
-			Capsule->AddWorldRotation({ 0.0f, CameraPos.X * Delta * 300, 0.0f });
+			Capsule->AddWorldRotation({ 0.0f, CameraPos.X * Delta * 150, 0.0f });
 
 		}	
 	}
@@ -462,6 +602,15 @@ void Player::CameraRotation(float Delta)
 	float4 A = Actor_test->Transform.GetWorldPosition() - float4{ Actor_test_02->Transform.GetWorldPosition().X, Actor_test_02->Transform.GetWorldPosition().Y - 100.0f, Actor_test_02->Transform.GetWorldPosition().Z };
 
 	A.Normalize();
+
+	CameraDir = A; 
+
+
+	Camera_Distance = Actor_test->Transform.GetWorldPosition() - float4{ Actor_test_02->Transform.GetWorldPosition().X, Actor_test_02->Transform.GetWorldPosition().Y - 100.0f, Actor_test_02->Transform.GetWorldPosition().Z };
+
+
+
+
 
 	/*if (Camera_Pos_Y <= 0)
 	{

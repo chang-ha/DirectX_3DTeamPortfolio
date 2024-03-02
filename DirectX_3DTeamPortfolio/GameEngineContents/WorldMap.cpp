@@ -15,8 +15,12 @@ void WorldMap::Start()
 {
 	{
 		physx::PxFilterData FilterData;
+
 		FilterData.word0 = static_cast<int>(Enum_CollisionOrder::Map);
 		FilterData.word1 = static_cast<int>(Enum_CollisionOrder::Camera);
+
+		
+		FilterData.word2 = static_cast<int>(Enum_CollisionOrder::Camera_02);
 
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
 		FBXRenderer->SetMapFBXMesh("World1.FBX", "FBX_Static");
