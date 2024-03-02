@@ -223,6 +223,55 @@ void BaseActor::OffSocketCollision(int _BoneIndex)
 	pCollision->Off();
 }
 
+std::string_view BaseActor::GetFloorMaterialName()
+{
+	if (FloorMaterialSoundRes.empty())
+	{
+		MsgBoxAssert("존재하지 않는 자료를 반환하려했습니다.");
+		return std::string();
+	}
+
+	int Size = static_cast<int>(FloorMaterialSoundRes.size());
+	if (FloorMaterialIndex == Size)
+	{
+		FloorMaterialIndex = 0;
+	}
+
+	std::string_view SoundName = FloorMaterialSoundRes.at(FloorMaterialIndex);
+	++FloorMaterialIndex;
+	return SoundName;
+}
+
+void BaseActor::SetFloorMaterialSoundRes(std::string_view _ResName)
+{
+	std::string IdName = GetIDName();
+
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExistsChild("ContentsResources");
+	Dir.MoveChild("ContentsResources\\Sound");
+	Dir.MoveChild(IdName);
+
+	bool FindCheck = false;
+
+	std::string Identify = _ResName.data();
+	std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".wav" });
+	for (GameEngineFile& pFile : Files)
+	{
+		std::string FileName = pFile.GetFileName();
+		if (std::string::npos != FileName.find(Identify))
+		{
+			FindCheck = true;
+			FloorMaterialSoundRes.push_back(FileName);
+		}
+	}
+
+	if (false == FindCheck)
+	{
+		MsgBoxAssert("자료를 찾지 못했습니다.");
+		return;
+	}
+}
+
 void BaseActor::DrawRange(float _Range, const float4& _Color /*= float4::RED*/) const
 {
 	if (GameEngineLevel::IsDebug)

@@ -83,7 +83,7 @@ public:
 
 	static void LoadDummyData(int _ID);
 
-	const DummyData& GetDummyData(int _RefID, int _AttachBoneIndex) const;
+	const DummyData* GetDummyData(int _RefID, int _AttachBoneIndex) const;
 	std::map<int, DummyData> GetRefAllData(int _RefID) const;
 	std::vector<DummyData> GetDummyDatas() const;
 

@@ -49,8 +49,6 @@ public:
 
 	static Enum_DirectionXZ_Quat ReturnXZDirectionToVector(const float4& _V);
 
-	static float4x4 SubMatrixToMatrix();
-
 protected:
 
 private:

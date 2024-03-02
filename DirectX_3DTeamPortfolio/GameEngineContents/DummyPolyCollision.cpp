@@ -52,19 +52,25 @@ void DummyPolyCollision::SetDummyPolyMatrix(const SetDPMatrixParameter& _Para)
 		return;
 	}
 
-	const DummyData& DummyData = DPData->GetDummyData(_Para.ReferenceID, _Para.AttachBoneIndex);
+	const DummyData* DummyData = DPData->GetDummyData(_Para.ReferenceID, _Para.AttachBoneIndex);
+	if (nullptr == DummyData)
+	{
+		MsgBoxAssert("더미 데이터가 존재하지 않습니다.");
+		return;
+	}
+
 	switch (_Para.Type)
 	{
 	case Enum_DP_Matrix_Type::None:
 		break;
 	case Enum_DP_Matrix_Type::NormalPos:
-		DPMatrix = DummyData.Local;
+		DPMatrix = DummyData->Local;
 		break;
 	case Enum_DP_Matrix_Type::ReversePos:
-		DPMatrix = DummyData.Local_ReversePos;
+		DPMatrix = DummyData->Local_ReversePos;
 		break;
 	case Enum_DP_Matrix_Type::NonePos:
-		DPMatrix = DummyData.Local_NotPos;
+		DPMatrix = DummyData->Local_NotPos;
 		break;
 	default:
 		break;

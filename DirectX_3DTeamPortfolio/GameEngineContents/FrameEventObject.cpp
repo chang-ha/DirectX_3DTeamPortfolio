@@ -24,8 +24,17 @@ std::string FrameEventObject::GetTypeString() const
 	case Enum_FrameEventType::BSound:
 		ReturnValue = "BSound";
 		break;
+	case Enum_FrameEventType::CenterBodySound:
+		ReturnValue = "CenterBodySound";
+		break;
+	case Enum_FrameEventType::DPSound:
+		ReturnValue = "DPSound";
+		break;
 	case Enum_FrameEventType::CollisionUpdate:
 		ReturnValue = "CollisionUpdate";
+		break;
+	case Enum_FrameEventType::SwitchFlag:
+		ReturnValue = "SwitchFlag";
 		break;
 	case Enum_FrameEventType::Transfrom:
 		ReturnValue = "Transfrom";
@@ -44,4 +53,29 @@ int FrameEventObject::GetCurFrame()
 {
 	int CurFrame = static_cast<int>(ParentHelper->GetAnimationInfo()->CurFrame);
 	return CurFrame;
+}
+
+GameContentsFBXRenderer* FrameEventObject::GetParentRenderer() const
+{
+	if (nullptr == ParentHelper)
+	{
+		MsgBoxAssert("부모의 헬퍼를 모르고 캐스팅을 할 수 없습니다.");
+		return nullptr;
+	}
+
+	GameContentsFBXAnimationInfo* pInfo = ParentHelper->GetParentInfo();
+	if (nullptr == pInfo)
+	{
+		MsgBoxAssert("FBXAnimation 정보를 받아오지 못했습니다.");
+		return nullptr;
+	}
+
+	GameContentsFBXRenderer* FBXRenderer = pInfo->ParentRenderer;
+	if (nullptr == FBXRenderer)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return nullptr;
+	}
+
+	return FBXRenderer;
 }
