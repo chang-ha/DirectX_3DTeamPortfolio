@@ -43,7 +43,7 @@ void TitleLogo::Start()
 	AnyButtonBack->GetColorData().MulColor.A = 0.0f;
 
 	FontRender = CreateComponent<GameEngineUIRenderer>();
-	FontRender->SetText("OptimusBold", "PRESS ANY BUTTON", FontScale, float4{ 1, 1, 1, 1 }, FW1_CENTER);
+	FontRender->SetText(GlobalValue::OptimusFont, "PRESS ANY BUTTON", FontScale, float4{ 1, 1, 1, 1 }, FW1_CENTER);
 	FontRender->Transform.SetLocalPosition({ 0.0f, -117.0f, 500.0f });
 	FontRender->Off();
 
@@ -103,7 +103,7 @@ void TitleLogo::Update(float _Delta)
 	if (FontEnter == true)
 	{
 		FontScale += 5.0f * _Delta;
-		FontRender->SetText("OptimusBold", "PRESS ANY BUTTON", FontScale, float4{ 1, 1, 1, 1 }, FW1_CENTER);
+		FontRender->SetText(GlobalValue::OptimusFont, "PRESS ANY BUTTON", FontScale, float4{ 1, 1, 1, 1 }, FW1_CENTER);
 		AnyButtonBack->GetColorData().MulColor.A += _Delta * 0.5f;
 		AnyButtonBack->Transform.AddLocalScale(0.1f * _Delta);
 	}

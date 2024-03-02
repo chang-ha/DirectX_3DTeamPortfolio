@@ -113,7 +113,6 @@ Enum_DirectionXZ_Quat ContentsMath::ReturnXZDirectionToVector(const float4& _V)
 	return ReturnValue;
 }
 
-
 float ContentsMath::ClampDeg(float _D)
 {
 	while (_D < 0.0f || _D >= 360.0f)

@@ -54,9 +54,9 @@ public:
 	{
 		CurHp -= _Hp;
 
-		if (CurHp <= MinHp)
+		if (CurHp <= 0.0f)
 		{
-			CurHp = MinHp;
+			CurHp = 0.0f;
 		}
 	}
 
@@ -86,9 +86,9 @@ public:
 	{
 		CurMp -= _Mp;
 
-		if (CurMp <= MinMp)
+		if (CurMp <= 0.0f)
 		{
-			CurMp = MinMp;
+			CurMp = 0.0f;
 		}
 	}
 
@@ -115,9 +115,9 @@ public:
 	{
 		CurStamina -= _Stamina;
 
-		if (CurStamina <= MinStamina)
+		if (CurStamina <= 0.0f)
 		{
-			CurStamina = MinStamina;
+			CurStamina = 0.0f;
 		}
 	}
 
@@ -125,17 +125,14 @@ public:
 private:
 	int Level = 1;
 
-	float CurHp = 400;
-	float MaxHp = 400;
-	float MinHp = 0;
+	float CurHp = 400.f;
+	float CurMp = 200.f;
+	float CurStamina = 300.f;
 
-	float CurMp = 200;
-	float MaxMp = 200;
-	float MinMp = 0;
 
-	float CurStamina = 300;
-	float MaxStamina = 300;
-	float MinStamina = 0;
+	float MaxHp = 400.f;
+	float MaxMp = 200.f;
+	float MaxStamina = 300.f;
 
 	int Exp = 0;
 	int MaxExp = 100;

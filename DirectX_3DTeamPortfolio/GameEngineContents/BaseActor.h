@@ -1,4 +1,5 @@
 #pragma once
+#include "DummyPolyCollision.h"
 
 static constexpr int EMPTY_ID = 9999;
 
@@ -217,6 +218,7 @@ public:
 	inline int GetAtt() const { return Stat.GetAtt(); }
 	inline int GetPoise() const { return Stat.GetPoise(); }
 	inline void SetHit(bool _Value) { Hit.SetHit(_Value); }
+	inline int GetCenterDPIndex() const { return CenterBodyIndex; }
 
 	// CollisionEvent 
 	// 캐릭터간 충돌시 상대방의 수치를 바꿔주기위한 상호작용 인터페이스입니다.
@@ -235,6 +237,9 @@ public:
 	virtual float4 GetBackStabPosition() { return float4::ZERO; } // 뒤잡 위치
 	virtual float4 GetFrontStabPosition() { return float4::ZERO; } // 앞잡 위치
 
+	// Floor Foot Sound
+	std::string_view GetFloorMaterialName();
+
 	// Debug
 	inline int GetCurStateInt() const
 	{
@@ -249,32 +254,21 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
-	// BoneIndex
-	// BoneIndex를 Enum타입으로 쉽게 참조하기위해 구현했습니다.
-	// 하지만 사용하지 않는다면 내리겠습니다. 
-	// 사용하지 않으면 반대를 선택해주세요
-	// 투표 : 찬성(), 반대() << 2명이 반대할 경우 바로 내리겠습니다. 
-	void AddBoneIndex(Enum_BoneType _BoneType, int _BoneNum);
-	int GetBoneIndex(Enum_BoneType _BoneType);
-	float4x4& GetBoneMatrixToType(Enum_BoneType _BoneType);
 	float4x4& GetBoneMatrixToIndex(int _Index);
 
-	// SocketCollision
-	// 내부에서 렌더러의 Bone 위치로 충돌체를 동기화하는 기능이 있습니다.
-	// 나중에 뼈위치에서 더미폴리로 바꿀 예정입니다. 
-	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(Enum_CollisionOrder _Order, Enum_BoneType _Type, std::string ColName = "")
-	{
-		int SocketIndex = GetBoneIndex(_Type);
-		return CreateSocketCollision(_Order, SocketIndex, ColName);
-	}
-
 	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(Enum_CollisionOrder _Order, int _SocketIndex, std::string _ColName = "");
+	std::shared_ptr<class DummyPolyCollision> CreateDummyPolyCollision(Enum_CollisionOrder _Order, const SetDPMatrixParameter& _Para, std::string _ColName = "");
 
-	std::shared_ptr<BoneSocketCollision> FindSocketCollision(Enum_BoneType _Type); 
-	void OnSocketCollision(Enum_BoneType _Type);
 	void OnSocketCollision(int _BoneIndex);
-	void OffSocketCollision(Enum_BoneType _Type);
 	void OffSocketCollision(int _BoneIndex);
+
+	void SetCenterBodyDPIndex(int _DPIndex);
+
+	// Floor Foot Sound Initial
+	// 인자로 사운드 이름을 넣어주되 같은 타입의 재질 사운드를 넣어주세요
+	//  예시) c128005501.wav, c128005501b.wav, c128005501c.wav, c128005501d.wav << 이런 형식이라면
+	//	가장 낮은 이름인 "c218005501.wav" 을 인자로 넣어주세요.
+	void SetFloorMaterialSoundRes(std::string_view _ResName); 
 
 	// Debug
 	void DrawRange(float _Range, const float4& _Color = float4::RED) const; // 캐릭터 내 범위를 확인하기위한 편의성 디버깅 기능입니다.
@@ -294,13 +288,16 @@ protected:
 	StatusStruct Stat; // 플레이어와 몬스터가 공용으로 사용하는 기본스텟 구조체
 	HitStruct Hit; // 플레이어와 몬스터가 공용으로 사용하는 히트 로직 구조체
 
+	int CenterBodyIndex = -1; // FrameEvent에서 사용할 DummyPoly Center Body를 등록해주세요
 	
 private:
 	static std::unordered_map<Enum_ActorFlag, Enum_ActorFlagBit> FlagIndex; // 플레그를 매핑해놓은 구조체입니다. 에디터와 연계 가능합니다.
-	std::unordered_map<Enum_BoneType, int> BoneIndex;
+	std::vector<std::string> FloorMaterialSoundRes; // 재질에 따른 발소리 리소스
 
 	int ActorID = EMPTY_ID;
 	int Flags = 0;
+
+	int FloorMaterialIndex = 0; // 발소리 재질 인덱스
 	
 // Targeting
 public:

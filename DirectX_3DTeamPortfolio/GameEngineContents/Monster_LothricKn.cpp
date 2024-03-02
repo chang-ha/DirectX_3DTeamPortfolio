@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "Monster_LothricKn.h"
 
+#include "DS3DummyData.h"
+
 #include "BoneSocketCollision.h"
 #include "ContentsMath.h"
 
@@ -22,6 +24,7 @@ void Monster_LothricKn::Start()
 
 	// Outer Res
 	LoadRes3DSound("c128001001.wav");
+	SetFloorMaterialSoundRes("c128005501.wav");
 
 	// Actor Res
 	AddBoneIndex(Enum_BoneType::B_01_RightHand, 78);
@@ -35,7 +38,7 @@ void Monster_LothricKn::Start()
 
 	// Anmation
 	MainRenderer->SetFBXMesh("c1280.fbx", "FBX_Animation");
-
+	
 	MainRenderer->CreateFBXAnimation("Idle_Standing1", "c1280_000000.fbx");
 	MainRenderer->CreateFBXAnimation("Idle_Standing2", "c1280_000020.fbx");
 	MainRenderer->CreateFBXAnimation("Idle_Gaurding", "c1280_000030.fbx");
@@ -258,6 +261,10 @@ void Monster_LothricKn::Start()
 	MainRenderer->SetRootMotion("F_Stab");
 	MainRenderer->SetRootMotion("F_Stab_Death");
 
+	// DummyData
+	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::LothricKn));
+	SetCenterBodyDPIndex(220);
+
 	// Mask
 	MaskReset();
 
@@ -270,10 +277,15 @@ void Monster_LothricKn::Start()
 	const float PatrolSize = 5.0f * W_SCALE;
 
 	// Collision
-	std::shared_ptr<BoneSocketCollision> AttackCol = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
+	std::shared_ptr<BoneSocketCollision> AttackCol = CreateBoneCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
 	AttackCol->Transform.SetLocalScale(float4(AttackSize, AttackSize, AttackSize));
 
-	std::shared_ptr<BoneSocketCollision> BodyCol = CreateSocketCollision(Enum_CollisionOrder::Monster, Enum_BoneType::B_01_Spine, "B_01_Spine");
+	std::shared_ptr<DummyPolyCollision> SwordCol = CreateDummyPolyCollision(Enum_CollisionOrder::MonsterAttack, SetDPMatrixParameter(this, 7, 82, Enum_DP_Matrix_Type::ReversePos));
+	SwordCol->Transform.SetWorldScale(float4(20.0f, 20.0f, 100.0f));
+	SwordCol->SetCollisionType(ColType::AABBBOX3D);
+	SwordCol->On();
+
+	std::shared_ptr<BoneSocketCollision> BodyCol = CreateBoneCollision(Enum_CollisionOrder::Monster, Enum_BoneType::B_01_Spine, "B_01_Spine");
 	BodyCol->Transform.SetLocalScale(float4(BodySize, BodySize, BodySize));
 	BodyCol->Transform.DebugOn();
 

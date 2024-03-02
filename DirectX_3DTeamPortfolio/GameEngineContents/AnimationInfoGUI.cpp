@@ -2,13 +2,184 @@
 #include "AnimationInfoGUI.h"
 
 #include "BaseMonster.h"
-#include "FrameEventHelper.h"
-#include "BoneSocketCollision.h"
+#include "BaseActor.h"
 
-#include "SoundFrameEvent.h"
+#include "FrameEventHelper.h"
 #include "BoneSoundFrameEvent.h"
+#include "DummyPolySoundFrameEvent.h"
+#include "CenterBodySoundFrameEvent.h"
+#include "BoneSocketCollision.h"
 #include "CollisionUpdateFrameEvent.h"
 #include "TurnSpeedFrameEvent.h"
+
+#include "DS3DummyData.h"
+
+
+
+void DummyPolyStruct::Init(BaseActor* _pActor, int _Flag)
+{
+	if (nullptr == _pActor)
+	{
+		MsgBoxAssert("존재하지 않는 액터를 참조하려 했습니다.");
+		return;
+	}
+
+	int MaxInt = (static_cast<int>(eDPFlag::Max) - 1) * 2;
+	if (_Flag >= MaxInt)
+	{
+		MsgBoxAssert("Flag의 최대값을 넘겼습니다.");
+		return;
+	}
+
+	Flag = _Flag;
+	IDName = _pActor->GetIDName();
+}
+
+bool DummyPolyStruct::IsFlag(eDPFlag _BitFlag)
+{
+	return IsFlag(static_cast<int>(_BitFlag));
+}
+
+bool DummyPolyStruct::IsFlag(int _BitFlag)
+{
+	return BitMethod::IsOnFlag(Flag, _BitFlag);
+}
+
+void DummyPolyStruct::OutUsingImguiScope()
+{
+	if (IsFlag(eDPFlag::Tree))
+	{
+		ImGui::TreePop();
+	}
+}
+
+void DummyPolyStruct::AutoLoadDummyPolyRefID()
+{
+	if (DummyPolyRefIndexCheck.empty())
+	{
+		if (IDName.empty())
+		{
+			MsgBoxAssert("액터의 ID Name이 잘못되어있습니다.");
+			OutUsingImguiScope();
+			return;
+		}
+
+		const std::shared_ptr<DS3DummyData>& pDPData = DS3DummyData::Find(IDName);
+		if (nullptr == pDPData)
+		{
+			MsgBoxAssert("존재하지않는 자료입니다. 더미데이터를 Mesh폴더에 로드해주세요.");
+			OutUsingImguiScope();
+			return;
+		}
+
+		std::vector<DummyData> DPDatas = pDPData->GetDummyDatas();
+
+		for (const DummyData& Data : DPDatas)
+		{
+			DummyPolyRefIndexCheck.insert(Data.ReferenceID);
+		}
+
+		int Cnt = 0;
+
+		DummyPolyRefIndexs.reserve(DummyPolyRefIndexCheck.size());
+		CDummyPolyRefIndexs.reserve(DummyPolyRefIndexCheck.size());
+		for (int Index : DummyPolyRefIndexCheck)
+		{
+			DummyPolyRefIndexs.push_back(std::to_string(Index));
+			CDummyPolyRefIndexs.push_back(DummyPolyRefIndexs[Cnt].c_str());
+			Cnt++;
+		}
+	}
+}
+
+void DummyPolyStruct::AutoLoadDummyPolyAttachBoneIndex()
+{
+	if (false == CDummyPolyRefIndexs.empty())
+	{
+		if (ImGui::Combo("Ref ID", &Dummy_RefIndex, &CDummyPolyRefIndexs[0], static_cast<int>(CDummyPolyRefIndexs.size())))
+		{
+			DpLoaderRefReset();
+
+			int RefIndex = std::stoi(DummyPolyRefIndexs[Dummy_RefIndex]);
+
+			const std::shared_ptr<DS3DummyData>& pDPData = DS3DummyData::Find(IDName);
+			if (nullptr == pDPData)
+			{
+				MsgBoxAssert("존재하지않는 자료입니다. 터지면 김태훈에게 문의하세요.");
+				OutUsingImguiScope();
+				return;
+			}
+
+			DummyPolyDatas = pDPData->GetRefAllData(RefIndex);
+
+			int Cnt = 0;
+
+			DummyPolyAttachIndexs.clear();
+			CDummyPolyAttachIndexs.clear();
+			DummyPolyAttachIndexs.reserve(DummyPolyDatas.size());
+			CDummyPolyAttachIndexs.reserve(DummyPolyDatas.size());
+
+			for (const std::pair<int, DummyData>& Pair : DummyPolyDatas)
+			{
+				DummyPolyAttachIndexs.push_back(std::to_string(Pair.first));
+				CDummyPolyAttachIndexs.push_back(DummyPolyAttachIndexs[Cnt].c_str());
+				Cnt++;
+			}
+		}
+	}
+}
+
+void DummyPolyStruct::ComboDummyPolyAttachBoneIndex()
+{
+	if (false == CDummyPolyAttachIndexs.empty())
+	{
+		if (ImGui::Combo("Attach Bone Index", &Dummy_ParentIndex, &CDummyPolyAttachIndexs[0], static_cast<int>(CDummyPolyAttachIndexs.size())))
+		{
+			DpLoaderAttachReset();
+
+			const std::shared_ptr<DS3DummyData>& pDPData = DS3DummyData::Find(IDName);
+			if (nullptr == pDPData)
+			{
+				MsgBoxAssert("존재하지않는 자료입니다. 터지면 김태훈에게 문의하세요.");
+				OutUsingImguiScope();
+				return;
+			}
+
+			int RefIndex = std::stoi(DummyPolyRefIndexs[Dummy_RefIndex]);
+			int ParentIndex = std::stoi(DummyPolyAttachIndexs[Dummy_ParentIndex]);
+
+			SelectDPData = pDPData->GetDummyData(RefIndex, ParentIndex);
+		}
+	}
+}
+
+void DummyPolyStruct::DpLoaderAllReset()
+{
+	DpLoaderRefReset();
+
+	IDName.clear();
+	DummyPolyRefIndexs.clear();
+	CDummyPolyRefIndexs.clear();
+	DummyPolyRefIndexCheck.clear();
+	Dummy_RefIndex = -1;
+}
+
+void DummyPolyStruct::DpLoaderRefReset()
+{
+	DpLoaderAttachReset();
+
+	Dummy_ParentIndex = -1;
+	DummyPolyAttachIndexs.clear();
+	CDummyPolyAttachIndexs.clear();
+
+	DummyPolyDatas.clear();
+}
+
+void DummyPolyStruct::DpLoaderAttachReset()
+{
+	SelectDPData = nullptr;
+}
+
 
 AnimationInfoGUI::AnimationInfoGUI() 
 {
@@ -22,8 +193,9 @@ AnimationInfoGUI::~AnimationInfoGUI()
 void AnimationInfoGUI::Start()
 {
 	CreateEventTree<TotalEventTree>("Total Events");
-	CreateEventTree<SoundEventTree>("Sound");
-	CreateEventTree<BoneSoundEventTree>("BSound");
+	CreateEventTree<BoneSoundEventTree>("Bone Sound");
+	CreateEventTree<CenterBodySoundEventTree>("CenterBody Sound");
+	CreateEventTree<DPSoundEventTree>("Dummy Poly Sound");
 	CreateEventTree<CollisionEventTree>("Collision Switch");
 	CreateEventTree<TurnSpeedEventTree>("Turn Speed");
 }
@@ -43,6 +215,7 @@ void AnimationInfoGUI::LevelEnd()
 	ActorNames.clear();
 	CObjectNames.clear();
 	ActorChange();
+	DummyEditorReset();
 }
 
 void AnimationInfoGUI::ShowActorList(GameEngineLevel* _Level)
@@ -112,6 +285,7 @@ void AnimationInfoGUI::ActorChange()
 	BoneNames.clear();
 	CBoneNames.clear();
 	SelectAnimation = nullptr;
+	DummyEditorReset();
 }
 
 void AnimationInfoGUI::TransformEditor()
@@ -238,15 +412,41 @@ void AnimationInfoGUI::BoneEditor()
 				MsgBoxAssert("렌더러가 존재하지 않습니다.");
 				return;
 			}
+			const float4 RendererRot = pRenderer->Transform.GetWorldRotationEuler(); 
+
+			float4 MeshGlobalRot = pRenderer->GetFBXMesh()->FindBoneToIndex(SelectBone)->BonePos.GlobalRotation;
+			float4 MeshGlobalPos = pRenderer->GetFBXMesh()->FindBoneToIndex(SelectBone)->BonePos.GlobalTranslation;
+
+			const std::vector<AnimationBoneData>& BoneDatas = pRenderer->GetBoneDatas();
+			const AnimationBoneData& BData = BoneDatas.at(SelectBone);
 			std::vector<float4x4>& BoneMats = pRenderer->GetBoneSockets();
 			float4x4 WorldMat = pRenderer->Transform.GetConstTransformDataRef().WorldMatrix;
 			float4x4& BoneMatrix = BoneMats[SelectBone];
-			WorldMat = BoneMatrix * WorldMat;
-			float4 wBoneScale;
-			float4 wBoneQuat;
-			float4 wBonePos;
-			WorldMat.Decompose(wBoneScale, wBoneQuat, wBonePos);
-			GameEngineDebug::DrawSphere2D(float4(2), wBoneQuat, wBonePos, float4(0.5f, 0.75f, 0.75f));
+
+			ImGui::SliderFloat3("Model Scale", &BoneS.X, 1.0f, 100.0f, "%.f");
+			ImGui::SliderFloat3("Model Rot", &BoneRot.X, 0.0f, 360.0f, "%.f");
+			ImGui::SliderFloat3("Model Pos", &BonePos.X, 0.0f, 1.f, "%.3f");
+
+			float4x4 BoneWMatrix = BoneMatrix* WorldMat;
+			float4 BS;
+			float4 BQ;
+			float4 BT;
+			BoneWMatrix.Decompose(BS, BQ, BT);
+			float4 BEuler = BQ.QuaternionToEulerDeg();
+
+			const float4 BoneWPos = BonePos * BoneMatrix * WorldMat;
+
+			static float GUIBoneRot = 0.0f;
+			ImGui::SliderFloat("Bone Rot", &GUIBoneRot, 0.0f, 360.0f, "%.f");
+
+			float4 Quat  = BData.RotQuaternion;
+			float4x4 BMat = Quat.QuaternionToMatrix();
+			float4x4 affine = float4x4::Affine(float4::ONE, Quat, float4::ZERO);
+			const float4 Euler = Quat.QuaternionToEulerDeg();
+
+			const float4 Rot4 = Euler + RendererRot;
+			float4x4 LocalMat = affine* WorldMat;
+			GameEngineDebug::DrawBox3D(BoneS, BEuler, BT, float4(0.25f, 0.75f, 0.75f));
 		}
 
 		ImGui::TreePop();
@@ -260,50 +460,105 @@ void AnimationInfoGUI::DummyEditor()
 		return;
 	}
 
-	if (ImGui::TreeNode("Dummy Editor"))
+	if (ImGui::TreeNode("DummyPoly Editor"))
 	{
-		if (GameEngineLevel::IsDebug)
+		if (!GameEngineLevel::IsDebug)
+		{
+			ImGui::TreePop();
+			return;
+		}
+
+		int Flag = DummyPolyStruct::eDPFlag::Tree;
+		DpLoader.Init(SelectActor, Flag);
+
+		DpLoader.AutoLoadDummyPolyRefID();
+		DpLoader.AutoLoadDummyPolyAttachBoneIndex();
+		DpLoader.ComboDummyPolyAttachBoneIndex();
+
+		const DummyData* pDPData = DpLoader.GetDummyDataPointer();
+		if (nullptr == pDPData)
+		{
+			ImGui::TreePop();
+			return;
+		}
+
+		if (nullptr != pDPData)
 		{
 			const std::shared_ptr<GameContentsFBXRenderer>& pRenderer = SelectActor->GetFBXRenderer();
 			if (nullptr == pRenderer)
 			{
 				MsgBoxAssert("렌더러가 존재하지 않습니다.");
+				ImGui::TreePop();
 				return;
 			}
 
-			float4 DummyPos = float4{ 0.0f, 1.9066906f, 0.067483485f, 1.0f } /**PosP*/;
-			float4 DummyFront = float4{ 0.19355309f, 0.0070433617f, 0.040424142f }.NormalizeReturn();
-
-			JointPos& pPos = pRenderer->GetFBXMesh()->FindBoneToIndex(82)->BonePos;
-			float4 MeshBPos = pPos.GlobalTranslation;
-			const float4 WScale = pRenderer->Transform.GetWorldScale();
+			int AttachIndex = pDPData->AttachBoneIndex;
 
 			std::vector<float4x4>& BoneMats = pRenderer->GetBoneSockets();
-			float4x4& BoneMatrix = BoneMats[82];
-			float4x4 WorldMat = pRenderer->Transform.GetConstTransformDataRef().WorldMatrix;
+			float4x4 WorldMatrix = pRenderer->Transform.GetConstTransformDataRef().WorldMatrix;
+			float4x4 BoneMatrix = BoneMats.at(AttachIndex);
 
-			float4 GTPos = pPos.GlobalTranslation;
-			GTPos.W = 1.0f;
+			const float4 BoneWPos = float4::ZERO * BoneMatrix * WorldMatrix;
 
-			const float4 BoneMeshWPos = GTPos * WorldMat;
-			const float4 DummyMeshWPos = DummyPos * WorldMat;
-			float4 DummyOffset = DummyPos - GTPos;
-			const float4 Axis_Rot_Offset = float4(DummyOffset.Y, DummyOffset.X, -DummyOffset.Z);
-			const float4 Axis_Rot_Offset2 = float4(Axis_Rot_Offset.X, Axis_Rot_Offset.Y, Axis_Rot_Offset.Z);
+			float4x4 FinDpMat;
 
-			float4x4 DummyMat;
-			float4 Scale = float4::ONE;
-			DummyMat.Compose(Scale, DummyFront, DummyOffset);
+			static bool ReverseCheck = false;
+			ImGui::Checkbox("DummyPoly Pos Reverse",&ReverseCheck);
+			if (ReverseCheck)
+			{
+				FinDpMat = pDPData->Local_ReversePos;
+			}
+			else
+			{
+				FinDpMat = pDPData->Local;
+			}
 
-			const float4 DummyPolyPos = Axis_Rot_Offset * BoneMatrix * WorldMat;
-			const float4 DummyPolyPos2 = Axis_Rot_Offset2 * BoneMatrix * WorldMat;
+			float4x4 FinMat = FinDpMat * BoneMatrix* WorldMatrix;
+			float4 WS;
+			float4 WQ;
+			float4 WT;
+			FinMat.Decompose(WS, WQ, WT);
+			float4 WDeg = WQ.QuaternionToEulerDeg();
 
-			ContentsDebug::DistanceCheck(BoneMeshWPos, 5.0f ,float4(0.25f, 0.5f, 0.25f));
-			ContentsDebug::DistanceCheck(DummyMeshWPos, 5.0f ,float4(0.5f, 0.25f, 0.25f));
-			ContentsDebug::DistanceCheck(DummyPolyPos, 5.0f ,float4(0.5f, 0.25f, 0.75f));
-			ContentsDebug::DistanceCheck(DummyPolyPos2, 5.0f ,float4(0.75f, 0.25f, 0.75f));
-			GameEngineDebug::DrawBox3D(pRenderer->Transform, float4::BLACK);
+			ImGui::SliderFloat3("Dummy Poly Scale", &DummyS.X, 1.0f, 300.0f, "%.f");
+
+			ContentsDebug::DistanceCheck(BoneWPos, 5.0f, float4(1.f, 0.f, 0.25f));
+			GameEngineDebug::DrawBox3D(DummyS, WDeg, WT, float4(0.25f, 1.f, 0.75f));
+			GameEngineDebug::DrawBox3D(float4::ONE, WDeg, WT, float4(0.25f, 1.f, 0.75f));
 		}
+
+		ImGui::TreePop();
+	}
+}
+
+void AnimationInfoGUI::DummyEditorReset()
+{
+	DpLoader.DpLoaderAllReset();
+}
+
+void AnimationInfoGUI::BoneCollisionEditor()
+{
+	if (nullptr == SelectActor)
+	{
+		return;
+	}
+
+	if (ImGui::TreeNode("Socket Col Editor"))
+	{
+		if (!GameEngineLevel::IsDebug)
+		{
+			ImGui::TreePop();
+			return;
+		}
+
+		const std::shared_ptr<GameContentsFBXRenderer>& pRenderer = SelectActor->GetFBXRenderer();
+		if (nullptr == pRenderer)
+		{
+			MsgBoxAssert("렌더러가 존재하지 않습니다.");
+			ImGui::TreePop();
+			return;
+		}
+
 
 		ImGui::TreePop();
 	}
@@ -350,6 +605,31 @@ void AnimationInfoGUI::EventEditor(GameEngineLevel* _Level, float _DeltaTime)
 	}
 }
 
+BaseActor* EventTree::GetSelectActor() const
+{
+	if (nullptr == Parent)
+	{
+		MsgBoxAssert("부모를 지정해주지 않았습니다.");
+		return nullptr;
+	}
+
+	BaseActor* pActor = Parent->SelectActor;
+	return pActor;
+}
+
+GameContentsFBXAnimationInfo* EventTree::GetSelectAnimation() const
+{
+	if (nullptr == Parent)
+	{
+		MsgBoxAssert("부모를 지정해주지 않았습니다.");
+		return nullptr;
+	}
+
+	class GameContentsFBXAnimationInfo* pAnimation = Parent->SelectAnimation.get();
+	return pAnimation;
+}
+
+
 void TotalEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 {
 	FrameEventHelper* EventHelper = Parent->SelectAnimation->EventHelper;
@@ -389,49 +669,54 @@ void TotalEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 	}
 }
 
-void SoundEventTree::Start()
+void SoundEventTree::ChangeActor()
 {
-	// Test SoundList
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("ContentsResources");
-		Dir.MoveChild("ContentsResources");
-		Dir.MoveChild("TestSoundFile");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".wav" });
-		SoundFileList.reserve(Files.size());
-		CSoundFileList.reserve(Files.size());
-		for (size_t i = 0; i < Files.size(); i++)
-		{
-			GameEngineFile& pFile = Files[i];
-			SoundFileList.push_back(pFile.GetFileName());
-			CSoundFileList.push_back(SoundFileList[i].c_str());
-		}
-	}
+	LoadSoundList();
 }
-void SoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
+
+void SoundEventTree::LoadSoundList()
 {
-	if (nullptr == Parent)
+	BaseActor* pActor = Parent->SelectActor;
+	if (nullptr == pActor)
 	{
-		MsgBoxAssert("부모를 모르고 사용할 수 없습니다.");
 		return;
 	}
 
-	FrameEventHelper* EventHelper = Parent->SelectAnimation->EventHelper;
-
-	ImGui::SliderInt("Start Frame", &SelectStartFrame, Parent->SelectAnimation->Start, Parent->SelectAnimation->End);
-	ImGui::Combo("SoundList", &SelectSoundItem, &CSoundFileList[0], static_cast<int>(CSoundFileList.size()));
-
-	if (ImGui::Button("CreateEvent"))
+	if (false == SoundFileList.empty() || false == CSoundFileList.empty())
 	{
-		std::string ScrFileName = CSoundFileList[SelectSoundItem];
-		std::shared_ptr<SoundFrameEvent> SEvent = SoundFrameEvent::CreateEventObject(SelectStartFrame, ScrFileName);
-		EventHelper->SetEvent(SEvent);
+		SoundFileList.clear();
+		CSoundFileList.clear();
 	}
-}
 
-void BoneSoundEventTree::Start()
-{
+	std::string IDName = pActor->GetIDName();
 
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExistsChild("ContentsResources");
+	Dir.MoveChild("ContentsResources");
+	Dir.MoveChild("Sound");
+	Dir.AppendPath(IDName);
+	if (false == Dir.IsExits())
+	{
+		return;
+	}
+
+	std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".wav" });
+	if (Files.empty())
+	{
+		return;
+	}
+
+	int FileSize = static_cast<int>(Files.size());
+
+	SoundFileList.reserve(FileSize);
+	CSoundFileList.reserve(FileSize);
+
+	for (int i = 0; i < FileSize; i++)
+	{
+		GameEngineFile& pFile = Files[i];
+		SoundFileList.push_back(pFile.GetFileName());
+		CSoundFileList.push_back(SoundFileList[i].c_str());
+	}
 }
 
 void BoneSoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
@@ -478,6 +763,26 @@ void BoneSoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 	}
 }
 
+void BoneSoundEventTree::ChangeActor()
+{
+	BoneNames.clear();
+	CBoneNames.clear();
+	SoundFileList.clear();
+	CSoundFileList.clear();
+	BoneIndex = 0;
+	SoundIndex = 0;
+}
+
+void BoneSoundEventTree::ChangeAnimation()
+{
+	SoundFileList.clear();
+	CSoundFileList.clear();
+
+	LoadSoundList();
+
+	SoundIndex = 0;
+}
+
 void BoneSoundEventTree::LoadSoundList()
 {
 	std::string IDName = Parent->SelectActor->GetIDName();
@@ -513,24 +818,84 @@ void BoneSoundEventTree::LoadSoundList()
 	}
 }
 
-void BoneSoundEventTree::ChangeActor()
+void CenterBodySoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 {
-	BoneNames.clear();
-	CBoneNames.clear();
-	SoundFileList.clear();
-	CSoundFileList.clear();
-	BoneIndex = 0;
-	SoundIndex = 0;
+	GameContentsFBXAnimationInfo* pAnimation = EventTree::GetSelectAnimation();
+	if (nullptr == pAnimation)
+	{
+		MsgBoxAssert("존재하지 않는 애니메이션으로 이벤트를 세팅하려 했습니다");
+		return;
+	}
+
+	// 몇번째 프레임에
+	ImGui::SliderInt("Start Frame", &SelectStartFrame, pAnimation->Start, pAnimation->End);
+
+	if (ImGui::Button("CreateEvent"))
+	{
+		FrameEventHelper* EventHelper = pAnimation->EventHelper;
+		if (nullptr == EventHelper)
+		{
+			MsgBoxAssert("존재하지 않는 이벤트 헬퍼입니다. 김태훈에게 바로 문의하세요");
+			return;
+		}
+
+		std::shared_ptr<CenterBodySoundFrameEvent> CBEvent = CenterBodySoundFrameEvent::CreateEventObject(SelectStartFrame);
+		EventHelper->SetEvent(CBEvent);
+	}
 }
 
-void BoneSoundEventTree::ChangeAnimation()
+void DPSoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 {
-	SoundFileList.clear();
-	CSoundFileList.clear();
+	BaseActor* pActor = EventTree::GetSelectActor();
+	if (nullptr == pActor)
+	{
+		MsgBoxAssert("존재하지 않는 값을 반환하려 했습니다");
+		return;
+	}
 
+	int Flag = DummyPolyStruct::eDPFlag::None;
+	DpLoader.Init(pActor, Flag);
+
+	DpLoader.AutoLoadDummyPolyRefID();
+	DpLoader.AutoLoadDummyPolyAttachBoneIndex();
+	DpLoader.ComboDummyPolyAttachBoneIndex();
+
+	const DummyData* pDPData = DpLoader.GetDummyDataPointer();
+	if (nullptr != pDPData)
+	{
+		if (CSoundFileList.empty())
+		{
+			return;
+		}
+
+		GameContentsFBXAnimationInfo* pAnimation = EventTree::GetSelectAnimation();
+		if (nullptr == pAnimation)
+		{
+			MsgBoxAssert("존재하지 않는 애니메이션으로 이벤트를 세팅하려 했습니다");
+			return;
+		}
+		FrameEventHelper* EventHelper = pAnimation->EventHelper;
+
+		// 몇번째 프레임에
+		ImGui::SliderInt("Start Frame", &SelectStartFrame, pAnimation->Start, pAnimation->End);
+
+		ImGui::Combo("SoundList", &SoundIndex, &CSoundFileList[0], static_cast<int>(CSoundFileList.size()));
+
+		if (ImGui::Button("CreateEvent"))
+		{
+			int RefID = pDPData->ReferenceID;
+			int AttachBoneIndex = pDPData->AttachBoneIndex;
+			std::string SoundFileName = CSoundFileList[SoundIndex];
+			std::shared_ptr<DummyPolySoundFrameEvent> DPSEvent = DummyPolySoundFrameEvent::CreateEventObject(SelectStartFrame, SoundFileName, RefID, AttachBoneIndex);
+			EventHelper->SetEvent(DPSEvent);
+		}
+	}
+}
+
+void DPSoundEventTree::ChangeActor()
+{
+	DpLoader.DpLoaderAllReset();
 	LoadSoundList();
-
-	SoundIndex = 0;
 }
 
 void CollisionEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)

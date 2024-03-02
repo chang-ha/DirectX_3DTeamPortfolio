@@ -22,7 +22,7 @@ void Monster_HollowSoldier_Sword::Start()
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::Pants);
 
 	AddBoneIndex(Enum_BoneType::B_01_RightHand, 44);
-	CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
+	CreateBoneCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
 	
 	
 
@@ -59,8 +59,17 @@ void Monster_HollowSoldier_Sword::ChangeState(Enum_HollowSoldier_Sword_State _St
 		case Enum_HollowSoldier_Sword_State::Scout:
 			State_Scout_Start();
 			break;
-		case Enum_HollowSoldier_Sword_State::Walk:
-			State_Walk_Start();
+		case Enum_HollowSoldier_Sword_State::Walk_Front:
+			State_Walk_Front_Start();
+			break;
+		case Enum_HollowSoldier_Sword_State::Walk_Back:
+			State_Walk_Back_Start();
+			break;
+		case Enum_HollowSoldier_Sword_State::Walk_Left:
+			State_Walk_Left_Start();
+			break;
+		case Enum_HollowSoldier_Sword_State::Walk_Right:
+			State_Walk_Right_Start();
 			break;
 		case Enum_HollowSoldier_Sword_State::Run:
 			State_Run_Start();
@@ -181,8 +190,14 @@ void Monster_HollowSoldier_Sword::StateUpdate(float _Delta)
 		return State_Idle1ToIdle2_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::Scout:
 		return State_Scout_Update(_Delta);
-	case Enum_HollowSoldier_Sword_State::Walk:
-		return State_Walk_Update(_Delta);
+	case Enum_HollowSoldier_Sword_State::Walk_Front:
+		return State_Walk_Front_Update(_Delta);
+	case Enum_HollowSoldier_Sword_State::Walk_Back:
+		return State_Walk_Back_Update(_Delta);
+	case Enum_HollowSoldier_Sword_State::Walk_Left:
+		return State_Walk_Left_Update(_Delta);
+	case Enum_HollowSoldier_Sword_State::Walk_Right:
+		return State_Walk_Right_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::Run:
 		return State_Run_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::RH_VerticalSlash:
@@ -256,7 +271,7 @@ void Monster_HollowSoldier_Sword::StateUpdate(float _Delta)
 
 void Monster_HollowSoldier_Sword::ChangeAttackState()
 {
-	AttackPattern = ContentsRandom::RandomInt(1, 13);
+	AttackPattern = ContentsRandom::RandomInt(1, 16);
 	switch (AttackPattern)
 	{
 	case 1:
@@ -298,6 +313,15 @@ void Monster_HollowSoldier_Sword::ChangeAttackState()
 	case 13:
 		ChangeState(Enum_HollowSoldier_Sword_State::Attack13);
 		break;
+	case 14:
+		ChangeState(Enum_HollowSoldier_Sword_State::Walk_Back);
+		break;
+	case 15:
+		ChangeState(Enum_HollowSoldier_Sword_State::Walk_Left);
+		break;
+	case 16:
+		ChangeState(Enum_HollowSoldier_Sword_State::Walk_Right);
+		break;
 	default:
 		break;
 	}
@@ -338,6 +362,7 @@ void Monster_HollowSoldier_Sword::State_Idle2_Update(float _Delta)
 {
 	// 여기서 공격 등등 이루어짐.
 	StateTime += _Delta;
+	
 
 	if (false)
 	{
@@ -415,7 +440,7 @@ void Monster_HollowSoldier_Sword::State_Idle2_Update(float _Delta)
 			if (IsAttack == false)
 			{
 				StateTime = 0.0f;
-				ChangeState(Enum_HollowSoldier_Sword_State::Walk);
+				ChangeState(Enum_HollowSoldier_Sword_State::Walk_Front);
 			}
 			else
 			{
@@ -493,11 +518,11 @@ void Monster_HollowSoldier_Sword::State_Scout_Update(float _Delta)
 	}
 }
 
-void Monster_HollowSoldier_Sword::State_Walk_Start()
+void Monster_HollowSoldier_Sword::State_Walk_Front_Start()
 {
 	MainRenderer->ChangeAnimation("c1100_Walk_Front");
 }
-void Monster_HollowSoldier_Sword::State_Walk_Update(float _Delta)
+void Monster_HollowSoldier_Sword::State_Walk_Front_Update(float _Delta)
 {
 	if (false == IsTargetInAngle(3.0f))
 	{
@@ -510,6 +535,68 @@ void Monster_HollowSoldier_Sword::State_Walk_Update(float _Delta)
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 		};
 	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);
+}
+
+void Monster_HollowSoldier_Sword::State_Walk_Back_Start()
+{
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
+	MainRenderer->ChangeAnimation("c1100_Walk_Back");
+}
+void Monster_HollowSoldier_Sword::State_Walk_Back_Update(float _Delta)
+{
+	WalkTime += _Delta;
+
+	if (false == IsTargetInAngle(3.0f))
+	{
+		RotToTarget(_Delta);
+	}
+
+	if (WalkTime >= WalkToChangeTime)
+	{
+		WalkTime = 0.0f;
+		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+	}
+}
+
+void Monster_HollowSoldier_Sword::State_Walk_Left_Start()
+{
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
+	MainRenderer->ChangeAnimation("c1100_Walk_Left");
+}
+void Monster_HollowSoldier_Sword::State_Walk_Left_Update(float _Delta)
+{
+	WalkTime += _Delta;
+
+	if (false == IsTargetInAngle(3.0f))
+	{
+		RotToTarget(_Delta);
+	}
+
+	if (WalkTime >= WalkToChangeTime)
+	{
+		WalkTime = 0.0f;
+		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+	}
+}
+
+void Monster_HollowSoldier_Sword::State_Walk_Right_Start()
+{
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
+	MainRenderer->ChangeAnimation("c1100_Walk_Right");
+}
+void Monster_HollowSoldier_Sword::State_Walk_Right_Update(float _Delta)
+{
+	WalkTime += _Delta;
+	if (false == IsTargetInAngle(3.0f))
+	{
+		RotToTarget(_Delta);
+	}
+
+	if (WalkTime >= WalkToChangeTime)
+	{
+		WalkTime = 0.0f;
+		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+	}
 }
 
 void Monster_HollowSoldier_Sword::State_Run_Start()

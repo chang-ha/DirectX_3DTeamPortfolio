@@ -47,7 +47,7 @@ Output Shadow_VS(Input _Input)
     return NewOutPut;
 }
 
-float4 Shadow_PS(Output _Input) : SV_Target0
+void Shadow_PS(Output _Input) //: SV_Target0
 {
-    return float4(max(0.0f, _Input.ShadowPos.z / _Input.ShadowPos.w), 0.0f, 0.0f, 1.0f);
+    //return float4(max(0.0f, _Input.ShadowPos.z / _Input.ShadowPos.w), 0.0f, 0.0f, 1.0f);
 }

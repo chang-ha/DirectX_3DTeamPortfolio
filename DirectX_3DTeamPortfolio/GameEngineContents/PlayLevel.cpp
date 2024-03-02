@@ -7,7 +7,7 @@
 #include "ContentsControlWindow.h"
 
 #include "MainUIActor.h"
-#include "UIPlayerGaugeBar.h"
+#include "MonsterHpBar.h"
 
 #include "WorldMap.h"
 #include "Boss_Vordt.h"
@@ -30,6 +30,7 @@ void PlayLevel::Start()
 
 	{
 		std::shared_ptr<GameEngineLight> Object = CreateActor<GameEngineLight>(0);
+		//Object->CreateShadowMap();
 	}
 
 }
@@ -93,7 +94,24 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	
 
 	{
-		std::shared_ptr<MainUIActor> MainUI = CreateActor<MainUIActor>();
+		if (nullptr == GameEngineSprite::Find("Dark.png"))
+		{
+			GameEngineDirectory Dir;
+			Dir.MoveParentToExistsChild("ContentsResources");
+			Dir.MoveChild("ContentsResources");
+			Dir.MoveChild("UITexture");
+			std::vector<GameEngineFile> Files = Dir.GetAllFile();
+			for (GameEngineFile& pFiles : Files)
+			{
+				GameEngineTexture::Load(pFiles.GetStringPath());
+				GameEngineSprite::CreateSingle(pFiles.GetFileName());
+			}
+		}
+
+
+		MainUI = CreateActor<MainUIActor>();
+
+		//std::shared_ptr<MonsterHpBar> Test = CreateActor<MonsterHpBar>();
 	}
 
 	
@@ -105,9 +123,21 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	physx::PxMaterial* mMaterial = GameEnginePhysX::GetDefaultMaterial();
 	physx::PxRigidStatic* groundPlane = PxCreatePlane(*Physics, physx::PxPlane(0, 1, 0, 50), *mMaterial);
 	Scene->addActor(*groundPlane);
-
 }
 
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
+	if (nullptr != GameEngineSprite::Find("Dark.Png"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources");
+		Dir.MoveChild("UITexture");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pFiles : Files)
+		{
+			GameEngineSprite::Release(pFiles.GetFileName());
+			GameEngineTexture::Release(pFiles.GetFileName());
+		}
+	}
 }

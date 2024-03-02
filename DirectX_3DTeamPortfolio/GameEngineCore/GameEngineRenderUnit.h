@@ -32,6 +32,7 @@ struct RenderUnitBaseInfo
 
 class GameEngineRenderUnit final : public GameEngineObjectBase, public std::enable_shared_from_this<GameEngineRenderUnit>
 {
+	friend class GameEngineCamera;
 public:
 	// constrcuter destructer
 	GameEngineRenderUnit();
@@ -122,5 +123,7 @@ private:
 
 	std::shared_ptr<class GameEngineMesh> Mesh = nullptr;
 	std::shared_ptr<class GameEngineMaterial> Material = nullptr;
+
+	bool InCameraValue = true;
 };
 

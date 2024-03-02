@@ -121,6 +121,11 @@ public:
 		BillboardValue = true;
 	}
 
+	void SetStatic()
+	{
+		StaticValue = true;
+	}
+
 protected:
 	void Start();
 	void Update(float _Delta) override;
@@ -143,5 +148,7 @@ private:
 	class GameEngineCamera* Camera = nullptr;
 
 	bool BillboardValue = false;
+	bool StaticValue = false; //움직이지도 않고 애니메이션되지도 않아 그림자를 베이킹할수 있는 렌더러
+
 };
 

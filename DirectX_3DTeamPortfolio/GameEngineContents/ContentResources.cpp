@@ -3,6 +3,7 @@
 
 #include <GameEngineCore/GameEngineBlend.h>
 #include <GameEngineCore\FogEffect.h>
+#include "ContentsFireRenderer.h"
 
 #include "LUTEffect.h"
 #include "BaseActor.h"
@@ -119,6 +120,12 @@ void ContentResources::ContentResourcesInit()
 		Mat->SetPixelShader("ContentsStaticAlphaMesh_PS");
 	}
 
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("Fire");
+		Mat->SetVertexShader("ContentsFireMesh_VS");
+		Mat->SetPixelShader("ContentsFireMesh_PS");
+	}
+
 
 
 
@@ -217,7 +224,7 @@ void ContentResources::ContentResourcesInit()
 		Mat->SetBlendState("MergeBlend");
 		Mat->SetDepthState("AlwaysDepth");
 	}
-
+	
 
 	// LUT
 	{
@@ -239,7 +246,6 @@ void ContentResources::ContentResourcesInit()
 
 	BaseActor::LoadEvent(static_cast<int>(Enum_ActorType::LothricKn));
 	BaseActor::LoadEvent(static_cast<int>(Enum_ActorType::Boss_Vordt));
-	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::LothricKn));
 
 	{
 		GameEngineDirectory Dir;
@@ -267,5 +273,12 @@ void ContentResources::ContentResourcesInit()
 		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("ContentsDeferredMergeRender");
 		Mat->SetVertexShader("ContentsDeferredMergeRender_VS");
 		Mat->SetPixelShader("ContentsDeferredMergeRender_PS");
+	}
+
+
+	ContentsFireRenderer::Load();
+
+	{
+		GameEngineFont::Load("OptimusPrincepsSemiBold");
 	}
 }

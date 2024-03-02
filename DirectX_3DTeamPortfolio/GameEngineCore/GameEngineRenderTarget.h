@@ -80,10 +80,13 @@ public:
 	void Setting();
 
 	void CreateDepthTexture(int _Index = 0);
+	void CreateDepthTexture(float4 _Size);
 
 	void AddNewTexture(DXGI_FORMAT _Format, float4 _Scale, float4 _ClearColor);
 
 	void AddNewTexture(std::shared_ptr<GameEngineTexture> _Texture, float4 _ClearColor);
+
+	void CreateViewports(float4 _Size);
 
 	void Copy(unsigned int ThisTarget, std::shared_ptr<GameEngineRenderTarget> _Target, unsigned int _CopyTarget = 0);
 

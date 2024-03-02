@@ -11,8 +11,14 @@ enum class Enum_HollowSoldier_RoundShield_State
 	Idle2ToIdle3,
 	Idle3ToIdle2,
 	Scout,
-	Walk,
-	Walk3,
+	Walk_Front,
+	Walk_Back,
+	Walk_Left,
+	Walk_Right,
+	Walk_Front3,
+	Walk_Back3,
+	Walk_Left3,
+	Walk_Right3,
 	Run,
 	Run3,
 	RH_VerticalSlash,
@@ -76,6 +82,9 @@ private:
 	float StateTime = 0.0f;
 
 	bool IsAttack = false;
+
+	float WalkToChangeTime = 0.0f;
+	float WalkTime = 0.0f;
 	
 protected:
 	Enum_HollowSoldier_RoundShield_State ShieldState = Enum_HollowSoldier_RoundShield_State::Max;
@@ -112,11 +121,29 @@ protected:
 	void State_Scout_Start();
 	void State_Scout_Update(float _Delta);
 
-	void State_Walk_Start();
-	void State_Walk_Update(float _Delta);
+	void State_Walk_Front_Start();
+	void State_Walk_Front_Update(float _Delta);
 
-	void State_Walk3_Start();
-	void State_Walk3_Update(float _Delta);
+	void State_Walk_Back_Start();
+	void State_Walk_Back_Update(float _Delta);
+
+	void State_Walk_Left_Start();
+	void State_Walk_Left_Update(float _Delta);
+
+	void State_Walk_Right_Start();
+	void State_Walk_Right_Update(float _Delta);
+
+	void State_Walk_Front3_Start();
+	void State_Walk_Front3_Update(float _Delta);
+
+	void State_Walk_Back3_Start();
+	void State_Walk_Back3_Update(float _Delta);
+
+	void State_Walk_Left3_Start();
+	void State_Walk_Left3_Update(float _Delta);
+
+	void State_Walk_Right3_Start();
+	void State_Walk_Right3_Update(float _Delta);
 
 	void State_Run_Start();
 	void State_Run_Update(float _Delta);

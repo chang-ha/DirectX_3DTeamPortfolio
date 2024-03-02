@@ -12,7 +12,7 @@ ContentsLight::~ContentsLight()
 void ContentsLight::Start()
 {
 	GameEngineLight::Start();
-	Transform.SetWorldScale(float4(25.f, 25.f, 25.f));
+	Transform.SetWorldScale(float4(200.0, 50.0, 10.0));
 }
 
 void ContentsLight::Update(float _DeltaTime)
@@ -21,7 +21,7 @@ void ContentsLight::Update(float _DeltaTime)
 	if (true == IsDebugValue)
 	{
 		//Transform.SetWorldScale(float4(50.f, 50.f, 50.f));
-		GameEngineDebug::DrawSphere2D(Transform, float4::GREEN, GetLevel()->GetMainCamera().get());
+		GameEngineDebug::DrawBox2D(Transform, float4::GREEN, GetLevel()->GetMainCamera().get());
 	}
 }
 

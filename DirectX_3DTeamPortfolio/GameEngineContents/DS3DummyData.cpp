@@ -1,8 +1,9 @@
-#include "PreCompile.h"
+#include "PreCompile.h" 
 #include "DS3DummyData.h"
 
+#include "GameEngineCore/GameEngineFBXMesh.h"
+
 #include "BaseActor.h"
-#include <algorithm>
 
 DS3DummyData::DS3DummyData() 
 {
@@ -83,7 +84,46 @@ void DS3DummyData::Load(GameEngineFile& _File)
 	}
 }
 
-const DummyData& DS3DummyData::GetDummyData(int _RefID, int _AttachBoneIndex) const
+std::map<int, DummyData> DS3DummyData::GetRefAllData(int _RefID) const
+{
+	std::multimap<int, DummyData>::const_iterator Iter_Lower = DummyDataMap.lower_bound(_RefID);
+	std::multimap<int, DummyData>::const_iterator Iter_Upper = DummyDataMap.upper_bound(_RefID);
+
+	std::multimap<int, DummyData>::const_iterator FindIter;
+
+	size_t DataCount = DummyDataMap.count(_RefID);
+
+	std::map<int, DummyData> ReturnDatas;
+
+	for (FindIter = Iter_Lower; FindIter != Iter_Upper; ++FindIter)
+	{
+		const DummyData& pData = FindIter->second;
+		ReturnDatas.insert(std::make_pair(pData.AttachBoneIndex, pData));
+	}
+
+	return ReturnDatas;
+}
+
+bool DS3DummyData::IsContainData(int _RefID) const
+{
+	return DummyDataMap.contains(_RefID);
+}
+
+const DummyData* DS3DummyData::GetDummyData(int _RefID) const
+{
+	if (false == IsContainData(_RefID))
+	{
+		MsgBoxAssert("데이터를 찾을 수 없었습니다.");
+		static DummyData* ReturnType = nullptr;
+		return ReturnType;
+	}
+
+	std::multimap<int, DummyData>::const_iterator FindIter = DummyDataMap.find(_RefID);
+	const DummyData* pData = &FindIter->second;
+	return pData;
+}
+
+const DummyData* DS3DummyData::GetDummyData(int _RefID, int _AttachBoneIndex) const
 {
 	std::multimap<int, DummyData>::const_iterator Iter_Lower = DummyDataMap.lower_bound(_RefID);
 	std::multimap<int, DummyData>::const_iterator Iter_Upper = DummyDataMap.upper_bound(_RefID);
@@ -92,8 +132,8 @@ const DummyData& DS3DummyData::GetDummyData(int _RefID, int _AttachBoneIndex) co
 
 	for (FindIter = Iter_Lower; FindIter != Iter_Upper; ++FindIter)
 	{
-		const DummyData& pData = FindIter->second;
-		if (_AttachBoneIndex != pData.AttachBoneIndex)
+		const DummyData* pData = &FindIter->second;
+		if (_AttachBoneIndex != pData->AttachBoneIndex)
 		{
 			continue;
 		}
@@ -102,7 +142,7 @@ const DummyData& DS3DummyData::GetDummyData(int _RefID, int _AttachBoneIndex) co
 	}
 
 	MsgBoxAssert("데이터를 찾을 수 없었습니다.");
-	static DummyData ReturnType;
+	static DummyData* ReturnType = nullptr;
 	return ReturnType;
 }
 
@@ -191,14 +231,72 @@ void DS3DummyData::Interpret(std::string_view _Data)
 	DummyData NewData;
 
 	NewData.Position = InterpretType<float4>(_Data, "Position");
+	NewData.Position.X *= -1.0f;
+	NewData.Position.Z *= -1.0f;
 	NewData.Forward = InterpretType<float4>(_Data, "Forward");
+	NewData.Forward.X *= -1.0f;
+	NewData.Forward.Z *= -1.0f;
 	NewData.Upward = InterpretType<float4>(_Data, "Upward");
+	NewData.Upward.X *= -1.0f;
+	NewData.Upward.Z *= -1.0f;
 	NewData.ReferenceID = InterpretType<int>(_Data, "ReferenceID");
 	NewData.ParentBoneIndex = InterpretType<int>(_Data, "ParentBoneIndex");
 	NewData.AttachBoneIndex = InterpretType<int>(_Data, "AttachBoneIndex");
 	NewData.Flag1 = InterpretType<bool>(_Data, "Flag1");
+
+	SetLocalMatrix(NewData);
 	
 	CreateData(NewData);
+}
+
+void DS3DummyData::SetLocalMatrix(DummyData& _DummyPolyData)
+{
+	std::string Name = std::string(GetName().data()) + ".fbx";
+	const std::shared_ptr<GameEngineFBXMesh>& Mesh = GameEngineFBXMesh::Find(Name);
+	if (nullptr == Mesh)
+	{
+		MsgBoxAssert("메쉬 데이터를 로드하지 않고 사용할 수 없는 기능입니다.");
+		return;
+	}
+
+	const float4 WorldPos = _DummyPolyData.Position;
+	const float4 WorldForward = _DummyPolyData.Forward;
+	const float4 WorldUpward = _DummyPolyData.Upward;
+	const int AttachIndex = _DummyPolyData.AttachBoneIndex;
+
+	float4 DPStartPos = float4::ZERO;
+	float4 DPStartRot = float4::ZERONULL;
+	if (-1 != AttachIndex)
+	{
+		const JointPos& MeshJointData = Mesh->FindBoneToIndex(AttachIndex)->BonePos;
+		DPStartPos = MeshJointData.GlobalTranslation;
+		DPStartRot = MeshJointData.GlobalRotation;
+	}
+
+	float4x4 GlobalDummyPolyMatrix = DirectX::XMMatrixLookAtLH(WorldPos.DirectXVector, (WorldPos + WorldForward).DirectXVector, WorldUpward.DirectXVector);
+	float4 WDPS;
+	float4 WDPQ;
+	float4 WDPT;
+	GlobalDummyPolyMatrix.Decompose(WDPS, WDPQ, WDPT);
+
+	float4 mDPS = float4::ONE;
+	float4 mDPQ = DPStartRot * DirectX::XMQuaternionInverse(WDPQ.DirectXVector);
+	float4 mDPT = -(DPStartPos + WDPT);
+	float4 RmDPT = mDPT;
+	RmDPT.Z *= -1.0f;
+	RmDPT = RmDPT.VectorRotationToDegZReturn(-90.0f);
+
+	float4x4 mDPMat;
+	float4x4 RmDPMat;
+	float4x4 mAffine;
+	mDPMat.Compose(mDPS, mDPQ, mDPT);
+	RmDPMat.Compose(mDPS, mDPQ, RmDPT);
+
+	_DummyPolyData.Offset = mDPT;
+	_DummyPolyData.Quaternion = WDPQ;
+	_DummyPolyData.Local = mDPMat;
+	_DummyPolyData.Local_ReversePos = RmDPMat;
+	_DummyPolyData.Local_NotPos = mAffine.Affine(mDPS, mDPQ, mDPT);
 }
 
 void DS3DummyData::CreateData(const DummyData& _Data)

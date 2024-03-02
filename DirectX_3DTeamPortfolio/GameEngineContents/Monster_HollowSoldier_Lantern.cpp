@@ -35,11 +35,32 @@ void Monster_HollowSoldier_Lantern::ChangeState(Enum_HollowSoldier_Lantern_State
 	{
 		switch (_State)
 		{
+		case Enum_HollowSoldier_Lantern_State::Stay:
+			State_Stay_Start();
+			break;
 		case Enum_HollowSoldier_Lantern_State::Idle:
 			State_Idle_Start();
 			break;
-		case Enum_HollowSoldier_Lantern_State::LanternIdle:
-			State_LanternIdle_Start();
+		case Enum_HollowSoldier_Lantern_State::IdleToStay:
+			State_IdleToStay_Start();
+			break;
+		case Enum_HollowSoldier_Lantern_State::StayToIdle:
+			State_StayToIdle_Start();
+			break;
+		case Enum_HollowSoldier_Lantern_State::Walk_Front:
+			State_Walk_Front_Start();
+			break;
+		case Enum_HollowSoldier_Lantern_State::Walk_Back:
+			State_Walk_Back_Start();
+			break;
+		case Enum_HollowSoldier_Lantern_State::Walk_Left:
+			State_Walk_Left_Start();
+			break;
+		case Enum_HollowSoldier_Lantern_State::Walk_Right:
+			State_Walk_Right_Start();
+			break;
+		case Enum_HollowSoldier_Lantern_State::Run:
+			State_Run_Start();
 			break;
 		case Enum_HollowSoldier_Lantern_State::Scout:
 			State_Scout_Start();
@@ -53,11 +74,26 @@ void Monster_HollowSoldier_Lantern::ChangeState(Enum_HollowSoldier_Lantern_State
 		case Enum_HollowSoldier_Lantern_State::RH_HorizontalSlash:
 			State_RH_HorizontalSlash_Start();
 			break;
+		case Enum_HollowSoldier_Lantern_State::TH_VerticalSlash:
+			State_TH_VerticalSlash_Start();
+			break;
 		case Enum_HollowSoldier_Lantern_State::RH_ComboAttack:
 			State_RH_ComboAttack_Start();
 			break;
 		case Enum_HollowSoldier_Lantern_State::RH_RunToSlash:
 			State_RH_RunToSlash_Start();
+			break;
+		case Enum_HollowSoldier_Lantern_State::Turn_Left:
+			State_Turn_Left_Start();
+			break;
+		case Enum_HollowSoldier_Lantern_State::Turn_Right:
+			State_Turn_Right_Start();
+			break;
+		case Enum_HollowSoldier_Lantern_State::Turn_Left_Twice:
+			State_Turn_Left_Twice_Start();
+			break;
+		case Enum_HollowSoldier_Lantern_State::Turn_Right_Twice:
+			State_Turn_Right_Twice_Start();
 			break;
 		case Enum_HollowSoldier_Lantern_State::AttackFail:
 			State_AttackFail_Start();
@@ -81,15 +117,30 @@ void Monster_HollowSoldier_Lantern::ChangeState(Enum_HollowSoldier_Lantern_State
 			break;
 		}
 	}
+	LanternState = _State;
 }
 void Monster_HollowSoldier_Lantern::StateUpdate(float _Delta)
 {
 	switch (LanternState)
 	{
+	case Enum_HollowSoldier_Lantern_State::Stay:
+		return State_Stay_Update(_Delta);
 	case Enum_HollowSoldier_Lantern_State::Idle:
 		return State_Idle_Update(_Delta);
-	case Enum_HollowSoldier_Lantern_State::LanternIdle:
-		return State_LanternIdle_Update(_Delta);
+	case Enum_HollowSoldier_Lantern_State::IdleToStay:
+		return State_IdleToStay_Update(_Delta);
+	case Enum_HollowSoldier_Lantern_State::StayToIdle:
+		return State_StayToIdle_Update(_Delta);
+	case Enum_HollowSoldier_Lantern_State::Walk_Front:
+		return State_Walk_Front_Update(_Delta);
+	case Enum_HollowSoldier_Lantern_State::Walk_Back:
+		return State_Walk_Back_Update(_Delta);
+	case Enum_HollowSoldier_Lantern_State::Walk_Left:
+		return State_Walk_Left_Update(_Delta);
+	case Enum_HollowSoldier_Lantern_State::Walk_Right:
+		return State_Walk_Right_Update(_Delta);
+	case Enum_HollowSoldier_Lantern_State::Run:
+		return State_Run_Update(_Delta);
 	case Enum_HollowSoldier_Lantern_State::Scout:
 		return State_Scout_Update(_Delta);
 	case Enum_HollowSoldier_Lantern_State::AwakeHollows:
@@ -98,10 +149,20 @@ void Monster_HollowSoldier_Lantern::StateUpdate(float _Delta)
 		return State_RH_VerticalSlash_Update(_Delta);
 	case Enum_HollowSoldier_Lantern_State::RH_HorizontalSlash:
 		return State_RH_HorizontalSlash_Update(_Delta);
+	case Enum_HollowSoldier_Lantern_State::TH_VerticalSlash:
+		return State_TH_VerticalSlash_Update(_Delta);
 	case Enum_HollowSoldier_Lantern_State::RH_ComboAttack:
 		return State_RH_ComboAttack_Update(_Delta);
 	case Enum_HollowSoldier_Lantern_State::RH_RunToSlash:
 		return State_RH_RunToSlash_Update(_Delta);
+	case Enum_HollowSoldier_Lantern_State::Turn_Left:
+		return State_Turn_Left_Update(_Delta);
+	case Enum_HollowSoldier_Lantern_State::Turn_Right:
+		return State_Turn_Right_Update(_Delta);
+	case Enum_HollowSoldier_Lantern_State::Turn_Left_Twice:
+		return State_Turn_Left_Twice_Update(_Delta);
+	case Enum_HollowSoldier_Lantern_State::Turn_Right_Twice:
+		return State_Turn_Right_Twice_Update(_Delta);
 	case Enum_HollowSoldier_Lantern_State::AttackFail:
 		return State_AttackFail_Update(_Delta);
 	case Enum_HollowSoldier_Lantern_State::Parrying:
@@ -119,26 +180,250 @@ void Monster_HollowSoldier_Lantern::StateUpdate(float _Delta)
 	}
 }
 
-void Monster_HollowSoldier_Lantern::State_Idle_Start()
+void Monster_HollowSoldier_Lantern::ChangeAttackState()
+{
+	AttackPattern = ContentsRandom::RandomInt(1, 7);
+
+	switch (AttackPattern)
+	{
+	case 1:
+		ChangeState(Enum_HollowSoldier_Lantern_State::Walk_Back);
+		break;
+	case 2:
+		ChangeState(Enum_HollowSoldier_Lantern_State::Walk_Left);
+		break;
+	case 3:
+		ChangeState(Enum_HollowSoldier_Lantern_State::Walk_Right);
+		break;
+	case 4:
+		ChangeState(Enum_HollowSoldier_Lantern_State::RH_VerticalSlash);
+		break;
+	case 5:
+		ChangeState(Enum_HollowSoldier_Lantern_State::RH_HorizontalSlash);
+		break;
+	case 6:
+		ChangeState(Enum_HollowSoldier_Lantern_State::TH_VerticalSlash);
+		break;
+	case 7:
+		ChangeState(Enum_HollowSoldier_Lantern_State::RH_ComboAttack);
+		break;
+	default:
+		break;
+	}
+}
+
+void Monster_HollowSoldier_Lantern::State_Stay_Start()
 {
 	MainRenderer->ChangeAnimation("c1100_Idle1");
 }
-void Monster_HollowSoldier_Lantern::State_Idle_Update(float _Delta)
+void Monster_HollowSoldier_Lantern::State_Stay_Update(float _Delta)
 {
+	StateTime += _Delta;
 	// 트리거 발동시
 	if (false)
 	{
 		ChangeState(Enum_HollowSoldier_Lantern_State::Scout);
 	}
+
+	if (StateTime >= 5.0f)
+	{
+		StateTime = 0.0f;
+		ChangeState(Enum_HollowSoldier_Lantern_State::Scout);
+	}
 }
 
-void Monster_HollowSoldier_Lantern::State_LanternIdle_Start()
+void Monster_HollowSoldier_Lantern::State_Idle_Start()
 {
 	MainRenderer->ChangeAnimation("c1100_Lantern_Idle");
 }
-void Monster_HollowSoldier_Lantern::State_LanternIdle_Update(float _Delta)
+void Monster_HollowSoldier_Lantern::State_Idle_Update(float _Delta)
 {
 	// 여기서부터는 공격
+	StateTime += _Delta;
+
+	const float AbsTargetAngle = std::fabs(BaseActor::GetTargetAngle());
+	if (AbsTargetAngle >= 90.0f && AbsTargetAngle <= 150.0f)
+	{
+		//Turn
+		if (Enum_RotDir::Left == GetRotDir_e())
+		{
+			ChangeState(Enum_HollowSoldier_Lantern_State::Turn_Left);
+		}
+		else
+		{
+			ChangeState(Enum_HollowSoldier_Lantern_State::Turn_Right);
+		}
+	}
+	else if (AbsTargetAngle > 150.0f)
+	{
+		// TurnTwice
+		if (Enum_RotDir::Left == GetRotDir_e())
+		{
+			ChangeState(Enum_HollowSoldier_Lantern_State::Turn_Left_Twice);
+		}
+		else
+		{
+			ChangeState(Enum_HollowSoldier_Lantern_State::Turn_Right_Twice);
+		}
+	}
+	else if (AbsTargetAngle < 80.0f)
+	{
+		if (false == IsTargetInAngle(3.0f))
+		{
+			RotToTarget(_Delta);
+		}
+	}
+
+	EventParameter AttackParameter;
+	AttackParameter.Stay = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
+		{
+			IsAttack = true;
+		};
+	AttackParameter.Exit = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
+		{
+			IsAttack = false;
+		};
+	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);
+
+	if (StateTime >= 0.1f)
+	{
+		// 거리 구하기
+		if (false)
+		{
+			//RunToSting
+			StateTime = 0.0;
+			//ChangeState(Enum_HollowSoldier_Spear_State::Attack4);
+		}
+		else
+		{
+			if (IsAttack == false)
+			{
+				StateTime = 0.0f;
+				ChangeState(Enum_HollowSoldier_Lantern_State::Walk_Front);
+			}
+			else
+			{
+				StateTime = 0.0f;
+				ChangeAttackState();
+			}
+		}
+
+	}
+}
+
+void Monster_HollowSoldier_Lantern::State_IdleToStay_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Lantern_IdleToStay");
+}
+void Monster_HollowSoldier_Lantern::State_IdleToStay_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 39)
+	{
+		ChangeState(Enum_HollowSoldier_Lantern_State::Stay);
+	}
+}
+
+void Monster_HollowSoldier_Lantern::State_StayToIdle_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Lantern_StayToIdle");
+}
+void Monster_HollowSoldier_Lantern::State_StayToIdle_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 29)
+	{
+		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
+	}
+}
+
+void Monster_HollowSoldier_Lantern::State_Walk_Front_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Lantern_Walk_Front");
+}
+void Monster_HollowSoldier_Lantern::State_Walk_Front_Update(float _Delta)
+{
+	if (false == IsTargetInAngle(3.0f))
+	{
+		RotToTarget(_Delta);
+	}
+
+	EventParameter AttackParameter;
+	AttackParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
+		{
+			ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
+		};
+	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);
+}
+
+void Monster_HollowSoldier_Lantern::State_Walk_Back_Start()
+{
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
+	MainRenderer->ChangeAnimation("c1100_Lantern_Walk_Back");
+}
+void Monster_HollowSoldier_Lantern::State_Walk_Back_Update(float _Delta)
+{
+	WalkTime += _Delta;
+
+	if (false == IsTargetInAngle(3.0f))
+	{
+		RotToTarget(_Delta);
+	}
+
+	if (WalkTime >= WalkToChangeTime)
+	{
+		WalkTime = 0.0f;
+		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
+	}
+}
+
+void Monster_HollowSoldier_Lantern::State_Walk_Left_Start()
+{
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
+	MainRenderer->ChangeAnimation("c1100_Lantern_Walk_Left");
+}
+void Monster_HollowSoldier_Lantern::State_Walk_Left_Update(float _Delta)
+{
+	WalkTime += _Delta;
+
+	if (false == IsTargetInAngle(3.0f))
+	{
+		RotToTarget(_Delta);
+	}
+
+	if (WalkTime >= WalkToChangeTime)
+	{
+		WalkTime = 0.0f;
+		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
+	}
+}
+
+void Monster_HollowSoldier_Lantern::State_Walk_Right_Start()
+{
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
+	MainRenderer->ChangeAnimation("c1100_Lantern_Walk_Right");
+}
+void Monster_HollowSoldier_Lantern::State_Walk_Right_Update(float _Delta)
+{
+	WalkTime += _Delta;
+
+	if (false == IsTargetInAngle(3.0f))
+	{
+		RotToTarget(_Delta);
+	}
+
+	if (WalkTime >= WalkToChangeTime)
+	{
+		WalkTime = 0.0f;
+		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
+	}
+}
+
+void Monster_HollowSoldier_Lantern::State_Run_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Lantern_Run");
+}
+void Monster_HollowSoldier_Lantern::State_Run_Update(float _Delta)
+{
+
 }
 
 void Monster_HollowSoldier_Lantern::State_Scout_Start()
@@ -150,6 +435,17 @@ void Monster_HollowSoldier_Lantern::State_Scout_Update(float _Delta)
 	// 플레이어 인식시
 	if (false)
 	{
+		ChangeState(Enum_HollowSoldier_Lantern_State::AwakeHollows);
+	}
+
+	EventParameter RecognizeParameter;
+	RecognizeParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
+		{
+
+		};
+	if (true == RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, RecognizeParameter))
+	{
+		FindTarget();
 		ChangeState(Enum_HollowSoldier_Lantern_State::AwakeHollows);
 	}
 }
@@ -168,44 +464,116 @@ void Monster_HollowSoldier_Lantern::State_AwakeHollows_Update(float _Delta)
 
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
 	{
-		ChangeState(Enum_HollowSoldier_Lantern_State::LanternIdle);
+		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
 	}
 }
 
 void Monster_HollowSoldier_Lantern::State_RH_VerticalSlash_Start()
 {
-
+	MainRenderer->ChangeAnimation("c1100_BrokenSword_RH_VerticalSlash");
 }
 void Monster_HollowSoldier_Lantern::State_RH_VerticalSlash_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 61)
+	{
+		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
+	}
 }
 
 void Monster_HollowSoldier_Lantern::State_RH_HorizontalSlash_Start()
 {
-
+	MainRenderer->ChangeAnimation("c1100_BrokenSword_RH_HorizontalSlash");
 }
 void Monster_HollowSoldier_Lantern::State_RH_HorizontalSlash_Update(float _Delta)
 {
+	if (MainRenderer->GetCurAnimationFrame() >= 53)
+	{
+		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
+	}
+}
 
+void Monster_HollowSoldier_Lantern::State_TH_VerticalSlash_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_BrokenSword_TH_VerticalSlash");
+}
+void Monster_HollowSoldier_Lantern::State_TH_VerticalSlash_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 73)
+	{
+		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
+	}
 }
 
 void Monster_HollowSoldier_Lantern::State_RH_ComboAttack_Start()
 {
-
+	MainRenderer->ChangeAnimation("c1100_BrokenSword_RH_ComboAttack");
 }
 void Monster_HollowSoldier_Lantern::State_RH_ComboAttack_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 165)
+	{
+		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
+	}
 }
 
 void Monster_HollowSoldier_Lantern::State_RH_RunToSlash_Start()
 {
-
+	MainRenderer->ChangeAnimation("c1100_BrokenSword_RH_RunToSlash");
 }
 void Monster_HollowSoldier_Lantern::State_RH_RunToSlash_Update(float _Delta)
 {
+	if (MainRenderer->GetCurAnimationFrame() >= 82)
+	{
+		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
+	}
+}
 
+void Monster_HollowSoldier_Lantern::State_Turn_Left_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Lantern_Turn_Left");
+}
+void Monster_HollowSoldier_Lantern::State_Turn_Left_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 35)
+	{
+		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
+	}
+}
+
+void Monster_HollowSoldier_Lantern::State_Turn_Right_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Lantern_Turn_Right");
+}
+void Monster_HollowSoldier_Lantern::State_Turn_Right_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 35)
+	{
+		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
+	}
+}
+
+void Monster_HollowSoldier_Lantern::State_Turn_Left_Twice_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Lantern_Turn_Left_Twice");
+}
+void Monster_HollowSoldier_Lantern::State_Turn_Left_Twice_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 38)
+	{
+		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
+	}
+}
+
+void Monster_HollowSoldier_Lantern::State_Turn_Right_Twice_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Lantern_Turn_Right_Twice");
+}
+void Monster_HollowSoldier_Lantern::State_Turn_Right_Twice_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 38)
+	{
+		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
+	}
 }
 
 void Monster_HollowSoldier_Lantern::State_AttackFail_Start()

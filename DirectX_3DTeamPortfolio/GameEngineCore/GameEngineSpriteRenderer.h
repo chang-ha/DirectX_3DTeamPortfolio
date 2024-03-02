@@ -82,6 +82,7 @@ struct ColorData
 class GameEngineSpriteRenderer : public GameEngineRenderer
 {
 	friend GameEngineFrameAnimation;
+	friend class ContentsFireRenderer;
 
 public:
 	// constrcuter destructer

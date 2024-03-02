@@ -28,7 +28,12 @@ void GameEngineCamera::Start()
 
 	ZoomValue = 1.0f;
 
+	CameraBaseInfoValue.SizeX = GameEngineCore::MainWindow.GetScale().X;
+	CameraBaseInfoValue.SizeY = GameEngineCore::MainWindow.GetScale().Y;
+
 	GameEngineLevel* Level = GetLevel();
+
+
 
 	if (nullptr == Level)
 	{
@@ -109,7 +114,13 @@ void GameEngineCamera::Start()
 		DeferredLightRenderUnit.ShaderResHelper.SetTexture("NormalTex", AllRenderTarget->GetTexture(3));
 		DeferredLightRenderUnit.ShaderResHelper.SetTexture("DiffuseTexture", AllRenderTarget->GetTexture(1));
 		DeferredLightRenderUnit.ShaderResHelper.SetTexture("MaterialTexture", AllRenderTarget->GetTexture(5));
+		//DeferredLightRenderUnit.ShaderResHelper.SetConstantBufferLink("CameraBaseInfo", CameraBaseInfoValue);
+
 		DeferredLightRenderUnit.ShaderResHelper.SetSampler("POINTWRAP", "POINT");
+		DeferredLightRenderUnit.ShaderResHelper.SetSampler("LinearClamp", "LINEAR");
+		//DeferredLightRenderUnit.ShaderResHelper.SetSampler("CompareSampler", "CompareSampler");
+
+		
 
 
 		DeferredTarget = GameEngineRenderTarget::Create();
@@ -134,7 +145,9 @@ void GameEngineCamera::Start()
 		//DeferredMergeUnit.ShaderResHelper.SetTexture("SpecularTex", AllRenderTarget->GetTexture(4));
 		DeferredMergeUnit.ShaderResHelper.SetTexture("HBAOTex", HBAO.HBAOTarget->GetTexture());
 		DeferredMergeUnit.ShaderResHelper.SetTexture("PBRTex", DeferredLightTarget->GetTexture(5));
-		DeferredMergeUnit.ShaderResHelper.SetSampler("POINTWRAP", "POINT");
+		DeferredMergeUnit.ShaderResHelper.SetSampler("POINTClamp", "POINT");
+		DeferredMergeUnit.ShaderResHelper.SetSampler("LinearClamp", "LINEAR");
+		
 	}
 
 	ShadowRenderUnit.SetMesh("Box");
@@ -194,7 +207,7 @@ void GameEngineCamera::Update(float _Delta)
 
 	if (GameEngineInput::IsPress(VK_LSHIFT, this))
 	{
-		Speed *= 50.0f;
+		Speed *= 5.0f;
 	}
 
 	if (GameEngineInput::IsPress('A', this))
@@ -291,27 +304,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 	ForwardTarget->EffectUpdate(_DeltaTime, std::static_pointer_cast<GameEngineCamera>(shared_from_this()));
 	DeferredTarget->EffectUpdate(_DeltaTime, std::static_pointer_cast<GameEngineCamera>(shared_from_this()));
 
-	//for ( FogEffect* Effect : FogPostEffect)
-	//{
-	//	Effect->Update(*this);
-	//}
-
-	;
-
-	// 포워드 그리고
-	{
-		//std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPath = Units[RenderPath::Forward];
-		//for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPair : RenderPath)
-		//{
-		//	std::list<std::shared_ptr<class GameEngineRenderUnit>>& UnitList = RenderPair.second;
-
-		//	for (std::shared_ptr<class GameEngineRenderUnit> Unit : UnitList)
-		//	{
-		//		Unit->Render();
-		//	}
-		//}
-
-	}
+	
 
 	AllRenderTarget->Setting();
 
@@ -337,8 +330,12 @@ void GameEngineCamera::Render(float _DeltaTime)
 				{
 					if (EPROJECTIONTYPE::Perspective != ProjectionType or InCamera(Unit->GetParentRenderer()->Transform, Unit->GetMesh()->GetMeshBaseInfo()) == true)
 					{
-
 						Unit->Render();
+						Unit->InCameraValue = true;
+					}
+					else
+					{
+						Unit->InCameraValue = false;
 					}
 				}
 			}
@@ -355,32 +352,137 @@ void GameEngineCamera::Render(float _DeltaTime)
 		// 빛연산 및 그림자 연산용 
 		std::list<std::shared_ptr<class GameEngineLight>>& Lights = GetLevel()->AllLight;
 
+		// 스태틱용 딱 한 번 만 계산하는 그림자
+		if (StaticRenderInitValue == false)
+		{
+			StaticRenderInitValue = true;
+			for (std::shared_ptr<GameEngineLight> Light : Lights)
+			{
+				if (false == Light->IsShadow())
+				{
+					continue;
+				}
+
+				Light->ShadowTargetStatic->Clear();
+				Light->ShadowTargetStatic->Setting();
+
+
+				std::unordered_set<GameEngineRenderer*> TransformRenderer;
+				for (std::pair<const RenderPath, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>& RenderPathvalue : Units)
+				{
+
+					for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPair : RenderPathvalue.second)
+					{
+						if (RenderPathvalue.first != RenderPath::Deferred)
+						{
+							continue;
+						}
+						else {
+							IsDeferredResult = true;
+						}
+
+						std::list<std::shared_ptr<class GameEngineRenderUnit>>& UnitList = RenderPair.second;
+
+						for (std::shared_ptr<class GameEngineRenderUnit> Unit : UnitList)
+						{
+
+							// 컬링되면 카메라 밖이면 처리x
+							/*if (Unit->InCameraValue == false)
+							{
+								continue;
+							}*/
+
+							GameEngineRenderer* ParentRenderer = Unit->GetParentRenderer();
+
+							if (nullptr == ParentRenderer)
+							{
+								MsgBoxAssert("랜더러가 존재하지 않는 유니티가 있습니다");
+								return;
+							}
+
+							//움직이는 물체면
+							if (ParentRenderer->StaticValue == false)
+							{
+								continue;
+							}
+
+							if (false == ParentRenderer->RenderBaseInfoValue.IsShadow)
+							{
+								continue;
+							}
+
+							const LightData& Data = Light->GetLightData();
+							if (false == TransformRenderer.contains(ParentRenderer))
+							{
+								ParentRenderer->Transform.CalculationViewAndProjection(Data.LightViewMatrix, Data.LightProjectionMatrix);
+								TransformRenderer.insert(ParentRenderer);
+							}
+
+
+							ShadowAniInfoValue.IsShadowAnimation = ParentRenderer->RenderBaseInfoValue.IsAnimation;
+
+							if (1 == ShadowAniInfoValue.IsShadowAnimation)
+							{
+								GameEngineStructedBufferSetter* Buffer = Unit->ShaderResHelper.GetStructedBufferSetter("ArrAniMationMatrix", ShaderType::Vertex);
+
+								if (nullptr == Buffer)
+								{
+									MsgBoxAssert("존재하지 않는 스트럭처드 버퍼를 그림자 랜더링에 이용하려고 했습니다.");
+								}
+
+								Buffer->Setting();
+							}
+
+							ShadowAniInfoValue.WorldViewProjectionMatrix = ParentRenderer->Transform.GetWorldViewProjectionMatrix();
+							ShadowRenderUnit.SetMesh(Unit->GetMesh());
+							ShadowRenderUnit.Render();
+
+						}
+					}
+				}
+			}
+		}
+		
+
+
+
 		for (std::shared_ptr<GameEngineLight> Light : Lights)
 		{
 			// 그림자용 타겟 세팅
+			if (false == Light->IsShadow())
+			{
+				continue;
+			}
 			Light->ShadowTargetSetting();
 
 			std::unordered_set<GameEngineRenderer*> TransformRenderer;
 
 
-			for (std::pair<const RenderPath, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>& RenderPath : Units)
+			for (std::pair<const RenderPath, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>& RenderPathvalue : Units)
 			{
-				if (RenderPath.first != RenderPath::Deferred)
+				if (RenderPathvalue.first != RenderPath::Deferred)
 				{
-					
+
 					continue;
 				}
 				else {
 					IsDeferredResult = true;
 				}
 
-				for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPair : RenderPath.second)
+				for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& RenderPair : RenderPathvalue.second)
 				{
+
+
 					std::list<std::shared_ptr<class GameEngineRenderUnit>>& UnitList = RenderPair.second;
 
 					for (std::shared_ptr<class GameEngineRenderUnit> Unit : UnitList)
 					{
-						// if (Unit->GetParentRenderer()->RenderBaseInfoValue.isShadow)
+
+						// 컬링되면 카메라 밖이면 처리x
+						/*if (Unit->InCameraValue == false)
+						{
+							continue;
+						}*/
 
 						GameEngineRenderer* ParentRenderer = Unit->GetParentRenderer();
 
@@ -389,7 +491,11 @@ void GameEngineCamera::Render(float _DeltaTime)
 							MsgBoxAssert("랜더러가 존재하지 않는 유니티가 있습니다");
 							return;
 						}
-
+						//움직이지 않는 물체면
+						if (ParentRenderer->StaticValue == true)
+						{
+							continue;
+						}
 
 						if (false == ParentRenderer->RenderBaseInfoValue.IsShadow)
 						{
@@ -425,7 +531,9 @@ void GameEngineCamera::Render(float _DeltaTime)
 					}
 				}
 			}
+			
 		}
+
 
 
 		if (true == IsDeferredResult)
@@ -441,7 +549,12 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 			for (std::shared_ptr<GameEngineLight> Light : Lights)
 			{
-				DeferredLightRenderUnit.ShaderResHelper.SetTexture("ShadowTex", Light->GetShadowTarget()->GetTexture(0));
+				if (false == Light->IsShadow())
+				{
+					continue;
+				}
+				DeferredLightRenderUnit.ShaderResHelper.SetTexture("ShadowTex", Light->GetShadowTarget()->GetDepthTexture());
+				DeferredLightRenderUnit.ShaderResHelper.SetTexture("ShadowStaticTex", Light->ShadowTargetStatic->GetDepthTexture());
 				DeferredLightRenderUnit.ShaderResHelper.SetConstantBufferLink("OneLightData", Light->GetLightData());
 				DeferredLightTarget->Setting();
 				DeferredLightRenderUnit.Render();
@@ -461,11 +574,11 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 					for (std::shared_ptr<class GameEngineRenderUnit> Unit : UnitList)
 					{
-
-						if (EPROJECTIONTYPE::Perspective != ProjectionType or InCamera(Unit->GetParentRenderer()->Transform, Unit->GetMesh()->GetMeshBaseInfo()) == true)
-						{
-							Unit->Render();
-						}
+						Unit->Render();
+						//if (EPROJECTIONTYPE::Perspective != ProjectionType /*or InCamera(Unit->GetParentRenderer()->Transform, Unit->GetMesh()->GetMeshBaseInfo()) == true*/)
+						//{
+						//	
+						//}
 					}
 				}
 			

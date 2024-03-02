@@ -104,5 +104,8 @@
     <ClCompile Include="ContentsStaticMesh_Color.fx">
       <Filter>MeshShader</Filter>
     </ClCompile>
+    <ClCompile Include="ContentsFireMesh.fx">
+      <Filter>MeshShader</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

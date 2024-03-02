@@ -423,7 +423,7 @@ void GameEngineDevice::ResourcesInit()
 
 		D3D11_RASTERIZER_DESC Desc = {};
 		Desc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
-		Desc.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
+		Desc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
 		// Desc.DepthClipEnable = TRUE;
 		std::shared_ptr<GameEngineRasterizer> Rasterizer = GameEngineRasterizer::Create("EngineRasterizer", Desc);
 	}
@@ -646,6 +646,32 @@ void GameEngineDevice::ResourcesInit()
 		Desc.MaxLOD = FLT_MAX;
 
 		std::shared_ptr<GameEngineSampler> Rasterizer = GameEngineSampler::Create("LINEAR", Desc);
+	}
+
+	{
+
+		D3D11_SAMPLER_DESC compSampDesc = {};
+		ZeroMemory(&compSampDesc, sizeof(compSampDesc));
+		// 일반적인 보간형식 <= 뭉개진다.
+		// D3D11_FILTER_MIN_MAG_MIP_
+		// 그 밉맵에서 색상가져올때 다 뭉개는 방식으로 가져오겠다.
+		compSampDesc.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_LINEAR_MIP_POINT;
+		compSampDesc.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;
+		compSampDesc.AddressV = D3D11_TEXTURE_ADDRESS_BORDER;
+		compSampDesc.AddressW = D3D11_TEXTURE_ADDRESS_BORDER;
+
+		compSampDesc.BorderColor[0] = 1.0f;
+		compSampDesc.BorderColor[1] = 1.0f;
+		compSampDesc.BorderColor[2] = 1.0f;
+		compSampDesc.BorderColor[3] = 1.0f;
+
+		//compSampDesc.MipLODBias = 0.0f;
+		//compSampDesc.MaxAnisotropy = 1;
+		compSampDesc.ComparisonFunc = D3D11_COMPARISON_GREATER;
+		//compSampDesc.MinLOD = -FLT_MAX;
+		//compSampDesc.MaxLOD = FLT_MAX;
+
+		std::shared_ptr<GameEngineSampler> Rasterizer = GameEngineSampler::Create("CompareSampler", compSampDesc);
 	}
 
 
