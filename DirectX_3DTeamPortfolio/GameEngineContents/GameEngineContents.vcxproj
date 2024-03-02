@@ -321,6 +321,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Object_BossDoor.cpp" />
+    <ClCompile Include="Object_CandleHuman.cpp" />
     <ClCompile Include="Object_CastleDoor.cpp" />
     <ClCompile Include="Object_Desk.cpp" />
     <ClCompile Include="Object_HumanTree.cpp" />
@@ -623,6 +624,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Object_BossDoor.h" />
+    <ClInclude Include="Object_CandleHuman.h" />
     <ClInclude Include="Object_CastleDoor .h" />
     <ClInclude Include="Object_Desk.h" />
     <ClInclude Include="Object_HumanTree.h" />

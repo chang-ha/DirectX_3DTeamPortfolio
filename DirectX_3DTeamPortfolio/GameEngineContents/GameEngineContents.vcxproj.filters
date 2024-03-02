@@ -331,6 +331,9 @@
     <ClCompile Include="Object_Table.cpp">
       <Filter>Object</Filter>
     </ClCompile>
+    <ClCompile Include="Object_CandleHuman.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -655,6 +658,9 @@
       <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="Object_Table.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_CandleHuman.h">
       <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>

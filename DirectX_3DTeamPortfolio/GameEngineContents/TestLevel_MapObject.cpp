@@ -19,6 +19,7 @@
 #include "Object_Sword.h"
 #include "Object_Table.h"
 #include "Object_HumanTree.h"
+#include "Object_CandleHuman.h"
 
 
 //맵 헤더
@@ -112,6 +113,7 @@ void TestLevel_MapObject::CreateObject()
 	{
 		std::shared_ptr<TestMapObjcet> Object = CreateActor<TestMapObjcet>(1);
 	}
+
 	//사다리
 	{
 		std::shared_ptr<Object_Ladder1> Object = CreateActor<Object_Ladder1>(1);
@@ -160,6 +162,10 @@ void TestLevel_MapObject::CreateObject()
 
 	{
 		std::shared_ptr<Object_HumanTree> Object = CreateActor<Object_HumanTree>(1);
+	}
+
+	{
+		std::shared_ptr<Object_CandleHuman> Object = CreateActor<Object_CandleHuman>(1);
 	}
 
 	
