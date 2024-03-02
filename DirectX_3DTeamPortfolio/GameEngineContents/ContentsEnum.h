@@ -16,7 +16,6 @@ enum class Enum_RenderOrder
 
 enum class Enum_CollisionOrder
 {
-
 	Player = 1,
 	Player_Shield = (1 << 1),
 	Monster = (1 << 2),
