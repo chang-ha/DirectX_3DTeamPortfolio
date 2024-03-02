@@ -18,6 +18,7 @@
 #include "Object_StartDoor.h"
 #include "Object_Sword.h"
 #include "Object_Table.h"
+#include "Object_HumanTree.h"
 
 
 //맵 헤더
@@ -156,6 +157,11 @@ void TestLevel_MapObject::CreateObject()
 	{
 		std::shared_ptr<Object_Table> Object = CreateActor<Object_Table>(1);
 	}
+
+	{
+		std::shared_ptr<Object_HumanTree> Object = CreateActor<Object_HumanTree>(1);
+	}
+
 	
 	//Object_BossDoor
 	//Object_CastleDoor

@@ -47,7 +47,7 @@ void TestMapObjcet::Start()
 	//10πËSS
 	{
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>(0);
-		FBXRenderer->SetFBXMesh("o300712.FBX", "FBX_Static");
+		FBXRenderer->SetFBXMesh("o302581.FBX", "FBX_Static");
 		FBXRenderer->Transform.SetWorldScale({ 100, 100 , 100 });
 		//FBXRenderer->Transform.AddWorldRotation({ 0, -25 , 0 });
 		//FBXRenderer->Transform.SetWorldPosition({ -800, -2500 , 2400 });
@@ -63,7 +63,7 @@ void TestMapObjcet::Start()
 	GUI->On();
 
 	/*{
-		FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
+		FBXRenderer = CreateComponent<GameContentsFBXRenderer>();s
 		FBXRenderer->SetFBXMesh("o000371.FBX", "FBXAnimationTexture");
 		FBXRenderer->Transform.SetLocalScale({ 10, 10 , 10 });
 		FBXRenderer->Transform.AddLocalRotation({ 0, 180 , 0 });

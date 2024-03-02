@@ -286,6 +286,9 @@
     <ClCompile Include="Object_Ladder6.cpp">
       <Filter>MapObj</Filter>
     </ClCompile>
+    <ClCompile Include="Object_HumanTree.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -565,6 +568,9 @@
       <Filter>MapObj</Filter>
     </ClInclude>
     <ClInclude Include="Object_Ladder6.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_HumanTree.h">
       <Filter>MapObj</Filter>
     </ClInclude>
   </ItemGroup>
