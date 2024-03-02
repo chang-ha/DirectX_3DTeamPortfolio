@@ -1,5 +1,11 @@
 ﻿#include "PreCompile.h"
 #include "TestLevel_MapObject.h"
+#include "Object_Ladder1.h"
+#include "Object_Ladder2.h"
+#include "Object_Ladder3.h"
+#include "Object_Ladder4.h"
+#include "Object_Ladder5.h"
+#include "Object_Ladder6.h"
 #include "TestMapObjcet.h"
 #include "ContentsLight.h"
 
@@ -16,8 +22,8 @@ TestLevel_MapObject::~TestLevel_MapObject()
 void TestLevel_MapObject::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	{
-		std::shared_ptr<TestMapObjcet> Object = CreateActor<TestMapObjcet>(1);
-		
+		std::shared_ptr<Object_Ladder5> Object = CreateActor<Object_Ladder5>(1);
+		GetMainCamera()->Transform.SetWorldPosition({ Object->Transform.GetWorldPosition() });
 	}
 
 
@@ -32,7 +38,7 @@ void TestLevel_MapObject::Start()
 {
 	ContentLevel::Start();
 
-
+	
 
 	//Scene->setVisualizationParameter(physx::PxVisualizationParameter::eACTOR_AXES, 0.0f);
 

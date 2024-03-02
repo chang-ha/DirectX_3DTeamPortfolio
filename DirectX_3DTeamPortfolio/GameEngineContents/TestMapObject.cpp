@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "TestMapObjcet.h"
+#include "Object_Ladder1.h"
 #include "GameContentsFBXRenderer.h"
 
 
