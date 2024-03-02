@@ -24,7 +24,7 @@ void Object_BossDoor::Start()
 		FBXRenderer->Transform.SetWorldPosition({ -800, -2500 , 2400 });*/
 	}
 
-	Transform.SetWorldPosition({ -690, -2500 , 2150 });
+	Transform.SetWorldPosition({ -730, -2500 , 2190 });
 	Transform.SetWorldScale({ 100, 100 , 100 });
 	Transform.SetWorldRotation({ 0, 152 , 0 });
 

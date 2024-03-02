@@ -18,7 +18,7 @@ void Object_Desk::Start()
 
 	{
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>(0);
-		FBXRenderer->SetFBXMesh("o101010.FBX", "FBX_Static");
+		FBXRenderer->SetFBXMesh("o001010.FBX", "FBX_Static");
 		/*FBXRenderer->Transform.SetWorldScale({ 125, 125 , 125 });
 		FBXRenderer->Transform.AddWorldRotation({ 0, -25 , 0 });
 		FBXRenderer->Transform.SetWorldPosition({ -800, -2500 , 2400 });*/
