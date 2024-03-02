@@ -194,6 +194,7 @@ void AnimationInfoGUI::Start()
 {
 	CreateEventTree<TotalEventTree>("Total Events");
 	CreateEventTree<BoneSoundEventTree>("Bone Sound");
+	CreateEventTree<CenterBodySoundEventTree>("CenterBody Sound");
 	CreateEventTree<DPSoundEventTree>("Dummy Poly Sound");
 	CreateEventTree<CollisionEventTree>("Collision Switch");
 	CreateEventTree<TurnSpeedEventTree>("Turn Speed");
@@ -817,6 +818,32 @@ void BoneSoundEventTree::LoadSoundList()
 	}
 }
 
+void CenterBodySoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
+{
+	GameContentsFBXAnimationInfo* pAnimation = EventTree::GetSelectAnimation();
+	if (nullptr == pAnimation)
+	{
+		MsgBoxAssert("존재하지 않는 애니메이션으로 이벤트를 세팅하려 했습니다");
+		return;
+	}
+
+	// 몇번째 프레임에
+	ImGui::SliderInt("Start Frame", &SelectStartFrame, pAnimation->Start, pAnimation->End);
+
+	if (ImGui::Button("CreateEvent"))
+	{
+		FrameEventHelper* EventHelper = pAnimation->EventHelper;
+		if (nullptr == EventHelper)
+		{
+			MsgBoxAssert("존재하지 않는 이벤트 헬퍼입니다. 김태훈에게 바로 문의하세요");
+			return;
+		}
+
+		std::shared_ptr<CenterBodySoundFrameEvent> CBEvent = CenterBodySoundFrameEvent::CreateEventObject(SelectStartFrame);
+		EventHelper->SetEvent(CBEvent);
+	}
+}
+
 void DPSoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 {
 	BaseActor* pActor = EventTree::GetSelectActor();
@@ -826,7 +853,7 @@ void DPSoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 		return;
 	}
 
-	int Flag = DummyPolyStruct::eDPFlag::Tree;
+	int Flag = DummyPolyStruct::eDPFlag::None;
 	DpLoader.Init(pActor, Flag);
 
 	DpLoader.AutoLoadDummyPolyRefID();

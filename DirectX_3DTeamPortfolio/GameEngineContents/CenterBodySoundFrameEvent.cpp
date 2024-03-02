@@ -16,12 +16,10 @@ CenterBodySoundFrameEvent::~CenterBodySoundFrameEvent()
 }
 
 
-std::shared_ptr<CenterBodySoundFrameEvent> CenterBodySoundFrameEvent::CreateEventObject(int _Frame, int _RefID, int _AttachBoneIndex)
+std::shared_ptr<CenterBodySoundFrameEvent> CenterBodySoundFrameEvent::CreateEventObject(int _Frame)
 {
 	std::shared_ptr<CenterBodySoundFrameEvent> CDPSEvent = std::make_shared<CenterBodySoundFrameEvent>();
 	CDPSEvent->StartFrame = _Frame;
-	CDPSEvent->RefID = _RefID;
-	CDPSEvent->AttachBoneIndex = _AttachBoneIndex;
 	return CDPSEvent;
 }
 
@@ -59,6 +57,7 @@ void CenterBodySoundFrameEvent::Init()
 		return;
 	}
 
+	const int RefIndex = pActor->GetCenterDPIndex();
 	std::string IDName = pActor->GetIDName();
 	const std::shared_ptr<DS3DummyData>& pRes = DS3DummyData::Find(IDName);
 	if (nullptr == pRes)
@@ -67,23 +66,16 @@ void CenterBodySoundFrameEvent::Init()
 		return;
 	}
 
-	bool ISOK = (FE_NOINDEX != RefID && FE_NOINDEX != AttachBoneIndex);
-	if (false == ISOK)
-	{
-		MsgBoxAssert(GetTypeString() + "인벤트 설정값이 초기화되지 않았습니다.");
-		return;
-	}
-
-	const DummyData* pDummyData = pRes->GetDummyData(RefID, AttachBoneIndex);
+	const DummyData* pDummyData = pRes->GetDummyData(RefIndex);
 	if (nullptr == pDummyData)
 	{
 		MsgBoxAssert(GetTypeString() + "더미 데이터가 존재하지 않습니다");
 		return;
 	}
 
-	const int ParentBIndex = pDummyData->ParentBoneIndex;
+	const int AttachBoneIndex = pDummyData->AttachBoneIndex;
 	DPT = pDummyData->Position;
 
 	std::vector<float4x4>& BoneMats = FbxRenderer->GetBoneSockets();
-	pBoneMatrix = &BoneMats.at(ParentBIndex);
+	pBoneMatrix = &BoneMats.at(AttachBoneIndex);
 }

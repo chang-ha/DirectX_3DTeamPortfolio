@@ -104,6 +104,25 @@ std::map<int, DummyData> DS3DummyData::GetRefAllData(int _RefID) const
 	return ReturnDatas;
 }
 
+bool DS3DummyData::IsContainData(int _RefID) const
+{
+	return DummyDataMap.contains(_RefID);
+}
+
+const DummyData* DS3DummyData::GetDummyData(int _RefID) const
+{
+	if (false == IsContainData(_RefID))
+	{
+		MsgBoxAssert("데이터를 찾을 수 없었습니다.");
+		static DummyData* ReturnType = nullptr;
+		return ReturnType;
+	}
+
+	std::multimap<int, DummyData>::const_iterator FindIter = DummyDataMap.find(_RefID);
+	const DummyData* pData = &FindIter->second;
+	return pData;
+}
+
 const DummyData* DS3DummyData::GetDummyData(int _RefID, int _AttachBoneIndex) const
 {
 	std::multimap<int, DummyData>::const_iterator Iter_Lower = DummyDataMap.lower_bound(_RefID);

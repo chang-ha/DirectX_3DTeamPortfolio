@@ -121,6 +121,20 @@ private:
 
 };
 
+class CenterBodySoundEventTree : public EventTree
+{
+	friend class AnimationInfoGUI;
+
+public:
+	void Start() override {}
+	void OnGUI(GameEngineLevel* _Level, float _Delta) override;
+	void ChangeActor() override {}
+
+private:
+	int SelectStartFrame = 0;
+
+};
+
 class DPSoundEventTree : public SoundEventTree
 {
 	friend class AnimationInfoGUI;
