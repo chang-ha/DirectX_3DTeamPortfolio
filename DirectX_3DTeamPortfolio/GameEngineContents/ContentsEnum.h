@@ -16,6 +16,7 @@ enum class Enum_RenderOrder
 
 enum class Enum_CollisionOrder
 {
+<<<<<<< HEAD
 	Player = 1,
 	Player_Shield = (1 << 1),
 	Monster = (1 << 2),
@@ -26,6 +27,18 @@ enum class Enum_CollisionOrder
 	Map = (1 << 7),
 	Camera = (1 << 8),
 	Sound = (1 << 9),
+=======
+	Player,
+	Player_Shield,
+	Monster,
+	MonsterAttack,
+	Monster_Shield,
+	Detect,
+	Dummy,
+	Map,
+	LadderTop,
+	LadderBot,
+>>>>>>> origin/Feature/MapObject
 };
 
 enum class Enum_RenderDepth

@@ -10,8 +10,13 @@
 
 // std::shared_ptr<class GameEngineRenderTarget> GameEngineCamera::AllRenderTarget = nullptr;
 
+<<<<<<< HEAD
 float GameEngineCamera::FreeRotSpeed = 360.0f;
 float GameEngineCamera::FreeSpeed = 100.0f;
+=======
+float GameEngineCamera::FreeRotSpeed = 180.0f;
+float GameEngineCamera::FreeSpeed = 1000.0f;
+>>>>>>> origin/Feature/MapObject
 
 GameEngineCamera::GameEngineCamera() 
 {

@@ -34,9 +34,6 @@
     <ClCompile Include="TestLevel_Shader.cpp">
       <Filter>Level\TestLevel</Filter>
     </ClCompile>
-    <ClCompile Include="TestLevel_Map.cpp">
-      <Filter>Level\TestLevel</Filter>
-    </ClCompile>
     <ClCompile Include="TestMap.cpp">
       <Filter>Map</Filter>
     </ClCompile>
@@ -226,6 +223,9 @@
     <ClCompile Include="TestMapObject.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+    <ClCompile Include="TestLevel_Map.cpp">
+      <Filter>Level\TestLevel</Filter>
+    </ClCompile>
     <ClCompile Include="TestLevel_MapObject.cpp">
       <Filter>Map</Filter>
     </ClCompile>
@@ -286,6 +286,51 @@
     <ClCompile Include="DummyPolySoundFrameEvent.cpp">
       <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClCompile>
+    <ClCompile Include="Object_BossDoor.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_CastleDoor.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Skeleton.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Skeleton1.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_StartDoor.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Sword.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Desk.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Table.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Ladder1.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Ladder2.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Ladder3.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Ladder4.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Ladder5.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Ladder6.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_HumanTree.cpp">
+      <Filter>MapObj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -322,9 +367,6 @@
       <Filter>Level\TestLevel</Filter>
     </ClInclude>
     <ClInclude Include="TestLevel_Shader.h">
-      <Filter>Level\TestLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="TestLevel_Map.h">
       <Filter>Level\TestLevel</Filter>
     </ClInclude>
     <ClInclude Include="TestMap.h">
@@ -504,6 +546,9 @@
     <ClInclude Include="DS3DummyData.h">
       <Filter>Resource\Data</Filter>
     </ClInclude>
+    <ClInclude Include="TestLevel_Map.h">
+      <Filter>Level\TestLevel</Filter>
+    </ClInclude>
     <ClInclude Include="TestLevel_MapObject.h">
       <Filter>Map</Filter>
     </ClInclude>
@@ -566,6 +611,51 @@
     </ClInclude>
     <ClInclude Include="DummyPolySoundFrameEvent.h">
       <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_BossDoor.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_CastleDoor .h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Skeleton.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Skeleton1.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_StartDoor.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Sword.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Desk.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Table.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder1.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder2.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder3.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder4.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder5.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder6.h">
+      <Filter>MapObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_HumanTree.h">
+      <Filter>MapObj</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
