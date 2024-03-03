@@ -544,12 +544,12 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 			for (std::shared_ptr<GameEngineLight> Light : Lights)
 			{
-				if (false == Light->IsShadow())
+				if (true == Light->IsShadow())
 				{
-					continue;
+					DeferredLightRenderUnit.ShaderResHelper.SetTexture("ShadowTex", Light->GetShadowTarget()->GetDepthTexture());
+					DeferredLightRenderUnit.ShaderResHelper.SetTexture("ShadowStaticTex", Light->ShadowTargetStatic->GetDepthTexture());
 				}
-				DeferredLightRenderUnit.ShaderResHelper.SetTexture("ShadowTex", Light->GetShadowTarget()->GetDepthTexture());
-				DeferredLightRenderUnit.ShaderResHelper.SetTexture("ShadowStaticTex", Light->ShadowTargetStatic->GetDepthTexture());
+				
 				DeferredLightRenderUnit.ShaderResHelper.SetConstantBufferLink("OneLightData", Light->GetLightData());
 				DeferredLightTarget->Setting();
 				DeferredLightRenderUnit.Render();

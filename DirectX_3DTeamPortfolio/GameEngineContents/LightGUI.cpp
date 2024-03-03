@@ -133,6 +133,8 @@ void LightGUI::LightEditor()
 
 
 		ImGui::SliderFloat("ForceLightPower", &Data.ForceLightPower, 0.0f, 2.0f);
+
+		ImGui::SliderFloat("PointLightRange", &Data.PointLightRange, 0.0f, 1000.0f);
 		
 
 
@@ -140,9 +142,6 @@ void LightGUI::LightEditor()
 		if (ImGui::InputFloat("LightFar", &Data.LightFar))
 		{
 		}
-		/*if (ImGui::InputFloat("SpcPow", &Data.SpcPow))
-		{
-		}*/
 
 		SelectActor->SetLightData(Data);
 

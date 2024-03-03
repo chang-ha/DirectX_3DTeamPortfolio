@@ -129,8 +129,8 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
     // 빛마다 그림자를 계산하는 방식을 다르게 해야하하기 때문이다.
     
     
- 
-    if (0 <= Result.DifLight.x)
+    //다이렉션 라이트만 그림자 처리
+    if (0 <= Result.DifLight.x && 0 == LightDataValue.LightType)
     {
            
          // PCF를 위한 오프셋
@@ -242,10 +242,10 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
             StaticShadow = shadow;
             
             
-            Result.Shadow = saturate(StaticShadow + DynamicShadow);
-
+      
         }
         
+        Result.Shadow = saturate(StaticShadow + DynamicShadow);
         
         
         
@@ -274,8 +274,10 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
         //}
         
     }
-    
- 
+    else
+    {
+        Result.Shadow = 1.0f;
+    }
     //Result.LightColor = float4(Roughness, Metalic, 0.0f, 1.0f);
     
     // 최종컬러는 빛이 여러겨개 적용되서 들어가야 한다.
