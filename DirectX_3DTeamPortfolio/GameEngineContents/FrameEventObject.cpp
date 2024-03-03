@@ -2,6 +2,7 @@
 #include "FrameEventObject.h"
 
 #include "FrameEventHelper.h"
+#include "FrameEventManager.h"
 
 FrameEventObject::FrameEventObject() 
 {
@@ -51,19 +52,19 @@ std::string FrameEventObject::GetTypeString() const
 
 int FrameEventObject::GetCurFrame()
 {
-	int CurFrame = static_cast<int>(ParentHelper->GetAnimationInfo()->CurFrame);
+	int CurFrame = static_cast<int>(ParentManager->GetAnimationInfo()->CurFrame);
 	return CurFrame;
 }
 
 GameContentsFBXRenderer* FrameEventObject::GetParentRenderer() const
 {
-	if (nullptr == ParentHelper)
+	if (nullptr == ParentManager)
 	{
-		MsgBoxAssert("부모의 헬퍼를 모르고 캐스팅을 할 수 없습니다.");
+		MsgBoxAssert("관리자를 모르고 캐스팅을 할 수 없습니다.");
 		return nullptr;
 	}
 
-	GameContentsFBXAnimationInfo* pInfo = ParentHelper->GetParentInfo();
+	GameContentsFBXAnimationInfo* pInfo = ParentManager->GetAnimationInfo();
 	if (nullptr == pInfo)
 	{
 		MsgBoxAssert("FBXAnimation 정보를 받아오지 못했습니다.");

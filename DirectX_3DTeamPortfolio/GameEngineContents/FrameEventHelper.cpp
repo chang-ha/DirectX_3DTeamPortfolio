@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "FrameEventHelper.h"
 
+#include "FrameEventManager.h"
+#include "BaseActor.h"
+
 #include "SoundFrameEvent.h"
 #include "BoneSoundFrameEvent.h"
 #include "CenterBodySoundFrameEvent.h"
@@ -26,14 +29,76 @@ std::string FrameEventHelper::GetConvertFileName(std::string_view _AnimationName
 	return Name;
 }
 
-void FrameEventHelper::Initialze(GameContentsFBXAnimationInfo* _AnimationInfo)
+std::shared_ptr<FrameEventHelper> FrameEventHelper::Load(class GameContentsFBXAnimationInfo* _AnimationInfo)
 {
-	if (false == EventInfo.empty())
+	BaseActor* pActor = _AnimationInfo->ParentRenderer->GetParent<BaseActor>();
+	if (nullptr == pActor)
 	{
-		return;
+		MsgBoxAssert("이상한 값이 존재합니다. 터지면 김태훈에게 반드시 문의");
+		return nullptr;
 	}
 
-	ParentInfo = _AnimationInfo;
+	std::string FBXName = _AnimationInfo->GetAnimationName().data();
+	std::string AnimationName = GetConvertFileName(FBXName);
+	std::string IDName = pActor->GetIDName();
+	if (IDName.empty())
+	{
+		return nullptr;
+	}
+
+	GameEnginePath EventPath;
+	EventPath.MoveParentToExistsChild("ContentsResources");
+	EventPath.MoveChild("ContentsResources");
+	EventPath.MoveChild("Mesh");
+	EventPath.AppendPath(IDName);
+	if (false == EventPath.IsExits())
+	{
+		return nullptr;
+	}
+
+	EventPath.MoveChild("Animation");
+	EventPath.AppendPath(AnimationName);
+	if (false == EventPath.IsExits())
+	{
+		return nullptr;
+	}
+
+	std::shared_ptr<FrameEventHelper> Helper = FrameEventHelper::Load(EventPath.GetStringPath());
+	if (nullptr == Helper)
+	{
+		MsgBoxAssert("이미 존재하는 객체를 로드하려고 했습니다.");
+		return nullptr;
+	}
+
+	return Helper;
+}
+
+std::shared_ptr<FrameEventHelper> FrameEventHelper::CreateTempRes(std::string_view _TempPath, GameContentsFBXAnimationInfo* _AnimationInfo)
+{
+	int FrameCnt = static_cast<int>(_AnimationInfo->FBXAnimationData->FrameCount + 1);
+
+	std::shared_ptr<FrameEventHelper> Helper = Load(_TempPath);
+	Helper->EventInfo.resize(FrameCnt);
+	Helper->FrameCount = FrameCnt;
+
+	std::unique_ptr<FrameEventManager> NewManager = FrameEventManager::CreateEventManager();
+	NewManager->SetHelper(Helper.get());
+	NewManager->SetAnimationInfo(_AnimationInfo);
+
+	return Helper;
+}
+
+std::unique_ptr<FrameEventManager> FrameEventHelper::Initialze(GameContentsFBXAnimationInfo* _AnimationInfo)
+{
+	std::unique_ptr<FrameEventManager> NewManager = FrameEventManager::CreateEventManager();
+	NewManager->SetHelper(this);
+	NewManager->SetAnimationInfo(_AnimationInfo);
+
+	if (false == EventInfo.empty())
+	{
+		return NewManager;
+	}
+
 	FrameCount = static_cast<int>(_AnimationInfo->FBXAnimationData->FrameCount + 1);
 	EventInfo.resize(FrameCount);
 	
@@ -46,59 +111,59 @@ void FrameEventHelper::Initialze(GameContentsFBXAnimationInfo* _AnimationInfo)
 	int Size;
 	
 	Ser >> Size;
-	if (0 == Size)
+	if (0 != Size)
 	{
-		return;
+		for (int i = 0; i < Size; i++)
+		{
+			int TypeNum;
+			std::shared_ptr<FrameEventObject> NewEvent;
+
+			Ser >> TypeNum;
+
+			switch (static_cast<Enum_FrameEventType>(TypeNum))
+			{
+			case Enum_FrameEventType::Sound:
+				// 사용하지 않는 이벤트 유형입니다. 기존의 파일을 삭제합니다.
+				break;
+			case Enum_FrameEventType::BSound:
+			{
+				NewEvent = std::make_shared<BoneSoundFrameEvent>();
+			}
+				break;
+			case Enum_FrameEventType::CenterBodySound:
+			{
+				NewEvent = std::make_shared<CenterBodySoundFrameEvent>();
+			}
+				break;
+			case Enum_FrameEventType::DPSound:
+			{
+				NewEvent = std::make_shared<DummyPolySoundFrameEvent>();
+			}
+				break;
+			case Enum_FrameEventType::CollisionUpdate:
+			{
+				NewEvent = std::make_shared<CollisionUpdateFrameEvent>();
+			}
+				break;
+			case Enum_FrameEventType::TurnSpeed:
+			{
+				NewEvent = std::make_shared<TurnSpeedFrameEvent>();
+			}
+				break;
+			default:
+				MsgBoxAssert("처리되지 않은 유형의 이벤트입니다. 김태훈에게 문의하세요.");
+				return nullptr;
+			}
+
+			NewEvent->Read(Ser);
+			NewEvent->SetParentManger(NewManager.get());
+			Events[TypeNum].push_back(NewEvent);
+		}
+
+		PushEventData();
 	}
 
-	for (int i = 0; i < Size; i++)
-	{
-		int TypeNum;
-		std::shared_ptr<FrameEventObject> NewEvent;
-
-		Ser >> TypeNum;
-
-		switch (static_cast<Enum_FrameEventType>(TypeNum))
-		{
-		case Enum_FrameEventType::Sound:
-			// 사용하지 않는 이벤트 유형입니다. 기존의 파일을 삭제합니다.
-			break;
-		case Enum_FrameEventType::BSound:
-		{
-			NewEvent = std::make_shared<BoneSoundFrameEvent>();
-		}
-			break;
-		case Enum_FrameEventType::CenterBodySound:
-		{
-			NewEvent = std::make_shared<CenterBodySoundFrameEvent>();
-		}
-			break;
-		case Enum_FrameEventType::DPSound:
-		{
-			NewEvent = std::make_shared<DummyPolySoundFrameEvent>();
-		}
-			break;
-		case Enum_FrameEventType::CollisionUpdate:
-		{
-			NewEvent = std::make_shared<CollisionUpdateFrameEvent>();
-		}
-			break;
-		case Enum_FrameEventType::TurnSpeed:
-		{
-			NewEvent = std::make_shared<TurnSpeedFrameEvent>();
-		}
-			break;
-		default:
-			MsgBoxAssert("처리되지 않은 유형의 이벤트입니다. 김태훈에게 문의하세요.");
-			return;
-		}
-
-		NewEvent->Read(Ser);
-		NewEvent->SetParentHelper(this);
-		Events[TypeNum].push_back(NewEvent);
-	}
-
-	PushEventData();
+	return NewManager;
 }
 
 void FrameEventHelper::PushEventData()
@@ -129,10 +194,6 @@ void FrameEventHelper::SaveFile()
 	int Size = GetEventSize();
 
 	Ser << Size;
-	if (0 == Size)
-	{
-		return;
-	}
 
 	for (std::pair<const int, std::list<std::shared_ptr<FrameEventObject>>>& Pair : Events)
 	{
@@ -145,7 +206,7 @@ void FrameEventHelper::SaveFile()
 	File.Write(Ser);
 }
 
-void FrameEventHelper::PlayEvents(int _Frame)
+void FrameEventHelper::PlayEvents(class FrameEventManager* _pManager, int _Frame)
 {
 	if (EventInfo.empty())
 	{
@@ -166,7 +227,11 @@ void FrameEventHelper::PlayEvents(int _Frame)
 
 	for (FrameEventObject* EventObject : EventList)
 	{
-		EventObject->PlayEvent();
+		std::shared_ptr<FrameEventObject> PlayingObject = EventObject->PlayEvent();
+		if (nullptr != PlayingObject)
+		{
+			_pManager->PushEvent(PlayingObject);
+		}
 	}
 }
 
@@ -180,45 +245,6 @@ int FrameEventHelper::GetEventSize()
 
 	return static_cast<int>(EventCnt);
 }
-
-void FrameEventHelper::PushPlayingEvent(FrameEventObject* _Object)
-{
-	PlayingEvents.push_back(_Object);
-}
-
-void FrameEventHelper::UpdateEvent(float _Delta)
-{
-	if (PlayingEvents.empty())
-	{
-		return;
-	}
-
-	std::list<FrameEventObject*>::iterator StartIter = PlayingEvents.begin();
-	std::list<FrameEventObject*>::iterator EndIter = PlayingEvents.end();
-	for (; StartIter != EndIter;)
-	{
-		FrameEventObject* pObject = (*StartIter);
-		int Result = pObject->UpdateEvent(_Delta);
-		if (EVENT_PLAY == Result)
-		{
-			++StartIter;
-			continue;
-		}
-
-		StartIter = PlayingEvents.erase(StartIter);
-	}
-}
-
-void FrameEventHelper::EventReset()
-{
-	for (FrameEventObject* pObject : PlayingEvents)
-	{
-		pObject->Reset();
-	}
-
-	PlayingEvents.clear();
-}
-
 
 void FrameEventHelper::SetEvent(std::shared_ptr<FrameEventObject> _EventObject)
 {
@@ -236,31 +262,12 @@ void FrameEventHelper::SetEvent(std::shared_ptr<FrameEventObject> _EventObject)
 		}
 	}
 
-	_EventObject->SetParentHelper(this);
 	Events[_EventObject->GetEventID()].push_back(_EventObject);
 	EventInfo.at(_EventObject->GetFrame()).push_back(_EventObject.get());
 }
 
 void FrameEventHelper::PopEvent(const std::shared_ptr<FrameEventObject>& _Event)
 {
-	if (false == PlayingEvents.empty())
-	{
-		std::list<FrameEventObject*>::iterator StartIter = PlayingEvents.begin();
-		std::list<FrameEventObject*>::iterator EndIter = PlayingEvents.end();
-
-		for (;StartIter != EndIter;)
-		{
-			if ((*StartIter) != _Event.get())
-			{
-				++StartIter;
-				continue;
-			}
-
-			PlayingEvents.erase(StartIter);
-			break;
-		}
-	}
-
 	EventInfo[_Event->GetFrame()].remove(_Event.get());
 	Events.at(_Event->GetEventID()).remove(_Event);
 }

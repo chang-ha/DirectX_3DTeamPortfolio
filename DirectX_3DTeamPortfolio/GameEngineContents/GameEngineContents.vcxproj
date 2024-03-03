@@ -321,6 +321,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PlayerValue.cpp" />
+    <ClCompile Include="FrameEventManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Stage_Lothric.cpp">
       <SubType>
       </SubType>
@@ -608,6 +612,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="PlayerValue.h" />
+    <ClInclude Include="FrameEventManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Stage_Lothric.h">
       <SubType>
       </SubType>

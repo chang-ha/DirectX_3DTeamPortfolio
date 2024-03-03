@@ -23,7 +23,14 @@ std::shared_ptr<CenterBodySoundFrameEvent> CenterBodySoundFrameEvent::CreateEven
 	return CDPSEvent;
 }
 
-void CenterBodySoundFrameEvent::PlayEvent()
+std::shared_ptr<FrameEventObject> CenterBodySoundFrameEvent::CreatePlayingEvent()
+{
+	std::shared_ptr<CenterBodySoundFrameEvent> NewObject = std::make_shared<CenterBodySoundFrameEvent>();
+	memcpy(NewObject.get(), this, sizeof(CenterBodySoundFrameEvent));
+	return NewObject;
+}
+
+std::shared_ptr<FrameEventObject> CenterBodySoundFrameEvent::PlayEvent()
 {
 	if (nullptr == FbxRenderer || nullptr == pActor)
 	{
@@ -33,12 +40,14 @@ void CenterBodySoundFrameEvent::PlayEvent()
 	std::string_view SoundName = pActor->GetFloorMaterialName();
 	if (SoundName.empty())
 	{
-		return;
+		return nullptr;
 	}
 
 	const float4x4& WorldMatrix = FbxRenderer->Transform.GetWorldMatrix();
 	float4 WDPPOS = DPT* (*pBoneMatrix) * WorldMatrix;
 	GameEngineSound::Sound3DPlay(SoundName, WDPPOS);
+
+	return nullptr;
 }
 
 void CenterBodySoundFrameEvent::Init()

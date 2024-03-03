@@ -23,7 +23,14 @@ std::shared_ptr<SwitchFlagFrameEvent> SwitchFlagFrameEvent::CreateEventObject(in
 	return TsEvent;
 }
 
-void SwitchFlagFrameEvent::PlayEvent()
+std::shared_ptr<FrameEventObject> SwitchFlagFrameEvent::CreatePlayingEvent()
+{
+	std::shared_ptr<SwitchFlagFrameEvent> NewObject = std::make_shared<SwitchFlagFrameEvent>();
+	memcpy(NewObject.get(), this, sizeof(SwitchFlagFrameEvent));
+	return NewObject;
+}
+
+std::shared_ptr<FrameEventObject> SwitchFlagFrameEvent::PlayEvent()
 {
 	if (nullptr == pFlags)
 	{
@@ -31,8 +38,7 @@ void SwitchFlagFrameEvent::PlayEvent()
 	}
 
 	BitMethod::SetFlag(pFlags, iFlag, bOnValue);
-
-	ParentHelper->PushPlayingEvent(this);
+	return CreatePlayingEvent();
 }
 
 int SwitchFlagFrameEvent::UpdateEvent(float _Delta)

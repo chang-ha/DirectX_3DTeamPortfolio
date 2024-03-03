@@ -22,6 +22,17 @@ void GameContentsFBXAnimationInfo::EventCall(UINT _Frame)
 	}
 }
 
+std::string_view GameContentsFBXAnimationInfo::GetAnimationName() const
+{
+	if (nullptr == Aniamtion)
+	{
+		MsgBoxAssert("애니메이션을 로드하지 않고 사용할 수 없는 기능입니다.");
+		return nullptr;
+	}
+
+	return Aniamtion->GetName();
+}
+
 void GameContentsFBXAnimationInfo::Reset()
 {
 	CurFrameTime = 0.0f;
@@ -31,9 +42,9 @@ void GameContentsFBXAnimationInfo::Reset()
 	IsEnd = false;
 	bOnceStart = false;
 
-	if (nullptr != EventHelper)
+	if (nullptr != FrameEventInfo)
 	{
-		EventHelper->EventReset();
+		FrameEventInfo->EventReset();
 	}
 }
 
@@ -57,12 +68,16 @@ void GameContentsFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh
 
 	std::string EventName = FrameEventHelper::GetConvertFileName(_Animation->GetName());
 	std::shared_ptr<FrameEventHelper> pEventHelper = FrameEventHelper::Find(EventName);
-	if (nullptr != pEventHelper)
+	if (nullptr == pEventHelper)
 	{
-		pEventHelper->Initialze(this);
-		EventHelper = pEventHelper.get();
-		return;
+		pEventHelper = FrameEventHelper::Load(this);
+		if (nullptr == pEventHelper)
+		{
+			return;
+		}
 	}
+
+	FrameEventInfo = pEventHelper->Initialze(this);
 }
 
 void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
@@ -80,9 +95,9 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 
 	if (false == IsStart)
 	{
-		if (nullptr != EventHelper)
+		if (nullptr != FrameEventInfo)
 		{
-			EventHelper->PlayEvents(CurFrame);
+			FrameEventInfo->PlayEvents(CurFrame);
 		}
 
 		IsStart = true;
@@ -140,9 +155,9 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 			}
 		}
 
-		if (nullptr != EventHelper)
+		if (nullptr != FrameEventInfo)
 		{
-			EventHelper->PlayEvents(CurFrame);
+			FrameEventInfo->PlayEvents(CurFrame);
 		}
 
 		if (nullptr != FrameChangeFunction)
@@ -151,9 +166,9 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 		}
 	}
 
-	if (nullptr != EventHelper)
+	if (nullptr != FrameEventInfo)
 	{
-		EventHelper->UpdateEvent(_DeltaTime);
+		FrameEventInfo->UpdateEvent(_DeltaTime);
 	}
 
 	unsigned int NextFrame = CurFrame;

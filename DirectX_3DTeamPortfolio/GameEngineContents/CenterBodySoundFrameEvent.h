@@ -18,6 +18,7 @@ public:
 	CenterBodySoundFrameEvent& operator=(CenterBodySoundFrameEvent&& _Other) noexcept = delete;
 
 	static std::shared_ptr<CenterBodySoundFrameEvent> CreateEventObject(int _Frame);
+	std::shared_ptr<FrameEventObject> CreatePlayingEvent() override;
 
 	void Write(class GameEngineSerializer& _File) override
 	{
@@ -28,7 +29,7 @@ public:
 		FrameEventObject::Read(_File);
 	}
 
-	void PlayEvent() override;
+	std::shared_ptr<FrameEventObject> PlayEvent() override;
 	void Init();
 
 protected:

@@ -22,14 +22,21 @@ std::shared_ptr<TurnSpeedFrameEvent> TurnSpeedFrameEvent::CreateEventObject(int 
 	return TsEvent;
 }
 
-void TurnSpeedFrameEvent::PlayEvent()
+std::shared_ptr<FrameEventObject> TurnSpeedFrameEvent::CreatePlayingEvent()
+{
+	std::shared_ptr<TurnSpeedFrameEvent> NewObject = std::make_shared<TurnSpeedFrameEvent>();
+	memcpy(NewObject.get(), this, sizeof(TurnSpeedFrameEvent));
+	return NewObject;
+}
+
+std::shared_ptr<FrameEventObject> TurnSpeedFrameEvent::PlayEvent()
 {
 	if (nullptr == pParentActor)
 	{
 		Init();
 	}
 
-	ParentHelper->PushPlayingEvent(this);
+	return CreatePlayingEvent();
 }
 
 int TurnSpeedFrameEvent::UpdateEvent(float _Delta)

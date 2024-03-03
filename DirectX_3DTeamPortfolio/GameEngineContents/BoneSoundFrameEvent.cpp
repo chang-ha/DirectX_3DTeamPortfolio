@@ -23,7 +23,14 @@ std::shared_ptr<BoneSoundFrameEvent> BoneSoundFrameEvent::CreateEventObject(int 
 	return SEvent;
 }
 
-void BoneSoundFrameEvent::PlayEvent()
+std::shared_ptr<FrameEventObject> BoneSoundFrameEvent::CreatePlayingEvent()
+{
+	std::shared_ptr<BoneSoundFrameEvent> NewObject = std::make_shared<BoneSoundFrameEvent>();
+	memcpy(NewObject.get(), this, sizeof(BoneSoundFrameEvent));
+	return NewObject;
+}
+
+std::shared_ptr<FrameEventObject> BoneSoundFrameEvent::PlayEvent()
 {
 	if (nullptr == pActor)
 	{
@@ -36,11 +43,12 @@ void BoneSoundFrameEvent::PlayEvent()
 	float4 P;
 	BoneWMat.Decompose(S, Q, P);
 	GameEngineSound::Sound3DPlay(SoundName, P);
+	return nullptr;
 }
 
 void BoneSoundFrameEvent::Init()
 {
-	GameContentsFBXAnimationInfo* pInfo = ParentHelper->GetParentInfo();
+	GameContentsFBXAnimationInfo* pInfo = ParentManager->GetAnimationInfo();
 	if (nullptr == pInfo)
 	{
 		MsgBoxAssert("FBXAnimation 정보를 받아오지 못했습니다.");

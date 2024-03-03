@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineRenderer.h>
+#include "FrameEventManager.h"
 
 #define ONE_FRAME_DTIME 0.033333f
 
@@ -37,11 +38,12 @@ public:
 	// 애니메이션을 가지고 있는 FBX에서 알고 있는 애니메이션 정보
 	FbxExAniData* FBXAnimationData = nullptr;
 
-	FrameEventHelper* EventHelper = nullptr;
+	std::unique_ptr<class FrameEventManager> FrameEventInfo;
 
 	float PlayTime = 0.0f;
 	float CurFrameTime = 0.0f;
 	float Inter = 0.1f;
+	float BlendIn = 0.2f;
 
 	std::vector<unsigned int> Frames;
 	std::vector<float4> RootMotionFrames;
@@ -101,19 +103,19 @@ public:
 	void RootMotionUpdate(float _Delta);
 	void SetBlendTime(float _Value);
 
-	float BlendIn = 0.2f;
-
 	void Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index);
 	void Reset();
 	void Update(float _DeltaTime);
 
-	std::function<void(UINT _FrameIndex)> FrameChangeFunction;
-
 	std::map<int, std::function<void(GameContentsFBXRenderer*)>> FrameEventFunction;
-
+	std::function<void(UINT _FrameIndex)> FrameChangeFunction;
 	std::function<void(GameContentsFBXRenderer*)> EndEvent;
 
 	void EventCall(UINT _Frame);
+
+	std::string_view GetAnimationName() const;
+
+	class FrameEventManager* GetEventManager() const { return FrameEventInfo.get(); };
 
 public:
 	GameContentsFBXAnimationInfo()

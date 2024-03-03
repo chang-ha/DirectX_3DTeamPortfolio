@@ -16,6 +16,7 @@ public:
 	TurnSpeedFrameEvent& operator=(TurnSpeedFrameEvent&& _Other) noexcept = delete;
 
 	static std::shared_ptr<TurnSpeedFrameEvent> CreateEventObject(int _SFrame, int _EFrame, float _TurnSpeed);
+	std::shared_ptr<FrameEventObject> CreatePlayingEvent() override;
 
 	void Write(class GameEngineSerializer& _File) override
 	{
@@ -36,7 +37,7 @@ public:
 	}
 
 
-	void PlayEvent() override;
+	std::shared_ptr<FrameEventObject> PlayEvent() override;
 	int UpdateEvent(float _Delta) override;
 
 	void Init();

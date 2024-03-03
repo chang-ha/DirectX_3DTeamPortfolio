@@ -27,21 +27,29 @@ std::shared_ptr<CollisionUpdateFrameEvent> CollisionUpdateFrameEvent::CreateEven
 	return CEvent;
 }
 
-void CollisionUpdateFrameEvent::PlayEvent()
+std::shared_ptr<FrameEventObject> CollisionUpdateFrameEvent::CreatePlayingEvent()
+{
+	std::shared_ptr<CollisionUpdateFrameEvent> NewObject = std::make_shared<CollisionUpdateFrameEvent>();
+	memcpy(NewObject.get(), this, sizeof(CollisionUpdateFrameEvent));
+	return NewObject;
+}
+
+std::shared_ptr<FrameEventObject> CollisionUpdateFrameEvent::PlayEvent()
 {
 	if (nullptr == pCollision)
 	{
 		Init();
 	}
-
+	std::string ActorName = ParentManager->GetAnimationInfo()->ParentRenderer->GetActor()->GetName();
 	pCollision->On();
-	ParentHelper->PushPlayingEvent(this);
+	return CreatePlayingEvent();
 }
 
 int CollisionUpdateFrameEvent::UpdateEvent(float _Delta)
 {
 	if (GetCurFrame() >= EndFrame)
 	{
+		std::string ActorName = ParentManager->GetAnimationInfo()->ParentRenderer->GetActor()->GetName();
 		pCollision->Off();
 		return EVENT_DONE;
 	}
@@ -58,4 +66,6 @@ void CollisionUpdateFrameEvent::Init()
 {
 	std::shared_ptr<BaseMonster> ParentActor = GetDynamicCastParentActor<BaseMonster>();
 	pCollision = ParentActor->GetSocketCollision(ColNumber).get();
+	std::string Name = ParentActor->GetName();
+	int a = 0;
 }

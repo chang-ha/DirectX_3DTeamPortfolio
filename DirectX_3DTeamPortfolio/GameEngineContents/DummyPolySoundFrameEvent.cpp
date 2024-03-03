@@ -26,7 +26,14 @@ std::shared_ptr<DummyPolySoundFrameEvent> DummyPolySoundFrameEvent::CreateEventO
 	return DPSEvent;
 }
 
-void DummyPolySoundFrameEvent::PlayEvent()
+std::shared_ptr<FrameEventObject> DummyPolySoundFrameEvent::CreatePlayingEvent()
+{
+	std::shared_ptr<DummyPolySoundFrameEvent> NewObject = std::make_shared<DummyPolySoundFrameEvent>();
+	memcpy(NewObject.get(), this, sizeof(DummyPolySoundFrameEvent));
+	return NewObject;
+}
+
+std::shared_ptr<FrameEventObject> DummyPolySoundFrameEvent::PlayEvent()
 {
 	if (nullptr == FbxRenderer)
 	{
@@ -36,6 +43,7 @@ void DummyPolySoundFrameEvent::PlayEvent()
 	const float4x4& WorldMatrix = FbxRenderer->Transform.GetWorldMatrix();
 	float4 WDPPOS = DPT * (*pBoneMatrix) * WorldMatrix;
 	GameEngineSound::Sound3DPlay(SoundName, WDPPOS);
+	return nullptr;
 }
 
 void DummyPolySoundFrameEvent::Init()

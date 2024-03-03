@@ -16,6 +16,7 @@ public:
 	CollisionUpdateFrameEvent& operator=(CollisionUpdateFrameEvent&& _Other) noexcept = delete;
 
 	static std::shared_ptr<CollisionUpdateFrameEvent> CreateEventObject(int _SFrame, int _EFrame, std::shared_ptr<class BoneSocketCollision> Collision);
+	std::shared_ptr<FrameEventObject> CreatePlayingEvent() override;
 
 	void Write(class GameEngineSerializer& _File) override
 	{
@@ -41,7 +42,7 @@ public:
 	}
 
 
-	void PlayEvent() override;
+	std::shared_ptr<FrameEventObject> PlayEvent() override;
 	int UpdateEvent(float _Delta) override;
 	void Reset() override;
 

@@ -39,7 +39,9 @@ public:
 	FrameEventObject& operator=(const FrameEventObject& _Other) = delete;
 	FrameEventObject& operator=(FrameEventObject&& _Other) noexcept = delete;
 
-	virtual void PlayEvent() = 0;
+	virtual std::shared_ptr<FrameEventObject> CreatePlayingEvent() { return nullptr; }
+
+	virtual std::shared_ptr<FrameEventObject> PlayEvent() = 0;
 	virtual int UpdateEvent(float _Delta) { return EVENT_DONE; }
 	virtual void Reset() {}
 
@@ -65,7 +67,7 @@ public:
 
 	std::string GetTypeString() const;
 
-	inline void SetParentHelper(FrameEventHelper* _Parent) { ParentHelper = _Parent; }
+	inline void SetParentManger(FrameEventManager* _pManager) { ParentManager = _pManager; }
 
 protected:
 	template<typename EnumType>
@@ -100,7 +102,7 @@ protected:
 	}
 
 protected:
-	class FrameEventHelper* ParentHelper = nullptr;
+	class FrameEventManager* ParentManager = nullptr;
 
 	int EventID = 0;
 	int StartFrame = 0;

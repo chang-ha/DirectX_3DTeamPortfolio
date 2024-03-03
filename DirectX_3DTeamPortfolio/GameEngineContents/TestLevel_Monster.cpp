@@ -65,6 +65,9 @@ void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 	std::shared_ptr<Monster_LothricKn> LothricKn = CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn");
 	LothricKn->SetWPosition(float4(100.0f, 0.0f, 0.0f));
 
+	std::shared_ptr<Monster_LothricKn> LothricKn2 = CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn2");
+	LothricKn2->SetWPosition(float4(300.0f, 0.0f, 0.0f));
+
 	std::shared_ptr<Monster_HollowSoldier_Lantern> Hollow = CreateActor<Monster_HollowSoldier_Lantern>(static_cast<int>(Enum_UpdateOrder::Monster), "Hollow");
 	Hollow->SetWPosition(float4(-500.0f, 0.0f, 0.0f));
 	//Hollow->Transform.SetWorldRotation(float4(0.0f, 180.0f, 0.0f));

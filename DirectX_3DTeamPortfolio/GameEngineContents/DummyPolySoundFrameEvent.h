@@ -18,6 +18,7 @@ public:
 	DummyPolySoundFrameEvent& operator=(DummyPolySoundFrameEvent&& _Other) noexcept = delete;
 
 	static std::shared_ptr<DummyPolySoundFrameEvent> CreateEventObject(int _Frame, std::string_view _SoundName, int _RefID, int _AttachBoneIndex);
+	std::shared_ptr<FrameEventObject> CreatePlayingEvent() override;
 
 	void Write(class GameEngineSerializer& _File) override
 	{
@@ -34,7 +35,7 @@ public:
 		_File >> AttachBoneIndex;
 	}
 
-	void PlayEvent() override;
+	std::shared_ptr<FrameEventObject> PlayEvent() override;
 	void Init();
 
 protected:

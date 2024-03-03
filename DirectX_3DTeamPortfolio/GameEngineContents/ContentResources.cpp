@@ -243,9 +243,9 @@ void ContentResources::ContentResourcesInit()
 		Mat->SetDepthState("AlwaysDepth");
 	}
 
-
-	BaseActor::LoadEvent(static_cast<int>(Enum_ActorType::LothricKn));
-	BaseActor::LoadEvent(static_cast<int>(Enum_ActorType::Boss_Vordt));
+	// 이제 필요없을 수도 있습니다. 제가 알아서 지울게요 이거 보면 저한테 말해주세요.
+	//BaseActor::LoadEvent(static_cast<int>(Enum_ActorType::LothricKn));
+	//BaseActor::LoadEvent(static_cast<int>(Enum_ActorType::Boss_Vordt));
 
 	{
 		GameEngineDirectory Dir;
