@@ -22,18 +22,18 @@ void Object_Ladder1::Start()
 		
 	}
 
-	Transform.SetWorldPosition({ -8880, 2030 , -4427 });
+	Transform.SetWorldPosition({ -8930, 2030 , -4427 });
 	Transform.SetWorldScale({ 100, 100 , 100 });
 	Transform.SetWorldRotation({ 0, -90 , 0 });
 
 	CollisionBottom = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::LadderBot);
 	CollisionBottom->SetCollisionType(ColType::SPHERE3D);
-	CollisionBottom->Transform.SetWorldPosition({ -8880, 2030 , -4427 });
+	CollisionBottom->Transform.SetWorldPosition({ -8930, 2030 , -4427 });
 	CollisionBottom->Transform.SetWorldScale(float4(200, 200, 200));
 
 	CollisionTop = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::LadderTop);
 	CollisionTop->SetCollisionType(ColType::SPHERE3D);
-	CollisionTop->Transform.SetWorldPosition({ -8880, 2830 , -4427 });
+	CollisionTop->Transform.SetWorldPosition({ -8930, 2830 , -4427 });
 	CollisionTop->Transform.SetWorldScale(float4(200, 200, 200));
 
 }

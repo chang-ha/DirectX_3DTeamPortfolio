@@ -220,9 +220,6 @@
     <ClCompile Include="DS3DummyData.cpp">
       <Filter>Resource\Data</Filter>
     </ClCompile>
-    <ClCompile Include="TestMapObject.cpp">
-      <Filter>Map</Filter>
-    </ClCompile>
     <ClCompile Include="TestLevel_Map.cpp">
       <Filter>Level\TestLevel</Filter>
     </ClCompile>
@@ -335,6 +332,9 @@
       <Filter>Level\TestLevel</Filter>
     </ClCompile>
     <ClCompile Include="shield.cpp" />
+    <ClCompile Include="TestMapObject.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -553,9 +553,6 @@
     <ClInclude Include="TestLevel_Map.h">
       <Filter>Level\TestLevel</Filter>
     </ClInclude>
-    <ClInclude Include="TestMapObjcet.h">
-      <Filter>Map</Filter>
-    </ClInclude>
     <ClInclude Include="Stage_Lothric.h">
       <Filter>Level</Filter>
     </ClInclude>
@@ -665,6 +662,9 @@
       <Filter>Level\TestLevel</Filter>
     </ClInclude>
     <ClInclude Include="shield.h" />
+    <ClInclude Include="TestMapObjcet.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">

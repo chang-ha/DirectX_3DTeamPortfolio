@@ -47,11 +47,15 @@ void TestMapObjcet::Start()
 	//10πËSS
 	{
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>(0);
-		FBXRenderer->SetFBXMesh("o302566.FBX", "FBX_Static");
-		FBXRenderer->Transform.SetWorldScale({ 100, 100 , 100 });
+		FBXRenderer->SetFBXMesh("o300715.FBX", "FBX_Static");
+		//FBXRenderer->Transform.SetWorldScale({ 100, 100 , 100 });
 		//FBXRenderer->Transform.AddWorldRotation({ 0, -25 , 0 });
 		//FBXRenderer->Transform.SetWorldPosition({ -800, -2500 , 2400 });
 	}
+
+	Transform.SetWorldPosition({ 0, 0 , 0 });
+	Transform.SetWorldScale({ 100, 100 , 100 });
+	Transform.SetWorldRotation({ 0, 150 , 0 });
 
 	if (nullptr == GameEngineGUI::FindGUIWindow<ObjectTest>("ObjectTest"))
 	{
