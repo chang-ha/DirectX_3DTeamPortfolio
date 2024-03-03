@@ -71,6 +71,7 @@ private:
 
 	int FrameCount = 0;
 
+	std::vector<std::list<FrameEventObject*>> EventInfo;
 	std::map<int, std::list<std::shared_ptr<FrameEventObject>>> Events;
 
 };
