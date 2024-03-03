@@ -49,6 +49,8 @@ enum class PlayerState
 	Backward_Big_Hit,
 
 
+
+
 };
 
 // Ό³Έν :

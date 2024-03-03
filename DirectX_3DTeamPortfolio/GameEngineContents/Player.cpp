@@ -223,7 +223,7 @@ void Player::Start()
 	
 
 
-	MainRenderer->SetRootMotion("ladder_Up_Start");
+	/*MainRenderer->SetRootMotion("ladder_Up_Start");
 
 	MainRenderer->SetRootMotion("ladder_Up_Left");
 	MainRenderer->SetRootMotion("ladder_Up_Right");
@@ -237,7 +237,7 @@ void Player::Start()
 	MainRenderer->SetRootMotion("ladder_Down_Right");
 
 	MainRenderer->SetRootMotion("ladder_Down_Stop_Left");
-	MainRenderer->SetRootMotion("ladder_Down_Stop_Right");
+	MainRenderer->SetRootMotion("ladder_Down_Stop_Right");*/
 
 
 
