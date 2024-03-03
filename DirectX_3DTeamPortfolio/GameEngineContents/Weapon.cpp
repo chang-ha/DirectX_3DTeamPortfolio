@@ -19,7 +19,11 @@ void Weapon::Start()
 	weapon->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.0f });
 	
 
-
+	{
+		Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Attack);
+		Col->Transform.SetLocalScale({ 100.0f,100.0f });
+		Col->Off(); 
+	}
 
 }
 

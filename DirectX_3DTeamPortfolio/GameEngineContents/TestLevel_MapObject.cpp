@@ -1,6 +1,6 @@
 ﻿#include "PreCompile.h"
 #include "TestLevel_MapObject.h"
-
+#include "Player.h"
 //오브젝트 헤더
 #include "Object_Ladder1.h"
 #include "Object_Ladder2.h"
@@ -39,6 +39,14 @@ void TestLevel_MapObject::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	ContentLevel::LevelStart(_PrevLevel);
 
+
+
+	{
+		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
+		Object->Transform.SetWorldPosition({ -9160, 2313, -4327 });
+
+		//-8880, 2030, -4427
+	}
 	{
 		std::shared_ptr<WorldMap> Object = CreateActor<WorldMap>(1, "WorldMap");
 	}

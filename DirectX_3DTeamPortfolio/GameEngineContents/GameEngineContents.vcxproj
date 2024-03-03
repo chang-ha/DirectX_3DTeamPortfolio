@@ -337,6 +337,7 @@
     <ClCompile Include="Object_Sword.cpp" />
     <ClCompile Include="Object_Table.cpp" />
     <ClCompile Include="PlayerValue.cpp" />
+    <ClCompile Include="shield.cpp" />
     <ClCompile Include="Stage_Lothric.cpp">
       <SubType>
       </SubType>
@@ -640,6 +641,7 @@
     <ClInclude Include="Object_Sword.h" />
     <ClInclude Include="Object_Table.h" />
     <ClInclude Include="PlayerValue.h" />
+    <ClInclude Include="shield.h" />
     <ClInclude Include="Stage_Lothric.h">
       <SubType>
       </SubType>

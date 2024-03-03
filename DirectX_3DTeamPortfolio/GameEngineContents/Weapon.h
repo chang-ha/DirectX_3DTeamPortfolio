@@ -22,7 +22,7 @@ protected:
 
 private:
 	std::shared_ptr<GameContentsFBXRenderer> weapon;
-
+	std::shared_ptr<GameEngineCollision> Col;
 
 
 };

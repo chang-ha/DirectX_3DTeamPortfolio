@@ -116,13 +116,11 @@ void ObjectTest::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	if (ImGui::Button("ChangePos"))
 	{
 		Object0->Transform.SetWorldPosition({ PositionX , PositionY , PositionZ });
-
 	}
 
 	if (ImGui::Button("ChangeCamaraPos"))
 	{
 		Object0->GetLevel()->GetMainCamera()->Transform.SetWorldPosition({ PositionX , PositionY , PositionZ });
-
 	}
 	if (ImGui::Button("ChangeRot"))
 	{

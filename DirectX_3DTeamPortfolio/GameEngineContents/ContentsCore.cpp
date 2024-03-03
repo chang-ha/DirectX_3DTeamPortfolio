@@ -50,7 +50,8 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<TestLevel_PhysX>("TestLevel_PhysX");
 	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
 	GameEngineCore::CreateLevel<TestLevel_MapObject>("TestLevel_MapObject");
-	GameEngineCore::ChangeLevel("Stage_Lothric");
+	GameEngineCore::ChangeLevel("TestLevel_MapObject");
+
 }
 
 void ContentsCore::Update(float _Delta)

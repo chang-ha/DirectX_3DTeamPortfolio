@@ -30,14 +30,13 @@ void CameraCapsule::Update(float _Delta)
 
 void CameraCapsule::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	Capsule->PhysXComponentInit(50.0f, 50.0f);
+	Capsule->PhysXComponentInit(30.0f, 30.0f);
 	Capsule->SetPositioningComponent();
-	Capsule->SetFiltering(Enum_CollisionOrder::Camera, Enum_CollisionOrder::Map);
+	Capsule->SetFiltering(Enum_CollisionOrder::Camera, Enum_CollisionOrder::Player);
 
-	Capsule_02->PhysXComponentInit(100.0f, 100.0f);
-	Capsule_02->SetFiltering(Enum_CollisionOrder::Big_Camera, Enum_CollisionOrder::Map);
+	Capsule_02->PhysXComponentInit(50.0f, 50.0f);
+	Capsule_02->SetFiltering(Enum_CollisionOrder::Big_Camera, Enum_CollisionOrder::Player);
 
-	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Big_Camera, Enum_CollisionOrder::Map);
-	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Camera, Enum_CollisionOrder::Map);
+	
 
 }
