@@ -10,7 +10,6 @@ float4 CalSpacularLightContents(float4 _Pos, float4 _Normal, LightData _Data/*, 
     float3 N = normalize(_Normal.xyz);
     //float3 L = normalize(_Data.ViewLightRevDir.xyz);
     
-    float Roughness = _Normal.w;
     
     float3 L = (float3) 0;
     
@@ -37,7 +36,7 @@ float4 CalSpacularLightContents(float4 _Pos, float4 _Normal, LightData _Data/*, 
     ResultRatio.xyzw = pow(Result, _Data.SpcPow);
     
     
-    return ResultRatio * _Data.LightColor * _Data.SpcLightPower;
+    return ResultRatio * _Data.LightColor * _Data.SpcLightPower * _Data.LightPower;
 }
 
 
@@ -131,14 +130,14 @@ float4 CalSpacularLightContentsBRDF(float4 _Pos, float4 _Normal, float3 _Albedo,
     }
     else
     {
-        // point , spot
+        // point 
         lightDir.xyz = normalize(_Data.ViewLightPos.xyz - _Pos.xyz);
     }
     float3 viewDir = normalize(_Data.CameraPosition.xyz - _Pos.xyz);
     float3 halfwayVec = normalize(viewDir + lightDir);
     
-    float NdotL = max(dot(Normal, lightDir), 0.0);
-    float NdotV = max(dot(Normal, viewDir), 0.0);
+    float NdotL = saturate(dot(Normal, lightDir));
+    float NdotV = saturate(dot(Normal, viewDir));
     //float NdotH = max(dot(_Normal.xyz, H), 0.0);
     float VdotH = max(dot(viewDir, halfwayVec), 0.0);
     
@@ -162,9 +161,9 @@ float4 CalSpacularLightContentsBRDF(float4 _Pos, float4 _Normal, float3 _Albedo,
     float3 kD = 1.0f - kS;
     kD *= 1.0 - _Metalness;
     
-    ResultRatio.xyz = ((kD * _Albedo ) + specular) * NdotL;
+    //ResultRatio.xyz = ((kD * _Albedo ) + specular) * NdotL;
+    ResultRatio.xyz = (_Albedo + specular) * NdotL;
     ResultRatio.w = 1.0f;
-    //ResultRatio = float4(specular, 1.0f);
     
     
     
@@ -195,7 +194,7 @@ float4 CalDiffuseLightContents(float4 _Normal, float4 _Pos, LightData _Data)
     }
     
     ResultRatio.xyzw = max(0.0f, dot(N.xyz, L.xyz));
-    return ResultRatio * _Data.LightColor * _Data.DifLightPower;
+    return ResultRatio * _Data.LightColor * _Data.DifLightPower * _Data.LightPower;
 }
 
 

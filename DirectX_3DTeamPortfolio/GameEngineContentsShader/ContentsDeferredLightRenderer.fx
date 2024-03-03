@@ -101,15 +101,22 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
         float attenuation = 1.0 / (constantAttenuation + linearAttenuation * Distance + quadraticAttenuation * Distance * Distance);
         LightPower = attenuation;
     }
+    if (Material.z >= 1.0f)
+    {
+        Result.DifLight = LightDataValue.ForceLightPower * LightDataValue.LightColor * LightDataValue.DifLightPower * LightDataValue.LightPower * LightPower;
+    }
+    else
+    {
+        Result.DifLight = CalDiffuseLightContents(Normal, Pos, LightDataValue) * LightPower;
+    }
     
-    //Result.DifColor = Color;
-    Result.DifLight = CalDiffuseLightContents(Normal, Pos, LightDataValue) * LightPower;
     Result.DifLight.w = 1.0f;
     
     Result.SpcLight = CalSpacularLightContents(Pos, Normal,LightDataValue) * LightPower;
     Result.SpcLight.w = 1.0f;
     
     Result.PBRLight = CalSpacularLightContentsBRDF(Pos, Normal, Albedo.xyz, Metalic, Roughness, LightDataValue) * LightPower;
+    //Result.PBRLight.xyz = pow(Result.PBRLight.xyz, 1.0f / 2.2f);
     Result.PBRLight.w = 1.0f;
     
   
@@ -269,7 +276,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
     }
     
  
-    Result.LightColor = float4(Roughness, Metalic, 0.0f, 1.0f);
+    //Result.LightColor = float4(Roughness, Metalic, 0.0f, 1.0f);
     
     // 최종컬러는 빛이 여러겨개 적용되서 들어가야 한다.
     //float A = Result.DifColor.w;

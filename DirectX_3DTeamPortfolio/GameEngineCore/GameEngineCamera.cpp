@@ -126,25 +126,20 @@ void GameEngineCamera::Start()
 		DeferredTarget = GameEngineRenderTarget::Create();
 		// 최종종합
 		DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
-		DeferredTarget->AddNewTexture(AllRenderTarget->GetTexture(2), float4::ZERONULL);
+		DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
 		DeferredTarget->SetDepthTexture(AllRenderTarget->GetDepthTexture());
 
 		DeferredMergeUnit.SetMesh("FullRect");
 		DeferredMergeUnit.SetMaterial("ContentsDeferredMergeRender");
-		//Texture2D DifColorTex : register(t0);
-		//Texture2D DifLightTex : register(t1);
-		//Texture2D SpcLightTex : register(t2);
-		//Texture2D AmbLightTex : register(t3);
-		//// Texture2D ShadowTex : register(t2);
-		//SamplerState POINTWRAP : register(s0);
+		
 		DeferredMergeUnit.ShaderResHelper.SetTexture("DifColorTex", AllRenderTarget->GetTexture(1));
-		//DeferredMergeUnit.ShaderResHelper.SetTexture("DifLightTex", DeferredLightTarget->GetTexture(0));
-		//DeferredMergeUnit.ShaderResHelper.SetTexture("SpcLightTex", DeferredLightTarget->GetTexture(1));
+		DeferredMergeUnit.ShaderResHelper.SetTexture("DifLightTex", DeferredLightTarget->GetTexture(0));
+		DeferredMergeUnit.ShaderResHelper.SetTexture("SpcLightTex", DeferredLightTarget->GetTexture(1));
 		DeferredMergeUnit.ShaderResHelper.SetTexture("AmbLightTex", DeferredLightTarget->GetTexture(2));
 		DeferredMergeUnit.ShaderResHelper.SetTexture("ShadowTex", DeferredLightTarget->GetTexture(4));
-		//DeferredMergeUnit.ShaderResHelper.SetTexture("SpecularTex", AllRenderTarget->GetTexture(4));
+		DeferredMergeUnit.ShaderResHelper.SetTexture("SpecularTex", AllRenderTarget->GetTexture(4));
 		DeferredMergeUnit.ShaderResHelper.SetTexture("HBAOTex", HBAO.HBAOTarget->GetTexture());
-		DeferredMergeUnit.ShaderResHelper.SetTexture("PBRTex", DeferredLightTarget->GetTexture(5));
+		//DeferredMergeUnit.ShaderResHelper.SetTexture("PBRTex", DeferredLightTarget->GetTexture(5));
 		DeferredMergeUnit.ShaderResHelper.SetSampler("POINTClamp", "POINT");
 		DeferredMergeUnit.ShaderResHelper.SetSampler("LinearClamp", "LINEAR");
 		

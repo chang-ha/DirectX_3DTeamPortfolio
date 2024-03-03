@@ -24,6 +24,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
 		Boss_Object->Transform.SetWorldPosition({ -1000.f, -2500.f, 3000.f });
 		Boss_Object->Transform.SetWorldRotation({ 0.f, -30.f, 0.f });
+
 	}
 
 	// Light
@@ -33,10 +34,11 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		LightData Data = Light->GetLightData();
 		Light->CreateShadowMap();
 
-		Data.DifLightPower = 0.1f;
+		//Data.DifLightPower = 0.1f;
 		Data.AmbientLight = float4(0.05f, 0.05f, 0.025f, 1.0f);
 		Data.LightColor = float4(1.0f, 1.0f, 0.7f); 
-		Data.LightPower = 3.0f;
+		Data.LightPower = 2.5f;
+		Data.ForceLightPower = 0.25f;
 
 		Light->Transform.SetLocalPosition({ -3400.0f, 10101.0f, -5331.0f });
 		Light->Transform.SetLocalRotation({ 40.0f, 0.0f, 0.0f });
@@ -105,6 +107,8 @@ void Stage_Lothric::Update(float _Delta)
 	{
 		GameEngineGUI::AllWindowSwitch();
 	}
+
+	Boss_Object->Off();
 }
 
 void Stage_Lothric::Release()
