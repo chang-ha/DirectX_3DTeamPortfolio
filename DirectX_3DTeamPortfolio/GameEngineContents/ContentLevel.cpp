@@ -116,7 +116,7 @@ void ContentsCollisionCallBack::onContact(const physx::PxContactPairHeader& pair
 			continue;
 		}
 
-		if (thisFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Camera_02))
+		if (thisFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Big_Camera))
 		{
 			if ((CollisionFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Map)))
 			{

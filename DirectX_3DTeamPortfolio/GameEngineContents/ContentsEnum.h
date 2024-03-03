@@ -23,11 +23,13 @@ enum class Enum_CollisionOrder
 	Monster_Shield = (1 << 4),
 	Detect = (1 << 5),
 	Dummy = (1 << 6),
-	Map = (1 << 7),
 	Camera = (1 << 8),
-	Sound = (1 << 9),
-	LadderTop = (1 << 10),
-	LadderBot = (1 << 11),
+	Big_Camera = (1 << 9),
+	Sound = (1 << 10),
+	LadderTop = (1 << 11),
+	LadderBot = (1 << 12),
+	//Map = (1 << 15),
+	Map = 2,
 };
 
 enum class Enum_RenderDepth

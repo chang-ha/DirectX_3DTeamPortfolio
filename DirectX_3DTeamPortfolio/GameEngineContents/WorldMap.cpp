@@ -37,7 +37,7 @@ void WorldMap::Start()
 		FilterData.word1 = static_cast<int>(Enum_CollisionOrder::Camera);
 
 		
-		FilterData.word2 = static_cast<int>(Enum_CollisionOrder::Camera_02);
+		FilterData.word2 = static_cast<int>(Enum_CollisionOrder::Big_Camera);
 
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
 		FBXRenderer->SetMapFBXMesh("World1.FBX", "FBX_Static");

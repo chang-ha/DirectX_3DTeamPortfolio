@@ -33,6 +33,6 @@ void CameraCapsule::LevelStart(GameEngineLevel* _PrevLevel)
 	Capsule->SetFiltering(Enum_CollisionOrder::Camera, Enum_CollisionOrder::Map);
 
 	Capsule_02->PhysXComponentInit(50.0f, 50.0f);
-	Capsule_02->SetFiltering(Enum_CollisionOrder::Camera_02, Enum_CollisionOrder::Map);
+	Capsule_02->SetFiltering(Enum_CollisionOrder::Big_Camera, Enum_CollisionOrder::Map);
 
 }
