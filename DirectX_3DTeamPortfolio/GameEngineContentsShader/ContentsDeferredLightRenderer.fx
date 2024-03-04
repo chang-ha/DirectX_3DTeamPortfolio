@@ -50,9 +50,11 @@ struct DeferredRenderOutPut
     float4 DifLight : SV_Target0;
     float4 SpcLight : SV_Target1;
     float4 AmbLight : SV_Target2;
-    float4 LightColor : SV_Target3;
-    float4 Shadow : SV_Target4;
-    float4 PBRLight : SV_Target5;
+    float4 Shadow : SV_Target3;
+    float4 PointDifLight : SV_Target4;
+    float4 PointSpcLight : SV_Target5;
+    //float4 LightColor : SV_Target3;
+    //float4 PBRLight : SV_Target5;
 };
 
 #define OffsetSize 13
@@ -101,28 +103,42 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
         float attenuation = 1.0 / (constantAttenuation + linearAttenuation * Distance + quadraticAttenuation * Distance * Distance);
         LightPower = attenuation;
     }
+    
     if (Material.z >= 1.0f)
     {
-        Result.DifLight = LightDataValue.ForceLightPower * LightDataValue.LightColor * LightDataValue.DifLightPower * LightDataValue.LightPower * LightPower;
+        DiffuseRatio = LightDataValue.ForceLightPower * LightDataValue.LightColor * LightDataValue.DifLightPower * LightDataValue.LightPower * LightPower;
     }
     else
     {
-        Result.DifLight = CalDiffuseLightContents(Normal, Pos, LightDataValue) * LightPower;
+        DiffuseRatio = CalDiffuseLightContents(Normal, Pos, LightDataValue) * LightPower;
     }
+    
+    DiffuseRatio.w = 1.0f;
+    
+   
     
     Result.DifLight.w = 1.0f;
     
-    Result.SpcLight = CalSpacularLightContents(Pos, Normal,LightDataValue) * LightPower;
-    Result.SpcLight.w = 1.0f;
+    SpacularRatio = CalSpacularLightContents(Pos, Normal, LightDataValue) * LightPower;
+    SpacularRatio.w = 1.0f;
     
-    Result.PBRLight = CalSpacularLightContentsBRDF(Pos, Normal, Albedo.xyz, Metalic, Roughness, LightDataValue) * LightPower;
+    //Result.PBRLight = CalSpacularLightContentsBRDF(Pos, Normal, Albedo.xyz, Metalic, Roughness, LightDataValue) * LightPower;
     //Result.PBRLight.xyz = pow(Result.PBRLight.xyz, 1.0f / 2.2f);
-    Result.PBRLight.w = 1.0f;
+    //Result.PBRLight.w = 1.0f;
     
   
     Result.AmbLight = CalAmbientLight(LightDataValue);
     
-    
+    if (0 == LightDataValue.LightType)
+    {
+        Result.DifLight = DiffuseRatio;
+        Result.SpcLight = SpacularRatio;
+    }
+    else
+    {
+        Result.PointDifLight = DiffuseRatio;
+        Result.PointSpcLight = SpacularRatio;
+    }
 
   
     
@@ -276,7 +292,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
     }
     else
     {
-        Result.Shadow = 1.0f;
+        Result.Shadow = 0.0f;
     }
     //Result.LightColor = float4(Roughness, Metalic, 0.0f, 1.0f);
     
