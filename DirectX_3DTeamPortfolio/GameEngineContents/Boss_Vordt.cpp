@@ -1,9 +1,11 @@
 ﻿#include "PreCompile.h"
 #include "Boss_Vordt.h"
 
-#define BOSS_ANI_SPEED 0.05f
+#define BOSS_ANI_SPEED 0.03333f
+#define BOSS_SLOW_ANI_SPEED 0.05f
 
 #include "BoneSocketCollision.h"
+#include "DS3DummyData.h"
 
 void Boss_State_GUI::Start()
 {
@@ -256,15 +258,15 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	// Boss Mesh
 	{
-		if (nullptr == GameEngineFBXMesh::Find("Mesh_Vordt.fbx"))
+		if (nullptr == GameEngineFBXMesh::Find("c2240.fbx"))
 		{
 			GameEngineFile File;
 			File.MoveParentToExistsChild("ContentsResources");
-			File.MoveChild("ContentsResources\\Mesh\\Boss\\Mesh_Vordt.fbx");
+			File.MoveChild("ContentsResources\\Mesh\\Boss\\c2240.fbx");
 			GameEngineFBXMesh::Load(File.GetStringPath());
 		}
 
-		MainRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBX_Animation"); // Bone 136
+		MainRenderer->SetFBXMesh("c2240.FBX", "FBX_Animation"); // Bone 136
 
 		MainRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.f });
 	}
@@ -341,7 +343,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 			});
 
 		/////// Sound
-		// SoundEventInit();
+		SoundEventInit();
 
 		// Root Motion
 		// Rotate to StartDir
@@ -399,19 +401,6 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		//BossCollision->Transform.SetLocalPosition({ 0.0f, 200.f, 0.0f });
 		//BossCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
 	}
-
-	//// Detect Collision
-#define DETECT_SCALE 15
-	{
-		DetectCollision->SetCollisionType(ColType::AABBBOX3D);
-		DetectCollision->Transform.SetLocalPosition({ 0.f, 0.f, DETECT_SCALE * 0.3f });
-		DetectCollision->Transform.SetLocalScale({ DETECT_SCALE * W_SCALE, DETECT_SCALE * W_SCALE, DETECT_SCALE * W_SCALE });
-	}
-
-	Col = DetectCollision->Collision(Enum_CollisionOrder::Player, [&](std::vector<GameEngineCollision*>& _Collisions)
-		{
-			int a = 0;
-		});
 
 	Capsule->PhysXComponentInit(400.0f, 5.0f);
 	Capsule->SetMass(10000000.f);
@@ -659,7 +648,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainState.CreateState(Enum_BossState::Rush_Hit_Turn_Rush, Rush_Hit_Turn_Rush, "Rush_Hit_Turn_Rush");
 
 		// Start State
-		MainState.ChangeState(Enum_BossState::Walk_Front);
+		MainState.ChangeState(Enum_BossState::Howling);
 	}
 
 	if (nullptr == BossCollision)
@@ -678,9 +667,15 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BodyCollision->On();
 	}
 
-	// GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Camera, Enum_CollisionOrder::Map);
-	// GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Camera, Enum_CollisionOrder::Monster);
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Big_Camera, Enum_CollisionOrder::Monster);
 	// GameEnginePhysX::PopSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);
+
+	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::Boss_Vordt));
+	SetCenterBodyDPIndex(220);
+
+	Stat.SetHp(1328);
+	Stat.SetAtt(1);
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
@@ -710,15 +705,12 @@ void Boss_Vordt::Start()
 		Capsule = CreateComponent<GameEnginePhysXCapsule>();
 	}
 
-	if (nullptr == DetectCollision)
-	{
-		DetectCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
-	}
 }
 
 void Boss_Vordt::Update(float _Delta)
 {
 	BaseActor::Update(_Delta);
+
 
 	if (true == GameEngineInput::IsDown('B', this))
 	{
@@ -729,8 +721,6 @@ void Boss_Vordt::Update(float _Delta)
 
 void Boss_Vordt::Release()
 {
-	mBoneDatas.clear();
-
 	if (nullptr != MainRenderer)
 	{
 		MainRenderer->Death();
@@ -761,13 +751,6 @@ void Boss_Vordt::Release()
 
 float4 Boss_Vordt::BoneWorldPos(int _BoneIndex)
 {
-	mBoneDatas = MainRenderer->GetBoneDatas();
-
-	if (_BoneIndex >= mBoneDatas.size())
-	{
-		MsgBoxAssert("BoneIndex보다 큰 값이 들어왔습니다.");
-	}
-
 	std::vector<float4x4>& BoneMats = MainRenderer->GetBoneSockets();
 	float4x4 BoneMatrix = BoneMats.at(_BoneIndex);
 

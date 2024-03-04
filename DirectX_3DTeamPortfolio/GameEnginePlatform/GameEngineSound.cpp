@@ -311,7 +311,7 @@ void GameEngineSound::Load3D(std::string_view _Path)
 	std::string UTF8 = GameEngineString::AnsiToUTF8(_Path);
 
 	FMOD_MODE Mode = FMOD_3D | FMOD_LOOP_NORMAL;
-	FMOD_RESULT Result = SoundSystem->createSound(UTF8.c_str(), Mode, 0, &SoundHandle);
+	SoundSystem->createSound(UTF8.c_str(), Mode, 0, &SoundHandle);
 	if (nullptr == SoundHandle)
 	{
 		MsgBoxAssert("사운드 로드에 실패했습니다.");
@@ -334,13 +334,11 @@ FMOD::Channel* GameEngineSound::Play3D(const float4& _Pos, float _MinDistance, f
 	FMOD_VECTOR Pos = { _Pos.X, _Pos.Y, _Pos.Z };
 	FMOD_VECTOR vel = { 0.f, 0.f, 0.f };
 
-	FMOD_RESULT Result;
-	
-	Result = SoundSystem->playSound(SoundHandle, 0, true, &SoundControl);
-
-	Result = SoundControl->setMode(FMOD_3D_LINEARSQUAREROLLOFF);
-	Result = SoundControl->set3DAttributes(&Pos, &vel);
-	Result = SoundControl->setPaused(false);
+	SoundSystem->playSound(SoundHandle, 0, true, &SoundControl);
+	// SoundControl->setMode(FMOD_3D_INVERSETAPEREDROLLOFF);
+	SoundControl->setMode(FMOD_3D_LINEARSQUAREROLLOFF);
+	SoundControl->set3DAttributes(&Pos, &vel);
+	SoundControl->setPaused(false);
 
 	SoundControl->set3DMinMaxDistance(_MinDistance, _MaxDistance);
 
