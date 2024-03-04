@@ -112,7 +112,7 @@ void GameEngineCamera::Start()
 		// DeferredRenderUnit.ShaderResHelper.SetTexture("DifColorTex", AllRenderTarget->GetTexture(1));
 		DeferredLightRenderUnit.ShaderResHelper.SetTexture("PositionTex", AllRenderTarget->GetTexture(2));
 		DeferredLightRenderUnit.ShaderResHelper.SetTexture("NormalTex", AllRenderTarget->GetTexture(3));
-		DeferredLightRenderUnit.ShaderResHelper.SetTexture("DiffuseTexture", AllRenderTarget->GetTexture(1));
+		//DeferredLightRenderUnit.ShaderResHelper.SetTexture("DiffuseTexture", AllRenderTarget->GetTexture(1));
 		DeferredLightRenderUnit.ShaderResHelper.SetTexture("MaterialTexture", AllRenderTarget->GetTexture(5));
 		//DeferredLightRenderUnit.ShaderResHelper.SetConstantBufferLink("CameraBaseInfo", CameraBaseInfoValue);
 
@@ -126,25 +126,22 @@ void GameEngineCamera::Start()
 		DeferredTarget = GameEngineRenderTarget::Create();
 		// 최종종합
 		DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
-		DeferredTarget->AddNewTexture(AllRenderTarget->GetTexture(2), float4::ZERONULL);
+		DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
 		DeferredTarget->SetDepthTexture(AllRenderTarget->GetDepthTexture());
 
 		DeferredMergeUnit.SetMesh("FullRect");
 		DeferredMergeUnit.SetMaterial("ContentsDeferredMergeRender");
-		//Texture2D DifColorTex : register(t0);
-		//Texture2D DifLightTex : register(t1);
-		//Texture2D SpcLightTex : register(t2);
-		//Texture2D AmbLightTex : register(t3);
-		//// Texture2D ShadowTex : register(t2);
-		//SamplerState POINTWRAP : register(s0);
+		
 		DeferredMergeUnit.ShaderResHelper.SetTexture("DifColorTex", AllRenderTarget->GetTexture(1));
-		//DeferredMergeUnit.ShaderResHelper.SetTexture("DifLightTex", DeferredLightTarget->GetTexture(0));
-		//DeferredMergeUnit.ShaderResHelper.SetTexture("SpcLightTex", DeferredLightTarget->GetTexture(1));
-		DeferredMergeUnit.ShaderResHelper.SetTexture("AmbLightTex", DeferredLightTarget->GetTexture(2));
-		DeferredMergeUnit.ShaderResHelper.SetTexture("ShadowTex", DeferredLightTarget->GetTexture(4));
-		//DeferredMergeUnit.ShaderResHelper.SetTexture("SpecularTex", AllRenderTarget->GetTexture(4));
+		DeferredMergeUnit.ShaderResHelper.SetTexture("DifLightTex", DeferredLightTarget->GetTexture(0));
+		DeferredMergeUnit.ShaderResHelper.SetTexture("SpcLightTex", DeferredLightTarget->GetTexture(1));
+		//DeferredMergeUnit.ShaderResHelper.SetTexture("AmbLightTex", DeferredLightTarget->GetTexture(2));
+		DeferredMergeUnit.ShaderResHelper.SetTexture("ShadowTex", DeferredLightTarget->GetTexture(3));
+		DeferredMergeUnit.ShaderResHelper.SetTexture("SpecularTex", AllRenderTarget->GetTexture(4));
 		DeferredMergeUnit.ShaderResHelper.SetTexture("HBAOTex", HBAO.HBAOTarget->GetTexture());
-		DeferredMergeUnit.ShaderResHelper.SetTexture("PBRTex", DeferredLightTarget->GetTexture(5));
+		DeferredMergeUnit.ShaderResHelper.SetTexture("PointDifLightTex", DeferredLightTarget->GetTexture(4));
+		DeferredMergeUnit.ShaderResHelper.SetTexture("PointSpcLightTex", DeferredLightTarget->GetTexture(5));
+		//DeferredMergeUnit.ShaderResHelper.SetTexture("PBRTex", DeferredLightTarget->GetTexture(5));
 		DeferredMergeUnit.ShaderResHelper.SetSampler("POINTClamp", "POINT");
 		DeferredMergeUnit.ShaderResHelper.SetSampler("LinearClamp", "LINEAR");
 		
@@ -315,9 +312,13 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 		for (std::pair<const RenderPath, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>& RenderPath : Units)
 		{
-			if (RenderPath.first == RenderPath::Alpha)
+
+			if (RenderPath.first != RenderPath::Forward)
 			{
 				IsDeferredResult = true;
+			}
+			if (RenderPath.first == RenderPath::Alpha)
+			{
 				continue;
 			}
 
@@ -445,7 +446,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 		
 
 
-
+		// 다이나믹 그림자 과정
 		for (std::shared_ptr<GameEngineLight> Light : Lights)
 		{
 			// 그림자용 타겟 세팅
@@ -549,12 +550,12 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 			for (std::shared_ptr<GameEngineLight> Light : Lights)
 			{
-				if (false == Light->IsShadow())
+				if (true == Light->IsShadow())
 				{
-					continue;
+					DeferredLightRenderUnit.ShaderResHelper.SetTexture("ShadowTex", Light->GetShadowTarget()->GetDepthTexture());
+					DeferredLightRenderUnit.ShaderResHelper.SetTexture("ShadowStaticTex", Light->ShadowTargetStatic->GetDepthTexture());
 				}
-				DeferredLightRenderUnit.ShaderResHelper.SetTexture("ShadowTex", Light->GetShadowTarget()->GetDepthTexture());
-				DeferredLightRenderUnit.ShaderResHelper.SetTexture("ShadowStaticTex", Light->ShadowTargetStatic->GetDepthTexture());
+				
 				DeferredLightRenderUnit.ShaderResHelper.SetConstantBufferLink("OneLightData", Light->GetLightData());
 				DeferredLightTarget->Setting();
 				DeferredLightRenderUnit.Render();
