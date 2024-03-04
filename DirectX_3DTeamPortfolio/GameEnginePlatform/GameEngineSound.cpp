@@ -335,8 +335,8 @@ FMOD::Channel* GameEngineSound::Play3D(const float4& _Pos, float _MinDistance, f
 	FMOD_VECTOR vel = { 0.f, 0.f, 0.f };
 
 	SoundSystem->playSound(SoundHandle, 0, true, &SoundControl);
-	// SoundControl->setMode(FMOD_3D_INVERSETAPEREDROLLOFF);
-	SoundControl->setMode(FMOD_3D_LINEARSQUAREROLLOFF);
+	SoundControl->setMode(FMOD_3D_INVERSETAPEREDROLLOFF);
+	// SoundControl->setMode(FMOD_3D_LINEARSQUAREROLLOFF);
 	SoundControl->set3DAttributes(&Pos, &vel);
 	SoundControl->setPaused(false);
 
