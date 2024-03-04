@@ -547,7 +547,7 @@ void Player::CameraRotation(float Delta)
 
 
 
-	if (PrevPos.Y > Mouse_Ro_Y+10)
+	if (PrevPos.Y > Mouse_Ro_Y+3)
 	{
 		Camera_Pos_Y += CameraPos.Y * Delta * 250;
 
@@ -557,7 +557,7 @@ void Player::CameraRotation(float Delta)
 		}
 	}
 
-	else if (PrevPos.Y < Mouse_Ro_Y-10)
+	else if (PrevPos.Y < Mouse_Ro_Y-3)
 	{
 		Camera_Pos_Y -= CameraPos.Y * Delta * 250;
 
