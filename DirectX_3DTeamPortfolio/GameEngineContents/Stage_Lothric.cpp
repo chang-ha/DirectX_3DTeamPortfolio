@@ -6,6 +6,7 @@
 #include "WorldMap.h"
 #include <GameEngineCore\FogEffect.h>
 #include "FXAAEffect.h"
+#include "Monster_HollowSoldier.h"
 
 Stage_Lothric::Stage_Lothric()
 {
@@ -86,6 +87,10 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		Player_Object->SetTargeting(Boss_Object.get());
 		Boss_Object->SetTargeting(Player_Object.get());
 	}
+	/*{
+		std::shared_ptr<Monster_HollowSoldier> GameMap = CreateActor<Monster_HollowSoldier>(0 );
+		GameMap->Transform.SetWorldPosition({ -2900.f,-2500.f,6800.f });
+	}*/
 
 	{
 		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
@@ -127,7 +132,6 @@ void Stage_Lothric::Update(float _Delta)
 		GameEngineGUI::AllWindowSwitch();
 	}
 
-	Boss_Object->Off();
 }
 
 void Stage_Lothric::Release()
