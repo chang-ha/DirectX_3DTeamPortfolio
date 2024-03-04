@@ -52,7 +52,7 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
 	GameEngineCore::CreateLevel<TestLevel_MapObject>("TestLevel_MapObject");
 	GameEngineCore::CreateLevel<TestLevel_ObjectTest>("TestLevel_ObjectTest");
-	GameEngineCore::ChangeLevel("TestLevel_ObjectTest");
+	GameEngineCore::ChangeLevel("TitleLevel");
 
 }
 

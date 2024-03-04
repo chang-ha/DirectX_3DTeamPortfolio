@@ -341,6 +341,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="shield.cpp" />
     <ClCompile Include="Stage_Lothric.cpp">
       <SubType>
       </SubType>
@@ -649,6 +650,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="shield.h" />
     <ClInclude Include="Stage_Lothric.h">
       <SubType>
       </SubType>

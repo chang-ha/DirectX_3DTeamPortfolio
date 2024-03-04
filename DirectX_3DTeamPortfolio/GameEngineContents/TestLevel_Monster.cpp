@@ -15,7 +15,6 @@
 
 TestLevel_Monster::TestLevel_Monster() 
 {
-	GameEngineInput::AddInputObject(this);
 }
 
 TestLevel_Monster::~TestLevel_Monster() 
@@ -58,26 +57,6 @@ void TestLevel_Monster::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
 
-	static bool TriggerOn =false;
-	static float TriggerTime = 0.0f;
-	if (true == GameEngineInput::IsDown('H', this))
-	{
-		GameEngineSound::Sound3DPlay("c128008001.wav", float4::ZERO);
-		GameEngineSound::Sound3DPlay("c128008001.wav", float4::ZERO);
-		TriggerOn = true;
-	}
-
-	if (TriggerOn)
-	{
-		TriggerTime += _Delta;
-		if (TriggerTime > 0.2f)
-		{
-			GameEngineSound::Sound3DPlay("c128008500b.wav", float4::ZERO);
-			GameEngineSound::Sound3DPlay("c128008500b.wav", float4::ZERO);
-			GameEngineCore::MainWindow.WindowLoopOff();
-		}
-	}
-
 	RayCast({ 100.0f, }, { 0.0f,0.0f, 5.0f }, 1000.0f);
 }
 
@@ -86,11 +65,9 @@ void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 	std::shared_ptr<Monster_LothricKn> LothricKn = CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn");
 	LothricKn->SetWPosition(float4(100.0f, 0.0f, 0.0f));
 
-	std::shared_ptr<Monster_LothricKn> LothricKn2 = CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn2");
-	LothricKn2->SetWPosition(float4(300.0f, 0.0f, 0.0f));
 
 	std::shared_ptr<Monster_HollowSoldier_Lantern> Hollow = CreateActor<Monster_HollowSoldier_Lantern>(static_cast<int>(Enum_UpdateOrder::Monster), "Hollow");
-	Hollow->SetWPosition(float4(-500.0f, 0.0f, 0.0f));
+	Hollow->SetWPosition(float4(-200.0f, 0.0f, 0.0f));
 	//Hollow->Transform.SetWorldRotation(float4(0.0f, 180.0f, 0.0f));
 	//Hollow->Transform.SetWorldRotation(float4(0.0f, 90.0f, 0.0f));
 	Hollow->SetStateStay();
