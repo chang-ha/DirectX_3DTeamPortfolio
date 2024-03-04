@@ -667,8 +667,8 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		BodyCollision->On();
 	}
 
-	// GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Camera, Enum_CollisionOrder::Map);
-	// GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Camera, Enum_CollisionOrder::Player);
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Big_Camera, Enum_CollisionOrder::Player);
 	// GameEnginePhysX::PopSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);
 
 	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::Boss_Vordt));
