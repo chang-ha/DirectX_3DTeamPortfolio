@@ -6,6 +6,8 @@
 #include "DummyPolyCollision.h"
 #include "ContentsDebug.h"
 
+#include "DS3DummyData.h"
+
 
 class ContentsActorInitial
 {
@@ -228,7 +230,8 @@ std::string_view BaseActor::GetFloorMaterialName()
 	if (FloorMaterialSoundRes.empty())
 	{
 		MsgBoxAssert("존재하지 않는 자료를 반환하려했습니다.");
-		return std::string();
+		static std::string ReturnValue;
+		return ReturnValue;
 	}
 
 	int Size = static_cast<int>(FloorMaterialSoundRes.size());
@@ -242,8 +245,38 @@ std::string_view BaseActor::GetFloorMaterialName()
 	return SoundName;
 }
 
+void BaseActor::SetCenterBodyDPIndex(int _DPIndex)
+{
+	const std::shared_ptr<DS3DummyData>& pRes = DS3DummyData::Find(GetIDName());
+	if (nullptr == pRes)
+	{
+		MsgBoxAssert("존재하지 않는 리소스로 세팅할 수 없습니다");
+		return;
+	}
+
+	// 유효성 체크
+	bool ResCheck = pRes->IsContainData(_DPIndex);
+	if (false == ResCheck)
+	{
+		MsgBoxAssert("해당 값으로 세팅할 수 없습니다. 변수를 확인해주세요.");
+		return;
+	}
+
+	CenterBodyIndex = _DPIndex;
+}
+
 void BaseActor::SetFloorMaterialSoundRes(std::string_view _ResName)
 {
+	std::string ResName = _ResName.data();
+	size_t Index = ResName.find_last_of('.');
+	if (std::string::npos == Index)
+	{
+		MsgBoxAssert("이름을 등록하지 못했습니다. 확장자까지 넣어주세요");
+		return;
+	}
+
+	std::string Identify = ResName.substr(0, Index);
+
 	std::string IdName = GetIDName();
 
 	GameEngineDirectory Dir;
@@ -252,8 +285,6 @@ void BaseActor::SetFloorMaterialSoundRes(std::string_view _ResName)
 	Dir.MoveChild(IdName);
 
 	bool FindCheck = false;
-
-	std::string Identify = _ResName.data();
 	std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".wav" });
 	for (GameEngineFile& pFile : Files)
 	{
@@ -262,6 +293,12 @@ void BaseActor::SetFloorMaterialSoundRes(std::string_view _ResName)
 		{
 			FindCheck = true;
 			FloorMaterialSoundRes.push_back(FileName);
+			continue;
+		}
+
+		if (true == FindCheck)
+		{
+			return;
 		}
 	}
 

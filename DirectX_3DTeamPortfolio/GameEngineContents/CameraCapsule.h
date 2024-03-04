@@ -17,6 +17,8 @@ protected:
 	void Update(float _Delta) override;
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 
+private:
+	std::shared_ptr<class GameEnginePhysXCapsule> Capsule_02;
 
 
 

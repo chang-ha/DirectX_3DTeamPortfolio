@@ -51,6 +51,11 @@ class EventTree
 	friend class AnimationInfoGUI;
 
 public:
+	void SetParent(class AnimationInfoGUI* pParent)
+	{
+		Parent = pParent;
+	}
+
 	inline std::string GetName() const { return Name; }
 
 protected:
@@ -59,6 +64,10 @@ protected:
 	virtual void ChangeAnimation() {}
 	virtual void ChangeActor() {}
 
+	class BaseActor* GetSelectActor() const;
+	class GameContentsFBXAnimationInfo* GetSelectAnimation() const;
+
+protected:
 	class AnimationInfoGUI* Parent = nullptr;
 
 private:
@@ -83,7 +92,6 @@ public:
 protected:
 	void LoadSoundList();
 
-private:
 	std::vector<std::string> SoundFileList;
 	std::vector<const char*> CSoundFileList;
 	int SoundIndex = 0;
@@ -113,25 +121,33 @@ private:
 
 };
 
-class DPSoundEventTree : public EventTree
+class CenterBodySoundEventTree : public EventTree
 {
 	friend class AnimationInfoGUI;
 
 public:
+	void Start() override {}
+	void OnGUI(GameEngineLevel* _Level, float _Delta) override;
+	void ChangeActor() override {}
 
 private:
+	int SelectStartFrame = 0;
+
+};
+
+class DPSoundEventTree : public SoundEventTree
+{
+	friend class AnimationInfoGUI;
+
+public:
 	void Start() override {}
 	void OnGUI(GameEngineLevel* _Level, float _Delta) override;
 	void ChangeActor() override;
-	void ChangeAnimation() override;
-
-	void LoadSoundList();
 
 private:
-	std::vector<std::string> SoundFileList;
-	std::vector<const char*> CSoundFileList;
+	DummyPolyStruct DpLoader;
+
 	int SelectStartFrame = 0;
-	int SoundIndex = 0;
 
 };
 
@@ -171,6 +187,7 @@ private:
 // Ό³Έν :
 class AnimationInfoGUI : public TreeObject
 {
+	friend class EventTree;
 	friend class SoundEventTree;
 	friend class BoneSoundEventTree;
 	friend class TotalEventTree;
@@ -203,9 +220,9 @@ protected:
 	template<typename ObjectType>
 	void CreateEventTree(std::string_view _TabName)
 	{
-		std::shared_ptr<ObjectType> NewTree = std::make_shared<ObjectType>();
-		NewTree->Parent = this;
+		std::shared_ptr<EventTree> NewTree = std::make_shared<ObjectType>();
 		NewTree->Name = _TabName;
+		NewTree->SetParent(this);
 		NewTree->Start();
 		EventTrees.push_back(NewTree);
 	}
@@ -213,8 +230,6 @@ protected:
 	void AnimationChange();
 	void DummyEditor();
 	void DummyEditorReset();
-	void DpEditorRefReset();
-	void DpEditorAttachReset();
 
 	void BoneCollisionEditor();
 

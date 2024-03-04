@@ -220,17 +220,17 @@ void TestTabA::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 void TestTabB::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
-	int BoneIndex = Player::Main_Player->Bone_index_01;
+	int BoneIndex = Player::Main_Player->Bone_index_02;
 	ImGui::InputInt("SPos", &BoneIndex);
-	Player::Main_Player->Bone_index_01 = BoneIndex;
+	Player::Main_Player->Bone_index_02 = BoneIndex;
 
-	float4 Pos = Player::Main_Player->GetWeapon()->Transform.GetLocalPosition();
+	float4 Pos = Player::Main_Player->GetShield()->Transform.GetLocalPosition();
 	ImGui::DragFloat4("SPos", Pos.Arr1D);
 
-	float4 Rot = Player::Main_Player->GetWeapon()->Transform.GetLocalRotationEuler();
+	float4 Rot = Player::Main_Player->GetShield()->Transform.GetLocalRotationEuler();
 	ImGui::DragFloat4("SRot", Rot.Arr1D);
 
-	Player::Main_Player->GetWeapon()->Transform.SetLocalPosition(Pos);
-	Player::Main_Player->GetWeapon()->Transform.SetLocalRotation(Rot);
+	Player::Main_Player->GetShield()->Transform.SetLocalPosition(Pos);
+	Player::Main_Player->GetShield()->Transform.SetLocalRotation(Rot);
 
 }

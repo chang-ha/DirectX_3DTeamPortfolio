@@ -23,7 +23,7 @@ protected:
 	void Release() override;
 
 private:
-	
+	void CreateObject();
 
 };
 

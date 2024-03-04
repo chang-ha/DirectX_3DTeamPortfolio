@@ -148,7 +148,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				StateValue = PlayerState::Move;
-				//Rotation_Check_X = false;
+				Rotation_Check_X = false;
 				//Player_Pos.X = Camera_Pos_X;
 			};
 
@@ -157,7 +157,7 @@ void Player::Player_State()
 				
 				if (Rotation_Check_X == false)
 				{
-					if (Angle > 0)
+				if (Angle > 0)
 					{
 						Rotation_Check_X_Plus = true;
 					}
@@ -168,7 +168,7 @@ void Player::Player_State()
 				}
 					if (Rotation_Check_X_Plus == true)
 					{
-						Capsule->AddWorldRotation({ 0.0f,5.0f });
+						Capsule->AddWorldRotation({ 0.0f,10.0f });
 
 
 						if (Angle < 0)
@@ -186,7 +186,7 @@ void Player::Player_State()
 					
 					if (Rotation_Check_X_Mus == true)
 					{
-						Capsule->AddWorldRotation({ 0.0f,-5.0f });
+						Capsule->AddWorldRotation({ 0.0f,-10.0f });
 
 
 						if (Angle > 0)
@@ -279,6 +279,13 @@ void Player::Player_State()
 					_Parent->ChangeState(PlayerState::Attack_01);
 					return;
 				}
+				else if (true == GameEngineInput::IsPress(VK_LBUTTON, this) && Rotation_Check_X == true && Rock_On_Check == true)
+				{
+					Rotation_Check_X = false;
+					_Parent->ChangeState(PlayerState::Attack_01);
+					return;
+				}
+
 				else if (true == GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check_X == true)
 				{
 					Rotation_Check_X = false;
@@ -345,21 +352,21 @@ void Player::Player_State()
 					_Parent->ChangeState(PlayerState::Back_Step);
 					return;
 				}
-				else if (GameEngineInput::IsUp('A', this))
+				if (GameEngineInput::IsUp('A', this) )
 				{
 					Rotation_Check_X = false;
 					MainRenderer->ChangeAnimation("Left_Stop");
 					PlayerStates.ChangeState(PlayerState::Move_Stop);
 					return;
 				}
-				else if (GameEngineInput::IsUp('D', this) )
+				if (GameEngineInput::IsUp('D', this) )
 				{
 					Rotation_Check_X = false;
 					MainRenderer->ChangeAnimation("Right_Stop");
 					PlayerStates.ChangeState(PlayerState::Move_Stop);
 					return;
 				}
-				else if (GameEngineInput::IsUp('W', this))
+				if (GameEngineInput::IsUp('W', this) )
 				{
 					//Camera_Pos_X = Player_Pos.X;
 					Rotation_Check_X = false;
@@ -367,7 +374,7 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Move_Stop);
 					return;
 				}
-				else if (GameEngineInput::IsUp('S', this))
+				if (GameEngineInput::IsUp('S', this))
 				{
 					Rotation_Check_X = false;
 					MainRenderer->ChangeAnimation("Behind_Stop");
@@ -1870,7 +1877,89 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				MainRenderer->ChangeAnimation("String_Hit_Behind");
+				MainRenderer->ChangeAnimation("ladder_Up_Start");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::ladder_Up_Left);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::ladder_Up_Start, NewPara);
+	}
+
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("ladder_Up_Left");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (Col->Collision(Enum_CollisionOrder::LadderTop))
+				{
+					PlayerStates.ChangeState(PlayerState::ladder_Up_Stop_Left);
+					return;
+				}
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::ladder_Up_Right);
+					return;
+				}
+				
+
+
+			};
+
+		PlayerStates.CreateState(PlayerState::ladder_Up_Left, NewPara);
+	}
+
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("ladder_Up_Right");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (Col->Collision(Enum_CollisionOrder::LadderTop))
+				{
+					PlayerStates.ChangeState(PlayerState::ladder_Up_Stop_Right);
+					return;
+				}
+
+
+
+
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::ladder_Up_Left);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::ladder_Up_Right, NewPara);
+	}
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("ladder_Up_Stop_Left");
 			};
 
 
@@ -1883,7 +1972,154 @@ void Player::Player_State()
 				}
 			};
 
-		PlayerStates.CreateState(PlayerState::Backward_Big_Hit, NewPara);
+		PlayerStates.CreateState(PlayerState::ladder_Up_Stop_Left, NewPara);
+	}
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("ladder_Up_Stop_Right");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::ladder_Up_Stop_Right, NewPara);
+	}
+
+
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("ladder_Down_Start");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::ladder_Down_Left);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::ladder_Down_Start, NewPara);
+	}
+
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("ladder_Down_Left");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (Col->Collision(Enum_CollisionOrder::LadderBot))
+				{
+					PlayerStates.ChangeState(PlayerState::ladder_Down_Stop_Left);
+					return;
+				}
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::ladder_Down_Right);
+					return;
+				}
+
+
+
+			};
+
+		PlayerStates.CreateState(PlayerState::ladder_Down_Left, NewPara);
+	}
+
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("ladder_Down_Right");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (Col->Collision(Enum_CollisionOrder::LadderBot))
+				{
+					PlayerStates.ChangeState(PlayerState::ladder_Down_Stop_Right);
+					return;
+				}
+
+
+
+
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::ladder_Down_Left);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::ladder_Down_Right, NewPara);
+	}
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("ladder_Down_Stop_Left");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::ladder_Down_Stop_Left, NewPara);
+	}
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("ladder_Down_Stop_Right");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::ladder_Down_Stop_Right, NewPara);
 	}
 
 	PlayerStates.ChangeState(PlayerState::Idle);

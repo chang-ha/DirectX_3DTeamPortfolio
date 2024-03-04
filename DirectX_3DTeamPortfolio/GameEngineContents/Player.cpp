@@ -5,7 +5,7 @@
 
 // 서버용
 #include "GameEngineNetWindow.h"
-
+#include "BoneSocketCollision.h"
 #define Frame 0.033f
 Player* Player::Main_Player;
 
@@ -36,7 +36,7 @@ void Player::Start()
 
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(0);
 	MainRenderer->Transform.SetLocalScale({ 100, 100, 100 });
-	MainRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
+	//MainRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, -90.0f });
 	//MainRenderer->Transform.SetLocalPosition({ 0.0f, -300.0f, 0.0f });
 
 	
@@ -121,13 +121,40 @@ void Player::Start()
 	MainRenderer->CreateFBXAnimation("Right_Stop", "022103.FBX", { Frame, false }); // 오른쪽 멈춤 
 	MainRenderer->CreateFBXAnimation("Forward_Stop", "022200.FBX", { Frame, false }); // 앞 멈춤 
 	MainRenderer->CreateFBXAnimation("Shield_Move", "023100.FBX", { Frame, true }); // 쉴드 움직임 안됨 
+
+
+
+	MainRenderer->CreateFBXAnimation("Death", "017140.FBX", { Frame, false }); // 죽음
+
+	MainRenderer->CreateFBXAnimation("ladder_Up_Start", "028100.FBX", { Frame, false }); // 사다리 올라가기 시작
+
+	MainRenderer->CreateFBXAnimation("ladder_Up_Left", "028011.FBX", { Frame, false }); // 사다리 오름 왼발?
+	MainRenderer->CreateFBXAnimation("ladder_Up_Right", "028012.FBX", { Frame, false }); // 사다리 오름 오른발?
+
+	MainRenderer->CreateFBXAnimation("ladder_Up_Stop_Left", "028013.FBX", { Frame, false }); // 사다리 올라가기 외발?
+	MainRenderer->CreateFBXAnimation("ladder_Up_Stop_Right", "028014.FBX", { Frame, false }); //  사다리 올라가기 외발?
+
+	MainRenderer->CreateFBXAnimation("ladder_Down_Start", "028020.FBX", { Frame, true }); // 사다리 내려가기 시작 
+
+	MainRenderer->CreateFBXAnimation("ladder_Down_Left", "028021.FBX", { Frame, true }); //사다리 내려가기 왼발?
+	MainRenderer->CreateFBXAnimation("ladder_Down_Right", "028022.FBX", { Frame, true }); // 사다리 내려가기 오른발?
+
+	MainRenderer->CreateFBXAnimation("ladder_Down_Stop_Left", "028023.FBX", { Frame, true }); // 사다리 내려가기 왼발?
+	MainRenderer->CreateFBXAnimation("ladder_Down_Stop_Right", "028024.FBX", { Frame, true }); // 사다리 내려가기 오른발?
+
+
+
+
+	MainRenderer->CreateFBXAnimation("Parry_Attack", "030400.FBX", { Frame, true }); // 패링후 공격 
+
+
+
 	MainRenderer->ChangeAnimation("Shield_Idle");
 	
 
 	MainRenderer->SetRootMotionComponent(Capsule.get());
 
 	
-
 	
 
 	//MainRenderer->SetRootMotion("Walk_Forward","",Enum_RootMotionMode::RealTimeDir);
@@ -195,7 +222,22 @@ void Player::Start()
 	MainRenderer->SetRootMotion("String_Hit_Behind", "", Enum_RootMotionMode::RealTimeDir);
 	
 
-	
+
+	//MainRenderer->SetRootMotion("ladder_Up_Start");
+
+	MainRenderer->SetRootMotion("ladder_Up_Left","", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("ladder_Up_Right", "", Enum_RootMotionMode::RealTimeDir);
+
+	MainRenderer->SetRootMotion("ladder_Up_Stop_Left", "", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("ladder_Up_Stop_Right", "", Enum_RootMotionMode::RealTimeDir);
+
+	MainRenderer->SetRootMotion("ladder_Down_Start", "", Enum_RootMotionMode::RealTimeDir);
+
+	MainRenderer->SetRootMotion("ladder_Down_Left", "", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("ladder_Down_Right", "", Enum_RootMotionMode::RealTimeDir);
+
+	MainRenderer->SetRootMotion("ladder_Down_Stop_Left", "", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("ladder_Down_Stop_Right", "", Enum_RootMotionMode::RealTimeDir);
 
 
 
@@ -206,8 +248,11 @@ void Player::Start()
 		//SwordActor->Transform.SetLocalPosition({ 0.0f - 300.0f });
 		Weapon_Actor = GetLevel()->CreateActor<Weapon>();
 
+		Weapon_Actor->Transform.SetWorldRotation({ 0.0f, 0.0f, -90.0f });
 
 
+		Shield_Actor = GetLevel()->CreateActor<shield>();
+		Shield_Actor->Transform.SetWorldRotation({ 0.0f, 0.0f, -90.0f });
 
 		//Weapon->SetFBXMesh("WP_A_0221.FBX", "FBXAnimationTexture");
 
@@ -216,18 +261,23 @@ void Player::Start()
 		//Weapon->Transform.SetLocalRotation({ 0.0f, 0.0f, 180.0f });
 	}
 
-
+	
 	
 
 
 
-
-
-
 	/*{
+		BodyCol = CreateSocketCollision(Enum_CollisionOrder::Player, 13);
+		BodyCol->SetCollisionType(ColType::OBBBOX3D);
+		BodyCol->Transform.SetLocalScale({ 100.f,100.f, 100.f });
+		BodyCol->On();
+	}*/
+	
+
+	{
 		Col = CreateComponent<GameEngineCollision>();
 		Col->Transform.SetLocalScale({ 200.0f,200.0f });
-	}*/
+	}
 
 	Mini_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
@@ -235,16 +285,8 @@ void Player::Start()
 		};
 	Mini_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
-			float4 Monster = Col->GetActor()->Transform.GetLocalPosition();
-			Monster.Normalize();
-
-			float4 Other_Monster = col->GetActor()->Transform.GetLocalPosition();
-			Other_Monster.Normalize();
-
-			Col->GetActor()->Transform.AddLocalPosition(Other_Monster - Monster * DeltaTime);
+			
 		};
-
-
 
 	Mini_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
@@ -271,17 +313,103 @@ void Player::Start()
 	}
 
 	//Weapon_Actor->PlayerRender(MainRenderer);
-
-
+	//Capsule
+	//GameEnginePhysX::PushSkipCollisionPair(3, Enum_CollisionOrder::Player, Enum_CollisionOrder::Camera, Enum_CollisionOrder::Big_Camera);
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Big_Camera);
 }
 
 void Player::Update(float _Delta)
 {
 	BaseActor::Update(_Delta);
 
+	if (Col->Collision(Enum_CollisionOrder::LadderBot))
+	{
+		if (GameEngineInput::IsDown('E',this))
+		{
+			PlayerStates.ChangeState(PlayerState::ladder_Up_Left);
+		}
+	}
 	
+	if (Col->Collision(Enum_CollisionOrder::LadderTop))
+	{
+		if (GameEngineInput::IsDown('E', this))
+		{
+			PlayerStates.ChangeState(PlayerState::ladder_Down_Start);
+		}
+	}
+
+	if (GameEngineInput::IsDown('H', this))
+	{
+		PlayerStates.ChangeState(PlayerState::Idle);
+	}
 	
+	/*Col->CollisionEvent(0, { .Stay = [&](class GameEngineCollision* _This,class GameEngineCollision* _collisions)
+	{
+			float4 Monster = _This->GetActor()->Transform.GetLocalPosition();
+
+			float4 Other_Monster = _collisions->GetActor()->Transform.GetLocalPosition();
+
+			float4 Dir = Monster - Other_Monster;
+
+			_This->GetActor()->Transform.AddLocalPosition(Dir * _Delta);
+	} });
+	*/
+
+	{
+		AnimationBoneData Data = MainRenderer->GetBoneData(Bone_index_01);
+		Weapon_Actor->Transform.SetLocalRotation(Data.RotQuaternion.QuaternionToEulerDeg());
+		Weapon_Actor->Transform.SetWorldPosition(Data.Pos + float4{ Capsule->GetWorldPosition().x, Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
+	}
+	//MainRenderer->G
+	{
+		AnimationBoneData Data = MainRenderer->GetBoneData(Bone_index_02);
+		Shield_Actor->Transform.SetLocalRotation(Data.RotQuaternion.QuaternionToEulerDeg());
+		Shield_Actor->Transform.SetWorldPosition(Data.Pos + float4{ Capsule->GetWorldPosition().x, Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
+	}
+	Col->Off();
 	
+
+	/*if (abs(Actor_test_02->Transform.GetLocalPosition().Z) <= abs(300))
+	{
+		Actor_test_02->Transform.AddWorldPosition(-A * 20);
+	}
+
+	if (testa == true)
+	{
+		Actor_test_02->Transform.AddWorldPosition(A * 20);
+	}
+	if (testaa == true && testa ==true)
+	{
+
+	}*/
+
+
+
+	//if (testa == true)
+	//{
+	//	Actor_test_02->Transform.AddWorldPosition(A * 10);
+	//}
+	//else if (testa == false && abs(Actor_test_02->Transform.GetLocalPosition().Z) <= abs(300) && testaa == true)
+	//{
+	//	if (testaa == true)
+	//	{
+	//		Actor_test_02->Transform.AddWorldPosition(-A * 10);
+	//		testaa = false;
+	//	}
+	//
+	//}
+	//else if (testa == false && abs(Actor_test_02->Transform.GetLocalPosition().Z) <= abs(300))
+	//{
+	//	Actor_test_02->Transform.AddWorldPosition(-A * 10);
+	//}
+
+	//testa = false;
+
+
+
+
+
+
 
 
 	Time += _Delta;
@@ -381,9 +509,9 @@ void Player::Update(float _Delta)
 
 
 
-	AnimationBoneData Data = MainRenderer->GetBoneData(Bone_index_01);
-	Weapon_Actor->Transform.SetLocalRotation(Data.RotQuaternion.QuaternionToEulerDeg());
-	Weapon_Actor->Transform.SetWorldPosition(Data.Pos + float4{ Capsule->GetWorldPosition().x, Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
+	
+
+	
 
 
 
@@ -393,7 +521,13 @@ void Player::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	Capsule->PhysXComponentInit(50.0f, 50.0f);
 	Capsule->SetPositioningComponent();
-	Capsule->SetFiltering(Enum_CollisionOrder::Camera, Enum_CollisionOrder::Map);
+
+	Capsule->SetFiltering(Enum_CollisionOrder::Player, Enum_CollisionOrder::Camera);
+	Capsule->SetFiltering(Enum_CollisionOrder::Player, Enum_CollisionOrder::Big_Camera);
+
+	//Capsule->SetFiltering(Enum_CollisionOrder::Monster);
+	//GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);
+
 }
 
 void Player::CameraRotation(float Delta)
@@ -413,7 +547,7 @@ void Player::CameraRotation(float Delta)
 
 
 
-	/*if (PrevPos.Y > Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) >= 250)
+	if (PrevPos.Y > Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) >= 250)
 	{
 		Camera_Pos_Y += CameraPos.Y * Delta * 200;
 
@@ -431,17 +565,102 @@ void Player::CameraRotation(float Delta)
 		{
 			Camera_Pos_Y = 0;
 		}
+
+	}
+
+	float4 AS = Actor_test->Transform.GetWorldPosition() - float4{ Actor_test_02->Transform.GetWorldPosition().X, Actor_test_02->Transform.GetWorldPosition().Y - 100.0f, Actor_test_02->Transform.GetWorldPosition().Z };
+
+	AS.Normalize();
+
+
+	/*
+
+
+	if (PrevPos.X == Mouse_Ro_X)
+	{
+		testaaa = false;
+		wrwrw = true;
+	}
+
+
+	if (testaaa == true && testa == true)
+	{
+		Actor_test_02->Transform.AddWorldPosition(AS * 1000 * Delta);
+
+	}
+	else if (testaaa == true && testa == false && wrwrw==false)
+	{
+		wrwrw = true;
+
+		if (abs(Actor_test_02->Transform.GetLocalPosition().Z) <= abs(300))
+		{
+			Actor_test_02->Transform.AddWorldPosition(-AS * 1000 * Delta);
+		}
+
 	}*/
+
+
+	
+
+		if (testaa == true && testa == true)
+		{
+			Actor_test_02->Transform.AddWorldPosition(AS * 800 * Delta);
+		}
+
+		if (testa == true && testaa == false)
+		{
+			Actor_test_02->Transform.AddWorldPosition(-AS * 800 * Delta);
+		}
+
+		
+	
+	
+		if (testa == true && testaa == false)
+		{
+			Actor_test_02->Transform.AddWorldPosition(-AS * 800 * Delta);
+		}
+
+		if (testaa == true && testa == true)
+		{
+			Actor_test_02->Transform.AddWorldPosition(AS * 800 * Delta);
+		}
+	
+
+
+
+	
+   /* if (testa == true && testaa == false)
+	{
+		Actor_test_02->Transform.AddWorldPosition(-AS * 800 * Delta);
+	}
+
+	if (testaa == true && testa == true)
+	{
+		Actor_test_02->Transform.AddWorldPosition(AS * 800 * Delta);
+	}*/
+
+	 if (testaa == false && testa == false)
+	{
+		//wrwrw = true;
+
+		if (abs(Actor_test_02->Transform.GetLocalPosition().Z) <= abs(300))
+		{
+			Actor_test_02->Transform.AddWorldPosition(-AS * 800 * Delta);
+		}
+	}
+
+	testaa = false;
+	testa = false;
 
 
 	if (PrevPos.X > Mouse_Ro_X)
 	{
-		Camera_Pos_X += CameraPos.X * Delta *300;
-		Player_Pos.X -= CameraPos.X * Delta * 300;
+		Camera_Pos_X += CameraPos.X * Delta *150;
+		Player_Pos.X -= CameraPos.X * Delta * 150;
 
 		if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
 		{
-			Capsule->AddWorldRotation({ 0.0f,-CameraPos.X * Delta * 300, 0.0f });
+			Capsule->AddWorldRotation({ 0.0f,-CameraPos.X * Delta * 150, 0.0f });
 
 		}
 	}
@@ -449,12 +668,12 @@ void Player::CameraRotation(float Delta)
 
 	else if (PrevPos.X < Mouse_Ro_X)
 	{
-		Camera_Pos_X -= CameraPos.X * Delta * 300;
-		Player_Pos.X += CameraPos.X * Delta * 300;
+		Camera_Pos_X -= CameraPos.X * Delta * 150;
+		Player_Pos.X += CameraPos.X * Delta * 150;
 
 		if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
 		{
-			Capsule->AddWorldRotation({ 0.0f, CameraPos.X * Delta * 300, 0.0f });
+			Capsule->AddWorldRotation({ 0.0f, CameraPos.X * Delta * 150, 0.0f });
 
 		}	
 	}
@@ -462,6 +681,15 @@ void Player::CameraRotation(float Delta)
 	float4 A = Actor_test->Transform.GetWorldPosition() - float4{ Actor_test_02->Transform.GetWorldPosition().X, Actor_test_02->Transform.GetWorldPosition().Y - 100.0f, Actor_test_02->Transform.GetWorldPosition().Z };
 
 	A.Normalize();
+
+	CameraDir = A; 
+
+
+	Camera_Distance = Actor_test->Transform.GetWorldPosition() - float4{ Actor_test_02->Transform.GetWorldPosition().X, Actor_test_02->Transform.GetWorldPosition().Y - 100.0f, Actor_test_02->Transform.GetWorldPosition().Z };
+
+
+
+
 
 	/*if (Camera_Pos_Y <= 0)
 	{

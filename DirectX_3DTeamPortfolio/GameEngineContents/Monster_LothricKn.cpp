@@ -24,6 +24,7 @@ void Monster_LothricKn::Start()
 
 	// Outer Res
 	LoadRes3DSound("c128001001.wav");
+	SetFloorMaterialSoundRes("c128005501.wav");
 
 	// Actor Res
 	AddBoneIndex(Enum_BoneType::B_01_RightHand, 78);
@@ -262,6 +263,7 @@ void Monster_LothricKn::Start()
 
 	// DummyData
 	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::LothricKn));
+	SetCenterBodyDPIndex(220);
 
 	// Mask
 	MaskReset();
