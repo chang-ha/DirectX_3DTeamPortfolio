@@ -20,17 +20,17 @@ std::shared_ptr<SwitchFlagFrameEvent> SwitchFlagFrameEvent::CreateEventObject(in
 	TsEvent->StartFrame = _SFrame;
 	TsEvent->EndFrame = _EFrame;
 	TsEvent->iFlag = _iFlag;
+	TsEvent->bOnValue = _OnValue;
 	return TsEvent;
 }
 
 std::shared_ptr<FrameEventObject> SwitchFlagFrameEvent::CreatePlayingEvent()
 {
-	std::shared_ptr<SwitchFlagFrameEvent> NewObject = std::make_shared<SwitchFlagFrameEvent>();
-	memcpy(NewObject.get(), this, sizeof(SwitchFlagFrameEvent));
+	std::shared_ptr<SwitchFlagFrameEvent> NewObject = SwitchFlagFrameEvent::CreateEventObject(StartFrame, EndFrame, iFlag, bOnValue);
 	return NewObject;
 }
 
-std::shared_ptr<FrameEventObject> SwitchFlagFrameEvent::PlayEvent()
+void SwitchFlagFrameEvent::PlayEvent()
 {
 	if (nullptr == pFlags)
 	{
@@ -38,7 +38,15 @@ std::shared_ptr<FrameEventObject> SwitchFlagFrameEvent::PlayEvent()
 	}
 
 	BitMethod::SetFlag(pFlags, iFlag, bOnValue);
-	return CreatePlayingEvent();
+
+	FrameEventManager* pManager = GetEventManger();
+	if (nullptr == pManager)
+	{
+		MsgBoxAssert("매니저를 모르고 사용할 수 없는 기능입니다. 김태훈에게 문의하세요");
+		return;
+	}
+
+	pManager->PushEvent(this);
 }
 
 int SwitchFlagFrameEvent::UpdateEvent(float _Delta)

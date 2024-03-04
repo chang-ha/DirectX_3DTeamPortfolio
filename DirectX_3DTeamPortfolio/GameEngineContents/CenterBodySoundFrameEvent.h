@@ -29,7 +29,7 @@ public:
 		FrameEventObject::Read(_File);
 	}
 
-	std::shared_ptr<FrameEventObject> PlayEvent() override;
+	void PlayEvent() override;
 	void Init();
 
 protected:

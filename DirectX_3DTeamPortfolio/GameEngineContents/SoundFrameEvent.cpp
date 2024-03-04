@@ -22,9 +22,8 @@ std::shared_ptr<SoundFrameEvent> SoundFrameEvent::CreateEventObject(int _Frame, 
 	return SEvent;
 }
 
-std::shared_ptr<FrameEventObject> SoundFrameEvent::PlayEvent()
+void SoundFrameEvent::PlayEvent()
 {
 	GameEngineSoundPlayer SoundPlayer = GameEngineSound::SoundPlay(SoundName);
-	return nullptr;
 }
 

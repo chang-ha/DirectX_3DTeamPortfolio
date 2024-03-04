@@ -36,7 +36,7 @@ public:
 	}
 
 
-	std::shared_ptr<FrameEventObject> PlayEvent() override;
+	void PlayEvent() override;
 
 
 protected:

@@ -12,16 +12,44 @@ FrameEventManager::~FrameEventManager()
 {
 }
 
-std::unique_ptr<FrameEventManager> FrameEventManager::CreateEventManager()
+std::shared_ptr<FrameEventManager> FrameEventManager::CreateEventManager()
 {
-	std::unique_ptr<FrameEventManager> NewManager = std::make_unique<FrameEventManager>();
+	std::shared_ptr<FrameEventManager> NewManager = std::make_shared<FrameEventManager>();
 	return NewManager;
+}
+
+void FrameEventManager::CopyEvent(const std::map<int, std::list<std::shared_ptr<FrameEventObject>>>& _Events)
+{
+	for (const std::pair<int, std::list<std::shared_ptr<FrameEventObject>>>& Pair : _Events)
+	{
+		const std::list<std::shared_ptr<FrameEventObject>>& TypeEvents = Pair.second;
+		for (const std::shared_ptr<FrameEventObject>& EventObject : TypeEvents)
+		{
+			int Frame = EventObject->GetFrame();
+
+			std::shared_ptr<FrameEventObject> CopyObject = EventObject->CreatePlayingEvent();
+			CopyObject->SetParentManger(this);
+
+			EventInfos.insert(std::make_pair(Frame, CopyObject));
+		}
+	}
 }
 
 void FrameEventManager::SetEvent(std::shared_ptr<FrameEventObject> _EventObject)
 {
-	pHelper->SetEvent(_EventObject);
-	_EventObject->SetParentManger(this);
+	if (nullptr == pHelper)
+	{
+		MsgBoxAssert("존재하지 않는 리소스에 이벤트를 저장하려했습니다");
+		return;
+	}
+
+	bool SuccessPush = pHelper->SetEvent(_EventObject);
+	if (SuccessPush)
+	{
+		_EventObject->SetParentManger(this);
+		int Frame = _EventObject->GetFrame();
+		EventInfos.insert(std::make_pair(Frame, _EventObject));
+	}
 }
 
 void FrameEventManager::PopEvent(const std::shared_ptr<FrameEventObject>& _Event)
@@ -29,41 +57,33 @@ void FrameEventManager::PopEvent(const std::shared_ptr<FrameEventObject>& _Event
 	int PopFrame = _Event->GetFrame();
 	int PopID = _Event->GetEventID();
 
-	if (false == PlayingEvents.empty())
+	std::multimap<int, std::shared_ptr<FrameEventObject>>::iterator LowerIter = EventInfos.lower_bound(PopFrame);
+	std::multimap<int, std::shared_ptr<FrameEventObject>>::iterator UpperIter = EventInfos.upper_bound(PopFrame);
+	for (; LowerIter != UpperIter;)
 	{
-		std::list<std::shared_ptr<FrameEventObject>>::iterator StartIter = PlayingEvents.begin();
-		std::list<std::shared_ptr<FrameEventObject>>::iterator EndIter = PlayingEvents.end();
-		for (; StartIter != EndIter;)
+		const std::shared_ptr<FrameEventObject>& EventObject = LowerIter->second;
+		int ID = EventObject->GetEventID();
+		if (PopID != ID)
 		{
-			int Frame = (*StartIter)->GetFrame();
-			int ID = (*StartIter)->GetEventID();
-			if ((Frame != PopFrame) || (ID != PopID))
-			{
-				++StartIter;
-				continue;
-			}
-
-			PlayingEvents.erase(StartIter);
-			break;
+			++LowerIter;
+			continue;
 		}
+
+		GetHelper()->PopEvent(EventObject);
+		PlayingEvents.remove(EventObject.get());
+		EventInfos.erase(LowerIter);
+		break;
 	}
 }
 
-void FrameEventManager::PushEvent(std::shared_ptr<FrameEventObject> _Object)
+void FrameEventManager::PushEvent(FrameEventObject* _Object)
 {
 	PlayingEvents.push_back(_Object);
 }
 
 void FrameEventManager::PlayEvents(int _CurFrame)
 {
-	if (nullptr == pHelper)
-	{
-		MsgBoxAssert("자료가 존재하지 않습니다");
-		return;
-	}
-
-	const std::vector<std::list<FrameEventObject*>>& pEventList = pHelper->GetEventInfo();
-	if (pEventList.empty())
+	if (EventInfos.empty())
 	{
 		return;
 	}
@@ -75,19 +95,17 @@ void FrameEventManager::PlayEvents(int _CurFrame)
 		return;
 	}
 
-	const std::list<FrameEventObject*>& EventList = pEventList.at(_CurFrame);
-	if (EventList.empty())
+	if (false == EventInfos.contains(_CurFrame))
 	{
 		return;
 	}
 
-	for (FrameEventObject* EventObject : EventList)
+	std::multimap<int, std::shared_ptr<FrameEventObject>>::iterator LowerIter = EventInfos.lower_bound(_CurFrame);
+	std::multimap<int, std::shared_ptr<FrameEventObject>>::iterator UpperIter = EventInfos.upper_bound(_CurFrame);
+	for (; LowerIter != UpperIter; ++LowerIter)
 	{
-		std::shared_ptr<FrameEventObject> PlayingObject = EventObject->PlayEvent();
-		if (nullptr != PlayingObject)
-		{
-			PushEvent(PlayingObject);
-		}
+		const std::shared_ptr<FrameEventObject>& EventObject = LowerIter->second;
+		EventObject->PlayEvent();
 	}
 }
 
@@ -98,11 +116,11 @@ void FrameEventManager::UpdateEvent(float _Delta)
 		return;
 	}
 
-	std::list<std::shared_ptr<FrameEventObject>>::iterator StartIter = PlayingEvents.begin();
-	std::list<std::shared_ptr<FrameEventObject>>::iterator EndIter = PlayingEvents.end();
+	std::list<FrameEventObject*>::iterator StartIter = PlayingEvents.begin();
+	std::list<FrameEventObject*>::iterator EndIter = PlayingEvents.end();
 	for (; StartIter != EndIter;)
 	{
-		std::shared_ptr<FrameEventObject> pObject = (*StartIter);
+		FrameEventObject* pObject = (*StartIter);
 		int Result = pObject->UpdateEvent(_Delta);
 		if (EVENT_PLAY == Result)
 		{
@@ -117,10 +135,16 @@ void FrameEventManager::UpdateEvent(float _Delta)
 
 void FrameEventManager::EventReset()
 {
-	for (std::shared_ptr<FrameEventObject> pObject : PlayingEvents)
+	for (FrameEventObject* pObject : PlayingEvents)
 	{
 		pObject->Reset();
 	}
 
 	PlayingEvents.clear();
+}
+
+void FrameEventManager::EventRelease()
+{
+	PlayingEvents.clear();
+	EventInfos.clear();
 }

@@ -211,6 +211,7 @@ public:
 	// Getter
 	inline std::shared_ptr<GameContentsFBXRenderer>& GetFBXRenderer() { return MainRenderer; }
 	inline std::map<int, std::shared_ptr<BoneSocketCollision>>& GetCollisions() { return SocketCollisions; }
+	int GetSocketIndex(const std::shared_ptr<class BoneSocketCollision>& _pCol);
 	std::shared_ptr<BoneSocketCollision> GetSocketCollision(int _Index);
 	inline int* GetFlagPointer() { return &Flags; }
 	inline class GameEnginePhysXCapsule* GetPhysxCapsulePointer() { return Capsule.get(); }

@@ -20,8 +20,6 @@ public:
 
 	static std::string GetConvertFileName(std::string_view _AnimationName);
 
-	static std::shared_ptr<FrameEventHelper> CreateTempRes(std::string_view _TempPath, GameContentsFBXAnimationInfo* _AnimationInfo);
-
 	static std::shared_ptr<FrameEventHelper> Load(class GameContentsFBXAnimationInfo* _AnimationInfo);
 
 	static std::shared_ptr<FrameEventHelper> Load(std::string_view _Path)
@@ -37,20 +35,15 @@ public:
 		return Helper;
 	}
 
-	std::unique_ptr<FrameEventManager> Initialze(GameContentsFBXAnimationInfo* _AnimationInfo);
+	std::shared_ptr<FrameEventManager> Initialze(GameContentsFBXAnimationInfo* _AnimationInfo);
 
 	void SaveFile();
 
-	void PlayEvents(class FrameEventManager* _pManager, int _Frame);
-
 	int GetEventSize();
 
-	void SetEvent(std::shared_ptr<FrameEventObject> _EventObject);
+	bool SetEvent(std::shared_ptr<FrameEventObject> _EventObject);
 	void PopEvent(const std::shared_ptr<FrameEventObject>& _Event);
 
-	inline int GetFrameCount() const { return FrameCount; }
-	inline const std::vector<std::list<FrameEventObject*>>& GetEventInfo() { return EventInfo; }
-	inline std::map<int, std::list<std::shared_ptr<FrameEventObject>>>& GetAllEvents() { return Events; }
 
 	template<typename _EventType>
 	std::list<std::shared_ptr<FrameEventObject>>& GetEventGroup(_EventType _Type)
@@ -58,10 +51,11 @@ public:
 		return GetEventGroup(static_cast<int>(_Type));
 	}
 
+	inline int GetFrameCount() const { return FrameCount; }
+	inline std::map<int, std::list<std::shared_ptr<FrameEventObject>>>& GetAllEvents() { return Events; }
 	inline std::list<std::shared_ptr<FrameEventObject>>& GetEventGroup(int _Type);
 
 protected:
-	void PushEventData();
 
 private:
 	static std::string ExtName;
@@ -71,7 +65,6 @@ private:
 
 	int FrameCount = 0;
 
-	std::vector<std::list<FrameEventObject*>> EventInfo;
 	std::map<int, std::list<std::shared_ptr<FrameEventObject>>> Events;
 
 };

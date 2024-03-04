@@ -261,6 +261,15 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 	}
 }
 
+void GameContentsFBXAnimationInfo::Release()
+{
+	if (nullptr != FrameEventInfo)
+	{
+		FrameEventInfo->EventRelease();
+		FrameEventInfo = nullptr;
+	}
+}
+
 void GameContentsFBXAnimationInfo::SetBlendTime(float _Value)
 {
 	float TotalTime = Inter* (End + 1);
@@ -902,6 +911,14 @@ void GameContentsFBXRenderer::Update(float _DeltaTime)
 	if (nullptr != CurAnimation)
 	{
 		CurAnimation->Update(_DeltaTime);
+	}
+}
+
+void GameContentsFBXRenderer::Release()
+{
+	for (const std::pair<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& Pair : Animations)
+	{
+		Pair.second->Release();
 	}
 }
 

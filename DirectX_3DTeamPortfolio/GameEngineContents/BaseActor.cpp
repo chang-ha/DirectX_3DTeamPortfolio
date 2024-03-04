@@ -201,6 +201,18 @@ std::shared_ptr<BoneSocketCollision> BaseActor::GetSocketCollision(int _Index)
 	return nullptr;
 }
 
+int BaseActor::GetSocketIndex(const std::shared_ptr<class BoneSocketCollision>& _pCol)
+{
+	for (const std::pair<const int, std::shared_ptr<BoneSocketCollision>>& Pair : SocketCollisions)
+	{
+		if (_pCol == Pair.second)
+		{
+			int Index = Pair.first;
+			return Index;
+		}
+	}
+}
+
 void BaseActor::OnSocketCollision(int _BoneIndex)
 {
 	std::shared_ptr<BoneSocketCollision> pCollision = GetSocketCollision(_BoneIndex);

@@ -37,7 +37,7 @@ public:
 	}
 
 
-	std::shared_ptr<FrameEventObject> PlayEvent() override;
+	void PlayEvent() override;
 	int UpdateEvent(float _Delta) override;
 
 	void Init();

@@ -1,8 +1,8 @@
 #include "PreCompile.h"
 #include "AnimationInfoGUI.h"
 
-#include "BaseMonster.h"
 #include "BaseActor.h"
+#include "BaseMonster.h"
 
 #include "FrameEventManager.h"
 #include "FrameEventHelper.h"
@@ -624,7 +624,13 @@ GameContentsFBXAnimationInfo* EventTree::GetSelectAnimation() const
 
 void TotalEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 {
-	FrameEventHelper* EventHelper = Parent->SelectAnimation->GetEventManager()->GetHelper();
+	FrameEventManager* pManager = Parent->SelectAnimation->GetEventManager();
+	if (nullptr == pManager)
+	{
+		return;
+	}
+
+	FrameEventHelper* EventHelper = pManager->GetHelper();
 	std::map<int, std::list<std::shared_ptr<FrameEventObject>>>& AllEvents = EventHelper->GetAllEvents();
 	if (AllEvents.empty())
 	{
@@ -657,7 +663,7 @@ void TotalEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 
 	if (nullptr != SelectObject)
 	{
-		EventHelper->PopEvent(SelectObject);
+		pManager->PopEvent(SelectObject);
 	}
 }
 
@@ -934,8 +940,10 @@ void CollisionEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 			{
 				if (CColNames[SelectCol] == Pair.second->GetName())
 				{
+					const std::shared_ptr<BoneSocketCollision>& pCol = Pair.second;
+					int ColNumber = Parent->SelectActor->GetSocketIndex(pCol);
+					std::shared_ptr<CollisionUpdateFrameEvent> CEvent = CollisionUpdateFrameEvent::CreateEventObject(SelectFrames[0], SelectFrames[1], ColNumber);
 					FrameEventManager* EventManager = Parent->SelectAnimation->GetEventManager();
-					std::shared_ptr<CollisionUpdateFrameEvent> CEvent = CollisionUpdateFrameEvent::CreateEventObject(SelectFrames[0], SelectFrames[1], Pair.second);
 					EventManager->SetEvent(CEvent);
 				}
 			}

@@ -38,7 +38,7 @@ public:
 	// 애니메이션을 가지고 있는 FBX에서 알고 있는 애니메이션 정보
 	FbxExAniData* FBXAnimationData = nullptr;
 
-	std::unique_ptr<class FrameEventManager> FrameEventInfo;
+	std::shared_ptr<class FrameEventManager> FrameEventInfo;
 
 	float PlayTime = 0.0f;
 	float CurFrameTime = 0.0f;
@@ -106,6 +106,7 @@ public:
 	void Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index);
 	void Reset();
 	void Update(float _DeltaTime);
+	void Release();
 
 	std::map<int, std::function<void(GameContentsFBXRenderer*)>> FrameEventFunction;
 	std::function<void(UINT _FrameIndex)> FrameChangeFunction;
@@ -128,6 +129,7 @@ public:
 
 	~GameContentsFBXAnimationInfo()
 	{
+		Release();
 	}
 };
 
@@ -192,6 +194,7 @@ public:
 
 
 	void Update(float _DeltaTime) override;
+	void Release() override;
 
 	void SetFBXMesh(std::string_view _Name, std::string_view _Material, RenderPath _DefaultRenderPath = RenderPath::None);
 	void SetFBXMesh(std::string_view _Name, std::string_view _Material, int _RenderUnitInfoIndex);

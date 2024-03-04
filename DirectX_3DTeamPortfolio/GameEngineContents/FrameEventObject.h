@@ -41,7 +41,7 @@ public:
 
 	virtual std::shared_ptr<FrameEventObject> CreatePlayingEvent() { return nullptr; }
 
-	virtual std::shared_ptr<FrameEventObject> PlayEvent() = 0;
+	virtual void PlayEvent() = 0;
 	virtual int UpdateEvent(float _Delta) { return EVENT_DONE; }
 	virtual void Reset() {}
 
@@ -68,6 +68,7 @@ public:
 	std::string GetTypeString() const;
 
 	inline void SetParentManger(FrameEventManager* _pManager) { ParentManager = _pManager; }
+	inline FrameEventManager* GetEventManger() const { return ParentManager; }
 
 protected:
 	template<typename EnumType>

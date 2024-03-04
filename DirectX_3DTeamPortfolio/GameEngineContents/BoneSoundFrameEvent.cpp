@@ -25,12 +25,11 @@ std::shared_ptr<BoneSoundFrameEvent> BoneSoundFrameEvent::CreateEventObject(int 
 
 std::shared_ptr<FrameEventObject> BoneSoundFrameEvent::CreatePlayingEvent()
 {
-	std::shared_ptr<BoneSoundFrameEvent> NewObject = std::make_shared<BoneSoundFrameEvent>();
-	memcpy(NewObject.get(), this, sizeof(BoneSoundFrameEvent));
+	std::shared_ptr<BoneSoundFrameEvent> NewObject = BoneSoundFrameEvent::CreateEventObject(StartFrame, BoneIndex, SoundName);
 	return NewObject;
 }
 
-std::shared_ptr<FrameEventObject> BoneSoundFrameEvent::PlayEvent()
+void BoneSoundFrameEvent::PlayEvent()
 {
 	if (nullptr == pActor)
 	{
@@ -43,7 +42,6 @@ std::shared_ptr<FrameEventObject> BoneSoundFrameEvent::PlayEvent()
 	float4 P;
 	BoneWMat.Decompose(S, Q, P);
 	GameEngineSound::Sound3DPlay(SoundName, P);
-	return nullptr;
 }
 
 void BoneSoundFrameEvent::Init()
