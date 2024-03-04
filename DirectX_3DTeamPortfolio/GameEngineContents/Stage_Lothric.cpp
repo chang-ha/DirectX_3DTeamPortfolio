@@ -48,25 +48,25 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		//Light->IsDebugValue = true;
 	}
 
-	{
-		Light = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Point");
-		Light->SetLightType(Enum_LightType::Point);
-		LightData Data = Light->GetLightData();
-		//Light->CreateShadowMap();
+	//{
+	//	Light = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Point");
+	//	Light->SetLightType(Enum_LightType::Point);
+	//	LightData Data = Light->GetLightData();
+	//	//Light->CreateShadowMap();
 
-		//Data.DifLightPower = 0.1f;
-		Data.AmbientLight = float4(0.05f, 0.05f, 0.025f, 1.0f);
-		Data.LightColor = float4(1.0f, 1.0f, 0.7f);
-		Data.LightPower = 2.5f;
-		Data.ForceLightPower = 0.25f;
+	//	//Data.DifLightPower = 0.1f;
+	//	Data.AmbientLight = float4(0.05f, 0.05f, 0.025f, 1.0f);
+	//	Data.LightColor = float4(1.0f, 1.0f, 0.7f);
+	//	Data.LightPower = 2.5f;
+	//	Data.ForceLightPower = 0.25f;
 
-		Light->Transform.SetWorldPosition({ -2800.f, -2500.f, 6700.f });
-		Light->Transform.SetLocalRotation({ 40.0f, 0.0f, 0.0f });
+	//	Light->Transform.SetWorldPosition({ -2800.f, -2500.f, 6700.f });
+	//	Light->Transform.SetLocalRotation({ 40.0f, 0.0f, 0.0f });
 
 
-		Light->SetLightData(Data);
-		Light->IsDebugValue = true;
-	}
+	//	Light->SetLightData(Data);
+	//	Light->IsDebugValue = true;
+	//}
 	// Fog
 	{
 		std::shared_ptr<FogEffect> Effect = GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FogEffect>();
