@@ -18,7 +18,6 @@ enum class Enum_CollisionOrder
 {
 
 
-	Player = 0,
 	Map = (1 << 0),
 	Player_Shield = (1 << 1),
 	Player_Attack = (1 << 2),
@@ -32,7 +31,7 @@ enum class Enum_CollisionOrder
 	Sound = (1 << 10),
 	LadderTop = (1 << 11),
 	LadderBot = (1 << 12),
-	
+	Player = (1 << 13),
 	
 };
 
