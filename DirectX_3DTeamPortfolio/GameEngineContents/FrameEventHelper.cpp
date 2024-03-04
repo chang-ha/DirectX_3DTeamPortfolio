@@ -58,10 +58,6 @@ std::shared_ptr<FrameEventHelper> FrameEventHelper::Load(class GameContentsFBXAn
 
 	EventPath.MoveChild("Animation");
 	EventPath.AppendPath(AnimationName);
-	if (false == EventPath.IsExits())
-	{
-		return nullptr;
-	}
 
 	std::shared_ptr<FrameEventHelper> Helper = FrameEventHelper::Load(EventPath.GetStringPath());
 	if (nullptr == Helper)
