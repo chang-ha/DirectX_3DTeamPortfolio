@@ -1,18 +1,18 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
-class Object_Sword : public GameEngineActor
+class Object_bonfire : public GameEngineActor
 {
 public:
 	// constrcuter destructer
-	Object_Sword();
-	~Object_Sword();
+	Object_bonfire();
+	~Object_bonfire();
 
 	// delete Function
-	Object_Sword(const Object_Sword& _Other) = delete;
-	Object_Sword(Object_Sword&& _Other) noexcept = delete;
-	Object_Sword& operator=(const Object_Sword& _Other) = delete;
-	Object_Sword& operator=(Object_Sword&& _Other) noexcept = delete;
+	Object_bonfire(const Object_bonfire& _Other) = delete;
+	Object_bonfire(Object_bonfire&& _Other) noexcept = delete;
+	Object_bonfire& operator=(const Object_bonfire& _Other) = delete;
+	Object_bonfire& operator=(Object_bonfire&& _Other) noexcept = delete;
 
 	
 protected:
@@ -23,8 +23,6 @@ private:
 	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer;
 	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer1;
 	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer2;
-	
-
 	
 };
 

@@ -319,7 +319,7 @@
     <ClCompile Include="Object_StartDoor.cpp">
       <Filter>Object</Filter>
     </ClCompile>
-    <ClCompile Include="Object_Sword.cpp">
+    <ClCompile Include="Object_bonfire.cpp">
       <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="Object_Table.cpp">
@@ -334,6 +334,9 @@
     <ClCompile Include="shield.cpp" />
     <ClCompile Include="TestMapObject.cpp">
       <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="TestLevel_ObjectTest.cpp">
+      <Filter>Level\TestLevel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -649,7 +652,7 @@
     <ClInclude Include="Object_StartDoor.h">
       <Filter>Object</Filter>
     </ClInclude>
-    <ClInclude Include="Object_Sword.h">
+    <ClInclude Include="Object_bonfire.h">
       <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="Object_Table.h">
@@ -664,6 +667,9 @@
     <ClInclude Include="shield.h" />
     <ClInclude Include="TestMapObjcet.h">
       <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="TestLevel_ObjectTest.h">
+      <Filter>Level\TestLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

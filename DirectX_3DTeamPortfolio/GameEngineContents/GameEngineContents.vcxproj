@@ -334,7 +334,7 @@
     <ClCompile Include="Object_Skeleton.cpp" />
     <ClCompile Include="Object_Skeleton1.cpp" />
     <ClCompile Include="Object_StartDoor.cpp" />
-    <ClCompile Include="Object_Sword.cpp" />
+    <ClCompile Include="Object_bonfire.cpp" />
     <ClCompile Include="Object_Table.cpp" />
     <ClCompile Include="PlayerValue.cpp" />
     <ClCompile Include="shield.cpp" />
@@ -427,6 +427,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TestLevel_ObjectTest.cpp" />
     <ClCompile Include="TestLevel_PhysX.cpp">
       <SubType>
       </SubType>
@@ -638,7 +639,7 @@
     <ClInclude Include="Object_Skeleton.h" />
     <ClInclude Include="Object_Skeleton1.h" />
     <ClInclude Include="Object_StartDoor.h" />
-    <ClInclude Include="Object_Sword.h" />
+    <ClInclude Include="Object_bonfire.h" />
     <ClInclude Include="Object_Table.h" />
     <ClInclude Include="PlayerValue.h" />
     <ClInclude Include="shield.h" />
@@ -728,6 +729,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="TestLevel_ObjectTest.h" />
     <ClInclude Include="TestLevel_PhysX.h">
       <SubType>
       </SubType>
