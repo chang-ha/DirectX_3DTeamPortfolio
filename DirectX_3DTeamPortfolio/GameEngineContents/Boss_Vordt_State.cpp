@@ -202,62 +202,6 @@ void Boss_Vordt::SoundEventInit()
 	//		GameEngineSound::Sound3DPlay("c224001001.wav", BoneWorldPos(0));
 	//	});
 
-	////// Combo2_Step1
-	//MainRenderer->SetFrameEvent("Combo2_Step2", 5, [&](GameContentsFBXRenderer* _Renderer)
-	//	{
-	//		GameEngineSound::Sound3DPlay("c224005000.wav", BoneWorldPos(0));
-	//	});
-
-	//MainRenderer->SetFrameEvent("Combo2_Step2", 11, [&](GameContentsFBXRenderer* _Renderer)
-	//	{
-	//		GameEngineSound::Sound3DPlay("c224001001.wav", BoneWorldPos(0));
-	//	});
-
-	//MainRenderer->SetFrameEvent("Combo2_Step2", 14, [&](GameContentsFBXRenderer* _Renderer)
-	//	{
-	//		GameEngineSound::Sound3DPlay("c224008001.wav", BoneWorldPos(0));
-	//	});
-
-	//MainRenderer->SetFrameEvent("Combo2_Step2", 23, [&](GameContentsFBXRenderer* _Renderer)
-	//	{
-	//		GameEngineSound::Sound3DPlay("c224006000.wav", BoneWorldPos(0));
-	//	});
-
-	//MainRenderer->SetFrameEvent("Combo2_Step2", 24, [&](GameContentsFBXRenderer* _Renderer)
-	//	{
-	//		GameEngineSound::Sound3DPlay("c224003001.wav", BoneWorldPos(0));
-	//	});
-
-	//MainRenderer->SetFrameEvent("Combo2_Step2", 26, [&](GameContentsFBXRenderer* _Renderer)
-	//	{
-	//		GameEngineSound::Sound3DPlay("c224005001.wav", BoneWorldPos(0));
-	//	});
-
-	//MainRenderer->SetFrameEvent("Combo2_Step2", 29, [&](GameContentsFBXRenderer* _Renderer)
-	//	{
-	//		GameEngineSound::Sound3DPlay("c224001001b.wav", BoneWorldPos(0));
-	//	});
-
-	//MainRenderer->SetFrameEvent("Combo2_Step2", 51, [&](GameContentsFBXRenderer* _Renderer)
-	//	{
-	//		GameEngineSound::Sound3DPlay("c224005000b.wav", BoneWorldPos(0));
-	//	});
-
-	//MainRenderer->SetFrameEvent("Combo2_Step2", 70, [&](GameContentsFBXRenderer* _Renderer)
-	//	{
-	//		GameEngineSound::Sound3DPlay("c224005000c.wav", BoneWorldPos(0));
-	//	});
-
-	//MainRenderer->SetFrameEvent("Combo2_Step2", 74, [&](GameContentsFBXRenderer* _Renderer)
-	//	{
-	//		GameEngineSound::Sound3DPlay("c224001001c.wav", BoneWorldPos(0));
-	//	});
-
-	//MainRenderer->SetFrameEvent("Combo2_Step2", 85, [&](GameContentsFBXRenderer* _Renderer)
-	//	{
-	//		GameEngineSound::Sound3DPlay("c224001001d.wav", BoneWorldPos(0));
-	//	});
-
 	////// Turn_Left
 	//MainRenderer->SetFrameEvent("Turn_Left", 1, [&](GameContentsFBXRenderer* _Renderer)
 	//	{
