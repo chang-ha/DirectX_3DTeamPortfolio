@@ -12,9 +12,9 @@ FrameEventManager::~FrameEventManager()
 {
 }
 
-std::shared_ptr<FrameEventManager> FrameEventManager::CreateEventManager()
+std::unique_ptr<FrameEventManager> FrameEventManager::CreateEventManager()
 {
-	std::shared_ptr<FrameEventManager> NewManager = std::make_shared<FrameEventManager>();
+	std::unique_ptr<FrameEventManager> NewManager = std::make_unique<FrameEventManager>();
 	return NewManager;
 }
 

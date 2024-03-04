@@ -69,9 +69,9 @@ std::shared_ptr<FrameEventHelper> FrameEventHelper::Load(class GameContentsFBXAn
 	return Helper;
 }
 
-std::shared_ptr<FrameEventManager> FrameEventHelper::Initialze(GameContentsFBXAnimationInfo* _AnimationInfo)
+std::unique_ptr<FrameEventManager> FrameEventHelper::Initialze(GameContentsFBXAnimationInfo* _AnimationInfo)
 {
-	std::shared_ptr<FrameEventManager> NewManager = FrameEventManager::CreateEventManager();
+	std::unique_ptr<FrameEventManager> NewManager = FrameEventManager::CreateEventManager();
 	NewManager->SetHelper(this);
 	NewManager->SetAnimationInfo(_AnimationInfo);
 

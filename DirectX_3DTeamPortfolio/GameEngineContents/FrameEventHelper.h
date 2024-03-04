@@ -35,7 +35,7 @@ public:
 		return Helper;
 	}
 
-	std::shared_ptr<FrameEventManager> Initialze(GameContentsFBXAnimationInfo* _AnimationInfo);
+	std::unique_ptr<FrameEventManager> Initialze(GameContentsFBXAnimationInfo* _AnimationInfo);
 
 	void SaveFile();
 

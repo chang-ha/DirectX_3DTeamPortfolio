@@ -38,7 +38,7 @@ public:
 	// 애니메이션을 가지고 있는 FBX에서 알고 있는 애니메이션 정보
 	FbxExAniData* FBXAnimationData = nullptr;
 
-	std::shared_ptr<class FrameEventManager> FrameEventInfo;
+	std::unique_ptr<class FrameEventManager> FrameEventInfo;
 
 	float PlayTime = 0.0f;
 	float CurFrameTime = 0.0f;

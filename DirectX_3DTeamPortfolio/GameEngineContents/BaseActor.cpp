@@ -211,6 +211,8 @@ int BaseActor::GetSocketIndex(const std::shared_ptr<class BoneSocketCollision>& 
 			return Index;
 		}
 	}
+
+	return -1;
 }
 
 void BaseActor::OnSocketCollision(int _BoneIndex)

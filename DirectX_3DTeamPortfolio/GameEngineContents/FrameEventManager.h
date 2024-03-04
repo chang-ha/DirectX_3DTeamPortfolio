@@ -33,7 +33,7 @@ public:
 	inline const std::multimap<int, std::shared_ptr<FrameEventObject>>& GetEventInfo() { return EventInfos; }
 
 protected:
-	static std::shared_ptr<FrameEventManager> CreateEventManager();
+	static std::unique_ptr<FrameEventManager> CreateEventManager();
 
 private:
 	class GameContentsFBXAnimationInfo* AnimationInfo = nullptr;
