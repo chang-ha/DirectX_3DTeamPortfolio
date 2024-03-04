@@ -67,10 +67,15 @@ void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 	std::shared_ptr<Monster_HollowSoldier_Lantern> Hollow = CreateActor<Monster_HollowSoldier_Lantern>(static_cast<int>(Enum_UpdateOrder::Monster), "Hollow");
-	Hollow->SetWPosition(float4(-200.0f, 0.0f, 0.0f));
+	Hollow->SetWPosition(float4(-400.0f, 0.0f, 0.0f));
 	//Hollow->Transform.SetWorldRotation(float4(0.0f, 180.0f, 0.0f));
 	//Hollow->Transform.SetWorldRotation(float4(0.0f, 90.0f, 0.0f));
 	Hollow->SetStateStay();
+
+	std::shared_ptr<Monster_Hollow_Unarmed> Unarmed = CreateActor<Monster_Hollow_Unarmed>(static_cast<int>(Enum_UpdateOrder::Monster), "Unarmed");
+	Unarmed->SetWPosition(float4(-200.0f, 0.0f, 0.0f));
+	std::shared_ptr<Monster_Hollow_Unarmed> UnarmedHollow = CreateActor<Monster_Hollow_Unarmed>(static_cast<int>(Enum_UpdateOrder::Monster), "UnarmedHollow");
+	UnarmedHollow->SetWPosition(float4(-700.0f, 0.0f, 0.0f));
 
 	GetMainCamera()->Transform.SetWorldPosition(float4(0.0f, 0.0f, 0.0f));
 }

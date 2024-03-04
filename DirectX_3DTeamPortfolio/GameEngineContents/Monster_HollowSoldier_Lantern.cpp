@@ -21,6 +21,13 @@ void Monster_HollowSoldier_Lantern::Start()
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::Belt1);
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::LongSkirt1);
 
+	AwakeCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster_Lantern);
+	AwakeCollision->SetCollisionType(ColType::SPHERE3D);
+	AwakeCollision->SetCollisionColor(float4::BLACK);
+	AwakeCollision->Transform.SetLocalPosition(float4(0, 100, 0));
+	AwakeCollision->Transform.SetWorldScale(float4(100, 100, 100));
+	AwakeCollision->Off();
+
 	ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
 }
 void Monster_HollowSoldier_Lantern::Update(float _Delta)
@@ -459,11 +466,33 @@ void Monster_HollowSoldier_Lantern::State_AwakeHollows_Update(float _Delta)
 	// 어떤 프레임에서 비선공 몬스터들 Idle로 변경
 
 	// 프레임 조금 더 연구할것.
-	// 어디서 무기를 뽑는지
 	// 이 애니메이션이 끝나면 확실하게 Idle 상태로 가는지.
+
+	if (MainRenderer->GetCurAnimationFrame() >= 76 && MainRenderer->GetCurAnimationFrame() <= 79)
+	{
+		if (AwakeCollision->IsUpdate() != true && AwakeValue == false)
+		{
+			AwakeCollision->On();
+			AwakeValue = true;
+		}
+	}
+
+	if (AwakeCollision->IsUpdate() == true)
+	{
+		AwakeCollision->Transform.AddWorldScale(float4(_Delta * 100.0f, _Delta * 100.0f, _Delta * 100.0f));
+	}
+
+	/*if (MainRenderer->GetCurAnimationFrame() >= 80)
+	{
+		if (AwakeCollision->IsUpdate() == true)
+		{
+			AwakeCollision->Off();
+		}
+	}*/
 
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
 	{
+
 		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
 	}
 }
