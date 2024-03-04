@@ -320,6 +320,22 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Object_BossDoor.cpp" />
+    <ClCompile Include="Object_CandleHuman.cpp" />
+    <ClCompile Include="Object_CastleDoor.cpp" />
+    <ClCompile Include="Object_Desk.cpp" />
+    <ClCompile Include="Object_HumanTree.cpp" />
+    <ClCompile Include="Object_Ladder1.cpp" />
+    <ClCompile Include="Object_Ladder2.cpp" />
+    <ClCompile Include="Object_Ladder3.cpp" />
+    <ClCompile Include="Object_Ladder4.cpp" />
+    <ClCompile Include="Object_Ladder5.cpp" />
+    <ClCompile Include="Object_Ladder6.cpp" />
+    <ClCompile Include="Object_Skeleton.cpp" />
+    <ClCompile Include="Object_Skeleton1.cpp" />
+    <ClCompile Include="Object_StartDoor.cpp" />
+    <ClCompile Include="Object_bonfire.cpp" />
+    <ClCompile Include="Object_Table.cpp" />
     <ClCompile Include="PlayerValue.cpp" />
     <ClCompile Include="FrameEventManager.cpp">
       <SubType>
@@ -414,6 +430,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TestLevel_ObjectTest.cpp" />
     <ClCompile Include="TestLevel_PhysX.cpp">
       <SubType>
       </SubType>
@@ -611,6 +628,22 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Object_BossDoor.h" />
+    <ClInclude Include="Object_CandleHuman.h" />
+    <ClInclude Include="Object_CastleDoor .h" />
+    <ClInclude Include="Object_Desk.h" />
+    <ClInclude Include="Object_HumanTree.h" />
+    <ClInclude Include="Object_Ladder1.h" />
+    <ClInclude Include="Object_Ladder2.h" />
+    <ClInclude Include="Object_Ladder3.h" />
+    <ClInclude Include="Object_Ladder4.h" />
+    <ClInclude Include="Object_Ladder5.h" />
+    <ClInclude Include="Object_Ladder6.h" />
+    <ClInclude Include="Object_Skeleton.h" />
+    <ClInclude Include="Object_Skeleton1.h" />
+    <ClInclude Include="Object_StartDoor.h" />
+    <ClInclude Include="Object_bonfire.h" />
+    <ClInclude Include="Object_Table.h" />
     <ClInclude Include="PlayerValue.h" />
     <ClInclude Include="FrameEventManager.h">
       <SubType>
@@ -702,6 +735,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="TestLevel_ObjectTest.h" />
     <ClInclude Include="TestLevel_PhysX.h">
       <SubType>
       </SubType>

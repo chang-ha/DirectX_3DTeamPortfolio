@@ -267,6 +267,7 @@ void ContentResources::ContentResourcesInit()
 		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("ContentsDeferredLightRender");
 		Mat->SetVertexShader("ContentsDeferredLightRender_VS");
 		Mat->SetPixelShader("ContentsDeferredLightRender_PS");
+		Mat->SetBlendState("AddBlend");
 	}
 
 	{

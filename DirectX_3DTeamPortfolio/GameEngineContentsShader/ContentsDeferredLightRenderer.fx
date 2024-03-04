@@ -50,9 +50,11 @@ struct DeferredRenderOutPut
     float4 DifLight : SV_Target0;
     float4 SpcLight : SV_Target1;
     float4 AmbLight : SV_Target2;
-    float4 LightColor : SV_Target3;
-    float4 Shadow : SV_Target4;
-    float4 PBRLight : SV_Target5;
+    float4 Shadow : SV_Target3;
+    float4 PointDifLight : SV_Target4;
+    float4 PointSpcLight : SV_Target5;
+    //float4 LightColor : SV_Target3;
+    //float4 PBRLight : SV_Target5;
 };
 
 #define OffsetSize 13
@@ -102,28 +104,49 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
         LightPower = attenuation;
     }
     
-    //Result.DifColor = Color;
-    Result.DifLight = CalDiffuseLightContents(Normal, Pos, LightDataValue) * LightPower;
+    if (Material.z >= 1.0f)
+    {
+        DiffuseRatio = LightDataValue.ForceLightPower * LightDataValue.LightColor * LightDataValue.DifLightPower * LightDataValue.LightPower * LightPower;
+    }
+    else
+    {
+        DiffuseRatio = CalDiffuseLightContents(Normal, Pos, LightDataValue) * LightPower;
+    }
+    
+    DiffuseRatio.w = 1.0f;
+    
+   
+    
     Result.DifLight.w = 1.0f;
     
-    Result.SpcLight = CalSpacularLightContents(Pos, Normal,LightDataValue) * LightPower;
-    Result.SpcLight.w = 1.0f;
+    SpacularRatio = CalSpacularLightContents(Pos, Normal, LightDataValue) * LightPower;
+    SpacularRatio.w = 1.0f;
     
-    Result.PBRLight = CalSpacularLightContentsBRDF(Pos, Normal, Albedo.xyz, Metalic, Roughness, LightDataValue) * LightPower;
-    Result.PBRLight.w = 1.0f;
+    //Result.PBRLight = CalSpacularLightContentsBRDF(Pos, Normal, Albedo.xyz, Metalic, Roughness, LightDataValue) * LightPower;
+    //Result.PBRLight.xyz = pow(Result.PBRLight.xyz, 1.0f / 2.2f);
+    //Result.PBRLight.w = 1.0f;
     
   
     Result.AmbLight = CalAmbientLight(LightDataValue);
     
-    
+    if (0 == LightDataValue.LightType)
+    {
+        Result.DifLight = DiffuseRatio;
+        Result.SpcLight = SpacularRatio;
+    }
+    else
+    {
+        Result.PointDifLight = DiffuseRatio;
+        Result.PointSpcLight = SpacularRatio;
+    }
 
   
     
     // 빛마다 그림자를 계산하는 방식을 다르게 해야하하기 때문이다.
     
     
- 
-    if (0 <= Result.DifLight.x)
+    //다이렉션 라이트만 그림자 처리
+    if (0 <= Result.DifLight.x && 0 == LightDataValue.LightType)
     {
            
          // PCF를 위한 오프셋
@@ -235,10 +258,10 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
             StaticShadow = shadow;
             
             
-            Result.Shadow = saturate(StaticShadow + DynamicShadow);
-
+      
         }
         
+        Result.Shadow = saturate(StaticShadow + DynamicShadow);
         
         
         
@@ -267,9 +290,11 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
         //}
         
     }
-    
- 
-    Result.LightColor = float4(Roughness, Metalic, 0.0f, 1.0f);
+    else
+    {
+        Result.Shadow = 0.0f;
+    }
+    //Result.LightColor = float4(Roughness, Metalic, 0.0f, 1.0f);
     
     // 최종컬러는 빛이 여러겨개 적용되서 들어가야 한다.
     //float A = Result.DifColor.w;

@@ -8,6 +8,7 @@
 #include "BaseActor.h"
 #include "CameraCapsule.h"
 #include "Weapon.h"
+#include "shield.h"
 enum class PlayerState
 {
 	Idle,
@@ -48,7 +49,17 @@ enum class PlayerState
 	Forward_Big_Hit,
 	Backward_Big_Hit,
 
-
+	Death,
+	ladder_Up_Start,
+	ladder_Up_Left,
+	ladder_Up_Right,
+	ladder_Up_Stop_Left,
+	ladder_Up_Stop_Right,
+	ladder_Down_Start,
+	ladder_Down_Left,
+	ladder_Down_Right,
+	ladder_Down_Stop_Left,
+	ladder_Down_Stop_Right,
 };
 
 // Ό³Έν :
@@ -59,6 +70,7 @@ public:
 
 	static Player* Main_Player;
 	int Bone_index_01 = 53;
+	int Bone_index_02 = 17;
 	Player();
 	~Player();
 
@@ -70,12 +82,24 @@ public:
 	void Player_State();
 	bool check = false;
 	void CameraRotation(float Delta);
-
+	bool wrwrw = false;
 	std::shared_ptr<Weapon> GetWeapon()
 	{
 		return Weapon_Actor;
 	}
-
+	std::shared_ptr<shield> GetShield()
+	{
+		return Shield_Actor;
+	}
+	std::shared_ptr<GameEngineActor> Actor_test_02;
+	float4 CameraDir = {};
+	float4 Camera_Distance = {};
+	bool testa = false;
+	bool testaa = false;
+	bool testaaa = false;
+	int ererer = 0;
+	float4 PreP = {};
+	float4 PrePc = {};
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -88,8 +112,7 @@ private:
 	EventParameter Mini_Event;
 	std::string BoneName;
 	std::shared_ptr<GameEngineCollision> Col;
-	
-	
+	std::shared_ptr<BoneSocketCollision> BodyCol;
 	PlayerState StateValue = PlayerState::Idle;
 	float Mouse_Pos = 0.0f;
 	
@@ -131,10 +154,10 @@ private:
 	float MonsterAngle = 0.0f;
 
 	std::shared_ptr<GameEngineActor> Actor_test;
-	std::shared_ptr<GameEngineActor> Actor_test_02;
+	
 	std::shared_ptr<CameraCapsule> Cameracapsule;
 	std::shared_ptr<Weapon> Weapon_Actor;
-
+	std::shared_ptr<shield> Shield_Actor;
 
 	float4 CameraPos = {};
 	float Mouse_Ro_X = 0.0f;

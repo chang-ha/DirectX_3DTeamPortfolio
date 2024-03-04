@@ -1,7 +1,7 @@
 ﻿#include "PreCompile.h"
 #include "ContentLevel.h"
 #include "FXAAEffect.h"
-
+#include "Player.h"
 ContentsCollisionCallBack  ContentLevel::CollisionCallBack;
 
 ContentLevel::ContentLevel()
@@ -116,11 +116,55 @@ void ContentsCollisionCallBack::onContact(const physx::PxContactPairHeader& pair
 			continue;
 		}
 
-		if ((thisFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Camera))
-			&& (CollisionFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Map)))
+		if (thisFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Big_Camera))
 		{
-			int a = 0;
+			if ((CollisionFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Map)))
+			{
+				//testaa = true;
+				//Player::Main_Player->Actor_test_02->Transform.AddWorldPosition(Player::Main_Player->CameraDir * 10);
+
+				Player::Main_Player->testaa = true;
+			}
 		}
 
+		if (thisFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Camera))		
+		{
+			if ((CollisionFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Map)))
+			{
+				
+				//Player::Main_Player->Actor_test_02->Transform.AddWorldPosition(-Player::Main_Player->CameraDir * 10);
+				
+				Player::Main_Player->testa = true;
+
+			}		
+		}
+
+		//if (Player::Main_Player->testaa == false && Player::Main_Player->testa == false)
+		//{
+		//	//wrwrw = true;
+
+		//	if (abs(Player::Main_Player->Actor_test_02->Transform.GetLocalPosition().Z) <= abs(300))
+		//	{
+		//		Player::Main_Player->Actor_test_02->Transform.AddWorldPosition(-Player::Main_Player->CameraDir * 10);
+		//	}
+		//}
+
+
+
+		/*else if(thisFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Camera))
+		{
+			
+
+			if (abs(Player::Main_Player->Actor_test_02->Transform.GetLocalPosition().Z) <= abs(300) && Player::Main_Player->testa == false)
+			{
+				Player::Main_Player->Actor_test_02->Transform.AddWorldPosition(-Player::Main_Player->CameraDir * 10);
+			}
+           
+		}*/
+		
+
+
 	}
+
+
 }

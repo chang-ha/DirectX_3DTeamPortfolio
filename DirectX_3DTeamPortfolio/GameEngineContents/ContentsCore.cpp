@@ -17,6 +17,7 @@
 #include "TestLevel_Map.h"
 #include "TestLevel_PhysX.h"
 #include "TestLevel_MapObject.h"
+#include "TestLevel_ObjectTest.h"
 
 ContentsCore::ContentsCore() 
 {
@@ -50,7 +51,9 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<TestLevel_PhysX>("TestLevel_PhysX");
 	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
 	GameEngineCore::CreateLevel<TestLevel_MapObject>("TestLevel_MapObject");
-	GameEngineCore::ChangeLevel("PlayLevel");
+	GameEngineCore::CreateLevel<TestLevel_ObjectTest>("TestLevel_ObjectTest");
+	GameEngineCore::ChangeLevel("TestLevel_ObjectTest");
+
 }
 
 void ContentsCore::Update(float _Delta)

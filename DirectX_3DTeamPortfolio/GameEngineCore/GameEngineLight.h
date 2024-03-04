@@ -24,13 +24,13 @@ struct LightData
     float LightNear;
     float LightFar;
     float DifLightPower = 1.0f;
-    float SpcLightPower = 1.0f;
+    float SpcLightPower = 2.0f;
     float AmbLightPower = 1.0f;
-    float SpcPow = 1.0f;
+    float SpcPow = 12.0f;
     int LightType = 0;
     float PointLightRange = 100.0f;
     float LightPower = 1.0f;
-    int Temp3;
+    float ForceLightPower = 0.5f; //GI텍스쳐용 강제 라이트 
 };
 
 // 설마 빛이 64개 이상은 아니겠지.
@@ -117,7 +117,7 @@ protected:
 private:
 	LightData LightDataValue;
     // 그림자의 디테일을 계산할수 있다.
-    float4 ShadowRange = { 65536, 65536 };
+    float4 ShadowRange = { 16384, 16384 };
     std::shared_ptr<class GameEngineRenderTarget> ShadowTarget = nullptr;
     std::shared_ptr<class GameEngineRenderTarget> ShadowTargetStatic = nullptr;
 };
