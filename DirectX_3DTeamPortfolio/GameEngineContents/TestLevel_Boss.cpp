@@ -102,13 +102,6 @@ void TestLevel_Boss::Start()
 void TestLevel_Boss::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
-
-	RayCast({ 100.0f, }, { 0.0f,0.0f, 5.0f }, 1000.0f);
-
-	if (true == GameEngineInput::IsPress('D', this))
-	{
-		GetMainCamera()->Transform.AddWorldRotation({0.f, 30.f * _Delta, 0.f});
-	}
 }
 
 void TestLevel_Boss::Release()

@@ -68,6 +68,6 @@ void CollisionUpdateFrameEvent::Reset()
 
 void CollisionUpdateFrameEvent::Init()
 {
-	std::shared_ptr<BaseMonster> ParentActor = GetDynamicCastParentActor<BaseMonster>();
+	std::shared_ptr<BaseActor> ParentActor = GetDynamicCastParentActor<BaseActor>();
 	pCollision = ParentActor->GetSocketCollision(ColNumber).get();
 }

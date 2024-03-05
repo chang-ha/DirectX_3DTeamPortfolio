@@ -403,7 +403,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	Capsule->PhysXComponentInit(400.0f, 5.0f);
-	Capsule->SetMass(10000000.f);
+	// Capsule->SetMass(10000000.f);
 	Capsule->SetPositioningComponent();
 
 	if (nullptr == GameEngineGUI::FindGUIWindow<Boss_State_GUI>("Boss_State"))
@@ -653,18 +653,38 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 	if (nullptr == BossCollision)
 	{
-		BossCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 0);
+		// BossCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 0);
 	}
 
-	Capsule->SetFiltering(Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);
+	 // Capsule->SetFiltering(Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);
 
+	// Socket Collision
+	if (nullptr == WeaponCollision)
+	{
+		WeaponCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 47, "Weapon");
+		WeaponCollision->SetCollisionType(ColType::OBBBOX3D);
+		WeaponCollision->Transform.SetLocalScale({200.f, 200.f, 200.f});
+	}
 
 	if (nullptr == BodyCollision)
 	{
-		BodyCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 46);
-		BodyCollision->SetCollisionType(ColType::OBBBOX3D);
-		BodyCollision->Transform.SetLocalScale({2.f, 2.f, 2.f});
-		BodyCollision->On();
+		BodyCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 22, "Body");
+		BodyCollision->SetCollisionType(ColType::SPHERE3D);
+		BodyCollision->Transform.SetLocalScale({ 200.f, 200.f, 200.f });
+	}
+
+	if (nullptr == HeadCollision)
+	{
+		HeadCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 76, "Head");
+		HeadCollision->SetCollisionType(ColType::SPHERE3D);
+		HeadCollision->Transform.SetLocalScale({ 50.f, 50.f, 50.f });
+	}
+
+	if (nullptr == R_HandCollision)
+	{
+		R_HandCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 57, "R_Hand");
+		R_HandCollision->SetCollisionType(ColType::OBBBOX3D);
+		R_HandCollision->Transform.SetLocalScale({ 50.f, 50.f, 50.f });
 	}
 
 	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::Boss_Vordt));
@@ -713,6 +733,11 @@ void Boss_Vordt::Update(float _Delta)
 		Capsule->CollisionOff();
 		Capsule->ResetMove(Enum_Axies::All);
 	}
+
+	if (true == GameEngineInput::IsDown('M', this))
+	{
+		MainRenderer->SwitchPause();
+	}
 }
 
 void Boss_Vordt::Release()
@@ -721,6 +746,30 @@ void Boss_Vordt::Release()
 	{
 		MainRenderer->Death();
 		MainRenderer = nullptr;
+	}
+
+	if (nullptr != WeaponCollision)
+	{
+		WeaponCollision->Death();
+		WeaponCollision = nullptr;
+	}
+
+	if (nullptr != BodyCollision)
+	{
+		BodyCollision->Death();
+		BodyCollision = nullptr;
+	}
+
+	if (nullptr != HeadCollision)
+	{
+		HeadCollision->Death();
+		HeadCollision = nullptr;
+	}
+
+	if (nullptr != R_HandCollision)
+	{
+		R_HandCollision->Death();
+		R_HandCollision = nullptr;
 	}
 
 	//if (nullptr != BossCollision)
