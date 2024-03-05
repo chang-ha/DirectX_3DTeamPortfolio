@@ -32,7 +32,7 @@ enum class Enum_CollisionOrder
 	LadderTop = (1 << 11),
 	LadderBot = (1 << 12),
 	Player = (1 << 13),
-	Monster_Lantern = (1 << 13),
+	Monster_Lantern = (1 << 14),
 	
 };
 
