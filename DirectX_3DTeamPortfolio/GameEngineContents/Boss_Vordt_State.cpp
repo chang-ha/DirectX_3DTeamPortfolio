@@ -332,6 +332,36 @@ void Boss_Vordt::FrameEventInit()
 				AniInfo->SetStartDir(Capsule->GetDir() + 180.f);
 				MainRenderer->SetRootMotionMode("Rush&Hit&Turn&Rush", Enum_RootMotionMode::StartDir);
 			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step1", 36, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME * 2.f);
+			});
+
+		MainRenderer->SetFrameEvent("Combo1_Step1", 75, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME);
+			});
+
+		MainRenderer->SetFrameEvent("Hit_Down_001_Front", 46, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME / 2.f);
+			});
+
+		MainRenderer->SetFrameEvent("Hit_Down_001_Front", 67, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME);
+			});
+
+		MainRenderer->SetFrameEvent("Hit_Down_001_Front", 74, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME * 2.f);
+			});
+
+		MainRenderer->SetFrameEvent("Hit_Down_001_Front", 81, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME);
+			}); 
 	}
 }
 
@@ -645,7 +675,7 @@ void Boss_Vordt::Breath_End()
 
 void Boss_Vordt::Combo1_Start()
 {
-	MainRenderer->ChangeAnimation("Combo1_Step3", true);
+	MainRenderer->ChangeAnimation("Combo1_Step1", true);
 }
 
 void Boss_Vordt::Combo1_Update(float _Delta)

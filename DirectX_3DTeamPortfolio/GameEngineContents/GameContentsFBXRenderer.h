@@ -296,6 +296,11 @@ public:
 	void SetFrameChangeFunction(std::string_view _AnimationName, std::function<void(int _FrameIndex)> _Function);
 	void SetFrameChangeFunctionAll(std::function<void(int _FrameIndex)> _Function);
 
+	void ChangeCurAnimationSpeed(float _Inter)
+	{
+		CurAnimation->Inter = _Inter;
+	}
+
 protected:
 	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> RenderUnits;
 
