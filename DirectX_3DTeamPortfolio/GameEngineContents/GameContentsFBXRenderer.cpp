@@ -372,9 +372,9 @@ void GameContentsFBXAnimationInfo::RootMotionUpdate(float _Delta)
 	MotionVector += LerpVector;
 	MotionVector.W += LerpVector.W;
 
-	MotionVector.X *= 10000.f;
-	MotionVector.Y *= 10000.f;
-	MotionVector.Z *= 10000.f;
+	MotionVector.X *= mRootMotionData.MoveRatio_X;
+	MotionVector.Y *= mRootMotionData.MoveRatio_Y;
+	MotionVector.Z *= mRootMotionData.MoveRatio_Z;
 
 	if (true == mRootMotionData.IsRotation)
 	{
@@ -1305,6 +1305,41 @@ void GameContentsFBXRenderer::SetRootMotionMode(std::string_view _AniName, Enum_
 	std::shared_ptr<GameContentsFBXAnimationInfo> AniInfo = Animations[UpperName];
 	AniInfo->mRootMotionData.RootMotionMode = _Mode;
 }
+
+void GameContentsFBXRenderer::SetRootMotionMoveRatio(std::string_view _AniName, float _Ratio_X /*= -1*/, float _Ratio_Z /*= -1*/, float _Ratio_Y /*= -1*/)
+{
+	std::string UpperName = GameEngineString::ToUpperReturn(_AniName.data());
+	if (false == Animations.contains(UpperName))
+	{
+		MsgBoxAssert("존재하지 않는 애니메이션입니다.");
+	}
+
+	std::shared_ptr<GameContentsFBXAnimationInfo> AniInfo = Animations[UpperName];
+
+	if (-1 != _Ratio_X)
+	{
+		AniInfo->mRootMotionData.MoveRatio_X = _Ratio_X;
+	}
+
+	if (-1 != _Ratio_Y)
+	{
+		AniInfo->mRootMotionData.MoveRatio_Y = _Ratio_Y;
+	}
+
+	if (-1 != _Ratio_Z)
+	{
+		AniInfo->mRootMotionData.MoveRatio_Z = _Ratio_Z;
+	}
+}
+
+void GameContentsFBXRenderer::SetAllRootMotionMoveRatio(float _Ratio_X /*= -1*/, float _Ratio_Z /*= -1*/, float _Ratio_Y /*= -1*/)
+{
+	for (std::pair<const std::string, std::shared_ptr<GameContentsFBXAnimationInfo>> _Pair : Animations)
+	{
+		SetRootMotionMoveRatio(_Pair.first, _Ratio_X, _Ratio_Y, _Ratio_Z);
+	}
+}
+
 
 AnimationBoneData GameContentsFBXRenderer::GetBoneData(std::string_view _Name)
 {

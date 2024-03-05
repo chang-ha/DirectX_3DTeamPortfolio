@@ -20,6 +20,10 @@ class RootMotionData
 	float MoveFrameTime = 0.f;
 	Enum_RootMotionMode RootMotionMode = Enum_RootMotionMode::StartDir;
 	bool IsRotation = true;
+
+	float MoveRatio_X = 5000.f;
+	float MoveRatio_Y = 5000.f;
+	float MoveRatio_Z = 5000.f;
 };
 
 class FbxExAniData;
@@ -288,6 +292,8 @@ public:
 
 	void SetRootMotion(std::string_view _AniName, std::string_view _FileName = "", Enum_RootMotionMode _Mode = Enum_RootMotionMode::StartDir, bool _RootMotion = true);
 	void SetRootMotionMode(std::string_view _AniName, Enum_RootMotionMode _Mode);
+	void SetRootMotionMoveRatio(std::string_view _AniName, float _Ratio_X = -1, float _Ratio_Z = -1, float _Ratio_Y = -1);
+	void SetAllRootMotionMoveRatio(float _Ratio_X = -1, float _Ratio_Z = -1, float _Ratio_Y = -1);
 
 	void SetStartEvent(std::string_view _AnimationName, std::function<void(GameContentsFBXRenderer*)> _Function);
 	void SetEndEvent(std::string_view _AnimationName, std::function<void(GameContentsFBXRenderer*)> _Function);
