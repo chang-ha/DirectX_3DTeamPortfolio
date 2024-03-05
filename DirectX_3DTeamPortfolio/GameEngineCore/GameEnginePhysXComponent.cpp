@@ -171,17 +171,41 @@ void GameEnginePhysXComponent::ResetMove(int _Axies)
 
 void GameEnginePhysXComponent::SetFiltering(int _CollisionOrder, int _TargetCollisionOrder)
 {
+	SetFiltering(_CollisionOrder, _TargetCollisionOrder, 0, 0);
+}
+
+void GameEnginePhysXComponent::SetFiltering(FilterData& _FilterData)
+{
+	SetFiltering(_FilterData.Word0, _FilterData.Word1, _FilterData.Word2, _FilterData.Word3);
+}
+
+bool GameEnginePhysXComponent::JudgeDynamic()
+{
+	physx::PxType Type = ComponentActor->getConcreteType();
+
+	if (physx::PxConcreteType::eRIGID_DYNAMIC != Type)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+void GameEnginePhysXComponent::SetFiltering(int _MyCollisionOrder, int _Target1CollisionOrder, int _Target2CollisionOrder, int _Target3CollisionOrder)
+{
 	if (nullptr == ComponentActor)
 	{
 		MsgBoxAssert("Component를 Init후 사용해 주세요.");
 	}
 
 	physx::PxFilterData FilterData;
-	FilterData.word0 = _CollisionOrder;
-	FilterData.word1 = _TargetCollisionOrder;
+	FilterData.word0 = _MyCollisionOrder;
+	FilterData.word1 = _Target1CollisionOrder;
+	FilterData.word2 = _Target2CollisionOrder;
+	FilterData.word3 = _Target3CollisionOrder;
 
 	physx::PxU32 ShapeCount = ComponentActor->getNbShapes();
-	
+
 	if (0 >= ShapeCount)
 	{
 		return;
@@ -202,14 +226,3 @@ void GameEnginePhysXComponent::SetFiltering(int _CollisionOrder, int _TargetColl
 	free(Shapes);
 }
 
-bool GameEnginePhysXComponent::JudgeDynamic()
-{
-	physx::PxType Type = ComponentActor->getConcreteType();
-
-	if (physx::PxConcreteType::eRIGID_DYNAMIC != Type)
-	{
-		return false;
-	}
-
-	return true;
-}

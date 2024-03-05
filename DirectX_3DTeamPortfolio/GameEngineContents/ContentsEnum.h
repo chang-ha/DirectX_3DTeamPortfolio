@@ -17,7 +17,7 @@ enum class Enum_RenderOrder
 enum class Enum_CollisionOrder
 {
 
-
+	Null = 0,
 	Map = (1 << 0),
 	Player_Shield = (1 << 1),
 	Player_Attack = (1 << 2),
