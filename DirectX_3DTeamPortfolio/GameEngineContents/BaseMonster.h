@@ -61,10 +61,10 @@ protected:
 	float4x4& GetBoneMatrixToType(Enum_BoneType _BoneType);
 
 	// Socket Collision
-	std::shared_ptr<BoneSocketCollision> CreateBoneCollision(Enum_CollisionOrder _Order, Enum_BoneType _Type, std::string ColName = "")
+	std::shared_ptr<BoneSocketCollision> CreateBoneCollision(Enum_CollisionOrder _Order, Enum_BoneType _Type, std::string_view ColName = "")
 	{
 		int SocketIndex = GetBoneIndex(_Type);
-		return CreateSocketCollision(_Order, SocketIndex, ColName);
+		return CreateSocketCollision(_Order, SocketIndex, {}, ColName);
 	}
 
 	std::shared_ptr<BoneSocketCollision> FindSocketCollision(Enum_BoneType _Type);

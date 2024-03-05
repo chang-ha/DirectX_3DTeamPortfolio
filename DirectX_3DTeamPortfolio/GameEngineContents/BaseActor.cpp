@@ -155,7 +155,7 @@ float4x4& BaseActor::GetBoneMatrixToIndex(int _Index)
 	return BoneMats[_Index];
 }
 
-std::shared_ptr<BoneSocketCollision> BaseActor::CreateSocketCollision(Enum_CollisionOrder _Order, int _SocketIndex, std::string _ColName)
+std::shared_ptr<BoneSocketCollision> BaseActor::CreateSocketCollision(Enum_CollisionOrder _Order, int _SocketIndex, BSCol_TransitionParameter _Para, std::string_view _ColName)
 {
 	if (auto FindIter = SocketCollisions.find(_SocketIndex); FindIter != SocketCollisions.end())
 	{
@@ -169,6 +169,7 @@ std::shared_ptr<BoneSocketCollision> BaseActor::CreateSocketCollision(Enum_Colli
 	NewCol->SetCollisionType(ColType::SPHERE3D);
 	NewCol->SetRendererTransformPointer(&MainRenderer->Transform);
 	NewCol->SetSocket(&GetBoneMatrixToIndex(_SocketIndex));
+	NewCol->SetAttachedMatrix(_Para.S, _Para.Q, _Para.T);
 	NewCol->Off();
 	SocketCollisions.insert(std::make_pair(_SocketIndex, NewCol));
 	return NewCol;

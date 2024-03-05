@@ -183,6 +183,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BaseActor_Para.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="BasePlayer.cpp" />
     <ClCompile Include="BloomEffect.cpp" />
     <ClCompile Include="BloomGUI.cpp">
@@ -490,6 +494,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BaseActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BaseActor_Para.h">
       <SubType>
       </SubType>
     </ClInclude>

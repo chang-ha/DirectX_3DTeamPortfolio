@@ -343,6 +343,9 @@
     <ClCompile Include="shield.cpp">
       <Filter>Actor\Player</Filter>
     </ClCompile>
+    <ClCompile Include="BaseActor_Para.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -680,6 +683,9 @@
     </ClInclude>
     <ClInclude Include="shield.h">
       <Filter>Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseActor_Para.h">
+      <Filter>Actor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

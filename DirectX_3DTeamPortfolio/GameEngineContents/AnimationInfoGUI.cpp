@@ -426,7 +426,22 @@ void AnimationInfoGUI::BoneEditor()
 
 			ImGui::SliderFloat3("Model Scale", &BoneS.X, 1.0f, 100.0f, "%.f");
 			ImGui::SliderFloat3("Model Rot", &BoneRot.X, 0.0f, 360.0f, "%.f");
-			ImGui::SliderFloat3("Model Pos", &BonePos.X, 0.0f, 1.f, "%.3f");
+			ImGui::SliderFloat3("Model Pos", &BonePos.X, 0.0f, 2.f, "%.3f");
+
+			float4 BScale = float4::ONE;
+			float4 BQuaternion = BoneRot.EulerDegToQuaternion();
+			float4 BPosition = BonePos;
+			float4x4 BwMat;
+			BwMat.Compose(BScale, BQuaternion, BPosition);
+
+			float4x4 FinMat = BwMat * BoneMatrix* WorldMat;
+			float4 S;
+			float4 Q;
+			float4 T;
+			FinMat.Decompose(S, Q, T);
+			float4 R = Q.QuaternionToEulerDeg();
+			GameEngineDebug::DrawBox3D(BoneS, R, T, float4::ONE);
+
 
 			float4x4 BoneWMatrix = BoneMatrix* WorldMat;
 			float4 BS;

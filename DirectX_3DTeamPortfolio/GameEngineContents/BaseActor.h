@@ -1,5 +1,6 @@
 #pragma once
 #include "DummyPolyCollision.h"
+#include "BaseActor_Para.h"
 
 static constexpr int EMPTY_ID = 9999;
 
@@ -257,7 +258,8 @@ protected:
 
 	float4x4& GetBoneMatrixToIndex(int _Index);
 
-	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(Enum_CollisionOrder _Order, int _SocketIndex, std::string _ColName = "");
+	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(Enum_CollisionOrder _Order, int _SocketIndex,
+		BSCol_TransitionParameter _Para = BSCol_TransitionParameter(), std::string_view _ColName = "");
 	std::shared_ptr<class DummyPolyCollision> CreateDummyPolyCollision(Enum_CollisionOrder _Order, const SetDPMatrixParameter& _Para, std::string _ColName = "");
 
 	void OnSocketCollision(int _BoneIndex);

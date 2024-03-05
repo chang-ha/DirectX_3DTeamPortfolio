@@ -289,7 +289,7 @@ void Monster_LothricKn::Start()
 	BodyCol->Transform.SetLocalScale(float4(BodySize, BodySize, BodySize));
 	BodyCol->Transform.DebugOn();
 
-	Sword.Init(this, AttackCol.get());
+	// Sword.Init(this, AttackCol.get());
 
 	PatrolCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
 	PatrolCollision->Transform.SetWorldScale(float4(PatrolSize, PatrolSize, PatrolSize));
