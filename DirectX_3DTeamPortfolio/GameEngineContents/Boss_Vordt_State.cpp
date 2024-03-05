@@ -316,6 +316,23 @@ void Boss_Vordt::FrameEventInit()
 				WeaponCollision->Off();
 			});
 	}
+
+	//////// Pattern
+	{
+		MainRenderer->SetFrameEvent("Rush&Hit&Turn&Rush", 52, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				std::shared_ptr<GameContentsFBXAnimationInfo> AniInfo = MainRenderer->GetCurAnimation();
+				AniInfo->SetStartDir(Capsule->GetDir());
+				MainRenderer->SetRootMotionMode("Rush&Hit&Turn&Rush", Enum_RootMotionMode::StartDir);
+			});
+
+		MainRenderer->SetFrameEvent("Rush&Hit&Turn&Rush", 133, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				std::shared_ptr<GameContentsFBXAnimationInfo> AniInfo = MainRenderer->GetCurAnimation();
+				AniInfo->SetStartDir(Capsule->GetDir() + 180.f);
+				MainRenderer->SetRootMotionMode("Rush&Hit&Turn&Rush", Enum_RootMotionMode::StartDir);
+			});
+	}
 }
 
 // 타켓과 나의 각도 구함
