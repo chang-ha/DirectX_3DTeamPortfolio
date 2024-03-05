@@ -403,7 +403,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	Capsule->PhysXComponentInit(400.0f, 5.0f);
-	Capsule->SetMass(10000000.f);
+	// Capsule->SetMass(10000000.f);
 	Capsule->SetPositioningComponent();
 
 	if (nullptr == GameEngineGUI::FindGUIWindow<Boss_State_GUI>("Boss_State"))
