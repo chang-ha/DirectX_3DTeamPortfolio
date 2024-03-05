@@ -427,14 +427,13 @@ void Monster_HollowSoldier_RoundShield::State_Idle3_Update(float _Delta)
 		};
 	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);
 
-	if (StateTime >= 2.0f)
+	if (StateTime >= 0.1f)
 	{
 		// 거리 구하기
-		if (false)
+		if (GetTargetDistance_e() == Enum_TargetDist::Long)
 		{
-			//RunToSting
 			StateTime = 0.0;
-			//ChangeState(Enum_HollowSoldier_RoundShield_State::RH_RunToSting);
+			ChangeState(Enum_HollowSoldier_RoundShield_State::Run3);
 		}
 		else
 		{
@@ -567,6 +566,11 @@ void Monster_HollowSoldier_RoundShield::State_Walk_Front3_Update(float _Delta)
 		RotToTarget(_Delta);
 	}
 
+	if (GetTargetDistance_e() == Enum_TargetDist::Long)
+	{
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Run3);
+	}
+
 	EventParameter AttackParameter;
 	AttackParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
 		{
@@ -649,11 +653,27 @@ void Monster_HollowSoldier_RoundShield::State_Run_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Run3_Start()
 {
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
 	MainRenderer->ChangeAnimation("c1100_Run3");
 }
 void Monster_HollowSoldier_RoundShield::State_Run3_Update(float _Delta)
 {
+	WalkTime += _Delta;
 
+	if (false == IsTargetInAngle(3.0f))
+	{
+		RotToTarget(_Delta);
+	}
+
+	if(WalkTime >= WalkToChangeTime)
+	{
+		WalkTime = 0.0f;
+		if (GetTargetDistance_e() == Enum_TargetDist::Melee)
+		{
+			// RunToSting 없나? 조사해야함.
+			ChangeState(Enum_HollowSoldier_RoundShield_State::Idle3);
+		}
+	}
 }
 
 void Monster_HollowSoldier_RoundShield::State_RH_VerticalSlash_Start()

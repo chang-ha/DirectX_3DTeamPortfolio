@@ -295,11 +295,10 @@ void Monster_HollowSoldier_Lantern::State_Idle_Update(float _Delta)
 	if (StateTime >= 0.1f)
 	{
 		// 거리 구하기
-		if (false)
+		if (GetTargetDistance_e() == Enum_TargetDist::Long)
 		{
-			//RunToSting
 			StateTime = 0.0;
-			//ChangeState(Enum_HollowSoldier_Spear_State::Attack4);
+			ChangeState(Enum_HollowSoldier_Lantern_State::Run);
 		}
 		else
 		{
@@ -351,6 +350,11 @@ void Monster_HollowSoldier_Lantern::State_Walk_Front_Update(float _Delta)
 	if (false == IsTargetInAngle(3.0f))
 	{
 		RotToTarget(_Delta);
+	}
+
+	if (GetTargetDistance_e() == Enum_TargetDist::Long)
+	{
+		ChangeState(Enum_HollowSoldier_Lantern_State::Run);
 	}
 
 	EventParameter AttackParameter;
@@ -426,11 +430,25 @@ void Monster_HollowSoldier_Lantern::State_Walk_Right_Update(float _Delta)
 
 void Monster_HollowSoldier_Lantern::State_Run_Start()
 {
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
 	MainRenderer->ChangeAnimation("c1100_Lantern_Run");
 }
 void Monster_HollowSoldier_Lantern::State_Run_Update(float _Delta)
 {
+	WalkTime += _Delta;
 
+	if (false == IsTargetInAngle(3.0f))
+	{
+		WalkTime = 0.0f;
+		if (GetTargetDistance_e() == Enum_TargetDist::Melee)
+		{
+			ChangeState(Enum_HollowSoldier_Lantern_State::RH_RunToSlash);
+		}
+		else if (GetTargetDistance_e() == Enum_TargetDist::Close)
+		{
+			ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
+		}
+	}
 }
 
 void Monster_HollowSoldier_Lantern::State_Scout_Start()
