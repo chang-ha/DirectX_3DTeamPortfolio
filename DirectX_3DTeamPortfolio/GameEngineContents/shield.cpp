@@ -12,7 +12,7 @@ shield::~shield()
 void shield::Start()
 {
 	Shield = CreateComponent<GameContentsFBXRenderer>();
-	Shield->SetFBXMesh("WP_A_2116.FBX", "FBXAnimationTexture");
+	Shield->SetFBXMesh("WP_A_2116.FBX", "FBX_Static");
 	Shield->Transform.SetLocalScale({ 100, 100, 100 });
 	Shield->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.0f });
 

@@ -64,7 +64,7 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	GetMainCamera()->Transform.SetLocalPosition({ -2800.f, -2000.f, 6700.f });
-	GetMainCamera()->Transform.SetLocalRotation({0.f, 180.f, 0.f});
+	GetMainCamera()->Transform.SetLocalRotation({0.f, 0.f, 0.f});
 }
 
 void TestLevel_Boss::LevelEnd(GameEngineLevel* _NextLevel)

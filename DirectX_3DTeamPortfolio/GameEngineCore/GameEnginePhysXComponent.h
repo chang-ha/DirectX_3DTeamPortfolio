@@ -9,6 +9,26 @@ enum Enum_Axies
 	All = X | Y | Z
 };
 
+struct FilterData
+{
+	FilterData()
+	{
+
+	}
+
+	template <typename Enum_Type>
+	FilterData(Enum_Type _Word0, Enum_Type _Word1, Enum_Type _Word2, Enum_Type _Word3)
+		: Word0(static_cast<int>(_Word0)), Word1(static_cast<int>(_Word1)), Word2(static_cast<int>(_Word2)), Word3(static_cast<int>(_Word3))
+	{
+
+	}
+
+	int Word0 = 0;
+	int Word1 = 0;
+	int Word2 = 0;
+	int Word3 = 0;
+};
+
 class GameEnginePhysXComponent : public GameEngineComponent
 {
 public:
@@ -93,6 +113,8 @@ public:
 
 	void SetFiltering(int _MyCollisionOrder, int _TargetCollisionOrder);
 
+	void SetFiltering(FilterData& _FilterData);
+
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override; 
@@ -140,5 +162,7 @@ private:
 	}
 
 	bool JudgeDynamic();
+
+	void SetFiltering(int _MyCollisionOrder, int _Target1CollisionOrder, int _Target2CollisionOrder, int _Target3CollisionOrder);
 };
 
