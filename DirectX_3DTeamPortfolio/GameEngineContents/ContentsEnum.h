@@ -32,7 +32,7 @@ enum class Enum_CollisionOrder
 	Sound = (1 << 10),
 	LadderTop = (1 << 11),
 	LadderBot = (1 << 12),
-	
+	Monster_Lantern = (1 << 13),
 	
 };
 
