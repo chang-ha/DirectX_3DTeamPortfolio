@@ -424,9 +424,9 @@ void AnimationInfoGUI::BoneEditor()
 			float4x4 WorldMat = pRenderer->Transform.GetConstTransformDataRef().WorldMatrix;
 			float4x4& BoneMatrix = BoneMats[SelectBone];
 
-			ImGui::SliderFloat3("Model Scale", &BoneS.X, 1.0f, 100.0f, "%.f");
+			ImGui::SliderFloat3("Model Scale", &BoneS.X, 1.0f, 1000.0f, "%.f");
 			ImGui::SliderFloat3("Model Rot", &BoneRot.X, 0.0f, 360.0f, "%.f");
-			ImGui::SliderFloat3("Model Pos", &BonePos.X, 0.0f, 2.f, "%.3f");
+			ImGui::SliderFloat3("Model Pos", &BonePos.X, -2.f, 2.f, "%.3f");
 
 			float4 BScale = float4::ONE;
 			float4 BQuaternion = BoneRot.EulerDegToQuaternion();

@@ -42,7 +42,7 @@ void DummyPolySoundFrameEvent::PlayEvent()
 
 	const float4x4& WorldMatrix = FbxRenderer->Transform.GetWorldMatrix();
 	float4 WDPPOS = DPT * (*pBoneMatrix) * WorldMatrix;
-	GameEngineSound::Sound3DPlay(SoundName, WDPPOS);
+	GameEngineSound::Sound3DPlay(SoundName, WDPPOS, 1.f, 0, 50.f, 8000.f);
 }
 
 void DummyPolySoundFrameEvent::Init()

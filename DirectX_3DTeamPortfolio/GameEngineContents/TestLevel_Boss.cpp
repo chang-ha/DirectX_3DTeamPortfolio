@@ -35,8 +35,10 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 		LightData Data = Test_Light->GetLightData();
 
 		Data.DifLightPower = 0.1f;
-		Data.AmbientLight = float4(0.7f, 0.7f, 0.7f, 1.0f);
+		float scale = 2.f;
+		Data.AmbientLight = float4(scale, scale, scale, 1.0f);
 		Data.SpcPow = 200.0f;
+		Data.LightPower = 100.f;
 
 		Test_Light->SetLightData(Data);
 	}

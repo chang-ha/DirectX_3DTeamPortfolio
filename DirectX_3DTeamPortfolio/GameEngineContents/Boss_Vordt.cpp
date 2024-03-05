@@ -1,8 +1,7 @@
 ﻿#include "PreCompile.h"
 #include "Boss_Vordt.h"
 
-#define BOSS_ANI_SPEED 0.03333f
-#define BOSS_SLOW_ANI_SPEED 0.05f
+#define BOSS_ANI_SPEED 0.033333f
 
 #include "BoneSocketCollision.h"
 #include "DS3DummyData.h"
@@ -342,10 +341,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 				MainRenderer->SetRootMotionMode("Rush&Hit&Turn&Rush", Enum_RootMotionMode::StartDir);
 			});
 
-		/////// Sound
-		SoundEventInit();
-		/////// Collision
-		CollisionEventInit();
+		FrameEventInit();
 
 		// Root Motion
 		// Rotate to StartDir
@@ -661,32 +657,45 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	 // Capsule->SetFiltering(Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);
 
 	// Socket Collision
+	BSCol_TransitionParameter ColParameter;
 	if (nullptr == WeaponCollision)
 	{
-		WeaponCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 47, {}, "Weapon");
+		ColParameter.S = float4(70.f, 70.f, 500.f);
+		ColParameter.Q = float4(170.f);
+		ColParameter.T = float4(0.f, 0.f, 1.55f);
+
+		WeaponCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 47, ColParameter, "Weapon");
 		WeaponCollision->SetCollisionType(ColType::OBBBOX3D);
-		WeaponCollision->Transform.SetLocalScale({200.f, 200.f, 200.f});
 	}
 
 	if (nullptr == BodyCollision)
 	{
-		BodyCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 22, {}, "Body");
+		ColParameter.S = float4(300.f, 300.f, 300.f);
+		ColParameter.Q = float4(0.f);
+		ColParameter.T = float4(0.f, 0.f, -0.5f);
+
+		BodyCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 22, ColParameter, "Body");
 		BodyCollision->SetCollisionType(ColType::SPHERE3D);
-		BodyCollision->Transform.SetLocalScale({ 200.f, 200.f, 200.f });
 	}
 
 	if (nullptr == HeadCollision)
 	{
-		HeadCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 76, {}, "Head");
+		ColParameter.S = float4(150.f, 150.f, 150.f);
+		ColParameter.Q = float4(0.f);
+		ColParameter.T = float4(0.f);
+
+		HeadCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 76, ColParameter, "Head");
 		HeadCollision->SetCollisionType(ColType::SPHERE3D);
-		HeadCollision->Transform.SetLocalScale({ 50.f, 50.f, 50.f });
 	}
 
 	if (nullptr == R_HandCollision)
 	{
-		R_HandCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 57, {}, "R_Hand");
+		ColParameter.S = float4(180.f, 70.f, 40.f);
+		ColParameter.Q = float4(0.f);
+		ColParameter.T = float4(-0.5f, 0.f, -0.15f);
+
+		R_HandCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 57, ColParameter, "R_Hand");
 		R_HandCollision->SetCollisionType(ColType::OBBBOX3D);
-		R_HandCollision->Transform.SetLocalScale({ 50.f, 50.f, 50.f });
 	}
 
 	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::Boss_Vordt));
