@@ -87,8 +87,13 @@ protected:
 	void Release() override;
 
 private:
+	// HitCollision
 	std::shared_ptr<BoneSocketCollision> BossCollision;
+	// AttackCollision
 	std::shared_ptr<BoneSocketCollision> BodyCollision;
+	std::shared_ptr<BoneSocketCollision> HeadCollision;
+	std::shared_ptr<BoneSocketCollision> WeaponCollision;
+	std::shared_ptr<BoneSocketCollision> R_HandCollision;
 	std::shared_ptr<Boss_State_GUI> GUI = nullptr;
 	// float TargetAngle = 0.f;
 
