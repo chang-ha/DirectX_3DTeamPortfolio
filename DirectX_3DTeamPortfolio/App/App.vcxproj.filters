@@ -3,7 +3,4 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="imgui.ini" />
-  </ItemGroup>
 </Project>
