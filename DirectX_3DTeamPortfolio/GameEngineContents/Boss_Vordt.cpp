@@ -344,6 +344,8 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 		/////// Sound
 		SoundEventInit();
+		/////// Collision
+		CollisionEventInit();
 
 		// Root Motion
 		// Rotate to StartDir
@@ -661,28 +663,28 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	// Socket Collision
 	if (nullptr == WeaponCollision)
 	{
-		WeaponCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 47, "Weapon");
+		WeaponCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 47, {}, "Weapon");
 		WeaponCollision->SetCollisionType(ColType::OBBBOX3D);
 		WeaponCollision->Transform.SetLocalScale({200.f, 200.f, 200.f});
 	}
 
 	if (nullptr == BodyCollision)
 	{
-		BodyCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 22, "Body");
+		BodyCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 22, {}, "Body");
 		BodyCollision->SetCollisionType(ColType::SPHERE3D);
 		BodyCollision->Transform.SetLocalScale({ 200.f, 200.f, 200.f });
 	}
 
 	if (nullptr == HeadCollision)
 	{
-		HeadCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 76, "Head");
+		HeadCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 76, {}, "Head");
 		HeadCollision->SetCollisionType(ColType::SPHERE3D);
 		HeadCollision->Transform.SetLocalScale({ 50.f, 50.f, 50.f });
 	}
 
 	if (nullptr == R_HandCollision)
 	{
-		R_HandCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 57, "R_Hand");
+		R_HandCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 57, {}, "R_Hand");
 		R_HandCollision->SetCollisionType(ColType::OBBBOX3D);
 		R_HandCollision->Transform.SetLocalScale({ 50.f, 50.f, 50.f });
 	}

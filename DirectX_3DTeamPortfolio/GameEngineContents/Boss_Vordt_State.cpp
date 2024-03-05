@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Boss_Vordt.h"
+#include "BoneSocketCollision.h"
 
 void Boss_Vordt::SoundEventInit()
 {
@@ -268,6 +269,50 @@ void Boss_Vordt::SoundEventInit()
 	MainRenderer->SetFrameEvent("Death", 55, [&](GameContentsFBXRenderer* _Renderer)
 		{
 			GameEngineSound::Sound3DPlay("c224004001.wav", BoneWorldPos(0));
+		});
+}
+
+void Boss_Vordt::CollisionEventInit()
+{
+
+	MainRenderer->SetFrameEvent("Hit_Down_001_Right", 36, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			BodyCollision->On();
+			HeadCollision->On();
+			WeaponCollision->On();
+		});
+
+	MainRenderer->SetFrameEvent("Hit_Down_001_Right", 39, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			BodyCollision->Off();
+			HeadCollision->Off();
+			WeaponCollision->Off();
+		});
+
+	MainRenderer->SetFrameEvent("Hit_Down_001_Left", 37, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			BodyCollision->On();
+			HeadCollision->On();
+			WeaponCollision->On();
+		});
+
+	MainRenderer->SetFrameEvent("Hit_Down_001_Left", 40, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			BodyCollision->Off();
+			HeadCollision->Off();
+			WeaponCollision->Off();
+		});
+
+	MainRenderer->SetFrameEvent("Sweep&Sweep_Right", 26, [&](GameContentsFBXRenderer* _Renderer)
+		{ 
+			BodyCollision->On();
+			WeaponCollision->On();
+		});
+
+	MainRenderer->SetFrameEvent("Sweep&Sweep_Right", 36, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			BodyCollision->Off();
+			WeaponCollision->Off();
 		});
 }
 

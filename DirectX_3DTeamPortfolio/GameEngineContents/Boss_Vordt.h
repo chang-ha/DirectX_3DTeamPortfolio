@@ -98,6 +98,7 @@ private:
 	// float TargetAngle = 0.f;
 
 	void SoundEventInit();
+	void CollisionEventInit();
 	float4 BoneWorldPos(int _BoneIndex);
 
 	bool Col = false;

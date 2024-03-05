@@ -51,12 +51,11 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 0, 0, 0, 1 });
 	
 	{
-		TestPlayer = CreateActor<Player>(0, "Player");
-		// TestPlayer->Transform.SetWorldPosition({-250.f, 0.f, 500.f});
-		TestPlayer->Transform.SetWorldPosition({ -2800.f, -2000.f, 6700.f });
-		TestPlayer->Transform.SetWorldRotation({ 0.f, 165.f, 0.f });
-		TestPlayer->SetTargeting(Boss_Object.get());
-		Boss_Object->SetTargeting(TestPlayer.get());
+		// TestPlayer = CreateActor<Player>(0, "Player");
+		// TestPlayer->Transform.SetWorldPosition({ -2800.f, -2000.f, 6700.f });
+		// TestPlayer->Transform.SetWorldRotation({ 0.f, 165.f, 0.f });
+		// TestPlayer->SetTargeting(Boss_Object.get());
+		// Boss_Object->SetTargeting(TestPlayer.get());
 	}
 
 	{
