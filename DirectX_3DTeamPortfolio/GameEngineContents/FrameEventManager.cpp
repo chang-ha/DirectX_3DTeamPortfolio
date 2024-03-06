@@ -102,10 +102,17 @@ void FrameEventManager::PlayEvents(int _CurFrame)
 
 	std::multimap<int, std::shared_ptr<FrameEventObject>>::iterator LowerIter = EventInfos.lower_bound(_CurFrame);
 	std::multimap<int, std::shared_ptr<FrameEventObject>>::iterator UpperIter = EventInfos.upper_bound(_CurFrame);
-	for (; LowerIter != UpperIter; ++LowerIter)
+	for (; LowerIter != UpperIter;)
 	{
 		const std::shared_ptr<FrameEventObject>& EventObject = LowerIter->second;
-		EventObject->PlayEvent();
+		int PlayValue = EventObject->PlayEvent();
+		if (EVENT_ERROR != PlayValue)
+		{
+			++LowerIter;
+			continue;
+		}
+
+		PopEvent(EventObject);
 	}
 }
 

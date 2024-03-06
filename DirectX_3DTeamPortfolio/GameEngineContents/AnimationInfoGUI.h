@@ -124,7 +124,7 @@ private:
 
 };
 
-class CenterBodySoundEventTree : public EventTree
+class SingleCenterSoundEventTree : public EventTree
 {
 	friend class AnimationInfoGUI;
 

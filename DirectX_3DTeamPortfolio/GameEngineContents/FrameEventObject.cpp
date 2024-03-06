@@ -25,11 +25,14 @@ std::string FrameEventObject::GetTypeString() const
 	case Enum_FrameEventType::BSound:
 		ReturnValue = "BSound";
 		break;
-	case Enum_FrameEventType::CenterBodySound:
-		ReturnValue = "CenterBodySound";
+	case Enum_FrameEventType::SingleCenterSound:
+		ReturnValue = "SingleCenterSound";
 		break;
 	case Enum_FrameEventType::DPSound:
 		ReturnValue = "DPSound";
+		break;
+	case Enum_FrameEventType::CenterMultiSound:
+		ReturnValue = "CenterMultiSound";
 		break;
 	case Enum_FrameEventType::CollisionUpdate:
 		ReturnValue = "CollisionUpdate";

@@ -8,7 +8,7 @@
 #include "FrameEventHelper.h"
 #include "BoneSoundFrameEvent.h"
 #include "DummyPolySoundFrameEvent.h"
-#include "CenterBodySoundFrameEvent.h"
+#include "SingleCenterSoundFrameEvent.h"
 #include "BoneSocketCollision.h"
 #include "CollisionUpdateFrameEvent.h"
 #include "TurnSpeedFrameEvent.h"
@@ -195,7 +195,7 @@ void AnimationInfoGUI::Start()
 {
 	CreateEventTree<TotalEventTree>("Total Events");
 	CreateEventTree<BoneSoundEventTree>("Bone Sound");
-	CreateEventTree<CenterBodySoundEventTree>("CenterBody Sound");
+	CreateEventTree<SingleCenterSoundEventTree>("SingleCenter Sound");
 	CreateEventTree<DPSoundEventTree>("Dummy Poly Sound");
 	CreateEventTree<CollisionEventTree>("Collision Switch");
 	CreateEventTree<TurnSpeedEventTree>("Turn Speed");
@@ -831,7 +831,7 @@ void BoneSoundEventTree::LoadSoundList()
 	}
 }
 
-void CenterBodySoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
+void SingleCenterSoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 {
 	GameContentsFBXAnimationInfo* pAnimation = EventTree::GetSelectAnimation();
 	if (nullptr == pAnimation)
@@ -852,7 +852,7 @@ void CenterBodySoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 			return;
 		}
 
-		std::shared_ptr<CenterBodySoundFrameEvent> CBEvent = CenterBodySoundFrameEvent::CreateEventObject(SelectStartFrame);
+		std::shared_ptr<SingleCenterSoundFrameEvent> CBEvent = SingleCenterSoundFrameEvent::CreateEventObject(SelectStartFrame);
 		EventManager->SetEvent(CBEvent);
 	}
 }

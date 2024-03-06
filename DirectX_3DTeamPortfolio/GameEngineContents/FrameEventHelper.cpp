@@ -6,7 +6,7 @@
 
 #include "SoundFrameEvent.h"
 #include "BoneSoundFrameEvent.h"
-#include "CenterBodySoundFrameEvent.h"
+#include "SingleCenterSoundFrameEvent.h"
 #include "DummyPolySoundFrameEvent.h"
 #include "CollisionUpdateFrameEvent.h"
 #include "TurnSpeedFrameEvent.h"
@@ -149,9 +149,9 @@ std::unique_ptr<FrameEventManager> FrameEventHelper::Initialze(GameContentsFBXAn
 					NewEvent = std::make_shared<BoneSoundFrameEvent>();
 				}
 					break;
-				case Enum_FrameEventType::CenterBodySound:
+				case Enum_FrameEventType::SingleCenterSound:
 				{
-					NewEvent = std::make_shared<CenterBodySoundFrameEvent>();
+					NewEvent = std::make_shared<SingleCenterSoundFrameEvent>();
 				}
 					break;
 				case Enum_FrameEventType::DPSound:

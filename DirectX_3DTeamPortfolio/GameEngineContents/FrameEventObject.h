@@ -14,8 +14,9 @@ enum class Enum_FrameEventType
 	None,
 	Sound = 1,
 	BSound = 2,
-	CenterBodySound = 3,
+	SingleCenterSound = 3,
 	DPSound = 4,
+	CenterMultiSound = 5,
 	CollisionUpdate = 11,
 	SwitchFlag = 16,
 	Transfrom = 21,
@@ -41,7 +42,7 @@ public:
 
 	virtual std::shared_ptr<FrameEventObject> CreatePlayingEvent() { return nullptr; }
 
-	virtual void PlayEvent() = 0;
+	virtual int PlayEvent() = 0;
 	virtual int UpdateEvent(float _Delta) { return EVENT_DONE; }
 	virtual void Reset() {}
 

@@ -35,7 +35,7 @@ public:
 		_File >> AttachBoneIndex;
 	}
 
-	void PlayEvent() override;
+	int PlayEvent() override;
 	void Init();
 
 protected:

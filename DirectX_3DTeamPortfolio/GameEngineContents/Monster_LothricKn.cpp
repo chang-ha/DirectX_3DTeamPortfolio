@@ -24,7 +24,7 @@ void Monster_LothricKn::Start()
 
 	// Outer Res
 	LoadRes3DSound("c128001001.wav");
-	SetFloorMaterialSoundRes("c128005501.wav");
+	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E1001, "c128005501.wav");
 
 	// Actor Res
 	AddBoneIndex(Enum_BoneType::B_01_RightHand, 78);
