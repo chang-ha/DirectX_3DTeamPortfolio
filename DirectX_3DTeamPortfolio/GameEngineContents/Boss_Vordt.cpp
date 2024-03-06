@@ -15,29 +15,31 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		return;
 	}
 		
-	int AniIndex = 0;
+	int Index = 0;
 
-	if (0 == AniNames.size())
+	if (0 == StateNames.size())
 	{
 		const std::map<int, State>* AllStates = Linked_Boss->MainState.GetAllStates();
 
-		if (0 == AniNames.capacity())
+		if (0 == StateNames.capacity())
 		{
-			AniNames.reserve(AllStates->size());
+			StateNames.reserve(AllStates->size());
+			StateIndex.reserve(AllStates->size());
 		}
 
 		std::map<int, State>::const_iterator StartIter = AllStates->begin();
 		std::map<int, State>::const_iterator EndIter = AllStates->end();
 		for (; StartIter != EndIter; ++StartIter)
 		{
-			AniNames.push_back(StartIter->second.Name.c_str());
+			StateNames.push_back(StartIter->second.Name.c_str());
+			StateIndex.push_back(StartIter->first);
 		}
 	}
 
 	{
-		if (ImGui::ListBox("State", &AniIndex, &AniNames[0], static_cast<int>(AniNames.size())))
+		if (ImGui::ListBox("State", &Index, &StateNames[0], static_cast<int>(StateNames.size())))
 		{
-			Linked_Boss->MainState.ChangeState(AniIndex);
+			Linked_Boss->MainState.ChangeState(StateIndex[Index]);
 		}
 	}
 
@@ -190,7 +192,7 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 void Boss_State_GUI::Reset()
 {
-	AniNames.clear();
+	StateNames.clear();
 	Linked_Boss = nullptr;
 }
 
@@ -669,7 +671,6 @@ void Boss_Vordt::Start()
 void Boss_Vordt::Update(float _Delta)
 {
 	BaseActor::Update(_Delta);
-	CalcuTargetDistance();
 
 	if (true == GameEngineInput::IsDown('B', this))
 	{
@@ -681,6 +682,14 @@ void Boss_Vordt::Update(float _Delta)
 	{
 		MainRenderer->SwitchPause();
 	}
+
+	if (false == IsTargeting())
+	{
+		TargetDistance = 0.f;
+		return;
+	}
+
+	TargetDistance = GetTargetDistance();
 }
 
 void Boss_Vordt::Release()
@@ -737,23 +746,6 @@ void Boss_Vordt::Release()
 	BaseActor::Release();
 }
 
-void Boss_Vordt::CalcuTargetDistance()
-{
-	if (false == IsTargeting())
-	{
-		TargetDistance = 0.f;
-		return;
-	}
-
-	float4 TargetPos = GetTargetPos();
-	float4 BossPos = Transform.GetWorldPosition();
-	float4 CalcuDistance = BossPos - TargetPos;
-	CalcuDistance = DirectX::XMVector3LengthEst(CalcuDistance.DirectXVector);
-	TargetDistance = CalcuDistance.X;
-
-	return;
-}
-
 float4 Boss_Vordt::BoneWorldPos(int _BoneIndex)
 {
 	std::vector<float4x4>& BoneMats = MainRenderer->GetBoneSockets();
@@ -770,6 +762,7 @@ float4 Boss_Vordt::BoneWorldPos(int _BoneIndex)
 
 bool Boss_Vordt::AI_MoveMent()
 {
+
 	return false;
 }
 
