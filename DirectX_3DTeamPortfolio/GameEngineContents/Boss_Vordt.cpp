@@ -642,7 +642,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	if (nullptr == WeaponCollision)
 	{
 		ColParameter.S = float4(70.f, 70.f, 500.f);
-		ColParameter.Q = float4(170.f);
+		ColParameter.R = float4(170.f);
 		ColParameter.T = float4(0.f, 0.f, 1.55f);
 
 		WeaponCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 47, ColParameter, "Weapon");
@@ -652,7 +652,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	if (nullptr == BodyCollision)
 	{
 		ColParameter.S = float4(300.f, 300.f, 300.f);
-		ColParameter.Q = float4(0.f);
+		ColParameter.R = float4(0.f);
 		ColParameter.T = float4(0.f, 0.f, -0.5f);
 
 		BodyCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 22, ColParameter, "Body");
@@ -662,7 +662,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	if (nullptr == HeadCollision)
 	{
 		ColParameter.S = float4(150.f, 150.f, 150.f);
-		ColParameter.Q = float4(0.f);
+		ColParameter.R = float4(0.f);
 		ColParameter.T = float4(0.f);
 
 		HeadCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 76, ColParameter, "Head");
@@ -672,7 +672,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	if (nullptr == R_HandCollision)
 	{
 		ColParameter.S = float4(180.f, 70.f, 40.f);
-		ColParameter.Q = float4(0.f);
+		ColParameter.R = float4(0.f);
 		ColParameter.T = float4(-0.5f, 0.f, -0.15f);
 
 		R_HandCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 57, ColParameter, "R_Hand");
@@ -793,9 +793,9 @@ float4 Boss_Vordt::BoneWorldPos(int _BoneIndex)
 
 	float4x4 BoneWMat = BoneMatrix * Transform.GetWorldMatrix();
 	float4 S;
-	float4 Q;
+	float4 R;
 	float4 P;
-	BoneWMat.Decompose(S, Q, P);
+	BoneWMat.Decompose(S, R, P);
 
 	return P;
 }
