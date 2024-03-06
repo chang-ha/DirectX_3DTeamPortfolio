@@ -106,13 +106,12 @@ void FrameEventManager::PlayEvents(int _CurFrame)
 	{
 		const std::shared_ptr<FrameEventObject>& EventObject = LowerIter->second;
 		int PlayValue = EventObject->PlayEvent();
-		if (EVENT_ERROR != PlayValue)
+		if (EVENT_ERROR == PlayValue)
 		{
-			++LowerIter;
-			continue;
+			GetHelper()->PopEvent(EventObject);
+			PlayingEvents.remove(EventObject.get());
+			LowerIter = EventInfos.erase(LowerIter);
 		}
-
-		PopEvent(EventObject);
 	}
 }
 
