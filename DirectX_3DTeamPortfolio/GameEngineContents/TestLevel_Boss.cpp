@@ -38,26 +38,19 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 		float scale = 2.f;
 		Data.AmbientLight = float4(scale, scale, scale, 1.0f);
 		Data.SpcPow = 200.0f;
-		Data.LightPower = 100.f;
+		Data.LightPower = 500.f;
 
 		Test_Light->SetLightData(Data);
-	}
-
-	// Building
-	if (nullptr == TestObj)
-	{
-		// TestObj = CreateActor<TestObject>(0, "TestObj");
-		// TestObj->Transform.SetLocalPosition({ 0.0f, 0.0f, -2000.0f });
 	}
 
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 0, 0, 0, 1 });
 	
 	{
-		// TestPlayer = CreateActor<Player>(0, "Player");
-		// TestPlayer->Transform.SetWorldPosition({ -2800.f, -2000.f, 6700.f });
-		// TestPlayer->Transform.SetWorldRotation({ 0.f, 165.f, 0.f });
-		// TestPlayer->SetTargeting(Boss_Object.get());
-		// Boss_Object->SetTargeting(TestPlayer.get());
+		TestPlayer = CreateActor<Player>(0, "Player");
+		TestPlayer->Transform.SetWorldPosition({ -2800.f, -2000.f, 6700.f });
+		TestPlayer->Transform.SetWorldRotation({ 0.f, 165.f, 0.f });
+		TestPlayer->SetTargeting(Boss_Object.get());
+		Boss_Object->SetTargeting(TestPlayer.get());
 	}
 
 	{

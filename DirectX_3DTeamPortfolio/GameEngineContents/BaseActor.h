@@ -277,6 +277,11 @@ public:
 	
 	float4 GetTargetPos()
 	{
+		if (nullptr == Target)
+		{
+			MsgBoxAssert("타겟이 존재하지 않습니다.");
+		}
+
 		return Target->Transform.GetWorldPosition();
 	}
 	float GetRotDir_f()
