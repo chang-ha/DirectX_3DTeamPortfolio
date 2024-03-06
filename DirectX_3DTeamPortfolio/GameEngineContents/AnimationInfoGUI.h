@@ -51,6 +51,9 @@ class EventTree
 	friend class AnimationInfoGUI;
 
 public:
+	EventTree() {}
+	virtual ~EventTree() {}
+
 	void SetParent(class AnimationInfoGUI* pParent)
 	{
 		Parent = pParent;

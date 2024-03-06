@@ -16,7 +16,7 @@ DummyPolySoundFrameEvent::~DummyPolySoundFrameEvent()
 	SoundName.clear();
 }
 
-
+ 
 std::shared_ptr<DummyPolySoundFrameEvent> DummyPolySoundFrameEvent::CreateEventObject(int _Frame, std::string_view _SoundName, int _RefID, int _AttachBoneIndex)
 {
 	std::shared_ptr<DummyPolySoundFrameEvent> DPSEvent = std::make_shared<DummyPolySoundFrameEvent>();
@@ -69,7 +69,7 @@ void DummyPolySoundFrameEvent::Init()
 		return;
 	}
 
-	bool ISOK = (FE_NOINDEX != RefID && FE_NOINDEX != AttachBoneIndex);
+	bool ISOK = (FE_NOINDEX != RefID);
 	if (false == ISOK)
 	{
 		MsgBoxAssert(GetTypeString() + "인벤트 설정값이 초기화되지 않았습니다.");

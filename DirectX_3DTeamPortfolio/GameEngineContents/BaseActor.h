@@ -128,7 +128,7 @@ class BaseActor : public GameEngineActor
 public:
 	// constrcuter destructer
 	BaseActor();
-	~BaseActor();
+	virtual ~BaseActor();
 
 	// delete Function
 	BaseActor(const BaseActor& _Other) = delete;

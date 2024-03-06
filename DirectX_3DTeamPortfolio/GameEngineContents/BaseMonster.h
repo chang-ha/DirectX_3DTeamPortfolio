@@ -47,7 +47,7 @@ protected:
 public:
 	// constrcuter destructer
 	BaseMonster();
-	~BaseMonster();
+	virtual ~BaseMonster();
 
 	// delete Function
 	BaseMonster(const BaseMonster& _Other) = delete;
