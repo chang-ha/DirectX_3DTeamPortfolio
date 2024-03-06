@@ -39,7 +39,24 @@ void TestLevel_Shader::Start()
 	// GetMainCamera()->Transform.AddWorldRotation({ 0.f, 180.f, 0.f });
 
 
-	
+
+	{
+		Test_Light1 = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Point");
+		Test_Light1->SetLightType(Enum_LightType::Point);
+		//Test_Light1->Transform.SetWorldRotation({ 0.0f, 0.0f, 50.0f });
+		Test_Light1->Transform.SetWorldRotation({ 0.0f, 180.0f, 0.0f });
+
+		Test_Light1->Transform.AddLocalPosition({ 0.0f, 0.0f, 100.0f });
+
+		Test_Light1->IsDebugValue = true;
+		LightData Data = Test_Light1->GetLightData();
+
+		Data.LightPower = 3.0f;
+		Data.AmbientLight = float4(0.1f, 0.1f, 0.1f, 1.0f);
+		//Data.SpcPow = 50.0f;
+
+		Test_Light1->SetLightData(Data);
+	}
 
 		Test_Light1 = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Direct");
 		Test_Light1->CreateShadowMap();
@@ -50,28 +67,31 @@ void TestLevel_Shader::Start()
 		Test_Light1->IsDebugValue = true;
 		LightData Data = Test_Light1->GetLightData();
 
-		Data.LightPower = 2.0f;
+		Data.LightPower = 3.0f;
 		Data.AmbientLight = float4(0.1f, 0.1f, 0.1f, 1.0f);
-		Data.SpcPow = 50.0f;
+		//Data.SpcPow = 50.0f;
 
 		Test_Light1->SetLightData(Data);
-		//Test_Light1->SetShadowRange(float4{ 16384,16384 });
+		Test_Light1->SetShadowRange(float4{ 16384,16384 });
+
+
+		
 	
 
 	CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 
 
-	//std::shared_ptr<GameEngineCoreWindow> CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+	std::shared_ptr<GameEngineCoreWindow> CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 
-	//if (nullptr != CoreWindow)
-	//{
-	//	CoreWindow->AddDebugRenderTarget(1, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
-	//	CoreWindow->AddDebugRenderTarget(2, "ForwardTarget", GetMainCamera()->GetCameraForwardTarget());
-	//	CoreWindow->AddDebugRenderTarget(3, "DeferredLightTarget", GetMainCamera()->GetCameraDeferredLightTarget());
-	//	CoreWindow->AddDebugRenderTarget(4, "DeferredTarget", GetMainCamera()->GetCameraDeferredTarget());
-	//	CoreWindow->AddDebugRenderTarget(5, "LightTarget", Test_Light1->GetShadowTarget());
-	//	//CoreWindow->AddDebugRenderTarget(3, "HBAO", GetMainCamera()->GetCameraHBAOTarget());
-	//}
+	if (nullptr != CoreWindow)
+	{
+		CoreWindow->AddDebugRenderTarget(1, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
+		CoreWindow->AddDebugRenderTarget(2, "ForwardTarget", GetMainCamera()->GetCameraForwardTarget());
+		CoreWindow->AddDebugRenderTarget(3, "DeferredLightTarget", GetMainCamera()->GetCameraDeferredLightTarget());
+		CoreWindow->AddDebugRenderTarget(4, "DeferredTarget", GetMainCamera()->GetCameraDeferredTarget());
+		CoreWindow->AddDebugRenderTarget(5, "LightTarget", Test_Light1->GetShadowTarget());
+		//CoreWindow->AddDebugRenderTarget(3, "HBAO", GetMainCamera()->GetCameraHBAOTarget());
+	}
 
 
 	Scene->setVisualizationParameter(physx::PxVisualizationParameter::eACTOR_AXES, 0.0f);
@@ -95,7 +115,7 @@ void TestLevel_Shader::Start()
 	GetCamera(ECAMERAORDER::UI)->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
 
-	/*HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
+	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
 	HollowSoldier->Transform.AddLocalPosition({ 100.0f,0.0f,0.0f });
 
 
@@ -109,7 +129,7 @@ void TestLevel_Shader::Start()
 	HollowSoldier->Transform.AddLocalPosition({ 0.0f,100.0f,0.0f });
 
 	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
-	HollowSoldier->Transform.AddLocalPosition({ 0.0f,-100.0f,0.0f });*/
+	HollowSoldier->Transform.AddLocalPosition({ 0.0f,-100.0f,0.0f });
 
 
 	/*Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
@@ -147,14 +167,15 @@ void TestLevel_Shader::Start()
 	//		NewRenderer->RenderBaseInfoValue.BaseColor = float4::RED;
 	//	}
 	//}
+	// 
 	//บา
 	{
 		std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
 		
 
-		std::shared_ptr<ContentsFireRenderer> Render = Object->CreateComponent<ContentsFireRenderer>();
+		//std::shared_ptr<ContentsFireRenderer> Render = Object->CreateComponent<ContentsFireRenderer>();
 
-		Render->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
+		//Render->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
 		//Render = Object->CreateComponent<ContentsFireRenderer>();
 
 		/*Render->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });

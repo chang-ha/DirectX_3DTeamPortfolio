@@ -71,7 +71,7 @@ void DummyGUI::LevelEnd()
 
 void DummyGUI::HelpString()
 {
-	ImGui::Text("key Q & E : Height");
+	ImGui::Text("key R & E : Height");
 	ImGui::Text("key Arrow : Move");
 	ImGui::Text("key LMouse : Shot Bullet");
 	ImGui::Text("key MMouse | VK_Ctrl : CloseUp & Down");

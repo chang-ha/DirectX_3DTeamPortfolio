@@ -22,6 +22,12 @@ std::shared_ptr<TurnSpeedFrameEvent> TurnSpeedFrameEvent::CreateEventObject(int 
 	return TsEvent;
 }
 
+std::shared_ptr<FrameEventObject> TurnSpeedFrameEvent::CreatePlayingEvent()
+{
+	std::shared_ptr<TurnSpeedFrameEvent> NewObject = TurnSpeedFrameEvent::CreateEventObject(StartFrame, EndFrame, TurnSpeed);
+	return NewObject;
+}
+
 void TurnSpeedFrameEvent::PlayEvent()
 {
 	if (nullptr == pParentActor)
@@ -29,7 +35,14 @@ void TurnSpeedFrameEvent::PlayEvent()
 		Init();
 	}
 
-	ParentHelper->PushPlayingEvent(this);
+	FrameEventManager* pManager = GetEventManger();
+	if (nullptr == pManager)
+	{
+		MsgBoxAssert("매니저를 모르고 사용할 수 없는 기능입니다. 김태훈에게 문의하세요");
+		return;
+	}
+
+	pManager->PushEvent(this);
 }
 
 int TurnSpeedFrameEvent::UpdateEvent(float _Delta)

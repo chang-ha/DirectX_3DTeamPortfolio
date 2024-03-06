@@ -4,6 +4,9 @@
 #include "ContentsLight.h"
 #include "Player.h"
 #include "WorldMap.h"
+#include <GameEngineCore\FogEffect.h>
+#include "FXAAEffect.h"
+#include "Monster_HollowSoldier.h"
 
 Stage_Lothric::Stage_Lothric()
 {
@@ -22,21 +25,56 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
 		Boss_Object->Transform.SetWorldPosition({ -1000.f, -2500.f, 3000.f });
 		Boss_Object->Transform.SetWorldRotation({ 0.f, -30.f, 0.f });
+
 	}
 
 	// Light
 	if (nullptr == Light)
 	{
-		Light = CreateActor<ContentsLight>(0);
+		Light = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "mainDirect");
 		LightData Data = Light->GetLightData();
 		Light->CreateShadowMap();
 
-		Data.DifLightPower = 0.1f;
-		Data.AmbientLight = float4(0.7f, 0.7f, 0.7f, 1.0f);
-		Data.SpcPow = 200.0f;
+		//Data.DifLightPower = 0.1f;
+		Data.AmbientLight = float4(0.05f, 0.05f, 0.025f, 1.0f);
+		Data.LightColor = float4(1.0f, 1.0f, 0.7f); 
+		Data.LightPower = 2.5f;
+		Data.ForceLightPower = 0.25f;
+
+		Light->Transform.SetLocalPosition({ -3400.0f, 10101.0f, -5331.0f });
+		Light->Transform.SetLocalRotation({ 40.0f, 0.0f, 0.0f });
+
 
 		Light->SetLightData(Data);
+		//Light->IsDebugValue = true;
 	}
+
+	//{
+	//	Light = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Point");
+	//	Light->SetLightType(Enum_LightType::Point);
+	//	LightData Data = Light->GetLightData();
+	//	//Light->CreateShadowMap();
+
+	//	//Data.DifLightPower = 0.1f;
+	//	Data.AmbientLight = float4(0.05f, 0.05f, 0.025f, 1.0f);
+	//	Data.LightColor = float4(1.0f, 1.0f, 0.7f);
+	//	Data.LightPower = 2.5f;
+	//	Data.ForceLightPower = 0.25f;
+
+	//	Light->Transform.SetWorldPosition({ -2800.f, -2500.f, 6700.f });
+	//	Light->Transform.SetLocalRotation({ 40.0f, 0.0f, 0.0f });
+
+
+	//	Light->SetLightData(Data);
+	//	Light->IsDebugValue = true;
+	//}
+	// Fog
+	{
+		std::shared_ptr<FogEffect> Effect = GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FogEffect>();
+		Effect->Init(GetMainCamera());
+	}
+	//FXAA
+		GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FXAAEffect>();
 
 	// Building
 
@@ -49,6 +87,10 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		Player_Object->SetTargeting(Boss_Object.get());
 		Boss_Object->SetTargeting(Player_Object.get());
 	}
+	/*{
+		std::shared_ptr<Monster_HollowSoldier> GameMap = CreateActor<Monster_HollowSoldier>(0 );
+		GameMap->Transform.SetWorldPosition({ -2900.f,-2500.f,6800.f });
+	}*/
 
 	{
 		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
@@ -62,7 +104,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		CoreWindow->AddDebugRenderTarget(2, "ForwardTarget", GetMainCamera()->GetCameraForwardTarget());
 		CoreWindow->AddDebugRenderTarget(3, "DeferredLightTarget", GetMainCamera()->GetCameraDeferredLightTarget());
 		CoreWindow->AddDebugRenderTarget(4, "DeferredTarget", GetMainCamera()->GetCameraDeferredTarget());
-		CoreWindow->AddDebugRenderTarget(5, "LightTarget", Light->GetShadowTarget());
+		//CoreWindow->AddDebugRenderTarget(5, "LightTarget", Light->GetShadowTarget());
 		//CoreWindow->AddDebugRenderTarget(3, "HBAO", GetMainCamera()->GetCameraHBAOTarget());
 	}
 }
@@ -84,6 +126,12 @@ void Stage_Lothric::Start()
 void Stage_Lothric::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
+
+	if (true == GameEngineInput::IsDown(VK_F6, this))
+	{
+		GameEngineGUI::AllWindowSwitch();
+	}
+
 }
 
 void Stage_Lothric::Release()

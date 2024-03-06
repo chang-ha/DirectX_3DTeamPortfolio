@@ -1,9 +1,10 @@
 #include "PreCompile.h"
 #include "AnimationInfoGUI.h"
 
-#include "BaseMonster.h"
 #include "BaseActor.h"
+#include "BaseMonster.h"
 
+#include "FrameEventManager.h"
 #include "FrameEventHelper.h"
 #include "BoneSoundFrameEvent.h"
 #include "DummyPolySoundFrameEvent.h"
@@ -423,9 +424,24 @@ void AnimationInfoGUI::BoneEditor()
 			float4x4 WorldMat = pRenderer->Transform.GetConstTransformDataRef().WorldMatrix;
 			float4x4& BoneMatrix = BoneMats[SelectBone];
 
-			ImGui::SliderFloat3("Model Scale", &BoneS.X, 1.0f, 100.0f, "%.f");
+			ImGui::SliderFloat3("Model Scale", &BoneS.X, 1.0f, 1000.0f, "%.f");
 			ImGui::SliderFloat3("Model Rot", &BoneRot.X, 0.0f, 360.0f, "%.f");
-			ImGui::SliderFloat3("Model Pos", &BonePos.X, 0.0f, 1.f, "%.3f");
+			ImGui::SliderFloat3("Model Pos", &BonePos.X, -2.f, 2.f, "%.3f");
+
+			float4 BScale = float4::ONE;
+			float4 BQuaternion = BoneRot.EulerDegToQuaternion();
+			float4 BPosition = BonePos;
+			float4x4 BwMat;
+			BwMat.Compose(BScale, BQuaternion, BPosition);
+
+			float4x4 FinMat = BwMat * BoneMatrix* WorldMat;
+			float4 S;
+			float4 Q;
+			float4 T;
+			FinMat.Decompose(S, Q, T);
+			float4 R = Q.QuaternionToEulerDeg();
+			GameEngineDebug::DrawBox3D(BoneS, R, T, float4::ONE);
+
 
 			float4x4 BoneWMatrix = BoneMatrix* WorldMat;
 			float4 BS;
@@ -571,21 +587,12 @@ void AnimationInfoGUI::EventEditor(GameEngineLevel* _Level, float _DeltaTime)
 		return;
 	}
 
-	if (nullptr == SelectAnimation->EventHelper)
+	std::string Path = FrameEventHelper::GetEventPath(SelectActor->GetID());
+	bool PathOk = (false == Path.empty());
+	bool ManagerOk = (nullptr != SelectAnimation->GetEventManager());
+	if (false == PathOk || false == ManagerOk)
 	{
-		std::string Path = SelectActor->GetEventPath(SelectActor->GetID());
-		if (Path.empty())
-		{
-			return;
-		}
-
-		std::string_view AniName = SelectAnimation->Aniamtion->GetName();
-
-		GameEnginePath EventPath = GameEnginePath(Path);
-		EventPath.MoveChild(AniName);
-		EventPath.ChangeExtension(FrameEventHelper::GetExtName());
-
-		SelectAnimation->EventHelper = FrameEventHelper::CreateTempRes(EventPath.GetStringPath(), SelectAnimation.get()).get();
+		return;
 	}
 
 	ImGui::Separator();
@@ -632,7 +639,13 @@ GameContentsFBXAnimationInfo* EventTree::GetSelectAnimation() const
 
 void TotalEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 {
-	FrameEventHelper* EventHelper = Parent->SelectAnimation->EventHelper;
+	FrameEventManager* pManager = Parent->SelectAnimation->GetEventManager();
+	if (nullptr == pManager)
+	{
+		return;
+	}
+
+	FrameEventHelper* EventHelper = pManager->GetHelper();
 	std::map<int, std::list<std::shared_ptr<FrameEventObject>>>& AllEvents = EventHelper->GetAllEvents();
 	if (AllEvents.empty())
 	{
@@ -665,7 +678,7 @@ void TotalEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 
 	if (nullptr != SelectObject)
 	{
-		EventHelper->PopEvent(SelectObject);
+		pManager->PopEvent(SelectObject);
 	}
 }
 
@@ -747,7 +760,7 @@ void BoneSoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 		return;
 	}
 
-	FrameEventHelper* EventHelper = Parent->SelectAnimation->EventHelper;
+	FrameEventManager* EventManager = Parent->SelectAnimation->GetEventManager();
 
 	// 몇번째 프레임에
 	ImGui::SliderInt("Start Frame", &SelectStartFrame, Parent->SelectAnimation->Start, Parent->SelectAnimation->End);
@@ -759,7 +772,7 @@ void BoneSoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 	{
 		std::string ScrFileName = CSoundFileList[SoundIndex];
 		std::shared_ptr<BoneSoundFrameEvent> BSEvent = BoneSoundFrameEvent::CreateEventObject(SelectStartFrame, BoneIndex, ScrFileName);
-		EventHelper->SetEvent(BSEvent);
+		EventManager->SetEvent(BSEvent);
 	}
 }
 
@@ -832,15 +845,15 @@ void CenterBodySoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 
 	if (ImGui::Button("CreateEvent"))
 	{
-		FrameEventHelper* EventHelper = pAnimation->EventHelper;
-		if (nullptr == EventHelper)
+		FrameEventManager* EventManager = pAnimation->GetEventManager();
+		if (nullptr == EventManager)
 		{
-			MsgBoxAssert("존재하지 않는 이벤트 헬퍼입니다. 김태훈에게 바로 문의하세요");
+			MsgBoxAssert("존재하지 않는 이벤트 매니저입니다. 김태훈에게 바로 문의하세요");
 			return;
 		}
 
 		std::shared_ptr<CenterBodySoundFrameEvent> CBEvent = CenterBodySoundFrameEvent::CreateEventObject(SelectStartFrame);
-		EventHelper->SetEvent(CBEvent);
+		EventManager->SetEvent(CBEvent);
 	}
 }
 
@@ -874,7 +887,8 @@ void DPSoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 			MsgBoxAssert("존재하지 않는 애니메이션으로 이벤트를 세팅하려 했습니다");
 			return;
 		}
-		FrameEventHelper* EventHelper = pAnimation->EventHelper;
+
+		FrameEventManager* EventManager = pAnimation->GetEventManager();
 
 		// 몇번째 프레임에
 		ImGui::SliderInt("Start Frame", &SelectStartFrame, pAnimation->Start, pAnimation->End);
@@ -887,7 +901,7 @@ void DPSoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 			int AttachBoneIndex = pDPData->AttachBoneIndex;
 			std::string SoundFileName = CSoundFileList[SoundIndex];
 			std::shared_ptr<DummyPolySoundFrameEvent> DPSEvent = DummyPolySoundFrameEvent::CreateEventObject(SelectStartFrame, SoundFileName, RefID, AttachBoneIndex);
-			EventHelper->SetEvent(DPSEvent);
+			EventManager->SetEvent(DPSEvent);
 		}
 	}
 }
@@ -941,9 +955,11 @@ void CollisionEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 			{
 				if (CColNames[SelectCol] == Pair.second->GetName())
 				{
-					FrameEventHelper* EventHelper = Parent->SelectAnimation->EventHelper;
-					std::shared_ptr<CollisionUpdateFrameEvent> CEvent = CollisionUpdateFrameEvent::CreateEventObject(SelectFrames[0], SelectFrames[1], Pair.second);
-					EventHelper->SetEvent(CEvent);
+					const std::shared_ptr<BoneSocketCollision>& pCol = Pair.second;
+					int ColNumber = Parent->SelectActor->GetSocketIndex(pCol);
+					std::shared_ptr<CollisionUpdateFrameEvent> CEvent = CollisionUpdateFrameEvent::CreateEventObject(SelectFrames[0], SelectFrames[1], ColNumber);
+					FrameEventManager* EventManager = Parent->SelectAnimation->GetEventManager();
+					EventManager->SetEvent(CEvent);
 				}
 			}
 		}
@@ -979,9 +995,9 @@ void TurnSpeedEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 		bool IsFrameOk = (SelectFrames[0] < SelectFrames[1]);
 		if (IsFrameOk)
 		{
-			FrameEventHelper* EventHelper = Parent->SelectAnimation->EventHelper;
+			FrameEventManager* EventManager = Parent->SelectAnimation->GetEventManager();
 			std::shared_ptr<TurnSpeedFrameEvent> Event = TurnSpeedFrameEvent::CreateEventObject(SelectFrames[0], SelectFrames[1], static_cast<float>(TurnSpeedValue));
-			EventHelper->SetEvent(Event);
+			EventManager->SetEvent(Event);
 		}
 		else
 		{

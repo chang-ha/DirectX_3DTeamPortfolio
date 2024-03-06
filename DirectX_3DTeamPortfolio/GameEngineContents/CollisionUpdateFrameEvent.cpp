@@ -17,14 +17,19 @@ CollisionUpdateFrameEvent::~CollisionUpdateFrameEvent()
 }
 
 
-std::shared_ptr<CollisionUpdateFrameEvent> CollisionUpdateFrameEvent::CreateEventObject(int _SFrame, int _EFrame, std::shared_ptr<BoneSocketCollision> Collision)
+std::shared_ptr<CollisionUpdateFrameEvent> CollisionUpdateFrameEvent::CreateEventObject(int _SFrame, int _EFrame, int _ColNumber)
 {
 	std::shared_ptr<CollisionUpdateFrameEvent> CEvent = std::make_shared<CollisionUpdateFrameEvent>();
 	CEvent->StartFrame = _SFrame;
 	CEvent->EndFrame = _EFrame;
-	CEvent->ColNumber = Collision->GetBoneIndex();
-	CEvent->pCollision = Collision.get();
+	CEvent->ColNumber = _ColNumber;
 	return CEvent;
+}
+
+std::shared_ptr<FrameEventObject> CollisionUpdateFrameEvent::CreatePlayingEvent()
+{
+	std::shared_ptr<CollisionUpdateFrameEvent> NewObject = CollisionUpdateFrameEvent::CreateEventObject(StartFrame, EndFrame, ColNumber);
+	return NewObject;
 }
 
 void CollisionUpdateFrameEvent::PlayEvent()
@@ -33,9 +38,16 @@ void CollisionUpdateFrameEvent::PlayEvent()
 	{
 		Init();
 	}
-
 	pCollision->On();
-	ParentHelper->PushPlayingEvent(this);
+
+	FrameEventManager* pManager = GetEventManger();
+	if (nullptr == pManager)
+	{
+		MsgBoxAssert("매니저를 모르고 사용할 수 없는 기능입니다. 김태훈에게 문의하세요");
+		return;
+	}
+
+	pManager->PushEvent(this);
 }
 
 int CollisionUpdateFrameEvent::UpdateEvent(float _Delta)
@@ -56,6 +68,6 @@ void CollisionUpdateFrameEvent::Reset()
 
 void CollisionUpdateFrameEvent::Init()
 {
-	std::shared_ptr<BaseMonster> ParentActor = GetDynamicCastParentActor<BaseMonster>();
+	std::shared_ptr<BaseActor> ParentActor = GetDynamicCastParentActor<BaseActor>();
 	pCollision = ParentActor->GetSocketCollision(ColNumber).get();
 }

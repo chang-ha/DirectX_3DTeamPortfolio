@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineRenderer.h>
+#include "FrameEventManager.h"
 
 #define ONE_FRAME_DTIME 0.033333f
 
@@ -19,6 +20,10 @@ class RootMotionData
 	float MoveFrameTime = 0.f;
 	Enum_RootMotionMode RootMotionMode = Enum_RootMotionMode::StartDir;
 	bool IsRotation = true;
+
+	float MoveRatio_X = 5000.f;
+	float MoveRatio_Y = 5000.f;
+	float MoveRatio_Z = 5000.f;
 };
 
 class FbxExAniData;
@@ -37,11 +42,12 @@ public:
 	// 애니메이션을 가지고 있는 FBX에서 알고 있는 애니메이션 정보
 	FbxExAniData* FBXAnimationData = nullptr;
 
-	FrameEventHelper* EventHelper = nullptr;
+	std::unique_ptr<class FrameEventManager> FrameEventInfo;
 
 	float PlayTime = 0.0f;
 	float CurFrameTime = 0.0f;
 	float Inter = 0.1f;
+	float BlendIn = 0.2f;
 
 	std::vector<unsigned int> Frames;
 	std::vector<float4> RootMotionFrames;
@@ -101,19 +107,20 @@ public:
 	void RootMotionUpdate(float _Delta);
 	void SetBlendTime(float _Value);
 
-	float BlendIn = 0.2f;
-
 	void Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index);
 	void Reset();
 	void Update(float _DeltaTime);
-
-	std::function<void(UINT _FrameIndex)> FrameChangeFunction;
+	void Release();
 
 	std::map<int, std::function<void(GameContentsFBXRenderer*)>> FrameEventFunction;
-
+	std::function<void(UINT _FrameIndex)> FrameChangeFunction;
 	std::function<void(GameContentsFBXRenderer*)> EndEvent;
 
 	void EventCall(UINT _Frame);
+
+	std::string_view GetAnimationName() const;
+
+	class FrameEventManager* GetEventManager() const { return FrameEventInfo.get(); };
 
 public:
 	GameContentsFBXAnimationInfo()
@@ -126,6 +133,7 @@ public:
 
 	~GameContentsFBXAnimationInfo()
 	{
+		Release();
 	}
 };
 
@@ -190,6 +198,7 @@ public:
 
 
 	void Update(float _DeltaTime) override;
+	void Release() override;
 
 	void SetFBXMesh(std::string_view _Name, std::string_view _Material, RenderPath _DefaultRenderPath = RenderPath::None);
 	void SetFBXMesh(std::string_view _Name, std::string_view _Material, int _RenderUnitInfoIndex);
@@ -283,6 +292,8 @@ public:
 
 	void SetRootMotion(std::string_view _AniName, std::string_view _FileName = "", Enum_RootMotionMode _Mode = Enum_RootMotionMode::StartDir, bool _RootMotion = true);
 	void SetRootMotionMode(std::string_view _AniName, Enum_RootMotionMode _Mode);
+	void SetRootMotionMoveRatio(std::string_view _AniName, float _Ratio_X = -1, float _Ratio_Z = -1, float _Ratio_Y = -1);
+	void SetAllRootMotionMoveRatio(float _Ratio_X = -1, float _Ratio_Z = -1, float _Ratio_Y = -1);
 
 	void SetStartEvent(std::string_view _AnimationName, std::function<void(GameContentsFBXRenderer*)> _Function);
 	void SetEndEvent(std::string_view _AnimationName, std::function<void(GameContentsFBXRenderer*)> _Function);
@@ -290,6 +301,11 @@ public:
 
 	void SetFrameChangeFunction(std::string_view _AnimationName, std::function<void(int _FrameIndex)> _Function);
 	void SetFrameChangeFunctionAll(std::function<void(int _FrameIndex)> _Function);
+
+	void ChangeCurAnimationSpeed(float _Inter)
+	{
+		CurAnimation->Inter = _Inter;
+	}
 
 protected:
 	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> RenderUnits;

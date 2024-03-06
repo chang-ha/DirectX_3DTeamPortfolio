@@ -21,6 +21,13 @@ void Monster_HollowSoldier_Lantern::Start()
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::Belt1);
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::LongSkirt1);
 
+	AwakeCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster_Lantern);
+	AwakeCollision->SetCollisionType(ColType::SPHERE3D);
+	AwakeCollision->SetCollisionColor(float4::BLACK);
+	AwakeCollision->Transform.SetLocalPosition(float4(0, 100, 0));
+	AwakeCollision->Transform.SetWorldScale(float4(100, 100, 100));
+	AwakeCollision->Off();
+
 	ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
 }
 void Monster_HollowSoldier_Lantern::Update(float _Delta)
@@ -288,11 +295,10 @@ void Monster_HollowSoldier_Lantern::State_Idle_Update(float _Delta)
 	if (StateTime >= 0.1f)
 	{
 		// 거리 구하기
-		if (false)
+		if (GetTargetDistance_e() == Enum_TargetDist::Long)
 		{
-			//RunToSting
 			StateTime = 0.0;
-			//ChangeState(Enum_HollowSoldier_Spear_State::Attack4);
+			ChangeState(Enum_HollowSoldier_Lantern_State::Run);
 		}
 		else
 		{
@@ -344,6 +350,11 @@ void Monster_HollowSoldier_Lantern::State_Walk_Front_Update(float _Delta)
 	if (false == IsTargetInAngle(3.0f))
 	{
 		RotToTarget(_Delta);
+	}
+
+	if (GetTargetDistance_e() == Enum_TargetDist::Long)
+	{
+		ChangeState(Enum_HollowSoldier_Lantern_State::Run);
 	}
 
 	EventParameter AttackParameter;
@@ -419,11 +430,25 @@ void Monster_HollowSoldier_Lantern::State_Walk_Right_Update(float _Delta)
 
 void Monster_HollowSoldier_Lantern::State_Run_Start()
 {
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
 	MainRenderer->ChangeAnimation("c1100_Lantern_Run");
 }
 void Monster_HollowSoldier_Lantern::State_Run_Update(float _Delta)
 {
+	WalkTime += _Delta;
 
+	if (false == IsTargetInAngle(3.0f))
+	{
+		WalkTime = 0.0f;
+		if (GetTargetDistance_e() == Enum_TargetDist::Melee)
+		{
+			ChangeState(Enum_HollowSoldier_Lantern_State::RH_RunToSlash);
+		}
+		else if (GetTargetDistance_e() == Enum_TargetDist::Close)
+		{
+			ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
+		}
+	}
 }
 
 void Monster_HollowSoldier_Lantern::State_Scout_Start()
@@ -459,11 +484,33 @@ void Monster_HollowSoldier_Lantern::State_AwakeHollows_Update(float _Delta)
 	// 어떤 프레임에서 비선공 몬스터들 Idle로 변경
 
 	// 프레임 조금 더 연구할것.
-	// 어디서 무기를 뽑는지
 	// 이 애니메이션이 끝나면 확실하게 Idle 상태로 가는지.
+
+	if (MainRenderer->GetCurAnimationFrame() >= 76 && MainRenderer->GetCurAnimationFrame() <= 79)
+	{
+		if (AwakeCollision->IsUpdate() != true && AwakeValue == false)
+		{
+			AwakeCollision->On();
+			AwakeValue = true;
+		}
+	}
+
+	if (AwakeCollision->IsUpdate() == true)
+	{
+		AwakeCollision->Transform.AddWorldScale(float4(_Delta * 100.0f, _Delta * 100.0f, _Delta * 100.0f));
+	}
+
+	/*if (MainRenderer->GetCurAnimationFrame() >= 80)
+	{
+		if (AwakeCollision->IsUpdate() == true)
+		{
+			AwakeCollision->Off();
+		}
+	}*/
 
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
 	{
+
 		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
 	}
 }

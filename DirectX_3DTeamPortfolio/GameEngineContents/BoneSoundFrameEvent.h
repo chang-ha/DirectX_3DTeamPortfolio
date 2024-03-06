@@ -18,6 +18,7 @@ public:
 	BoneSoundFrameEvent& operator=(BoneSoundFrameEvent&& _Other) noexcept = delete;
 
 	static std::shared_ptr<BoneSoundFrameEvent> CreateEventObject(int _Frame, int _iBoneIndex, std::string_view _FileName);
+	std::shared_ptr<FrameEventObject> CreatePlayingEvent() override;
 
 	void Write(class GameEngineSerializer& _File) override
 	{

@@ -15,7 +15,8 @@ public:
 	CollisionUpdateFrameEvent& operator=(const CollisionUpdateFrameEvent& _Other) = delete;
 	CollisionUpdateFrameEvent& operator=(CollisionUpdateFrameEvent&& _Other) noexcept = delete;
 
-	static std::shared_ptr<CollisionUpdateFrameEvent> CreateEventObject(int _SFrame, int _EFrame, std::shared_ptr<class BoneSocketCollision> Collision);
+	static std::shared_ptr<CollisionUpdateFrameEvent> CreateEventObject(int _SFrame, int _EFrame, int _ColNumber);
+	std::shared_ptr<FrameEventObject> CreatePlayingEvent() override;
 
 	void Write(class GameEngineSerializer& _File) override
 	{

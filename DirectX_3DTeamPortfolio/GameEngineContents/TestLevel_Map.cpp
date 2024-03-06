@@ -102,7 +102,6 @@ void TestLevel_Map::Start()
 	TestObject0->IsDebugValue = true;
 	TestObject0->CreateShadowMap(/*float4(4096, 4096)*/);
 	//TestObject0->SetShadowRange(float4(4096, 4096));
-	TestObject0->SetShadowRange(float4{ 16384,16384 });
 	TestObject0->Transform.SetLocalPosition({ -3400.0f, 10101.0f, -5331.0f });
 	TestObject0->Transform.SetLocalRotation({ 40.0f, 0.0f, 0.0f });
 

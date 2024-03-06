@@ -84,6 +84,10 @@ private:
 	float WalkToChangeTime = 0.0f;
 	float WalkTime = 0.0f;
 
+	bool AwakeValue = false;
+
+	std::shared_ptr<GameEngineCollision> CheckLanternCollision;
+
 protected:
 	Enum_Hollow_State HollowState = Enum_Hollow_State::Max;
 	//Enum_Hollow_State PrevState = Enum_Hollow_State::Max;
@@ -92,6 +96,10 @@ protected:
 	void StateUpdate(float _Delta);
 
 	void ChangeAttackState();
+
+	void CheckAwake();
+
+	void NonFindTarget(float _Delta);
 
 protected:
 	// State Function

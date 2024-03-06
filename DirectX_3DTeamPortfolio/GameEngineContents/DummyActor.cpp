@@ -336,6 +336,12 @@ void DummyActor::CameraControl::ControlUpdate(float _Delta)
 		return;
 	}
 
+	bool bFreeCamera = pParent->GetLevel()->GetMainCamera()->IsFreeCamera();
+	if (bFreeCamera)
+	{
+		Off();
+	}
+
 	InputUpdate(_Delta);
 	FollowUpdate();
 }

@@ -87,22 +87,24 @@ protected:
 	void Release() override;
 
 private:
+	// HitCollision
 	std::shared_ptr<BoneSocketCollision> BossCollision;
-	std::shared_ptr<GameEngineCollision> DetectCollision;
+	// AttackCollision
 	std::shared_ptr<BoneSocketCollision> BodyCollision;
+	std::shared_ptr<BoneSocketCollision> HeadCollision;
+	std::shared_ptr<BoneSocketCollision> WeaponCollision;
+	std::shared_ptr<BoneSocketCollision> R_HandCollision;
 	std::shared_ptr<Boss_State_GUI> GUI = nullptr;
-	// float TargetAngle = 0.f;
+	float TargetDistance = 0.f;
 
-	void SoundEventInit();
-	std::vector<AnimationBoneData> mBoneDatas;
+	void FrameEventInit();
+	void CalcuTargetDistance();
 	float4 BoneWorldPos(int _BoneIndex);
 
-	bool Col = false;
-
-	void AI_MoveMent();
-	void AI_Attack();
-	void AI_Combo();
-	void AI_Dodge();
+	bool AI_MoveMent();
+	bool AI_Attack();
+	bool AI_Combo();
+	bool AI_Dodge();
 
 	// State
 	////////////////////////// Move & Others

@@ -1,5 +1,6 @@
 #pragma once
 #include "DummyPolyCollision.h"
+#include "BaseActor_Para.h"
 
 static constexpr int EMPTY_ID = 9999;
 
@@ -51,34 +52,12 @@ enum class Enum_ActorFlagBit
 	BackStab = (1 << 17), // 뒤잡
 };
 
-// Collision, BoneIndex
-enum class Enum_BoneType
-{
-	None,
-	B_01_LeftHand = 1,
-	B_01_RightHand = 21,
-	B_01_Spine = 31,
-};
-
 enum Enum_RotDir
 {
 	Not_Rot = 0,
 	Left = -1,
 	Right = 1,
 };
-
-namespace std
-{
-	template<>
-	class hash<Enum_BoneType>
-	{
-	public:
-		int operator()(Enum_BoneType _Type) const
-		{
-			return static_cast<int>(_Type);
-		}
-	};
-}
 
 namespace std
 {
@@ -116,28 +95,6 @@ private:
 	int Att = 0; // 공격력
 	int Souls = 0; // 소울량
 	int Poise = 0; // 강인도
-
-};
-
-class HitParameter
-{
-public:
-	HitParameter() {}
-	~HitParameter() 
-	{
-		pAttacker = nullptr;
-	}
-
-	HitParameter(class BaseActor* _pAttacker, int _Stiffness = 0, Enum_DirectionXZ_Quat _eDir = Enum_DirectionXZ_Quat::Center)
-		:pAttacker(_pAttacker), iStiffness(_Stiffness), eDir(_eDir)
-	{
-
-	}
-
-public:
-	class BaseActor* pAttacker = nullptr; // 공격상대
-	Enum_DirectionXZ_Quat eDir = Enum_DirectionXZ_Quat::Center; // 맞는 DIR
-	int iStiffness = 0; // 경직도
 
 };
 
@@ -179,11 +136,6 @@ public:
 	BaseActor& operator=(const BaseActor& _Other) = delete;
 	BaseActor& operator=(BaseActor&& _Other) noexcept = delete;
 
-	// Path 
-	// 나중에 다른 소스파일로 분리할 예정입니다.
-	static std::string GetEventPath(int _ID);
-	static bool LoadEvent(int _ID);
-
 	// ID
 	// 애니메이션 프레임 이벤트를 사용하려면 필수로 등록해줘야하는 자신의 고유 ID입니다.
 	// 등록하지 않으면 Animation Editor 기능을 사용할 수 없습니다. 
@@ -206,11 +158,12 @@ public:
 	void SetFlag(Enum_ActorFlag _Flag, bool _Value);
 	void AddFlag(Enum_ActorFlag _Flag);
 	void SubFlag(Enum_ActorFlag _Flag);
-	void DebugFlag();
+	void DebugFlag() const;
 
 	// Getter
 	inline std::shared_ptr<GameContentsFBXRenderer>& GetFBXRenderer() { return MainRenderer; }
 	inline std::map<int, std::shared_ptr<BoneSocketCollision>>& GetCollisions() { return SocketCollisions; }
+	int GetSocketIndex(const std::shared_ptr<class BoneSocketCollision>& _pCol);
 	std::shared_ptr<BoneSocketCollision> GetSocketCollision(int _Index);
 	inline int* GetFlagPointer() { return &Flags; }
 	inline class GameEnginePhysXCapsule* GetPhysxCapsulePointer() { return Capsule.get(); }
@@ -256,7 +209,8 @@ protected:
 
 	float4x4& GetBoneMatrixToIndex(int _Index);
 
-	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(Enum_CollisionOrder _Order, int _SocketIndex, std::string _ColName = "");
+	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(Enum_CollisionOrder _Order, int _SocketIndex,
+		BSCol_TransitionParameter _Para = BSCol_TransitionParameter(), std::string_view _ColName = "");
 	std::shared_ptr<class DummyPolyCollision> CreateDummyPolyCollision(Enum_CollisionOrder _Order, const SetDPMatrixParameter& _Para, std::string _ColName = "");
 
 	void OnSocketCollision(int _BoneIndex);
@@ -323,6 +277,11 @@ public:
 	
 	float4 GetTargetPos()
 	{
+		if (nullptr == Target)
+		{
+			MsgBoxAssert("타겟이 존재하지 않습니다.");
+		}
+
 		return Target->Transform.GetWorldPosition();
 	}
 	float GetRotDir_f()

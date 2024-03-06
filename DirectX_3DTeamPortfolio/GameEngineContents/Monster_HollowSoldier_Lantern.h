@@ -62,8 +62,11 @@ private:
 	float WalkToChangeTime = 0.0f;
 	float WalkTime = 0.0f;
 
+	bool AwakeValue = false;
+
 protected:
 	Enum_HollowSoldier_Lantern_State LanternState = Enum_HollowSoldier_Lantern_State::Max;
+	std::shared_ptr<GameEngineCollision> AwakeCollision;
 
 	void ChangeState(Enum_HollowSoldier_Lantern_State _State);
 	void StateUpdate(float _Delta);

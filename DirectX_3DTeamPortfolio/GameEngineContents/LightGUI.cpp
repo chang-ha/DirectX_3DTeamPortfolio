@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "LightGUI.h"
 #include "ContentsLight.h"
+#include "Player.h"
 
 LightGUI::LightGUI() 
 {
@@ -117,29 +118,41 @@ void LightGUI::LightEditor()
 		{
 		}
 
-		if (ImGui::InputFloat3("AmbientLight", &Data.AmbientLight.X))
-		{
-		}
+		ImGui::SliderFloat3("AmbientLight", &Data.AmbientLight.X, 0.0f, 0.05f,"%.4f");
 
 		if (ImGui::InputFloat("LightPower", &Data.LightPower))
 		{
 		}
+
+		ImGui::SliderFloat("DifLightPower", &Data.DifLightPower, 0.0f, 5.0f);
+		ImGui::SliderFloat("SpcLightPower", &Data.SpcLightPower, 0.0f, 5.0f);
+		ImGui::SliderFloat("AmbLightPower", &Data.AmbLightPower, 0.0f, 5.0f);
+
+
+		ImGui::SliderFloat("SpcPow", &Data.SpcPow, 0.0f, 12.0f);
+
+
+		ImGui::SliderFloat("ForceLightPower", &Data.ForceLightPower, 0.0f, 2.0f);
+
+		ImGui::SliderFloat("PointLightRange", &Data.PointLightRange, 0.0f, 1000.0f);
 		
-		/*if (ImGui::InputFloat("SpcLightPower", &Data.SpcLightPower))
-		{
-		}*/
-		if (ImGui::InputFloat("AmbLightPower", &Data.AmbLightPower))
-		{
-		}
+
+
 
 		if (ImGui::InputFloat("LightFar", &Data.LightFar))
 		{
 		}
-		/*if (ImGui::InputFloat("SpcPow", &Data.SpcPow))
-		{
-		}*/
 
 		SelectActor->SetLightData(Data);
+
+		/*ImGui::Text("PBR");
+
+		RenderBaseInfo Info = Player::Main_Player->GetFBXRenderer()->RenderBaseInfoValue;
+
+		ImGui::SliderFloat("Metalic", &Info.Metalic, 0.0f, 1.0f);
+		ImGui::SliderFloat("Roughness", &Info.Roughness, 0.0f, 1.0f);
+
+		Player::Main_Player->GetFBXRenderer()->RenderBaseInfoValue = Info;*/
 
 		ImGui::TreePop();
 	}

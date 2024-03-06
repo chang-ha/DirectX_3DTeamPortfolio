@@ -18,6 +18,7 @@ public:
 	inline int GetBoneIndex() const { return BoneIndex; }
 	inline void SetSocket(float4x4* _Socket) { pSocket = _Socket; }
 	inline void SetRendererTransformPointer(GameEngineTransform* _pTransform) { pTransform = _pTransform; }
+	void SetAttachedMatrix(const float4& _S, const float4& _R, const float4& _T);
 
 protected:
 	void Start() override;
@@ -27,6 +28,7 @@ protected:
 private:
 	int BoneIndex = -1;
 	float4x4* pSocket = nullptr;
+	float4x4 LocalMatrix = float4x4::Iden;
 	GameEngineTransform* pTransform = nullptr;
 
 };

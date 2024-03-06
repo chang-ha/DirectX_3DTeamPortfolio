@@ -79,5 +79,10 @@ protected:
 
 	int AttackPattern = 0;
 
+	Enum_TargetDist GetTargetDistance_e() const override
+	{
+		return BaseMonster::GetTargetDistance_e(3.0f, 5.0f, 7.0f);
+	}
+
 };
 

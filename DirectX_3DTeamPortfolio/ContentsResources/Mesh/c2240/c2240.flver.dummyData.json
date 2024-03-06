@@ -1,0 +1,1927 @@
+[
+  {
+    "Position": {
+      "X": -1.4376152,
+      "Y": 0.7732923,
+      "Z": -1.753596
+    },
+    "Forward": {
+      "X": 0.27182698,
+      "Y": -0.42417336,
+      "Z": -0.48481762
+    },
+    "Upward": {
+      "X": -0.03163719,
+      "Y": 0.2530439,
+      "Z": -0.23912978
+    },
+    "ReferenceID": 1,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 57,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 1.4379998,
+      "Y": 0.77329206,
+      "Z": -1.7535963
+    },
+    "Forward": {
+      "X": -0.27182698,
+      "Y": -0.4241733,
+      "Z": -0.48481774
+    },
+    "Upward": {
+      "X": 0.03163719,
+      "Y": 0.2530439,
+      "Z": -0.23912978
+    },
+    "ReferenceID": 2,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 31,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -1.187166,
+      "Y": 0.7047819,
+      "Z": 2.0337327
+    },
+    "Forward": {
+      "X": -0.12008715,
+      "Y": -0.07363987,
+      "Z": -0.066477776
+    },
+    "Upward": {
+      "X": -0.018106222,
+      "Y": 0.0396111,
+      "Z": -0.0111653805
+    },
+    "ReferenceID": 3,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 19,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 1.1871784,
+      "Y": 0.7047354,
+      "Z": 2.033584
+    },
+    "Forward": {
+      "X": 0.12008715,
+      "Y": -0.07363963,
+      "Z": -0.066478014
+    },
+    "Upward": {
+      "X": 0.018105984,
+      "Y": 0.0396111,
+      "Z": -0.011165619
+    },
+    "ReferenceID": 4,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 10,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 2.4901078E-07,
+      "Y": 2.856354,
+      "Z": 0.9959185
+    },
+    "Forward": {
+      "X": 1.3364965E-07,
+      "Y": 0.12869835,
+      "Z": 0.036477566
+    },
+    "Upward": {
+      "X": -1.6229649E-09,
+      "Y": 0.012097359,
+      "Z": -0.042681336
+    },
+    "ReferenceID": 5,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 22,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 1.2583281E-07,
+      "Y": 1.6152141,
+      "Z": 0.7958295
+    },
+    "Forward": {
+      "X": -1.3365157E-07,
+      "Y": -0.1287005,
+      "Z": -0.036477923
+    },
+    "Upward": {
+      "X": -1.6229507E-09,
+      "Y": 0.01209712,
+      "Z": -0.042681217
+    },
+    "ReferenceID": 6,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 22,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 1.6168173E-05,
+      "Y": 2.1884747,
+      "Z": -1.6929561
+    },
+    "Forward": {
+      "X": -1.8618812E-07,
+      "Y": -0.056135178,
+      "Z": -0.14530492
+    },
+    "Upward": {
+      "X": -5.5679266E-09,
+      "Y": 0.04194069,
+      "Z": -0.016202688
+    },
+    "ReferenceID": 7,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 76,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 3.564958E-07,
+      "Y": 2.4300947,
+      "Z": 0.07315042
+    },
+    "Forward": {
+      "X": -1.6650357E-07,
+      "Y": -0.15556121,
+      "Z": 0.008014798
+    },
+    "Upward": {
+      "X": 3.9472923E-09,
+      "Y": -0.002311945,
+      "Z": -0.044901967
+    },
+    "ReferenceID": 8,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 23,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -1.7338171,
+      "Y": 1.709533,
+      "Z": -1.8454881
+    },
+    "Forward": {
+      "X": -1.1920929E-07,
+      "Y": -0.1287005,
+      "Z": -0.036477923
+    },
+    "Upward": {
+      "X": 0.0,
+      "Y": 0.01209712,
+      "Z": -0.042681336
+    },
+    "ReferenceID": 10,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 47,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 0.12689179,
+      "Y": 1.1091025,
+      "Z": -1.8624717
+    },
+    "Forward": {
+      "X": -1.0430813E-07,
+      "Y": -0.12870055,
+      "Z": -0.036477923
+    },
+    "Upward": {
+      "X": 1.4901161E-08,
+      "Y": 0.01209712,
+      "Z": -0.042681336
+    },
+    "ReferenceID": 11,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 47,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 2.1319504,
+      "Y": 0.446835,
+      "Z": -1.8443658
+    },
+    "Forward": {
+      "X": 0.0,
+      "Y": -0.12870061,
+      "Z": -0.036477923
+    },
+    "Upward": {
+      "X": 0.0,
+      "Y": 0.0120970905,
+      "Z": -0.042681336
+    },
+    "ReferenceID": 12,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 47,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -1.5664505,
+      "Y": 1.0546073,
+      "Z": -1.639279
+    },
+    "Forward": {
+      "X": 0.0026004314,
+      "Y": -0.077142596,
+      "Z": 0.06477928
+    },
+    "Upward": {
+      "X": 0.03969443,
+      "Y": 0.011876941,
+      "Z": 0.012506723
+    },
+    "ReferenceID": 20,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 57,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 1.5664506,
+      "Y": 1.0546076,
+      "Z": -1.6392783
+    },
+    "Forward": {
+      "X": -0.0026003122,
+      "Y": -0.07714242,
+      "Z": 0.06477916
+    },
+    "Upward": {
+      "X": -0.03969443,
+      "Y": 0.01187706,
+      "Z": 0.012506843
+    },
+    "ReferenceID": 21,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 31,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -2.0618162,
+      "Y": 1.8532531,
+      "Z": -0.6697916
+    },
+    "Forward": {
+      "X": -0.073061466,
+      "Y": 0.025140882,
+      "Z": -0.06468415
+    },
+    "Upward": {
+      "X": 0.0065493584,
+      "Y": -0.036876917,
+      "Z": -0.02168703
+    },
+    "ReferenceID": 22,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 56,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 2.0598378,
+      "Y": 1.8666939,
+      "Z": -0.719827
+    },
+    "Forward": {
+      "X": 0.043413877,
+      "Y": -0.07861018,
+      "Z": 0.045713663
+    },
+    "Upward": {
+      "X": 0.029036999,
+      "Y": 0.02655375,
+      "Z": 0.018024564
+    },
+    "ReferenceID": 23,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 30,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -0.98292553,
+      "Y": 2.4742374,
+      "Z": -0.41678375
+    },
+    "Forward": {
+      "X": 0.09371805,
+      "Y": -0.027518988,
+      "Z": 0.024772882
+    },
+    "Upward": {
+      "X": 0.007917166,
+      "Y": -0.010135174,
+      "Z": -0.041324615
+    },
+    "ReferenceID": 24,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 52,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 0.92192096,
+      "Y": 2.473181,
+      "Z": -0.44392753
+    },
+    "Forward": {
+      "X": 0.042541265,
+      "Y": -0.049342394,
+      "Z": 0.076874495
+    },
+    "Upward": {
+      "X": 0.038840055,
+      "Y": 0.014858484,
+      "Z": -0.011992693
+    },
+    "ReferenceID": 25,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 26,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 1.6168173E-05,
+      "Y": 1.6708175,
+      "Z": -1.9474639
+    },
+    "Forward": {
+      "X": -1.8618812E-07,
+      "Y": -0.056135178,
+      "Z": -0.14530504
+    },
+    "Upward": {
+      "X": -5.5679266E-09,
+      "Y": 0.04194069,
+      "Z": -0.016202688
+    },
+    "ReferenceID": 30,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 76,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 3.992812E-07,
+      "Y": 2.4659894,
+      "Z": 0.0406939
+    },
+    "Forward": {
+      "X": -1.6650357E-07,
+      "Y": -0.15556121,
+      "Z": 0.008014917
+    },
+    "Upward": {
+      "X": 3.9472923E-09,
+      "Y": -0.002311945,
+      "Z": -0.044902086
+    },
+    "ReferenceID": 90,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 23,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 7.574029E-08,
+      "Y": 2.3998997,
+      "Z": 1.5266869
+    },
+    "Forward": {
+      "X": -1.8875494E-07,
+      "Y": -0.15404963,
+      "Z": 0.023096561
+    },
+    "Upward": {
+      "X": 6.4430594E-09,
+      "Y": -0.006667137,
+      "Z": -0.04446459
+    },
+    "ReferenceID": 91,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 21,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -0.23907977,
+      "Y": 2.0232418,
+      "Z": -1.935756
+    },
+    "Forward": {
+      "X": -1.6391277E-06,
+      "Y": -0.056135178,
+      "Z": -0.14530492
+    },
+    "Upward": {
+      "X": -4.4703484E-08,
+      "Y": 0.04194045,
+      "Z": -0.016202688
+    },
+    "ReferenceID": 199,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 76,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 0.23839225,
+      "Y": 2.0232418,
+      "Z": -1.9357562
+    },
+    "Forward": {
+      "X": -1.6391277E-06,
+      "Y": -0.056135178,
+      "Z": -0.14530468
+    },
+    "Upward": {
+      "X": -4.4703484E-08,
+      "Y": 0.04194045,
+      "Z": -0.01620245
+    },
+    "ReferenceID": 199,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 76,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 7.574047E-08,
+      "Y": 2.2920053,
+      "Z": 0.7695135
+    },
+    "Forward": {
+      "X": -1.8875497E-07,
+      "Y": -0.15404963,
+      "Z": 0.023096561
+    },
+    "Upward": {
+      "X": 6.4430594E-09,
+      "Y": -0.006667137,
+      "Z": -0.04446459
+    },
+    "ReferenceID": 201,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 22,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 2.9551174E-07,
+      "Y": 2.8750105,
+      "Z": 1.535776
+    },
+    "Forward": {
+      "X": 1.5290391E-07,
+      "Y": 0.15556121,
+      "Z": 0.008014917
+    },
+    "Upward": {
+      "X": -4.1494275E-09,
+      "Y": 0.002311945,
+      "Z": -0.044902086
+    },
+    "ReferenceID": 204,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 21,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 3.992823E-07,
+      "Y": 1.5448238,
+      "Z": 1.535776
+    },
+    "Forward": {
+      "X": -1.6650353E-07,
+      "Y": -0.15556121,
+      "Z": 0.008014917
+    },
+    "Upward": {
+      "X": 3.9472923E-09,
+      "Y": -0.002311945,
+      "Z": -0.044902086
+    },
+    "ReferenceID": 205,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 21,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 3.992812E-07,
+      "Y": 2.7420208,
+      "Z": 0.12071099
+    },
+    "Forward": {
+      "X": -1.6650357E-07,
+      "Y": -0.15556121,
+      "Z": 0.00801491
+    },
+    "Upward": {
+      "X": 3.9472923E-09,
+      "Y": -0.002311945,
+      "Z": -0.044902086
+    },
+    "ReferenceID": 210,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 23,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 4.501492E-07,
+      "Y": 2.3326302,
+      "Z": 1.5686352
+    },
+    "Forward": {
+      "X": -1.6650148E-07,
+      "Y": -0.15555906,
+      "Z": 0.00801456
+    },
+    "Upward": {
+      "X": 3.94931E-09,
+      "Y": -0.0023100376,
+      "Z": -0.044901967
+    },
+    "ReferenceID": 220,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 21,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 4.5014826E-07,
+      "Y": 2.5056062,
+      "Z": 0.13669528
+    },
+    "Forward": {
+      "X": -1.6650151E-07,
+      "Y": -0.15555906,
+      "Z": 0.00801456
+    },
+    "Upward": {
+      "X": 3.94931E-09,
+      "Y": -0.0023100376,
+      "Z": -0.04490196
+    },
+    "ReferenceID": 228,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 23,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 2.9805045E-07,
+      "Y": 6.20511E-05,
+      "Z": 2.2617733
+    },
+    "Forward": {
+      "X": -2.452643E-07,
+      "Y": -0.00012410231,
+      "Z": -0.15574265
+    },
+    "Upward": {
+      "X": -5.9652365E-08,
+      "Y": 0.045732047,
+      "Z": -4.005432E-05
+    },
+    "ReferenceID": 230,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 1,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -0.7222335,
+      "Y": 1.3410276,
+      "Z": -1.874035
+    },
+    "Forward": {
+      "X": -0.79067093,
+      "Y": 0.24929786,
+      "Z": 0.0
+    },
+    "Upward": {
+      "X": 0.12464887,
+      "Y": 0.39533544,
+      "Z": 0.0
+    },
+    "ReferenceID": 300,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 47,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -2.6605678,
+      "Y": 1.9794816,
+      "Z": -1.8740349
+    },
+    "Forward": {
+      "X": -0.79067135,
+      "Y": 0.24929798,
+      "Z": 1.1920929E-07
+    },
+    "Upward": {
+      "X": 0.12464857,
+      "Y": 0.39533532,
+      "Z": -1.1920929E-07
+    },
+    "ReferenceID": 301,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 47,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -3.1252668,
+      "Y": -0.24310586,
+      "Z": 2.300285
+    },
+    "Forward": {
+      "X": -1.0308754,
+      "Y": 3.5762787E-07,
+      "Z": -2.3841858E-07
+    },
+    "Upward": {
+      "X": -2.3841858E-07,
+      "Y": 0.5154374,
+      "Z": 0.0
+    },
+    "ReferenceID": 400,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 20,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -1.492564,
+      "Y": 0.84101534,
+      "Z": -1.667298
+    },
+    "Forward": {
+      "X": 0.27182698,
+      "Y": -0.4241733,
+      "Z": -0.48481762
+    },
+    "Upward": {
+      "X": -0.03163719,
+      "Y": 0.253044,
+      "Z": -0.23912978
+    },
+    "ReferenceID": 401,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 57,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 3.1249998,
+      "Y": -0.24310586,
+      "Z": 2.300285
+    },
+    "Forward": {
+      "X": 1.0308754,
+      "Y": 3.5762787E-07,
+      "Z": -2.3841858E-07
+    },
+    "Upward": {
+      "X": 2.3841858E-07,
+      "Y": 0.5154375,
+      "Z": 0.0
+    },
+    "ReferenceID": 420,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 11,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 1.4920949,
+      "Y": 0.8410152,
+      "Z": -1.6672983
+    },
+    "Forward": {
+      "X": -0.27182698,
+      "Y": -0.42417336,
+      "Z": -0.48481774
+    },
+    "Upward": {
+      "X": 0.03163719,
+      "Y": 0.25304377,
+      "Z": -0.23912978
+    },
+    "ReferenceID": 421,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 31,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 1.0562061E-07,
+      "Y": -5.1906857E-09,
+      "Z": 2.3841858E-07
+    },
+    "Forward": {
+      "X": 1.2181175E-08,
+      "Y": -2.595343E-09,
+      "Z": -0.27867278
+    },
+    "Upward": {
+      "X": 6.0905876E-09,
+      "Y": 0.13933639,
+      "Z": 1.038137E-08
+    },
+    "ReferenceID": 900,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 0,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -2.6737819,
+      "Y": -0.2431059,
+      "Z": 2.3002853
+    },
+    "Forward": {
+      "X": -1.0308752,
+      "Y": 3.5762787E-07,
+      "Z": -2.3841858E-07
+    },
+    "Upward": {
+      "X": -2.3841858E-07,
+      "Y": 0.5154375,
+      "Z": 0.0
+    },
+    "ReferenceID": 903,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 19,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 2.674,
+      "Y": -0.24310587,
+      "Z": 2.3002849
+    },
+    "Forward": {
+      "X": 1.0308752,
+      "Y": 3.427267E-07,
+      "Z": 2.3841858E-07
+    },
+    "Upward": {
+      "X": 2.3841858E-07,
+      "Y": 0.51543736,
+      "Z": 0.0
+    },
+    "ReferenceID": 904,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 10,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 1.056201E-07,
+      "Y": 2.1172657,
+      "Z": 0.2109387
+    },
+    "Forward": {
+      "X": 1.2181182E-08,
+      "Y": 0.0,
+      "Z": -0.2786728
+    },
+    "Upward": {
+      "X": 6.0905876E-09,
+      "Y": 0.13933635,
+      "Z": 0.0
+    },
+    "ReferenceID": 905,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 23,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -3.1808305,
+      "Y": 1.8688848,
+      "Z": 2.2913756
+    },
+    "Forward": {
+      "X": -0.91107416,
+      "Y": 0.0,
+      "Z": 0.0
+    },
+    "Upward": {
+      "X": 0.0,
+      "Y": 0.45553708,
+      "Z": 0.0
+    },
+    "ReferenceID": 930,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 15,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 3.1810005,
+      "Y": 1.8688849,
+      "Z": 2.2913759
+    },
+    "Forward": {
+      "X": 0.9110744,
+      "Y": -1.1920929E-07,
+      "Z": 0.0
+    },
+    "Upward": {
+      "X": 0.0,
+      "Y": 0.45553672,
+      "Z": 0.0
+    },
+    "ReferenceID": 940,
+    "ParentBoneIndex": 77,
+    "AttachBoneIndex": 6,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -1.3755457E-07,
+      "Y": 2.3283188,
+      "Z": 1.5572642
+    },
+    "Forward": {
+      "X": -1.334285E-07,
+      "Y": -0.10888362,
+      "Z": 0.016369939
+    },
+    "Upward": {
+      "X": 6.8812085E-09,
+      "Y": -0.0071148872,
+      "Z": -0.047468305
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 21,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 1.4360248E-07,
+      "Y": 2.55783,
+      "Z": 1.5230405
+    },
+    "Forward": {
+      "X": -1.3342853E-07,
+      "Y": -0.10888386,
+      "Z": 0.016369939
+    },
+    "Upward": {
+      "X": 6.8812085E-09,
+      "Y": -0.0071148872,
+      "Z": -0.047468185
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 21,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 2.712864E-07,
+      "Y": 2.4591725,
+      "Z": 0.051486123
+    },
+    "Forward": {
+      "X": -1.1770045E-07,
+      "Y": -0.109959364,
+      "Z": 0.005710233
+    },
+    "Upward": {
+      "X": 4.216389E-09,
+      "Y": -0.002465725,
+      "Z": -0.04793501
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 23,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 5.119236E-07,
+      "Y": 2.6840193,
+      "Z": 0.040080912
+    },
+    "Forward": {
+      "X": -1.1770044E-07,
+      "Y": -0.109959364,
+      "Z": 0.005710233
+    },
+    "Upward": {
+      "X": 4.214371E-09,
+      "Y": -0.0024678707,
+      "Z": -0.04793477
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 23,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -4.2609926E-08,
+      "Y": 2.2253056,
+      "Z": 0.82380223
+    },
+    "Forward": {
+      "X": -1.10006994E-07,
+      "Y": -0.10597253,
+      "Z": -0.029898465
+    },
+    "Upward": {
+      "X": -1.7921451E-09,
+      "Y": 0.013053894,
+      "Z": -0.04618907
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 22,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 2.1999062E-07,
+      "Y": 2.4781778,
+      "Z": 0.8954747
+    },
+    "Forward": {
+      "X": -1.10003185E-07,
+      "Y": -0.105968714,
+      "Z": -0.029897451
+    },
+    "Upward": {
+      "X": -1.7902408E-09,
+      "Y": 0.013055563,
+      "Z": -0.046188712
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 22,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -0.41645136,
+      "Y": 2.5104203,
+      "Z": -0.5055927
+    },
+    "Forward": {
+      "X": 0.017825246,
+      "Y": -0.10859156,
+      "Z": 0.0037727356
+    },
+    "Upward": {
+      "X": -0.0046716332,
+      "Y": -0.002402544,
+      "Z": -0.047709942
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 50,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -0.15213497,
+      "Y": 2.3506382,
+      "Z": 0.85932565
+    },
+    "Forward": {
+      "X": -1.1920929E-07,
+      "Y": -0.10596895,
+      "Z": -0.029897332
+    },
+    "Upward": {
+      "X": -1.4901161E-08,
+      "Y": 0.013055563,
+      "Z": -0.046188712
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 22,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 0.14901312,
+      "Y": 2.3506377,
+      "Z": 0.85932565
+    },
+    "Forward": {
+      "X": -1.1920929E-07,
+      "Y": -0.105968714,
+      "Z": -0.029897451
+    },
+    "Upward": {
+      "X": -1.4901161E-08,
+      "Y": 0.013055801,
+      "Z": -0.046188712
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 22,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -2.0993417E-08,
+      "Y": 2.347786,
+      "Z": -1.3277671
+    },
+    "Forward": {
+      "X": -1.3159149E-07,
+      "Y": -0.03980255,
+      "Z": -0.10266161
+    },
+    "Upward": {
+      "X": -5.9874097E-09,
+      "Y": 0.044760466,
+      "Z": -0.017330885
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 76,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 0.4164525,
+      "Y": 2.51042,
+      "Z": -0.50559235
+    },
+    "Forward": {
+      "X": -0.017825484,
+      "Y": -0.10859132,
+      "Z": 0.0037726164
+    },
+    "Upward": {
+      "X": 0.004671663,
+      "Y": -0.002402544,
+      "Z": -0.047709942
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 24,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -5.8875838E-05,
+      "Y": 2.4213948,
+      "Z": 2.2542515
+    },
+    "Forward": {
+      "X": -1.3127647E-07,
+      "Y": -0.11010933,
+      "Z": 0.00013256073
+    },
+    "Upward": {
+      "X": 5.678885E-09,
+      "Y": -3.6239624E-05,
+      "Z": -0.04799819
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 2,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -5.8596095E-05,
+      "Y": 2.6560583,
+      "Z": 2.2542515
+    },
+    "Forward": {
+      "X": -1.3127647E-07,
+      "Y": -0.11010742,
+      "Z": 0.00013256073
+    },
+    "Upward": {
+      "X": 5.678885E-09,
+      "Y": -3.4332275E-05,
+      "Z": -0.04799819
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 2,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -0.16890842,
+      "Y": 2.5408676,
+      "Z": 2.2420943
+    },
+    "Forward": {
+      "X": -1.3411045E-07,
+      "Y": -0.110105515,
+      "Z": 0.00013232231
+    },
+    "Upward": {
+      "X": 0.0,
+      "Y": -3.4332275E-05,
+      "Z": -0.04799819
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 2,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 0.16590397,
+      "Y": 2.540867,
+      "Z": 2.2420943
+    },
+    "Forward": {
+      "X": -1.3411045E-07,
+      "Y": -0.110105515,
+      "Z": 0.00013232231
+    },
+    "Upward": {
+      "X": 0.0,
+      "Y": -3.4332275E-05,
+      "Z": -0.04799819
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 2,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 1.0739343,
+      "Y": 2.4031582,
+      "Z": -0.4376438
+    },
+    "Forward": {
+      "X": -0.05501461,
+      "Y": -0.058976173,
+      "Z": -0.07496187
+    },
+    "Upward": {
+      "X": -0.020195723,
+      "Y": 0.040186644,
+      "Z": -0.016763508
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 26,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 2.0528927,
+      "Y": 1.7682477,
+      "Z": -0.7896932
+    },
+    "Forward": {
+      "X": -0.10651493,
+      "Y": 0.027684927,
+      "Z": -0.0034899712
+    },
+    "Upward": {
+      "X": 0.012123108,
+      "Y": 0.04643309,
+      "Z": -0.0009229779
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 30,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 0.7804169,
+      "Y": 2.4699948,
+      "Z": 2.255977
+    },
+    "Forward": {
+      "X": 0.032856822,
+      "Y": 0.10469484,
+      "Z": -0.009093761
+    },
+    "Upward": {
+      "X": -0.04573208,
+      "Y": 0.014476776,
+      "Z": 0.0016899109
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 3,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 2.5093367,
+      "Y": 1.7606475,
+      "Z": 2.2023513
+    },
+    "Forward": {
+      "X": 0.10973287,
+      "Y": 0.0058033466,
+      "Z": -0.0069770813
+    },
+    "Upward": {
+      "X": -0.00274539,
+      "Y": 0.04782152,
+      "Z": -0.0030648708
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 7,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 2.4044943,
+      "Y": 0.31324577,
+      "Z": 2.305631
+    },
+    "Forward": {
+      "X": 0.10965371,
+      "Y": -0.0063562393,
+      "Z": -0.0077035427
+    },
+    "Upward": {
+      "X": 0.002515316,
+      "Y": 0.04781556,
+      "Z": -0.0033462048
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 10,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 1.6140987,
+      "Y": 1.050455,
+      "Z": -1.6441593
+    },
+    "Forward": {
+      "X": -0.1094656,
+      "Y": 0.010841012,
+      "Z": -0.004882574
+    },
+    "Upward": {
+      "X": 0.004692793,
+      "Y": 0.047749877,
+      "Z": 0.0013349056
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 31,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -1.0755138,
+      "Y": 2.4080966,
+      "Z": -0.44209892
+    },
+    "Forward": {
+      "X": 0.05969441,
+      "Y": -0.08528423,
+      "Z": -0.0358783
+    },
+    "Upward": {
+      "X": 0.027725697,
+      "Y": 0.03002429,
+      "Z": -0.02517277
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 52,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -2.052893,
+      "Y": 1.7682467,
+      "Z": -0.78969413
+    },
+    "Forward": {
+      "X": 0.10651493,
+      "Y": 0.027684808,
+      "Z": -0.0034902096
+    },
+    "Upward": {
+      "X": -0.012123108,
+      "Y": 0.046432972,
+      "Z": -0.0009230375
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 56,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -0.7804168,
+      "Y": 2.4699945,
+      "Z": 2.255976
+    },
+    "Forward": {
+      "X": -0.032857,
+      "Y": 0.10469484,
+      "Z": -0.009093285
+    },
+    "Upward": {
+      "X": 0.04573202,
+      "Y": 0.014476776,
+      "Z": 0.0016903877
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 12,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -2.5093362,
+      "Y": 1.7606473,
+      "Z": 2.2023494
+    },
+    "Forward": {
+      "X": -0.109733105,
+      "Y": 0.005803585,
+      "Z": -0.006976843
+    },
+    "Upward": {
+      "X": 0.00274539,
+      "Y": 0.047822,
+      "Z": -0.0030648708
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 16,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -2.404493,
+      "Y": 0.31324542,
+      "Z": 2.3056283
+    },
+    "Forward": {
+      "X": -0.10965347,
+      "Y": -0.006356418,
+      "Z": -0.0077033043
+    },
+    "Upward": {
+      "X": -0.0025150776,
+      "Y": 0.047815382,
+      "Z": -0.0033462048
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 19,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -1.6140988,
+      "Y": 1.0504546,
+      "Z": -1.6441599
+    },
+    "Forward": {
+      "X": 0.1094656,
+      "Y": 0.010841131,
+      "Z": -0.0048828125
+    },
+    "Upward": {
+      "X": -0.004692793,
+      "Y": 0.047749877,
+      "Z": 0.0013349056
+    },
+    "ReferenceID": 200,
+    "ParentBoneIndex": 78,
+    "AttachBoneIndex": 57,
+    "Color": "255, 255, 255",
+    "Flag1": true,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 0.0,
+      "Y": 0.010658324,
+      "Z": 2.861023E-05
+    },
+    "Forward": {
+      "X": 0.0,
+      "Y": -0.00019848347,
+      "Z": -0.23414856
+    },
+    "Upward": {
+      "X": 0.0,
+      "Y": 0.072241664,
+      "Z": -5.722046E-05
+    },
+    "ReferenceID": 203,
+    "ParentBoneIndex": 79,
+    "AttachBoneIndex": -1,
+    "Color": "255, 255, 255",
+    "Flag1": false,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -0.723,
+      "Y": 0.0,
+      "Z": -3.834
+    },
+    "Forward": {
+      "X": 0.0,
+      "Y": -0.00019848347,
+      "Z": -0.23414898
+    },
+    "Upward": {
+      "X": 0.0,
+      "Y": 0.072241664,
+      "Z": -5.722046E-05
+    },
+    "ReferenceID": 235,
+    "ParentBoneIndex": 79,
+    "AttachBoneIndex": -1,
+    "Color": "255, 255, 255",
+    "Flag1": false,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 0.0,
+      "Y": 9.924173E-05,
+      "Z": 2.861023E-05
+    },
+    "Forward": {
+      "X": 0.0,
+      "Y": -0.00019848347,
+      "Z": -0.23414856
+    },
+    "Upward": {
+      "X": 0.0,
+      "Y": 0.072241664,
+      "Z": -5.722046E-05
+    },
+    "ReferenceID": 260,
+    "ParentBoneIndex": 79,
+    "AttachBoneIndex": -1,
+    "Color": "255, 255, 255",
+    "Flag1": false,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 5.8673322E-08,
+      "Y": 0.99632293,
+      "Z": -6.2451262
+    },
+    "Forward": {
+      "X": 2.7939677E-09,
+      "Y": -1.1920929E-07,
+      "Z": -0.045000553
+    },
+    "Upward": {
+      "X": 0.0,
+      "Y": 0.025874317,
+      "Z": 0.0
+    },
+    "ReferenceID": 179,
+    "ParentBoneIndex": 92,
+    "AttachBoneIndex": -1,
+    "Color": "255, 255, 255",
+    "Flag1": false,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 5.8673322E-08,
+      "Y": 0.99632293,
+      "Z": -3.6847441
+    },
+    "Forward": {
+      "X": 2.7939677E-09,
+      "Y": -1.1920929E-07,
+      "Z": -0.045000315
+    },
+    "Upward": {
+      "X": 0.0,
+      "Y": 0.025874317,
+      "Z": 0.0
+    },
+    "ReferenceID": 180,
+    "ParentBoneIndex": 92,
+    "AttachBoneIndex": -1,
+    "Color": "255, 255, 255",
+    "Flag1": false,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 3.0076904,
+      "Y": 0.9963227,
+      "Z": 5.516884E-08
+    },
+    "Forward": {
+      "X": 0.045000315,
+      "Y": -1.1920929E-07,
+      "Z": 2.5421308E-08
+    },
+    "Upward": {
+      "X": 0.0,
+      "Y": 0.025874317,
+      "Z": 0.0
+    },
+    "ReferenceID": 181,
+    "ParentBoneIndex": 92,
+    "AttachBoneIndex": -1,
+    "Color": "255, 255, 255",
+    "Flag1": false,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -3.0049725,
+      "Y": 0.9963227,
+      "Z": -5.7247327E-08
+    },
+    "Forward": {
+      "X": -0.045000076,
+      "Y": -1.1920929E-07,
+      "Z": -2.1487246E-08
+    },
+    "Upward": {
+      "X": 0.0,
+      "Y": 0.025874317,
+      "Z": 0.0
+    },
+    "ReferenceID": 182,
+    "ParentBoneIndex": 92,
+    "AttachBoneIndex": -1,
+    "Color": "255, 255, 255",
+    "Flag1": false,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": -6.61239E-08,
+      "Y": 0.99632293,
+      "Z": 2.5888824
+    },
+    "Forward": {
+      "X": -2.7939677E-09,
+      "Y": -1.1920929E-07,
+      "Z": 0.045000315
+    },
+    "Upward": {
+      "X": 0.0,
+      "Y": 0.025874317,
+      "Z": 0.0
+    },
+    "ReferenceID": 183,
+    "ParentBoneIndex": 92,
+    "AttachBoneIndex": -1,
+    "Color": "255, 255, 255",
+    "Flag1": false,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  },
+  {
+    "Position": {
+      "X": 5.8673322E-08,
+      "Y": 1.0199478,
+      "Z": -0.35483772
+    },
+    "Forward": {
+      "X": 2.7939677E-09,
+      "Y": -0.045000315,
+      "Z": 1.1920929E-07
+    },
+    "Upward": {
+      "X": 0.0,
+      "Y": 0.0,
+      "Z": -0.025874317
+    },
+    "ReferenceID": 184,
+    "ParentBoneIndex": 92,
+    "AttachBoneIndex": -1,
+    "Color": "255, 255, 255",
+    "Flag1": false,
+    "UseUpwardVector": true,
+    "Unk30": 0,
+    "Unk34": 0
+  }
+]

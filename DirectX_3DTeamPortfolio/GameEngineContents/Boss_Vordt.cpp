@@ -1,9 +1,7 @@
 ﻿#include "PreCompile.h"
 #include "Boss_Vordt.h"
-
-#define BOSS_ANI_SPEED 0.05f
-
 #include "BoneSocketCollision.h"
+#include "DS3DummyData.h"
 
 void Boss_State_GUI::Start()
 {
@@ -218,19 +216,10 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	ImGui::NewLine();
 
 	{
-		bool Result = Linked_Boss->Col;
-
-		std::string IsCol = "IsCol\n";
-		switch (Result)
-		{
-		case 0:
-			IsCol += " False";
-			break;
-		default:
-			IsCol += " True";
-			break;
-		}
-		ImGui::Text(IsCol.c_str());
+		float Dis = Linked_Boss->TargetDistance;
+		std::string cDistance = "Target Distance : ";
+		cDistance += std::to_string(Dis);
+		ImGui::Text(cDistance.c_str());
 	}
 }
 
@@ -256,17 +245,15 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	// Boss Mesh
 	{
-		if (nullptr == GameEngineFBXMesh::Find("Mesh_Vordt.fbx"))
+		if (nullptr == GameEngineFBXMesh::Find("c2240.fbx"))
 		{
 			GameEngineFile File;
 			File.MoveParentToExistsChild("ContentsResources");
-			File.MoveChild("ContentsResources\\Mesh\\Boss\\Mesh_Vordt.fbx");
+			File.MoveChild("ContentsResources\\Mesh\\Boss\\c2240.fbx");
 			GameEngineFBXMesh::Load(File.GetStringPath());
 		}
 
-		MainRenderer->SetFBXMesh("Mesh_Vordt.FBX", "FBX_Animation"); // Bone 136
-
-		MainRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.f });
+		MainRenderer->SetFBXMesh("c2240.FBX", "FBX_Animation"); // Bone 136
 	}
 
 	// Boss Animation
@@ -282,66 +269,51 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		}
 
 		// Animation
-		MainRenderer->CreateFBXAnimation("Howling", "Howling.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Idle", "Idle.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Walk_Front", "Walk_Front.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Walk_Left", "Walk_Left.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Walk_Right", "Walk_Right.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Jump_Back", "Jump_Back.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Jump_Left", "Jump_Left.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Jump_Right", "Jump_Right.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Breath", "Breath.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Combo1_Step1", "Combo1_Step1.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Combo1_Step2", "Combo1_Step2.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Combo1_Step3", "Combo1_Step3.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Combo2_Step1", "Combo2_Step1.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Combo2_Step2", "Combo2_Step2.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Death", "Death.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Death_Groggy", "Death_Groggy.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Sweep&Sweep_Left", "Sweep&Sweep_Left.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Sweep&Sweep_Right", "Sweep&Sweep_Right.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Hit_001", "Hit_001.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Hit_002", "Hit_002.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Hit_003_Left", "Hit_003_Left.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Hit_003_Right", "Hit_003_Right.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Hit_004_Groggy", "Hit_004_Groggy.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Hit_Groggy", "Hit_Groggy.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Hit_Down_001_Front", "Hit_Down_001_Front.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Hit_Down_001_Right", "Hit_Down_001_Right.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Hit_Down_001_Left", "Hit_Down_001_Left.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Hit_Down_004", "Hit_Down_004.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Hit_Down_005", "Hit_Down_005.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Hit_Down_006", "Hit_Down_006.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Rush&Hit&Turn&Rush", "Rush&Hit&Turn&Rush.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Rush&Hit&Turn", "Rush&Hit&Turn.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Rush&Turn", "Rush&Turn.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Rush_Attack", "Rush_Attack.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Rush_Attack_002", "Rush_Attack_002.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Rush_Front", "Rush_Front.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Sweep_001", "Sweep_001.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Sweep_002", "Sweep_002.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Thrust", "Thrust.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Turn_Left", "Turn_Left.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Turn_Left_Twice", "Turn_Left_Twice.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Turn_Right", "Turn_Right.FBX", { BOSS_ANI_SPEED, true });
-		MainRenderer->CreateFBXAnimation("Turn_Right_Twice", "Turn_Right_Twice.FBX", { BOSS_ANI_SPEED, true });
+		MainRenderer->CreateFBXAnimation("Howling", "Howling.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Idle", "Idle.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Walk_Front", "Walk_Front.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Walk_Left", "Walk_Left.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Walk_Right", "Walk_Right.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Jump_Back", "Jump_Back.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Jump_Left", "Jump_Left.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Jump_Right", "Jump_Right.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Breath", "Breath.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Combo1_Step1", "Combo1_Step1.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Combo1_Step2", "Combo1_Step2.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Combo1_Step3", "Combo1_Step3.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Combo2_Step1", "Combo2_Step1.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Combo2_Step2", "Combo2_Step2.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Death", "Death.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Death_Groggy", "Death_Groggy.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Sweep&Sweep_Left", "Sweep&Sweep_Left.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Sweep&Sweep_Right", "Sweep&Sweep_Right.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Hit_001", "Hit_001.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Hit_002", "Hit_002.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Hit_003_Left", "Hit_003_Left.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Hit_003_Right", "Hit_003_Right.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Hit_004_Groggy", "Hit_004_Groggy.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Hit_Groggy", "Hit_Groggy.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Hit_Down_001_Front", "Hit_Down_001_Front.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Hit_Down_001_Right", "Hit_Down_001_Right.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Hit_Down_001_Left", "Hit_Down_001_Left.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Hit_Down_004", "Hit_Down_004.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Hit_Down_005", "Hit_Down_005.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Hit_Down_006", "Hit_Down_006.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Rush&Hit&Turn&Rush", "Rush&Hit&Turn&Rush.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Rush&Hit&Turn", "Rush&Hit&Turn.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Rush&Turn", "Rush&Turn.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Rush_Attack", "Rush_Attack.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Rush_Attack_002", "Rush_Attack_002.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Rush_Front", "Rush_Front.FBX", { ONE_FRAME_DTIME / 1.5f, true });
+		MainRenderer->CreateFBXAnimation("Sweep_001", "Sweep_001.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Sweep_002", "Sweep_002.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Thrust", "Thrust.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Turn_Left", "Turn_Left.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Turn_Left_Twice", "Turn_Left_Twice.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Turn_Right", "Turn_Right.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Turn_Right_Twice", "Turn_Right_Twice.FBX", { ONE_FRAME_DTIME, true });
 
-		MainRenderer->SetFrameEvent("Rush&Hit&Turn&Rush", 52, [&](GameContentsFBXRenderer* _Renderer)
-			{
-				std::shared_ptr<GameContentsFBXAnimationInfo> AniInfo = MainRenderer->GetCurAnimation();
-				AniInfo->SetStartDir(Capsule->GetDir());
-				MainRenderer->SetRootMotionMode("Rush&Hit&Turn&Rush", Enum_RootMotionMode::StartDir);
-			});
-
-		MainRenderer->SetFrameEvent("Rush&Hit&Turn&Rush", 133, [&](GameContentsFBXRenderer* _Renderer)
-			{
-				std::shared_ptr<GameContentsFBXAnimationInfo> AniInfo = MainRenderer->GetCurAnimation();
-				AniInfo->SetStartDir(Capsule->GetDir() + 180.f);
-				MainRenderer->SetRootMotionMode("Rush&Hit&Turn&Rush", Enum_RootMotionMode::StartDir);
-			});
-
-		/////// Sound
-		// SoundEventInit();
+		FrameEventInit();
 
 		// Root Motion
 		// Rotate to StartDir
@@ -400,21 +372,8 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		//BossCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
 	}
 
-	//// Detect Collision
-#define DETECT_SCALE 15
-	{
-		DetectCollision->SetCollisionType(ColType::AABBBOX3D);
-		DetectCollision->Transform.SetLocalPosition({ 0.f, 0.f, DETECT_SCALE * 0.3f });
-		DetectCollision->Transform.SetLocalScale({ DETECT_SCALE * W_SCALE, DETECT_SCALE * W_SCALE, DETECT_SCALE * W_SCALE });
-	}
-
-	Col = DetectCollision->Collision(Enum_CollisionOrder::Player, [&](std::vector<GameEngineCollision*>& _Collisions)
-		{
-			int a = 0;
-		});
-
 	Capsule->PhysXComponentInit(400.0f, 5.0f);
-	Capsule->SetMass(10000000.f);
+	// Capsule->SetMass(10000000.f);
 	Capsule->SetPositioningComponent();
 
 	if (nullptr == GameEngineGUI::FindGUIWindow<Boss_State_GUI>("Boss_State"))
@@ -659,28 +618,63 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainState.CreateState(Enum_BossState::Rush_Hit_Turn_Rush, Rush_Hit_Turn_Rush, "Rush_Hit_Turn_Rush");
 
 		// Start State
-		MainState.ChangeState(Enum_BossState::Walk_Front);
+		MainState.ChangeState(Enum_BossState::Howling);
 	}
 
 	if (nullptr == BossCollision)
 	{
-		BossCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 0);
+		// BossCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 0);
 	}
 
-	Capsule->SetFiltering(Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);
+	 // Capsule->SetFiltering(Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);
 
+	// Socket Collision
+	BSCol_TransitionParameter ColParameter;
+	if (nullptr == WeaponCollision)
+	{
+		ColParameter.S = float4(70.f, 70.f, 500.f);
+		ColParameter.R = float4(170.f);
+		ColParameter.T = float4(0.f, 0.f, 1.55f);
+
+		WeaponCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 47, ColParameter, "Weapon");
+		WeaponCollision->SetCollisionType(ColType::OBBBOX3D);
+	}
 
 	if (nullptr == BodyCollision)
 	{
-		BodyCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 46);
-		BodyCollision->SetCollisionType(ColType::OBBBOX3D);
-		BodyCollision->Transform.SetLocalScale({2.f, 2.f, 2.f});
-		BodyCollision->On();
+		ColParameter.S = float4(300.f, 300.f, 300.f);
+		ColParameter.R = float4(0.f);
+		ColParameter.T = float4(0.f, 0.f, -0.5f);
+
+		BodyCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 22, ColParameter, "Body");
+		BodyCollision->SetCollisionType(ColType::SPHERE3D);
 	}
 
-	// GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Camera, Enum_CollisionOrder::Map);
-	// GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);
-	// GameEnginePhysX::PopSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);
+	if (nullptr == HeadCollision)
+	{
+		ColParameter.S = float4(150.f, 150.f, 150.f);
+		ColParameter.R = float4(0.f);
+		ColParameter.T = float4(0.f);
+
+		HeadCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 76, ColParameter, "Head");
+		HeadCollision->SetCollisionType(ColType::SPHERE3D);
+	}
+
+	if (nullptr == R_HandCollision)
+	{
+		ColParameter.S = float4(180.f, 70.f, 40.f);
+		ColParameter.R = float4(0.f);
+		ColParameter.T = float4(-0.5f, 0.f, -0.15f);
+
+		R_HandCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 57, ColParameter, "R_Hand");
+		R_HandCollision->SetCollisionType(ColType::OBBBOX3D);
+	}
+
+	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::Boss_Vordt));
+	// SetCenterBodyDPIndex(220);
+
+	Stat.SetHp(1328);
+	Stat.SetAtt(1);
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
@@ -695,53 +689,75 @@ void Boss_Vordt::Start()
 	SetID(Enum_ActorType::Boss_Vordt);
 	GameEngineInput::AddInputObject(this);
 
-// #define RENDER_SCALE 75.f
-
 	if (nullptr == MainRenderer)
 	{
 		MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
 	}
 
 	MainRenderer->Transform.SetLocalScale({ W_SCALE, W_SCALE, W_SCALE });
-	// MainRenderer->Transform.SetLocalPosition({0.f, 0.f, -1.7f});
+	MainRenderer->Transform.SetLocalPosition({0.f, 0.f, 1.3f});
 
 	if (nullptr == Capsule)
 	{
 		Capsule = CreateComponent<GameEnginePhysXCapsule>();
 	}
 
-	if (nullptr == DetectCollision)
-	{
-		DetectCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
-	}
 }
 
 void Boss_Vordt::Update(float _Delta)
 {
 	BaseActor::Update(_Delta);
+	CalcuTargetDistance();
 
 	if (true == GameEngineInput::IsDown('B', this))
 	{
 		Capsule->CollisionOff();
 		Capsule->ResetMove(Enum_Axies::All);
 	}
+
+	if (true == GameEngineInput::IsDown('M', this))
+	{
+		MainRenderer->SwitchPause();
+	}
 }
 
 void Boss_Vordt::Release()
 {
-	mBoneDatas.clear();
-
 	if (nullptr != MainRenderer)
 	{
 		MainRenderer->Death();
 		MainRenderer = nullptr;
 	}
 
-	//if (nullptr != BossCollision)
-	//{
-	//	BossCollision->Death();
-	//	BossCollision = nullptr;
-	//}
+	if (nullptr != WeaponCollision)
+	{
+		WeaponCollision->Death();
+		WeaponCollision = nullptr;
+	}
+
+	if (nullptr != BodyCollision)
+	{
+		BodyCollision->Death();
+		BodyCollision = nullptr;
+	}
+
+	if (nullptr != HeadCollision)
+	{
+		HeadCollision->Death();
+		HeadCollision = nullptr;
+	}
+
+	if (nullptr != R_HandCollision)
+	{
+		R_HandCollision->Death();
+		R_HandCollision = nullptr;
+	}
+
+	if (nullptr != BossCollision)
+	{
+		BossCollision->Death();
+		BossCollision = nullptr;
+	}
 
 	if (nullptr != Capsule)
 	{
@@ -759,43 +775,54 @@ void Boss_Vordt::Release()
 	BaseActor::Release();
 }
 
-float4 Boss_Vordt::BoneWorldPos(int _BoneIndex)
+void Boss_Vordt::CalcuTargetDistance()
 {
-	mBoneDatas = MainRenderer->GetBoneDatas();
-
-	if (_BoneIndex >= mBoneDatas.size())
+	if (false == IsTargeting())
 	{
-		MsgBoxAssert("BoneIndex보다 큰 값이 들어왔습니다.");
+		TargetDistance = 0.f;
+		return;
 	}
 
+	float4 TargetPos = GetTargetPos();
+	float4 BossPos = Transform.GetWorldPosition();
+	float4 CalcuDistance = BossPos - TargetPos;
+	CalcuDistance = DirectX::XMVector3LengthEst(CalcuDistance.DirectXVector);
+	TargetDistance = CalcuDistance.X;
+}
+
+float4 Boss_Vordt::BoneWorldPos(int _BoneIndex)
+{
 	std::vector<float4x4>& BoneMats = MainRenderer->GetBoneSockets();
 	float4x4 BoneMatrix = BoneMats.at(_BoneIndex);
 
 	float4x4 BoneWMat = BoneMatrix * Transform.GetWorldMatrix();
 	float4 S;
-	float4 Q;
+	float4 R;
 	float4 P;
-	BoneWMat.Decompose(S, Q, P);
+	BoneWMat.Decompose(S, R, P);
 
 	return P;
 }
 
-void Boss_Vordt::AI_MoveMent()
+bool Boss_Vordt::AI_MoveMent()
 {
+	return false;
+}
+
+bool Boss_Vordt::AI_Attack()
+{
+	return false;
 
 }
 
-void Boss_Vordt::AI_Attack()
+bool Boss_Vordt::AI_Combo()
 {
+	return false;
 
 }
 
-void Boss_Vordt::AI_Combo()
+bool Boss_Vordt::AI_Dodge()
 {
-	
-}
-
-void Boss_Vordt::AI_Dodge()
-{
+	return false;
 
 }

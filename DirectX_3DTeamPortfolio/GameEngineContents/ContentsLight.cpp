@@ -20,8 +20,17 @@ void ContentsLight::Update(float _DeltaTime)
 	GameEngineLight::Update(_DeltaTime);
 	if (true == IsDebugValue)
 	{
-		//Transform.SetWorldScale(float4(50.f, 50.f, 50.f));
-		GameEngineDebug::DrawBox2D(Transform, float4::GREEN, GetLevel()->GetMainCamera().get());
+		if (GetLightData().LightType == static_cast<int>(Enum_LightType::Directional))
+		{
+			GameEngineDebug::DrawBox2D(Transform, float4::GREEN, GetLevel()->GetMainCamera().get());
+		}
+		else
+		{
+			Transform.SetWorldScale(float4(50.f, 50.f, 50.f));
+			GameEngineDebug::DrawSphere2D(Transform, float4::GREEN, GetLevel()->GetMainCamera().get());
+		}
+
+
 	}
 }
 

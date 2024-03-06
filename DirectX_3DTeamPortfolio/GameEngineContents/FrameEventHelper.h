@@ -16,23 +16,14 @@ public:
 	FrameEventHelper& operator=(const FrameEventHelper& _Other) = delete;
 	FrameEventHelper& operator=(FrameEventHelper&& _Other) noexcept = delete;
 
-	static std::string_view GetExtName()
-	{
-		return ExtName;
-	}
+	static std::string GetEventPath(int _ID);
+	static bool LoadEvent(int _ID);
+
+	static inline std::string_view GetExtName() { return ExtName; }
 
 	static std::string GetConvertFileName(std::string_view _AnimationName);
 
-	static std::shared_ptr<FrameEventHelper> CreateTempRes(std::string_view _TempPath, GameContentsFBXAnimationInfo* _AnimationInfo)
-	{
-		int FrameCnt = static_cast<int>(_AnimationInfo->FBXAnimationData->FrameCount + 1);
-
-		std::shared_ptr<FrameEventHelper> Helper = Load(_TempPath);
-		Helper->ParentInfo = _AnimationInfo;
-		Helper->EventInfo.resize(FrameCnt);
-		Helper->FrameCount = FrameCnt;
-		return Helper;
-	}
+	static std::shared_ptr<FrameEventHelper> Load(class GameContentsFBXAnimationInfo* _AnimationInfo);
 
 	static std::shared_ptr<FrameEventHelper> Load(std::string_view _Path)
 	{
@@ -47,22 +38,15 @@ public:
 		return Helper;
 	}
 
-	void Initialze(GameContentsFBXAnimationInfo* _AnimationInfo);
-	void SaveFile();
+	std::unique_ptr<FrameEventManager> Initialze(GameContentsFBXAnimationInfo* _AnimationInfo);
 
-	void PlayEvents(int _Frame);
-	void PushPlayingEvent(FrameEventObject* _Object);
-	void UpdateEvent(float _Delta);
-	void EventReset();
+	void SaveFile();
 
 	int GetEventSize();
 
-	void SetEvent(std::shared_ptr<FrameEventObject> _EventObject);
+	bool SetEvent(std::shared_ptr<FrameEventObject> _EventObject);
 	void PopEvent(const std::shared_ptr<FrameEventObject>& _Event);
 
-	inline class GameContentsFBXAnimationInfo* GetAnimationInfo() { return ParentInfo; }
-	inline std::vector<std::list<FrameEventObject*>>& GetEventInfo() { return EventInfo; }
-	inline std::map<int, std::list<std::shared_ptr<FrameEventObject>>>& GetAllEvents() { return Events; }
 
 	template<typename _EventType>
 	std::list<std::shared_ptr<FrameEventObject>>& GetEventGroup(_EventType _Type)
@@ -70,11 +54,11 @@ public:
 		return GetEventGroup(static_cast<int>(_Type));
 	}
 
+	inline int GetFrameCount() const { return FrameCount; }
+	inline std::map<int, std::list<std::shared_ptr<FrameEventObject>>>& GetAllEvents() { return Events; }
 	inline std::list<std::shared_ptr<FrameEventObject>>& GetEventGroup(int _Type);
-	inline class GameContentsFBXAnimationInfo* GetParentInfo() { return ParentInfo; }
 
 protected:
-	void PushEventData();
 
 private:
 	static std::string ExtName;
@@ -84,9 +68,6 @@ private:
 
 	int FrameCount = 0;
 
-	class GameContentsFBXAnimationInfo* ParentInfo = nullptr;
-	std::vector<std::list<FrameEventObject*>> EventInfo;
-	std::list<FrameEventObject*> PlayingEvents;
 	std::map<int, std::list<std::shared_ptr<FrameEventObject>>> Events;
 
 };

@@ -23,6 +23,12 @@ std::shared_ptr<CenterBodySoundFrameEvent> CenterBodySoundFrameEvent::CreateEven
 	return CDPSEvent;
 }
 
+std::shared_ptr<FrameEventObject> CenterBodySoundFrameEvent::CreatePlayingEvent()
+{
+	std::shared_ptr<CenterBodySoundFrameEvent> NewObject = CenterBodySoundFrameEvent::CreateEventObject(StartFrame);
+	return NewObject;
+}
+
 void CenterBodySoundFrameEvent::PlayEvent()
 {
 	if (nullptr == FbxRenderer || nullptr == pActor)

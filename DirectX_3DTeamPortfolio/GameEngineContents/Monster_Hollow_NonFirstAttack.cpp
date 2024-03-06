@@ -14,7 +14,15 @@ void Monster_Hollow_NonFirstAttack::Start()
 	Monster_Hollow::Start();
 	//PrevState = Enum_Hollow_State::Pray3;
 	//ChangeState(Enum_Hollow_State::PrayToIdle);
-	MainRenderer->ChangeAnimation("c1100_PrayToIdle3");
+	//MainRenderer->ChangeAnimation("c1100_PrayToIdle3");
+
+	CheckLanternCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster);
+	CheckLanternCollision->SetCollisionType(ColType::SPHERE3D);
+	CheckLanternCollision->SetCollisionColor(float4::BLACK);
+	CheckLanternCollision->Transform.SetLocalPosition(float4(0, 100, 0));
+	CheckLanternCollision->Transform.SetWorldScale(float4(300, 300, 300));
+
+	ChangeState(Enum_Hollow_State::Pray1);
 }
 
 void Monster_Hollow_NonFirstAttack::Update(float _Delta)
@@ -241,6 +249,38 @@ void Monster_Hollow_NonFirstAttack::ChangeAttackState()
 	}
 }
 
+void Monster_Hollow_NonFirstAttack::CheckAwake()
+{
+	EventParameter AwakeParameter;
+	AwakeParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
+		{
+			_Other->Off();
+			AwakeValue = true;
+		};
+
+	CheckLanternCollision->CollisionEvent(Enum_CollisionOrder::Monster_Lantern, AwakeParameter);
+}
+
+void Monster_Hollow_NonFirstAttack::NonFindTarget(float _Delta)
+{
+	EventParameter RecognizeParameter;
+	RecognizeParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
+		{
+
+		};
+	if (true == RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, RecognizeParameter))
+	{
+		FindTarget();
+	}
+	else
+	{
+		if (RecognizeCollision->IsUpdate() == true)
+		{
+			RecognizeCollision->Transform.AddWorldScale(float4(2000.0f * _Delta, 2000.0f * _Delta, 2000.0f * _Delta));
+		}
+	}
+}
+
 void Monster_Hollow_NonFirstAttack::State_Pray1_Start()
 {
 	MainRenderer->ChangeAnimation("c1100_Pray1");
@@ -260,20 +300,22 @@ void Monster_Hollow_NonFirstAttack::State_Pray1_Update(float _Delta)
 		ChangeState(Enum_Hollow_State::PrayToBeScared1);
 	}
 
+	CheckAwake();
+
 	// 아마... 랜턴들고 있는 몬스터에 의해서
-	if (false)
+	if (AwakeValue == true)
 	{
 		ChangeState(Enum_Hollow_State::PrayToIdle1);
 	}
 
 	// Test
-	StateTime += _Delta;
+	/*StateTime += _Delta;
 
 	if (StateTime >= 3.0f)
 	{
 		StateTime = 0.0f;
 		ChangeState(Enum_Hollow_State::PrayToBeScared1);
-	}
+	}*/
 }
 
 void Monster_Hollow_NonFirstAttack::State_Pray2_Start()
@@ -290,8 +332,10 @@ void Monster_Hollow_NonFirstAttack::State_Pray2_Update(float _Delta)
 		ChangeState(Enum_Hollow_State::PrayToBeScared2);
 	}
 
+	CheckAwake();
+
 	// 아마... 랜턴들고 있는 몬스터에 의해서
-	if (false)
+	if (AwakeValue == true)
 	{
 		ChangeState(Enum_Hollow_State::PrayToIdle2);
 	}
@@ -315,8 +359,10 @@ void Monster_Hollow_NonFirstAttack::State_Pray3_Update(float _Delta)
 		ChangeState(Enum_Hollow_State::PrayToBeScared3);
 	}
 
+	CheckAwake();
+
 	// 아마... 랜턴들고 있는 몬스터에 의해서
-	if (false)
+	if (AwakeValue == true)
 	{
 		ChangeState(Enum_Hollow_State::PrayToIdle3);
 	}
@@ -427,15 +473,7 @@ void Monster_Hollow_NonFirstAttack::State_PrayToIdle1_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_PrayToIdle1_Update(float _Delta)
 {
-	EventParameter RecognizeParameter;
-	RecognizeParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
-		{
-
-		};
-	if (true == RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, RecognizeParameter))
-	{
-		FindTarget();
-	}
+	NonFindTarget(_Delta);
 
 	// Pray 마다 무기 꺼내는 프레임 다름 수정 필요.
 	if (MainRenderer->GetCurAnimationFrame() >= 31)
@@ -455,15 +493,7 @@ void Monster_Hollow_NonFirstAttack::State_PrayToIdle2_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_PrayToIdle2_Update(float _Delta)
 {
-	EventParameter RecognizeParameter;
-	RecognizeParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
-		{
-
-		};
-	if (true == RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, RecognizeParameter))
-	{
-		FindTarget();
-	}
+	NonFindTarget(_Delta);
 
 	if (MainRenderer->GetCurAnimationFrame() >= 37)
 	{
@@ -482,15 +512,7 @@ void Monster_Hollow_NonFirstAttack::State_PrayToIdle3_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_PrayToIdle3_Update(float _Delta)
 {
-	EventParameter RecognizeParameter;
-	RecognizeParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
-		{
-
-		};
-	if (true == RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, RecognizeParameter))
-	{
-		FindTarget();
-	}
+	NonFindTarget(_Delta);
 
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
 	{
@@ -505,15 +527,7 @@ void Monster_Hollow_NonFirstAttack::State_BeScaredToIdle_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_BeScaredToIdle_Update(float _Delta)
 {
-	EventParameter RecognizeParameter;
-	RecognizeParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
-		{
-
-		};
-	if (true == RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, RecognizeParameter))
-	{
-		FindTarget();
-	}
+	NonFindTarget(_Delta);
 
 	if (MainRenderer->GetCurAnimationFrame() >= 39)
 	{
@@ -581,11 +595,11 @@ void Monster_Hollow_NonFirstAttack::State_Idle_Update(float _Delta)
 	if (StateTime >= 0.1f)
 	{
 		// 거리 구하기
-		if (false)
+		if (GetTargetDistance_e() == Enum_TargetDist::Long)
 		{
 			//RunToSting
 			StateTime = 0.0;
-			//ChangeState(Enum_Hollow_State::RH_RunToSting);
+			ChangeState(Enum_Hollow_State::Run);
 		}
 		else
 		{
@@ -614,6 +628,12 @@ void Monster_Hollow_NonFirstAttack::State_Walk_Front_Update(float _Delta)
 	if (false == IsTargetInAngle(3.0f))
 	{
 		RotToTarget(_Delta);
+	}
+
+	if (GetTargetDistance_e() == Enum_TargetDist::Long)
+	{
+		// Idle로 넘어갈지 바로 Run으로 넘어갈지 조사해야할듯..
+		ChangeState(Enum_Hollow_State::Run);
 	}
 
 	EventParameter AttackParameter;
@@ -689,16 +709,35 @@ void Monster_Hollow_NonFirstAttack::State_Walk_Right_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_Run_Start()
 {
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
 	MainRenderer->ChangeAnimation("c1100_Run");
 }
 void Monster_Hollow_NonFirstAttack::State_Run_Update(float _Delta)
 {
+	WalkTime += _Delta;
 
+	if (false == IsTargetInAngle(3.0f))
+	{
+		RotToTarget(_Delta);
+	}
+
+	if (WalkTime >= WalkToChangeTime)
+	{
+		WalkTime = 0.0f;
+		if (GetTargetDistance_e() == Enum_TargetDist::Melee)
+		{
+			ChangeState(Enum_Hollow_State::RH_RunToSlash);
+		}
+		else if (GetTargetDistance_e() == Enum_TargetDist::Close)
+		{
+			ChangeState(Enum_Hollow_State::Idle);
+		}
+	}
 }
 
 void Monster_Hollow_NonFirstAttack::State_RH_VerticalSlash_Start()
 {
-	MainRenderer->ChangeAnimation("c1100_RH_VerticalSlash");
+	MainRenderer->ChangeAnimation("c1100_BrokenSword_RH_VerticalSlash");
 }
 void Monster_Hollow_NonFirstAttack::State_RH_VerticalSlash_Update(float _Delta)
 {
@@ -710,7 +749,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_VerticalSlash_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_RH_HorizontalSlash_Start()
 {
-	MainRenderer->ChangeAnimation("c1100_RH_HorizontalSlash");
+	MainRenderer->ChangeAnimation("c1100_BrokenSword_RH_HorizontalSlash");
 }
 void Monster_Hollow_NonFirstAttack::State_RH_HorizontalSlash_Update(float _Delta)
 {
@@ -722,7 +761,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_HorizontalSlash_Update(float _Delta
 
 void Monster_Hollow_NonFirstAttack::State_TH_VerticalSlash_Start()
 {
-	MainRenderer->ChangeAnimation("c1100_TH_VerticalSlash");
+	MainRenderer->ChangeAnimation("c1100_BrokenSword_TH_VerticalSlash");
 }
 void Monster_Hollow_NonFirstAttack::State_TH_VerticalSlash_Update(float _Delta)
 {
@@ -734,7 +773,7 @@ void Monster_Hollow_NonFirstAttack::State_TH_VerticalSlash_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Start()
 {
-	MainRenderer->ChangeAnimation("c1100_RH_ComboAttack");
+	MainRenderer->ChangeAnimation("c1100_BrokenSword_RH_ComboAttack");
 }
 void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 {
@@ -746,7 +785,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_RH_RunToSlash_Start()
 {
-	MainRenderer->ChangeAnimation("c1100_RH_RunToSlash");
+	MainRenderer->ChangeAnimation("c1100_BrokenSword_RH_RunToSlash");
 }
 void Monster_Hollow_NonFirstAttack::State_RH_RunToSlash_Update(float _Delta)
 {

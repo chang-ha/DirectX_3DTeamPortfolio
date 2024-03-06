@@ -16,6 +16,7 @@ public:
 	SwitchFlagFrameEvent& operator=(SwitchFlagFrameEvent&& _Other) noexcept = delete;
 
 	static std::shared_ptr<SwitchFlagFrameEvent> CreateEventObject(int _SFrame, int _EFrame, int _iFlag, bool _OnValue);
+	std::shared_ptr<FrameEventObject> CreatePlayingEvent() override;
 
 	void Write(class GameEngineSerializer& _File) override
 	{

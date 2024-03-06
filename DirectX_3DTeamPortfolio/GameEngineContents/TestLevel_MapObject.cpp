@@ -1,6 +1,6 @@
 ﻿#include "PreCompile.h"
 #include "TestLevel_MapObject.h"
-
+#include "Player.h"
 //오브젝트 헤더
 #include "Object_Ladder1.h"
 #include "Object_Ladder2.h"
@@ -16,7 +16,7 @@
 #include "Object_Skeleton.h"
 #include "Object_Skeleton1.h"
 #include "Object_StartDoor.h"
-#include "Object_Sword.h"
+#include "Object_bonfire.h"
 #include "Object_Table.h"
 #include "Object_HumanTree.h"
 #include "Object_CandleHuman.h"
@@ -39,6 +39,14 @@ void TestLevel_MapObject::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	ContentLevel::LevelStart(_PrevLevel);
 
+
+
+	{
+		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
+		Object->Transform.SetWorldPosition({ -9160, 2313, -4327 });
+	
+		//-8880, 2030, -4427
+	}
 	{
 		std::shared_ptr<WorldMap> Object = CreateActor<WorldMap>(1, "WorldMap");
 	}
@@ -113,6 +121,24 @@ void TestLevel_MapObject::CreateObject()
 	{
 		std::shared_ptr<TestMapObjcet> Object = CreateActor<TestMapObjcet>(1);
 	}
+	//화톳불
+
+	{
+		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
+		Object->Transform.SetWorldPosition({ -3925, 4120 , -1961 });
+	}
+	{
+		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
+		Object->Transform.SetWorldPosition({ -1125, -2489 , 3232 });
+	}
+	{
+		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
+		Object->Transform.SetWorldPosition({ -16547, 3372 , 2144 });
+	}
+	{
+		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
+	}
+	
 
 	//사다리
 	{
@@ -153,9 +179,7 @@ void TestLevel_MapObject::CreateObject()
 	{
 		std::shared_ptr<Object_StartDoor> Object = CreateActor<Object_StartDoor>(1);
 	}
-	{
-		std::shared_ptr<Object_Sword> Object = CreateActor<Object_Sword>(1);
-	}
+	
 	{
 		std::shared_ptr<Object_Table> Object = CreateActor<Object_Table>(1);
 	}

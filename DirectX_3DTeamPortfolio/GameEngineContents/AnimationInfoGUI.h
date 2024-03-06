@@ -252,7 +252,7 @@ private:
 	std::vector<std::string> BoneNames;
 	std::vector<const char*> CBoneNames;
 	float4 BoneS;
-	float4 BoneRot;
+	float4 BoneRot = float4::ZERONULL;
 	float4 BonePos;
 
 	std::vector<std::shared_ptr<EventTree>> EventTrees;

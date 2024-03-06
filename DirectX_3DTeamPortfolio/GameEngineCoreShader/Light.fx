@@ -27,7 +27,7 @@ struct LightData
     int LightType;
     float PointLightRange;
     float LightPower;
-    int Temp3;
+    float ForceLightPower;
 };
 
 cbuffer LightDatas : register(b12)
@@ -73,7 +73,7 @@ float4 CalSpacularLight(float4 _Pos, float4 _Normal, LightData _Data)
 
 float4 CalAmbientLight(LightData _Data)
 {
-    return _Data.AmbientLight;
+    return _Data.AmbientLight /** _Data.LightPower*/ * _Data.AmbLightPower;
 }
 
 

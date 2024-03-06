@@ -1,8 +1,27 @@
 #pragma once
 #include "BaseActor.h"
 
-#include "ContentsDebug.h"
+// Collision, BoneIndex
+enum class Enum_BoneType
+{
+	None,
+	B_01_LeftHand = 1,
+	B_01_RightHand = 21,
+	B_01_Spine = 31,
+};
 
+namespace std
+{
+	template<>
+	class hash<Enum_BoneType>
+	{
+	public:
+		int operator()(Enum_BoneType _Type) const
+		{
+			return static_cast<int>(_Type);
+		}
+	};
+}
 
 class BaseMonster : public BaseActor
 {
@@ -61,10 +80,10 @@ protected:
 	float4x4& GetBoneMatrixToType(Enum_BoneType _BoneType);
 
 	// Socket Collision
-	std::shared_ptr<BoneSocketCollision> CreateBoneCollision(Enum_CollisionOrder _Order, Enum_BoneType _Type, std::string ColName = "")
+	std::shared_ptr<BoneSocketCollision> CreateBoneCollision(Enum_CollisionOrder _Order, Enum_BoneType _Type, std::string_view ColName = "")
 	{
 		int SocketIndex = GetBoneIndex(_Type);
-		return CreateSocketCollision(_Order, SocketIndex, ColName);
+		return CreateSocketCollision(_Order, SocketIndex, {}, ColName);
 	}
 
 	std::shared_ptr<BoneSocketCollision> FindSocketCollision(Enum_BoneType _Type);
