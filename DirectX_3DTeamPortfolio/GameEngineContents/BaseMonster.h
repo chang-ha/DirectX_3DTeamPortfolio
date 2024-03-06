@@ -1,8 +1,27 @@
 #pragma once
 #include "BaseActor.h"
 
-#include "ContentsDebug.h"
+// Collision, BoneIndex
+enum class Enum_BoneType
+{
+	None,
+	B_01_LeftHand = 1,
+	B_01_RightHand = 21,
+	B_01_Spine = 31,
+};
 
+namespace std
+{
+	template<>
+	class hash<Enum_BoneType>
+	{
+	public:
+		int operator()(Enum_BoneType _Type) const
+		{
+			return static_cast<int>(_Type);
+		}
+	};
+}
 
 class BaseMonster : public BaseActor
 {

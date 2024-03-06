@@ -31,6 +31,7 @@
 
 #include "ContentsEnum.h"
 #include "ContentsMath.h"
+#include "ContentsDebug.h"
 #include "GlobalValue.h"
 
 #include "GameEngineCore\GameEnginePhysX.h"

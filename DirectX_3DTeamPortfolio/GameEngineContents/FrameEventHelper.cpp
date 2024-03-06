@@ -20,6 +20,43 @@ FrameEventHelper::~FrameEventHelper()
 {
 }
 
+
+std::string FrameEventHelper::GetEventPath(int _ID)
+{
+	if (EMPTY_ID == _ID)
+	{
+		return std::string();
+	}
+
+	std::string IDName = std::string("c") + std::to_string(_ID);
+
+	GameEnginePath path;
+	path.MoveParentToExistsChild("ContentsResources");
+	path.MoveChild("ContentsResources");
+	path.MoveChild("Mesh");
+	path.MoveChild(IDName);
+	path.MoveChild("Animation");
+	return path.GetStringPath();
+}
+
+bool FrameEventHelper::LoadEvent(int _ID)
+{
+	std::string Path = GetEventPath(_ID);
+	if (Path.empty())
+	{
+		return false;
+	}
+
+	GameEngineDirectory Dir(Path);
+	std::vector<GameEngineFile> Files = Dir.GetAllFile({ FrameEventHelper::GetExtName().data() });
+	for (GameEngineFile& pFile : Files)
+	{
+		FrameEventHelper::Load(pFile.GetStringPath());
+	}
+
+	return true;
+}
+
 std::string FrameEventHelper::GetConvertFileName(std::string_view _AnimationName)
 {
 	std::string Name = _AnimationName.data();

@@ -16,6 +16,9 @@ public:
 	FrameEventHelper& operator=(const FrameEventHelper& _Other) = delete;
 	FrameEventHelper& operator=(FrameEventHelper&& _Other) noexcept = delete;
 
+	static std::string GetEventPath(int _ID);
+	static bool LoadEvent(int _ID);
+
 	static inline std::string_view GetExtName() { return ExtName; }
 
 	static std::string GetConvertFileName(std::string_view _AnimationName);

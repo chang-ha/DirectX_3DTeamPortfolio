@@ -587,7 +587,7 @@ void AnimationInfoGUI::EventEditor(GameEngineLevel* _Level, float _DeltaTime)
 		return;
 	}
 
-	std::string Path = SelectActor->GetEventPath(SelectActor->GetID());
+	std::string Path = FrameEventHelper::GetEventPath(SelectActor->GetID());
 	bool PathOk = (false == Path.empty());
 	bool ManagerOk = (nullptr != SelectAnimation->GetEventManager());
 	if (false == PathOk || false == ManagerOk)

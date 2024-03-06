@@ -141,11 +141,20 @@ void BaseActor::SubFlag(Enum_ActorFlag _Flag)
 	SetFlag(_Flag, false);
 }
 
-void BaseActor::DebugFlag()
+void BaseActor::DebugFlag() const
 {
-	bool HitValue = IsFlag(Enum_ActorFlag::Hit);
+	bool WakeValue = IsFlag(Enum_ActorFlag::Wake);
 	bool DeathValue = IsFlag(Enum_ActorFlag::Death);
-	bool ParryPossible = IsFlag(Enum_ActorFlag::Parrying);
+	bool ParryingValue = IsFlag(Enum_ActorFlag::Parrying);
+	bool GuardingValue = IsFlag(Enum_ActorFlag::Guarding);
+	bool HitValue = IsFlag(Enum_ActorFlag::Hit);
+	bool HyperArmorValue = IsFlag(Enum_ActorFlag::HyperArmor);
+	bool Block_ShieldValue = IsFlag(Enum_ActorFlag::Block_Shield);
+	bool Guard_BreakValue = IsFlag(Enum_ActorFlag::Guard_Break);
+	bool Break_PostureValue = IsFlag(Enum_ActorFlag::Break_Posture);
+	bool TwoHandValue = IsFlag(Enum_ActorFlag::TwoHand);
+	bool FrontStabValue = IsFlag(Enum_ActorFlag::FrontStab);
+	bool BackStabValue = IsFlag(Enum_ActorFlag::BackStab);
 	int a = 0;
 }
 
@@ -169,7 +178,7 @@ std::shared_ptr<BoneSocketCollision> BaseActor::CreateSocketCollision(Enum_Colli
 	NewCol->SetCollisionType(ColType::SPHERE3D);
 	NewCol->SetRendererTransformPointer(&MainRenderer->Transform);
 	NewCol->SetSocket(&GetBoneMatrixToIndex(_SocketIndex));
-	NewCol->SetAttachedMatrix(_Para.S, _Para.Q, _Para.T);
+	NewCol->SetAttachedMatrix(_Para.S, _Para.R, _Para.T);
 	NewCol->Off();
 	SocketCollisions.insert(std::make_pair(_SocketIndex, NewCol));
 	return NewCol;
@@ -334,42 +343,6 @@ void BaseActor::DrawRange(float _Range, const float4& _Color /*= float4::RED*/) 
 
 		GameEngineDebug::DrawSphere2D(WScale, WRot, WPos, _Color);
 	}
-}
-
-std::string BaseActor::GetEventPath(int _ID)
-{
-	if (EMPTY_ID == _ID)
-	{
-		return std::string();
-	}
-
-	std::string IDName = std::string("c") + std::to_string(_ID);
-
-	GameEnginePath path;
-	path.MoveParentToExistsChild("ContentsResources");
-	path.MoveChild("ContentsResources");
-	path.MoveChild("Mesh");
-	path.MoveChild(IDName);
-	path.MoveChild("Animation");
-	return path.GetStringPath();
-}
-
-bool BaseActor::LoadEvent(int _ID)
-{
-	std::string Path = GetEventPath(_ID);
-	if (Path.empty())
-	{
-		return false;
-	}
-
-	GameEngineDirectory Dir(Path);
-	std::vector<GameEngineFile> Files = Dir.GetAllFile({ FrameEventHelper::GetExtName().data() });
-	for (GameEngineFile& pFile : Files)
-	{
-		FrameEventHelper::Load(pFile.GetStringPath());
-	}
-
-	return true;
 }
 
 std::string BaseActor::GetIDName() const
