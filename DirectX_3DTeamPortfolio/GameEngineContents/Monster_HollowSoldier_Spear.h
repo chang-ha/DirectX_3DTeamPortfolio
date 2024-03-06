@@ -27,6 +27,7 @@ enum class Enum_HollowSoldier_Spear_State
 	Attack4,	// StepAndPike
 	Attack5,	// Swing
 	Attack6,	// Swing - Pike1
+	RunToPike,
 	Turn_Left2,
 	Turn_Right2,
 	Turn_Left_Twice2,
@@ -163,6 +164,9 @@ protected:
 
 	void State_Attack6_Start();
 	void State_Attack6_Update(float _Delta);
+
+	void State_RunToPike_Start();
+	void State_RunToPike_Update(float _Delta);
 
 	void State_Turn_Left2_Start();
 	void State_Turn_Left2_Update(float _Delta);

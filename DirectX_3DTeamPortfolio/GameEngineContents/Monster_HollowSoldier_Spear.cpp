@@ -109,6 +109,9 @@ void Monster_HollowSoldier_Spear::ChangeState(Enum_HollowSoldier_Spear_State _St
 		case Enum_HollowSoldier_Spear_State::Attack6:
 			State_Attack6_Start();
 			break;
+		case Enum_HollowSoldier_Spear_State::RunToPike:
+			State_RunToPike_Start();
+			break;
 		case Enum_HollowSoldier_Spear_State::Turn_Left2:
 			State_Turn_Left2_Start();
 			break;
@@ -227,6 +230,8 @@ void Monster_HollowSoldier_Spear::StateUpdate(float _Delta)
 		return State_Attack5_Update(_Delta);
 	case Enum_HollowSoldier_Spear_State::Attack6:
 		return State_Attack6_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::RunToPike:
+		return State_RunToPike_Update(_Delta);
 	case Enum_HollowSoldier_Spear_State::Turn_Left2:
 		return State_Turn_Left2_Update(_Delta);
 	case Enum_HollowSoldier_Spear_State::Turn_Right2:
@@ -413,14 +418,13 @@ void Monster_HollowSoldier_Spear::State_Idle3_Update(float _Delta)
 		};
 	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);
 
-	if (StateTime >= 2.0f)
+	if (StateTime >= 0.1f)
 	{
 		// 거리 구하기
-		if (false)
+		if (GetTargetDistance_e() == Enum_TargetDist::Long)
 		{
-			//RunToSting
 			StateTime = 0.0;
-			//ChangeState(Enum_HollowSoldier_Spear_State::Attack4);
+			ChangeState(Enum_HollowSoldier_Spear_State::Run3);
 		}
 		else
 		{
@@ -552,6 +556,11 @@ void Monster_HollowSoldier_Spear::State_Walk_Front3_Update(float _Delta)
 		RotToTarget(_Delta);
 	}
 
+	if (GetTargetDistance_e() == Enum_TargetDist::Long)
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Run3);
+	}
+
 	EventParameter AttackParameter;
 	AttackParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
 		{
@@ -640,11 +649,30 @@ void Monster_HollowSoldier_Spear::State_Run_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Run3_Start()
 {
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
 	MainRenderer->ChangeAnimation("c1100_Spear_Run3");
 }
 void Monster_HollowSoldier_Spear::State_Run3_Update(float _Delta)
 {
+	WalkTime += _Delta;
 
+	if (false == IsTargetInAngle(3.0f))
+	{
+		RotToTarget(_Delta);
+	}
+
+	if (WalkTime >= WalkToChangeTime)
+	{
+		WalkTime = 0.0f;
+		if (GetTargetDistance_e() == Enum_TargetDist::Melee)
+		{
+			ChangeState(Enum_HollowSoldier_Spear_State::RunToPike);
+		}
+		else if (GetTargetDistance_e() == Enum_TargetDist::Close)
+		{
+			ChangeState(Enum_HollowSoldier_Spear_State::Idle3);
+		}
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Attack1_Start()
@@ -791,6 +819,18 @@ void Monster_HollowSoldier_Spear::State_Attack6_Update(float _Delta)
 		{
 			ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
 		}
+	}
+}
+
+void Monster_HollowSoldier_Spear::State_RunToPike_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_RunToPike");
+}
+void Monster_HollowSoldier_Spear::State_RunToPike_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 74)
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
 	}
 }
 

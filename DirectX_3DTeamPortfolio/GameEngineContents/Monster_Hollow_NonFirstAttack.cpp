@@ -276,7 +276,7 @@ void Monster_Hollow_NonFirstAttack::NonFindTarget(float _Delta)
 	{
 		if (RecognizeCollision->IsUpdate() == true)
 		{
-			RecognizeCollision->Transform.AddWorldScale(float4(500.0f * _Delta, 500.0f * _Delta, 500.0f * _Delta));
+			RecognizeCollision->Transform.AddWorldScale(float4(2000.0f * _Delta, 2000.0f * _Delta, 2000.0f * _Delta));
 		}
 	}
 }
@@ -595,11 +595,11 @@ void Monster_Hollow_NonFirstAttack::State_Idle_Update(float _Delta)
 	if (StateTime >= 0.1f)
 	{
 		// 거리 구하기
-		if (false)
+		if (GetTargetDistance_e() == Enum_TargetDist::Long)
 		{
 			//RunToSting
 			StateTime = 0.0;
-			//ChangeState(Enum_Hollow_State::RH_RunToSting);
+			ChangeState(Enum_Hollow_State::Run);
 		}
 		else
 		{
@@ -628,6 +628,12 @@ void Monster_Hollow_NonFirstAttack::State_Walk_Front_Update(float _Delta)
 	if (false == IsTargetInAngle(3.0f))
 	{
 		RotToTarget(_Delta);
+	}
+
+	if (GetTargetDistance_e() == Enum_TargetDist::Long)
+	{
+		// Idle로 넘어갈지 바로 Run으로 넘어갈지 조사해야할듯..
+		ChangeState(Enum_Hollow_State::Run);
 	}
 
 	EventParameter AttackParameter;
@@ -703,16 +709,35 @@ void Monster_Hollow_NonFirstAttack::State_Walk_Right_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_Run_Start()
 {
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
 	MainRenderer->ChangeAnimation("c1100_Run");
 }
 void Monster_Hollow_NonFirstAttack::State_Run_Update(float _Delta)
 {
+	WalkTime += _Delta;
 
+	if (false == IsTargetInAngle(3.0f))
+	{
+		RotToTarget(_Delta);
+	}
+
+	if (WalkTime >= WalkToChangeTime)
+	{
+		WalkTime = 0.0f;
+		if (GetTargetDistance_e() == Enum_TargetDist::Melee)
+		{
+			ChangeState(Enum_Hollow_State::RH_RunToSlash);
+		}
+		else if (GetTargetDistance_e() == Enum_TargetDist::Close)
+		{
+			ChangeState(Enum_Hollow_State::Idle);
+		}
+	}
 }
 
 void Monster_Hollow_NonFirstAttack::State_RH_VerticalSlash_Start()
 {
-	MainRenderer->ChangeAnimation("c1100_RH_VerticalSlash");
+	MainRenderer->ChangeAnimation("c1100_BrokenSword_RH_VerticalSlash");
 }
 void Monster_Hollow_NonFirstAttack::State_RH_VerticalSlash_Update(float _Delta)
 {
@@ -724,7 +749,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_VerticalSlash_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_RH_HorizontalSlash_Start()
 {
-	MainRenderer->ChangeAnimation("c1100_RH_HorizontalSlash");
+	MainRenderer->ChangeAnimation("c1100_BrokenSword_RH_HorizontalSlash");
 }
 void Monster_Hollow_NonFirstAttack::State_RH_HorizontalSlash_Update(float _Delta)
 {
@@ -736,7 +761,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_HorizontalSlash_Update(float _Delta
 
 void Monster_Hollow_NonFirstAttack::State_TH_VerticalSlash_Start()
 {
-	MainRenderer->ChangeAnimation("c1100_TH_VerticalSlash");
+	MainRenderer->ChangeAnimation("c1100_BrokenSword_TH_VerticalSlash");
 }
 void Monster_Hollow_NonFirstAttack::State_TH_VerticalSlash_Update(float _Delta)
 {
@@ -748,7 +773,7 @@ void Monster_Hollow_NonFirstAttack::State_TH_VerticalSlash_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Start()
 {
-	MainRenderer->ChangeAnimation("c1100_RH_ComboAttack");
+	MainRenderer->ChangeAnimation("c1100_BrokenSword_RH_ComboAttack");
 }
 void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 {
@@ -760,7 +785,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_RH_RunToSlash_Start()
 {
-	MainRenderer->ChangeAnimation("c1100_RH_RunToSlash");
+	MainRenderer->ChangeAnimation("c1100_BrokenSword_RH_RunToSlash");
 }
 void Monster_Hollow_NonFirstAttack::State_RH_RunToSlash_Update(float _Delta)
 {
