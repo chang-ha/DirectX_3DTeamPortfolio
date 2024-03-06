@@ -397,15 +397,7 @@ void Boss_Vordt::Idle_Start()
 
 void Boss_Vordt::Idle_Update(float _Delta)
 {
-	if (true == MainRenderer->IsCurAnimationEnd())
-	{
-	}
 
-	if (0.3f > MainState.GetStateTime())
-	{
-		return;
-	}
-	// MainState.ChangeState(Enum_BossState::Walk_Front);
 }
 
 void Boss_Vordt::Idle_End()
@@ -415,20 +407,12 @@ void Boss_Vordt::Idle_End()
 
 void Boss_Vordt::Walk_Front_Start()
 {
-	// MainRenderer->ChangeAnimation("Walk_Left");
 	MainRenderer->ChangeAnimation("Walk_Front", true);
 }
 
 void Boss_Vordt::Walk_Front_Update(float _Delta)
 {
-	//if (0 <= TargetAngle)
-	//{
-	//	MainRenderer->ChangeAnimation("Walk_Right");
-	//}
-	//else
-	//{
-	//	MainRenderer->ChangeAnimation("Walk_Left");
-	//}
+
 }
 
 void Boss_Vordt::Walk_Front_End()
@@ -486,26 +470,12 @@ void Boss_Vordt::Rush_Front_End()
 
 void Boss_Vordt::Jump_Back_Start()
 {
-	// 플레이어 위치에 따라 조정
 	MainRenderer->ChangeAnimation("Jump_Back", true);
 }
 
 void Boss_Vordt::Jump_Back_Update(float _Delta)
 {
-	if (15 <= MainRenderer->GetCurAnimationFrame() &&
-		33 >= MainRenderer->GetCurAnimationFrame())
-	{
-		SetRotSpeed(180.f);
-	}
-	else if (45 <= MainRenderer->GetCurAnimationFrame() &&
-		52 >= MainRenderer->GetCurAnimationFrame())
-	{
-		MainRenderer->ChangeAnimation("Jump_Back", true);
-	}
-	else
-	{
-		SetRotSpeed(0.f);
-	}
+
 }
 
 void Boss_Vordt::Jump_Back_End()
@@ -785,7 +755,7 @@ void Boss_Vordt::Hit_Down_004_Start()
 
 void Boss_Vordt::Hit_Down_004_Update(float _Delta)
 {
-	// Capsule->AddWorldRotation({0.f, 50.f * _Delta, 0.f, 0.f});
+
 }
 
 void Boss_Vordt::Hit_Down_004_End()

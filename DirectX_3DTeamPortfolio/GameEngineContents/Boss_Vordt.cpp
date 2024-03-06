@@ -216,19 +216,10 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	ImGui::NewLine();
 
 	{
-		bool Result = Linked_Boss->Col;
-
-		std::string IsCol = "IsCol\n";
-		switch (Result)
-		{
-		case 0:
-			IsCol += " False";
-			break;
-		default:
-			IsCol += " True";
-			break;
-		}
-		ImGui::Text(IsCol.c_str());
+		float Dis = Linked_Boss->TargetDistance;
+		std::string cDistance = "Target Distance : ";
+		cDistance += std::to_string(Dis);
+		ImGui::Text(cDistance.c_str());
 	}
 }
 
@@ -698,8 +689,6 @@ void Boss_Vordt::Start()
 	SetID(Enum_ActorType::Boss_Vordt);
 	GameEngineInput::AddInputObject(this);
 
-// #define RENDER_SCALE 75.f
-
 	if (nullptr == MainRenderer)
 	{
 		MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
@@ -718,7 +707,7 @@ void Boss_Vordt::Start()
 void Boss_Vordt::Update(float _Delta)
 {
 	BaseActor::Update(_Delta);
-
+	CalcuTargetDistance();
 
 	if (true == GameEngineInput::IsDown('B', this))
 	{
@@ -764,11 +753,11 @@ void Boss_Vordt::Release()
 		R_HandCollision = nullptr;
 	}
 
-	//if (nullptr != BossCollision)
-	//{
-	//	BossCollision->Death();
-	//	BossCollision = nullptr;
-	//}
+	if (nullptr != BossCollision)
+	{
+		BossCollision->Death();
+		BossCollision = nullptr;
+	}
 
 	if (nullptr != Capsule)
 	{
@@ -786,6 +775,21 @@ void Boss_Vordt::Release()
 	BaseActor::Release();
 }
 
+void Boss_Vordt::CalcuTargetDistance()
+{
+	if (false == IsTargeting())
+	{
+		TargetDistance = 0.f;
+		return;
+	}
+
+	float4 TargetPos = GetTargetPos();
+	float4 BossPos = Transform.GetWorldPosition();
+	float4 CalcuDistance = BossPos - TargetPos;
+	CalcuDistance = DirectX::XMVector3LengthEst(CalcuDistance.DirectXVector);
+	TargetDistance = CalcuDistance.X;
+}
+
 float4 Boss_Vordt::BoneWorldPos(int _BoneIndex)
 {
 	std::vector<float4x4>& BoneMats = MainRenderer->GetBoneSockets();
@@ -800,22 +804,25 @@ float4 Boss_Vordt::BoneWorldPos(int _BoneIndex)
 	return P;
 }
 
-void Boss_Vordt::AI_MoveMent()
+bool Boss_Vordt::AI_MoveMent()
 {
+	return false;
+}
+
+bool Boss_Vordt::AI_Attack()
+{
+	return false;
 
 }
 
-void Boss_Vordt::AI_Attack()
+bool Boss_Vordt::AI_Combo()
 {
+	return false;
 
 }
 
-void Boss_Vordt::AI_Combo()
+bool Boss_Vordt::AI_Dodge()
 {
-	
-}
-
-void Boss_Vordt::AI_Dodge()
-{
+	return false;
 
 }
