@@ -366,11 +366,16 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 	// State
 	{
+		JumpTableInfo mJumpTableInfo;
+
 		// Move & Others
 		CreateStateParameter Howling;
 		Howling.Start = std::bind(&Boss_Vordt::Howling_Start, this);
 		Howling.Stay = std::bind(&Boss_Vordt::Howling_Update, this, std::placeholders::_1);
 		Howling.End = std::bind(&Boss_Vordt::Howling_End, this);
+		// mJumpTableInfo.SetJumpTableInfo(10, 15, std::bind(&Boss_Vordt::AI_MoveMent, this));
+		// mJumpTableManager.AddJumpTable("Howling", mJumpTableInfo);
+		// mJumpTableManager.AddJumpTable("Howling", 11, 14, std::bind(&Boss_Vordt::AI_Dodge, this));
 
 		CreateStateParameter Idle;
 		Idle.Start = std::bind(&Boss_Vordt::Idle_Start, this);
@@ -762,7 +767,7 @@ float4 Boss_Vordt::BoneWorldPos(int _BoneIndex)
 
 bool Boss_Vordt::AI_MoveMent()
 {
-
+	int a = 0;
 	return false;
 }
 

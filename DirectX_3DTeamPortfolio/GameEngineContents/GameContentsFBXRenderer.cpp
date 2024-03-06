@@ -18,7 +18,12 @@ void GameContentsFBXAnimationInfo::EventCall(UINT _Frame)
 {
 	if (true == FrameEventFunction.contains(Frames[_Frame]))
 	{
-		FrameEventFunction[Frames[_Frame]](ParentRenderer);
+		std::multimap<int, std::function<void(GameContentsFBXRenderer*)>>::iterator StartIter = FrameEventFunction.lower_bound(_Frame);
+		std::multimap<int, std::function<void(GameContentsFBXRenderer*)>>::iterator EndIter = FrameEventFunction.upper_bound(_Frame);
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			StartIter->second(ParentRenderer);
+		}
 	}
 }
 
@@ -877,6 +882,10 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 	}
 
 	CurAnimation = Ptr;
+	if (nullptr != CurAnimation->AnimationChangeFunction)
+	{
+		CurAnimation->AnimationChangeFunction();
+	}
 
 	if (nullptr != MultiBlendAnimation)
 	{
@@ -1373,7 +1382,7 @@ void GameContentsFBXRenderer::SetFrameEvent(std::string_view _AnimationName, int
 		MsgBoxAssert("존재하지 않는 애니메이션에 이벤트를 만들려고 했습니다.");
 	}
 
-	Animation->FrameEventFunction[_Frame] = _Function;
+	Animation->FrameEventFunction.insert(std::make_pair(_Frame, _Function));
 }
 
 void GameContentsFBXRenderer::SetStartEvent(std::string_view _AnimationName, std::function<void(GameContentsFBXRenderer*)> _Function)
@@ -1389,7 +1398,7 @@ void GameContentsFBXRenderer::SetStartEvent(std::string_view _AnimationName, std
 		MsgBoxAssert("존재하지 않는 애니메이션에 이벤트를 만들려고 했습니다.");
 	}
 
-	Animation->FrameEventFunction[Animation->Frames[0]] = _Function;
+	Animation->FrameEventFunction.insert(std::make_pair(0, _Function));
 }
 
 void GameContentsFBXRenderer::SetEndEvent(std::string_view _AnimationName, std::function<void(GameContentsFBXRenderer*)> _Function)
@@ -1407,6 +1416,23 @@ void GameContentsFBXRenderer::SetEndEvent(std::string_view _AnimationName, std::
 
 	Animation->EndEvent = _Function;
 }
+
+void GameContentsFBXRenderer::SetAnimationChangeEvent(std::string_view _AnimationName, std::function<void()> _Function)
+{
+	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
+
+	std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>::iterator FindIter = Animations.find(UpperName);
+
+	std::shared_ptr<GameContentsFBXAnimationInfo> Animation = FindIter->second;
+
+	if (nullptr == Animation)
+	{
+		MsgBoxAssert("존재하지 않는 애니메이션에 이벤트를 만들려고 했습니다.");
+	}
+
+	Animation->AnimationChangeFunction = _Function;
+}
+
 
 void GameContentsFBXRenderer::SetFrameChangeFunction(std::string_view _AnimationName, std::function<void(int _FrameIndex)> _Function)
 {
