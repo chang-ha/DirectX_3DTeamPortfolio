@@ -14,11 +14,6 @@ protected:
 private:
 	std::vector<const char*> AniNames;
 	Boss_Vordt* Linked_Boss = nullptr;
-	bool IsChasingCamera = false;
-	float4 ChasingCameraPos = float4(0.f, 100.f, -1200.f);
-	float4 ChasingCameraRot = float4::ZERONULL;
-	float4 PrevCameraPos = float4::ZERO;
-
 	void Reset();
 };
 

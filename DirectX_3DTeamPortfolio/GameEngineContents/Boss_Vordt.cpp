@@ -32,18 +32,6 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		{
 			AniNames.push_back(StartIter->second.Name.c_str());
 		}
-
-		//std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& AniInfo = Linked_Boss->MainRenderer->GetAnimationInfos();
-
-		//if (0 == AniNames.capacity())
-		//{
-		//	AniNames.reserve(AniInfo.size());
-		//}
-
-		//for (std::pair<const std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& _Pair : AniInfo)
-		//{
-		//	AniNames.push_back(_Pair.first.data());
-		//}
 	}
 
 	{
@@ -61,29 +49,6 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		String += std::to_string(Frame);
 		ImGui::Text(String.c_str());
 	}
-
-	//{
-	//	if (true == ImGui::Checkbox("ChasingCamera", &IsChasingCamera))
-	//	{
-	//		if (false == IsChasingCamera)
-	//		{
-	//			Linked_Boss->GetLevel()->GetMainCamera()->Transform.SetWorldPosition(PrevCameraPos);
-	//			Linked_Boss->GetLevel()->GetMainCamera()->Transform.SetWorldRotation(float4(0.f, 0.f, 0.f, 0.f));
-	//		}
-	//		else
-	//		{
-	//			ChasingCameraRot = float4(0.f, 0.f, 0.f, 0.f);
-	//			PrevCameraPos = Linked_Boss->GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
-	//		}
-	//		ChasingCameraPos = float4(0.f, 2000.f, 0.f);
-	//	}
-	//}
-
-	//if (true == IsChasingCamera)
-	//{
-	//	Linked_Boss->GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Linked_Boss->Transform.GetWorldPosition() + ChasingCameraPos);
-	//	Linked_Boss->GetLevel()->GetMainCamera()->Transform.SetWorldRotation(Linked_Boss->Transform.GetWorldRotationEuler() + ChasingCameraRot);
-	//}
 
 	ImGui::NewLine();
 
@@ -227,8 +192,6 @@ void Boss_State_GUI::Reset()
 {
 	AniNames.clear();
 	Linked_Boss = nullptr;
-	IsChasingCamera = false;
-	ChasingCameraPos = float4(0.f, 1000.f, 0.f);
 }
 
 Boss_Vordt::Boss_Vordt()
@@ -701,7 +664,6 @@ void Boss_Vordt::Start()
 	{
 		Capsule = CreateComponent<GameEnginePhysXCapsule>();
 	}
-
 }
 
 void Boss_Vordt::Update(float _Delta)
@@ -788,6 +750,8 @@ void Boss_Vordt::CalcuTargetDistance()
 	float4 CalcuDistance = BossPos - TargetPos;
 	CalcuDistance = DirectX::XMVector3LengthEst(CalcuDistance.DirectXVector);
 	TargetDistance = CalcuDistance.X;
+
+	return;
 }
 
 float4 Boss_Vordt::BoneWorldPos(int _BoneIndex)
@@ -812,17 +776,14 @@ bool Boss_Vordt::AI_MoveMent()
 bool Boss_Vordt::AI_Attack()
 {
 	return false;
-
 }
 
 bool Boss_Vordt::AI_Combo()
 {
 	return false;
-
 }
 
 bool Boss_Vordt::AI_Dodge()
 {
 	return false;
-
 }
