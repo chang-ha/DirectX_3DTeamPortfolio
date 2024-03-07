@@ -462,6 +462,7 @@ void JumpTableManager::Update()
 void JumpTableManager::Release()
 {
 	RunJumpTable.clear();
+	IsClearJumpTable = false;
 }
 
 void JumpTableManager::PushJumpTable(JumpTableInfo _JumpTableInfo)
