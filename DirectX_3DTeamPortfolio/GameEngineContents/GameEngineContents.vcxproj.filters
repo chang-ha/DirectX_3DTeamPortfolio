@@ -349,6 +349,9 @@
     <ClCompile Include="Player_HitInteraction.cpp">
       <Filter>Actor\Player</Filter>
     </ClCompile>
+    <ClCompile Include="ContentsAlphaSpriteRenderer.cpp">
+      <Filter>Resource\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -692,6 +695,9 @@
     </ClInclude>
     <ClInclude Include="Player_HitInteraction.h">
       <Filter>Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsAlphaSpriteRenderer.h">
+      <Filter>Resource\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
