@@ -792,6 +792,35 @@ void Boss_Vordt::AI_Combo()
 	//	3. Combo1_Step3
 	//	4. Combo2_Step1
 	//	5. Combo2_Step2
+
+	int CurState = MainState.GetCurState();
+
+	switch (CurState)
+	{
+	case Enum_BossState::Combo1_Step1:
+	{
+		MainState.ChangeState(Enum_BossState::Combo1_Step2);
+		break;
+	}
+	case Enum_BossState::Combo1_Step2:
+	{
+		MainState.ChangeState(Enum_BossState::Combo1_Step3);
+		break;
+	}
+	case Enum_BossState::Combo1_Step3:
+		return;
+	case Enum_BossState::Combo2_Step1:
+	{
+		MainState.ChangeState(Enum_BossState::Combo2_Step2);
+		break;
+	}
+	case Enum_BossState::Combo2_Step2:
+		return;
+	default:
+		return;
+	}
+
+	mJumpTableManager.ClearJumpTable();
 	return;
 }
 

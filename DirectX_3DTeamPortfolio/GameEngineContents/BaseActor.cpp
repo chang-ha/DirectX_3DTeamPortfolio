@@ -449,13 +449,15 @@ void JumpTableManager::Update()
 
 	for (JumpTableInfo _CurTableInfo : RunJumpTable)
 	{
+		_CurTableInfo.JumpTable();
+
+		// JumpTable 중 상태값 바뀌면 mJumpTableManager.ClearJumpTable(); 호출 필요
 		if (true == IsClearJumpTable)
 		{
 			RunJumpTable.clear();
 			IsClearJumpTable = false;
 			break;
 		}
-		_CurTableInfo.JumpTable();
 	}
 }
 

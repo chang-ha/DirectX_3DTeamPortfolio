@@ -18,7 +18,7 @@ private:
 	void Reset();
 };
 
-enum class Enum_BossState
+enum Enum_BossState
 {
 	// Move & Others
 	Howling = (1 << 0),
@@ -101,7 +101,9 @@ private:
 	float4 BoneWorldPos(int _BoneIndex);
 
 	// static constexpr float Close = 500.f;
-	// static constexpr float Middle = 800.f;
+	// static constexpr float Middle = 1000.f;
+	// static constexpr float Long = 1500.f;
+	// static constexpr float Max = 2000.f;
 
 	void AI_MoveMent();
 	void AI_Attack();
