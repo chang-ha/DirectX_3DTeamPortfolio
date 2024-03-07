@@ -297,23 +297,27 @@ void Player::Player_State()
 				else if (true == GameEngineInput::IsPress('W', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
 					MainRenderer->ChangeAnimation("Walk_Forward");
-					Capsule->MoveForce({ float4::FORWARD * Speed });
+					Capsule->MoveForce({ float4::FORWARD * Speed},Capsule->GetDir());
+					//Capsule->SetWorldRotation({ 0.0f,180.0f,0.0f });
 				}
 
 				else if (true == GameEngineInput::IsPress('S', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
 					//MainRenderer->ChangeAnimation("Walk_Forward");
-					Capsule->MoveForce({ float4::BACKWARD * Speed });
+					Capsule->MoveForce({ float4::BACKWARD * Speed }, Capsule->GetDir());
+					//Capsule->SetWorldRotation({ 0.0f,180.0f,0.0f });
 				}
 				else if (true == GameEngineInput::IsPress('A', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
 					MainRenderer->ChangeAnimation("Walk_Left");
-					Capsule->MoveForce({ float4::LEFT * Speed });
+					Capsule->MoveForce({ float4::LEFT * Speed }, Capsule->GetDir());
+					//Capsule->SetWorldRotation({ 0.0f,180.0f,0.0f });
 				}
 				else if (true == GameEngineInput::IsPress('D', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
 					MainRenderer->ChangeAnimation("Walk_Right");
-					Capsule->MoveForce({ float4::RIGHT * Speed });
+					Capsule->MoveForce({ float4::RIGHT * Speed }, degree_X);
+					//Capsule->SetWorldRotation({ 0.0f,180.0f,0.0f });
 				}
 			
 				else if (true == GameEngineInput::IsPress('W', this)&& Rock_On_Check == true)
@@ -393,6 +397,7 @@ void Player::Player_State()
 					_Parent->ChangeState(PlayerState::Shield_Idle);
 					return;
 				}
+				
 				
 
 
@@ -1690,6 +1695,9 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}		
+
+				Capsule->SetWorldRotation({ 0.0f,degree_X });
+
 			};
 
 		PlayerStates.CreateState(PlayerState::Forward_Hit, NewPara);
@@ -1711,6 +1719,8 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
+
+				Capsule->SetWorldRotation({ 0.0f,degree_X });
 			};
 
 		PlayerStates.CreateState(PlayerState::Backward_Hit, NewPara);
@@ -1732,6 +1742,8 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
+
+				Capsule->SetWorldRotation({ 0.0f,degree_X });
 			};
 
 		PlayerStates.CreateState(PlayerState::Right_Hit, NewPara);
@@ -1753,6 +1765,8 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
+
+				Capsule->SetWorldRotation({ 0.0f,degree_X });
 			};
 
 		PlayerStates.CreateState(PlayerState::Left_Hit, NewPara);
@@ -1779,6 +1793,8 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
+
+				Capsule->SetWorldRotation({ 0.0f,degree_X });
 			};
 
 		PlayerStates.CreateState(PlayerState::Forward_Middle_Hit, NewPara);
@@ -1801,6 +1817,8 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
+
+				Capsule->SetWorldRotation({ 0.0f,degree_X });
 			};
 
 		PlayerStates.CreateState(PlayerState::Backward_Middle_Hit, NewPara);
@@ -1822,6 +1840,8 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
+
+				Capsule->SetWorldRotation({ 0.0f,degree_X });
 			};
 
 		PlayerStates.CreateState(PlayerState::Right_Middle_Hit, NewPara);
@@ -1843,6 +1863,8 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
+
+				Capsule->SetWorldRotation({ 0.0f,degree_X });
 			};
 
 		PlayerStates.CreateState(PlayerState::Left_Middle_Hit, NewPara);
@@ -1866,9 +1888,34 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
+
+				Capsule->SetWorldRotation({ 0.0f,degree_X });
 			};
 
 		PlayerStates.CreateState(PlayerState::Forward_Big_Hit, NewPara);
+	}
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("String_Hit_Backward");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+
+				Capsule->SetWorldRotation({ 0.0f,degree_X });
+			};
+
+		PlayerStates.CreateState(PlayerState::Backward_Big_Hit, NewPara);
 	}
 
 

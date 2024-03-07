@@ -274,9 +274,6 @@
     <ClCompile Include="DummyGUI.cpp">
       <Filter>ImGui\Editor\ActorGUI</Filter>
     </ClCompile>
-    <ClCompile Include="CenterBodySoundFrameEvent.cpp">
-      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
-    </ClCompile>
     <ClCompile Include="DummyPolySoundFrameEvent.cpp">
       <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClCompile>
@@ -345,6 +342,15 @@
     </ClCompile>
     <ClCompile Include="BaseActor_Para.cpp">
       <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialLoopSoundFrameEvent.cpp">
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseActor_Struct.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="SingleCenterSoundFrameEvent.cpp">
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClCompile>
     <ClCompile Include="Player_HitInteraction.cpp">
       <Filter>Actor\Player</Filter>
@@ -621,9 +627,6 @@
     <ClInclude Include="DummyGUI.h">
       <Filter>ImGui\Editor\ActorGUI</Filter>
     </ClInclude>
-    <ClInclude Include="CenterBodySoundFrameEvent.h">
-      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
-    </ClInclude>
     <ClInclude Include="DummyPolySoundFrameEvent.h">
       <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClInclude>
@@ -692,6 +695,15 @@
     </ClInclude>
     <ClInclude Include="BaseActor_Para.h">
       <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialLoopSoundFrameEvent.h">
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseActor_Struct.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleCenterSoundFrameEvent.h">
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClInclude>
     <ClInclude Include="Player_HitInteraction.h">
       <Filter>Actor\Player</Filter>

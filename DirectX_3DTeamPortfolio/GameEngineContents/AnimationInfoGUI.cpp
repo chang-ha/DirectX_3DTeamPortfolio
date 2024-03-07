@@ -8,7 +8,8 @@
 #include "FrameEventHelper.h"
 #include "BoneSoundFrameEvent.h"
 #include "DummyPolySoundFrameEvent.h"
-#include "CenterBodySoundFrameEvent.h"
+#include "SingleCenterSoundFrameEvent.h"
+#include "MaterialLoopSoundFrameEvent.h"
 #include "BoneSocketCollision.h"
 #include "CollisionUpdateFrameEvent.h"
 #include "TurnSpeedFrameEvent.h"
@@ -195,8 +196,9 @@ void AnimationInfoGUI::Start()
 {
 	CreateEventTree<TotalEventTree>("Total Events");
 	CreateEventTree<BoneSoundEventTree>("Bone Sound");
-	CreateEventTree<CenterBodySoundEventTree>("CenterBody Sound");
+	// CreateEventTree<SingleCenterSoundEventTree>("SingleCenter Sound");
 	CreateEventTree<DPSoundEventTree>("Dummy Poly Sound");
+	CreateEventTree<MaterialLoopDPSoundEventTree>("Material DP Sound Sound");
 	CreateEventTree<CollisionEventTree>("Collision Switch");
 	CreateEventTree<TurnSpeedEventTree>("Turn Speed");
 }
@@ -215,7 +217,7 @@ void AnimationInfoGUI::LevelEnd()
 	SelectActor = nullptr;
 	ActorNames.clear();
 	CObjectNames.clear();
-	ActorChange();
+	AllTreeLevelEnd();
 	DummyEditorReset();
 }
 
@@ -365,6 +367,14 @@ void AnimationInfoGUI::AnimationList(class GameEngineLevel* _Level, float _Delta
 		EventEditor(_Level, _DeltaTime);
 
 		ImGui::TreePop();
+	}
+}
+
+void AnimationInfoGUI::AllTreeLevelEnd()
+{
+	for (const std::shared_ptr<EventTree>& pTree : EventTrees)
+	{
+		pTree->LevelEnd();
 	}
 }
 
@@ -682,6 +692,7 @@ void TotalEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 	}
 }
 
+
 void SoundEventTree::ChangeActor()
 {
 	LoadSoundList();
@@ -730,6 +741,12 @@ void SoundEventTree::LoadSoundList()
 		SoundFileList.push_back(pFile.GetFileName());
 		CSoundFileList.push_back(SoundFileList[i].c_str());
 	}
+}
+
+void SoundEventTree::LevelEnd()
+{
+	SoundFileList.clear();
+	CSoundFileList.clear();
 }
 
 void BoneSoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
@@ -796,6 +813,18 @@ void BoneSoundEventTree::ChangeAnimation()
 	SoundIndex = 0;
 }
 
+void BoneSoundEventTree::LevelEnd()
+{
+	BoneNames.clear();
+	CBoneNames.clear();
+	BoneIndex = -1;
+
+	SoundFileList.clear();
+	CSoundFileList.clear();
+	int SelectStartFrame = -1;
+	int SoundIndex = -1;
+}
+
 void BoneSoundEventTree::LoadSoundList()
 {
 	std::string IDName = Parent->SelectActor->GetIDName();
@@ -831,7 +860,7 @@ void BoneSoundEventTree::LoadSoundList()
 	}
 }
 
-void CenterBodySoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
+void SingleCenterSoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 {
 	GameContentsFBXAnimationInfo* pAnimation = EventTree::GetSelectAnimation();
 	if (nullptr == pAnimation)
@@ -852,9 +881,14 @@ void CenterBodySoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 			return;
 		}
 
-		std::shared_ptr<CenterBodySoundFrameEvent> CBEvent = CenterBodySoundFrameEvent::CreateEventObject(SelectStartFrame);
+		std::shared_ptr<SingleCenterSoundFrameEvent> CBEvent = SingleCenterSoundFrameEvent::CreateEventObject(SelectStartFrame);
 		EventManager->SetEvent(CBEvent);
 	}
+}
+
+void SingleCenterSoundEventTree::LevelEnd()
+{
+	SelectStartFrame = -1;
 }
 
 void DPSoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
@@ -910,6 +944,100 @@ void DPSoundEventTree::ChangeActor()
 {
 	DpLoader.DpLoaderAllReset();
 	LoadSoundList();
+}
+
+void DPSoundEventTree::LevelEnd()
+{
+	SelectStartFrame = -1;
+	DpLoader.DpLoaderAllReset();
+}
+
+void MaterialLoopDPSoundEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
+{
+	if (false == bActive)
+	{
+		return;
+	}
+
+	GameContentsFBXAnimationInfo* pAnimation = EventTree::GetSelectAnimation();
+	if (nullptr == pAnimation)
+	{
+		MsgBoxAssert("존재하지 않는 애니메이션으로 이벤트를 세팅하려 했습니다");
+		return;
+	}
+
+	// 몇번째 프레임에
+	ImGui::SliderInt("Start Frame", &SelectStartFrame, pAnimation->Start, pAnimation->End);
+
+	ImGui::Combo("Material Type", &KeyIndex, &CKeyStrings[0], static_cast<int>(CKeyStrings.size()));
+
+	bool KeyOk = (-1 != KeyIndex);
+
+	if (KeyOk)
+	{
+		if (ImGui::Button("CreateEvent"))
+		{
+			std::string StrKey = KeyStrings[KeyIndex];
+			int iKey = std::stoi(StrKey);
+
+			BaseActor* pActor = EventTree::GetSelectActor();
+			if (nullptr == pActor)
+			{
+				MsgBoxAssert("존재하지 않는 액터에 세팅하려 했습니다");
+				return;
+			}
+
+			if (false == pActor->IsContainMaterialType(iKey))
+			{
+				return;
+			}
+
+			FrameEventManager* EventManager = pAnimation->GetEventManager();
+			if (nullptr == EventManager)
+			{
+				MsgBoxAssert("존재하지 않는 이벤트 매니저입니다. 김태훈에게 바로 문의하세요");
+				return;
+			}
+
+			std::shared_ptr<MaterialLoopSoundFrameEvent> CBEvent = MaterialLoopSoundFrameEvent::CreateEventObject(SelectStartFrame, iKey);
+			EventManager->SetEvent(CBEvent);
+		}
+	}
+}
+
+void MaterialLoopDPSoundEventTree::ChangeActor()
+{
+	KeyIndex = -1;
+	if (0 != KeyStrings.size())
+	{
+		KeyStrings.clear();
+		CKeyStrings.clear();
+	}
+
+	std::vector<int> Keys = GetSelectActor()->GetMaterialSoundKeys();
+	bActive = (false == Keys.empty());
+
+	int Size = static_cast<int>(Keys.size());
+	KeyStrings.reserve(Size);
+	CKeyStrings.reserve(Size);
+
+	for (int i = 0; i < Size; i++)
+	{
+		int Num = Keys[i];
+		std::string KeyStr = std::to_string(Num);
+		KeyStrings.push_back(KeyStr);
+		CKeyStrings.push_back(KeyStrings[i].c_str());
+	}
+}
+
+void MaterialLoopDPSoundEventTree::LevelEnd()
+{
+	bActive = false;
+	SelectStartFrame = -1;
+	KeyIndex = -1;
+
+	KeyStrings.clear();
+	CKeyStrings.clear();
 }
 
 void CollisionEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
@@ -971,6 +1099,12 @@ void CollisionEventTree::OnGUI(GameEngineLevel* _Level, float _Delta)
 }
 
 void CollisionEventTree::ChangeActor()
+{
+	ColNames.clear();
+	CColNames.clear();
+}
+
+void CollisionEventTree::LevelEnd()
 {
 	ColNames.clear();
 	CColNames.clear();

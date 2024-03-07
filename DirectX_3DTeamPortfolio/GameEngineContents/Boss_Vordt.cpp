@@ -234,49 +234,49 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		}
 
 		// Animation
-		MainRenderer->CreateFBXAnimation("Howling", "Howling.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Howling", "Howling.FBX", { ONE_FRAME_DTIME, false });
 		MainRenderer->CreateFBXAnimation("Idle", "Idle.FBX", { ONE_FRAME_DTIME, true });
 		MainRenderer->CreateFBXAnimation("Walk_Front", "Walk_Front.FBX", { ONE_FRAME_DTIME, true });
 		MainRenderer->CreateFBXAnimation("Walk_Left", "Walk_Left.FBX", { ONE_FRAME_DTIME, true });
 		MainRenderer->CreateFBXAnimation("Walk_Right", "Walk_Right.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Jump_Back", "Jump_Back.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Jump_Left", "Jump_Left.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Jump_Right", "Jump_Right.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Breath", "Breath.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Combo1_Step1", "Combo1_Step1.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Combo1_Step2", "Combo1_Step2.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Combo1_Step3", "Combo1_Step3.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Combo2_Step1", "Combo2_Step1.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Combo2_Step2", "Combo2_Step2.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Death", "Death.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Death_Groggy", "Death_Groggy.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Sweep&Sweep_Left", "Sweep&Sweep_Left.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Sweep&Sweep_Right", "Sweep&Sweep_Right.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Hit_001", "Hit_001.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Hit_002", "Hit_002.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Hit_003_Left", "Hit_003_Left.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Hit_003_Right", "Hit_003_Right.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Hit_004_Groggy", "Hit_004_Groggy.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Hit_Groggy", "Hit_Groggy.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Hit_Down_001_Front", "Hit_Down_001_Front.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Hit_Down_001_Right", "Hit_Down_001_Right.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Hit_Down_001_Left", "Hit_Down_001_Left.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Hit_Down_004", "Hit_Down_004.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Hit_Down_005", "Hit_Down_005.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Hit_Down_006", "Hit_Down_006.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Rush&Hit&Turn&Rush", "Rush&Hit&Turn&Rush.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Rush&Hit&Turn", "Rush&Hit&Turn.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Rush&Turn", "Rush&Turn.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Rush_Attack", "Rush_Attack.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Rush_Attack_002", "Rush_Attack_002.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Jump_Back", "Jump_Back.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Jump_Left", "Jump_Left.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Jump_Right", "Jump_Right.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Breath", "Breath.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Combo1_Step1", "Combo1_Step1.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Combo1_Step2", "Combo1_Step2.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Combo1_Step3", "Combo1_Step3.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Combo2_Step1", "Combo2_Step1.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Combo2_Step2", "Combo2_Step2.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Death", "Death.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Death_Groggy", "Death_Groggy.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Sweep&Sweep_Left", "Sweep&Sweep_Left.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Sweep&Sweep_Right", "Sweep&Sweep_Right.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Hit_001", "Hit_001.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Hit_002", "Hit_002.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Hit_003_Left", "Hit_003_Left.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Hit_003_Right", "Hit_003_Right.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Hit_004_Groggy", "Hit_004_Groggy.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Hit_Groggy", "Hit_Groggy.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Hit_Down_001_Front", "Hit_Down_001_Front.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Hit_Down_001_Right", "Hit_Down_001_Right.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Hit_Down_001_Left", "Hit_Down_001_Left.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Hit_Down_004", "Hit_Down_004.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Hit_Down_005", "Hit_Down_005.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Hit_Down_006", "Hit_Down_006.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Rush&Hit&Turn&Rush", "Rush&Hit&Turn&Rush.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Rush&Hit&Turn", "Rush&Hit&Turn.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Rush&Turn", "Rush&Turn.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Rush_Attack", "Rush_Attack.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Rush_Attack_002", "Rush_Attack_002.FBX", { ONE_FRAME_DTIME, false });
 		MainRenderer->CreateFBXAnimation("Rush_Front", "Rush_Front.FBX", { ONE_FRAME_DTIME / 1.5f, true });
-		MainRenderer->CreateFBXAnimation("Sweep_001", "Sweep_001.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Sweep_002", "Sweep_002.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Thrust", "Thrust.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Turn_Left", "Turn_Left.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Turn_Left_Twice", "Turn_Left_Twice.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Turn_Right", "Turn_Right.FBX", { ONE_FRAME_DTIME, true });
-		MainRenderer->CreateFBXAnimation("Turn_Right_Twice", "Turn_Right_Twice.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Sweep_001", "Sweep_001.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Sweep_002", "Sweep_002.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Thrust", "Thrust.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Turn_Left", "Turn_Left.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Turn_Left_Twice", "Turn_Left_Twice.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Turn_Right", "Turn_Right.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Turn_Right_Twice", "Turn_Right_Twice.FBX", { ONE_FRAME_DTIME, false });
 
 		FrameEventInit();
 
@@ -364,232 +364,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		}
 	}
 
-	// State
-	{
-		JumpTableInfo mJumpTableInfo;
-
-		// Move & Others
-		CreateStateParameter Howling;
-		Howling.Start = std::bind(&Boss_Vordt::Howling_Start, this);
-		Howling.Stay = std::bind(&Boss_Vordt::Howling_Update, this, std::placeholders::_1);
-		Howling.End = std::bind(&Boss_Vordt::Howling_End, this);
-		mJumpTableInfo.SetJumpTableInfo(10, 120, std::bind(&Boss_Vordt::AI_MoveMent, this));
-		mJumpTableManager.AddJumpTable("Howling", mJumpTableInfo);
-		mJumpTableManager.AddJumpTable("Howling", 10, 120, std::bind(&Boss_Vordt::AI_Dodge, this));
-
-		CreateStateParameter Idle;
-		Idle.Start = std::bind(&Boss_Vordt::Idle_Start, this);
-		Idle.Stay = std::bind(&Boss_Vordt::Idle_Update, this, std::placeholders::_1);
-		Idle.End = std::bind(&Boss_Vordt::Idle_End, this);
-
-		CreateStateParameter Walk_Front;
-		Walk_Front.Start = std::bind(&Boss_Vordt::Walk_Front_Start, this);
-		Walk_Front.Stay = std::bind(&Boss_Vordt::Walk_Front_Update, this, std::placeholders::_1);
-		Walk_Front.End = std::bind(&Boss_Vordt::Walk_Front_End, this);
-
-		CreateStateParameter Walk_Right;
-		Walk_Right.Start = std::bind(&Boss_Vordt::Walk_Right_Start, this);
-		Walk_Right.Stay = std::bind(&Boss_Vordt::Walk_Right_Update, this, std::placeholders::_1);
-		Walk_Right.End = std::bind(&Boss_Vordt::Walk_Right_End, this);
-
-		CreateStateParameter Walk_Left;
-		Walk_Left.Start = std::bind(&Boss_Vordt::Walk_Left_Start, this);
-		Walk_Left.Stay = std::bind(&Boss_Vordt::Walk_Left_Update, this, std::placeholders::_1);
-		Walk_Left.End = std::bind(&Boss_Vordt::Walk_Left_End, this);
-
-		CreateStateParameter Rush_Front;
-		Rush_Front.Start = std::bind(&Boss_Vordt::Rush_Front_Start, this);
-		Rush_Front.Stay = std::bind(&Boss_Vordt::Rush_Front_Update, this, std::placeholders::_1);
-		Rush_Front.End = std::bind(&Boss_Vordt::Rush_Front_End, this);
-
-		CreateStateParameter Jump_Back;
-		Jump_Back.Start = std::bind(&Boss_Vordt::Jump_Back_Start, this);
-		Jump_Back.Stay = std::bind(&Boss_Vordt::Jump_Back_Update, this, std::placeholders::_1);
-		Jump_Back.End = std::bind(&Boss_Vordt::Jump_Back_End, this);
-
-		CreateStateParameter Jump_Right;
-		Jump_Right.Start = std::bind(&Boss_Vordt::Jump_Right_Start, this);
-		Jump_Right.Stay = std::bind(&Boss_Vordt::Jump_Right_Update, this, std::placeholders::_1);
-		Jump_Right.End = std::bind(&Boss_Vordt::Jump_Right_End, this);
-
-		CreateStateParameter Jump_Left;
-		Jump_Left.Start = std::bind(&Boss_Vordt::Jump_Left_Start, this);
-		Jump_Left.Stay = std::bind(&Boss_Vordt::Jump_Left_Update, this, std::placeholders::_1);
-		Jump_Left.End = std::bind(&Boss_Vordt::Jump_Left_End, this);
-
-		CreateStateParameter Turn_Right;
-		Turn_Right.Start = std::bind(&Boss_Vordt::Turn_Right_Start, this);
-		Turn_Right.Stay = std::bind(&Boss_Vordt::Turn_Right_Update, this, std::placeholders::_1);
-		Turn_Right.End = std::bind(&Boss_Vordt::Turn_Right_End, this);
-
-		CreateStateParameter Turn_Left;
-		Turn_Left.Start = std::bind(&Boss_Vordt::Turn_Left_Start, this);
-		Turn_Left.Stay = std::bind(&Boss_Vordt::Turn_Left_Update, this, std::placeholders::_1);
-		Turn_Left.End = std::bind(&Boss_Vordt::Turn_Left_End, this);
-
-		CreateStateParameter Turn_Right_Twice;
-		Turn_Right_Twice.Start = std::bind(&Boss_Vordt::Turn_Right_Twice_Start, this);
-		Turn_Right_Twice.Stay = std::bind(&Boss_Vordt::Turn_Right_Twice_Update, this, std::placeholders::_1);
-		Turn_Right_Twice.End = std::bind(&Boss_Vordt::Turn_Right_Twice_End, this);
-
-		CreateStateParameter Turn_Left_Twice;
-		Turn_Left_Twice.Start = std::bind(&Boss_Vordt::Turn_Left_Twice_Start, this);
-		Turn_Left_Twice.Stay = std::bind(&Boss_Vordt::Turn_Left_Twice_Update, this, std::placeholders::_1);
-		Turn_Left_Twice.End = std::bind(&Boss_Vordt::Turn_Left_Twice_End, this);
-
-		CreateStateParameter Hitten;
-		Hitten.Start = std::bind(&Boss_Vordt::Hitten_Start, this);
-		Hitten.Stay = std::bind(&Boss_Vordt::Hitten_Update, this, std::placeholders::_1);
-		Hitten.End = std::bind(&Boss_Vordt::Hitten_End, this);
-
-		CreateStateParameter Groggy;
-		Groggy.Start = std::bind(&Boss_Vordt::Groggy_Start, this);
-		Groggy.Stay = std::bind(&Boss_Vordt::Groggy_Update, this, std::placeholders::_1);
-		Groggy.End = std::bind(&Boss_Vordt::Groggy_End, this);
-
-		CreateStateParameter Death;
-		Death.Start = std::bind(&Boss_Vordt::Death_Start, this);
-		Death.Stay = std::bind(&Boss_Vordt::Death_Update, this, std::placeholders::_1);
-		Death.End = std::bind(&Boss_Vordt::Death_End, this);
-
-		// Attack
-		CreateStateParameter Breath;
-		Breath.Start = std::bind(&Boss_Vordt::Breath_Start, this);
-		Breath.Stay = std::bind(&Boss_Vordt::Breath_Update, this, std::placeholders::_1);
-		Breath.End = std::bind(&Boss_Vordt::Breath_End, this);
-
-		CreateStateParameter Combo1;
-		Combo1.Start = std::bind(&Boss_Vordt::Combo1_Start, this);
-		Combo1.Stay = std::bind(&Boss_Vordt::Combo1_Update, this, std::placeholders::_1);
-		Combo1.End = std::bind(&Boss_Vordt::Combo1_End, this);
-
-		CreateStateParameter Combo2;
-		Combo2.Start = std::bind(&Boss_Vordt::Combo2_Start, this);
-		Combo2.Stay = std::bind(&Boss_Vordt::Combo2_Update, this, std::placeholders::_1);
-		Combo2.End = std::bind(&Boss_Vordt::Combo2_End, this);
-
-		CreateStateParameter Sweap_Twice_Right;
-		Sweap_Twice_Right.Start = std::bind(&Boss_Vordt::Sweap_Twice_Right_Start, this);
-		Sweap_Twice_Right.Stay = std::bind(&Boss_Vordt::Sweap_Twice_Right_Update, this, std::placeholders::_1);
-		Sweap_Twice_Right.End = std::bind(&Boss_Vordt::Sweap_Twice_Right_End, this);
-
-		CreateStateParameter Sweap_Twice_Left;
-		Sweap_Twice_Left.Start = std::bind(&Boss_Vordt::Sweap_Twice_Left_Start, this);
-		Sweap_Twice_Left.Stay = std::bind(&Boss_Vordt::Sweap_Twice_Left_Update, this, std::placeholders::_1);
-		Sweap_Twice_Left.End = std::bind(&Boss_Vordt::Sweap_Twice_Left_End, this);
-
-		CreateStateParameter Hit_Down_001_Front;
-		Hit_Down_001_Front.Start = std::bind(&Boss_Vordt::Hit_Down_001_Front_Start, this);
-		Hit_Down_001_Front.Stay = std::bind(&Boss_Vordt::Hit_Down_001_Front_Update, this, std::placeholders::_1);
-		Hit_Down_001_Front.End = std::bind(&Boss_Vordt::Hit_Down_001_Front_End, this);
-
-		CreateStateParameter Hit_Down_001_Right;
-		Hit_Down_001_Right.Start = std::bind(&Boss_Vordt::Hit_Down_001_Right_Start, this);
-		Hit_Down_001_Right.Stay = std::bind(&Boss_Vordt::Hit_Down_001_Right_Update, this, std::placeholders::_1);
-		Hit_Down_001_Right.End = std::bind(&Boss_Vordt::Hit_Down_001_Right_End, this);
-
-		CreateStateParameter Hit_Down_001_Left;
-		Hit_Down_001_Left.Start = std::bind(&Boss_Vordt::Hit_Down_001_Left_Start, this);
-		Hit_Down_001_Left.Stay = std::bind(&Boss_Vordt::Hit_Down_001_Left_Update, this, std::placeholders::_1);
-		Hit_Down_001_Left.End = std::bind(&Boss_Vordt::Hit_Down_001_Left_End, this);
-
-		CreateStateParameter Hit_Down_004;
-		Hit_Down_004.Start = std::bind(&Boss_Vordt::Hit_Down_004_Start, this);
-		Hit_Down_004.Stay = std::bind(&Boss_Vordt::Hit_Down_004_Update, this, std::placeholders::_1);
-		Hit_Down_004.End = std::bind(&Boss_Vordt::Hit_Down_004_End, this);
-
-		CreateStateParameter Hit_Down_005;
-		Hit_Down_005.Start = std::bind(&Boss_Vordt::Hit_Down_005_Start, this);
-		Hit_Down_005.Stay = std::bind(&Boss_Vordt::Hit_Down_005_Update, this, std::placeholders::_1);
-		Hit_Down_005.End = std::bind(&Boss_Vordt::Hit_Down_005_End, this);
-
-		CreateStateParameter Hit_Down_006;
-		Hit_Down_006.Start = std::bind(&Boss_Vordt::Hit_Down_006_Start, this);
-		Hit_Down_006.Stay = std::bind(&Boss_Vordt::Hit_Down_006_Update, this, std::placeholders::_1);
-		Hit_Down_006.End = std::bind(&Boss_Vordt::Hit_Down_006_End, this);
-
-		CreateStateParameter Thrust;
-		Thrust.Start = std::bind(&Boss_Vordt::Thrust_Start, this);
-		Thrust.Stay = std::bind(&Boss_Vordt::Thrust_Update, this, std::placeholders::_1);
-		Thrust.End = std::bind(&Boss_Vordt::Thrust_End, this);
-
-		CreateStateParameter Sweep_001;
-		Sweep_001.Start = std::bind(&Boss_Vordt::Sweep_001_Start, this);
-		Sweep_001.Stay = std::bind(&Boss_Vordt::Sweep_001_Update, this, std::placeholders::_1);
-		Sweep_001.End = std::bind(&Boss_Vordt::Sweep_001_End, this);
-
-		CreateStateParameter Sweep_002;
-		Sweep_002.Start = std::bind(&Boss_Vordt::Sweep_002_Start, this);
-		Sweep_002.Stay = std::bind(&Boss_Vordt::Sweep_002_Update, this, std::placeholders::_1);
-		Sweep_002.End = std::bind(&Boss_Vordt::Sweep_002_End, this);
-
-		CreateStateParameter Rush_Attack_001;
-		Rush_Attack_001.Start = std::bind(&Boss_Vordt::Rush_Attack_001_Start, this);
-		Rush_Attack_001.Stay = std::bind(&Boss_Vordt::Rush_Attack_001_Update, this, std::placeholders::_1);
-		Rush_Attack_001.End = std::bind(&Boss_Vordt::Rush_Attack_001_End, this);
-
-		CreateStateParameter Rush_Attack_002;
-		Rush_Attack_002.Start = std::bind(&Boss_Vordt::Rush_Attack_002_Start, this);
-		Rush_Attack_002.Stay = std::bind(&Boss_Vordt::Rush_Attack_002_Update, this, std::placeholders::_1);
-		Rush_Attack_002.End = std::bind(&Boss_Vordt::Rush_Attack_002_End, this);
-
-		CreateStateParameter Rush_Turn;
-		Rush_Turn.Start = std::bind(&Boss_Vordt::Rush_Turn_Start, this);
-		Rush_Turn.Stay = std::bind(&Boss_Vordt::Rush_Turn_Update, this, std::placeholders::_1);
-		Rush_Turn.End = std::bind(&Boss_Vordt::Rush_Turn_End, this);
-
-		CreateStateParameter Rush_Hit_Turn;
-		Rush_Hit_Turn.Start = std::bind(&Boss_Vordt::Rush_Hit_Turn_Start, this);
-		Rush_Hit_Turn.Stay = std::bind(&Boss_Vordt::Rush_Hit_Turn_Update, this, std::placeholders::_1);
-		Rush_Hit_Turn.End = std::bind(&Boss_Vordt::Rush_Hit_Turn_End, this);
-
-		CreateStateParameter Rush_Hit_Turn_Rush;
-		Rush_Hit_Turn_Rush.Start = std::bind(&Boss_Vordt::Rush_Hit_Turn_Rush_Start, this);
-		Rush_Hit_Turn_Rush.Stay = std::bind(&Boss_Vordt::Rush_Hit_Turn_Rush_Update, this, std::placeholders::_1);
-		Rush_Hit_Turn_Rush.End = std::bind(&Boss_Vordt::Rush_Hit_Turn_Rush_End, this);
-
-		// Move & Others
-		MainState.CreateState(Enum_BossState::Howling, Howling, "Howling");
-		MainState.CreateState(Enum_BossState::Idle, Idle, "Idle");
-		MainState.CreateState(Enum_BossState::Walk_Front, Walk_Front, "Walk_Front");
-		MainState.CreateState(Enum_BossState::Walk_Right, Walk_Right, "Walk_Right");
-		MainState.CreateState(Enum_BossState::Walk_Left, Walk_Left, "Walk_Left");
-		MainState.CreateState(Enum_BossState::Rush_Front, Rush_Front, "Rush_Front");
-		MainState.CreateState(Enum_BossState::Jump_Back, Jump_Back, "Jump_Back");
-		MainState.CreateState(Enum_BossState::Jump_Right, Jump_Right, "Jump_Right");
-		MainState.CreateState(Enum_BossState::Jump_Left, Jump_Left, "Jump_Left");
-		MainState.CreateState(Enum_BossState::Turn_Right, Turn_Right, "Turn_Right");
-		MainState.CreateState(Enum_BossState::Turn_Left, Turn_Left, "Turn_Left");
-		MainState.CreateState(Enum_BossState::Turn_Right_Twice, Turn_Right_Twice, "Turn_Right_Twice");
-		MainState.CreateState(Enum_BossState::Turn_Left_Twice, Turn_Left_Twice, "Turn_Left_Twice");
-		MainState.CreateState(Enum_BossState::Hitten, Hitten, "Hitten");
-		MainState.CreateState(Enum_BossState::Groggy, Groggy, "Groggy");
-		MainState.CreateState(Enum_BossState::Death, Death, "Death");
-
-		// Attack
-		MainState.CreateState(Enum_BossState::Breath, Breath, "Breath");
-		MainState.CreateState(Enum_BossState::Combo1, Combo1, "Combo1");
-		MainState.CreateState(Enum_BossState::Combo2, Combo2, "Combo2");
-		MainState.CreateState(Enum_BossState::Sweap_Twice_Right, Sweap_Twice_Right, "Sweap_Twice_Right");
-		MainState.CreateState(Enum_BossState::Sweap_Twice_Left, Sweap_Twice_Left, "Sweap_Twice_Left");
-		MainState.CreateState(Enum_BossState::Hit_Down_001_Front, Hit_Down_001_Front, "Hit_Down_001_Front");
-		MainState.CreateState(Enum_BossState::Hit_Down_001_Right, Hit_Down_001_Right, "Hit_Down_001_Right");
-		MainState.CreateState(Enum_BossState::Hit_Down_001_Left, Hit_Down_001_Left, "Hit_Down_001_Left");
-		MainState.CreateState(Enum_BossState::Hit_Down_004, Hit_Down_004, "Hit_Down_004");
-		MainState.CreateState(Enum_BossState::Hit_Down_005, Hit_Down_005, "Hit_Down_005");
-		MainState.CreateState(Enum_BossState::Hit_Down_006, Hit_Down_006, "Hit_Down_006");
-		MainState.CreateState(Enum_BossState::Thrust, Thrust, "Thrust");
-		MainState.CreateState(Enum_BossState::Sweep_001, Sweep_001, "Sweep_001");
-		MainState.CreateState(Enum_BossState::Sweep_002, Sweep_002, "Sweep_002");
-		MainState.CreateState(Enum_BossState::Rush_Attack_001, Rush_Attack_001, "Rush_Attack_001");
-		MainState.CreateState(Enum_BossState::Rush_Attack_002, Rush_Attack_002, "Rush_Attack_002");
-		MainState.CreateState(Enum_BossState::Rush_Turn, Rush_Turn, "Rush_Turn");
-		MainState.CreateState(Enum_BossState::Rush_Hit_Turn, Rush_Hit_Turn, "Rush_Hit_Turn");
-		MainState.CreateState(Enum_BossState::Rush_Hit_Turn_Rush, Rush_Hit_Turn_Rush, "Rush_Hit_Turn_Rush");
-
-		// Start State
-		MainState.ChangeState(Enum_BossState::Howling);
-	}
+	StateInit();
 
 	if (nullptr == BossCollision)
 	{
@@ -602,7 +377,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	BSCol_TransitionParameter ColParameter;
 	if (nullptr == WeaponCollision)
 	{
-		ColParameter.S = float4(70.f, 70.f, 500.f);
+		ColParameter.S = float4(100.f, 100.f, 500.f);
 		ColParameter.R = float4(170.f);
 		ColParameter.T = float4(0.f, 0.f, 1.55f);
 
@@ -650,6 +425,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	GUI->Linked_Boss = nullptr;
+	GUI->Off();
 	Death();
 }
 
@@ -690,7 +466,7 @@ void Boss_Vordt::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('C', this))
 	{
-		mJumpTableManager.ClearJumpTable();
+		// MainRenderer->SetAllRootMotionMoveRatio(100.f, 2.f, 2.f);
 	}
 
 	if (false == IsTargeting())
@@ -768,26 +544,4 @@ float4 Boss_Vordt::BoneWorldPos(int _BoneIndex)
 	BoneWMat.Decompose(S, R, P);
 
 	return P;
-}
-
-bool Boss_Vordt::AI_MoveMent()
-{
-	OutputDebugString("AI_Movement\n");
-	return false;
-}
-
-bool Boss_Vordt::AI_Attack()
-{
-	return false;
-}
-
-bool Boss_Vordt::AI_Combo()
-{
-	return false;
-}
-
-bool Boss_Vordt::AI_Dodge()
-{
-	OutputDebugString("AI_Dodge\n");
-	return false;
 }

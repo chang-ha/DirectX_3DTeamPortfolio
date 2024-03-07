@@ -18,7 +18,7 @@ private:
 	void Reset();
 };
 
-enum class Enum_BossState
+enum Enum_BossState
 {
 	// Move & Others
 	Howling = (1 << 0),
@@ -40,8 +40,11 @@ enum class Enum_BossState
 
 	// Attack
 	Breath,
-	Combo1,
-	Combo2,
+	Combo1_Step1,
+	Combo1_Step2,
+	Combo1_Step3,
+	Combo2_Step1,
+	Combo2_Step2,
 	Sweap_Twice_Right,
 	Sweap_Twice_Left,
 	Hit_Down_001_Front,
@@ -58,6 +61,11 @@ enum class Enum_BossState
 	Rush_Turn,
 	Rush_Hit_Turn,
 	Rush_Hit_Turn_Rush,
+};
+
+struct AI_State
+{
+	
 };
 
 class Boss_Vordt : public BaseActor
@@ -94,15 +102,18 @@ private:
 	float TargetDistance = 0.f;
 
 	void FrameEventInit();
+	void StateInit();
 	float4 BoneWorldPos(int _BoneIndex);
 
 	// static constexpr float Close = 500.f;
-	// static constexpr float Middle = 800.f;
+	// static constexpr float Middle = 1000.f;
+	// static constexpr float Long = 1500.f;
+	// static constexpr float Max = 2000.f;
 
-	bool AI_MoveMent();
-	bool AI_Attack();
-	bool AI_Combo();
-	bool AI_Dodge();
+	void AI_MoveMent();
+	void AI_Attack();
+	void AI_Combo();
+	void AI_Dodge();
 
 	// State
 	////////////////////////// Move & Others
@@ -187,14 +198,26 @@ private:
 	void Breath_End();
 
 	// Combo1
-	void Combo1_Start();
-	void Combo1_Update(float _Delta);
-	void Combo1_End();
+	void Combo1_Step1_Start();
+	void Combo1_Step1_Update(float _Delta);
+	void Combo1_Step1_End();
+
+	void Combo1_Step2_Start();
+	void Combo1_Step2_Update(float _Delta);
+	void Combo1_Step2_End();
+
+	void Combo1_Step3_Start();
+	void Combo1_Step3_Update(float _Delta);
+	void Combo1_Step3_End();
 
 	// Combo1
-	void Combo2_Start();
-	void Combo2_Update(float _Delta);
-	void Combo2_End();
+	void Combo2_Step1_Start();
+	void Combo2_Step1_Update(float _Delta);
+	void Combo2_Step1_End();
+	
+	void Combo2_Step2_Start();
+	void Combo2_Step2_Update(float _Delta);
+	void Combo2_Step2_End();
 
 	// Sweap
 	void Sweap_Twice_Right_Start();
