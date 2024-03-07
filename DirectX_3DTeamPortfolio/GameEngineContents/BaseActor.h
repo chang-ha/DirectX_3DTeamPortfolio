@@ -175,6 +175,7 @@ public:
 	inline int GetCenterDPIndex() const { return CenterBodyIndex; }
 	std::string_view GetMaterialSoundName(int _Index) { return MaterialSound.GetSound(_Index); }
 	std::vector<int> GetMaterialSoundKeys() { return MaterialSound.GetKeys(); }
+	bool IsContainMaterialType(int _Key) { return MaterialSound.IsKeyContain(_Key); }
 
 	// CollisionEvent 
 	// 캐릭터간 충돌시 상대방의 수치를 바꿔주기위한 상호작용 인터페이스입니다.

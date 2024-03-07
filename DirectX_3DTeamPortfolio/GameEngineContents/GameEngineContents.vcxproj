@@ -219,7 +219,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="CenterMultiSoundFrameEvent.cpp">
+    <ClCompile Include="MaterialLoopSoundFrameEvent.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -537,7 +537,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="CenterMultiSoundFrameEvent.h">
+    <ClInclude Include="MaterialLoopSoundFrameEvent.h">
       <SubType>
       </SubType>
     </ClInclude>

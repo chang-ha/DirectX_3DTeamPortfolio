@@ -1,35 +1,36 @@
 #include "PreCompile.h"
-#include "CenterMultiSoundFrameEvent.h"
+#include "MaterialLoopSoundFrameEvent.h"
 
 #include "FrameEventHelper.h"
 #include "DS3DummyData.h"
 #include "BaseActor.h"
 
 
-CenterMultiSoundFrameEvent::CenterMultiSoundFrameEvent()
+MaterialLoopSoundFrameEvent::MaterialLoopSoundFrameEvent()
 {
-	SetEventID(Enum_FrameEventType::CenterMultiSound);
+	SetEventID(Enum_FrameEventType::MaterialLoopSound);
 }
 
-CenterMultiSoundFrameEvent::~CenterMultiSoundFrameEvent()
+MaterialLoopSoundFrameEvent::~MaterialLoopSoundFrameEvent()
 {
 }
 
 
-std::shared_ptr<CenterMultiSoundFrameEvent> CenterMultiSoundFrameEvent::CreateEventObject(int _Frame)
+std::shared_ptr<MaterialLoopSoundFrameEvent> MaterialLoopSoundFrameEvent::CreateEventObject(int _Frame, int _SoundIndex)
 {
-	std::shared_ptr<CenterMultiSoundFrameEvent> CDPSEvent = std::make_shared<CenterMultiSoundFrameEvent>();
+	std::shared_ptr<MaterialLoopSoundFrameEvent> CDPSEvent = std::make_shared<MaterialLoopSoundFrameEvent>();
 	CDPSEvent->StartFrame = _Frame;
+	CDPSEvent->SoundIndex = _SoundIndex;
 	return CDPSEvent;
 }
 
-std::shared_ptr<FrameEventObject> CenterMultiSoundFrameEvent::CreatePlayingEvent()
+std::shared_ptr<FrameEventObject> MaterialLoopSoundFrameEvent::CreatePlayingEvent()
 {
-	std::shared_ptr<CenterMultiSoundFrameEvent> NewObject = CenterMultiSoundFrameEvent::CreateEventObject(StartFrame);
+	std::shared_ptr<MaterialLoopSoundFrameEvent> NewObject = MaterialLoopSoundFrameEvent::CreateEventObject(StartFrame, SoundIndex);
 	return NewObject;
 }
 
-int CenterMultiSoundFrameEvent::PlayEvent()
+int MaterialLoopSoundFrameEvent::PlayEvent()
 {
 	if (nullptr == FbxRenderer || nullptr == pActor)
 	{
@@ -49,7 +50,7 @@ int CenterMultiSoundFrameEvent::PlayEvent()
 	return EVENT_DONE;
 }
 
-void CenterMultiSoundFrameEvent::Init()
+void MaterialLoopSoundFrameEvent::Init()
 {
 	FbxRenderer = GetParentRenderer();
 	if (nullptr == FbxRenderer)

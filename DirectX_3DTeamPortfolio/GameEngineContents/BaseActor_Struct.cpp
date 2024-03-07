@@ -54,9 +54,14 @@ void MaterialSoundStruct::PushMaterialSoundRes(int _Key, std::string_view _IDNam
 	}
 }
 
+bool MaterialSoundStruct::IsKeyContain(int _Key)
+{
+	return MaterialSounds.contains(_Key);
+}
+
 std::string_view MaterialSoundStruct::GetSound(int _Key)
 {
-	if (false == MaterialSounds.contains(_Key))
+	if (false == IsKeyContain(_Key))
 	{
 		static std::string ReturnValue;
 		return ReturnValue;
@@ -69,6 +74,11 @@ std::string_view MaterialSoundStruct::GetSound(int _Key)
 std::vector<int> MaterialSoundStruct::GetKeys()
 {
 	std::vector<int> Keys;
+	if (MaterialSounds.empty())
+	{
+		return Keys;
+	}
+
 	Keys.reserve(MaterialSounds.size());
 
 	for (const std::pair<int, SoundStruct> Pair : MaterialSounds)

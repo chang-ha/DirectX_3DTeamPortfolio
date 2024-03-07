@@ -343,7 +343,7 @@
     <ClCompile Include="BaseActor_Para.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
-    <ClCompile Include="CenterMultiSoundFrameEvent.cpp">
+    <ClCompile Include="MaterialLoopSoundFrameEvent.cpp">
       <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClCompile>
     <ClCompile Include="BaseActor_Struct.cpp">
@@ -688,7 +688,7 @@
     <ClInclude Include="BaseActor_Para.h">
       <Filter>Actor</Filter>
     </ClInclude>
-    <ClInclude Include="CenterMultiSoundFrameEvent.h">
+    <ClInclude Include="MaterialLoopSoundFrameEvent.h">
       <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClInclude>
     <ClInclude Include="BaseActor_Struct.h">

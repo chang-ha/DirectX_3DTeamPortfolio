@@ -112,6 +112,10 @@ void FrameEventManager::PlayEvents(int _CurFrame)
 			PlayingEvents.remove(EventObject.get());
 			LowerIter = EventInfos.erase(LowerIter);
 		}
+		else
+		{
+			++LowerIter;
+		}
 	}
 }
 

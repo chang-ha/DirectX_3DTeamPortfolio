@@ -24,7 +24,21 @@ void Monster_LothricKn::Start()
 
 	// Outer Res
 	LoadRes3DSound("c128001001.wav");
-	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E1001, "c128005501.wav");
+	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E1001, "c128001001.wav");
+	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E1020, "c128001020.wav");
+	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E1301, "c128001301.wav");
+	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E2001, "c128002001.wav");
+	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E3001, "c128003001.wav");
+	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E3020, "c128003020.wav");
+	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E4001, "c128004001.wav");
+	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E4101, "c128004101.wav");
+	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E5500, "c128005500.wav");
+	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E6000, "c128006000.wav");
+	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E6005, "c128006005.wav");
+	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E6501, "c128006501.wav");
+	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E8000, "c128008000.wav");
+	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E8001, "c128008001.wav");
+	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E8001, "c128008500.wav");
 
 	// Actor Res
 	AddBoneIndex(Enum_BoneType::B_01_RightHand, 78);

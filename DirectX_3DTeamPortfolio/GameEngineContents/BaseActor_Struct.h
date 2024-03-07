@@ -4,7 +4,7 @@ enum class Enum_DS3MaterialSound
 {
 	E1001 = 1001,
 	E1020 = 1020,
-	E1031 = 1031,
+	E1301 = 1301,
 	E2001 = 2001,
 	E3001 = 3001,
 	E3020 = 3020,
@@ -12,6 +12,13 @@ enum class Enum_DS3MaterialSound
 	E4101 = 4101,
 	E5000 = 5000,
 	E5001 = 5001,
+	E5500 = 5500,
+	E6000 = 6000,
+	E6005 = 6005,
+	E6501 = 6501,
+	E8000 = 8000,
+	E8001 = 8001,
+	E8500 = 8500,
 };
 
 class MaterialSoundStruct
@@ -42,7 +49,7 @@ class MaterialSoundStruct
 			}
 
 			int MaxCount = static_cast<int>(SoundRes.size());
-			if (MaxCount == CurIndex)
+			if (CurIndex >= MaxCount)
 			{
 				CurIndex = 0;
 			}
@@ -63,6 +70,7 @@ class MaterialSoundStruct
 
 public:
 	void PushMaterialSoundRes(int _Key, std::string_view _IDName, std::string_view _SoundName);
+	bool IsKeyContain(int _Key);
 	std::string_view GetSound(int _Key);
 	std::vector<int> GetKeys();
 

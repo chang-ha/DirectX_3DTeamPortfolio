@@ -16,7 +16,7 @@ enum class Enum_FrameEventType
 	BSound = 2,
 	SingleCenterSound = 3,
 	DPSound = 4,
-	CenterMultiSound = 5,
+	MaterialLoopSound = 5,
 	CollisionUpdate = 11,
 	SwitchFlag = 16,
 	Transfrom = 21,

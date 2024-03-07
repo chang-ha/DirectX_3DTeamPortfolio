@@ -8,6 +8,7 @@
 #include "BoneSoundFrameEvent.h"
 #include "SingleCenterSoundFrameEvent.h"
 #include "DummyPolySoundFrameEvent.h"
+#include "MaterialLoopSoundFrameEvent.h"
 #include "CollisionUpdateFrameEvent.h"
 #include "TurnSpeedFrameEvent.h"
 
@@ -134,15 +135,20 @@ std::unique_ptr<FrameEventManager> FrameEventHelper::Initialze(GameContentsFBXAn
 		{
 			for (int i = 0; i < Size; i++)
 			{
-				int TypeNum;
-				std::shared_ptr<FrameEventObject> NewEvent;
+				bool NotInput = false;
 
+				std::shared_ptr<FrameEventObject> NewEvent;
+				int TypeNum;
 				Ser >> TypeNum;
 
 				switch (static_cast<Enum_FrameEventType>(TypeNum))
 				{
 				case Enum_FrameEventType::Sound:
 					// 사용하지 않는 이벤트 유형입니다. 기존의 파일을 삭제합니다.
+				{
+					NewEvent = std::make_shared<SoundFrameEvent>();
+					NotInput = true;
+				}
 					break;
 				case Enum_FrameEventType::BSound:
 				{
@@ -151,12 +157,19 @@ std::unique_ptr<FrameEventManager> FrameEventHelper::Initialze(GameContentsFBXAn
 					break;
 				case Enum_FrameEventType::SingleCenterSound:
 				{
+					// 사용하지 않는 이벤트 유형입니다. 기존의 파일을 삭제합니다.
 					NewEvent = std::make_shared<SingleCenterSoundFrameEvent>();
+					NotInput = true;
 				}
 					break;
 				case Enum_FrameEventType::DPSound:
 				{
 					NewEvent = std::make_shared<DummyPolySoundFrameEvent>();
+				}
+					break;
+				case Enum_FrameEventType::MaterialLoopSound:
+				{
+					NewEvent = std::make_shared<MaterialLoopSoundFrameEvent>();
 				}
 					break;
 				case Enum_FrameEventType::CollisionUpdate:
@@ -175,7 +188,11 @@ std::unique_ptr<FrameEventManager> FrameEventHelper::Initialze(GameContentsFBXAn
 				}
 
 				NewEvent->Read(Ser);
-				Events[TypeNum].push_back(NewEvent);
+
+				if (false == NotInput)
+				{
+					Events[TypeNum].push_back(NewEvent);
+				}
 			}
 		}
 	}

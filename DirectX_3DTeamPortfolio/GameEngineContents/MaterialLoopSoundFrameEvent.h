@@ -2,22 +2,22 @@
 #include "FrameEventObject.h"
 
 // Ό³Έν :
-class CenterMultiSoundFrameEvent : public FrameEventObject
+class MaterialLoopSoundFrameEvent : public FrameEventObject
 {
 	friend class FrameEventHelper;
 
 public:
 	// constrcuter destructer
-	CenterMultiSoundFrameEvent();
-	~CenterMultiSoundFrameEvent();
+	MaterialLoopSoundFrameEvent();
+	~MaterialLoopSoundFrameEvent();
 
 	// delete Function
-	CenterMultiSoundFrameEvent(const CenterMultiSoundFrameEvent& _Other) = delete;
-	CenterMultiSoundFrameEvent(CenterMultiSoundFrameEvent&& _Other) noexcept = delete;
-	CenterMultiSoundFrameEvent& operator=(const CenterMultiSoundFrameEvent& _Other) = delete;
-	CenterMultiSoundFrameEvent& operator=(CenterMultiSoundFrameEvent&& _Other) noexcept = delete;
+	MaterialLoopSoundFrameEvent(const MaterialLoopSoundFrameEvent& _Other) = delete;
+	MaterialLoopSoundFrameEvent(MaterialLoopSoundFrameEvent&& _Other) noexcept = delete;
+	MaterialLoopSoundFrameEvent& operator=(const MaterialLoopSoundFrameEvent& _Other) = delete;
+	MaterialLoopSoundFrameEvent& operator=(MaterialLoopSoundFrameEvent&& _Other) noexcept = delete;
 
-	static std::shared_ptr<CenterMultiSoundFrameEvent> CreateEventObject(int _Frame);
+	static std::shared_ptr<MaterialLoopSoundFrameEvent> CreateEventObject(int _Frame, int _SoundIndex);
 	std::shared_ptr<FrameEventObject> CreatePlayingEvent() override;
 
 	void Write(class GameEngineSerializer& _File) override
@@ -43,6 +43,5 @@ private:
 
 	float4 DPT = float4::ZERO; // DummyPoly Transition
 	float4x4* pBoneMatrix = nullptr;
-
 
 };
