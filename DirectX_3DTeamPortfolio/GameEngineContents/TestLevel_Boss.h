@@ -21,11 +21,11 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
-
+	
 private:
-	std::shared_ptr<class Boss_Vordt> Boss_Object;
-	std::shared_ptr<class ContentsLight> Test_Light;
-	std::shared_ptr<class TestObject> TestObj;
-	std::shared_ptr<class Player> TestPlayer;
+	std::shared_ptr<class Boss_Vordt> Boss_Object = nullptr;
+	std::shared_ptr<class ContentsLight> Test_Light = nullptr;
+	std::shared_ptr<class Player> TestPlayer = nullptr;
+	std::shared_ptr<class WorldMap> MapObject = nullptr;
 };
 
