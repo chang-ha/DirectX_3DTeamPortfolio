@@ -377,7 +377,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	BSCol_TransitionParameter ColParameter;
 	if (nullptr == WeaponCollision)
 	{
-		ColParameter.S = float4(70.f, 70.f, 500.f);
+		ColParameter.S = float4(100.f, 100.f, 500.f);
 		ColParameter.R = float4(170.f);
 		ColParameter.T = float4(0.f, 0.f, 1.55f);
 
@@ -466,7 +466,7 @@ void Boss_Vordt::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('C', this))
 	{
-		mJumpTableManager.ClearJumpTable();
+		// MainRenderer->SetAllRootMotionMoveRatio(100.f, 2.f, 2.f);
 	}
 
 	if (false == IsTargeting())

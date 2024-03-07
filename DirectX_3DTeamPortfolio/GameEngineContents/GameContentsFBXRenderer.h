@@ -21,9 +21,9 @@ class RootMotionData
 	Enum_RootMotionMode RootMotionMode = Enum_RootMotionMode::StartDir;
 	bool IsRotation = true;
 
-	float MoveRatio_X = 5000.f;
-	float MoveRatio_Y = 5000.f;
-	float MoveRatio_Z = 5000.f;
+	float MoveRatio_X = 1.f;
+	float MoveRatio_Y = 1.f;
+	float MoveRatio_Z = 1.f;
 };
 
 class FbxExAniData;
