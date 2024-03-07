@@ -1,6 +1,7 @@
 #pragma once
 #include "DummyPolyCollision.h"
 #include "BaseActor_Para.h"
+#include "BaseActor_Struct.h"
 
 static constexpr int EMPTY_ID = 9999;
 
@@ -258,6 +259,9 @@ public:
 	inline int GetPoise() const { return Stat.GetPoise(); }
 	inline void SetHit(bool _Value) { Hit.SetHit(_Value); }
 	inline int GetCenterDPIndex() const { return CenterBodyIndex; }
+	std::string_view GetMaterialSoundName(int _Index) { return MaterialSound.GetSound(_Index); }
+	std::vector<int> GetMaterialSoundKeys() { return MaterialSound.GetKeys(); }
+	bool IsContainMaterialType(int _Key) { return MaterialSound.IsKeyContain(_Key); }
 
 	// CollisionEvent 
 	// 캐릭터간 충돌시 상대방의 수치를 바꿔주기위한 상호작용 인터페이스입니다.
@@ -275,9 +279,6 @@ public:
 	virtual bool BackStabCheck(const float4& _WPos, float _RotY) const { return false; } // 상대방의 뒤잡 조건문
 	virtual float4 GetBackStabPosition() { return float4::ZERO; } // 뒤잡 위치
 	virtual float4 GetFrontStabPosition() { return float4::ZERO; } // 앞잡 위치
-
-	// Floor Foot Sound
-	std::string_view GetFloorMaterialName();
 
 	// Debug
 	inline int GetCurStateInt() const
@@ -308,7 +309,12 @@ protected:
 	// 인자로 사운드 이름을 넣어주되 같은 타입의 재질 사운드를 넣어주세요
 	//  예시) c128005501.wav, c128005501b.wav, c128005501c.wav, c128005501d.wav << 이런 형식이라면
 	//	가장 낮은 이름인 "c218005501.wav" 을 인자로 넣어주세요.
-	void SetFloorMaterialSoundRes(std::string_view _ResName); 
+	template<typename EnumType>
+	void PushMaterialSound(EnumType _Key, std::string_view _SoundFileName)
+	{
+		PushMaterialSound(static_cast<int>(_Key), _SoundFileName);
+	}
+	void PushMaterialSound(int _Key, std::string_view _SoundFileName);
 
 	// Debug
 	void DrawRange(float _Range, const float4& _Color = float4::RED) const; // 캐릭터 내 범위를 확인하기위한 편의성 디버깅 기능입니다.
@@ -332,12 +338,10 @@ protected:
 	
 private:
 	static std::unordered_map<Enum_ActorFlag, Enum_ActorFlagBit> FlagIndex; // 플레그를 매핑해놓은 구조체입니다. 에디터와 연계 가능합니다.
-	std::vector<std::string> FloorMaterialSoundRes; // 재질에 따른 발소리 리소스
+	MaterialSoundStruct MaterialSound;
 
 	int ActorID = EMPTY_ID;
 	int Flags = 0;
-
-	int FloorMaterialIndex = 0; // 발소리 재질 인덱스
 	
 // Targeting
 public:

@@ -2,22 +2,22 @@
 #include "FrameEventObject.h"
 
 // Ό³Έν :
-class CenterBodySoundFrameEvent : public FrameEventObject
+class SingleCenterSoundFrameEvent : public FrameEventObject
 {
 	friend class FrameEventHelper;
 
 public:
 	// constrcuter destructer
-	CenterBodySoundFrameEvent();
-	~CenterBodySoundFrameEvent();
+	SingleCenterSoundFrameEvent();
+	~SingleCenterSoundFrameEvent();
 
 	// delete Function
-	CenterBodySoundFrameEvent(const CenterBodySoundFrameEvent& _Other) = delete;
-	CenterBodySoundFrameEvent(CenterBodySoundFrameEvent&& _Other) noexcept = delete;
-	CenterBodySoundFrameEvent& operator=(const CenterBodySoundFrameEvent& _Other) = delete;
-	CenterBodySoundFrameEvent& operator=(CenterBodySoundFrameEvent&& _Other) noexcept = delete;
+	SingleCenterSoundFrameEvent(const SingleCenterSoundFrameEvent& _Other) = delete;
+	SingleCenterSoundFrameEvent(SingleCenterSoundFrameEvent&& _Other) noexcept = delete;
+	SingleCenterSoundFrameEvent& operator=(const SingleCenterSoundFrameEvent& _Other) = delete;
+	SingleCenterSoundFrameEvent& operator=(SingleCenterSoundFrameEvent&& _Other) noexcept = delete;
 
-	static std::shared_ptr<CenterBodySoundFrameEvent> CreateEventObject(int _Frame);
+	static std::shared_ptr<SingleCenterSoundFrameEvent> CreateEventObject(int _Frame);
 	std::shared_ptr<FrameEventObject> CreatePlayingEvent() override;
 
 	void Write(class GameEngineSerializer& _File) override
@@ -29,7 +29,7 @@ public:
 		FrameEventObject::Read(_File);
 	}
 
-	void PlayEvent() override;
+	int PlayEvent() override;
 	void Init();
 
 protected:

@@ -249,26 +249,6 @@ void BaseActor::OffSocketCollision(int _BoneIndex)
 	pCollision->Off();
 }
 
-std::string_view BaseActor::GetFloorMaterialName()
-{
-	if (FloorMaterialSoundRes.empty())
-	{
-		MsgBoxAssert("존재하지 않는 자료를 반환하려했습니다.");
-		static std::string ReturnValue;
-		return ReturnValue;
-	}
-
-	int Size = static_cast<int>(FloorMaterialSoundRes.size());
-	if (FloorMaterialIndex == Size)
-	{
-		FloorMaterialIndex = 0;
-	}
-
-	std::string_view SoundName = FloorMaterialSoundRes.at(FloorMaterialIndex);
-	++FloorMaterialIndex;
-	return SoundName;
-}
-
 void BaseActor::SetCenterBodyDPIndex(int _DPIndex)
 {
 	const std::shared_ptr<DS3DummyData>& pRes = DS3DummyData::Find(GetIDName());
@@ -289,48 +269,10 @@ void BaseActor::SetCenterBodyDPIndex(int _DPIndex)
 	CenterBodyIndex = _DPIndex;
 }
 
-void BaseActor::SetFloorMaterialSoundRes(std::string_view _ResName)
+void BaseActor::PushMaterialSound(int _Key, std::string_view _SoundFileName)
 {
-	std::string ResName = _ResName.data();
-	size_t Index = ResName.find_last_of('.');
-	if (std::string::npos == Index)
-	{
-		MsgBoxAssert("이름을 등록하지 못했습니다. 확장자까지 넣어주세요");
-		return;
-	}
-
-	std::string Identify = ResName.substr(0, Index);
-
-	std::string IdName = GetIDName();
-
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExistsChild("ContentsResources");
-	Dir.MoveChild("ContentsResources\\Sound");
-	Dir.MoveChild(IdName);
-
-	bool FindCheck = false;
-	std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".wav" });
-	for (GameEngineFile& pFile : Files)
-	{
-		std::string FileName = pFile.GetFileName();
-		if (std::string::npos != FileName.find(Identify))
-		{
-			FindCheck = true;
-			FloorMaterialSoundRes.push_back(FileName);
-			continue;
-		}
-
-		if (true == FindCheck)
-		{
-			return;
-		}
-	}
-
-	if (false == FindCheck)
-	{
-		MsgBoxAssert("자료를 찾지 못했습니다.");
-		return;
-	}
+	std::string IDName = GetIDName();
+	MaterialSound.PushMaterialSoundRes(_Key, IDName, _SoundFileName);
 }
 
 void BaseActor::DrawRange(float _Range, const float4& _Color /*= float4::RED*/) const
@@ -449,13 +391,15 @@ void JumpTableManager::Update()
 
 	for (JumpTableInfo _CurTableInfo : RunJumpTable)
 	{
+		_CurTableInfo.JumpTable();
+
+		// JumpTable 중 상태값 바뀌면 mJumpTableManager.ClearJumpTable(); 호출 필요
 		if (true == IsClearJumpTable)
 		{
 			RunJumpTable.clear();
 			IsClearJumpTable = false;
 			break;
 		}
-		_CurTableInfo.JumpTable();
 	}
 }
 
