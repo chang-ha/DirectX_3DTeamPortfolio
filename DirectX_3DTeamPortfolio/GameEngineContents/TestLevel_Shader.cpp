@@ -204,8 +204,6 @@ void TestLevel_Shader::Start()
 
 		LightData Data = Test_Light1->GetLightData();
 
-		Data.LightPower = 3.0f;
-		Data.AmbientLight = float4(0.1f, 0.1f, 0.1f, 1.0f);
 
 		Test_Light1->SetLightData(Data);
 		//Test_Light1->IsDebugValue = true; 디버그렌더링
