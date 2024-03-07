@@ -222,7 +222,12 @@ void TestTabB::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
 	int BoneIndex = Player::Main_Player->Bone_index_02;
 	ImGui::InputInt("SPos", &BoneIndex);
-	Player::Main_Player->Bone_index_02 = BoneIndex;
+	Player::Main_Player->Bone_index_01 = BoneIndex;
+
+
+
+
+
 
 	float4 Pos = Player::Main_Player->GetShield()->Transform.GetLocalPosition();
 	ImGui::DragFloat4("SPos", Pos.Arr1D);

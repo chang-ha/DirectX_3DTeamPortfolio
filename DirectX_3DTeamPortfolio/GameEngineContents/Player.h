@@ -9,6 +9,7 @@
 #include "CameraCapsule.h"
 #include "Weapon.h"
 #include "shield.h"
+#include "Player_HitInteraction.h"
 enum class PlayerState
 {
 	Idle,
@@ -97,9 +98,12 @@ public:
 	bool testa = false;
 	bool testaa = false;
 	bool testaaa = false;
+	bool testaaaa = false;
+	float Camera_Pos_Y = 0.0f;
 	int ererer = 0;
 	float4 PreP = {};
 	float4 PrePc = {};
+	std::shared_ptr<GameEngineActor> Actor_test;
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -107,12 +111,21 @@ protected:
 	
 
 private:
+
+
+
 	float4 MoveDir;
 	GameEngineState PlayerStates;
 	EventParameter Mini_Event;
 	std::string BoneName;
+
 	std::shared_ptr<GameEngineCollision> Col;
-	std::shared_ptr<BoneSocketCollision> BodyCol;
+
+	std::shared_ptr<GameEngineCollision> Body_Col;
+	std::shared_ptr<BoneSocketCollision> Shield_Col;
+	std::shared_ptr<BoneSocketCollision> Attack_Col;
+
+
 	PlayerState StateValue = PlayerState::Idle;
 	float Mouse_Pos = 0.0f;
 	
@@ -129,6 +142,9 @@ private:
 	bool Rotation_Check_Y_Plus = false;
 	bool Rotation_Check_Y_Mus = false;
 
+	EventParameter Body_Event;
+
+	Player_HitInteraction Body;
 	bool Rotation_Player_Check = false;
 	bool Rotation_Player_Plus = false;
 	bool Rotation_Player_Mus = false;
@@ -153,7 +169,7 @@ private:
 	float Angle = 0.0f;
 	float MonsterAngle = 0.0f;
 
-	std::shared_ptr<GameEngineActor> Actor_test;
+	
 	
 	std::shared_ptr<CameraCapsule> Cameracapsule;
 	std::shared_ptr<Weapon> Weapon_Actor;
@@ -163,10 +179,10 @@ private:
 	float Mouse_Ro_X = 0.0f;
 	float Mouse_Ro_Y = 0.0f;
 	float4 PrevPos = {};
-	float Camera_Pos_Y = 0.0f;
+	
 	float Camera_Pos_X = 0.0f;
 
-	float test = 0.0f;
+
 
 	float degree_X = 0.0f;
 	float degree_Y = 0.0f;
