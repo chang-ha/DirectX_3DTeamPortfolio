@@ -34,9 +34,7 @@ void WorldMap::Start()
 		physx::PxFilterData FilterData;
 
 		FilterData.word0 = static_cast<int>(Enum_CollisionOrder::Map);
-		FilterData.word1 = static_cast<int>(Enum_CollisionOrder::Camera);
-
-		
+		FilterData.word1 = static_cast<int>(Enum_CollisionOrder::Camera);		
 		FilterData.word2 = static_cast<int>(Enum_CollisionOrder::Big_Camera);
 
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
