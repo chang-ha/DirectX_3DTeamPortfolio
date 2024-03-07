@@ -358,6 +358,9 @@
     <ClCompile Include="ContentsAlphaSpriteRenderer.cpp">
       <Filter>Resource\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="Object_Torchlight.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -710,6 +713,9 @@
     </ClInclude>
     <ClInclude Include="ContentsAlphaSpriteRenderer.h">
       <Filter>Resource\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Torchlight.h">
+      <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
