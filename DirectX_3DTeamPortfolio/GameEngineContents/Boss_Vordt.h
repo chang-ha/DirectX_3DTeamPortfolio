@@ -99,10 +99,10 @@ private:
 	// static constexpr float Close = 500.f;
 	// static constexpr float Middle = 800.f;
 
-	bool AI_MoveMent();
-	bool AI_Attack();
-	bool AI_Combo();
-	bool AI_Dodge();
+	void AI_MoveMent();
+	void AI_Attack();
+	void AI_Combo();
+	void AI_Dodge();
 
 	// State
 	////////////////////////// Move & Others

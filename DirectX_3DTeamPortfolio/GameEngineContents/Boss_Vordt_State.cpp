@@ -379,10 +379,7 @@ void Boss_Vordt::Howling_Start()
 
 void Boss_Vordt::Howling_Update(float _Delta)
 {
-	if (134 <= MainRenderer->GetCurAnimationFrame())
-	{
-		MainState.ChangeState(Enum_BossState::Walk_Front);
-	}
+
 }
 
 void Boss_Vordt::Howling_End()
