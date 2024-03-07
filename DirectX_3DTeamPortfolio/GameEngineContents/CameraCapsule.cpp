@@ -30,11 +30,11 @@ void CameraCapsule::Update(float _Delta)
 
 void CameraCapsule::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	Capsule->PhysXComponentInit(30.0f, 30.0f);
+	Capsule->PhysXComponentInit(40.0f, 40.0f);
 	Capsule->SetPositioningComponent();
 	Capsule->SetFiltering(Enum_CollisionOrder::Camera, Enum_CollisionOrder::Player);
 
-	Capsule_02->PhysXComponentInit(50.0f, 50.0f);
+	Capsule_02->PhysXComponentInit(70.0f, 70.0f);
 	Capsule_02->SetFiltering(Enum_CollisionOrder::Big_Camera, Enum_CollisionOrder::Player);
 
 	
