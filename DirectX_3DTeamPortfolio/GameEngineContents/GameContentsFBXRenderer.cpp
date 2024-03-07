@@ -104,8 +104,12 @@ void GameContentsFBXAnimationInfo::Update(float _DeltaTime)
 		{
 			FrameEventInfo->PlayEvents(CurFrame);
 		}
-
 		IsStart = true;
+	}
+
+	if (Start == CurFrame)
+	{
+		mRootMotionData.RootMotion_StartDir = ParentRenderer->RootMotionComponent->GetDir();
 	}
 
 	if (true == EventCheck && false == IsEnd)
@@ -301,10 +305,6 @@ void GameContentsFBXAnimationInfo::RootMotionUpdate(float _Delta)
 		return;
 	}
 
-	if (0 == CurFrame)
-	{
-		mRootMotionData.RootMotion_StartDir = ParentRenderer->RootMotionComponent->GetDir();
-	}
 	int tCurFrame = CurFrame;
 	int NextFrame = CurFrame + 1;
 

@@ -245,7 +245,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->CreateFBXAnimation("Breath", "Breath.FBX", { ONE_FRAME_DTIME, false });
 		MainRenderer->CreateFBXAnimation("Combo1_Step1", "Combo1_Step1.FBX", { ONE_FRAME_DTIME, false });
 		MainRenderer->CreateFBXAnimation("Combo1_Step2", "Combo1_Step2.FBX", { ONE_FRAME_DTIME, false });
-		MainRenderer->CreateFBXAnimation("Combo1_Step3", "Combo1_Step3.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Combo1_Step3", "Combo1_Step3.FBX", { ONE_FRAME_DTIME, true });
 		MainRenderer->CreateFBXAnimation("Combo2_Step1", "Combo2_Step1.FBX", { ONE_FRAME_DTIME, false });
 		MainRenderer->CreateFBXAnimation("Combo2_Step2", "Combo2_Step2.FBX", { ONE_FRAME_DTIME, false });
 		MainRenderer->CreateFBXAnimation("Death", "Death.FBX", { ONE_FRAME_DTIME, false });
@@ -284,11 +284,6 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		// Rotate to StartDir
 		MainRenderer->SetRootMotionComponent(Capsule.get());
 		MainRenderer->SetRootMotion("Breath");
-		MainRenderer->SetRootMotion("Combo1_Step1");
-		MainRenderer->SetRootMotion("Combo1_Step2");
-		MainRenderer->SetRootMotion("Combo1_Step3");
-		MainRenderer->SetRootMotion("Combo2_Step1");
-		MainRenderer->SetRootMotion("Combo2_Step2");
 		MainRenderer->SetRootMotion("Death");
 		MainRenderer->SetRootMotion("Death_Groggy");
 		MainRenderer->SetRootMotion("Hit_001");
@@ -327,6 +322,11 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->SetRootMotion("Walk_Front", "", Enum_RootMotionMode::RealTimeDir);
 		MainRenderer->SetRootMotion("Walk_Left", "", Enum_RootMotionMode::RealTimeDir);
 		MainRenderer->SetRootMotion("Walk_Right", "", Enum_RootMotionMode::RealTimeDir);
+		MainRenderer->SetRootMotion("Combo1_Step1", "", Enum_RootMotionMode::RealTimeDir);
+		MainRenderer->SetRootMotion("Combo1_Step2", "", Enum_RootMotionMode::RealTimeDir);
+		MainRenderer->SetRootMotion("Combo1_Step3", "", Enum_RootMotionMode::RealTimeDir);
+		MainRenderer->SetRootMotion("Combo2_Step1", "", Enum_RootMotionMode::RealTimeDir);
+		MainRenderer->SetRootMotion("Combo2_Step2", "", Enum_RootMotionMode::RealTimeDir);
 		MainRenderer->SetRootMotion("Rush&Hit&Turn&Rush", "", Enum_RootMotionMode::RealTimeDir); // 
 	}
 
