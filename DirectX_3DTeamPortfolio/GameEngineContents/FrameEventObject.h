@@ -31,7 +31,7 @@ class FrameEventObject : public GameEngineSerializObject
 public:
 	// constrcuter destructer
 	FrameEventObject();
-	~FrameEventObject();
+	virtual ~FrameEventObject();
 
 	// delete Function
 	FrameEventObject(const FrameEventObject& _Other) = delete;

@@ -115,8 +115,93 @@ private:
 	Enum_DirectionXZ_Quat eHitDir = Enum_DirectionXZ_Quat::Center;
 	bool bHit = false;
 	bool bGuardSuccesss = false; // 가드 성공
-	bool bInvincible = false; // 무적
+	bool bInvincible = false; // 무적s
 
+};
+
+struct JumpTableInfo
+{
+	friend struct JumpTableManager;
+	void SetJumpTableInfo(int _StartFrame, int _EndFrame, std::function<void()> _JumpTable)
+	{
+		StartFrame = _StartFrame;
+		EndFrame = _EndFrame;
+		JumpTable = _JumpTable;
+	}
+
+	bool operator==(const JumpTableInfo& _Other) const
+	{
+		if (StartFrame != _Other.StartFrame)
+		{
+			return false;
+		}
+
+		if (EndFrame != _Other.EndFrame)
+		{
+			return false;
+		}
+
+		const void* _thisAddress = JumpTable.target<void*>();
+		const void* _OtherAddress = _Other.JumpTable.target<void*>();
+
+		if (_thisAddress != _OtherAddress)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	bool operator!=(const JumpTableInfo& _Other) const
+	{
+		if (StartFrame == _Other.StartFrame)
+		{
+			return false;
+		}
+
+		if (EndFrame == _Other.EndFrame)
+		{
+			return false;
+		}
+
+		const void* _thisAddress = JumpTable.target<void*>();
+		const void* _OtherAddress = _Other.JumpTable.target<void*>();
+
+		if (_thisAddress == _OtherAddress)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+private:
+	int StartFrame = -1;
+	int EndFrame = -1;
+	std::function<void()> JumpTable;
+};
+
+struct JumpTableManager
+{
+	friend class BaseActor;
+
+	void AddJumpTable(std::string_view _AnimationName, JumpTableInfo _JumpTableInfo);
+	void AddJumpTable(std::string_view _AnimationName, int _StartFrame, int _EndFrame, std::function<void()> _JumpTable);
+	void ClearJumpTable()
+	{
+		IsClearJumpTable = true;
+	}
+
+private:
+	class BaseActor* Owner = nullptr;
+	bool IsClearJumpTable = false;
+	std::list<JumpTableInfo> RunJumpTable;
+
+	void Update();
+	void Release();
+
+	void PushJumpTable(JumpTableInfo _JumpTableInfo);
+	void PopJumpTable(JumpTableInfo _JumpTableInfo);
 };
 
 // 설명 :
@@ -124,11 +209,12 @@ class BoneSocketCollision;
 class BaseActor : public GameEngineActor
 {
 	friend class ContentsActorInitial;
+	friend struct JumpTableManager;
 
 public:
 	// constrcuter destructer
 	BaseActor();
-	~BaseActor();
+	virtual ~BaseActor();
 
 	// delete Function
 	BaseActor(const BaseActor& _Other) = delete;
@@ -277,6 +363,11 @@ public:
 	
 	float4 GetTargetPos()
 	{
+		if (nullptr == Target)
+		{
+			MsgBoxAssert("타겟이 존재하지 않습니다.");
+		}
+
 		return Target->Transform.GetWorldPosition();
 	}
 	float GetRotDir_f()
@@ -317,6 +408,9 @@ private:
 	Enum_RotDir RotDir = Enum_RotDir::Not_Rot;
 
 	void CalcuTargetAngle();
+
+protected:
+	JumpTableManager mJumpTableManager;
 
 };
 

@@ -13,7 +13,7 @@ CenterBodySoundFrameEvent::CenterBodySoundFrameEvent()
 
 CenterBodySoundFrameEvent::~CenterBodySoundFrameEvent()
 {
-}
+} 
 
 
 std::shared_ptr<CenterBodySoundFrameEvent> CenterBodySoundFrameEvent::CreateEventObject(int _Frame)

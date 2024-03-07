@@ -46,6 +46,7 @@ std::unordered_map<Enum_ActorFlag, Enum_ActorFlagBit> BaseActor::FlagIndex;
 ContentsActorInitial ContentsActorInitial::s_ActorInit;
 BaseActor::BaseActor()
 {
+	mJumpTableManager.Owner = this;
 }
 
 BaseActor::~BaseActor()
@@ -68,6 +69,7 @@ void BaseActor::Update(float _Delta)
 		Target = nullptr;
 	}
 	CalcuTargetAngle();
+	mJumpTableManager.Update();
 }
 
 void BaseActor::Release()
@@ -75,10 +77,8 @@ void BaseActor::Release()
 	MainRenderer = nullptr;
 	SocketCollisions.clear();
 	Target = nullptr;
+	mJumpTableManager.Release();
 }
-
-
-
 
 void BaseActor::AddWDirection(float _Degree)
 {
@@ -423,4 +423,54 @@ float4 BaseActor::GetTargetDirection() const
 	float4 Direction = TargetPos - MyPos;
 	Direction.Normalize();
 	return Direction;
+}
+
+void JumpTableManager::AddJumpTable(std::string_view _AnimationName, JumpTableInfo _JumpTableInfo)
+{
+	Owner->MainRenderer->SetFrameEvent(_AnimationName, _JumpTableInfo.StartFrame, std::bind(&JumpTableManager::PushJumpTable, this, _JumpTableInfo));
+	Owner->MainRenderer->SetFrameEvent(_AnimationName, _JumpTableInfo.EndFrame, std::bind(&JumpTableManager::PopJumpTable, this, _JumpTableInfo));
+	Owner->MainRenderer->SetAnimationChangeEvent(_AnimationName, std::bind(&JumpTableManager::Release, this));
+}
+
+void JumpTableManager::AddJumpTable(std::string_view _AnimationName, int _StartFrame, int _EndFrame, std::function<void()> _JumpTable)
+{
+	JumpTableInfo tJumpTableInfo;
+	tJumpTableInfo.SetJumpTableInfo(_StartFrame, _EndFrame, _JumpTable);
+
+	AddJumpTable(_AnimationName, tJumpTableInfo);
+}
+
+void JumpTableManager::Update()
+{
+	if (0 >= RunJumpTable.size())
+	{
+		return;
+	}
+
+	for (JumpTableInfo _CurTableInfo : RunJumpTable)
+	{
+		if (true == IsClearJumpTable)
+		{
+			RunJumpTable.clear();
+			IsClearJumpTable = false;
+			break;
+		}
+		_CurTableInfo.JumpTable();
+	}
+}
+
+void JumpTableManager::Release()
+{
+	RunJumpTable.clear();
+	IsClearJumpTable = false;
+}
+
+void JumpTableManager::PushJumpTable(JumpTableInfo _JumpTableInfo)
+{
+	RunJumpTable.push_back(_JumpTableInfo);
+}
+
+void JumpTableManager::PopJumpTable(JumpTableInfo _JumpTableInfo)
+{
+	RunJumpTable.remove(_JumpTableInfo);
 }
