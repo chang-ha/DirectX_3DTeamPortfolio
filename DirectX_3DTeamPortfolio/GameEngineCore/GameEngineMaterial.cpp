@@ -11,8 +11,8 @@
 GameEngineMaterial::GameEngineMaterial()
 {
 	RasterizerPtr = GameEngineRasterizer::Find("EngineRasterizer");
-	BlendStatePtr = GameEngineBlend::Find("AlphaBlend");;
-	DepthStencilPtr = GameEngineDepthStencil::Find("EngineDepth");;
+	BlendStatePtr = GameEngineBlend::Find("AlphaBlend");
+	DepthStencilPtr = GameEngineDepthStencil::Find("EngineDepth");
 }
 
 GameEngineMaterial::~GameEngineMaterial()

@@ -113,13 +113,6 @@ SamplerState DiffuseTexSampler : register(s0);
 struct PixelOut
 {
     float4 Color0 : SV_Target0;
-    float4 Color1 : SV_Target1;
-    float4 Color2 : SV_Target1;
-    float4 Color3 : SV_Target1;
-    float4 Color4 : SV_Target1;
-    float4 Color5 : SV_Target1;
-    float4 Color6 : SV_Target1;
-    float4 Color7 : SV_Target1;
 };
 
 // SV_Target0
@@ -180,22 +173,13 @@ PixelOut TextureShader_PS(PixelOutPut _Input) : SV_Target0
     Color += PlusColor;
     Color *= MulColor;
     
+    Color.a = (Color.x + Color.y + Color.z / 3.f);
+    
     if (0 < Target0)
     {
         Result.Color0 = Color;
     }
-    //if (0 < Target1)
-    //{
-    //    Result.Color1 = Color;
-    //}
-    //if (0 < Target2)
-    //{
-    //    Result.Color2 = Color;
-    //}
-    //if (0 < Target3)
-    //{
-    //    Result.Color3 = Color;
-    //}
+    
     
     return Result;
 }

@@ -100,7 +100,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
     {
         float Distance = length(LightDataValue.ViewLightPos.xyz - Pos.xyz);
              
-        float attenuation = 1.0 / (constantAttenuation + linearAttenuation * Distance + quadraticAttenuation * Distance * Distance);
+        float attenuation = 1.0 / (LightDataValue.constantAttenuation + LightDataValue.linearAttenuation * Distance + LightDataValue.quadraticAttenuation * Distance * Distance);
         LightPower = attenuation;
     }
     

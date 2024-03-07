@@ -47,7 +47,16 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout DeferrdOut _Result)
     
     
     
-    _Result.NorColor = -NormalTexCalculate(NormalTexture, NormalTextureSAMPLER, _Input.TEXCOORD, _Input.VIEWTANGENT, _Input.VIEWBINORMAL, _Input.VIEWNORMAL);
+    
+    
+    if (IsNormal < 0.0f)
+    {
+        _Result.NorColor = _Input.VIEWNORMAL;
+    }
+    else
+    {
+        _Result.NorColor = -NormalTexCalculate(NormalTexture, NormalTextureSAMPLER, _Input.TEXCOORD, _Input.VIEWTANGENT, _Input.VIEWBINORMAL, _Input.VIEWNORMAL);
+    }
     _Result.NorColor.w = 1.f;
     
     

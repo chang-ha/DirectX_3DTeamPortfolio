@@ -28,6 +28,10 @@ struct LightData
     float PointLightRange;
     float LightPower;
     float ForceLightPower;
+    float constantAttenuation;
+    float linearAttenuation;
+    float quadraticAttenuation;
+    float Def1;
 };
 
 cbuffer LightDatas : register(b12)

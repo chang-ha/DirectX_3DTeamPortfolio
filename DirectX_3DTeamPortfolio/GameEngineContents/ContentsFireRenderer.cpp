@@ -28,6 +28,25 @@ void ContentsFireRenderer::Load()
 			std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Load(Files[i].GetStringPath());
 		}
 	}
+
+	{
+		// Fire ·Îµå
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources");
+		Dir.MoveChild("Effect");
+		Dir.MoveChild("Candle");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Load(Files[i].GetStringPath());
+		}
+
+
+		GameEngineSprite::CreateCut("CandleFire.dds", 8, 4);
+		GameEngineSprite::CreateCut("CandleFire2.dds", 8, 4);
+	}
 }
 
 void ContentsFireRenderer::Start()

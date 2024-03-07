@@ -12,6 +12,9 @@
 #include "LUTEffect.h"
 #include "BloomEffect.h"
 #include "ContentsFireRenderer.h"
+#include "Object_bonfire.h"
+#include "Monster_Hollow_Unarmed.h"
+#include "ContentsAlphaSpriteRenderer.h"
 
 TestLevel_Shader::TestLevel_Shader()
 {
@@ -40,39 +43,23 @@ void TestLevel_Shader::Start()
 
 
 
-	{
-		Test_Light1 = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Point");
-		Test_Light1->SetLightType(Enum_LightType::Point);
-		//Test_Light1->Transform.SetWorldRotation({ 0.0f, 0.0f, 50.0f });
-		Test_Light1->Transform.SetWorldRotation({ 0.0f, 180.0f, 0.0f });
+	
 
-		Test_Light1->Transform.AddLocalPosition({ 0.0f, 0.0f, 100.0f });
+		//Test_Light1 = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Direct");
+		//Test_Light1->CreateShadowMap();
+		//Test_Light1->Transform.SetWorldRotation({ 0.0f, 0.0f, 0.0f });
 
-		Test_Light1->IsDebugValue = true;
-		LightData Data = Test_Light1->GetLightData();
+		//Test_Light1->Transform.AddLocalPosition({ 0.0f, 0.0f, -1000.0f });
 
-		Data.LightPower = 3.0f;
-		Data.AmbientLight = float4(0.1f, 0.1f, 0.1f, 1.0f);
-		//Data.SpcPow = 50.0f;
+		//Test_Light1->IsDebugValue = true;
+		//LightData Data = Test_Light1->GetLightData();
 
-		Test_Light1->SetLightData(Data);
-	}
+		//Data.LightPower = 3.0f;
+		//Data.AmbientLight = float4(0.1f, 0.1f, 0.1f, 1.0f);
+		////Data.SpcPow = 50.0f;
 
-		Test_Light1 = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Direct");
-		Test_Light1->CreateShadowMap();
-		Test_Light1->Transform.SetWorldRotation({ 0.0f, 0.0f, 0.0f });
-
-		Test_Light1->Transform.AddLocalPosition({ 0.0f, 0.0f, -1000.0f });
-
-		Test_Light1->IsDebugValue = true;
-		LightData Data = Test_Light1->GetLightData();
-
-		Data.LightPower = 3.0f;
-		Data.AmbientLight = float4(0.1f, 0.1f, 0.1f, 1.0f);
-		//Data.SpcPow = 50.0f;
-
-		Test_Light1->SetLightData(Data);
-		Test_Light1->SetShadowRange(float4{ 16384,16384 });
+		//Test_Light1->SetLightData(Data);
+		//Test_Light1->SetShadowRange(float4{ 16384,16384 });
 
 
 		
@@ -89,7 +76,7 @@ void TestLevel_Shader::Start()
 		CoreWindow->AddDebugRenderTarget(2, "ForwardTarget", GetMainCamera()->GetCameraForwardTarget());
 		CoreWindow->AddDebugRenderTarget(3, "DeferredLightTarget", GetMainCamera()->GetCameraDeferredLightTarget());
 		CoreWindow->AddDebugRenderTarget(4, "DeferredTarget", GetMainCamera()->GetCameraDeferredTarget());
-		CoreWindow->AddDebugRenderTarget(5, "LightTarget", Test_Light1->GetShadowTarget());
+		//CoreWindow->AddDebugRenderTarget(5, "LightTarget", Test_Light1->GetShadowTarget());
 		//CoreWindow->AddDebugRenderTarget(3, "HBAO", GetMainCamera()->GetCameraHBAOTarget());
 	}
 
@@ -115,7 +102,7 @@ void TestLevel_Shader::Start()
 	GetCamera(ECAMERAORDER::UI)->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
 
-	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
+	/*HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
 	HollowSoldier->Transform.AddLocalPosition({ 100.0f,0.0f,0.0f });
 
 
@@ -129,7 +116,7 @@ void TestLevel_Shader::Start()
 	HollowSoldier->Transform.AddLocalPosition({ 0.0f,100.0f,0.0f });
 
 	HollowSoldier = CreateActor<TestObject_Shader>(Enum_UpdateOrder::Monster);
-	HollowSoldier->Transform.AddLocalPosition({ 0.0f,-100.0f,0.0f });
+	HollowSoldier->Transform.AddLocalPosition({ 0.0f,-100.0f,0.0f });*/
 
 
 	/*Boss_Object = CreateActor<Boss_Vordt>(0, "Boss_Vordt");
@@ -168,6 +155,8 @@ void TestLevel_Shader::Start()
 	//	}
 	//}
 	// 
+	/*std::shared_ptr<Monster_Hollow_Unarmed> Unarmed = CreateActor<Monster_Hollow_Unarmed>(static_cast<int>(Enum_UpdateOrder::Monster), "Unarmed");
+	Unarmed->SetWPosition(float4(-200.0f, 0.0f, 0.0f));*/
 	//ºÒ
 	{
 		std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(0);
@@ -184,6 +173,42 @@ void TestLevel_Shader::Start()
 
 		Render->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
 		Render->Transform.SetLocalRotation({ 0.0f, 60.0f, 0.0f });*/
+	}
+	// ÃÐºÒ ¼ö³à µ¿»ó
+	{
+		std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(Enum_UpdateOrder::Component, "HumanCandle");
+
+		std::shared_ptr<GameContentsFBXRenderer> Render = Object->CreateComponent<GameContentsFBXRenderer>();
+
+		Render = Object->CreateComponent<GameContentsFBXRenderer>();
+		Render->SetFBXMesh("o302565.FBX", "FBX_Static");
+		Render->Transform.SetWorldScale({ 100, 100 , 100 });
+		Render->SetStatic();
+		Render->RenderBaseInfoValue.IsNormal = -1;
+
+		std::shared_ptr<ContentsAlphaSpriteRenderer> Render2 = Object->CreateComponent<ContentsAlphaSpriteRenderer>(Enum_RenderOrder::Effect);
+		Render2->SetBillboardOn();
+		Render2->SetName("Fire");
+		Render2->AutoSpriteSizeOn();
+		Render2->Transform.SetLocalPosition({ -1.5f,90.f,37.f });
+		Render2->SetAutoScaleRatio({ 0.15f, 0.15f, 0.15f });
+
+		Render2->CreateAnimation("CandleFire", "CandleFire2.dds", 0.0666f, -1, -1);
+		Render2->ChangeAnimation("CandleFire");
+	}
+
+	{
+		Test_Light1 = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Point");
+		Test_Light1->SetLightType(Enum_LightType::Point);
+		Test_Light1->Transform.SetLocalPosition({ -1.5f,90.f,37.f });
+
+		LightData Data = Test_Light1->GetLightData();
+
+		Data.LightPower = 3.0f;
+		Data.AmbientLight = float4(0.1f, 0.1f, 0.1f, 1.0f);
+
+		Test_Light1->SetLightData(Data);
+		//Test_Light1->IsDebugValue = true; µð¹ö±×·»´õ¸µ
 	}
 
 	//SkyRenderer = CreateComponent<GameContentsFBXRenderer>();

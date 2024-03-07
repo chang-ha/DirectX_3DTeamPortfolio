@@ -346,6 +346,9 @@
     <ClCompile Include="BaseActor_Para.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
+    <ClCompile Include="ContentsAlphaSpriteRenderer.cpp">
+      <Filter>Resource\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -686,6 +689,9 @@
     </ClInclude>
     <ClInclude Include="BaseActor_Para.h">
       <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsAlphaSpriteRenderer.h">
+      <Filter>Resource\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

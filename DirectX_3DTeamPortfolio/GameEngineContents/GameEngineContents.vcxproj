@@ -231,6 +231,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ContentsAlphaSpriteRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ContentsControlInput.cpp">
       <SubType>
       </SubType>
@@ -538,6 +542,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ContentResources.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentsAlphaSpriteRenderer.h">
       <SubType>
       </SubType>
     </ClInclude>
