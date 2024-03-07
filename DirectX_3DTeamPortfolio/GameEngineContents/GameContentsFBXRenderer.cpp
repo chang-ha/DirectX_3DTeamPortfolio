@@ -377,9 +377,9 @@ void GameContentsFBXAnimationInfo::RootMotionUpdate(float _Delta)
 	MotionVector += LerpVector;
 	MotionVector.W += LerpVector.W;
 
-	MotionVector.X *= mRootMotionData.MoveRatio_X;
-	MotionVector.Y *= mRootMotionData.MoveRatio_Y;
-	MotionVector.Z *= mRootMotionData.MoveRatio_Z;
+	MotionVector.X *= (5000.f * mRootMotionData.MoveRatio_X);
+	MotionVector.Y *= (5000.f * mRootMotionData.MoveRatio_Y);
+	MotionVector.Z *= (5000.f * mRootMotionData.MoveRatio_Z);
 
 	if (true == mRootMotionData.IsRotation)
 	{

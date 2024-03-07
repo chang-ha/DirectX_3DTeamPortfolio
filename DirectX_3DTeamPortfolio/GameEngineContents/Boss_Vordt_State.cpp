@@ -799,7 +799,7 @@ void Boss_Vordt::AI_Combo()
 	{
 	case Enum_BossState::Combo1_Step1:
 	{
-		MainState.ChangeState(Enum_BossState::Combo1_Step2);
+		MainState.ChangeState(Enum_BossState::Combo1_Step2);	
 		break;
 	}
 	case Enum_BossState::Combo1_Step2:

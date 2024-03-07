@@ -63,6 +63,11 @@ enum Enum_BossState
 	Rush_Hit_Turn_Rush,
 };
 
+struct AI_State
+{
+	
+};
+
 class Boss_Vordt : public BaseActor
 {
 	friend Boss_State_GUI;
