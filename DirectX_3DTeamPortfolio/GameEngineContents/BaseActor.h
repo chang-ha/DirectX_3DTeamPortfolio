@@ -187,9 +187,14 @@ struct JumpTableManager
 
 	void AddJumpTable(std::string_view _AnimationName, JumpTableInfo _JumpTableInfo);
 	void AddJumpTable(std::string_view _AnimationName, int _StartFrame, int _EndFrame, std::function<void()> _JumpTable);
+	void ClearJumpTable()
+	{
+		IsClearJumpTable = true;
+	}
 
 private:
 	class BaseActor* Owner = nullptr;
+	bool IsClearJumpTable = false;
 	std::list<JumpTableInfo> RunJumpTable;
 
 	void Update();

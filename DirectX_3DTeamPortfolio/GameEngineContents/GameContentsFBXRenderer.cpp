@@ -1382,6 +1382,11 @@ void GameContentsFBXRenderer::SetFrameEvent(std::string_view _AnimationName, int
 		MsgBoxAssert("존재하지 않는 애니메이션에 이벤트를 만들려고 했습니다.");
 	}
 
+	if (Animation->Start > static_cast<unsigned int>(_Frame) || Animation->End < static_cast<unsigned int>(_Frame))
+	{
+		MsgBoxAssert("인자로 들어온 프레임 값이 애니메이션 프레임을 벗어났습니다.");
+	}
+
 	Animation->FrameEventFunction.insert(std::make_pair(_Frame, _Function));
 }
 

@@ -442,8 +442,19 @@ void JumpTableManager::AddJumpTable(std::string_view _AnimationName, int _StartF
 
 void JumpTableManager::Update()
 {
+	if (0 >= RunJumpTable.size())
+	{
+		return;
+	}
+
 	for (JumpTableInfo _CurTableInfo : RunJumpTable)
 	{
+		if (true == IsClearJumpTable)
+		{
+			RunJumpTable.clear();
+			IsClearJumpTable = false;
+			break;
+		}
 		_CurTableInfo.JumpTable();
 	}
 }
