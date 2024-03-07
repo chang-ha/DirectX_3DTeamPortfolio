@@ -349,7 +349,12 @@
     <ClCompile Include="BaseActor_Struct.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
-    <ClCompile Include="SingleCenterSoundFrameEvent.cpp" />
+    <ClCompile Include="SingleCenterSoundFrameEvent.cpp">
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="Player_HitInteraction.cpp">
+      <Filter>Actor\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -694,7 +699,12 @@
     <ClInclude Include="BaseActor_Struct.h">
       <Filter>Actor</Filter>
     </ClInclude>
-    <ClInclude Include="SingleCenterSoundFrameEvent.h" />
+    <ClInclude Include="SingleCenterSoundFrameEvent.h">
+      <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="Player_HitInteraction.h">
+      <Filter>Actor\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
