@@ -38,7 +38,7 @@ public:
 		return SoundName;
 	}
 
-	void PlayEvent() override;
+	int PlayEvent() override;
 	void Init();
 
 protected:

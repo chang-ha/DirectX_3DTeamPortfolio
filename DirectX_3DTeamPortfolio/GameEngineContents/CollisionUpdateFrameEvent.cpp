@@ -32,7 +32,7 @@ std::shared_ptr<FrameEventObject> CollisionUpdateFrameEvent::CreatePlayingEvent(
 	return NewObject;
 }
 
-void CollisionUpdateFrameEvent::PlayEvent()
+int CollisionUpdateFrameEvent::PlayEvent()
 {
 	if (nullptr == pCollision)
 	{
@@ -44,10 +44,11 @@ void CollisionUpdateFrameEvent::PlayEvent()
 	if (nullptr == pManager)
 	{
 		MsgBoxAssert("매니저를 모르고 사용할 수 없는 기능입니다. 김태훈에게 문의하세요");
-		return;
+		return EVENT_DONE;
 	}
 
 	pManager->PushEvent(this);
+	return EVENT_DONE;
 }
 
 int CollisionUpdateFrameEvent::UpdateEvent(float _Delta)
