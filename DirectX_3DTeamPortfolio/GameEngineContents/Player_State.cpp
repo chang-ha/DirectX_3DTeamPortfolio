@@ -16,7 +16,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				//Camera_Pos_X = Player_Pos.X;
-				MainRenderer->ChangeAnimation("Idle");
+				MainRenderer->ChangeAnimation("String_Hit_Forward");
 				StateValue = PlayerState::Idle;
 			};
 
@@ -126,9 +126,9 @@ void Player::Player_State()
 					return;
 				}
 
-
+				float ad = Capsule->GetDir();
 				
-
+				//Capsule->SetWorldRotation({ 0.0f,degree_X });
 			};
 
 		PlayerStates.CreateState(PlayerState::Idle, NewPara);
@@ -1119,14 +1119,14 @@ void Player::Player_State()
 				{
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
 					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
-					Capsule->MoveForce({ float4::BACKWARD * Speed * 1.2 }, degree_X);
+					Capsule->MoveForce({ float4::BACKWARD * Speed * float(1.2) }, degree_X);
 				}
 
 				else 
 				{
 					if (MainRenderer->GetCurAnimationFrame() < 25)
 					{
-						Capsule->MoveForce({ float4::BACKWARD * Speed * 1.2 });
+						Capsule->MoveForce({ float4::BACKWARD * Speed * float(1.2) });
 					}
 				}
 
@@ -1160,7 +1160,7 @@ void Player::Player_State()
 					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
 					if (MainRenderer->GetCurAnimationFrame() < 10)
 					{
-						Capsule->MoveForce({ float4::FORWARD * Speed * 1.2 });
+						Capsule->MoveForce({ float4::FORWARD * Speed * float(1.2) });
 					}
 				}
 
@@ -1168,7 +1168,7 @@ void Player::Player_State()
 				{
 					if (MainRenderer->GetCurAnimationFrame() < 10)
 					{
-						Capsule->MoveForce({ float4::FORWARD * Speed * 1.2 });
+						Capsule->MoveForce({ float4::FORWARD * Speed * float(1.2) });
 					}
 				}
 				if (MainRenderer->GetCurAnimationFrame() > 30)
@@ -1207,7 +1207,7 @@ void Player::Player_State()
 					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
 					if (MainRenderer->GetCurAnimationFrame() < 10)
 					{
-						Capsule->MoveForce({ float4::LEFT * Speed * 1.2 });
+						Capsule->MoveForce({ float4::LEFT * Speed * float(1.2) });
 					}
 				}
 
@@ -1215,7 +1215,7 @@ void Player::Player_State()
 				{
 					if (MainRenderer->GetCurAnimationFrame() < 10)
 					{
-						Capsule->MoveForce({ float4::LEFT * Speed * 1.2 });
+						Capsule->MoveForce({ float4::LEFT * Speed * float(1.2) });
 					}
 
 					
@@ -1247,7 +1247,7 @@ void Player::Player_State()
 					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
 					if (MainRenderer->GetCurAnimationFrame() < 10)
 					{
-						Capsule->MoveForce({ float4::RIGHT * Speed * 1.2 });
+						Capsule->MoveForce({ float4::RIGHT * Speed * float(1.2) });
 					}
 				}
 
@@ -1255,7 +1255,7 @@ void Player::Player_State()
 				{
 					if (MainRenderer->GetCurAnimationFrame() < 10)
 					{
-						Capsule->MoveForce({ float4::RIGHT * Speed * 1.2 });
+						Capsule->MoveForce({ float4::RIGHT * Speed * float(1.2) });
 					}
 				}
 
@@ -1288,14 +1288,14 @@ void Player::Player_State()
 
 					if (MainRenderer->GetCurAnimationFrame() < 10)
 					{
-						Capsule->MoveForce({ float4::BACKWARD * Speed * 1.2 });
+						Capsule->MoveForce({ float4::BACKWARD * Speed * float(1.2) });
 					}
 				}
 				else
 				{
 					if (MainRenderer->GetCurAnimationFrame() < 10)
 					{
-						Capsule->MoveForce({ float4::BACKWARD * Speed * 1.2 });
+						Capsule->MoveForce({ float4::BACKWARD * Speed * float(1.2) });
 					}
 				}
 				if (MainRenderer->GetCurAnimationFrame() > 20)
@@ -1720,7 +1720,7 @@ void Player::Player_State()
 					return;
 				}
 
-				Capsule->SetWorldRotation({ 0.0f,degree_X });
+				//Capsule->SetWorldRotation({ 0.0f,degree_X });
 			};
 
 		PlayerStates.CreateState(PlayerState::Backward_Hit, NewPara);
@@ -1743,7 +1743,7 @@ void Player::Player_State()
 					return;
 				}
 
-				Capsule->SetWorldRotation({ 0.0f,degree_X });
+				//Capsule->SetWorldRotation({ 0.0f,degree_X });
 			};
 
 		PlayerStates.CreateState(PlayerState::Right_Hit, NewPara);
@@ -1766,7 +1766,7 @@ void Player::Player_State()
 					return;
 				}
 
-				Capsule->SetWorldRotation({ 0.0f,degree_X });
+				//Capsule->SetWorldRotation({ 0.0f,degree_X });
 			};
 
 		PlayerStates.CreateState(PlayerState::Left_Hit, NewPara);
@@ -1853,6 +1853,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Middle_Hit_Left");
+				Capsule->SetWorldRotation({ 0.0f,degree_X });
 			};
 
 
@@ -1878,6 +1879,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("String_Hit_Forward");
+				Capsule->SetWorldRotation({ 0.0f,degree_X });
 			};
 
 

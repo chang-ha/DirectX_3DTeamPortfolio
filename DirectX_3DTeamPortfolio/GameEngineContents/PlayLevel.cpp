@@ -78,7 +78,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 		PlayerObject = Object;
 
 		// 시작위치
-		PlayerObject->Transform.SetLocalPosition({ -1400.0f, 5101.0f, -5331.0f });
+		//PlayerObject->Transform.SetLocalPosition({ -1400.0f, 5101.0f, -5331.0f });
 
 		
 	}

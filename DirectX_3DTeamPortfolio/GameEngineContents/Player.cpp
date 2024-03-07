@@ -197,8 +197,6 @@ void Player::Start()
 //	MainRenderer->SetRootMotion("Portion_Drink_01", "", Enum_RootMotionMode::RealTimeDir);
 //	MainRenderer->SetRootMotion("Portion_Drink_02", "", Enum_RootMotionMode::RealTimeDir);
 //	MainRenderer->SetRootMotion("Portion_Drink_03", "", Enum_RootMotionMode::RealTimeDir);
-	
-
 
 //	MainRenderer->SetRootMotion("Left_Stop", "", Enum_RootMotionMode::RealTimeDir);
 //	MainRenderer->SetRootMotion("Behind_Stop", "", Enum_RootMotionMode::RealTimeDir);
@@ -221,9 +219,9 @@ void Player::Start()
 	MainRenderer->SetRootMotion("Middle_Hit_Forward", "", Enum_RootMotionMode::RealTimeDir);
 	MainRenderer->SetRootMotion("Middle_Hit_Behind", "", Enum_RootMotionMode::RealTimeDir);
 
-	MainRenderer->SetRootMotion("String_Hit_Forward", "", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("String_Hit_Forward");
 	MainRenderer->SetRootMotion("String_Hit_Behind", "", Enum_RootMotionMode::RealTimeDir);
-	MainRenderer->SetRootMotionMoveRatio("String_Hit_Forward");
+	//MainRenderer->SetRootMotionMoveRatio("String_Hit_Forward");
 
 	//MainRenderer->SetRootMotion("ladder_Up_Start");
 
@@ -360,19 +358,10 @@ void Player::Start()
 	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Camera);
 	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Big_Camera);
 
-
-
-}
-
-void Player::Update(float _Delta)
-{
-
-
-
 	Body_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
 
-			float4 TargetPos = GetTargetPos();
+			float4 TargetPos = col->Transform.GetWorldPosition();
 			float4 MyPos = Actor_test->Transform.GetWorldPosition();
 
 			// YÃà °í·Á X
@@ -398,21 +387,18 @@ void Player::Update(float _Delta)
 				Monster_Degree *= -1.f;
 			}
 
-			
-			if (Monster_Degree == 180)
-			{
-				PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);
-			}
 
-			else if (Monster_Degree >= 0)
+
+
+			if (Monster_Degree >= 135)
 			{
-				if (Monster_Degree <= 45)
+				if (Monster_Degree <= 180)
 				{
 					//Collision_Left_drop();
 					PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);
 				}
 			}
-			else if (Monster_Degree >= -180)
+			if (Monster_Degree >= -180)
 			{
 				if (Monster_Degree < -135)
 				{
@@ -420,7 +406,8 @@ void Player::Update(float _Delta)
 					PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);
 				}
 			}
-			else if (Monster_Degree <= 135)
+
+			if (Monster_Degree <= 135)
 			{
 				if (Monster_Degree > 45)
 				{
@@ -431,18 +418,7 @@ void Player::Update(float _Delta)
 				}
 			}
 
-
-			else if (Monster_Degree <= 180)
-			{
-				if (Monster_Degree > 135)
-				{
-					//Collision_Down_drop();
-					PlayerStates.ChangeState(PlayerState::Backward_Hit);
-
-				}
-			}
-
-			else if (Monster_Degree <= 0)
+			if (Monster_Degree <= 45)
 			{
 				if (Monster_Degree > -45)
 				{
@@ -451,8 +427,7 @@ void Player::Update(float _Delta)
 
 				}
 			}
-
-			else if (Monster_Degree >= -135)
+			if (Monster_Degree >= -135)
 			{
 				if (Monster_Degree < -45)
 				{
@@ -469,9 +444,9 @@ void Player::Update(float _Delta)
 	Body_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
 
-			
 
-			
+
+
 
 
 		};
@@ -482,6 +457,15 @@ void Player::Update(float _Delta)
 		};
 
 
+}
+
+void Player::Update(float _Delta)
+{
+
+
+
+	
+
 
 	BaseActor::Update(_Delta);
 
@@ -489,6 +473,10 @@ void Player::Update(float _Delta)
 	//Body.CollisionToBody(Enum_CollisionOrder::Player);
 
 
+
+	
+
+	
 
 	Body_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack, Body_Event);
 
@@ -596,7 +584,7 @@ void Player::Update(float _Delta)
 	}
 
 
-	float4 WorldMousePos = Actor_test->Transform.GetWorldRotationEuler();
+	float4 WorldMousePos = { Monster_Degree,0.0f };
 
 	OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
 
