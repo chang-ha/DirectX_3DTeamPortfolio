@@ -16,7 +16,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				//Camera_Pos_X = Player_Pos.X;
-				MainRenderer->ChangeAnimation("String_Hit_Forward");
+				MainRenderer->ChangeAnimation("Idle");
 				StateValue = PlayerState::Idle;
 			};
 
