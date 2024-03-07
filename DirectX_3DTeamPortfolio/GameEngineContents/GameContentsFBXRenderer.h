@@ -112,8 +112,9 @@ public:
 	void Update(float _DeltaTime);
 	void Release();
 
-	std::map<int, std::function<void(GameContentsFBXRenderer*)>> FrameEventFunction;
+	std::multimap<int, std::function<void(GameContentsFBXRenderer*)>> FrameEventFunction;
 	std::function<void(UINT _FrameIndex)> FrameChangeFunction;
+	std::function<void()> AnimationChangeFunction;
 	std::function<void(GameContentsFBXRenderer*)> EndEvent;
 
 	void EventCall(UINT _Frame);
@@ -298,6 +299,7 @@ public:
 	void SetStartEvent(std::string_view _AnimationName, std::function<void(GameContentsFBXRenderer*)> _Function);
 	void SetEndEvent(std::string_view _AnimationName, std::function<void(GameContentsFBXRenderer*)> _Function);
 	void SetFrameEvent(std::string_view _AnimationName, int _Frame, std::function<void(GameContentsFBXRenderer*)> _Function);
+	void SetAnimationChangeEvent(std::string_view _AnimationName, std::function<void()> _Function);
 
 	void SetFrameChangeFunction(std::string_view _AnimationName, std::function<void(int _FrameIndex)> _Function);
 	void SetFrameChangeFunctionAll(std::function<void(int _FrameIndex)> _Function);
