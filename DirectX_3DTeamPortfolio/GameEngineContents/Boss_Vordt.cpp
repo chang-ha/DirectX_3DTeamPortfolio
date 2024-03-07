@@ -15,41 +15,31 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		return;
 	}
 		
-	int AniIndex = 0;
+	int Index = 0;
 
-	if (0 == AniNames.size())
+	if (0 == StateNames.size())
 	{
 		const std::map<int, State>* AllStates = Linked_Boss->MainState.GetAllStates();
 
-		if (0 == AniNames.capacity())
+		if (0 == StateNames.capacity())
 		{
-			AniNames.reserve(AllStates->size());
+			StateNames.reserve(AllStates->size());
+			StateIndex.reserve(AllStates->size());
 		}
 
 		std::map<int, State>::const_iterator StartIter = AllStates->begin();
 		std::map<int, State>::const_iterator EndIter = AllStates->end();
 		for (; StartIter != EndIter; ++StartIter)
 		{
-			AniNames.push_back(StartIter->second.Name.c_str());
+			StateNames.push_back(StartIter->second.Name.c_str());
+			StateIndex.push_back(StartIter->first);
 		}
-
-		//std::map<std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& AniInfo = Linked_Boss->MainRenderer->GetAnimationInfos();
-
-		//if (0 == AniNames.capacity())
-		//{
-		//	AniNames.reserve(AniInfo.size());
-		//}
-
-		//for (std::pair<const std::string, std::shared_ptr<GameContentsFBXAnimationInfo>>& _Pair : AniInfo)
-		//{
-		//	AniNames.push_back(_Pair.first.data());
-		//}
 	}
 
 	{
-		if (ImGui::ListBox("State", &AniIndex, &AniNames[0], static_cast<int>(AniNames.size())))
+		if (ImGui::ListBox("State", &Index, &StateNames[0], static_cast<int>(StateNames.size())))
 		{
-			Linked_Boss->MainState.ChangeState(AniIndex);
+			Linked_Boss->MainState.ChangeState(StateIndex[Index]);
 		}
 	}
 
@@ -61,29 +51,6 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		String += std::to_string(Frame);
 		ImGui::Text(String.c_str());
 	}
-
-	//{
-	//	if (true == ImGui::Checkbox("ChasingCamera", &IsChasingCamera))
-	//	{
-	//		if (false == IsChasingCamera)
-	//		{
-	//			Linked_Boss->GetLevel()->GetMainCamera()->Transform.SetWorldPosition(PrevCameraPos);
-	//			Linked_Boss->GetLevel()->GetMainCamera()->Transform.SetWorldRotation(float4(0.f, 0.f, 0.f, 0.f));
-	//		}
-	//		else
-	//		{
-	//			ChasingCameraRot = float4(0.f, 0.f, 0.f, 0.f);
-	//			PrevCameraPos = Linked_Boss->GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
-	//		}
-	//		ChasingCameraPos = float4(0.f, 2000.f, 0.f);
-	//	}
-	//}
-
-	//if (true == IsChasingCamera)
-	//{
-	//	Linked_Boss->GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Linked_Boss->Transform.GetWorldPosition() + ChasingCameraPos);
-	//	Linked_Boss->GetLevel()->GetMainCamera()->Transform.SetWorldRotation(Linked_Boss->Transform.GetWorldRotationEuler() + ChasingCameraRot);
-	//}
 
 	ImGui::NewLine();
 
@@ -225,10 +192,8 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 void Boss_State_GUI::Reset()
 {
-	AniNames.clear();
+	StateNames.clear();
 	Linked_Boss = nullptr;
-	IsChasingCamera = false;
-	ChasingCameraPos = float4(0.f, 1000.f, 0.f);
 }
 
 Boss_Vordt::Boss_Vordt()
@@ -401,11 +366,16 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 	// State
 	{
+		JumpTableInfo mJumpTableInfo;
+
 		// Move & Others
 		CreateStateParameter Howling;
 		Howling.Start = std::bind(&Boss_Vordt::Howling_Start, this);
 		Howling.Stay = std::bind(&Boss_Vordt::Howling_Update, this, std::placeholders::_1);
 		Howling.End = std::bind(&Boss_Vordt::Howling_End, this);
+		mJumpTableInfo.SetJumpTableInfo(10, 120, std::bind(&Boss_Vordt::AI_MoveMent, this));
+		mJumpTableManager.AddJumpTable("Howling", mJumpTableInfo);
+		mJumpTableManager.AddJumpTable("Howling", 10, 120, std::bind(&Boss_Vordt::AI_Dodge, this));
 
 		CreateStateParameter Idle;
 		Idle.Start = std::bind(&Boss_Vordt::Idle_Start, this);
@@ -701,13 +671,11 @@ void Boss_Vordt::Start()
 	{
 		Capsule = CreateComponent<GameEnginePhysXCapsule>();
 	}
-
 }
 
 void Boss_Vordt::Update(float _Delta)
 {
 	BaseActor::Update(_Delta);
-	CalcuTargetDistance();
 
 	if (true == GameEngineInput::IsDown('B', this))
 	{
@@ -719,6 +687,19 @@ void Boss_Vordt::Update(float _Delta)
 	{
 		MainRenderer->SwitchPause();
 	}
+
+	if (true == GameEngineInput::IsDown('C', this))
+	{
+		mJumpTableManager.ClearJumpTable();
+	}
+
+	if (false == IsTargeting())
+	{
+		TargetDistance = 0.f;
+		return;
+	}
+
+	TargetDistance = GetTargetDistance();
 }
 
 void Boss_Vordt::Release()
@@ -775,21 +756,6 @@ void Boss_Vordt::Release()
 	BaseActor::Release();
 }
 
-void Boss_Vordt::CalcuTargetDistance()
-{
-	if (false == IsTargeting())
-	{
-		TargetDistance = 0.f;
-		return;
-	}
-
-	float4 TargetPos = GetTargetPos();
-	float4 BossPos = Transform.GetWorldPosition();
-	float4 CalcuDistance = BossPos - TargetPos;
-	CalcuDistance = DirectX::XMVector3LengthEst(CalcuDistance.DirectXVector);
-	TargetDistance = CalcuDistance.X;
-}
-
 float4 Boss_Vordt::BoneWorldPos(int _BoneIndex)
 {
 	std::vector<float4x4>& BoneMats = MainRenderer->GetBoneSockets();
@@ -806,23 +772,22 @@ float4 Boss_Vordt::BoneWorldPos(int _BoneIndex)
 
 bool Boss_Vordt::AI_MoveMent()
 {
+	OutputDebugString("AI_Movement\n");
 	return false;
 }
 
 bool Boss_Vordt::AI_Attack()
 {
 	return false;
-
 }
 
 bool Boss_Vordt::AI_Combo()
 {
 	return false;
-
 }
 
 bool Boss_Vordt::AI_Dodge()
 {
+	OutputDebugString("AI_Dodge\n");
 	return false;
-
 }

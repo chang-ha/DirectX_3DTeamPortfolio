@@ -12,20 +12,16 @@ public:
 protected:
 
 private:
-	std::vector<const char*> AniNames;
+	std::vector<const char*> StateNames;
+	std::vector<int> StateIndex;
 	Boss_Vordt* Linked_Boss = nullptr;
-	bool IsChasingCamera = false;
-	float4 ChasingCameraPos = float4(0.f, 100.f, -1200.f);
-	float4 ChasingCameraRot = float4::ZERONULL;
-	float4 PrevCameraPos = float4::ZERO;
-
 	void Reset();
 };
 
 enum class Enum_BossState
 {
 	// Move & Others
-	Howling,
+	Howling = (1 << 0),
 	Idle,
 	Walk_Front,
 	Walk_Right,
@@ -98,8 +94,10 @@ private:
 	float TargetDistance = 0.f;
 
 	void FrameEventInit();
-	void CalcuTargetDistance();
 	float4 BoneWorldPos(int _BoneIndex);
+
+	// static constexpr float Close = 500.f;
+	// static constexpr float Middle = 800.f;
 
 	bool AI_MoveMent();
 	bool AI_Attack();
