@@ -38,7 +38,7 @@ public:
 		return EndFrame;
 	}
 
-	void PlayEvent() override;
+	int PlayEvent() override;
 	int UpdateEvent(float _Delta) override;
 	void Reset() override;
 

@@ -27,6 +27,9 @@ protected:
 
 
 private:
+
+
+
 	std::shared_ptr<class GameEngineCoreWindow> CoreWindow;
 	std::shared_ptr<class FadePostEffect> FadeEffect;
 	std::shared_ptr<class Player> PlayerObject;

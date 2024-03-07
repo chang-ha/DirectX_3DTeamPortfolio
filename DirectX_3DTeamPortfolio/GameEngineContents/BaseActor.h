@@ -1,6 +1,7 @@
 #pragma once
 #include "DummyPolyCollision.h"
 #include "BaseActor_Para.h"
+#include "BaseActor_Struct.h"
 
 static constexpr int EMPTY_ID = 9999;
 
@@ -115,8 +116,93 @@ private:
 	Enum_DirectionXZ_Quat eHitDir = Enum_DirectionXZ_Quat::Center;
 	bool bHit = false;
 	bool bGuardSuccesss = false; // 가드 성공
-	bool bInvincible = false; // 무적
+	bool bInvincible = false; // 무적s
 
+};
+
+struct JumpTableInfo
+{
+	friend struct JumpTableManager;
+	void SetJumpTableInfo(int _StartFrame, int _EndFrame, std::function<void()> _JumpTable)
+	{
+		StartFrame = _StartFrame;
+		EndFrame = _EndFrame;
+		JumpTable = _JumpTable;
+	}
+
+	bool operator==(const JumpTableInfo& _Other) const
+	{
+		if (StartFrame != _Other.StartFrame)
+		{
+			return false;
+		}
+
+		if (EndFrame != _Other.EndFrame)
+		{
+			return false;
+		}
+
+		const void* _thisAddress = JumpTable.target<void*>();
+		const void* _OtherAddress = _Other.JumpTable.target<void*>();
+
+		if (_thisAddress != _OtherAddress)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	bool operator!=(const JumpTableInfo& _Other) const
+	{
+		if (StartFrame == _Other.StartFrame)
+		{
+			return false;
+		}
+
+		if (EndFrame == _Other.EndFrame)
+		{
+			return false;
+		}
+
+		const void* _thisAddress = JumpTable.target<void*>();
+		const void* _OtherAddress = _Other.JumpTable.target<void*>();
+
+		if (_thisAddress == _OtherAddress)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+private:
+	int StartFrame = -1;
+	int EndFrame = -1;
+	std::function<void()> JumpTable;
+};
+
+struct JumpTableManager
+{
+	friend class BaseActor;
+
+	void AddJumpTable(std::string_view _AnimationName, JumpTableInfo _JumpTableInfo);
+	void AddJumpTable(std::string_view _AnimationName, int _StartFrame, int _EndFrame, std::function<void()> _JumpTable);
+	void ClearJumpTable()
+	{
+		IsClearJumpTable = true;
+	}
+
+private:
+	class BaseActor* Owner = nullptr;
+	bool IsClearJumpTable = false;
+	std::list<JumpTableInfo> RunJumpTable;
+
+	void Update();
+	void Release();
+
+	void PushJumpTable(JumpTableInfo _JumpTableInfo);
+	void PopJumpTable(JumpTableInfo _JumpTableInfo);
 };
 
 // 설명 :
@@ -124,6 +210,7 @@ class BoneSocketCollision;
 class BaseActor : public GameEngineActor
 {
 	friend class ContentsActorInitial;
+	friend struct JumpTableManager;
 
 public:
 	// constrcuter destructer
@@ -172,6 +259,9 @@ public:
 	inline int GetPoise() const { return Stat.GetPoise(); }
 	inline void SetHit(bool _Value) { Hit.SetHit(_Value); }
 	inline int GetCenterDPIndex() const { return CenterBodyIndex; }
+	std::string_view GetMaterialSoundName(int _Index) { return MaterialSound.GetSound(_Index); }
+	std::vector<int> GetMaterialSoundKeys() { return MaterialSound.GetKeys(); }
+	bool IsContainMaterialType(int _Key) { return MaterialSound.IsKeyContain(_Key); }
 
 	// CollisionEvent 
 	// 캐릭터간 충돌시 상대방의 수치를 바꿔주기위한 상호작용 인터페이스입니다.
@@ -189,9 +279,6 @@ public:
 	virtual bool BackStabCheck(const float4& _WPos, float _RotY) const { return false; } // 상대방의 뒤잡 조건문
 	virtual float4 GetBackStabPosition() { return float4::ZERO; } // 뒤잡 위치
 	virtual float4 GetFrontStabPosition() { return float4::ZERO; } // 앞잡 위치
-
-	// Floor Foot Sound
-	std::string_view GetFloorMaterialName();
 
 	// Debug
 	inline int GetCurStateInt() const
@@ -222,7 +309,12 @@ protected:
 	// 인자로 사운드 이름을 넣어주되 같은 타입의 재질 사운드를 넣어주세요
 	//  예시) c128005501.wav, c128005501b.wav, c128005501c.wav, c128005501d.wav << 이런 형식이라면
 	//	가장 낮은 이름인 "c218005501.wav" 을 인자로 넣어주세요.
-	void SetFloorMaterialSoundRes(std::string_view _ResName); 
+	template<typename EnumType>
+	void PushMaterialSound(EnumType _Key, std::string_view _SoundFileName)
+	{
+		PushMaterialSound(static_cast<int>(_Key), _SoundFileName);
+	}
+	void PushMaterialSound(int _Key, std::string_view _SoundFileName);
 
 	// Debug
 	void DrawRange(float _Range, const float4& _Color = float4::RED) const; // 캐릭터 내 범위를 확인하기위한 편의성 디버깅 기능입니다.
@@ -246,12 +338,10 @@ protected:
 	
 private:
 	static std::unordered_map<Enum_ActorFlag, Enum_ActorFlagBit> FlagIndex; // 플레그를 매핑해놓은 구조체입니다. 에디터와 연계 가능합니다.
-	std::vector<std::string> FloorMaterialSoundRes; // 재질에 따른 발소리 리소스
+	MaterialSoundStruct MaterialSound;
 
 	int ActorID = EMPTY_ID;
 	int Flags = 0;
-
-	int FloorMaterialIndex = 0; // 발소리 재질 인덱스
 	
 // Targeting
 public:
@@ -322,6 +412,9 @@ private:
 	Enum_RotDir RotDir = Enum_RotDir::Not_Rot;
 
 	void CalcuTargetAngle();
+
+protected:
+	JumpTableManager mJumpTableManager;
 
 };
 

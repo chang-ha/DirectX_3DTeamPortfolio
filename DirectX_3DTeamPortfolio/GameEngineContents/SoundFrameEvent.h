@@ -36,7 +36,7 @@ public:
 	}
 
 
-	void PlayEvent() override;
+	int PlayEvent() override;
 
 
 protected:
