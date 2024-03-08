@@ -33,7 +33,7 @@ void Object_Ladder3::Start()
 
 	CollisionTop = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::LadderTop);
 	CollisionTop->SetCollisionType(ColType::SPHERE3D);
-	CollisionTop->Transform.SetWorldPosition({ -16410, 2940 , -3480 });
+	CollisionTop->Transform.SetWorldPosition({ -16410, 3040 , -3480 });
 	CollisionTop->Transform.SetWorldScale(float4(200, 200, 200));
 }
 

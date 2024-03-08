@@ -8,6 +8,7 @@
 #include "Player_HitInteraction.h"
 #include "BoneSocketCollision.h"
 #define Frame 0.033f
+#define cdcdc 0.05f
 Player* Player::Main_Player;
 
 Player::Player()
@@ -225,24 +226,33 @@ void Player::Start()
 
 	//MainRenderer->SetRootMotion("ladder_Up_Start");
 
-	MainRenderer->SetRootMotion("ladder_Up_Left","", Enum_RootMotionMode::RealTimeDir);
-	MainRenderer->SetRootMotion("ladder_Up_Right", "", Enum_RootMotionMode::RealTimeDir);
+	/*MainRenderer->SetRootMotion("ladder_Up_Left","", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("ladder_Up_Right", "", Enum_RootMotionMode::RealTimeDir);*/
 
-	MainRenderer->SetRootMotion("ladder_Up_Stop_Left", "", Enum_RootMotionMode::RealTimeDir);
-	MainRenderer->SetRootMotion("ladder_Up_Stop_Right", "", Enum_RootMotionMode::RealTimeDir);
+	/*MainRenderer->SetRootMotion("ladder_Up_Stop_Left", "", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("ladder_Up_Stop_Right", "", Enum_RootMotionMode::RealTimeDir);*/
+
+	/*MainRenderer->SetRootMotionMoveRatio("ladder_Up_Stop_Left",-1.0, cdcdc, -1.0);
+	MainRenderer->SetRootMotionMoveRatio("ladder_Up_Stop_Right", -1.0, cdcdc, -1.0);*/
 
 	MainRenderer->SetRootMotion("ladder_Down_Start", "", Enum_RootMotionMode::RealTimeDir);
-
-	MainRenderer->SetRootMotion("ladder_Down_Left", "", Enum_RootMotionMode::RealTimeDir);
-	MainRenderer->SetRootMotion("ladder_Down_Right", "", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotionMoveRatio("ladder_Down_Start", 0.2f, -0.01f, 0.2f);
+	/*MainRenderer->SetRootMotion("ladder_Down_Left", "", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("ladder_Down_Right", "", Enum_RootMotionMode::RealTimeDir);*/
 
 	MainRenderer->SetRootMotion("ladder_Down_Stop_Left", "", Enum_RootMotionMode::RealTimeDir);
 	MainRenderer->SetRootMotion("ladder_Down_Stop_Right", "", Enum_RootMotionMode::RealTimeDir);
+	
 
-
-
-
-
+	/*MainRenderer->SetRootMotionMoveRatio("ladder_Up_Left", cdcdc, cdcdc, cdcdc);
+	MainRenderer->SetRootMotionMoveRatio("ladder_Up_Right", cdcdc, cdcdc, cdcdc);
+	MainRenderer->SetRootMotionMoveRatio("ladder_Up_Stop_Left", cdcdc, cdcdc, cdcdc);
+	MainRenderer->SetRootMotionMoveRatio("ladder_Up_Stop_Right", cdcdc, cdcdc, cdcdc);
+	MainRenderer->SetRootMotionMoveRatio("ladder_Down_Start", cdcdc, cdcdc, cdcdc);
+	MainRenderer->SetRootMotionMoveRatio("ladder_Down_Left", cdcdc, cdcdc, cdcdc);
+	MainRenderer->SetRootMotionMoveRatio("ladder_Down_Right", cdcdc, cdcdc, cdcdc);
+	MainRenderer->SetRootMotionMoveRatio("ladder_Down_Stop_Left", cdcdc, cdcdc, cdcdc);
+	MainRenderer->SetRootMotionMoveRatio("ladder_Down_Stop_Right", cdcdc, cdcdc, cdcdc);*/
 	{
 		//SwordActor = GetLevel()->CreateActor<GameEngineActor>();
 		//SwordActor->Transform.SetLocalPosition({ 0.0f - 300.0f });
@@ -460,6 +470,28 @@ void Player::Start()
 		};
 
 
+	Labber_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+			Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
+		};
+
+	Labber_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+			if (Rabber_Collision_Check == false)
+			{
+				Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
+				Rabber_Collision_Check = true;
+			}
+			
+			Rabber_Collision_Check = false;
+
+		};
+
+	Labber_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+			Rabber_Collision_Check = false;
+		};
+
 }
 
 void Player::Update(float _Delta)
@@ -486,25 +518,34 @@ void Player::Update(float _Delta)
 
 	Body_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack, Body_Event);
 
+	
+	
 	/*if (Body_Col->Collision(Enum_CollisionOrder::MonsterAttack))
 	{
 		Body.CollisionToBody(Enum_CollisionOrder::MonsterAttack);
 	}*/
 
 
-
-	if (Col->Collision(Enum_CollisionOrder::LadderBot))
-	{
-		if (GameEngineInput::IsDown('E',this))
-		{
-			PlayerStates.ChangeState(PlayerState::ladder_Up_Left);
-		}
-	}
-	
-	if (Col->Collision(Enum_CollisionOrder::LadderTop))
+	if (Body_Col->Collision(Enum_CollisionOrder::LadderBot))
 	{
 		if (GameEngineInput::IsDown('E', this))
 		{
+			Body_Col->CollisionEvent(Enum_CollisionOrder::LadderBot, Labber_Event);
+			Capsule->MoveForce({ 0.0f,500.0f,0.0f }, Capsule->GetDir());
+			PlayerStates.ChangeState(PlayerState::ladder_Up_Left);
+
+		}
+	}
+	
+		
+	
+	
+	if (Body_Col->Collision(Enum_CollisionOrder::LadderTop))
+	{
+		if (GameEngineInput::IsDown('E', this))
+		{
+			Body_Col->CollisionEvent(Enum_CollisionOrder::LadderTop, Labber_Event);
+			//	Capsule->MoveForce({ 0.0f,-500.0f,0.0f }, Capsule->GetDir());
 			PlayerStates.ChangeState(PlayerState::ladder_Down_Start);
 		}
 	}
@@ -590,7 +631,7 @@ void Player::Update(float _Delta)
 	}
 
 
-	float4 WorldMousePos = { Monster_Degree,0.0f };
+	float4 WorldMousePos = { Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y,Capsule->GetWorldPosition().z };
 
 	OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
 
