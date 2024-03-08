@@ -374,6 +374,7 @@ void Boss_Vordt::StateInit()
 		Howling.Start = std::bind(&Boss_Vordt::Howling_Start, this);
 		Howling.Stay = std::bind(&Boss_Vordt::Howling_Update, this, std::placeholders::_1);
 		Howling.End = std::bind(&Boss_Vordt::Howling_End, this);
+
 		mJumpTableManager.AddJumpTable("Howling", 143, 155, std::bind(&Boss_Vordt::AI_MoveMent, this));
 		mJumpTableManager.AddJumpTable("Howling", 143, 155, std::bind(&Boss_Vordt::AI_Combo, this));
 		mJumpTableManager.AddJumpTable("Howling", 143, 155, std::bind(&Boss_Vordt::AI_Attack, this));
@@ -383,7 +384,6 @@ void Boss_Vordt::StateInit()
 		Idle.Start = std::bind(&Boss_Vordt::Idle_Start, this);
 		Idle.Stay = std::bind(&Boss_Vordt::Idle_Update, this, std::placeholders::_1);
 		Idle.End = std::bind(&Boss_Vordt::Idle_End, this);
-
 
 		CreateStateParameter Walk_Front;
 		Walk_Front.Start = std::bind(&Boss_Vordt::Walk_Front_Start, this);
@@ -778,12 +778,53 @@ void Boss_Vordt::StateInit()
 		MainState.CreateState(Enum_BossState::Rush_Hit_Turn, Rush_Hit_Turn, "Rush_Hit_Turn");
 		MainState.CreateState(Enum_BossState::Rush_Hit_Turn_Rush, Rush_Hit_Turn_Rush, "Rush_Hit_Turn_Rush");
 
-		// Start State
+		//// Start State
 		MainState.ChangeState(Enum_BossState::Howling);
+
+		//// AI State
+		// Move & Others
+		AI_States[Enum_BossState::Howling] = AI_State(0.f);
+		AI_States[Enum_BossState::Idle] = AI_State(0.f);
+		AI_States[Enum_BossState::Walk_Front] = AI_State(0.f);
+		AI_States[Enum_BossState::Walk_Right] = AI_State(0.f);
+		AI_States[Enum_BossState::Walk_Left] = AI_State(0.f);
+		AI_States[Enum_BossState::Rush_Front] = AI_State(0.f);
+		AI_States[Enum_BossState::Jump_Back] = AI_State(0.f);
+		AI_States[Enum_BossState::Jump_Right] = AI_State(0.f);
+		AI_States[Enum_BossState::Jump_Left] = AI_State(0.f);
+		AI_States[Enum_BossState::Turn_Right] = AI_State(0.f);
+		AI_States[Enum_BossState::Turn_Left] = AI_State(0.f);
+		AI_States[Enum_BossState::Turn_Right_Twice] = AI_State(0.f);
+		AI_States[Enum_BossState::Turn_Left_Twice] = AI_State(0.f);
+		AI_States[Enum_BossState::Hitten] = AI_State(0.f);
+		AI_States[Enum_BossState::Groggy] = AI_State(0.f);
+		AI_States[Enum_BossState::Death] = AI_State(0.f);
+		AI_States[Enum_BossState::Breath] = AI_State(0.f);
+		AI_States[Enum_BossState::Combo1_Step1] = AI_State(0.f);
+		AI_States[Enum_BossState::Combo1_Step2] = AI_State(0.f);
+		AI_States[Enum_BossState::Combo1_Step3] = AI_State(100.f);
+		AI_States[Enum_BossState::Combo2_Step1] = AI_State(0.f);
+		AI_States[Enum_BossState::Combo2_Step2] = AI_State(0.f);
+		AI_States[Enum_BossState::Sweap_Twice_Right] = AI_State(0.f);
+		AI_States[Enum_BossState::Sweap_Twice_Left] = AI_State(0.f);
+		AI_States[Enum_BossState::Hit_Down_001_Front] = AI_State(0.f);
+		AI_States[Enum_BossState::Hit_Down_001_Right] = AI_State(0.f);
+		AI_States[Enum_BossState::Hit_Down_001_Left] = AI_State(0.f);
+		AI_States[Enum_BossState::Hit_Down_004] = AI_State(0.f);
+		AI_States[Enum_BossState::Hit_Down_005] = AI_State(0.f);
+		AI_States[Enum_BossState::Hit_Down_006] = AI_State(0.f);
+		AI_States[Enum_BossState::Thrust] = AI_State(0.f);
+		AI_States[Enum_BossState::Sweep_001] = AI_State(0.f);
+		AI_States[Enum_BossState::Sweep_002] = AI_State(0.f);
+		AI_States[Enum_BossState::Rush_Attack_001] = AI_State(0.f);
+		AI_States[Enum_BossState::Rush_Attack_002] = AI_State(0.f);
+		AI_States[Enum_BossState::Rush_Turn] = AI_State(0.f);
+		AI_States[Enum_BossState::Rush_Hit_Turn] = AI_State(0.f);
+		AI_States[Enum_BossState::Rush_Hit_Turn_Rush] = AI_State(0.f);
 	}
 }
 
-void Boss_Vordt::AI_Combo()
+Enum_JumpTableFlag Boss_Vordt::AI_Combo()
 {
 	// Combo Attack
 	//// List of Combo State
@@ -799,32 +840,50 @@ void Boss_Vordt::AI_Combo()
 	{
 	case Enum_BossState::Combo1_Step1:
 	{
-		MainState.ChangeState(Enum_BossState::Combo1_Step2);	
-		break;
+		if (true == ChangeAI_State(Enum_BossState::Combo1_Step2))
+		{
+			return Enum_JumpTableFlag::StopJumpTable;
+		}
+		else
+		{
+			return Enum_JumpTableFlag::Default;
+		}
 	}
 	case Enum_BossState::Combo1_Step2:
 	{
-		MainState.ChangeState(Enum_BossState::Combo1_Step3);
-		break;
+		if (true == ChangeAI_State(Enum_BossState::Combo1_Step3))
+		{
+			return Enum_JumpTableFlag::StopJumpTable;
+		}
+		else
+		{
+			return Enum_JumpTableFlag::Default;
+		}
 	}
 	case Enum_BossState::Combo1_Step3:
-		return;
+		return Enum_JumpTableFlag::Default;
 	case Enum_BossState::Combo2_Step1:
 	{
-		MainState.ChangeState(Enum_BossState::Combo2_Step2);
-		break;
+		if (true == ChangeAI_State(Enum_BossState::Combo2_Step2))
+		{
+			return Enum_JumpTableFlag::StopJumpTable;
+		}
+		else
+		{
+			return Enum_JumpTableFlag::Default;
+		}
+		return Enum_JumpTableFlag::StopJumpTable;
 	}
 	case Enum_BossState::Combo2_Step2:
-		return;
+		return Enum_JumpTableFlag::Default;
 	default:
-		return;
+		return Enum_JumpTableFlag::Default;
 	}
 
-	mJumpTableManager.ClearJumpTable();
-	return;
+	return Enum_JumpTableFlag::Default;
 }
 
-void Boss_Vordt::AI_Attack()
+Enum_JumpTableFlag Boss_Vordt::AI_Attack()
 {
 	// Attack
 	//// List of Attack State
@@ -844,10 +903,10 @@ void Boss_Vordt::AI_Attack()
 	//	14. Rush&Turn
 	//  15. Sweep_002
 	//  16. Hit_Down_006
-	return;
+	return Enum_JumpTableFlag::Default;
 }
 
-void Boss_Vordt::AI_MoveMent()
+Enum_JumpTableFlag Boss_Vordt::AI_MoveMent()
 {
 	// Move to Target
 	//// List of MoveMent
@@ -859,17 +918,17 @@ void Boss_Vordt::AI_MoveMent()
 	//	6. Turn_Right
 	//	7. Turn_Left_Twice
 	//	8. Turn_Right_Twice
-	return;
+	return Enum_JumpTableFlag::Default;
 }
 
-void Boss_Vordt::AI_Dodge()
+Enum_JumpTableFlag Boss_Vordt::AI_Dodge()
 {
 	// Jump(Dodge)
 	//// List of Dodge State
 	//	1. Jump_Back
 	//	2. Jump_Left
 	//	3. Jump_Right
-	return;
+	return Enum_JumpTableFlag::Default;
 }
 
 // 타켓과 나의 각도 구함

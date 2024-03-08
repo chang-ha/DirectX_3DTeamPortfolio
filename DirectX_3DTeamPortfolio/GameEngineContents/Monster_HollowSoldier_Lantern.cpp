@@ -189,31 +189,43 @@ void Monster_HollowSoldier_Lantern::StateUpdate(float _Delta)
 
 void Monster_HollowSoldier_Lantern::ChangeAttackState()
 {
-	AttackPattern = ContentsRandom::RandomInt(1, 7);
+	if (GetTargetDistance_e() == Enum_TargetDist::Melee)
+	{
+		AttackPattern = ContentsRandom::RandomInt(5, 10);
+	}
+	else
+	{
+		AttackPattern = ContentsRandom::RandomInt(1, 7);
+	}
+	
 
 	switch (AttackPattern)
 	{
 	case 1:
-		ChangeState(Enum_HollowSoldier_Lantern_State::Walk_Back);
-		break;
-	case 2:
-		ChangeState(Enum_HollowSoldier_Lantern_State::Walk_Left);
-		break;
-	case 3:
-		ChangeState(Enum_HollowSoldier_Lantern_State::Walk_Right);
-		break;
-	case 4:
 		ChangeState(Enum_HollowSoldier_Lantern_State::RH_VerticalSlash);
 		break;
-	case 5:
+	case 2:
 		ChangeState(Enum_HollowSoldier_Lantern_State::RH_HorizontalSlash);
 		break;
-	case 6:
+	case 3:
 		ChangeState(Enum_HollowSoldier_Lantern_State::TH_VerticalSlash);
 		break;
-	case 7:
+	case 4:
 		ChangeState(Enum_HollowSoldier_Lantern_State::RH_ComboAttack);
 		break;
+	case 5:
+		ChangeState(Enum_HollowSoldier_Lantern_State::Walk_Back);
+		break;
+	case 6:
+		ChangeState(Enum_HollowSoldier_Lantern_State::Walk_Left);
+		break;
+	case 7:
+		ChangeState(Enum_HollowSoldier_Lantern_State::Walk_Right);
+		break;
+	case 8:
+	case 9:
+	case 10:
+		ChangeState(Enum_HollowSoldier_Lantern_State::Walk_Front);
 	default:
 		break;
 	}
@@ -281,7 +293,7 @@ void Monster_HollowSoldier_Lantern::State_Idle_Update(float _Delta)
 		}
 	}
 
-	EventParameter AttackParameter;
+	/*EventParameter AttackParameter;
 	AttackParameter.Stay = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
 		{
 			IsAttack = true;
@@ -290,7 +302,7 @@ void Monster_HollowSoldier_Lantern::State_Idle_Update(float _Delta)
 		{
 			IsAttack = false;
 		};
-	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);
+	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);*/
 
 	if (StateTime >= 0.1f)
 	{
@@ -300,9 +312,16 @@ void Monster_HollowSoldier_Lantern::State_Idle_Update(float _Delta)
 			StateTime = 0.0;
 			ChangeState(Enum_HollowSoldier_Lantern_State::Run);
 		}
+		else if (GetTargetDistance_e() == Enum_TargetDist::Medium)
+		{
+			StateTime = 0.0f;
+			ChangeState(Enum_HollowSoldier_Lantern_State::Walk_Front);
+		}
 		else
 		{
-			if (IsAttack == false)
+			StateTime = 0.0f;
+			ChangeAttackState();
+			/*if (IsAttack == false)
 			{
 				StateTime = 0.0f;
 				ChangeState(Enum_HollowSoldier_Lantern_State::Walk_Front);
@@ -311,7 +330,7 @@ void Monster_HollowSoldier_Lantern::State_Idle_Update(float _Delta)
 			{
 				StateTime = 0.0f;
 				ChangeAttackState();
-			}
+			}*/
 		}
 
 	}
@@ -352,22 +371,32 @@ void Monster_HollowSoldier_Lantern::State_Walk_Front_Update(float _Delta)
 		RotToTarget(_Delta);
 	}
 
-	if (GetTargetDistance_e() == Enum_TargetDist::Long)
+	if (MainRenderer->GetCurAnimationFrame() >= 41)
 	{
-		ChangeState(Enum_HollowSoldier_Lantern_State::Run);
+		if (GetTargetDistance_e() == Enum_TargetDist::Long)
+		{
+			ChangeState(Enum_HollowSoldier_Lantern_State::Run);
+		}
+		else
+		{
+			ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
+		}
 	}
 
-	EventParameter AttackParameter;
+	
+
+
+	/*EventParameter AttackParameter;
 	AttackParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
 		{
 			ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
 		};
-	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);
+	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);*/
 }
 
 void Monster_HollowSoldier_Lantern::State_Walk_Back_Start()
 {
-	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.7f, 2.8f);
 	MainRenderer->ChangeAnimation("c1100_Lantern_Walk_Back");
 }
 void Monster_HollowSoldier_Lantern::State_Walk_Back_Update(float _Delta)
@@ -388,7 +417,7 @@ void Monster_HollowSoldier_Lantern::State_Walk_Back_Update(float _Delta)
 
 void Monster_HollowSoldier_Lantern::State_Walk_Left_Start()
 {
-	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.65f, 2.6f);
 	MainRenderer->ChangeAnimation("c1100_Lantern_Walk_Left");
 }
 void Monster_HollowSoldier_Lantern::State_Walk_Left_Update(float _Delta)
@@ -409,7 +438,7 @@ void Monster_HollowSoldier_Lantern::State_Walk_Left_Update(float _Delta)
 
 void Monster_HollowSoldier_Lantern::State_Walk_Right_Start()
 {
-	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.65f, 2.6f);
 	MainRenderer->ChangeAnimation("c1100_Lantern_Walk_Right");
 }
 void Monster_HollowSoldier_Lantern::State_Walk_Right_Update(float _Delta)

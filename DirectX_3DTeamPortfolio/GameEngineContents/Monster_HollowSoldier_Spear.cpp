@@ -279,7 +279,14 @@ void Monster_HollowSoldier_Spear::StateUpdate(float _Delta)
 
 void Monster_HollowSoldier_Spear::ChangeAttackState()
 {
-	AttackPattern = ContentsRandom::RandomInt(1, 9);
+	if (GetTargetDistance_e() == Enum_TargetDist::Melee)
+	{
+		AttackPattern = ContentsRandom::RandomInt(7, 12);
+	}
+	else
+	{
+		AttackPattern = ContentsRandom::RandomInt(1, 9);
+	}
 	
 	switch (AttackPattern)
 	{
@@ -309,6 +316,11 @@ void Monster_HollowSoldier_Spear::ChangeAttackState()
 		break;
 	case 9:
 		ChangeState(Enum_HollowSoldier_Spear_State::Walk_Right3);
+		break;
+	case 10:
+	case 11:
+	case 12:
+		ChangeState(Enum_HollowSoldier_Spear_State::Walk_Front3);
 		break;
 	default:
 		break;
@@ -407,7 +419,7 @@ void Monster_HollowSoldier_Spear::State_Idle3_Update(float _Delta)
 		}
 	}
 
-	EventParameter AttackParameter;
+	/*EventParameter AttackParameter;
 	AttackParameter.Stay = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
 		{
 			IsAttack = true;
@@ -416,7 +428,7 @@ void Monster_HollowSoldier_Spear::State_Idle3_Update(float _Delta)
 		{
 			IsAttack = false;
 		};
-	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);
+	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);*/
 
 	if (StateTime >= 0.1f)
 	{
@@ -426,9 +438,16 @@ void Monster_HollowSoldier_Spear::State_Idle3_Update(float _Delta)
 			StateTime = 0.0;
 			ChangeState(Enum_HollowSoldier_Spear_State::Run3);
 		}
+		else if (GetTargetDistance_e() == Enum_TargetDist::Medium)
+		{
+			StateTime = 0.0f;
+			ChangeState(Enum_HollowSoldier_Spear_State::Walk_Front3);
+		}
 		else
 		{
-			if (IsAttack == false)
+			StateTime = 0.0f;
+			ChangeAttackState();
+			/*if (IsAttack == false)
 			{
 				StateTime = 0.0f;
 				ChangeState(Enum_HollowSoldier_Spear_State::Walk_Front3);
@@ -437,7 +456,7 @@ void Monster_HollowSoldier_Spear::State_Idle3_Update(float _Delta)
 			{
 				StateTime = 0.0f;
 				ChangeAttackState();
-			}
+			}*/
 		}
 
 	}
@@ -556,22 +575,30 @@ void Monster_HollowSoldier_Spear::State_Walk_Front3_Update(float _Delta)
 		RotToTarget(_Delta);
 	}
 
-	if (GetTargetDistance_e() == Enum_TargetDist::Long)
+	if (MainRenderer->GetCurAnimationFrame() >= 61)
 	{
-		ChangeState(Enum_HollowSoldier_Spear_State::Run3);
+		if (GetTargetDistance_e() == Enum_TargetDist::Long)
+		{
+			ChangeState(Enum_HollowSoldier_Spear_State::Run3);
+		}
+		else
+		{
+			ChangeState(Enum_HollowSoldier_Spear_State::Idle3);
+		}
 	}
+	
 
-	EventParameter AttackParameter;
+	/*EventParameter AttackParameter;
 	AttackParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
 		{
 			ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
 		};
-	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);
+	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);*/
 }
 
 void Monster_HollowSoldier_Spear::State_Walk_Back3_Start()
 {
-	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
+	WalkToChangeTime = ContentsRandom::Randomfloat(1.05f, 3.15f);
 	MainRenderer->ChangeAnimation("c1100_Spear_Walk_Back3");
 }
 void Monster_HollowSoldier_Spear::State_Walk_Back3_Update(float _Delta)
@@ -592,7 +619,7 @@ void Monster_HollowSoldier_Spear::State_Walk_Back3_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Walk_Left3_Start()
 {
-	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
+	WalkToChangeTime = ContentsRandom::Randomfloat(1.05f, 3.15f);
 	MainRenderer->ChangeAnimation("c1100_Spear_Walk_Left3");
 }
 void Monster_HollowSoldier_Spear::State_Walk_Left3_Update(float _Delta)
@@ -619,7 +646,7 @@ void Monster_HollowSoldier_Spear::State_Walk_Left3_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Walk_Right3_Start()
 {
-	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
+	WalkToChangeTime = ContentsRandom::Randomfloat(1.05f, 3.15f);
 	MainRenderer->ChangeAnimation("c1100_Spear_Walk_Right3");
 }
 void Monster_HollowSoldier_Spear::State_Walk_Right3_Update(float _Delta)

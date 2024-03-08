@@ -183,7 +183,7 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	ImGui::NewLine();
 
 	{
-		float Dis = Linked_Boss->TargetDistance;
+		float Dis = Linked_Boss->GetTargetDistance();
 		std::string cDistance = "Target Distance : ";
 		cDistance += std::to_string(Dis);
 		ImGui::Text(cDistance.c_str());
@@ -194,6 +194,11 @@ void Boss_State_GUI::Reset()
 {
 	StateNames.clear();
 	Linked_Boss = nullptr;
+}
+
+void AI_State::Update(float _Delta)
+{
+	CurCoolDown -= _Delta;
 }
 
 Boss_Vordt::Boss_Vordt()
@@ -469,17 +474,21 @@ void Boss_Vordt::Update(float _Delta)
 		// MainRenderer->SetAllRootMotionMoveRatio(100.f, 2.f, 2.f);
 	}
 
-	if (false == IsTargeting())
+	for (std::pair<const Enum_BossState, AI_State>& _Pair : AI_States)
 	{
-		TargetDistance = 0.f;
-		return;
+		_Pair.second.Update(_Delta);
 	}
-
-	TargetDistance = GetTargetDistance();
 }
 
 void Boss_Vordt::Release()
 {
+	if (nullptr != GUI)
+	{
+		GUI->Reset();
+		GUI->Off();
+		GUI = nullptr;
+	}
+
 	if (nullptr != MainRenderer)
 	{
 		MainRenderer->Death();
@@ -522,14 +531,29 @@ void Boss_Vordt::Release()
 		Capsule = nullptr;
 	}
 
-	if (nullptr != GUI)
-	{
-		GUI->Reset();
-		GUI->Off();
-		GUI = nullptr;
-	}
+	AI_States.clear();
 
 	BaseActor::Release();
+}
+
+bool Boss_Vordt::ChangeAI_State(Enum_BossState _State)
+{
+	if (false == AI_States.contains(_State))
+	{
+		MsgBoxAssert("존재하지 않는 Boss_State 입니다.");
+		return false;
+	}
+
+	AI_State& CurAIState = AI_States[_State];
+
+	if (0 < CurAIState.CurCoolDown)
+	{
+		return false;
+	}
+
+	CurAIState.CurCoolDown = CurAIState.StateCoolDown;
+	MainState.ChangeState(_State);
+	return true;
 }
 
 float4 Boss_Vordt::BoneWorldPos(int _BoneIndex)
