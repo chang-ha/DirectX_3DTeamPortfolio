@@ -45,20 +45,22 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 0, 0, 0, 1 });
 	
+	if (nullptr == TestPlayer)
 	{
 		TestPlayer = CreateActor<Player>(0, "Player");
-		TestPlayer->Transform.SetWorldPosition({ -2800.f, -2000.f, 6700.f });
+		TestPlayer->Transform.SetWorldPosition({ -2800.f, -2500.f, 6700.f });
 		TestPlayer->Transform.SetWorldRotation({ 0.f, 165.f, 0.f });
 		TestPlayer->SetTargeting(Boss_Object.get());
 		Boss_Object->SetTargeting(TestPlayer.get());
 	}
 
+	if (nullptr == MapObject)
 	{
-		std::shared_ptr<WorldMap> Object = CreateActor<WorldMap>(0, "WorldMap");
+		MapObject = CreateActor<WorldMap>(0, "WorldMap");
 	}
 
-	GetMainCamera()->Transform.SetLocalPosition({ -2800.f, -2000.f, 6700.f });
-	GetMainCamera()->Transform.SetLocalRotation({0.f, 0.f, 0.f});
+	GetMainCamera()->Transform.SetLocalPosition({ -2800.f, -2500.f, 6700.f });
+	GetMainCamera()->Transform.SetLocalRotation({0.f, 165.f, 0.f});
 }
 
 void TestLevel_Boss::LevelEnd(GameEngineLevel* _NextLevel)
@@ -69,10 +71,16 @@ void TestLevel_Boss::LevelEnd(GameEngineLevel* _NextLevel)
 		Boss_Object = nullptr;
 	}
 
-	if (nullptr != TestObj)
+	if (nullptr != MapObject)
 	{
-		TestObj->Death();
-		TestObj = nullptr;
+		MapObject->Death();
+		MapObject = nullptr;
+	}
+
+	if (nullptr != Test_Light)
+	{
+		Test_Light->Death();
+		Test_Light = nullptr;
 	}
 
 	if (nullptr != TestPlayer)

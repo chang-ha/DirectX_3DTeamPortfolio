@@ -16,7 +16,7 @@ DummyPolySoundFrameEvent::~DummyPolySoundFrameEvent()
 	SoundName.clear();
 }
 
-
+ 
 std::shared_ptr<DummyPolySoundFrameEvent> DummyPolySoundFrameEvent::CreateEventObject(int _Frame, std::string_view _SoundName, int _RefID, int _AttachBoneIndex)
 {
 	std::shared_ptr<DummyPolySoundFrameEvent> DPSEvent = std::make_shared<DummyPolySoundFrameEvent>();
@@ -33,7 +33,7 @@ std::shared_ptr<FrameEventObject> DummyPolySoundFrameEvent::CreatePlayingEvent()
 	return NewObject;
 }
 
-void DummyPolySoundFrameEvent::PlayEvent()
+int DummyPolySoundFrameEvent::PlayEvent()
 {
 	if (nullptr == FbxRenderer)
 	{
@@ -43,6 +43,7 @@ void DummyPolySoundFrameEvent::PlayEvent()
 	const float4x4& WorldMatrix = FbxRenderer->Transform.GetWorldMatrix();
 	float4 WDPPOS = DPT * (*pBoneMatrix) * WorldMatrix;
 	GameEngineSound::Sound3DPlay(SoundName, WDPPOS, 1.f, 0, 50.f, 8000.f);
+	return EVENT_DONE;
 }
 
 void DummyPolySoundFrameEvent::Init()
@@ -69,7 +70,7 @@ void DummyPolySoundFrameEvent::Init()
 		return;
 	}
 
-	bool ISOK = (FE_NOINDEX != RefID && FE_NOINDEX != AttachBoneIndex);
+	bool ISOK = (FE_NOINDEX != RefID);
 	if (false == ISOK)
 	{
 		MsgBoxAssert(GetTypeString() + "인벤트 설정값이 초기화되지 않았습니다.");

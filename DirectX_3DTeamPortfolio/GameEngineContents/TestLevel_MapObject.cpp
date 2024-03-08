@@ -20,6 +20,7 @@
 #include "Object_Table.h"
 #include "Object_HumanTree.h"
 #include "Object_CandleHuman.h"
+#include "Object_Torchlight.h"
 
 
 //맵 헤더
@@ -42,8 +43,8 @@ void TestLevel_MapObject::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 	{
-		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
-		Object->Transform.SetWorldPosition({ -9160, 2313, -4327 });
+		std::shared_ptr<TestMapObjcet> Object = CreateActor<TestMapObjcet>(0, "Player");
+		//Object->Transform.SetWorldPosition({ -9160, 2313, -4327 });
 	
 		//-8880, 2030, -4427
 	}
@@ -82,14 +83,31 @@ void TestLevel_MapObject::Start()
 	TestObject0->SetLightData(Data);*/
 
 	GetMainCamera()->Transform.SetWorldPosition({ 2500.0f, -3000.0f, -9000.0f });
-	std::shared_ptr<ContentsLight> TestObject0 = CreateActor<ContentsLight>(0);
+	/*std::shared_ptr<ContentsLight> TestObject0 = CreateActor<ContentsLight>(0);
 	LightData Data = TestObject0->GetLightData();
 
-	Data.DifLightPower = 0.1f;
+	Data.DifLightPower = 3.0f;
 	Data.AmbientLight = float4(0.7f, 0.7f, 0.7f, 1.0f);
 	Data.SpcPow = 200.0f;
 
-	TestObject0->SetLightData(Data);
+	TestObject0->SetLightData(Data);*/
+
+	std::shared_ptr<ContentsLight> Light = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "mainDirect");
+	LightData Data = Light->GetLightData();
+	Light->CreateShadowMap();
+
+	//Data.DifLightPower = 0.1f;
+	Data.AmbientLight = float4(0.05f, 0.05f, 0.025f, 1.0f);
+	Data.LightColor = float4(1.0f, 1.0f, 0.7f);
+	Data.LightPower = 2.5f;
+	Data.ForceLightPower = 0.25f;
+
+	Light->Transform.SetLocalPosition({ -3400.0f, 10101.0f, -5331.0f });
+	Light->Transform.SetLocalRotation({ 40.0f, 0.0f, 0.0f });
+
+
+	Light->SetLightData(Data);
+
 
 }
 
@@ -192,6 +210,99 @@ void TestLevel_MapObject::CreateObject()
 		std::shared_ptr<Object_CandleHuman> Object = CreateActor<Object_CandleHuman>(1);
 	}
 
+	//횃불
+	//1
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -7286, -550 , 14098 });
+		Object->Transform.SetWorldRotation({ 0, 0, 0 });
+	}
+	//2
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -6465, -550 , 14515 });
+		Object->Transform.SetWorldRotation({ 0, 0, 0 });
+	}
+	//3
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -6035, -437 , 9824 });
+		Object->Transform.SetWorldRotation({ 0, -90, 0 });
+	}
+	//4
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -6889, -350 , 9890 });
+		Object->Transform.SetWorldRotation({ 0, 150, 0 });
+	}
+	//5
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -15436, 2548 , 2582 });
+		Object->Transform.SetWorldRotation({ 0, 60, 0 });
+	}
+	//6
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -15265, 2548 , 2249 });
+		Object->Transform.SetWorldRotation({ 0, 60, 0 });
+	}
+	//7
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -12890, -1940 , 2970 });
+		Object->Transform.SetWorldRotation({ 0, -25, 0 });
+	}
+	//8
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -6050, 193 , 6861 });
+		Object->Transform.SetWorldRotation({ 0, -20, 0 });
+	}
+	//9
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -5760, 193 , 7011 });
+		Object->Transform.SetWorldRotation({ 0, -20, 0 });
+	}
+	//10
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -15440, 2683 , -4280 });
+		Object->Transform.SetWorldRotation({ 0, 8, 0 });
+	}
+	//11
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -15790, 2683 , -4225 });
+		Object->Transform.SetWorldRotation({ 0, 8, 0 });
+	}
+	//12
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -15960, 2683 , -4239 });
+		Object->Transform.SetWorldRotation({ 0, 8, 0 });
+	}
+	//13
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -16320, 2683 , -4208 });
+		Object->Transform.SetWorldRotation({ 0, 8, 0 });
+	}
+	//14
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -16720, 3110 , 230 });
+		Object->Transform.SetWorldRotation({ 0, 180, 0 });
+	}
+	//15
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -16280, 3110 , 285 });
+		Object->Transform.SetWorldRotation({ 0, 180, 0 });
+	}
+
+	
 	
 	//Object_BossDoor
 	//Object_CastleDoor

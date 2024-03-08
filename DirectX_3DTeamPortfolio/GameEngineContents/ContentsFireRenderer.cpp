@@ -28,6 +28,25 @@ void ContentsFireRenderer::Load()
 			std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Load(Files[i].GetStringPath());
 		}
 	}
+
+	{
+		// Fire ·Îµå
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources");
+		Dir.MoveChild("Effect");
+		Dir.MoveChild("Candle");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Load(Files[i].GetStringPath());
+		}
+
+
+		GameEngineSprite::CreateCut("CandleFire.dds", 8, 4);
+		GameEngineSprite::CreateCut("CandleFire2.dds", 8, 4);
+	}
 }
 
 void ContentsFireRenderer::Start()
@@ -50,8 +69,8 @@ void ContentsFireRenderer::Start()
 
 
 	Unit->ShaderResHelper.SetTexture("DiffuseTexture", GameEngineTexture::Find("fire02.png"));
+	Unit->ShaderResHelper.SetTexture("AlphaTexture", GameEngineTexture::Find("firealpha02.png"));
 	Unit->ShaderResHelper.SetTexture("NoiseTexture", GameEngineTexture::Find("firenoise01.dds"));
-	Unit->ShaderResHelper.SetTexture("AlphaTexture", GameEngineTexture::Find("firealpha03.png"));
 	Unit->ShaderResHelper.SetSampler("WrapSampler", "EngineBaseWRAPSampler");
 	Unit->ShaderResHelper.SetSampler("ClampSampler", "EngineBaseSampler");
 	Unit->ShaderResHelper.SetConstantBufferLink("FireInfo", FireInfoValue);

@@ -12,20 +12,17 @@ public:
 protected:
 
 private:
-	std::vector<const char*> AniNames;
+	std::vector<const char*> StateNames;
+	std::vector<int> StateIndex;
 	Boss_Vordt* Linked_Boss = nullptr;
-	bool IsChasingCamera = false;
-	float4 ChasingCameraPos = float4(0.f, 100.f, -1200.f);
-	float4 ChasingCameraRot = float4::ZERONULL;
-	float4 PrevCameraPos = float4::ZERO;
-
 	void Reset();
 };
 
-enum class Enum_BossState
+enum Enum_BossState
 {
 	// Move & Others
-	Howling,
+	Null = 0,
+	Howling = (1 << 0),
 	Idle,
 	Walk_Front,
 	Walk_Right,
@@ -44,8 +41,11 @@ enum class Enum_BossState
 
 	// Attack
 	Breath,
-	Combo1,
-	Combo2,
+	Combo1_Step1,
+	Combo1_Step2,
+	Combo1_Step3,
+	Combo2_Step1,
+	Combo2_Step2,
 	Sweap_Twice_Right,
 	Sweap_Twice_Left,
 	Hit_Down_001_Front,
@@ -62,6 +62,25 @@ enum class Enum_BossState
 	Rush_Turn,
 	Rush_Hit_Turn,
 	Rush_Hit_Turn_Rush,
+};
+
+struct AI_State
+{
+	AI_State()
+	{
+
+	}
+
+	AI_State(float _StateCoolDown)
+		: StateCoolDown(_StateCoolDown)
+	{
+
+	}
+
+	void Update(float _Delta);
+
+	float StateCoolDown = 0.f;
+	float CurCoolDown = 0.f;
 };
 
 class Boss_Vordt : public BaseActor
@@ -95,16 +114,22 @@ private:
 	std::shared_ptr<BoneSocketCollision> WeaponCollision;
 	std::shared_ptr<BoneSocketCollision> R_HandCollision;
 	std::shared_ptr<Boss_State_GUI> GUI = nullptr;
-	float TargetDistance = 0.f;
 
 	void FrameEventInit();
-	void CalcuTargetDistance();
+	void StateInit();
+	std::map<Enum_BossState, AI_State> AI_States;
 	float4 BoneWorldPos(int _BoneIndex);
 
-	bool AI_MoveMent();
-	bool AI_Attack();
-	bool AI_Combo();
-	bool AI_Dodge();
+	// static constexpr float Close = 500.f;
+	// static constexpr float Middle = 1000.f;
+	// static constexpr float Long = 1500.f;
+	// static constexpr float Max = 2000.f;
+
+	Enum_JumpTableFlag AI_MoveMent();
+	Enum_JumpTableFlag AI_Attack();
+	Enum_JumpTableFlag AI_Combo();
+	Enum_JumpTableFlag AI_Dodge();
+	bool ChangeAI_State(Enum_BossState _State);
 
 	// State
 	////////////////////////// Move & Others
@@ -189,14 +214,26 @@ private:
 	void Breath_End();
 
 	// Combo1
-	void Combo1_Start();
-	void Combo1_Update(float _Delta);
-	void Combo1_End();
+	void Combo1_Step1_Start();
+	void Combo1_Step1_Update(float _Delta);
+	void Combo1_Step1_End();
+
+	void Combo1_Step2_Start();
+	void Combo1_Step2_Update(float _Delta);
+	void Combo1_Step2_End();
+
+	void Combo1_Step3_Start();
+	void Combo1_Step3_Update(float _Delta);
+	void Combo1_Step3_End();
 
 	// Combo1
-	void Combo2_Start();
-	void Combo2_Update(float _Delta);
-	void Combo2_End();
+	void Combo2_Step1_Start();
+	void Combo2_Step1_Update(float _Delta);
+	void Combo2_Step1_End();
+	
+	void Combo2_Step2_Start();
+	void Combo2_Step2_Update(float _Delta);
+	void Combo2_Step2_End();
 
 	// Sweap
 	void Sweap_Twice_Right_Start();

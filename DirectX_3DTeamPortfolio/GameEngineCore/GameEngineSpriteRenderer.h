@@ -125,6 +125,11 @@ public:
 		AutoScaleRatio = _Ratio;
 	}
 
+	inline float4 GetAutoScaleRatio()
+	{
+		return AutoScaleRatio;
+	}
+
 	bool IsRight()
 	{
 		return 0 < AutoScaleRatio.X;

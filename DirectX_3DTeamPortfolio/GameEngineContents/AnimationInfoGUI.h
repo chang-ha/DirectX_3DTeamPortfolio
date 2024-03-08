@@ -51,6 +51,9 @@ class EventTree
 	friend class AnimationInfoGUI;
 
 public:
+	EventTree() {}
+	virtual ~EventTree() {}
+
 	void SetParent(class AnimationInfoGUI* pParent)
 	{
 		Parent = pParent;
@@ -61,6 +64,7 @@ public:
 protected:
 	virtual void Start() {}
 	virtual void OnGUI(GameEngineLevel* _Level, float _Delta) = 0;
+	virtual void LevelEnd() {}
 	virtual void ChangeAnimation() {}
 	virtual void ChangeActor() {}
 
@@ -88,6 +92,7 @@ class SoundEventTree : public EventTree
 {
 public:
 	void ChangeActor() override;
+	void LevelEnd() override;
 
 protected:
 	void LoadSoundList();
@@ -105,6 +110,7 @@ public:
 	void OnGUI(GameEngineLevel* _Level, float _Delta) override;
 	void ChangeActor() override;
 	void ChangeAnimation() override;
+	void LevelEnd() override;
 
 private:
 	void LoadSoundList();
@@ -121,7 +127,7 @@ private:
 
 };
 
-class CenterBodySoundEventTree : public EventTree
+class SingleCenterSoundEventTree : public EventTree
 {
 	friend class AnimationInfoGUI;
 
@@ -129,6 +135,7 @@ public:
 	void Start() override {}
 	void OnGUI(GameEngineLevel* _Level, float _Delta) override;
 	void ChangeActor() override {}
+	void LevelEnd() override;
 
 private:
 	int SelectStartFrame = 0;
@@ -143,11 +150,32 @@ public:
 	void Start() override {}
 	void OnGUI(GameEngineLevel* _Level, float _Delta) override;
 	void ChangeActor() override;
+	void LevelEnd() override;
 
 private:
 	DummyPolyStruct DpLoader;
 
 	int SelectStartFrame = 0;
+
+};
+
+class MaterialLoopDPSoundEventTree : public SoundEventTree
+{
+	friend class AnimationInfoGUI;
+
+public:
+	void Start() override {}
+	void OnGUI(GameEngineLevel* _Level, float _Delta) override;
+	void ChangeActor() override;
+	void LevelEnd() override;
+
+private:
+	bool bActive = false;
+	int SelectStartFrame = 0;
+	int KeyIndex = -1;
+
+	std::vector<std::string> KeyStrings;
+	std::vector<const char*> CKeyStrings;
 
 };
 
@@ -161,6 +189,7 @@ private:
 	void Start() override {}
 	void OnGUI(GameEngineLevel* _Level, float _Delta) override;
 	void ChangeActor() override;
+	void LevelEnd() override;
 
 private:
 	std::vector<std::string> ColNames;
@@ -178,6 +207,7 @@ public:
 private:
 	void Start() override {}
 	void OnGUI(GameEngineLevel* _Level, float _Delta) override;
+	void LevelEnd() override {}
 
 private:
 	int TurnSpeedValue = 0;
@@ -205,6 +235,7 @@ public:
 	AnimationInfoGUI& operator=(const AnimationInfoGUI& _Other) = delete;
 	AnimationInfoGUI& operator=(AnimationInfoGUI&& _Other) noexcept = delete;
 
+
 	void ShowActorList(class GameEngineLevel* _Level);
 	void ActorChange();
 	void TransformEditor();
@@ -226,6 +257,8 @@ protected:
 		NewTree->Start();
 		EventTrees.push_back(NewTree);
 	}
+
+	void AllTreeLevelEnd();
 
 	void AnimationChange();
 	void DummyEditor();

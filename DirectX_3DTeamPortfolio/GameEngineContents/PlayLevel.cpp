@@ -12,6 +12,8 @@
 #include "WorldMap.h"
 #include "Boss_Vordt.h"
 #include "Monster_HollowSoldier.h"
+#include "Monster_LothricKn.h"
+#include "Monster_HollowSoldier.h"
 PlayLevel::PlayLevel()
 {
 }
@@ -45,9 +47,9 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	
 
-	{
+	/*{
 		std::shared_ptr<WorldMap> GameMap = CreateActor<WorldMap>(0, "WorldMap");
-	}
+	}*/
 
 	
 
@@ -67,8 +69,8 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 	
 	{
-		std::shared_ptr<Monster_HollowSoldier> GameMap = CreateActor<Monster_HollowSoldier>(0, "WorldMap");
-		GameMap->Transform.SetWorldPosition({ 0.0f,0.0f,000.0f });
+		std::shared_ptr<Boss_Vordt> GameMap = CreateActor<Boss_Vordt>(0, "WorldMap");
+		GameMap->Transform.SetWorldPosition({ 0.0f,0.0f,0.0f });
 
 		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
 		Object->SetTargeting(GameMap.get());

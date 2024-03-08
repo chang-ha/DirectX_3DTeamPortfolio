@@ -1,53 +1,49 @@
 #include "PreCompile.h"
-#include "CenterBodySoundFrameEvent.h"
+#include "SingleCenterSoundFrameEvent.h"
 
 #include "FrameEventHelper.h"
 #include "DS3DummyData.h"
 #include "BaseActor.h"
 
 
-CenterBodySoundFrameEvent::CenterBodySoundFrameEvent()
+SingleCenterSoundFrameEvent::SingleCenterSoundFrameEvent()
 {
-	SetEventID(Enum_FrameEventType::CenterBodySound);
+	SetEventID(Enum_FrameEventType::SingleCenterSound);
 }
 
-CenterBodySoundFrameEvent::~CenterBodySoundFrameEvent()
+SingleCenterSoundFrameEvent::~SingleCenterSoundFrameEvent()
 {
-}
+} 
 
 
-std::shared_ptr<CenterBodySoundFrameEvent> CenterBodySoundFrameEvent::CreateEventObject(int _Frame)
+std::shared_ptr<SingleCenterSoundFrameEvent> SingleCenterSoundFrameEvent::CreateEventObject(int _Frame)
 {
-	std::shared_ptr<CenterBodySoundFrameEvent> CDPSEvent = std::make_shared<CenterBodySoundFrameEvent>();
+	std::shared_ptr<SingleCenterSoundFrameEvent> CDPSEvent = std::make_shared<SingleCenterSoundFrameEvent>();
 	CDPSEvent->StartFrame = _Frame;
 	return CDPSEvent;
 }
 
-std::shared_ptr<FrameEventObject> CenterBodySoundFrameEvent::CreatePlayingEvent()
+std::shared_ptr<FrameEventObject> SingleCenterSoundFrameEvent::CreatePlayingEvent()
 {
-	std::shared_ptr<CenterBodySoundFrameEvent> NewObject = CenterBodySoundFrameEvent::CreateEventObject(StartFrame);
+	std::shared_ptr<SingleCenterSoundFrameEvent> NewObject = SingleCenterSoundFrameEvent::CreateEventObject(StartFrame);
 	return NewObject;
 }
 
-void CenterBodySoundFrameEvent::PlayEvent()
+int SingleCenterSoundFrameEvent::PlayEvent()
 {
+	return EVENT_ERROR;
+
 	if (nullptr == FbxRenderer || nullptr == pActor)
 	{
 		Init();
 	}
 
-	std::string_view SoundName = pActor->GetFloorMaterialName();
-	if (SoundName.empty())
-	{
-		return;
-	}
-
 	const float4x4& WorldMatrix = FbxRenderer->Transform.GetWorldMatrix();
 	float4 WDPPOS = DPT* (*pBoneMatrix) * WorldMatrix;
-	GameEngineSound::Sound3DPlay(SoundName, WDPPOS);
+	return EVENT_DONE;
 }
 
-void CenterBodySoundFrameEvent::Init()
+void SingleCenterSoundFrameEvent::Init()
 {
 	FbxRenderer = GetParentRenderer();
 	if (nullptr == FbxRenderer)

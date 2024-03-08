@@ -287,7 +287,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 				float4 CameraRotation = Transform.GetLocalRotationEuler();
 				//Transform.GetLocalR();
 
-				Renderer->Transform.SetLocalRotation(CameraRotation);
+				Renderer->Transform.SetWorldRotation(CameraRotation);
 
 			}
 
@@ -576,10 +576,6 @@ void GameEngineCamera::Render(float _DeltaTime)
 					for (std::shared_ptr<class GameEngineRenderUnit> Unit : UnitList)
 					{
 						Unit->Render();
-						//if (EPROJECTIONTYPE::Perspective != ProjectionType /*or InCamera(Unit->GetParentRenderer()->Transform, Unit->GetMesh()->GetMeshBaseInfo()) == true*/)
-						//{
-						//	
-						//}
 					}
 				}
 			

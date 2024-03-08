@@ -30,7 +30,7 @@ std::shared_ptr<FrameEventObject> SwitchFlagFrameEvent::CreatePlayingEvent()
 	return NewObject;
 }
 
-void SwitchFlagFrameEvent::PlayEvent()
+int SwitchFlagFrameEvent::PlayEvent()
 {
 	if (nullptr == pFlags)
 	{
@@ -43,10 +43,11 @@ void SwitchFlagFrameEvent::PlayEvent()
 	if (nullptr == pManager)
 	{
 		MsgBoxAssert("매니저를 모르고 사용할 수 없는 기능입니다. 김태훈에게 문의하세요");
-		return;
+		return EVENT_DONE;
 	}
 
 	pManager->PushEvent(this);
+	return EVENT_DONE;
 }
 
 int SwitchFlagFrameEvent::UpdateEvent(float _Delta)

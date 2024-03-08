@@ -46,6 +46,7 @@ std::unordered_map<Enum_ActorFlag, Enum_ActorFlagBit> BaseActor::FlagIndex;
 ContentsActorInitial ContentsActorInitial::s_ActorInit;
 BaseActor::BaseActor()
 {
+	mJumpTableManager.Owner = this;
 }
 
 BaseActor::~BaseActor()
@@ -68,6 +69,7 @@ void BaseActor::Update(float _Delta)
 		Target = nullptr;
 	}
 	CalcuTargetAngle();
+	mJumpTableManager.Update();
 }
 
 void BaseActor::Release()
@@ -75,10 +77,8 @@ void BaseActor::Release()
 	MainRenderer = nullptr;
 	SocketCollisions.clear();
 	Target = nullptr;
+	mJumpTableManager.Release();
 }
-
-
-
 
 void BaseActor::AddWDirection(float _Degree)
 {
@@ -249,26 +249,6 @@ void BaseActor::OffSocketCollision(int _BoneIndex)
 	pCollision->Off();
 }
 
-std::string_view BaseActor::GetFloorMaterialName()
-{
-	if (FloorMaterialSoundRes.empty())
-	{
-		MsgBoxAssert("존재하지 않는 자료를 반환하려했습니다.");
-		static std::string ReturnValue;
-		return ReturnValue;
-	}
-
-	int Size = static_cast<int>(FloorMaterialSoundRes.size());
-	if (FloorMaterialIndex == Size)
-	{
-		FloorMaterialIndex = 0;
-	}
-
-	std::string_view SoundName = FloorMaterialSoundRes.at(FloorMaterialIndex);
-	++FloorMaterialIndex;
-	return SoundName;
-}
-
 void BaseActor::SetCenterBodyDPIndex(int _DPIndex)
 {
 	const std::shared_ptr<DS3DummyData>& pRes = DS3DummyData::Find(GetIDName());
@@ -289,48 +269,10 @@ void BaseActor::SetCenterBodyDPIndex(int _DPIndex)
 	CenterBodyIndex = _DPIndex;
 }
 
-void BaseActor::SetFloorMaterialSoundRes(std::string_view _ResName)
+void BaseActor::PushMaterialSound(int _Key, std::string_view _SoundFileName)
 {
-	std::string ResName = _ResName.data();
-	size_t Index = ResName.find_last_of('.');
-	if (std::string::npos == Index)
-	{
-		MsgBoxAssert("이름을 등록하지 못했습니다. 확장자까지 넣어주세요");
-		return;
-	}
-
-	std::string Identify = ResName.substr(0, Index);
-
-	std::string IdName = GetIDName();
-
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExistsChild("ContentsResources");
-	Dir.MoveChild("ContentsResources\\Sound");
-	Dir.MoveChild(IdName);
-
-	bool FindCheck = false;
-	std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".wav" });
-	for (GameEngineFile& pFile : Files)
-	{
-		std::string FileName = pFile.GetFileName();
-		if (std::string::npos != FileName.find(Identify))
-		{
-			FindCheck = true;
-			FloorMaterialSoundRes.push_back(FileName);
-			continue;
-		}
-
-		if (true == FindCheck)
-		{
-			return;
-		}
-	}
-
-	if (false == FindCheck)
-	{
-		MsgBoxAssert("자료를 찾지 못했습니다.");
-		return;
-	}
+	std::string IDName = GetIDName();
+	MaterialSound.PushMaterialSoundRes(_Key, IDName, _SoundFileName);
 }
 
 void BaseActor::DrawRange(float _Range, const float4& _Color /*= float4::RED*/) const
@@ -423,4 +365,53 @@ float4 BaseActor::GetTargetDirection() const
 	float4 Direction = TargetPos - MyPos;
 	Direction.Normalize();
 	return Direction;
+}
+
+void JumpTableManager::AddJumpTable(std::string_view _AnimationName, JumpTableInfo _JumpTableInfo)
+{
+	Owner->MainRenderer->SetFrameEvent(_AnimationName, _JumpTableInfo.StartFrame, std::bind(&JumpTableManager::PushJumpTable, this, _JumpTableInfo));
+	Owner->MainRenderer->SetFrameEvent(_AnimationName, _JumpTableInfo.EndFrame, std::bind(&JumpTableManager::PopJumpTable, this, _JumpTableInfo));
+	Owner->MainRenderer->SetAnimationChangeEvent(_AnimationName, std::bind(&JumpTableManager::Release, this));
+}
+
+void JumpTableManager::AddJumpTable(std::string_view _AnimationName, int _StartFrame, int _EndFrame, std::function<Enum_JumpTableFlag()> _JumpTable)
+{
+	JumpTableInfo tJumpTableInfo;
+	tJumpTableInfo.SetJumpTableInfo(_StartFrame, _EndFrame, _JumpTable);
+
+	AddJumpTable(_AnimationName, tJumpTableInfo);
+}
+
+void JumpTableManager::Update()
+{
+	if (0 >= RunJumpTable.size())
+	{
+		return;
+	}
+
+	for (JumpTableInfo _CurTableInfo : RunJumpTable)
+	{
+		if (Enum_JumpTableFlag::StopJumpTable == _CurTableInfo.JumpTable())
+		{
+			RunJumpTable.clear();
+			IsClearJumpTable = false;
+			break;
+		}
+	}
+}
+
+void JumpTableManager::Release()
+{
+	RunJumpTable.clear();
+	IsClearJumpTable = false;
+}
+
+void JumpTableManager::PushJumpTable(JumpTableInfo _JumpTableInfo)
+{
+	RunJumpTable.push_back(_JumpTableInfo);
+}
+
+void JumpTableManager::PopJumpTable(JumpTableInfo _JumpTableInfo)
+{
+	RunJumpTable.remove(_JumpTableInfo);
 }
