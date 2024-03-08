@@ -120,10 +120,16 @@ private:
 
 };
 
+enum class Enum_JumpTableFlag
+{
+	Default = 0,
+	StopJumpTable = (1 << 0),
+};
+
 struct JumpTableInfo
 {
 	friend struct JumpTableManager;
-	void SetJumpTableInfo(int _StartFrame, int _EndFrame, std::function<void()> _JumpTable)
+	void SetJumpTableInfo(int _StartFrame, int _EndFrame, std::function<Enum_JumpTableFlag()> _JumpTable)
 	{
 		StartFrame = _StartFrame;
 		EndFrame = _EndFrame;
@@ -179,7 +185,7 @@ struct JumpTableInfo
 private:
 	int StartFrame = -1;
 	int EndFrame = -1;
-	std::function<void()> JumpTable;
+	std::function<Enum_JumpTableFlag()> JumpTable;
 };
 
 struct JumpTableManager
@@ -187,7 +193,7 @@ struct JumpTableManager
 	friend class BaseActor;
 
 	void AddJumpTable(std::string_view _AnimationName, JumpTableInfo _JumpTableInfo);
-	void AddJumpTable(std::string_view _AnimationName, int _StartFrame, int _EndFrame, std::function<void()> _JumpTable);
+	void AddJumpTable(std::string_view _AnimationName, int _StartFrame, int _EndFrame, std::function<Enum_JumpTableFlag()> _JumpTable);
 	void ClearJumpTable()
 	{
 		IsClearJumpTable = true;

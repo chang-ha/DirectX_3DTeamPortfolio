@@ -374,7 +374,7 @@ void JumpTableManager::AddJumpTable(std::string_view _AnimationName, JumpTableIn
 	Owner->MainRenderer->SetAnimationChangeEvent(_AnimationName, std::bind(&JumpTableManager::Release, this));
 }
 
-void JumpTableManager::AddJumpTable(std::string_view _AnimationName, int _StartFrame, int _EndFrame, std::function<void()> _JumpTable)
+void JumpTableManager::AddJumpTable(std::string_view _AnimationName, int _StartFrame, int _EndFrame, std::function<Enum_JumpTableFlag()> _JumpTable)
 {
 	JumpTableInfo tJumpTableInfo;
 	tJumpTableInfo.SetJumpTableInfo(_StartFrame, _EndFrame, _JumpTable);
@@ -391,10 +391,7 @@ void JumpTableManager::Update()
 
 	for (JumpTableInfo _CurTableInfo : RunJumpTable)
 	{
-		_CurTableInfo.JumpTable();
-
-		// JumpTable 중 상태값 바뀌면 mJumpTableManager.ClearJumpTable(); 호출 필요
-		if (true == IsClearJumpTable)
+		if (Enum_JumpTableFlag::StopJumpTable == _CurTableInfo.JumpTable())
 		{
 			RunJumpTable.clear();
 			IsClearJumpTable = false;
