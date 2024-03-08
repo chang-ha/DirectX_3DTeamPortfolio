@@ -100,8 +100,8 @@ class Monster_LothricKn : public BaseMonster
 
 	enum class eBoneType
 	{
-		Palvis = 7,
-		L_Thight_Twist = 7,
+		Pelvis = 7,
+		L_Thight_Twist = 9,
 		L_Calf = 11,
 		R_Thight_Twist = 15,
 		R_Calf = 17,
