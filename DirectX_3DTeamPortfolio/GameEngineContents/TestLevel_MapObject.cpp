@@ -83,11 +83,10 @@ void TestLevel_MapObject::Start()
 	TestObject0->SetLightData(Data);*/
 
 	GetMainCamera()->Transform.SetWorldPosition({ 2500.0f, -3000.0f, -9000.0f });
-
 	/*std::shared_ptr<ContentsLight> TestObject0 = CreateActor<ContentsLight>(0);
 	LightData Data = TestObject0->GetLightData();
 
-	Data.DifLightPower = 10.0f;
+	Data.DifLightPower = 3.0f;
 	Data.AmbientLight = float4(0.7f, 0.7f, 0.7f, 1.0f);
 	Data.SpcPow = 200.0f;
 

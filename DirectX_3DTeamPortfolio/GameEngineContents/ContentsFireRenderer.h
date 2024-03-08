@@ -19,7 +19,7 @@ struct FireInfo
     float distortionScale = 0.8f;
     float distortionBias = 0.5f;
     float perturbscale = 1.0f;
-    float def2 = 0.0f;
+    float AlphaScale = 2.0f;
 };
 
 
