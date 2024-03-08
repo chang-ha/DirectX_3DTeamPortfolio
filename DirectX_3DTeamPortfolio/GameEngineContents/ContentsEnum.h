@@ -12,6 +12,7 @@ enum class Enum_RenderOrder
 {
 	Play,
 	Monster,
+	Effect,
 };
 
 enum class Enum_CollisionOrder

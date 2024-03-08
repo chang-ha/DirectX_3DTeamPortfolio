@@ -22,8 +22,20 @@ protected:
 
 private:
 	void ShowList(GameEngineLevel* _Level);
-	void FireEditor();
+	void FireEditor(float _DeltaTime);
 
-	
+
+	class GameEngineObject* SelectActor = nullptr;
+
+	std::vector<std::string> ActorNames;
+	std::vector<const char*> CObjectNames;
+
+
+	std::vector<std::shared_ptr<class GameEngineRenderer>> RendererPtr;
+	std::vector<std::string> RendererNames;
+	std::vector<const char*> CRendererNames;
+
+
+	class GameEngineRenderer* SelectRenderer = nullptr;
 };
 

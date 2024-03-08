@@ -274,6 +274,7 @@ void ContentResources::ContentResourcesInit()
 		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("ContentsDeferredMergeRender");
 		Mat->SetVertexShader("ContentsDeferredMergeRender_VS");
 		Mat->SetPixelShader("ContentsDeferredMergeRender_PS");
+		Mat->SetDepthState("DepthOff");
 	}
 
 

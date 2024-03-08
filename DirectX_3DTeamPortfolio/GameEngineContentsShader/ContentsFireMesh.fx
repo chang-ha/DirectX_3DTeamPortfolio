@@ -19,7 +19,7 @@ cbuffer FireInfo : register(b12)
     float distortionScale;
     float distortionBias;
     float perturbscale ;
-    float def2 = 0.0f;
+    float AlphaScale;
 };
 
 
@@ -120,6 +120,8 @@ PixelOut ContentsFireMesh_PS(PixelOutPut _Input)
     //_Input.TEXCOORD.y가 낮을 수록 불의 근원지에 가까울수록 왜곡현상 완화 
     perturb = ((perturbscale - _Input.TEXCOORD.y) * distortionScale) + distortionBias;
     
+    //perturb *= 0.001f;
+    
     noiseCoords.xy = (finalNoise.xy * perturb) + _Input.TEXCOORD.xy;
     
     fireColor = DiffuseTexture.Sample(ClampSampler, noiseCoords.xy);
@@ -127,7 +129,9 @@ PixelOut ContentsFireMesh_PS(PixelOutPut _Input)
     
     alphaColor = AlphaTexture.Sample(ClampSampler, noiseCoords.xy);
     
-    fireColor.a = alphaColor;
+    fireColor.a = saturate(alphaColor * AlphaScale);
+    
+    
     
     Result.DifColor = fireColor;
     

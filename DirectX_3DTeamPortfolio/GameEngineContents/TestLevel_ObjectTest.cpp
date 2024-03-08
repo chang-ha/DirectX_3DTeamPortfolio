@@ -19,6 +19,7 @@
 #include "Object_Table.h"
 #include "Object_HumanTree.h"
 #include "Object_CandleHuman.h"
+#include "Object_Torchlight.h"
 
 TestLevel_ObjectTest::TestLevel_ObjectTest() 
 {
@@ -33,7 +34,7 @@ void TestLevel_ObjectTest::LevelStart(GameEngineLevel* _PrevLevel)
 	ContentLevel::LevelStart(_PrevLevel);
 	//Å×½ºÆ®
 	{
-		std::shared_ptr<Object_Ladder1> Object = CreateActor<Object_Ladder1>(1);
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
 		GetMainCamera()->Transform.SetWorldPosition({ Object->Transform.GetWorldPosition() });
 	}
 }

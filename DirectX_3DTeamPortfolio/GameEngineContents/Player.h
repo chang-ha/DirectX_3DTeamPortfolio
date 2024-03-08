@@ -98,7 +98,7 @@ public:
 	bool testa = false;
 	bool testaa = false;
 	bool testaaa = false;
-	bool testaaaa = false;
+	
 	float Camera_Pos_Y = 0.0f;
 	int ererer = 0;
 	float4 PreP = {};
@@ -121,7 +121,7 @@ private:
 
 	std::shared_ptr<GameEngineCollision> Col;
 
-	std::shared_ptr<GameEngineCollision> Body_Col;
+	std::shared_ptr<BoneSocketCollision> Body_Col;
 	std::shared_ptr<BoneSocketCollision> Shield_Col;
 	std::shared_ptr<BoneSocketCollision> Attack_Col;
 
@@ -187,7 +187,9 @@ private:
 	float degree_X = 0.0f;
 	float degree_Y = 0.0f;
 	
-	
+	float4 ASS = {};
+
+	float Monster_Degree = 0.0f;
 };
 
 

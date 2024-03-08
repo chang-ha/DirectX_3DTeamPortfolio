@@ -56,16 +56,16 @@ void Player::Start()
 	MainRenderer->CreateFBXAnimation("Middle_jump", "004210.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("String_Jump", "004220.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Roll_Forward", "004280.FBX", { Frame, true });
-	MainRenderer->CreateFBXAnimation("Hit_right", "005000.FBX", { Frame, true });
-	MainRenderer->CreateFBXAnimation("Hit_Left", "005001.FBX", { Frame, true });
-	MainRenderer->CreateFBXAnimation("Hit_Forward", "005002.FBX", { Frame, true });
-	MainRenderer->CreateFBXAnimation("Hit_Behind", "005003.FBX", { Frame, true });
-	MainRenderer->CreateFBXAnimation("Middle_Hit_Left", "005100.FBX", { Frame, true });
-	MainRenderer->CreateFBXAnimation("Middle_Hit_Right", "005101.FBX", { Frame, true });
-	MainRenderer->CreateFBXAnimation("Middle_Hit_Forward", "005102.FBX", { Frame, true });
-	MainRenderer->CreateFBXAnimation("Middle_Hit_Behind", "005203.FBX", { Frame, true });
-	MainRenderer->CreateFBXAnimation("String_Hit_Forward", "005300.FBX", { Frame, true });
-	MainRenderer->CreateFBXAnimation("String_Hit_Behind", "005303.FBX", { Frame, true });
+	MainRenderer->CreateFBXAnimation("Hit_right", "005000.FBX", { Frame, false });
+	MainRenderer->CreateFBXAnimation("Hit_Left", "005001.FBX", { Frame, false });
+	MainRenderer->CreateFBXAnimation("Hit_Forward", "005002.FBX", { Frame, false });
+	MainRenderer->CreateFBXAnimation("Hit_Behind", "005003.FBX", { Frame, false });
+	MainRenderer->CreateFBXAnimation("Middle_Hit_Left", "005100.FBX", { Frame, false });
+	MainRenderer->CreateFBXAnimation("Middle_Hit_Right", "005101.FBX", { Frame, false });
+	MainRenderer->CreateFBXAnimation("Middle_Hit_Forward", "005102.FBX", { Frame, false });
+	MainRenderer->CreateFBXAnimation("Middle_Hit_Behind", "005203.FBX", { Frame, false });
+	MainRenderer->CreateFBXAnimation("String_Hit_Forward", "005300.FBX", { Frame, false });
+	MainRenderer->CreateFBXAnimation("String_Hit_Behind", "005303.FBX", { Frame, false });
 	MainRenderer->CreateFBXAnimation("Run15", "017002.FBX", { Frame, true }); // 에니메이션이 돌아감 
 	MainRenderer->CreateFBXAnimation("Weak_Shield_block", "019200.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Middle_Shield_block", "019210.FBX", { Frame, true });
@@ -137,18 +137,18 @@ void Player::Start()
 	MainRenderer->CreateFBXAnimation("ladder_Up_Stop_Left", "028013.FBX", { Frame, false }); // 사다리 올라가기 외발?
 	MainRenderer->CreateFBXAnimation("ladder_Up_Stop_Right", "028014.FBX", { Frame, false }); //  사다리 올라가기 외발?
 
-	MainRenderer->CreateFBXAnimation("ladder_Down_Start", "028020.FBX", { Frame, true }); // 사다리 내려가기 시작 
+	MainRenderer->CreateFBXAnimation("ladder_Down_Start", "028020.FBX", { Frame, false }); // 사다리 내려가기 시작 
 
-	MainRenderer->CreateFBXAnimation("ladder_Down_Left", "028021.FBX", { Frame, true }); //사다리 내려가기 왼발?
-	MainRenderer->CreateFBXAnimation("ladder_Down_Right", "028022.FBX", { Frame, true }); // 사다리 내려가기 오른발?
+	MainRenderer->CreateFBXAnimation("ladder_Down_Left", "028021.FBX", { Frame, false }); //사다리 내려가기 왼발?
+	MainRenderer->CreateFBXAnimation("ladder_Down_Right", "028022.FBX", { Frame, false }); // 사다리 내려가기 오른발?
 
-	MainRenderer->CreateFBXAnimation("ladder_Down_Stop_Left", "028023.FBX", { Frame, true }); // 사다리 내려가기 왼발?
-	MainRenderer->CreateFBXAnimation("ladder_Down_Stop_Right", "028024.FBX", { Frame, true }); // 사다리 내려가기 오른발?
-
-
+	MainRenderer->CreateFBXAnimation("ladder_Down_Stop_Left", "028023.FBX", { Frame, false }); // 사다리 내려가기 왼발?
+	MainRenderer->CreateFBXAnimation("ladder_Down_Stop_Right", "028024.FBX", { Frame, false }); // 사다리 내려가기 오른발?
 
 
-	MainRenderer->CreateFBXAnimation("Parry_Attack", "030400.FBX", { Frame, true }); // 패링후 공격 
+
+
+	MainRenderer->CreateFBXAnimation("Parry_Attack", "030400.FBX", { Frame, false }); // 패링후 공격 
 
 
 
@@ -197,8 +197,6 @@ void Player::Start()
 //	MainRenderer->SetRootMotion("Portion_Drink_01", "", Enum_RootMotionMode::RealTimeDir);
 //	MainRenderer->SetRootMotion("Portion_Drink_02", "", Enum_RootMotionMode::RealTimeDir);
 //	MainRenderer->SetRootMotion("Portion_Drink_03", "", Enum_RootMotionMode::RealTimeDir);
-	
-
 
 //	MainRenderer->SetRootMotion("Left_Stop", "", Enum_RootMotionMode::RealTimeDir);
 //	MainRenderer->SetRootMotion("Behind_Stop", "", Enum_RootMotionMode::RealTimeDir);
@@ -221,10 +219,9 @@ void Player::Start()
 	MainRenderer->SetRootMotion("Middle_Hit_Forward", "", Enum_RootMotionMode::RealTimeDir);
 	MainRenderer->SetRootMotion("Middle_Hit_Behind", "", Enum_RootMotionMode::RealTimeDir);
 
-	MainRenderer->SetRootMotion("String_Hit_Forward", "", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("String_Hit_Forward");
 	MainRenderer->SetRootMotion("String_Hit_Behind", "", Enum_RootMotionMode::RealTimeDir);
-	
-
+	//MainRenderer->SetRootMotionMoveRatio("String_Hit_Forward");
 
 	//MainRenderer->SetRootMotion("ladder_Up_Start");
 
@@ -350,21 +347,95 @@ void Player::Start()
 	{
 		Actor_test_02 = GetLevel()->CreateActor<GameEngineActor>();
 		Actor_test_02->SetParent(Actor_test);
-		Actor_test_02->Transform.SetWorldPosition({ 0.0f,140.0f,-300.0f });
+		Actor_test_02->Transform.SetWorldPosition({ 0.0f,140.0f,-250.0f });
 	}
 
 
 	// col
 
+	
+	
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Camera);
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Big_Camera);
+
 	Body_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
-			float4 Dir = GetTargetPos() - Actor_test_02->Transform.GetWorldPosition();
-			float4 Monster = { 0,0,0,-1.0f };
-			float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
-			float radian = atan2(Dir.X, Dir.Z) - atan2(Monster.X, Monster.Z);
-			degree_X = float(radian * (180.0 / 3.141592));
-		
-			int ds = 0;
+
+			float4 TargetPos = col->Transform.GetWorldPosition();
+			float4 MyPos = Actor_test->Transform.GetWorldPosition();
+
+			// Y축 고려 X
+			TargetPos.Y = MyPos.Y = 0.f;
+
+			float4 FrontVector = float4(0.f, 0.f, -1.f, 0.f);
+			FrontVector.VectorRotationToDegY(Capsule->GetDir());
+
+			float4 LocationVector = (TargetPos - MyPos).NormalizeReturn();
+
+			float4 Angle_ = DirectX::XMVector3AngleBetweenNormals(FrontVector.DirectXVector, LocationVector.DirectXVector);
+
+			float4 RotationDir = DirectX::XMVector3Cross(FrontVector.DirectXVector, LocationVector.DirectXVector);
+
+			Monster_Degree = Angle_.X * GameEngineMath::R2D;
+
+			if (0.0f <= RotationDir.Y)
+			{
+
+			}
+			else
+			{
+				Monster_Degree *= -1.f;
+			}
+
+
+
+
+			if (Monster_Degree >= 135)
+			{
+				if (Monster_Degree <= 180)
+				{
+					//Collision_Left_drop();
+					PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);
+				}
+			}
+			if (Monster_Degree >= -180)
+			{
+				if (Monster_Degree < -135)
+				{
+					//Collision_Left_drop();
+					PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);
+				}
+			}
+
+			if (Monster_Degree <= 135)
+			{
+				if (Monster_Degree > 45)
+				{
+					//Collision_Up_drop();
+
+					PlayerStates.ChangeState(PlayerState::Right_Hit);
+
+				}
+			}
+
+			if (Monster_Degree <= 45)
+			{
+				if (Monster_Degree > -45)
+				{
+					//Collision_Down_drop();
+					PlayerStates.ChangeState(PlayerState::Backward_Hit);
+
+				}
+			}
+			if (Monster_Degree >= -135)
+			{
+				if (Monster_Degree < -45)
+				{
+					//Collision_Right_drop();
+					PlayerStates.ChangeState(PlayerState::Left_Hit);
+
+				}
+			}
 
 
 
@@ -373,7 +444,8 @@ void Player::Start()
 	Body_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
 
-			
+
+
 
 
 
@@ -381,25 +453,30 @@ void Player::Start()
 
 	Body_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
-		
+
 		};
-
-	
-	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Camera);
-	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Big_Camera);
-
 
 
 }
 
 void Player::Update(float _Delta)
 {
+
+
+
+	
+
+
 	BaseActor::Update(_Delta);
 
 
 	//Body.CollisionToBody(Enum_CollisionOrder::Player);
 
 
+
+	
+
+	
 
 	Body_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack, Body_Event);
 
@@ -507,7 +584,7 @@ void Player::Update(float _Delta)
 	}
 
 
-	float4 WorldMousePos = Actor_test->Transform.GetWorldRotationEuler();
+	float4 WorldMousePos = { Monster_Degree,0.0f };
 
 	OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
 
@@ -591,19 +668,19 @@ void Player::CameraRotation(float Delta)
 
 
 
-	if (PrevPos.Y > Mouse_Ro_Y + 3)
+	if (PrevPos.Y > Mouse_Ro_Y + 10)
 	{
-		Camera_Pos_Y += CameraPos.Y * Delta * 250;
+		Camera_Pos_Y += CameraPos.Y * Delta * 300;
 
 		if (Camera_Pos_Y >= 60)
 		{
-			Camera_Pos_Y -= CameraPos.Y * Delta * 250;
+			Camera_Pos_Y -= CameraPos.Y * Delta * 300;
 		}
 	}
 
-	else if (PrevPos.Y < Mouse_Ro_Y - 3)
+	else if (PrevPos.Y < Mouse_Ro_Y-10)
 	{
-		Camera_Pos_Y -= CameraPos.Y * Delta * 250;
+		Camera_Pos_Y -= CameraPos.Y * Delta * 300;
 
 		if (Camera_Pos_Y <= -50)
 		{
@@ -617,9 +694,7 @@ void Player::CameraRotation(float Delta)
 	AS.Normalize();
 
 
-	float4 ASS = Actor_test->Transform.GetWorldPosition() - float4{ Actor_test->Transform.GetWorldPosition().X, Actor_test->Transform.GetWorldPosition().Y + 30.0f, Actor_test->Transform.GetWorldPosition().Z - 300.0f };
-
-	ASS.Normalize();
+	
 
 
 	//140.0f, -300.0f
@@ -638,7 +713,11 @@ void Player::CameraRotation(float Delta)
 
 	if (testaa == true && testa == true)
 	{
-		Actor_test_02->Transform.AddWorldPosition(AS * 800 * Delta);
+		if (abs(Actor_test->Transform.GetWorldPosition().Z - Actor_test_02->Transform.GetWorldPosition().Z) >= 50)
+		{
+			Actor_test_02->Transform.AddWorldPosition(AS * 800 * Delta);
+		}
+		
 	}
 
 	/*if (PrevPos.Y < Mouse_Ro_Y&&)
@@ -658,22 +737,23 @@ void Player::CameraRotation(float Delta)
 		 Actor_test_02->Transform.AddWorldPosition(AS * 800 * Delta);
 	 }*/
 
-	if (testaa == false && testa == false && Camera_Pos_Y >= 0)
-	{
-		//wrwrw = true;
 
-		if (abs(Actor_test_02->Transform.GetLocalPosition().Z) <= abs(250))
-		{
-			Actor_test_02->Transform.AddWorldPosition(-AS * 800 * Delta);
-		}
-	}
-	else if (testaa == false && testa == false && Camera_Pos_Y <= 0)
+	/*ASS = Actor_test->Transform.GetWorldPosition() - float4{ Actor_test->Transform.GetWorldPosition().X, Actor_test->Transform.GetWorldPosition().Y + 10.0f, Actor_test->Transform.GetWorldPosition().Z};
+
+	ASS.Normalize();*/
+
+	
+	if (testaa == false && testa == false)
 	{
-		//wrwrw = true;
-		if (PrevPos.Y > Mouse_Ro_Y && abs(Actor_test_02->Transform.GetLocalPosition().Z) <= abs(250))
+		
+		if (abs(Actor_test_02->Transform.GetLocalPosition().Z) <= abs(250))
 		{
 			Actor_test_02->Transform.AddWorldPosition(-AS * Delta * 800);
 		}
+		/*else
+		{
+			testaaa = false;
+		}*/
 	}
 
 
