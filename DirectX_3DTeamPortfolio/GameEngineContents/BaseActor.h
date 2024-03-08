@@ -304,8 +304,15 @@ protected:
 
 	float4x4& GetBoneMatrixToIndex(int _Index);
 
+	template<typename EnumType>
+	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(Enum_CollisionOrder _Order, EnumType _eIndex,
+		BSCol_TransitionParameter _Para = BSCol_TransitionParameter(), std::string_view _ColName = "")
+	{
+		return CreateSocketCollision(_Order, static_cast<int>(_eIndex), _Para, _ColName);
+	}
 	std::shared_ptr<BoneSocketCollision> CreateSocketCollision(Enum_CollisionOrder _Order, int _SocketIndex,
 		BSCol_TransitionParameter _Para = BSCol_TransitionParameter(), std::string_view _ColName = "");
+
 	std::shared_ptr<class DummyPolyCollision> CreateDummyPolyCollision(Enum_CollisionOrder _Order, const SetDPMatrixParameter& _Para, std::string _ColName = "");
 
 	void OnSocketCollision(int _BoneIndex);
