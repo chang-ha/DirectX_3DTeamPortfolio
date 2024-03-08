@@ -144,13 +144,18 @@ void LightGUI::LightEditor()
 		ImGui::SliderFloat("ForceLightPower", &Data.ForceLightPower, 0.0f, 2.0f);
 
 		ImGui::SliderFloat("PointLightRange", &Data.PointLightRange, 0.0f, 1000.0f);
+
+		ImGui::InputFloat("constantAttenuation", &Data.constantAttenuation);
+		ImGui::InputFloat("linearAttenuation", &Data.linearAttenuation, 0.0f, 0.0f, "%.5f");
+		ImGui::InputFloat("quadraticAttenuation", &Data.quadraticAttenuation,0.0f,0.0f,"%.6f");
 		
 
 
-
-		if (ImGui::InputFloat("LightFar", &Data.LightFar))
+		if (ImGui::Button("Debug"))
 		{
+			SelectActor->IsDebugValue = !SelectActor->IsDebugValue;
 		}
+		
 
 		SelectActor->SetLightData(Data);
 
