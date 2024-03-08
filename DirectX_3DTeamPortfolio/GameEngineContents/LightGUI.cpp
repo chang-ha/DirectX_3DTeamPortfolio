@@ -24,7 +24,12 @@ void LightGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 void LightGUI::LevelEnd()
 {
-	SelectActor = nullptr;
+	if (SelectActor != nullptr)
+	{
+		SelectActor->IsDebugValue = false;
+		SelectActor = nullptr;
+	}
+
 
 	ActorNames.clear();
 	CObjectNames.clear();
@@ -68,8 +73,12 @@ void LightGUI::ShowLightList(GameEngineLevel* _Level)
 		{
 			if (CObjectNames[SelectActorIndex] == Light->GetName())
 			{
-				//Light->
+				if (SelectActor != nullptr)
+				{
+					SelectActor->IsDebugValue = false;
+				}
 				SelectActor = Light.get();
+				SelectActor->IsDebugValue = true;
 				//ActorChange();
 			}
 		}

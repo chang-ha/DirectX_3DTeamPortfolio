@@ -83,14 +83,31 @@ void TestLevel_MapObject::Start()
 	TestObject0->SetLightData(Data);*/
 
 	GetMainCamera()->Transform.SetWorldPosition({ 2500.0f, -3000.0f, -9000.0f });
-	std::shared_ptr<ContentsLight> TestObject0 = CreateActor<ContentsLight>(0);
+	/*std::shared_ptr<ContentsLight> TestObject0 = CreateActor<ContentsLight>(0);
 	LightData Data = TestObject0->GetLightData();
 
-	Data.DifLightPower = 10.0f;
+	Data.DifLightPower = 3.0f;
 	Data.AmbientLight = float4(0.7f, 0.7f, 0.7f, 1.0f);
 	Data.SpcPow = 200.0f;
 
-	TestObject0->SetLightData(Data);
+	TestObject0->SetLightData(Data);*/
+
+	std::shared_ptr<ContentsLight> Light = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "mainDirect");
+	LightData Data = Light->GetLightData();
+	Light->CreateShadowMap();
+
+	//Data.DifLightPower = 0.1f;
+	Data.AmbientLight = float4(0.05f, 0.05f, 0.025f, 1.0f);
+	Data.LightColor = float4(1.0f, 1.0f, 0.7f);
+	Data.LightPower = 2.5f;
+	Data.ForceLightPower = 0.25f;
+
+	Light->Transform.SetLocalPosition({ -3400.0f, 10101.0f, -5331.0f });
+	Light->Transform.SetLocalRotation({ 40.0f, 0.0f, 0.0f });
+
+
+	Light->SetLightData(Data);
+
 
 }
 

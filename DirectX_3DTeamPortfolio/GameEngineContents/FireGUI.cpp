@@ -104,6 +104,7 @@ void FireGUI::FireEditor(float _DeltaTime)
 	if (nullptr != SelectRenderer)
 	{
 		float4 Pos = SelectRenderer->Transform.GetLocalPosition();
+		float4 Scale = SelectRenderer->Transform.GetLocalScale();
 
 		//float4 Scale = static_cast<GameEngineSpriteRenderer*>(SelectRenderer)->GetAutoScaleRatio();
 
@@ -111,9 +112,11 @@ void FireGUI::FireEditor(float _DeltaTime)
 
 		//ImGui::SliderFloat3("Pos", &Pos.X, -100.0f, 100.0f);
 		ImGui::InputFloat3("Pos", &Pos.X);
+		ImGui::InputFloat3("Scale", &Scale.X);
 		//ImGui::SliderFloat("Scale", &ScaleTotal, 0.0f, 1.0f);
 
 		SelectRenderer->Transform.SetLocalPosition(Pos);
+		SelectRenderer->Transform.SetLocalScale(Scale);
 
 		//Scale = float4(ScaleTotal, ScaleTotal, ScaleTotal);
 
@@ -144,6 +147,7 @@ void FireGUI::FireEditor(float _DeltaTime)
 		callback = ImGui::SliderFloat("distortionScale", &Info.distortionScale, 0.0f, 5.0f);
 		callback = ImGui::SliderFloat("distortionBias", &Info.distortionBias, 0.0f, 5.0f);
 		callback = ImGui::SliderFloat("perturbscale", &Info.perturbscale, 0.0f, 5.0f);
+		callback = ImGui::SliderFloat("AlphaScale", &Info.AlphaScale, 0.0f, 5.0f);
 
 
 		

@@ -287,7 +287,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 				float4 CameraRotation = Transform.GetLocalRotationEuler();
 				//Transform.GetLocalR();
 
-				Renderer->Transform.SetLocalRotation(CameraRotation);
+				Renderer->Transform.SetWorldRotation(CameraRotation);
 
 			}
 
