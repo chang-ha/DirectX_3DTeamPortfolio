@@ -82,8 +82,11 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 
 	{
 		Player_Object = CreateActor<Player>(0, "Player");
-		Player_Object->Transform.SetWorldPosition({ -2800.f, -2500.f, 6700.f });
-		Player_Object->Transform.SetWorldRotation({ 0.f, 165.f, 0.f });
+		// 볼드 위치
+		//Player_Object->Transform.SetWorldPosition({ -2800.f, -2500.f, 6700.f });
+		// 계단 위치
+		Player_Object->Transform.SetWorldPosition({ -9910.0f, 2328.0f, -2894.0f });
+		//layer_Object->Transform.SetWorldRotation({ 0.f, 165.f, 0.f });
 		Player_Object->SetTargeting(Boss_Object.get());
 		Boss_Object->SetTargeting(Player_Object.get());
 	}
