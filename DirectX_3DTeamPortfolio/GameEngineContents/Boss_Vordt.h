@@ -21,6 +21,7 @@ private:
 enum Enum_BossState
 {
 	// Move & Others
+	Null = 0,
 	Howling = (1 << 0),
 	Idle,
 	Walk_Front,
@@ -65,7 +66,21 @@ enum Enum_BossState
 
 struct AI_State
 {
-	
+	AI_State()
+	{
+
+	}
+
+	AI_State(float _StateCoolDown)
+		: StateCoolDown(_StateCoolDown)
+	{
+
+	}
+
+	void Update(float _Delta);
+
+	float StateCoolDown = 0.f;
+	float CurCoolDown = 0.f;
 };
 
 class Boss_Vordt : public BaseActor
@@ -99,10 +114,10 @@ private:
 	std::shared_ptr<BoneSocketCollision> WeaponCollision;
 	std::shared_ptr<BoneSocketCollision> R_HandCollision;
 	std::shared_ptr<Boss_State_GUI> GUI = nullptr;
-	float TargetDistance = 0.f;
 
 	void FrameEventInit();
 	void StateInit();
+	std::map<Enum_BossState, AI_State> AI_States;
 	float4 BoneWorldPos(int _BoneIndex);
 
 	// static constexpr float Close = 500.f;
@@ -114,6 +129,7 @@ private:
 	Enum_JumpTableFlag AI_Attack();
 	Enum_JumpTableFlag AI_Combo();
 	Enum_JumpTableFlag AI_Dodge();
+	bool ChangeAI_State(Enum_BossState _State);
 
 	// State
 	////////////////////////// Move & Others
