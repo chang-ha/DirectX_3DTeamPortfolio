@@ -98,7 +98,8 @@ public:
 	bool testa = false;
 	bool testaa = false;
 	bool testaaa = false;
-	
+	bool testaaaa = false;
+	float4 trerer = {};
 	float Camera_Pos_Y = 0.0f;
 	int ererer = 0;
 	float4 PreP = {};

@@ -219,8 +219,8 @@ void Player::Start()
 	MainRenderer->SetRootMotion("Middle_Hit_Forward", "", Enum_RootMotionMode::RealTimeDir);
 	MainRenderer->SetRootMotion("Middle_Hit_Behind", "", Enum_RootMotionMode::RealTimeDir);
 
-	MainRenderer->SetRootMotion("String_Hit_Forward");
-	MainRenderer->SetRootMotion("String_Hit_Behind", "", Enum_RootMotionMode::RealTimeDir);
+	/*MainRenderer->SetRootMotion("String_Hit_Forward","", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("String_Hit_Behind", "", Enum_RootMotionMode::RealTimeDir);*/
 	//MainRenderer->SetRootMotionMoveRatio("String_Hit_Forward");
 
 	//MainRenderer->SetRootMotion("ladder_Up_Start");
@@ -347,7 +347,10 @@ void Player::Start()
 	{
 		Actor_test_02 = GetLevel()->CreateActor<GameEngineActor>();
 		Actor_test_02->SetParent(Actor_test);
-		Actor_test_02->Transform.SetWorldPosition({ 0.0f,140.0f,-250.0f });
+		//Actor_test_02->Transform.SetWorldPosition({ 0.0f,140.0f,-250.0f });
+
+		Actor_test_02->Transform.SetLocalPosition({ 0.0f,0.0f,-250.0f });
+
 	}
 
 
@@ -361,7 +364,7 @@ void Player::Start()
 	Body_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
 
-			float4 TargetPos = col->Transform.GetWorldPosition();
+			float4 TargetPos = col->GetActor()->Transform.GetWorldPosition(); 
 			float4 MyPos = Actor_test->Transform.GetWorldPosition();
 
 			// YÃà °í·Á X
@@ -423,7 +426,7 @@ void Player::Start()
 				if (Monster_Degree > -45)
 				{
 					//Collision_Down_drop();
-					PlayerStates.ChangeState(PlayerState::Backward_Hit);
+					PlayerStates.ChangeState(PlayerState::Backward_Big_Hit);
 
 				}
 			}
@@ -462,7 +465,10 @@ void Player::Start()
 void Player::Update(float _Delta)
 {
 
-
+	if (GameEngineInput::IsDown('G', this))
+	{
+		PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);
+	}
 
 	
 
@@ -654,7 +660,7 @@ void Player::CameraRotation(float Delta)
 {
 	
 
-	Actor_test->Transform.SetLocalPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
+	Actor_test->Transform.SetWorldPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y+140.0f, Capsule->GetWorldPosition().z });
 
 
 
@@ -666,31 +672,88 @@ void Player::CameraRotation(float Delta)
 	Mouse_Ro_Y = GameEngineCore::MainWindow.GetMousePos().Y;
 
 
+	
 
 
-	if (PrevPos.Y > Mouse_Ro_Y + 10)
+	
+
+
+	if (PrevPos.Y > Mouse_Ro_Y+5 )
 	{
-		Camera_Pos_Y += CameraPos.Y * Delta * 300;
+		float4 Cur_Camera_Pos = { 0.0f, PrevPos.Y - Mouse_Ro_Y,0.0f };
+
+		Cur_Camera_Pos.Normalize();
+
+		Camera_Pos_Y += Cur_Camera_Pos.Y * Delta * 200;
 
 		if (Camera_Pos_Y >= 60)
 		{
-			Camera_Pos_Y -= CameraPos.Y * Delta * 300;
+			Camera_Pos_Y -= Cur_Camera_Pos.Y * Delta * 200;
 		}
 	}
 
-	else if (PrevPos.Y < Mouse_Ro_Y-10)
+	else if (PrevPos.Y < Mouse_Ro_Y-5 )
 	{
-		Camera_Pos_Y -= CameraPos.Y * Delta * 300;
+		float4 Cur_Camera_Pos = { 0.0f, Mouse_Ro_Y- PrevPos.Y,0.0f };
+
+		Cur_Camera_Pos.Normalize();
+
+		Camera_Pos_Y -= Cur_Camera_Pos.Y * Delta * 200;
 
 		if (Camera_Pos_Y <= -50)
 		{
-			Camera_Pos_Y = -50;
+			Camera_Pos_Y += Cur_Camera_Pos.Y * Delta * 200;
 		}
 
 	}
 
-	float4 AS = Actor_test->Transform.GetWorldPosition() - float4{ Actor_test_02->Transform.GetWorldPosition().X, Actor_test_02->Transform.GetWorldPosition().Y - 150.0f, Actor_test_02->Transform.GetWorldPosition().Z };
+	if (PrevPos.X > Mouse_Ro_X)
+	{
 
+		float4 Cur_Camera_Pos = { PrevPos.X - Mouse_Ro_X,0.0f,0.0f };
+
+		Cur_Camera_Pos.Normalize();
+
+		Camera_Pos_X += Cur_Camera_Pos.X * Delta * 200;
+		Player_Pos.X -= Cur_Camera_Pos.X * Delta * 200;
+
+		if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
+		{
+			Capsule->AddWorldRotation({ 0.0f,-Cur_Camera_Pos.X * Delta * 200,0.0f });
+
+		}
+	}
+	else if (PrevPos.X < Mouse_Ro_X)
+	{
+
+		float4 Cur_Camera_Pos = { Mouse_Ro_X - PrevPos.X,0.0f,0.0f };
+
+		Cur_Camera_Pos.Normalize();
+
+		Camera_Pos_X -= Cur_Camera_Pos.X * Delta * 200;
+		Player_Pos.X += Cur_Camera_Pos.X * Delta * 200;
+
+		if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
+		{
+			Capsule->AddWorldRotation({ 0.0f, Cur_Camera_Pos.X * Delta * 200, 0.0f });
+
+		}
+	}
+
+
+
+
+
+
+
+	float4 ASDF = { Actor_test->Transform.GetWorldPosition().X,Actor_test->Transform.GetWorldPosition().Y,Actor_test->Transform.GetWorldPosition().Z };
+
+	float4 ASsd	 = float4{ Actor_test_02->Transform.GetWorldPosition().X, Actor_test_02->Transform.GetWorldPosition().Y, Actor_test_02->Transform.GetWorldPosition().Z };
+
+	float4 AS = ASDF - ASsd;
+
+
+	int a = 0; 
 	AS.Normalize();
 
 
@@ -700,60 +763,29 @@ void Player::CameraRotation(float Delta)
 	//140.0f, -300.0f
 
 
-	if (testa == true && testaa == false)
+	
+
+	if (testa == true)
+	{
+		if (abs(Actor_test->Transform.GetWorldPosition().Z - Actor_test_02->Transform.GetWorldPosition().Z) >= 20)
+		{
+			Actor_test_02->Transform.AddWorldPosition(AS * 1200 * Delta);
+		}
+	}
+
+	/*if (testa == true && testaa == false)
 	{
 		Actor_test_02->Transform.AddWorldPosition(-AS * 800 * Delta);
-	}
-
-	/*if (PrevPos.Y < Mouse_Ro_Y&&)
-	{
-		Actor_test_02->Transform.AddWorldPosition(ASS * Delta * 300);
 	}*/
 
-
-	if (testaa == true && testa == true)
-	{
-		if (abs(Actor_test->Transform.GetWorldPosition().Z - Actor_test_02->Transform.GetWorldPosition().Z) >= 50)
-		{
-			Actor_test_02->Transform.AddWorldPosition(AS * 800 * Delta);
-		}
-		
-	}
-
-	/*if (PrevPos.Y < Mouse_Ro_Y&&)
-	{
-		Actor_test_02->Transform.AddWorldPosition(ASS * Delta * 300);
-	}*/
-
-
-
-	/* if (testa == true && testaa == false)
-	 {
-		 Actor_test_02->Transform.AddWorldPosition(-AS * 800 * Delta);
-	 }
-
-	 if (testaa == true && testa == true)
-	 {
-		 Actor_test_02->Transform.AddWorldPosition(AS * 800 * Delta);
-	 }*/
-
-
-	/*ASS = Actor_test->Transform.GetWorldPosition() - float4{ Actor_test->Transform.GetWorldPosition().X, Actor_test->Transform.GetWorldPosition().Y + 10.0f, Actor_test->Transform.GetWorldPosition().Z};
-
-	ASS.Normalize();*/
-
-	
 	if (testaa == false && testa == false)
 	{
 		
-		if (abs(Actor_test_02->Transform.GetLocalPosition().Z) <= abs(250))
+		if (abs(Actor_test_02->Transform.GetLocalPosition().Z) < abs(250))
 		{
-			Actor_test_02->Transform.AddWorldPosition(-AS * Delta * 800);
+			Actor_test_02->Transform.AddWorldPosition(-AS * Delta * 1200);
 		}
-		/*else
-		{
-			testaaa = false;
-		}*/
+		
 	}
 
 
@@ -767,40 +799,7 @@ void Player::CameraRotation(float Delta)
 	testa = false;
 
 
-	if (PrevPos.X > Mouse_Ro_X)
-	{
-		Camera_Pos_X += CameraPos.X * Delta * 150;
-		Player_Pos.X -= CameraPos.X * Delta * 150;
-
-		if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
-		{
-			Capsule->AddWorldRotation({ 0.0f,-CameraPos.X * Delta * 150, 0.0f });
-
-		}
-	}
-
-
-	else if (PrevPos.X < Mouse_Ro_X)
-	{
-		Camera_Pos_X -= CameraPos.X * Delta * 150;
-		Player_Pos.X += CameraPos.X * Delta * 150;
-
-		if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
-		{
-			Capsule->AddWorldRotation({ 0.0f, CameraPos.X * Delta * 150, 0.0f });
-
-		}
-	}
-
-	float4 A = Actor_test->Transform.GetWorldPosition() - float4{ Actor_test_02->Transform.GetWorldPosition().X, Actor_test_02->Transform.GetWorldPosition().Y - 50.0f, Actor_test_02->Transform.GetWorldPosition().Z };
-
-	A.Normalize();
-
-	CameraDir = A;
-
-
-	Camera_Distance = Actor_test->Transform.GetWorldPosition() - float4{ Actor_test_02->Transform.GetWorldPosition().X, Actor_test_02->Transform.GetWorldPosition().Y - 100.0f, Actor_test_02->Transform.GetWorldPosition().Z };
-
+	
 
 
 
