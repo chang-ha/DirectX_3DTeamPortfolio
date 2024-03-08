@@ -21,10 +21,9 @@ void Monster_HollowSoldier_Sword::Start()
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::SmallLeatherVest);
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::Pants);
 
-	AddBoneIndex(Enum_BoneType::B_01_RightHand, 44);
-	CreateBoneCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
+	CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, static_cast<int>(eBoneType::B_01_RightHand), { float4(1.0f,1.0f,1.0f), float4::ZERONULL, float4::ZERO }, "B_01_RightHand");
 	
-	//AttackRangeCollision->Off();
+	//AttackRangeCollision->Off(); 
 
 	ChangeState(Enum_HollowSoldier_Sword_State::Idle1);
 

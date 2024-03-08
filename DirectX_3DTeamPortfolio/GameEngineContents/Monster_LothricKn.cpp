@@ -43,11 +43,6 @@ void Monster_LothricKn::Start()
 	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E8001, "c128008001.wav");
 	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E8500, "c128008500.wav");
 
-	// Actor Res
-	AddBoneIndex(Enum_BoneType::B_01_RightHand, 78);
-	AddBoneIndex(Enum_BoneType::B_01_LeftHand, 47);
-	AddBoneIndex(Enum_BoneType::B_01_Spine, 21);
-
 	// Physx Component
 	Capsule = CreateComponent<GameEnginePhysXCapsule>();
 	Capsule->PhysXComponentInit(100.0f, 50.0f);
@@ -294,17 +289,12 @@ void Monster_LothricKn::Start()
 	const float PatrolSize = 5.0f * W_SCALE;
 
 	// Collision
-	std::shared_ptr<BoneSocketCollision> AttackCol = CreateBoneCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
-	AttackCol->Transform.SetLocalScale(float4(AttackSize, AttackSize, AttackSize));
+
 
 	std::shared_ptr<DummyPolyCollision> SwordCol = CreateDummyPolyCollision(Enum_CollisionOrder::MonsterAttack, SetDPMatrixParameter(this, 7, 82, Enum_DP_Matrix_Type::ReversePos));
 	SwordCol->Transform.SetWorldScale(float4(20.0f, 20.0f, 100.0f));
 	SwordCol->SetCollisionType(ColType::AABBBOX3D);
-	SwordCol->On();
 
-	std::shared_ptr<BoneSocketCollision> BodyCol = CreateBoneCollision(Enum_CollisionOrder::Monster, Enum_BoneType::B_01_Spine, "B_01_Spine");
-	BodyCol->Transform.SetLocalScale(float4(BodySize, BodySize, BodySize));
-	BodyCol->Transform.DebugOn();
 
 	// Sword.Init(this, AttackCol.get());
 
@@ -381,6 +371,17 @@ void Monster_LothricKn::OnWeaponMask()
 	SetMeshVisibility(eMeshInfo::Shield, true);
 }
 
+void Monster_LothricKn::SetPatrolCollision(bool _SwitchValue)
+{
+	if (PatrolCollision)
+	{
+		_SwitchValue  ? PatrolCollision->On() : PatrolCollision->Off();
+		return;
+	}
+
+	MsgBoxAssert("정찰 충돌체를 생성하지 않았습니다");
+}
+
 bool Monster_LothricKn::FindAndSetTarget()
 {
 	if (true == IsTargeting())
@@ -417,8 +418,8 @@ bool Monster_LothricKn::FindAndSetTarget()
 			}
 		});
 
-	bool FindValue = (nullptr != pActor);
-	if (FindValue)
+	bool bFindTarget = (nullptr != pActor);
+	if (bFindTarget)
 	{
 		PatrolCollision->Off();
 		SetTargeting(pActor.get());

@@ -98,6 +98,19 @@ class Monster_LothricKn : public BaseMonster
 		SwordCover,
 	};
 
+	enum class eBoneType
+	{
+		Palvis = 7,
+		L_Thight_Twist = 7,
+		L_Calf = 11,
+		R_Thight_Twist = 15,
+		R_Calf = 17,
+		Spine2 = 22,
+		Shield = 46,
+		Sword = 71,
+		Head = 82,
+	};
+
 	enum class Enum_IdleType
 	{
 		Standing,
@@ -342,7 +355,7 @@ private:
 	void SetCombatMode(Enum_Combat_State _Combat);
 
 	// 자식에서 함수 재정의해서 사용할 것
-	Enum_TargetAngle GetTargetAngle_e() const override
+	Enum_TargetAngle GetTargetAngle_e() const
 	{
 		return BaseMonster::GetTargetAngle_e(FRONT_ANGLE, SIDE_ANGLE);
 	}
@@ -384,6 +397,7 @@ private:
 	Enum_LothricKn_State GetStateToHitTable();
 
 	// Collision
+	void SetPatrolCollision(bool _SwitchValue);
 	bool FindAndSetTarget();
 	void AttackToPlayer(eAttackType _eBoneType);
 	void AttackToBody(eAttackType _eBoneType, Enum_CollisionOrder _Order);
@@ -395,7 +409,7 @@ private:
 	float4 GetFrontStabPosition() override;
 
 private:
-	std::shared_ptr<GameEngineCollision> PatrolCollision;  
+	std::shared_ptr<GameEngineCollision> PatrolCollision;
 	Monster_HitInteraction Sword;
 	Monster_HitInteraction Shield;
 

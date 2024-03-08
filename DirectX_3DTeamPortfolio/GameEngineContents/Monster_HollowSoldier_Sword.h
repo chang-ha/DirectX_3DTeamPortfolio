@@ -51,6 +51,11 @@ enum class Enum_HollowSoldier_Sword_State
 // Ό³Έν : 
 class Monster_HollowSoldier_Sword : public Monster_Hollow
 {
+	enum class eBoneType
+	{
+		B_01_RightHand = 44,
+	};
+
 public:
 	// constrcuter destructer
 	Monster_HollowSoldier_Sword();

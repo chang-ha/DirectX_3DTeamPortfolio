@@ -293,6 +293,8 @@ public:
 		return StateNum;
 	}
 
+	void SetPause(bool _SwitchValue) { _SwitchValue ? MainRenderer->SetPause(true) : MainRenderer->SetPause(false); }
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

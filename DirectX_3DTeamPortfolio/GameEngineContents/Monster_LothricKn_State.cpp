@@ -177,6 +177,7 @@ void Monster_LothricKn::Start_Idle_Standing1(GameEngineState* _State)
 void Monster_LothricKn::Start_Patrol(GameEngineState* _State)
 {
 	OnWeaponMask();
+	// SetPatrolCollision(true);
 	SetCombatMode(Enum_Combat_State::Normal);
 	MainRenderer->ChangeAnimation("Patrol");
 }
@@ -558,6 +559,7 @@ void Monster_LothricKn::Start_Break_Down(GameEngineState * _State)
 
 void Monster_LothricKn::Start_F_Death(GameEngineState * _State)
 {
+	SetFlag(Enum_ActorFlag::Death, true);
 	MainRenderer->ChangeAnimation("F_Death");
 }
 
@@ -568,6 +570,7 @@ void Monster_LothricKn::Start_F_Death_End(GameEngineState * _State)
 
 void Monster_LothricKn::Start_F_Death_B(GameEngineState * _State)
 {
+	SetFlag(Enum_ActorFlag::Death, true);
 	MainRenderer->ChangeAnimation("F_Death_B");
 }
 
@@ -584,6 +587,7 @@ void Monster_LothricKn::Start_B_Stab(GameEngineState * _State)
 
 void Monster_LothricKn::Start_B_Stab_Death(GameEngineState * _State)
 {
+	SetFlag(Enum_ActorFlag::Death, true);
 	MainRenderer->ChangeAnimation("B_Stab_Death");
 }
 
@@ -600,6 +604,7 @@ void Monster_LothricKn::Start_F_Stab(GameEngineState * _State)
 
 void Monster_LothricKn::Start_F_Stab_Death(GameEngineState * _State)
 {
+	SetFlag(Enum_ActorFlag::Death, true);
 	MainRenderer->ChangeAnimation("F_Stab_Death");
 }
 

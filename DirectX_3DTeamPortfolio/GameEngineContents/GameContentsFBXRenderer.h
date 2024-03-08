@@ -224,6 +224,9 @@ public:
 		Pause = !Pause;
 	}
 
+	inline void SetPause(int _SwitchValue) { Pause = _SwitchValue; }
+		
+
 	inline bool IsFrameChange() const
 	{
 		return bFrameChange;
