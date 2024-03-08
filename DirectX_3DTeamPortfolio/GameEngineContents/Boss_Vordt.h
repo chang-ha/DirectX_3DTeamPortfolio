@@ -110,10 +110,10 @@ private:
 	// static constexpr float Long = 1500.f;
 	// static constexpr float Max = 2000.f;
 
-	void AI_MoveMent();
-	void AI_Attack();
-	void AI_Combo();
-	void AI_Dodge();
+	Enum_JumpTableFlag AI_MoveMent();
+	Enum_JumpTableFlag AI_Attack();
+	Enum_JumpTableFlag AI_Combo();
+	Enum_JumpTableFlag AI_Dodge();
 
 	// State
 	////////////////////////// Move & Others

@@ -783,7 +783,7 @@ void Boss_Vordt::StateInit()
 	}
 }
 
-void Boss_Vordt::AI_Combo()
+Enum_JumpTableFlag Boss_Vordt::AI_Combo()
 {
 	// Combo Attack
 	//// List of Combo State
@@ -800,31 +800,30 @@ void Boss_Vordt::AI_Combo()
 	case Enum_BossState::Combo1_Step1:
 	{
 		MainState.ChangeState(Enum_BossState::Combo1_Step2);	
-		break;
+		return Enum_JumpTableFlag::StopJumpTable;
 	}
 	case Enum_BossState::Combo1_Step2:
 	{
 		MainState.ChangeState(Enum_BossState::Combo1_Step3);
-		break;
+		return Enum_JumpTableFlag::StopJumpTable;
 	}
 	case Enum_BossState::Combo1_Step3:
-		return;
+		return Enum_JumpTableFlag::Default;
 	case Enum_BossState::Combo2_Step1:
 	{
 		MainState.ChangeState(Enum_BossState::Combo2_Step2);
-		break;
+		return Enum_JumpTableFlag::StopJumpTable;
 	}
 	case Enum_BossState::Combo2_Step2:
-		return;
+		return Enum_JumpTableFlag::Default;
 	default:
-		return;
+		return Enum_JumpTableFlag::Default;
 	}
 
-	mJumpTableManager.ClearJumpTable();
-	return;
+	return Enum_JumpTableFlag::Default;
 }
 
-void Boss_Vordt::AI_Attack()
+Enum_JumpTableFlag Boss_Vordt::AI_Attack()
 {
 	// Attack
 	//// List of Attack State
@@ -844,10 +843,10 @@ void Boss_Vordt::AI_Attack()
 	//	14. Rush&Turn
 	//  15. Sweep_002
 	//  16. Hit_Down_006
-	return;
+	return Enum_JumpTableFlag::Default;
 }
 
-void Boss_Vordt::AI_MoveMent()
+Enum_JumpTableFlag Boss_Vordt::AI_MoveMent()
 {
 	// Move to Target
 	//// List of MoveMent
@@ -859,17 +858,17 @@ void Boss_Vordt::AI_MoveMent()
 	//	6. Turn_Right
 	//	7. Turn_Left_Twice
 	//	8. Turn_Right_Twice
-	return;
+	return Enum_JumpTableFlag::Default;
 }
 
-void Boss_Vordt::AI_Dodge()
+Enum_JumpTableFlag Boss_Vordt::AI_Dodge()
 {
 	// Jump(Dodge)
 	//// List of Dodge State
 	//	1. Jump_Back
 	//	2. Jump_Left
 	//	3. Jump_Right
-	return;
+	return Enum_JumpTableFlag::Default;
 }
 
 // 타켓과 나의 각도 구함
