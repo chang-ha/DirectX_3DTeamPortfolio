@@ -98,7 +98,8 @@ public:
 	bool testa = false;
 	bool testaa = false;
 	bool testaaa = false;
-	
+	bool testaaaa = false;
+	float4 trerer = {};
 	float Camera_Pos_Y = 0.0f;
 	int ererer = 0;
 	float4 PreP = {};
@@ -111,7 +112,7 @@ protected:
 	
 
 private:
-
+	float ladder_Time = 0.0f; 
 
 
 	float4 MoveDir;
@@ -143,14 +144,16 @@ private:
 	bool Rotation_Check_Y_Mus = false;
 
 	EventParameter Body_Event;
-
+	EventParameter Labber_Event;
 	Player_HitInteraction Body;
+
+
 	bool Rotation_Player_Check = false;
 	bool Rotation_Player_Plus = false;
 	bool Rotation_Player_Mus = false;
 
 	bool Rock_On_Check = false;
-
+	bool Rabber_Collision_Check = false;
 
 	float Time = 0.0f;
 	float Speed = 1000.0f;
