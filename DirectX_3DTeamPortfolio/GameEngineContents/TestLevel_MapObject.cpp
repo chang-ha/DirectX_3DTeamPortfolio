@@ -44,7 +44,7 @@ void TestLevel_MapObject::LevelStart(GameEngineLevel* _PrevLevel)
 
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
-		Object->Transform.SetWorldPosition({ -16476, 2440, -3785 });
+		Object->Transform.SetWorldPosition({ -8930, 2030, -4427 });
 	
 
 		std::shared_ptr<TestMapObjcet> Object2 = CreateActor<TestMapObjcet>(0, "Player");
