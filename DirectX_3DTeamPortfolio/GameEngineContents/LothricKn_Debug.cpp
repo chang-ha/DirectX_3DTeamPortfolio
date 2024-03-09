@@ -11,6 +11,21 @@ LothricKn_Debug::~LothricKn_Debug()
 {
 }
 
+bool LothricKn_Debug::IsDebug() const
+{
+	return IsDebugMode;
+}
+
+void LothricKn_Debug::DebugOn()
+{
+	IsDebugMode = true;
+}
+
+void LothricKn_Debug::DebugOff()
+{
+	IsDebugMode = false;
+}
+
 void LothricKn_Debug::OutPutChangeState(int _State)
 {
 	if (_State != CurState)

@@ -78,10 +78,14 @@ protected:
 
 	void CameraControlUpdate(float _Delta);
 
+	// Mode
+	void ModeInputUpdate();
+
 private:
 	std::shared_ptr<GameEngineRenderer> MainRenderer;
 	std::shared_ptr<GameEngineCollision> DummyCollision;
 	std::shared_ptr<GameEngineCollision> BodyCollision;
+	std::shared_ptr<GameEngineCollision> ShieldCollision;
 	std::vector<std::shared_ptr<class DummyProjectile>> Projectiles;
 
 	ContentsControlInput ControlInput;

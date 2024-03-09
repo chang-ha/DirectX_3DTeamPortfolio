@@ -15,12 +15,17 @@ public:
 	LothricKn_Debug& operator=(LothricKn_Debug&& _Other) noexcept = delete;
 
 	void OutPutChangeState(int _State);
+	bool IsDebug() const;
+	void DebugOn();
+	void DebugOff();
 
 protected:
 	std::string GetDebugString(int _State);
 
 private:
 	int CurState = -1;
+
+	bool IsDebugMode = false;
 
 };
 

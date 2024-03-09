@@ -129,7 +129,7 @@ bool BaseMonster::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 	const int AttackerAtt = pAttacker->GetAtt();
 	const int Stiffness = _Para.iStiffness;
 
-	Stat.AddPoise(Stiffness);
+	Stat.AddPoise(-Stiffness);
 	if (0 >= Stat.GetPoise())
 	{
 		SetFlag(Enum_ActorFlag::Break_Posture, true);
@@ -177,7 +177,7 @@ bool BaseMonster::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 	{
 		const int AttackerAtt = pAttacker->GetAtt();
 		const int Stiffness = _Para.iStiffness;
-		Stat.AddPoise(Stiffness);
+		Stat.AddPoise(-Stiffness);
 		if (0 >= Stat.GetPoise())
 		{
 			SetFlag(Enum_ActorFlag::Guard_Break, true);
@@ -185,6 +185,13 @@ bool BaseMonster::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 		}
 		else
 		{
+			const int PassPoise = 50;
+			if (Stiffness < PassPoise)
+			{
+				pAttacker->SetHit(true);
+				pAttacker->SetFlag(Enum_ActorFlag::Block_Shield, true);
+			}
+			
 			Hit.SetGuardSuccesss(true);
 		}
 

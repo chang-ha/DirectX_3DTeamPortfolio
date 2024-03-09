@@ -177,6 +177,12 @@ void Monster_LothricKn::Start_Idle_Standing1(GameEngineState* _State)
 	MainRenderer->ChangeAnimation("Idle_Standing1");
 }
 
+void Monster_LothricKn::Start_Idle_Gaurding(GameEngineState* _State)
+{
+	Debug.DebugOn();
+	SetCombatMode(eCombatState::Guarding);
+}
+
 void Monster_LothricKn::Start_Patrol(GameEngineState* _State)
 {
 	OnWeaponMask();
@@ -434,9 +440,6 @@ void Monster_LothricKn::Start_F_Hit_W(GameEngineState* _State)
 {
 	Hit.SetHit(false);
 	SetCombatMode(eCombatState::Normal);
-	SetFlag(Enum_ActorFlag::Break_Posture, false);
-	SetFlag(Enum_ActorFlag::Guard_Break, false);
-	SetFlag(Enum_ActorFlag::Block_Shield, false);
 	MainRenderer->ChangeAnimation("F_Hit_W", true);
 }
 
@@ -444,9 +447,6 @@ void Monster_LothricKn::Start_B_Hit_W(GameEngineState * _State)
 {
 	Hit.SetHit(false);
 	SetCombatMode(eCombatState::Normal);
-	SetFlag(Enum_ActorFlag::Break_Posture, false);
-	SetFlag(Enum_ActorFlag::Guard_Break, false);
-	SetFlag(Enum_ActorFlag::Block_Shield, false);
 	MainRenderer->ChangeAnimation("B_Hit_W", true);
 }
 
@@ -454,9 +454,6 @@ void Monster_LothricKn::Start_R_Hit_W(GameEngineState * _State)
 {
 	Hit.SetHit(false);
 	SetCombatMode(eCombatState::Normal);
-	SetFlag(Enum_ActorFlag::Break_Posture, false);
-	SetFlag(Enum_ActorFlag::Guard_Break, false);
-	SetFlag(Enum_ActorFlag::Block_Shield, false);
 	MainRenderer->ChangeAnimation("R_Hit_W", true);
 }
 
@@ -464,9 +461,6 @@ void Monster_LothricKn::Start_L_Hit_W(GameEngineState * _State)
 {
 	Hit.SetHit(false);
 	SetCombatMode(eCombatState::Normal);
-	SetFlag(Enum_ActorFlag::Break_Posture, false);
-	SetFlag(Enum_ActorFlag::Guard_Break, false);
-	SetFlag(Enum_ActorFlag::Block_Shield, false);
 	MainRenderer->ChangeAnimation("L_Hit_W", true);
 }
 
@@ -474,9 +468,6 @@ void Monster_LothricKn::Start_F_Hit(GameEngineState* _State)
 {
 	Hit.SetHit(false);
 	SetCombatMode(eCombatState::Normal);
-	SetFlag(Enum_ActorFlag::Break_Posture, false);
-	SetFlag(Enum_ActorFlag::Guard_Break, false);
-	SetFlag(Enum_ActorFlag::Block_Shield, false);
 	MainRenderer->ChangeAnimation("F_Hit", true);
 }
 
@@ -484,9 +475,6 @@ void Monster_LothricKn::Start_B_Hit(GameEngineState* _State)
 {
 	Hit.SetHit(false);
 	SetCombatMode(eCombatState::Normal);
-	SetFlag(Enum_ActorFlag::Break_Posture, false);
-	SetFlag(Enum_ActorFlag::Guard_Break, false);
-	SetFlag(Enum_ActorFlag::Block_Shield, false);
 	MainRenderer->ChangeAnimation("B_Hit", true);
 }
 
@@ -494,9 +482,6 @@ void Monster_LothricKn::Start_R_Hit(GameEngineState* _State)
 {
 	Hit.SetHit(false);
 	SetCombatMode(eCombatState::Normal);
-	SetFlag(Enum_ActorFlag::Break_Posture, false);
-	SetFlag(Enum_ActorFlag::Guard_Break, false);
-	SetFlag(Enum_ActorFlag::Block_Shield, false);
 	MainRenderer->ChangeAnimation("R_Hit", true);
 }
 
@@ -504,9 +489,6 @@ void Monster_LothricKn::Start_L_Hit(GameEngineState* _State)
 {
 	Hit.SetHit(false);
 	SetCombatMode(eCombatState::Normal);
-	SetFlag(Enum_ActorFlag::Break_Posture, false);
-	SetFlag(Enum_ActorFlag::Guard_Break, false);
-	SetFlag(Enum_ActorFlag::Block_Shield, false);
 	MainRenderer->ChangeAnimation("L_Hit", true);
 }
 
@@ -514,8 +496,9 @@ void Monster_LothricKn::Start_L_Hit(GameEngineState* _State)
 void Monster_LothricKn::Start_G_F_Hit_W(GameEngineState * _State)
 {
 	Hit.SetHit(false);
+	Hit.SetGuardSuccesss(false);
 	SetCombatMode(eCombatState::Guarding);
-	MainRenderer->ChangeAnimation("G_F_Hit_W");
+	MainRenderer->ChangeAnimation("G_F_Hit_W", true);
 }
 
 void Monster_LothricKn::Start_G_F_Hit_W_PushBack(GameEngineState * _State)
@@ -523,7 +506,7 @@ void Monster_LothricKn::Start_G_F_Hit_W_PushBack(GameEngineState * _State)
 	Hit.SetHit(false);
 	Hit.SetGuardSuccesss(false);
 	SetCombatMode(eCombatState::Guarding);
-	MainRenderer->ChangeAnimation("G_F_Hit_W_PushBack");
+	MainRenderer->ChangeAnimation("G_F_Hit_W_PushBack", true);
 }
 
 void Monster_LothricKn::Start_G_F_Hit(GameEngineState * _State)
@@ -531,7 +514,7 @@ void Monster_LothricKn::Start_G_F_Hit(GameEngineState * _State)
 	Hit.SetHit(false);
 	Hit.SetGuardSuccesss(false);
 	SetCombatMode(eCombatState::Guarding);
-	MainRenderer->ChangeAnimation("G_F_Hit");
+	MainRenderer->ChangeAnimation("G_F_Hit", true);
 }
 
 void Monster_LothricKn::Start_G_F_Hit_PushBack(GameEngineState * _State)
@@ -539,7 +522,7 @@ void Monster_LothricKn::Start_G_F_Hit_PushBack(GameEngineState * _State)
 	Hit.SetHit(false);
 	Hit.SetGuardSuccesss(false);
 	SetCombatMode(eCombatState::Guarding);
-	MainRenderer->ChangeAnimation("G_F_Hit_PushBack");
+	MainRenderer->ChangeAnimation("G_F_Hit_PushBack", true);
 }
 
 void Monster_LothricKn::Start_G_F_Hit_S_PushBack(GameEngineState * _State)
@@ -547,22 +530,32 @@ void Monster_LothricKn::Start_G_F_Hit_S_PushBack(GameEngineState * _State)
 	Hit.SetHit(false);
 	Hit.SetGuardSuccesss(false);
 	SetCombatMode(eCombatState::Guarding);
-	MainRenderer->ChangeAnimation("G_F_Hit_S_PushBack");
+	MainRenderer->ChangeAnimation("G_F_Hit_S_PushBack", true);
 }
 
 void Monster_LothricKn::Start_Block_Shield(GameEngineState * _State)
 {
+	Hit.SetHit(false);
+	SetFlag(Enum_ActorFlag::Block_Shield, false);
 	MainRenderer->ChangeAnimation("Block_Shield");
 }
 
 void Monster_LothricKn::Start_G_Break(GameEngineState * _State)
 {
+	Hit.SetHit(false);
+	Hit.SetGuardSuccesss(false);
+	Stat.SetPoise(100);
+	SetFlag(Enum_ActorFlag::Guard_Break, false);
 	SetCombatMode(eCombatState::Normal);
 	MainRenderer->ChangeAnimation("G_Break");
 }
 
 void Monster_LothricKn::Start_Break_Down(GameEngineState * _State)
 {
+	Hit.SetHit(false);
+	Hit.SetGuardSuccesss(false);
+	Stat.SetPoise(100);
+	SetFlag(Enum_ActorFlag::Break_Posture, false);
 	SetCombatMode(eCombatState::Normal);
 	MainRenderer->ChangeAnimation("Break_Posture");
 }
@@ -644,6 +637,14 @@ void Monster_LothricKn::Update_Debug(float _DeltaTime, GameEngineState* _State)
 void Monster_LothricKn::Update_Idle_Standing1(float _DeltaTime, GameEngineState* _State)
 {
 
+}
+
+void Monster_LothricKn::Update_Idle_Gaurding(float _DeltaTime, GameEngineState* _State)
+{
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
 }
 
 void Monster_LothricKn::Update_Patrol(float _DeltaTime, GameEngineState* _State)
@@ -1037,12 +1038,6 @@ void Monster_LothricKn::Update_RH_Att_HitDown(float _DeltaTime, GameEngineState*
 		}
 
 		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
-		if (Enum_LothricKn_State::None == FindMovementState)
-		{
-			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
-			return;
-		}
-
 		_State->ChangeState(FindMovementState);
 		return;
 	}
@@ -1087,12 +1082,6 @@ void Monster_LothricKn::Update_LH_ShieldAttack(float _DeltaTime, GameEngineState
 		}
 
 		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
-		if (Enum_LothricKn_State::None == FindMovementState)
-		{
-			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
-			return;
-		}
-
 		_State->ChangeState(FindMovementState);
 		return;
 	}
@@ -2128,12 +2117,6 @@ void Monster_LothricKn::Update_Block_Shield(float _DeltaTime, GameEngineState* _
 		}
 
 		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
-		if (Enum_LothricKn_State::None == FindMovementState)
-		{
-			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
-			return;
-		}
-
 		_State->ChangeState(FindMovementState);
 		return;
 	}
@@ -2412,6 +2395,12 @@ void Monster_LothricKn::Update_F_Stab_Death_End(float _DeltaTime, GameEngineStat
 void Monster_LothricKn::EndSleep(GameEngineState* _State)
 {
 	On();
+}
+
+void Monster_LothricKn::End_Idle_Gaurding(float _DeltaTime, GameEngineState* _State)
+{
+	Debug.DebugOff();
+	Shield.Off();
 }
 
 void Monster_LothricKn::End_Combo_Att_11(GameEngineState* _State)
@@ -3257,6 +3246,11 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToHitTable()
 		if (true == IsFlag(Enum_ActorFlag::Break_Posture))
 		{
 			return Enum_LothricKn_State::Break_Down;
+		}
+
+		if (true == IsFlag(Enum_ActorFlag::Block_Shield))
+		{
+			return Enum_LothricKn_State::Block_Shield;
 		}
 
 		Enum_DirectionXZ_Quat eDir = Hit.GetHitDir();

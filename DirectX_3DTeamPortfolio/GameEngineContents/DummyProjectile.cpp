@@ -133,10 +133,17 @@ void DummyProjectile::AttackCollision()
 				}
 
 				std::shared_ptr<BaseActor> pActor = wpObject.lock();
-				pActor->GetHit({ pParent ,0 ,eDir });
+				if (pActor->GetHitToShield({ pParent, 100 }))
+				{
+					MainState.ChangeState(eState::Ready); 
+					return;
+				}
 
-				MainState.ChangeState(eState::Ready); 
-				break;
+				if (pActor->GetHit({ pParent ,100 ,eDir }))
+				{
+					MainState.ChangeState(eState::Ready);
+					return;
+				}
 			}
 		};
 

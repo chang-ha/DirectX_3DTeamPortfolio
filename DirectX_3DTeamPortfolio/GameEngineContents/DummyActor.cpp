@@ -47,10 +47,18 @@ void DummyActor::Start()
 	DummyCollision->Transform.SetWorldScale(float4(1.0f, 1.0f, 1.0f));
 	DummyCollision->Transform.SetLocalPosition(float4::ZERO);
 
-	DummyCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Body);
-	DummyCollision->SetCollisionType(ColType::AABBBOX3D);
-	DummyCollision->Transform.SetWorldScale(float4(50.0f, 50.0f, 50.0f));
-	DummyCollision->Transform.SetLocalPosition(float4::ZERO);
+	const float BodyScale = 30.0f;
+
+	BodyCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Body);
+	BodyCollision->SetCollisionType(ColType::OBBBOX3D);
+	BodyCollision->Transform.SetWorldScale(float4(BodyScale, BodyScale, BodyScale));
+	BodyCollision->Transform.SetLocalPosition(float4::ZERO);
+
+	ShieldCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Shield);
+	ShieldCollision->SetCollisionType(ColType::OBBBOX3D);
+	ShieldCollision->Transform.SetWorldScale(float4(50.0f, 70.0f, 10.0f));
+	ShieldCollision->Transform.SetLocalPosition(float4::FORWARD * 50.0f);
+	ShieldCollision->Off();
 
 
 	 Projectiles.resize(MAX_PROJECTILE);
@@ -75,6 +83,7 @@ void DummyActor::Update(float _Delta)
 	MoveUpdate(_Delta);
 	CameraControlUpdate(_Delta);
 	ProjectileUpdate(_Delta);
+	ModeInputUpdate();
 }
 
 void DummyActor::Release()
@@ -82,6 +91,8 @@ void DummyActor::Release()
 	CameraControler.Release();
 	MainRenderer = nullptr;
 	DummyCollision = nullptr;
+	BodyCollision = nullptr;
+	ShieldCollision = nullptr;
 
 	Projectiles.clear();
 
@@ -169,8 +180,38 @@ void DummyActor::CameraControlUpdate(float _Delta)
 	CameraControler.ControlUpdate(_Delta);
 }
 
+void DummyActor::ModeInputUpdate()
+{
+	if (GameEngineInput::IsDown('5', this))
+	{
+		if (nullptr != ShieldCollision)
+		{
+			ShieldCollision->OnOffSwitch();
+		}
+	}
 
+	if (GameEngineInput::IsDown('6', this))
+	{
+		bool bParryFlag = IsFlag(Enum_ActorFlag::Parrying);
+		SetFlag(Enum_ActorFlag::Parrying, !bParryFlag);
+	}
 
+	if (GameEngineInput::IsDown('7', this))
+	{
+		bool bGaurdValue = IsFlag(Enum_ActorFlag::Guarding);
+		SetFlag(Enum_ActorFlag::Guarding, !bGaurdValue);
+	}
+
+	{
+		Stat.SetPoise(100);
+		Hit.SetHit(false);
+		Hit.SetGuardSuccesss(false);
+	}
+}
+
+/*////////////////////////////////////////////////////////////////////////////////////////////////////////
+///                                         CameraControl                                              ///
+////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 void DummyActor::CameraControl::Init(GameEngineActor* _pParent)
 {

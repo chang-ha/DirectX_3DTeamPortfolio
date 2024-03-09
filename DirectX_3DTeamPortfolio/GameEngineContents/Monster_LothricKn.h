@@ -10,6 +10,7 @@ enum class Enum_LothricKn_State
 	Debug,
 	Sleep,
 	Idle_Standing1,
+	Idle_Gaurding,
 	L_Side_Step, // L == Left
 	R_Side_Step, // R == Right
 	F_Step, // F == Forward
@@ -168,6 +169,7 @@ private:
 	void Start_Debug(GameEngineState* _State);
 	void StartSleep(GameEngineState* _State);
 	void Start_Idle_Standing1(GameEngineState* _State);
+	void Start_Idle_Gaurding(GameEngineState* _State);
 	void Start_Patrol(GameEngineState* _State);
 	void Start_Combo_Att_11(GameEngineState* _State);
 	void Start_Combo_Att_12(GameEngineState* _State);
@@ -240,6 +242,7 @@ private:
 		// Update  G_Run
 	void Update_Debug(float _DeltaTime, GameEngineState* _State);
 	void Update_Idle_Standing1(float _DeltaTime, GameEngineState* _State);
+	void Update_Idle_Gaurding(float _DeltaTime, GameEngineState* _State);
 	void Update_Patrol(float _DeltaTime, GameEngineState* _State);
 	void Update_Combo_Att_11(float _DeltaTime, GameEngineState* _State);
 	void Update_Combo_Att_12(float _DeltaTime, GameEngineState* _State);
@@ -302,6 +305,7 @@ private:
 	// End
 	void EndSleep(GameEngineState* _State);
 
+	void End_Idle_Gaurding(float _DeltaTime, GameEngineState* _State);
 	void End_Combo_Att_11(GameEngineState* _State);
 	void End_Combo_Att_12(GameEngineState* _State);
 	void End_Combo_Att_13(GameEngineState* _State);
