@@ -587,6 +587,8 @@ void Monster_LothricKn::Start_F_Death_B_End(GameEngineState * _State)
 void Monster_LothricKn::Start_B_Stab(GameEngineState * _State)
 {
 	Hit.SetInvincible(true);
+	Hit.SetHit(false);
+	SetFlag(Enum_ActorFlag::BackStab, false);
 	MainRenderer->ChangeAnimation("B_Stab");
 }
 
@@ -605,6 +607,8 @@ void Monster_LothricKn::Start_B_Stab_Death_End(GameEngineState * _State)
 void Monster_LothricKn::Start_F_Stab(GameEngineState * _State)
 {
 	Hit.SetInvincible(true);
+	Hit.SetHit(false);
+	SetFlag(Enum_ActorFlag::FrontStab, false);
 	MainRenderer->ChangeAnimation("F_Stab");
 }
 
@@ -2351,12 +2355,6 @@ void Monster_LothricKn::Update_F_Stab(float _DeltaTime, GameEngineState* _State)
 	if (IsFrame(176))
 	{
 		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
-		if (Enum_LothricKn_State::None == FindMovementState)
-		{
-			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
-			return;
-		}
-
 		_State->ChangeState(FindMovementState);
 		return;
 	}
@@ -3237,6 +3235,16 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToHitTable()
 		}
 
 		SetCombatMode(eCombatState::Normal);
+
+		if (true == IsFlag(Enum_ActorFlag::FrontStab))
+		{
+			return Enum_LothricKn_State::F_Stab;
+		}
+
+		if (true == IsFlag(Enum_ActorFlag::BackStab))
+		{
+			return Enum_LothricKn_State::B_Stab;
+		}
 
 		if (true == IsFlag(Enum_ActorFlag::Guard_Break))
 		{

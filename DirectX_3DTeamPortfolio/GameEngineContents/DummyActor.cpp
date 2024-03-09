@@ -60,6 +60,12 @@ void DummyActor::Start()
 	ShieldCollision->Transform.SetLocalPosition(float4::FORWARD * 50.0f);
 	ShieldCollision->Off();
 
+	StabCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Shield);
+	StabCollision->SetCollisionType(ColType::OBBBOX3D);
+	StabCollision->Transform.SetWorldScale(float4(10.0f, 10.0f, 100.0f));
+	StabCollision->Transform.SetLocalPosition(float4::FORWARD * 50.0f);
+	StabCollision->Off();
+
 
 	 Projectiles.resize(MAX_PROJECTILE);
 
@@ -93,6 +99,7 @@ void DummyActor::Release()
 	DummyCollision = nullptr;
 	BodyCollision = nullptr;
 	ShieldCollision = nullptr;
+	StabCollision = nullptr;
 
 	Projectiles.clear();
 
@@ -202,10 +209,51 @@ void DummyActor::ModeInputUpdate()
 		SetFlag(Enum_ActorFlag::Guarding, !bGaurdValue);
 	}
 
+
+	if (GameEngineInput::IsPress('T', this))
+	{
+		Stab();
+	}
+	else
+	{
+		if (StabCollision)
+		{
+			StabCollision->Off();
+		}
+	}
+
 	{
 		Stat.SetPoise(100);
 		Hit.SetHit(false);
 		Hit.SetGuardSuccesss(false);
+	}
+}
+
+void DummyActor::Stab()
+{
+	std::function StabCollisionEvent = [=](std::vector<GameEngineCollision*>& _Other)
+		{
+			for (GameEngineCollision* pCol : _Other)
+			{
+				const std::shared_ptr<BaseActor>& pActor = pCol->GetActor()->GetDynamic_Cast_This<BaseActor>();
+				const float4 WRot = Transform.GetWorldRotationEuler();
+				const float4 WPos = Transform.GetWorldPosition();
+				bool CheckFrontStab = pActor->FrontStabCheck(WPos, WRot.Y);
+				if (CheckFrontStab)
+				{
+					const float4 StabPos = pActor->GetFrontStabPosition();
+					Transform.SetWorldPosition(StabPos + float4::UP * 150.0f);
+					Transform.SetWorldRotation(WRot);
+					pActor->SetHit(true);
+					pActor->SetFlag(Enum_ActorFlag::FrontStab, true);
+				}
+			}
+		};
+
+	if (StabCollision)
+	{
+		StabCollision->On();
+		StabCollision->Collision(Enum_CollisionOrder::Monster_Body, StabCollisionEvent);
 	}
 }
 

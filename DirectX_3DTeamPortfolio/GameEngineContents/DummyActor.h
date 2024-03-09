@@ -81,11 +81,15 @@ protected:
 	// Mode
 	void ModeInputUpdate();
 
+	// Test Collision
+	void Stab();
+
 private:
 	std::shared_ptr<GameEngineRenderer> MainRenderer;
 	std::shared_ptr<GameEngineCollision> DummyCollision;
 	std::shared_ptr<GameEngineCollision> BodyCollision;
 	std::shared_ptr<GameEngineCollision> ShieldCollision;
+	std::shared_ptr<GameEngineCollision> StabCollision;
 	std::vector<std::shared_ptr<class DummyProjectile>> Projectiles;
 
 	ContentsControlInput ControlInput;

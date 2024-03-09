@@ -206,66 +206,51 @@ bool BaseMonster::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 }
 
 
-static constexpr float STAB_RECOGNITION_RANGE = 0.3f;
+static constexpr float STAB_RECOGNITION_RANGE = 1.5f;
 static constexpr float STAB_POS_RANGE = 0.2f;
-static constexpr float STAB_HANGLE = 15.0f;
+static constexpr float STAB_ANGLE = 45.0f;
 
 bool BaseMonster::FrontStabCheck(const float4& _WPos, float _RotY) const
 {
-	if (true == IsFlag(Enum_ActorFlag::Break_Posture))
-	{
-		const float4 MyPos = Transform.GetWorldPosition();
-		const float4 MyRot = Transform.GetWorldRotationEuler();
-		const float4 MyXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);
-		const float4 OtherXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, _RotY);
+	const float4 MyPos = Transform.GetWorldPosition();
+	const float4 MyRot = Transform.GetWorldRotationEuler();
+	const float4 MyXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);
+	const float4 OtherXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, _RotY);
 
-		// Y PosCheck << Y 높이 체크 해야됨
+	// Y PosCheck << Y 높이 체크 해야됨
 
-		float4 VectorToOther = MyPos - _WPos;
-		VectorToOther.Y = 0;
+	float4 VectorToOther = MyPos - _WPos;
+	VectorToOther.Y = 0;
 
-		const float Dist = ContentsMath::GetVector3Length(VectorToOther).X;
-		const float Dot = float4::DotProduct3D(MyXZDirVector, OtherXZDirVector);
-		const float SemiCircle = CIRCLE * 0.5f;
+	const float Dist = ContentsMath::GetVector3Length(VectorToOther).X;
+	const float Dot = float4::DotProduct3D(MyXZDirVector, OtherXZDirVector);
+	const float Deg = ContentsMath::DotNormalizeReturnDeg(Dot);
 
-		bool RangeCheck = (Dist < STAB_RECOGNITION_RANGE * W_SCALE);
-		bool DirCheck = (Dot > SemiCircle - STAB_HANGLE);
-		if (RangeCheck && DirCheck)
-		{
-			return true;
-		}
-	}
-
-	return false;
+	bool RangeCheck = (Dist < STAB_RECOGNITION_RANGE * W_SCALE);
+	bool DirCheck = (Deg < STAB_ANGLE);
+	return (RangeCheck && DirCheck);
 }
 
 bool BaseMonster::BackStabCheck(const float4& _WPos, float _RotY) const
 {
-	if (true == IsFlag(Enum_ActorFlag::Break_Posture))
-	{
-		const float4 MyPos = Transform.GetWorldPosition();
-		const float4 MyRot = Transform.GetWorldRotationEuler();
-		const float4 MyXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);
-		const float4 OtherXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, _RotY);
+	const float4 MyPos = Transform.GetWorldPosition();
+	const float4 MyRot = Transform.GetWorldRotationEuler();
+	const float4 MyXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);
+	const float4 OtherXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, _RotY);
 
-		// Y PosCheck << Y 높이 체크 해야됨
+	// Y PosCheck << Y 높이 체크 해야됨
 
-		float4 VectorToOther = MyPos - _WPos;
-		VectorToOther.Y = 0;
+	float4 VectorToOther = MyPos - _WPos;
+	VectorToOther.Y = 0;
 
-		const float Dist = ContentsMath::GetVector3Length(VectorToOther).X;
-		const float Dot = float4::DotProduct3D(MyXZDirVector, OtherXZDirVector);
-		const float SemiCircle = CIRCLE * 0.5f;
+	const float Dist = ContentsMath::GetVector3Length(VectorToOther).X;
+	const float Dot = float4::DotProduct3D(MyXZDirVector, OtherXZDirVector);
+	const float Deg = ContentsMath::DotNormalizeReturnDeg(Dot);
+	const float BackStabAngle = CIRCLE - STAB_ANGLE;
 
-		bool RangeCheck = (Dist < STAB_RECOGNITION_RANGE * W_SCALE);
-		bool DirCheck = (Dot < STAB_HANGLE - SemiCircle);
-		if (RangeCheck && DirCheck)
-		{
-			return true;
-		}
-	}
-
-	return false;
+	bool RangeCheck = (Dist < STAB_RECOGNITION_RANGE * W_SCALE);
+	bool DirCheck = (Dot > BackStabAngle);
+	return (RangeCheck && DirCheck);
 }
 
 float4 BaseMonster::GetBackStabPosition()
