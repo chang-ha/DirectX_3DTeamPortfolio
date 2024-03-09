@@ -2,6 +2,7 @@
 #include "BaseMonster.h"
 
 #include "Monster_HitInteraction.h"
+#include "LothricKn_Debug.h"
 
 enum class Enum_LothricKn_State
 {
@@ -118,7 +119,7 @@ class Monster_LothricKn : public BaseMonster
 		None,
 	};
 
-	enum class Enum_Combat_State
+	enum class eCombatState
 	{
 		Normal,
 		Two_Handed,
@@ -352,7 +353,7 @@ private:
 	void StateTimeSet(float _fMin, float _fMax);
 	void ResetStateTime();
 
-	void SetCombatMode(Enum_Combat_State _Combat);
+	void SetCombatMode(eCombatState _Combat);
 
 	// 자식에서 함수 재정의해서 사용할 것
 	Enum_TargetAngle GetTargetAngle_e() const
@@ -370,7 +371,7 @@ private:
 	bool CanAttack(float _fDist, float _fDir) const;
 	bool IsTargetInAngle(float _fAngle) const;
 
-	void RotToTarget(float _DeltaTime, float _fSpeed);
+	void RotToTarget(float _DeltaTime, float _fMinSpeed, float _fMaxSpeed);
 	bool CheckAndSetHitState();
 	bool CheckAndSetAttackState();
 	
@@ -402,11 +403,7 @@ private:
 	void AttackToPlayer(eAttackType _eBoneType);
 	void AttackToBody(eAttackType _eBoneType, Enum_CollisionOrder _Order);
 	void AttackToShield(eAttackType _eBoneType, Enum_CollisionOrder _Order);
-
-	bool FrontStabCheck(const float4& _WPos, float _RotY) const override;
-	bool BackStabCheck(const float4& _WPos, float _RotY) const override;
-	float4 GetBackStabPosition() override;
-	float4 GetFrontStabPosition() override;
+	void AttackDone(eAttackType _eBoneType);
 
 private:
 	std::shared_ptr<GameEngineCollision> PatrolCollision;
@@ -414,20 +411,23 @@ private:
 	Monster_HitInteraction Shield;
 
 	Enum_IdleType IdleType = Enum_IdleType::None;
-	Enum_Combat_State CombatState = Enum_Combat_State::None;
+	eCombatState CombatState = eCombatState::None;
 
 	int AttackRecord = 0;
 	float fMaxStateTime = 0.0f;
 
 	static constexpr float CLOSE_RANGE = 3.0f;
 	static constexpr float MELEE_RANGE = 5.0f;
-	static constexpr float MEDIUM_RANGE = 7.0f;
-	static constexpr float LONG_RANGE = 10.0f;
+	static constexpr float MEDIUM_RANGE = 9.0f;
+	static constexpr float LONG_RANGE = 15.0f;
 	static constexpr float FRONT_ANGLE = 75.0f;
 	static constexpr float SIDE_ANGLE = 115.0f;
 	static constexpr float BACK_ANGLE = 150.0f;
 
 	static constexpr float MIN_ROT_ANGLE = 3.0f;
-	static constexpr float ROTSPEED_TO_TARGET = 510.0f;
+	static constexpr float MAX_ROTSPEED_TO_TARGET = 510.0f;
+	static constexpr float MIN_ROTSPEED_TO_TARGET = 150.0f;
+
+	LothricKn_Debug Debug;
 	
 };

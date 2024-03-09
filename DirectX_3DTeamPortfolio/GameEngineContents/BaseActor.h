@@ -315,6 +315,8 @@ protected:
 
 	std::shared_ptr<class DummyPolyCollision> CreateDummyPolyCollision(Enum_CollisionOrder _Order, const SetDPMatrixParameter& _Para, std::string _ColName = "");
 
+	void OnAllCollision();
+	void OffAllCollision();
 	void OnSocketCollision(int _BoneIndex);
 	void OffSocketCollision(int _BoneIndex);
 

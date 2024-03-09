@@ -42,10 +42,15 @@ void DummyActor::Start()
 	MainRenderer->SetMaterial("FBXStaticColor");
 	MainRenderer->Transform.SetWorldScale(float4(RenScale, RenScale, RenScale));
 
-	BodyCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Dummy);
-	BodyCollision->SetCollisionType(ColType::SPHERE3D);
-	BodyCollision->Transform.SetWorldScale(float4(1.0f, 1.0f, 1.0f));
-	BodyCollision->Transform.SetLocalPosition(float4::ZERO);
+	DummyCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Dummy);
+	DummyCollision->SetCollisionType(ColType::SPHERE3D);
+	DummyCollision->Transform.SetWorldScale(float4(1.0f, 1.0f, 1.0f));
+	DummyCollision->Transform.SetLocalPosition(float4::ZERO);
+
+	DummyCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Body);
+	DummyCollision->SetCollisionType(ColType::AABBBOX3D);
+	DummyCollision->Transform.SetWorldScale(float4(50.0f, 50.0f, 50.0f));
+	DummyCollision->Transform.SetLocalPosition(float4::ZERO);
 
 
 	 Projectiles.resize(MAX_PROJECTILE);
@@ -76,7 +81,7 @@ void DummyActor::Release()
 {
 	CameraControler.Release();
 	MainRenderer = nullptr;
-	BodyCollision = nullptr;
+	DummyCollision = nullptr;
 
 	Projectiles.clear();
 
@@ -96,19 +101,23 @@ void DummyActor::MoveUpdate(float _Delta)
 
 	if (float4::ZERO != InputVector)
 	{
+		float4 DirVector;
+
 		if (CameraControler.IsUpdate())
 		{
 			const float4 Rot = CameraControler.GetQuaternion();
-			const float4 DirVector = InputVector.VectorRotationToDegYReturn(Rot.Y);
-			const float4 MovePos = DirVector * MoveSpeed* _Delta;
+			DirVector = InputVector.VectorRotationToDegYReturn(Rot.Y);
 			Transform.SetLocalRotation(float4(0.0f, Rot.Y));
-			Transform.AddLocalPosition(MovePos);
 		}
 		else
 		{
-			const float4 MovePos = InputVector * MoveSpeed * _Delta;
-			Transform.AddLocalPosition(MovePos);
+			DirVector = InputVector;
 		}
+
+		const float4 WPos = Transform.GetWorldPosition();
+		const float4 MovePos = DirVector * MoveSpeed * _Delta;
+		const float4 DestPos = WPos + MovePos;
+		Transform.SetWorldPosition(DestPos);
 	}
 }
 
@@ -334,12 +343,6 @@ void DummyActor::CameraControl::ControlUpdate(float _Delta)
 	if (false == IsUpdate())
 	{
 		return;
-	}
-
-	bool bFreeCamera = pParent->GetLevel()->GetMainCamera()->IsFreeCamera();
-	if (bFreeCamera)
-	{
-		Off();
 	}
 
 	InputUpdate(_Delta);

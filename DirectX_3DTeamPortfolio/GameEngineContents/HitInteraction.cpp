@@ -53,7 +53,9 @@ void HitInteraction::Init(BaseActor* _pParent, GameEngineCollision* _pCol)
 
 void HitInteraction::RecordCollision(BaseActor* _pActor)
 {
+	ValidityCheck();
 	HitRecord.insert(_pActor);
+	pCollision->SetCollisionColor(float4::GREEN);
 }
 
 bool HitInteraction::IsContain(BaseActor* _pActor) const
@@ -63,7 +65,9 @@ bool HitInteraction::IsContain(BaseActor* _pActor) const
 
 void HitInteraction::ResetRecord()
 {
+	ValidityCheck();
 	HitRecord.clear();
+	pCollision->SetCollisionColor(float4::RED);
 }
 
 void HitInteraction::Release()

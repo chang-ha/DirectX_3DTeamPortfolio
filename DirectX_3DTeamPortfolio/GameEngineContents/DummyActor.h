@@ -1,11 +1,11 @@
 #pragma once
-#include "BaseActor.h"
+#include "BaseMonster.h"
 
 #include "ContentsControlInput.h"
 #include "ContentsMouseInput.h"
 
 // Ό³Έν :
-class DummyActor : public BaseActor
+class DummyActor : public BaseMonster
 {
 private:
 	class CameraControl : public GameEngineObjectBase
@@ -80,6 +80,7 @@ protected:
 
 private:
 	std::shared_ptr<GameEngineRenderer> MainRenderer;
+	std::shared_ptr<GameEngineCollision> DummyCollision;
 	std::shared_ptr<GameEngineCollision> BodyCollision;
 	std::vector<std::shared_ptr<class DummyProjectile>> Projectiles;
 

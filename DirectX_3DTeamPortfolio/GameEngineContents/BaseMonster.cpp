@@ -197,3 +197,94 @@ bool BaseMonster::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 
 	return false;
 }
+
+
+static constexpr float STAB_RECOGNITION_RANGE = 0.3f;
+static constexpr float STAB_POS_RANGE = 0.2f;
+static constexpr float STAB_HANGLE = 15.0f;
+
+bool BaseMonster::FrontStabCheck(const float4& _WPos, float _RotY) const
+{
+	if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+	{
+		const float4 MyPos = Transform.GetWorldPosition();
+		const float4 MyRot = Transform.GetWorldRotationEuler();
+		const float4 MyXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);
+		const float4 OtherXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, _RotY);
+
+		// Y PosCheck << Y 높이 체크 해야됨
+
+		float4 VectorToOther = MyPos - _WPos;
+		VectorToOther.Y = 0;
+
+		const float Dist = ContentsMath::GetVector3Length(VectorToOther).X;
+		const float Dot = float4::DotProduct3D(MyXZDirVector, OtherXZDirVector);
+		const float SemiCircle = CIRCLE * 0.5f;
+
+		bool RangeCheck = (Dist < STAB_RECOGNITION_RANGE * W_SCALE);
+		bool DirCheck = (Dot > SemiCircle - STAB_HANGLE);
+		if (RangeCheck && DirCheck)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool BaseMonster::BackStabCheck(const float4& _WPos, float _RotY) const
+{
+	if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+	{
+		const float4 MyPos = Transform.GetWorldPosition();
+		const float4 MyRot = Transform.GetWorldRotationEuler();
+		const float4 MyXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);
+		const float4 OtherXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, _RotY);
+
+		// Y PosCheck << Y 높이 체크 해야됨
+
+		float4 VectorToOther = MyPos - _WPos;
+		VectorToOther.Y = 0;
+
+		const float Dist = ContentsMath::GetVector3Length(VectorToOther).X;
+		const float Dot = float4::DotProduct3D(MyXZDirVector, OtherXZDirVector);
+		const float SemiCircle = CIRCLE * 0.5f;
+
+		bool RangeCheck = (Dist < STAB_RECOGNITION_RANGE * W_SCALE);
+		bool DirCheck = (Dot < STAB_HANGLE - SemiCircle);
+		if (RangeCheck && DirCheck)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+float4 BaseMonster::GetBackStabPosition()
+{
+	SetFlag(Enum_ActorFlag::BackStab, true);
+	Hit.SetHit(true);
+
+	const float4 MyPos = Transform.GetWorldPosition();
+	const float4 MyRot = Transform.GetWorldRotationEuler();
+	const float4 BackDirVector = float4::VectorRotationToDegY(float4::BACKWARD, MyRot.Y);
+	const float StabDist = W_SCALE * STAB_POS_RANGE;
+	const float4 RelativePos = BackDirVector * StabDist;
+	const float4 OtherPos = RelativePos + MyPos;
+	return OtherPos;
+}
+
+float4 BaseMonster::GetFrontStabPosition()
+{
+	SetFlag(Enum_ActorFlag::FrontStab, true);
+	Hit.SetHit(true);
+
+	const float4 MyPos = Transform.GetWorldPosition();
+	const float4 MyRot = Transform.GetWorldRotationEuler();
+	const float4 DirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);
+	const float StabDist = W_SCALE * STAB_POS_RANGE;
+	const float4 RelativePos = DirVector * StabDist;
+	const float4 OtherPos = RelativePos + MyPos;
+	return OtherPos;
+}

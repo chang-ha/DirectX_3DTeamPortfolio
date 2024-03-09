@@ -225,6 +225,36 @@ int BaseActor::GetSocketIndex(const std::shared_ptr<class BoneSocketCollision>& 
 	return -1;
 }
 
+void BaseActor::OnAllCollision()
+{
+	for (const std::pair<int, std::shared_ptr<BoneSocketCollision>>& Pair : SocketCollisions)
+	{
+		std::shared_ptr<GameEngineCollision> Col = Pair.second;
+		if (nullptr == Col)
+		{
+			MsgBoxAssert("존재하지 않는 충돌체를 참조하려 했습니다.");
+			return;
+		}
+
+		Col->On();
+	}
+}
+
+void BaseActor::OffAllCollision()
+{
+	for (const std::pair<int, std::shared_ptr<BoneSocketCollision>>& Pair : SocketCollisions)
+	{
+		std::shared_ptr<GameEngineCollision> Col = Pair.second;
+		if (nullptr == Col)
+		{
+			MsgBoxAssert("존재하지 않는 충돌체를 참조하려 했습니다.");
+			return;
+		}
+
+		Col->Off();
+	}
+}
+
 void BaseActor::OnSocketCollision(int _BoneIndex)
 {
 	std::shared_ptr<BoneSocketCollision> pCollision = GetSocketCollision(_BoneIndex);

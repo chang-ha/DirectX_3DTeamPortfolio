@@ -49,7 +49,7 @@ void Monster_LothricKn::ResetStateTime()
 	fMaxStateTime = 0.0f;
 }
 
-void Monster_LothricKn::SetCombatMode(Enum_Combat_State _Combat)
+void Monster_LothricKn::SetCombatMode(eCombatState _Combat)
 {
 	if (CombatState == _Combat)
 	{
@@ -60,19 +60,22 @@ void Monster_LothricKn::SetCombatMode(Enum_Combat_State _Combat)
 
 	switch (_Combat)
 	{
-	case Monster_LothricKn::Enum_Combat_State::Normal:
+	case Monster_LothricKn::eCombatState::Normal:
 		SetFlag(Enum_ActorFlag::TwoHand, false);
 		SetFlag(Enum_ActorFlag::Guarding, false);
+		Shield.Off();
 		break;
-	case Monster_LothricKn::Enum_Combat_State::Two_Handed:
+	case Monster_LothricKn::eCombatState::Two_Handed:
 		SetFlag(Enum_ActorFlag::TwoHand, true);
 		SetFlag(Enum_ActorFlag::Guarding, false);
+		Shield.Off();
 		break;
-	case Monster_LothricKn::Enum_Combat_State::Guarding:
+	case Monster_LothricKn::eCombatState::Guarding:
 		SetFlag(Enum_ActorFlag::TwoHand, false);
 		SetFlag(Enum_ActorFlag::Guarding, true);
+		Shield.On();
 		break;
-	case Monster_LothricKn::Enum_Combat_State::None:
+	case Monster_LothricKn::eCombatState::None:
 		break;
 	default:
 		break;
@@ -177,8 +180,8 @@ void Monster_LothricKn::Start_Idle_Standing1(GameEngineState* _State)
 void Monster_LothricKn::Start_Patrol(GameEngineState* _State)
 {
 	OnWeaponMask();
-	// SetPatrolCollision(true);
-	SetCombatMode(Enum_Combat_State::Normal);
+	SetPatrolCollision(true);
+	SetCombatMode(eCombatState::Normal);
 	MainRenderer->ChangeAnimation("Patrol");
 }
 
@@ -226,6 +229,7 @@ void Monster_LothricKn::Start_RH_Att_HitDown(GameEngineState* _State)
 
 void Monster_LothricKn::Start_LH_ShieldAttack(GameEngineState* _State)
 {
+	Shield.ResetRecord();
 	MainRenderer->ChangeAnimation("LH_ShieldAttack");
 }
 
@@ -298,7 +302,7 @@ void Monster_LothricKn::Start_SitUp(GameEngineState* _State)
 
 void Monster_LothricKn::Start_DH_Hold(GameEngineState* _State)
 {
-	SetCombatMode(Enum_Combat_State::Two_Handed);
+	SetCombatMode(eCombatState::Two_Handed);
 	MainRenderer->ChangeAnimation("DH_Hold");
 }
 
@@ -310,125 +314,126 @@ void Monster_LothricKn::Start_DH_UnHold(GameEngineState* _State)
 void Monster_LothricKn::Start_DH_Stab_Att(GameEngineState* _State)
 {
 	Sword.ResetRecord();
-	SetCombatMode(Enum_Combat_State::Normal);
+	SetCombatMode(eCombatState::Normal);
 	MainRenderer->ChangeAnimation("DH_Stab_Att");
 }
 
 void Monster_LothricKn::Start_DH_Swing_Att(GameEngineState* _State)
 {
 	Sword.ResetRecord();
-	SetCombatMode(Enum_Combat_State::Normal);
+	SetCombatMode(eCombatState::Normal);
 	MainRenderer->ChangeAnimation("DH_Swing_Att");
 }
 
 void Monster_LothricKn::Start_DH_L_Side_Step(GameEngineState* _State)
 {
-	SetCombatMode(Enum_Combat_State::Two_Handed);
+	SetCombatMode(eCombatState::Two_Handed);
 	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("DH_L_Side_Step");
 }
 
 void Monster_LothricKn::Start_DH_R_Side_Step(GameEngineState* _State)
 {
-	SetCombatMode(Enum_Combat_State::Two_Handed);
+	SetCombatMode(eCombatState::Two_Handed);
 	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("DH_R_Side_Step");
 }
 
 void Monster_LothricKn::Start_DH_F_Step(GameEngineState* _State)
 {
-	SetCombatMode(Enum_Combat_State::Two_Handed);
+	SetCombatMode(eCombatState::Two_Handed);
 	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("DH_F_Step");
 }
 
 void Monster_LothricKn::Start_DH_B_Step(GameEngineState* _State)
 {
-	SetCombatMode(Enum_Combat_State::Two_Handed);
+	SetCombatMode(eCombatState::Two_Handed);
 	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("DH_B_Step");
 }
 
 void Monster_LothricKn::Start_G_Up(GameEngineState* _State)
 {
-	SetCombatMode(Enum_Combat_State::Guarding);
+	SetCombatMode(eCombatState::Guarding);
 	MainRenderer->ChangeAnimation("G_Up");
 }
 
 void Monster_LothricKn::Start_G_Down(GameEngineState* _State)
 {
-	SetCombatMode(Enum_Combat_State::Normal);
+	SetCombatMode(eCombatState::Normal);
 	MainRenderer->ChangeAnimation("G_Down");
 }
 
 void Monster_LothricKn::Start_G_L_Side_Step(GameEngineState* _State) 
 {
-	SetCombatMode(Enum_Combat_State::Guarding);
+	SetCombatMode(eCombatState::Guarding);
 	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("G_L_Side_Step");
 }
 
 void Monster_LothricKn::Start_G_R_Side_Step(GameEngineState* _State) 
 {
-	SetCombatMode(Enum_Combat_State::Guarding);
+	SetCombatMode(eCombatState::Guarding);
 	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("G_R_Side_Step");
 }
 
 void Monster_LothricKn::Start_G_F_Step(GameEngineState* _State) 
 {
-	SetCombatMode(Enum_Combat_State::Guarding);
+	SetCombatMode(eCombatState::Guarding);
 	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("G_F_Step");
 }
 
 void Monster_LothricKn::Start_G_B_Step(GameEngineState* _State) 
 {
-	SetCombatMode(Enum_Combat_State::Guarding);
+	SetCombatMode(eCombatState::Guarding);
 	StateTimeSet(MIN_TIME_STEPSTATE, MAX_TIME_STEPSTATE);
 	MainRenderer->ChangeAnimation("G_B_Step");
 }
 
 void Monster_LothricKn::Start_G_L_Turn(GameEngineState* _State) 
 {
-	SetCombatMode(Enum_Combat_State::Guarding);
+	SetCombatMode(eCombatState::Guarding);
 	MainRenderer->ChangeAnimation("G_L_Turn");
 }
 
 void Monster_LothricKn::Start_G_R_Turn(GameEngineState* _State) 
 {
-	SetCombatMode(Enum_Combat_State::Guarding);
+	SetCombatMode(eCombatState::Guarding);
 	MainRenderer->ChangeAnimation("G_R_Turn");
 }
 
 void Monster_LothricKn::Start_G_L_TurnTwice(GameEngineState* _State) 
 {
-	SetCombatMode(Enum_Combat_State::Guarding);
+	SetCombatMode(eCombatState::Guarding);
 	MainRenderer->ChangeAnimation("G_L_TurnTwice");
 }
 
 void Monster_LothricKn::Start_G_R_TurnTwice(GameEngineState* _State) 
 {
-	SetCombatMode(Enum_Combat_State::Guarding);
+	SetCombatMode(eCombatState::Guarding);
 	MainRenderer->ChangeAnimation("G_R_TurnTwice");
 }
 
 void Monster_LothricKn::Start_G_Run(GameEngineState* _State)
 {
-	SetCombatMode(Enum_Combat_State::Guarding);
+	SetCombatMode(eCombatState::Guarding);
 	MainRenderer->ChangeAnimation("G_Run");
 }
 
 void Monster_LothricKn::Start_G_Att_Bash(GameEngineState* _State) 
 {
-	SetCombatMode(Enum_Combat_State::Normal);
+	Shield.ResetRecord();
+	SetCombatMode(eCombatState::Normal);
 	MainRenderer->ChangeAnimation("G_Att_Bash");
 }
 
 void Monster_LothricKn::Start_F_Hit_W(GameEngineState* _State)
 {
 	Hit.SetHit(false);
-	SetCombatMode(Enum_Combat_State::Normal);
+	SetCombatMode(eCombatState::Normal);
 	SetFlag(Enum_ActorFlag::Break_Posture, false);
 	SetFlag(Enum_ActorFlag::Guard_Break, false);
 	SetFlag(Enum_ActorFlag::Block_Shield, false);
@@ -438,7 +443,7 @@ void Monster_LothricKn::Start_F_Hit_W(GameEngineState* _State)
 void Monster_LothricKn::Start_B_Hit_W(GameEngineState * _State)
 {
 	Hit.SetHit(false);
-	SetCombatMode(Enum_Combat_State::Normal);
+	SetCombatMode(eCombatState::Normal);
 	SetFlag(Enum_ActorFlag::Break_Posture, false);
 	SetFlag(Enum_ActorFlag::Guard_Break, false);
 	SetFlag(Enum_ActorFlag::Block_Shield, false);
@@ -448,7 +453,7 @@ void Monster_LothricKn::Start_B_Hit_W(GameEngineState * _State)
 void Monster_LothricKn::Start_R_Hit_W(GameEngineState * _State)
 {
 	Hit.SetHit(false);
-	SetCombatMode(Enum_Combat_State::Normal);
+	SetCombatMode(eCombatState::Normal);
 	SetFlag(Enum_ActorFlag::Break_Posture, false);
 	SetFlag(Enum_ActorFlag::Guard_Break, false);
 	SetFlag(Enum_ActorFlag::Block_Shield, false);
@@ -458,7 +463,7 @@ void Monster_LothricKn::Start_R_Hit_W(GameEngineState * _State)
 void Monster_LothricKn::Start_L_Hit_W(GameEngineState * _State)
 {
 	Hit.SetHit(false);
-	SetCombatMode(Enum_Combat_State::Normal);
+	SetCombatMode(eCombatState::Normal);
 	SetFlag(Enum_ActorFlag::Break_Posture, false);
 	SetFlag(Enum_ActorFlag::Guard_Break, false);
 	SetFlag(Enum_ActorFlag::Block_Shield, false);
@@ -468,7 +473,7 @@ void Monster_LothricKn::Start_L_Hit_W(GameEngineState * _State)
 void Monster_LothricKn::Start_F_Hit(GameEngineState* _State)
 {
 	Hit.SetHit(false);
-	SetCombatMode(Enum_Combat_State::Normal);
+	SetCombatMode(eCombatState::Normal);
 	SetFlag(Enum_ActorFlag::Break_Posture, false);
 	SetFlag(Enum_ActorFlag::Guard_Break, false);
 	SetFlag(Enum_ActorFlag::Block_Shield, false);
@@ -478,7 +483,7 @@ void Monster_LothricKn::Start_F_Hit(GameEngineState* _State)
 void Monster_LothricKn::Start_B_Hit(GameEngineState* _State)
 {
 	Hit.SetHit(false);
-	SetCombatMode(Enum_Combat_State::Normal);
+	SetCombatMode(eCombatState::Normal);
 	SetFlag(Enum_ActorFlag::Break_Posture, false);
 	SetFlag(Enum_ActorFlag::Guard_Break, false);
 	SetFlag(Enum_ActorFlag::Block_Shield, false);
@@ -488,7 +493,7 @@ void Monster_LothricKn::Start_B_Hit(GameEngineState* _State)
 void Monster_LothricKn::Start_R_Hit(GameEngineState* _State)
 {
 	Hit.SetHit(false);
-	SetCombatMode(Enum_Combat_State::Normal);
+	SetCombatMode(eCombatState::Normal);
 	SetFlag(Enum_ActorFlag::Break_Posture, false);
 	SetFlag(Enum_ActorFlag::Guard_Break, false);
 	SetFlag(Enum_ActorFlag::Block_Shield, false);
@@ -498,7 +503,7 @@ void Monster_LothricKn::Start_R_Hit(GameEngineState* _State)
 void Monster_LothricKn::Start_L_Hit(GameEngineState* _State) 
 {
 	Hit.SetHit(false);
-	SetCombatMode(Enum_Combat_State::Normal);
+	SetCombatMode(eCombatState::Normal);
 	SetFlag(Enum_ActorFlag::Break_Posture, false);
 	SetFlag(Enum_ActorFlag::Guard_Break, false);
 	SetFlag(Enum_ActorFlag::Block_Shield, false);
@@ -509,6 +514,7 @@ void Monster_LothricKn::Start_L_Hit(GameEngineState* _State)
 void Monster_LothricKn::Start_G_F_Hit_W(GameEngineState * _State)
 {
 	Hit.SetHit(false);
+	SetCombatMode(eCombatState::Guarding);
 	MainRenderer->ChangeAnimation("G_F_Hit_W");
 }
 
@@ -516,6 +522,7 @@ void Monster_LothricKn::Start_G_F_Hit_W_PushBack(GameEngineState * _State)
 {
 	Hit.SetHit(false);
 	Hit.SetGuardSuccesss(false);
+	SetCombatMode(eCombatState::Guarding);
 	MainRenderer->ChangeAnimation("G_F_Hit_W_PushBack");
 }
 
@@ -523,6 +530,7 @@ void Monster_LothricKn::Start_G_F_Hit(GameEngineState * _State)
 {
 	Hit.SetHit(false);
 	Hit.SetGuardSuccesss(false);
+	SetCombatMode(eCombatState::Guarding);
 	MainRenderer->ChangeAnimation("G_F_Hit");
 }
 
@@ -530,6 +538,7 @@ void Monster_LothricKn::Start_G_F_Hit_PushBack(GameEngineState * _State)
 {
 	Hit.SetHit(false);
 	Hit.SetGuardSuccesss(false);
+	SetCombatMode(eCombatState::Guarding);
 	MainRenderer->ChangeAnimation("G_F_Hit_PushBack");
 }
 
@@ -537,6 +546,7 @@ void Monster_LothricKn::Start_G_F_Hit_S_PushBack(GameEngineState * _State)
 {
 	Hit.SetHit(false);
 	Hit.SetGuardSuccesss(false);
+	SetCombatMode(eCombatState::Guarding);
 	MainRenderer->ChangeAnimation("G_F_Hit_S_PushBack");
 }
 
@@ -547,18 +557,19 @@ void Monster_LothricKn::Start_Block_Shield(GameEngineState * _State)
 
 void Monster_LothricKn::Start_G_Break(GameEngineState * _State)
 {
-	SetCombatMode(Enum_Combat_State::Normal);
+	SetCombatMode(eCombatState::Normal);
 	MainRenderer->ChangeAnimation("G_Break");
 }
 
 void Monster_LothricKn::Start_Break_Down(GameEngineState * _State)
 {
-	SetCombatMode(Enum_Combat_State::Normal);
+	SetCombatMode(eCombatState::Normal);
 	MainRenderer->ChangeAnimation("Break_Posture");
 }
 
 void Monster_LothricKn::Start_F_Death(GameEngineState * _State)
 {
+	OffAllCollision();
 	SetFlag(Enum_ActorFlag::Death, true);
 	MainRenderer->ChangeAnimation("F_Death");
 }
@@ -570,6 +581,7 @@ void Monster_LothricKn::Start_F_Death_End(GameEngineState * _State)
 
 void Monster_LothricKn::Start_F_Death_B(GameEngineState * _State)
 {
+	OffAllCollision();
 	SetFlag(Enum_ActorFlag::Death, true);
 	MainRenderer->ChangeAnimation("F_Death_B");
 }
@@ -587,6 +599,7 @@ void Monster_LothricKn::Start_B_Stab(GameEngineState * _State)
 
 void Monster_LothricKn::Start_B_Stab_Death(GameEngineState * _State)
 {
+	OffAllCollision();
 	SetFlag(Enum_ActorFlag::Death, true);
 	MainRenderer->ChangeAnimation("B_Stab_Death");
 }
@@ -643,8 +656,15 @@ void Monster_LothricKn::Update_Patrol(float _DeltaTime, GameEngineState* _State)
 	bool IsFindTarget = FindAndSetTarget();
 	if (IsFindTarget)
 	{
-		Enum_LothricKn_State FindState = GetStateToAggroTable();
-		_State->ChangeState(FindState);
+		Enum_LothricKn_State FindDodgeState = GetStateToDodgeTable();
+		if (Enum_LothricKn_State::None != FindDodgeState)
+		{
+			MainState.ChangeState(FindDodgeState);
+			return;
+		}
+
+		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
+		MainState.ChangeState(FindMovementState);
 		return;
 	}
 }
@@ -702,6 +722,11 @@ void Monster_LothricKn::Update_Combo_Att_11(float _DeltaTime, GameEngineState* _
 	{
 		AttackToPlayer(eAttackType::Sword);
 	}
+
+	if (IsFrameOnce(20))
+	{
+		Sword.Off();
+	}
 }
 
 void Monster_LothricKn::Update_Combo_Att_12(float _DeltaTime, GameEngineState* _State)
@@ -757,6 +782,10 @@ void Monster_LothricKn::Update_Combo_Att_12(float _DeltaTime, GameEngineState* _
 	{
 		AttackToPlayer(eAttackType::Sword);
 	}
+	if (IsFrameOnce(22))
+	{
+		Sword.Off();
+	}
 }
 
 void Monster_LothricKn::Update_Combo_Att_13(float _DeltaTime, GameEngineState* _State)
@@ -802,6 +831,10 @@ void Monster_LothricKn::Update_Combo_Att_13(float _DeltaTime, GameEngineState* _
 	if (IsFrame(20, 22))
 	{
 		AttackToPlayer(eAttackType::Sword);
+	}
+	if (IsFrameOnce(23))
+	{
+		Sword.Off();
 	}
 }
 
@@ -858,6 +891,10 @@ void Monster_LothricKn::Update_Combo_Att_21(float _DeltaTime, GameEngineState* _
 	{
 		AttackToPlayer(eAttackType::Sword);
 	}
+	if (IsFrameOnce(24))
+	{
+		Sword.Off();
+	}
 }
 
 void Monster_LothricKn::Update_Combo_Att_22(float _DeltaTime, GameEngineState* _State)
@@ -913,6 +950,10 @@ void Monster_LothricKn::Update_Combo_Att_22(float _DeltaTime, GameEngineState* _
 	{
 		AttackToPlayer(eAttackType::Sword);
 	}
+	if (IsFrameOnce(25))
+	{
+		Sword.Off();
+	}
 }
 
 void Monster_LothricKn::Update_Combo_Att_23(float _DeltaTime, GameEngineState* _State)
@@ -958,6 +999,10 @@ void Monster_LothricKn::Update_Combo_Att_23(float _DeltaTime, GameEngineState* _
 	if (IsFrame(17, 19))
 	{
 		AttackToPlayer(eAttackType::Sword);
+	}
+	if (IsFrameOnce(20))
+	{
+		Sword.Off();
 	}
 }
 
@@ -1006,6 +1051,10 @@ void Monster_LothricKn::Update_RH_Att_HitDown(float _DeltaTime, GameEngineState*
 	{
 		AttackToPlayer(eAttackType::Sword);
 	}
+	if (IsFrameOnce(27))
+	{
+		Sword.Off();
+	}
 }
 
 void Monster_LothricKn::Update_LH_ShieldAttack(float _DeltaTime, GameEngineState* _State)
@@ -1050,7 +1099,11 @@ void Monster_LothricKn::Update_LH_ShieldAttack(float _DeltaTime, GameEngineState
 
 	if (IsFrame(17, 19))
 	{
-		AttackToPlayer(eAttackType::Sword);
+		AttackToPlayer(eAttackType::Shield);
+	}
+	if (IsFrameOnce(20))
+	{
+		Shield.Off();
 	}
 }
 
@@ -1097,6 +1150,10 @@ void Monster_LothricKn::Update_RH_Rear_Att(float _DeltaTime, GameEngineState* _S
 	if (IsFrame(17, 21))
 	{
 		AttackToPlayer(eAttackType::Sword);
+	}
+	if (IsFrameOnce(22))
+	{
+		Sword.Off();
 	}
 }
 
@@ -1175,7 +1232,7 @@ void Monster_LothricKn::Update_L_Side_Step(float _DeltaTime, GameEngineState* _S
 
 	if (AngleCheck)
 	{
-		RotToTarget(_DeltaTime, ROTSPEED_TO_TARGET);
+		RotToTarget(_DeltaTime, MIN_ROTSPEED_TO_TARGET, MAX_ROTSPEED_TO_TARGET);
 	}
 
 	if (TimeCheck || DistCheck)
@@ -1207,7 +1264,7 @@ void Monster_LothricKn::Update_R_Side_Step(float _DeltaTime, GameEngineState* _S
 
 	if (AngleCheck)
 	{
-		RotToTarget(_DeltaTime, ROTSPEED_TO_TARGET);
+		RotToTarget(_DeltaTime, MIN_ROTSPEED_TO_TARGET, MAX_ROTSPEED_TO_TARGET);
 	}
 
 	if (TimeCheck || DistCheck)
@@ -1239,7 +1296,7 @@ void Monster_LothricKn::Update_F_Step(float _DeltaTime, GameEngineState* _State)
 
 	if (AngleCheck)
 	{
-		RotToTarget(_DeltaTime, ROTSPEED_TO_TARGET);
+		RotToTarget(_DeltaTime, MIN_ROTSPEED_TO_TARGET, MAX_ROTSPEED_TO_TARGET);
 	}
 
 	if (TimeCheck || DistCheck)
@@ -1271,7 +1328,7 @@ void Monster_LothricKn::Update_B_Step(float _DeltaTime, GameEngineState* _State)
 
 	if (AngleCheck)
 	{
-		RotToTarget(_DeltaTime, ROTSPEED_TO_TARGET);
+		RotToTarget(_DeltaTime, MIN_ROTSPEED_TO_TARGET, MAX_ROTSPEED_TO_TARGET);
 	}
 
 	if (TimeCheck || DistCheck)
@@ -1307,7 +1364,7 @@ void Monster_LothricKn::Update_Run(float _DeltaTime, GameEngineState* _State)
 	// Check
 	if (false == IsTargetInAngle(MIN_ROT_ANGLE))
 	{
-		RotToTarget(_DeltaTime, ROTSPEED_TO_TARGET);
+		RotToTarget(_DeltaTime, MIN_ROTSPEED_TO_TARGET, MAX_ROTSPEED_TO_TARGET);
 	}
 
 	if (true == IsTargetInRange(Enum_TargetDist::Long))
@@ -1409,7 +1466,7 @@ void Monster_LothricKn::Update_DH_UnHold(float _DeltaTime, GameEngineState* _Sta
 {
 	if (IsFrameOnce(17))
 	{
-		SetCombatMode(Enum_Combat_State::Normal);
+		SetCombatMode(eCombatState::Normal);
 	}
 
 	// Hit Logic
@@ -1477,6 +1534,10 @@ void Monster_LothricKn::Update_DH_Stab_Att(float _DeltaTime, GameEngineState* _S
 	{
 		AttackToPlayer(eAttackType::Sword);
 	}
+	if (IsFrameOnce(21))
+	{
+		Sword.Off();
+	}
 }
 
 void Monster_LothricKn::Update_DH_Swing_Att(float _DeltaTime, GameEngineState* _State)
@@ -1514,6 +1575,10 @@ void Monster_LothricKn::Update_DH_Swing_Att(float _DeltaTime, GameEngineState* _
 	{
 		AttackToPlayer(eAttackType::Sword);
 	}
+	if (IsFrameOnce(19))
+	{
+		Sword.Off();
+	}
 }
 
 void Monster_LothricKn::Update_DH_Walk(float _DeltaTime, GameEngineState* _State)
@@ -1532,10 +1597,10 @@ void Monster_LothricKn::Update_DH_Walk(float _DeltaTime, GameEngineState* _State
 
 	if (AngleCheck)
 	{
-		RotToTarget(_DeltaTime, ROTSPEED_TO_TARGET);
+		RotToTarget(_DeltaTime, MIN_ROTSPEED_TO_TARGET, MAX_ROTSPEED_TO_TARGET);
 	}
 
-	if (TimeCheck || DistCheck)
+	if (DistCheck)
 	{
 		Enum_LothricKn_State FindAttackState = GetStateToAttackTable();
 		if (Enum_LothricKn_State::None != FindAttackState)
@@ -1543,7 +1608,10 @@ void Monster_LothricKn::Update_DH_Walk(float _DeltaTime, GameEngineState* _State
 			_State->ChangeState(FindAttackState);
 			return;
 		}
+	}
 
+	if (TimeCheck)
+	{
 		Enum_LothricKn_State FindMoveMentState = GetStateToMovementTable();
 		if (Enum_LothricKn_State::None == FindMoveMentState)
 		{
@@ -1635,7 +1703,7 @@ void Monster_LothricKn::Update_G_Walk(float _DeltaTime, GameEngineState* _State)
 
 	if (AngleCheck)
 	{
-		RotToTarget(_DeltaTime, ROTSPEED_TO_TARGET);
+		RotToTarget(_DeltaTime, MIN_ROTSPEED_TO_TARGET, MAX_ROTSPEED_TO_TARGET);
 	}
 
 	if (TimeCheck)
@@ -1735,7 +1803,12 @@ void Monster_LothricKn::Update_G_Run(float _DeltaTime, GameEngineState* _State)
 	// Check
 	if (false == IsTargetInAngle(MIN_ROT_ANGLE))
 	{
-		RotToTarget(_DeltaTime, ROTSPEED_TO_TARGET);
+		if (!IsTargeting())
+		{
+			int a = 0;
+		}
+
+		RotToTarget(_DeltaTime, MIN_ROTSPEED_TO_TARGET, MAX_ROTSPEED_TO_TARGET);
 	}
 
 	if (true == IsTargetInRange(Enum_TargetDist::Long))
@@ -1785,7 +1858,11 @@ void Monster_LothricKn::Update_G_Att_Bash(float _DeltaTime, GameEngineState* _St
 
 	if (IsFrame(26, 31))
 	{
-		AttackToPlayer(eAttackType::Sword);
+		AttackToPlayer(eAttackType::Shield);
+	}
+	if (IsFrameOnce(32))
+	{
+		Shield.Off();
 	}
 }
 
@@ -1840,12 +1917,6 @@ void Monster_LothricKn::Update_Hit(float _DeltaTime, GameEngineState* _State)
 	if (IsFrame(24))
 	{
 		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
-		if (Enum_LothricKn_State::None == FindMovementState)
-		{
-			MsgBoxAssert("해당 상태는 등록되지 않았습니다.");
-			return;
-		}
-
 		_State->ChangeState(FindMovementState);
 		return;
 	}
@@ -2345,47 +2416,47 @@ void Monster_LothricKn::EndSleep(GameEngineState* _State)
 
 void Monster_LothricKn::End_Combo_Att_11(GameEngineState* _State)
 {
-	Sword.ResetRecord();
+	Sword.Off();
 }
 
 void Monster_LothricKn::End_Combo_Att_12(GameEngineState* _State)
 {
-	Sword.ResetRecord();
+	Sword.Off();
 }
 
 void Monster_LothricKn::End_Combo_Att_13(GameEngineState* _State)
 {
-	Sword.ResetRecord();
+	Sword.Off();
 }
 
 void Monster_LothricKn::End_Combo_Att_21(GameEngineState* _State)
 {
-	Sword.ResetRecord();
+	Sword.Off();
 }
 
 void Monster_LothricKn::End_Combo_Att_22(GameEngineState* _State)
 {
-	Sword.ResetRecord();
+	Sword.Off();
 }
 
 void Monster_LothricKn::End_Combo_Att_23(GameEngineState* _State)
 {
-	Sword.ResetRecord();
+	Sword.Off();
 }
 
 void Monster_LothricKn::End_RH_Att_HitDown(GameEngineState* _State)
 {
-	Sword.ResetRecord();
+	Sword.Off();
 }
 
 void Monster_LothricKn::End_LH_ShieldAttack(GameEngineState* _State)
 {
-
+	Shield.Off();
 }
 
 void Monster_LothricKn::End_RH_Rear_Att(GameEngineState* _State)
 {
-	Sword.ResetRecord();
+	Sword.Off();
 }
 
 void Monster_LothricKn::End_L_Turn(GameEngineState* _State)
@@ -2455,12 +2526,12 @@ void Monster_LothricKn::End_DH_UnHold(GameEngineState* _State)
 
 void Monster_LothricKn::End_DH_Stab_Att(GameEngineState* _State)
 {
-	Sword.ResetRecord();
+	Sword.Off();
 }
 
 void Monster_LothricKn::End_DH_Swing_Att(GameEngineState* _State)
 {
-	Sword.ResetRecord();
+	Sword.Off();
 }
 
 void Monster_LothricKn::End_DH_L_Side_Step(GameEngineState* _State)
@@ -2485,7 +2556,7 @@ void Monster_LothricKn::End_DH_B_Step(GameEngineState* _State)
 
 void Monster_LothricKn::End_G_Up(GameEngineState* _State)
 {
-
+	
 }
 
 void Monster_LothricKn::End_G_Down(GameEngineState* _State)
@@ -2540,7 +2611,7 @@ void Monster_LothricKn::End_G_Run(GameEngineState* _State)
 
 void Monster_LothricKn::End_G_Att_Bash(GameEngineState* _State)
 {
-
+	Shield.Off();
 }
 
 
@@ -2578,19 +2649,28 @@ bool Monster_LothricKn::CanAttack(float _fDist, float _fDir) const
 bool Monster_LothricKn::IsTargetInAngle(float _fAngle) const
 {
 	const float AbsTargetAngle = std::fabs(BaseActor::GetTargetAngle());
-
-	if (AbsTargetAngle < _fAngle)
-	{
-		return true;
-	}
-
-	return false;
+	return (AbsTargetAngle < _fAngle);
 }
 
-void Monster_LothricKn::RotToTarget(float _DeltaTime, float _fSpeed)
+void Monster_LothricKn::RotToTarget(float _DeltaTime, float _fMinSpeed, float _fMaxSpeed)
 {
+	float Speed = _fMaxSpeed;
+
 	const float fRotDir = BaseActor::GetRotDir_f();
-	const float RotAngle = fRotDir * _fSpeed * _DeltaTime;
+	if (fRotDir == 0.0f)
+	{
+		int a = 0;
+	}
+
+	const float fAbsTargetAngle = std::fabs(BaseActor::GetTargetAngle());
+	const float DeclinePoint = 45.0f;
+	if (fAbsTargetAngle < DeclinePoint)
+	{
+		const float Ratio = fAbsTargetAngle / DeclinePoint;
+		Speed = std::lerp(_fMinSpeed, _fMaxSpeed, Ratio);
+	}
+
+	const float RotAngle = fRotDir * Speed * _DeltaTime;
 
 	if (nullptr == Capsule)
 	{
@@ -2677,13 +2757,13 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToMovementTable(Enum_TargetDist 
 {
 	switch (CombatState)
 	{
-	case Monster_LothricKn::Enum_Combat_State::Normal:
+	case Monster_LothricKn::eCombatState::Normal:
 		return GetStateToNormalMovementTable(_eTDist, _eTAngle);
-	case Monster_LothricKn::Enum_Combat_State::Two_Handed:
+	case Monster_LothricKn::eCombatState::Two_Handed:
 		return GetStateToDHMovementTable(_eTDist, _eTAngle);
-	case Monster_LothricKn::Enum_Combat_State::Guarding:
+	case Monster_LothricKn::eCombatState::Guarding:
 		return GetStateToGMovementTable(_eTDist, _eTAngle);
-	case Monster_LothricKn::Enum_Combat_State::None:
+	case Monster_LothricKn::eCombatState::None:
 	default:
 		break;
 	}
@@ -2694,7 +2774,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToMovementTable(Enum_TargetDist 
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToNormalMovementTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const
 {
-	if (Enum_Combat_State::Normal != CombatState)
+	if (eCombatState::Normal != CombatState)
 	{
 		MsgBoxAssert("현재 상태로 해당 테이블을 반환할 수 없습니다.");
 		return Enum_LothricKn_State::None;
@@ -2764,12 +2844,13 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToNormalMovementTable(Enum_Targe
 		break;
 	}
 
+	MsgBoxAssert("행동을 찾지 못했습니다.");
 	return Enum_LothricKn_State::None;
 }
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToDHMovementTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const
 {
-	if (Enum_Combat_State::Two_Handed != CombatState)
+	if (eCombatState::Two_Handed != CombatState)
 	{
 		MsgBoxAssert("현재 상태로 해당 테이블을 반환할 수 없습니다.");
 		return Enum_LothricKn_State::None;
@@ -2805,12 +2886,13 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToDHMovementTable(Enum_TargetDis
 		break;
 	}
 
+	MsgBoxAssert("행동을 찾지 못했습니다.");
 	return Enum_LothricKn_State::None;
 }
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToGMovementTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const
 {
-	if (Enum_Combat_State::Guarding != CombatState)
+	if (eCombatState::Guarding != CombatState)
 	{
 		MsgBoxAssert("현재 상태로 해당 테이블을 반환할 수 없습니다.");
 		return Enum_LothricKn_State::None;
@@ -2868,6 +2950,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToGMovementTable(Enum_TargetDist
 		break;
 	}
 
+	MsgBoxAssert("행동을 찾지 못했습니다.");
 	return Enum_LothricKn_State::None;
 }
 
@@ -2884,13 +2967,13 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToAttackTable(Enum_TargetDist _e
 {
 	switch (CombatState)
 	{
-	case Monster_LothricKn::Enum_Combat_State::Normal:
+	case Monster_LothricKn::eCombatState::Normal:
 		return GetStateToNormalAttackTable(_eTDist, _eTAngle);
-	case Monster_LothricKn::Enum_Combat_State::Two_Handed:
+	case Monster_LothricKn::eCombatState::Two_Handed:
 		return GetStateToDHAttackTable(_eTDist, _eTAngle);
-	case Monster_LothricKn::Enum_Combat_State::Guarding:
+	case Monster_LothricKn::eCombatState::Guarding:
 		return GetStateToGAttackTable(_eTDist, _eTAngle);
-	case Monster_LothricKn::Enum_Combat_State::None:
+	case Monster_LothricKn::eCombatState::None:
 		break;
 	default:
 		break;
@@ -2902,7 +2985,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToAttackTable(Enum_TargetDist _e
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToNormalAttackTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle)
 {
-	if (Enum_Combat_State::Normal != CombatState)
+	if (eCombatState::Normal != CombatState)
 	{
 		MsgBoxAssert("현재 상태로 해당 테이블을 반환할 수 없습니다.");
 		return Enum_LothricKn_State::None;
@@ -2976,7 +3059,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToNormalAttackTable(Enum_TargetD
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToDHAttackTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const
 {
-	if (Enum_Combat_State::Two_Handed != CombatState)
+	if (eCombatState::Two_Handed != CombatState)
 	{
 		MsgBoxAssert("현재 상태로 해당 테이블을 반환할 수 없습니다.");
 		return Enum_LothricKn_State::None;
@@ -2990,7 +3073,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToDHAttackTable(Enum_TargetDist 
 		}
 	}
 
-	if (true == TargetRangeCmp(_eTDist, Enum_TargetDist::Close))
+	if (true == TargetRangeCmp(_eTDist, Enum_TargetDist::Melee))
 	{
 		if (Enum_TargetAngle::Front == _eTAngle)
 		{
@@ -3007,7 +3090,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToDHAttackTable(Enum_TargetDist 
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToGAttackTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const
 {
-	if (Enum_Combat_State::Guarding != CombatState)
+	if (eCombatState::Guarding != CombatState)
 	{
 		MsgBoxAssert("현재 상태로 해당 테이블을 반환할 수 없습니다.");
 		return Enum_LothricKn_State::None;
@@ -3041,13 +3124,13 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToDodgeTable(Enum_TargetDist _eT
 {
 	switch (CombatState)
 	{
-	case Monster_LothricKn::Enum_Combat_State::Normal:
+	case Monster_LothricKn::eCombatState::Normal:
 		return GetStateToNormalDodgeTable(_eTDist, _eTAngle);
-	case Monster_LothricKn::Enum_Combat_State::Two_Handed:
+	case Monster_LothricKn::eCombatState::Two_Handed:
 		return GetStateToDHDodgeTable(_eTDist, _eTAngle);
-	case Monster_LothricKn::Enum_Combat_State::Guarding:
+	case Monster_LothricKn::eCombatState::Guarding:
 		return GetStateToGDodgeTable(_eTDist, _eTAngle);
-	case Monster_LothricKn::Enum_Combat_State::None:
+	case Monster_LothricKn::eCombatState::None:
 	default:
 		break;
 	}
@@ -3058,7 +3141,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToDodgeTable(Enum_TargetDist _eT
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToNormalDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const
 {
-	if (Enum_Combat_State::Normal != CombatState)
+	if (eCombatState::Normal != CombatState)
 	{
 		MsgBoxAssert("현재 상태로 해당 테이블을 반환할 수 없습니다.");
 		return Enum_LothricKn_State::None;
@@ -3098,7 +3181,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToNormalDodgeTable(Enum_TargetDi
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToDHDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const
 {
-	if (Enum_Combat_State::Two_Handed != CombatState)
+	if (eCombatState::Two_Handed != CombatState)
 	{
 		MsgBoxAssert("현재 상태로 해당 테이블을 반환할 수 없습니다.");
 		return Enum_LothricKn_State::None;
@@ -3110,7 +3193,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToDHDodgeTable(Enum_TargetDist _
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToGDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const
 {
-	if (Enum_Combat_State::Guarding != CombatState)
+	if (eCombatState::Guarding != CombatState)
 	{
 		MsgBoxAssert("현재 상태로 해당 테이블을 반환할 수 없습니다.");
 		return Enum_LothricKn_State::None;
@@ -3159,12 +3242,12 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToHitTable()
 	bool bHit = (true == Hit.IsHit());
 	if (bHit)
 	{
-		CombatState = Enum_Combat_State::Normal;
-
 		if (true == Hit.IsGuardSuccesss())
 		{
 			return Enum_LothricKn_State::G_F_Hit_W;
 		}
+
+		SetCombatMode(eCombatState::Normal);
 
 		if (true == IsFlag(Enum_ActorFlag::Guard_Break))
 		{

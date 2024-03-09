@@ -169,6 +169,12 @@ protected:
 	virtual int HitFormula(int _Att) { return _Att; }
 	virtual int GuardHitFormula(int _Att) { return _Att; }
 
+	// 앞잡, 뒤잡
+	bool FrontStabCheck(const float4& _WPos, float _RotY) const override;
+	bool BackStabCheck(const float4& _WPos, float _RotY) const override;
+	float4 GetBackStabPosition() override;
+	float4 GetFrontStabPosition() override;
+
 private:
 	std::shared_ptr<class MonsterHpBar> MonsterUI;
 

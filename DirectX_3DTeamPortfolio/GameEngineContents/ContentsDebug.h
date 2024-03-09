@@ -17,4 +17,6 @@ namespace ContentsDebug
 		OutputStr += std::to_string(_Value) + "\n";
 		OutputDebugStringA(OutputStr.c_str());
 	}
+
+	void OutputString(std::string_view _Title, std::string_view _Subject);
 }

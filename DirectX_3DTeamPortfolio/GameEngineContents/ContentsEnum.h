@@ -32,8 +32,9 @@ enum class Enum_CollisionOrder
 	LadderTop = (1 << 11),
 	LadderBot = (1 << 12),
 	Player = (1 << 13),
-	Monster_Body = (1 << 14),
-	Monster_Lantern = (1 << 15),
+	Player_Body = (1 << 14),
+	Monster_Body = (1 << 15),
+	Monster_Lantern = (1 << 16),
 };
 
 enum class Enum_RenderDepth

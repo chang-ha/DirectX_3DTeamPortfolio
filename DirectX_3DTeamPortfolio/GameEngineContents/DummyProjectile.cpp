@@ -135,10 +135,10 @@ void DummyProjectile::AttackCollision()
 				std::shared_ptr<BaseActor> pActor = wpObject.lock();
 				pActor->GetHit({ pParent ,0 ,eDir });
 
-				MainState.ChangeState(eState::Ready);
+				MainState.ChangeState(eState::Ready); 
 				break;
 			}
 		};
 
-	AttackCol->Collision(Enum_CollisionOrder::Monster, AttackFunc);
+	AttackCol->Collision(Enum_CollisionOrder::Monster_Body, AttackFunc);
 }
