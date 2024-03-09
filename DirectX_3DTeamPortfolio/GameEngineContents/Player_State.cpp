@@ -441,6 +441,17 @@ void Player::Player_State()
 					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
 				}
 
+				if (GameEngineInput::IsPress(VK_CONTROL, this))
+				{
+					_Parent->ChangeState(PlayerState::Parrying);
+					return;
+				}
+
+				if (GameEngineInput::IsPress(VK_RBUTTON, this))
+				{
+					_Parent->ChangeState(PlayerState::Shield_Idle);
+					return;
+				}
 
 				if (true == GameEngineInput::IsPress(VK_LBUTTON, this))
 				{
@@ -982,69 +993,7 @@ void Player::Player_State()
 		PlayerStates.CreateState(PlayerState::Attack_04, NewPara);
 	}
 
-	{
-		CreateStateParameter NewPara;
 
-		NewPara.Start = [=](class GameEngineState* _Parent)
-			{
-				MainRenderer->ChangeAnimation("Portion_Drink_01");
-			};
-
-
-		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
-			{
-				if (MainRenderer->IsCurAnimationEnd())
-				{
-					PlayerStates.ChangeState(PlayerState::Portion_02);
-					return;
-				}
-			};
-
-		PlayerStates.CreateState(PlayerState::Portion_01, NewPara);
-	}
-
-	{
-		CreateStateParameter NewPara;
-
-		NewPara.Start = [=](class GameEngineState* _Parent)
-			{
-				MainRenderer->ChangeAnimation("Portion_Drink_02");
-			};
-
-
-		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
-			{
-				if (MainRenderer->IsCurAnimationEnd())
-				{
-					PlayerStates.ChangeState(PlayerState::Portion_03);
-					return;
-				}
-			};
-
-		PlayerStates.CreateState(PlayerState::Portion_02, NewPara);
-	}
-
-	{
-		CreateStateParameter NewPara;
-
-		NewPara.Start = [=](class GameEngineState* _Parent)
-			{
-				MainRenderer->ChangeAnimation("Portion_Drink_03");
-			};
-
-
-		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
-			{
-				if (MainRenderer->IsCurAnimationEnd())
-				{
-					PlayerStates.ChangeState(PlayerState::Idle);
-					return;
-				}
-
-			};
-
-		PlayerStates.CreateState(PlayerState::Portion_03, NewPara);
-	}
 
 	
 
@@ -1054,6 +1003,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Portion_Drink_01");
+				Weapon_Actor->Off(); 
 			};
 
 
@@ -1103,11 +1053,12 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					Weapon_Actor->On();
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
 
-			};
+			}; 
 
 		PlayerStates.CreateState(PlayerState::Portion_03, NewPara);
 	}
@@ -1202,7 +1153,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				MainRenderer->ChangeAnimation("Roll_Left");
+				MainRenderer->ChangeAnimation("Roll_Right");
 			};
 
 
@@ -1244,7 +1195,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				MainRenderer->ChangeAnimation("Roll_Right");
+				MainRenderer->ChangeAnimation("Roll_Left");
 			};
 
 
@@ -1328,37 +1279,14 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				if (true == GameEngineInput::IsPress(VK_RBUTTON, this) && true == GameEngineInput::IsPress('W', this))
-				{
-					PlayerStates.ChangeState(PlayerState::Shield_Move);
-					return;
-				}
-				else if (true == GameEngineInput::IsPress(VK_RBUTTON, this) && true == GameEngineInput::IsPress('A', this))
-				{
-					PlayerStates.ChangeState(PlayerState::Shield_Move);
-					return;
-				}
-				else if (true == GameEngineInput::IsPress(VK_RBUTTON, this) && true == GameEngineInput::IsPress('S', this))
-				{
-					PlayerStates.ChangeState(PlayerState::Shield_Move);
-					return;
-				}
-				else if (true == GameEngineInput::IsPress(VK_RBUTTON, this) && true == GameEngineInput::IsPress('D', this))
-				{
-					PlayerStates.ChangeState(PlayerState::Shield_Move);
-					return;
-				}
+				
 
 
 
 
-				else if (true == GameEngineInput::IsPress(VK_RBUTTON, this))
-				{		
-					PlayerStates.ChangeState(PlayerState::Shield_Idle);
-					return;
-				}
 
-				else if (true == GameEngineInput::IsUp(VK_RBUTTON, this))
+
+				if (true == GameEngineInput::IsUp(VK_RBUTTON, this))
 				{
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
@@ -2291,8 +2219,267 @@ void Player::Player_State()
 		PlayerStates.CreateState(PlayerState::ladder_Down_Stop_Right, NewPara);
 	}
 
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Death");			
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				
+			};
+
+		PlayerStates.CreateState(PlayerState::Death, NewPara);
+	}
+
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Weak_Shield_block");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				PlayerStates.ChangeState(PlayerState::Idle);
+				return;
+			};
+
+		PlayerStates.CreateState(PlayerState::Weak_Shield_block, NewPara);
+	}
+
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Middle_Shield_block");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				PlayerStates.ChangeState(PlayerState::Idle);
+				return;
+			};
+
+		PlayerStates.CreateState(PlayerState::Middle_Shield_block, NewPara);
+	}
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Big_Shield_block");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				PlayerStates.ChangeState(PlayerState::Idle);
+				return; 
+			};
+
+		PlayerStates.CreateState(PlayerState::Big_Shield_block, NewPara);
+	}
+
+	{
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Parring_Attack");
+			};
+
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				PlayerStates.ChangeState(PlayerState::Idle);
+				return;
+			};
+
+		PlayerStates.CreateState(PlayerState::Parring_Attack, NewPara);
+	}
+
+
+
 	PlayerStates.ChangeState(PlayerState::Idle);
 
 
 
+}
+
+void Player::SoundFrameEvent()
+{
+	// walk 
+	MainRenderer->SetFrameEvent("Walk_Forward", 7, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("foot-stone-wa2.wav", BoneWorldPos(0));
+		});
+	MainRenderer->SetFrameEvent("Walk_Forward", 18, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("foot-stone-wa2.wav", BoneWorldPos(0));
+		});
+
+	MainRenderer->SetFrameEvent("Walk_Forward", 15, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("body-armor-2.wav", BoneWorldPos(0), 0.1f);		
+		});
+
+	MainRenderer->SetFrameEvent("Walk_Behind", 7, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("foot-stone-wa2.wav", BoneWorldPos(0));
+		});
+	MainRenderer->SetFrameEvent("Walk_Behind", 18, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("foot-stone-wa2.wav", BoneWorldPos(0));
+		});
+
+	MainRenderer->SetFrameEvent("Walk_Behind", 15, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("body-armor-2.wav", BoneWorldPos(0), 0.1f);
+		});
+
+	MainRenderer->SetFrameEvent("Walk_Right", 7, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("foot-stone-wa2.wav", BoneWorldPos(0));
+		});
+	MainRenderer->SetFrameEvent("Walk_Right", 18, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("foot-stone-wa2.wav", BoneWorldPos(0));
+		});
+
+	MainRenderer->SetFrameEvent("Walk_Right", 15, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("body-armor-2.wav", BoneWorldPos(0), 0.1f);
+		});
+
+
+	MainRenderer->SetFrameEvent("Walk_Left", 7, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("foot-stone-wa2.wav", BoneWorldPos(0));
+		});
+	MainRenderer->SetFrameEvent("Walk_Left", 18, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("foot-stone-wa2.wav", BoneWorldPos(0));
+		});
+
+	MainRenderer->SetFrameEvent("Walk_Left", 15, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("body-armor-2.wav", BoneWorldPos(0), 0.1f);
+		});
+
+	// roll
+
+	MainRenderer->SetFrameEvent("Roll_Behind", 0, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("body-hauberk-rolling.wav", BoneWorldPos(0), 0.3f);
+		});
+	MainRenderer->SetFrameEvent("Roll_Right", 0, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("body-hauberk-rolling.wav", BoneWorldPos(0), 0.3f);
+		});
+	MainRenderer->SetFrameEvent("Roll_Left", 0, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("body-hauberk-rolling.wav", BoneWorldPos(0), 0.3f);
+		});
+	MainRenderer->SetFrameEvent("Roll_Forward", 0, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("body-hauberk-rolling.wav", BoneWorldPos(0), 0.3f);
+		});
+
+	MainRenderer->SetFrameEvent("Back_Step", 0, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("body-hauberk-rolling.wav", BoneWorldPos(0), 0.3f);
+		});
+
+
+	// Attack
+
+	MainRenderer->SetFrameEvent("Attack_02", 13, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("swing-sword.wav", BoneWorldPos(0), 0.3f);
+		});
+	MainRenderer->SetFrameEvent("Attack_01", 13, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("swing-sword2.wav", BoneWorldPos(0), 0.3f);
+		});
+	MainRenderer->SetFrameEvent("Attack_03", 13, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("swing-sword-large.wav", BoneWorldPos(0), 0.3f);
+		});
+	MainRenderer->SetFrameEvent("Attack_04", 13, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("swing-sword2.wav", BoneWorldPos(0), 0.3f);
+		});
+	MainRenderer->SetFrameEvent("Attack_05", 13, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("swing-sword-large.wav", BoneWorldPos(0), 0.3f);
+		});
+
+	// shield
+
+	MainRenderer->SetFrameEvent("Shield_Idle", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("movement2.wav", BoneWorldPos(0), 0.3f);
+		});
+	MainRenderer->SetFrameEvent("Parrying", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("c000004950.wav", BoneWorldPos(0), 0.3f);
+		});
+
+
+
+	// moveStop
+
+
+	MainRenderer->SetFrameEvent("Left_Stop", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("foot-stone-wa2.wav", BoneWorldPos(0), 0.7f);
+		});
+	MainRenderer->SetFrameEvent("Behind_Stop", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("foot-stone-wa2.wav", BoneWorldPos(0), 0.7f);
+		});
+	MainRenderer->SetFrameEvent("Right_Stop", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("foot-stone-wa2.wav", BoneWorldPos(0), 0.7f);
+		});
+	MainRenderer->SetFrameEvent("Forward_Stop", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("foot-stone-wa2.wav", BoneWorldPos(0), 0.7f);
+		});
+
+
+	// drink 
+	MainRenderer->SetFrameEvent("Portion_Drink_01", 20, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("EST-drink.wav", BoneWorldPos(0), 1.0f);
+		});
+
+	
+}
+
+float4 Player::BoneWorldPos(int _BoneIndex)
+{
+	std::vector<float4x4>& BoneMats = MainRenderer->GetBoneSockets();
+	float4x4 BoneMatrix = BoneMats.at(_BoneIndex);
+
+	float4x4 BoneWMat = BoneMatrix * Transform.GetWorldMatrix();
+	float4 S;
+	float4 R;
+	float4 P;
+	BoneWMat.Decompose(S, R, P);
+
+	return P;
 }

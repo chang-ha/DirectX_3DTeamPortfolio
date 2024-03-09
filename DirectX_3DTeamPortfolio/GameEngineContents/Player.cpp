@@ -110,7 +110,6 @@ void Player::Start()
 	MainRenderer->CreateFBXAnimation("Sit_Down", "068010.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Stand_Up", "068012.FBX", { Frame, true });
 
-
 	MainRenderer->CreateFBXAnimation("Solar_hurray", "080001.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Hi", "080011.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("hand", "080012.FBX", { Frame, true });
@@ -118,7 +117,7 @@ void Player::Start()
 	MainRenderer->CreateFBXAnimation("Fighting_02", "080014.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Surren", "080700.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Surren_Up", "080702.FBX", { Frame, true });
-	MainRenderer->CreateFBXAnimation("Run20", "019500.FBX", { Frame, true });
+	MainRenderer->CreateFBXAnimation("Big_Shield_block", "019500.FBX", { Frame, true });
 
 	MainRenderer->CreateFBXAnimation("Left_Stop", "022102.FBX", { Frame, false }); // ¿ÞÂÊ ¸ØÃã 
 	MainRenderer->CreateFBXAnimation("Behind_Stop", "022101.FBX", { Frame, false }); // µÚ ¸ØÃã 
@@ -276,7 +275,7 @@ void Player::Start()
 
 
 	{
-		Shield_Col = CreateSocketCollision(Enum_CollisionOrder::Player, 18);
+		Shield_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Shield, 18);
 		Shield_Col->SetCollisionType(ColType::SPHERE3D);
 		Shield_Col->Transform.SetLocalScale({ 70.f,70.f, 50.f });
 		Shield_Col->On();
@@ -294,7 +293,7 @@ void Player::Start()
 		ColParameter.S = { 20.f, 60.f, 20.f };
 		ColParameter.T = { 0.f, 0.5f, 0.f };
 
-		Attack_Col = CreateSocketCollision(Enum_CollisionOrder::Player, Bone_index_01, ColParameter,"Player_Weapon");
+		Attack_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Attack, Bone_index_01, ColParameter,"Player_Weapon");
 		Attack_Col->SetCollisionType(ColType::AABBBOX3D);
 		//Attack_Col->Transform.SetLocalScale({ 20.f,60.f, 20.f });
 
@@ -492,6 +491,9 @@ void Player::Start()
 			Rabber_Collision_Check = false;
 		};
 
+
+	SoundFrameEvent();
+
 }
 
 void Player::Update(float _Delta)
@@ -686,6 +688,22 @@ void Player::Update(float _Delta)
 
 void Player::LevelStart(GameEngineLevel* _PrevLevel)
 {
+
+	{
+		GameEngineDirectory Dir;
+		Dir.SetCurrentPath();
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources\\Sound\\c0010");
+		std::vector<GameEngineFile> AllFile = Dir.GetAllFile();
+
+		for (int i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineSound::Sound3DLoad(AllFile[i].GetStringPath());
+		}
+	}
+
+
+
 	Capsule->PhysXComponentInit(50.0f, 50.0f);
 	Capsule->SetPositioningComponent();
 
@@ -808,6 +826,8 @@ void Player::CameraRotation(float Delta)
 
 	if (testa == true)
 	{
+
+
 		if (abs(Actor_test->Transform.GetWorldPosition().Z - Actor_test_02->Transform.GetWorldPosition().Z) >= 20)
 		{
 			Actor_test_02->Transform.AddWorldPosition(AS * 1200 * Delta);

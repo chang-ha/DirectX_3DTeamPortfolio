@@ -61,6 +61,11 @@ enum class PlayerState
 	ladder_Down_Right,
 	ladder_Down_Stop_Left,
 	ladder_Down_Stop_Right,
+
+	Weak_Shield_block,
+	Middle_Shield_block,
+	Big_Shield_block,
+	Parring_Attack, 
 };
 
 // Ό³Έν :
@@ -81,9 +86,12 @@ public:
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
 	void Player_State();
-	bool check = false;
+
+	void SoundFrameEvent();
+
+	float4 BoneWorldPos(int _BoneIndex);
 	void CameraRotation(float Delta);
-	bool wrwrw = false;
+
 	std::shared_ptr<Weapon> GetWeapon()
 	{
 		return Weapon_Actor;
@@ -93,12 +101,15 @@ public:
 		return Shield_Actor;
 	}
 	std::shared_ptr<GameEngineActor> Actor_test_02;
+
 	float4 CameraDir = {};
 	float4 Camera_Distance = {};
+
 	bool testa = false;
 	bool testaa = false;
 	bool testaaa = false;
-	bool testaaaa = false;
+	
+
 	float4 trerer = {};
 	float Camera_Pos_Y = 0.0f;
 	int ererer = 0;
@@ -112,6 +123,7 @@ protected:
 	
 
 private:
+	GameEngineSoundPlayer Sound; 
 	float ladder_Time = 0.0f; 
 
 
