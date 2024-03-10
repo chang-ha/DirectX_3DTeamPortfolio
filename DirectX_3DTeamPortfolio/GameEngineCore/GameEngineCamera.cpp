@@ -126,7 +126,7 @@ void GameEngineCamera::Start()
 		DeferredTarget = GameEngineRenderTarget::Create();
 		// 최종종합
 		DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
-		DeferredTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		DeferredTarget->AddNewTexture(AllRenderTarget->GetTexture(2), float4::ZERONULL);
 		DeferredTarget->SetDepthTexture(AllRenderTarget->GetDepthTexture());
 
 		DeferredMergeUnit.SetMesh("FullRect");

@@ -20,6 +20,17 @@ Stage_Lothric::~Stage_Lothric()
 
 void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 {
+	{
+		std::shared_ptr<GameEngineActor> Ground = CreateActor<GameEngineActor>(0);
+		std::shared_ptr<GameEngineRenderer> NewRenderer = Ground->CreateComponent<GameEngineRenderer>();
+		NewRenderer->SetMesh("Box");
+		NewRenderer->SetMaterial("FBX_Static_Color");
+		// NewRenderer->GetShaderResHelper().SetTexture("NormalTexture", "BumpNormal.gif");
+		NewRenderer->Transform.SetLocalPosition({ 0.0f, -40000.0f, 0.0f });
+		NewRenderer->Transform.SetLocalScale({ 1000000.0f, 100.0f, 1000000.0f });
+		NewRenderer->RenderBaseInfoValue.BaseColor = float4(0.0f,0.0f,0.0f,1.0f);
+	}	
+
 	if (nullptr == Boss_Object)
 	{
 		Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
@@ -68,13 +79,17 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	//	Light->SetLightData(Data);
 	//	Light->IsDebugValue = true;
 	//}
+	// 
+
+	//
 	// Fog
 	{
 		std::shared_ptr<FogEffect> Effect = GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FogEffect>();
 		Effect->Init(GetMainCamera());
 	}
-	//FXAA
-		GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FXAAEffect>();
+	////FXAA
+		
+	GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FXAAEffect>();
 
 	// Building
 
