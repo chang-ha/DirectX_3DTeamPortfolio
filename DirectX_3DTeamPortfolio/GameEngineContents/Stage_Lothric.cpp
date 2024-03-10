@@ -41,7 +41,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		Data.LightPower = 2.5f;
 		Data.ForceLightPower = 0.25f;
 
-		Light->Transform.SetLocalPosition({ -3400.0f, 10101.0f, -5331.0f });
+		Light->Transform.SetLocalPosition({ -12000.0f, 16200.0f, -4260.0f });
 		Light->Transform.SetLocalRotation({ 40.0f, 0.0f, 0.0f });
 
 

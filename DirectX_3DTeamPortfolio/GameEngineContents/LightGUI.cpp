@@ -19,7 +19,7 @@ void LightGUI::Start()
 void LightGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
 	ShowLightList(_Level);
-	LightEditor();
+	LightEditor(_Level);
 }
 
 void LightGUI::LevelEnd()
@@ -86,7 +86,7 @@ void LightGUI::ShowLightList(GameEngineLevel* _Level)
 }
 
 
-void LightGUI::LightEditor()
+void LightGUI::LightEditor(GameEngineLevel* _Level)
 {
 	if (nullptr == SelectActor)
 	{
@@ -116,15 +116,20 @@ void LightGUI::LightEditor()
 		if (ImGui::InputFloat3("Rotation", &Rot.X))
 		{
 			SelectActor->Transform.SetLocalRotation(Rot);
+			_Level->GetMainCamera()->StaticRenderInitValue = true;
+			//SelectActor->ChangeShadow = true;
 		}
 
 		if (ImGui::InputFloat3("Pos", &Pos.X))
 		{
 			SelectActor->Transform.SetLocalPosition(Pos);
+			_Level->GetMainCamera()->StaticRenderInitValue = true;
+			//SelectActor->ChangeShadow = true;
 		}
 
 		if (ImGui::InputFloat3("LightColor", &Data.LightColor.X))
 		{
+
 		}
 
 		ImGui::SliderFloat3("AmbientLight", &Data.AmbientLight.X, 0.0f, 0.05f,"%.4f");
@@ -154,14 +159,11 @@ void LightGUI::LightEditor()
 
 		SelectActor->SetLightData(Data);
 
-		/*ImGui::Text("PBR");
+		std::string CameraPos = "CameraPos: " + _Level->GetMainCamera()->Transform.GetWorldPosition().ToString();
+		std::string CameraRot = "CameraRot: " + _Level->GetMainCamera()->Transform.GetWorldRotationEuler().ToString();
 
-		RenderBaseInfo Info = Player::Main_Player->GetFBXRenderer()->RenderBaseInfoValue;
-
-		ImGui::SliderFloat("Metalic", &Info.Metalic, 0.0f, 1.0f);
-		ImGui::SliderFloat("Roughness", &Info.Roughness, 0.0f, 1.0f);
-
-		Player::Main_Player->GetFBXRenderer()->RenderBaseInfoValue = Info;*/
+		ImGui::Text(CameraPos.c_str());
+		ImGui::Text(CameraRot.c_str());
 
 		ImGui::TreePop();
 	}

@@ -354,9 +354,9 @@ void GameEngineCamera::Render(float _DeltaTime)
 		std::list<std::shared_ptr<class GameEngineLight>>& Lights = GetLevel()->AllLight;
 
 		// 스태틱용 딱 한 번 만 계산하는 그림자
-		if (StaticRenderInitValue == false)
+		if (StaticRenderInitValue == true)
 		{
-			StaticRenderInitValue = true;
+			StaticRenderInitValue = false;
 			for (std::shared_ptr<GameEngineLight> Light : Lights)
 			{
 				if (false == Light->IsShadow())
