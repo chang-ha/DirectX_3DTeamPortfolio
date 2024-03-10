@@ -207,7 +207,7 @@ bool BaseMonster::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 
 
 static constexpr float STAB_RECOGNITION_RANGE = 1.5f;
-static constexpr float STAB_POS_RANGE = 0.2f;
+static constexpr float STAB_POS_RANGE = 0.8f;
 static constexpr float STAB_ANGLE = 45.0f;
 
 bool BaseMonster::FrontStabCheck(const float4& _WPos, float _RotY) const
@@ -269,9 +269,6 @@ float4 BaseMonster::GetBackStabPosition()
 
 float4 BaseMonster::GetFrontStabPosition()
 {
-	SetFlag(Enum_ActorFlag::FrontStab, true);
-	Hit.SetHit(true);
-
 	const float4 MyPos = Transform.GetWorldPosition();
 	const float4 MyRot = Transform.GetWorldRotationEuler();
 	const float4 DirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);

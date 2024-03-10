@@ -262,6 +262,7 @@ public:
 	inline class GameEnginePhysXCapsule* GetPhysxCapsulePointer() { return Capsule.get(); }
 	inline int GetHp() const { return Stat.GetHp(); }
 	inline int GetAtt() const { return Stat.GetAtt(); }
+	inline void Damage(int _Damage) { Stat.AddHp(-_Damage); }
 	inline int GetPoise() const { return Stat.GetPoise(); }
 	inline void SetHit(bool _Value) { Hit.SetHit(_Value); }
 	inline int GetCenterDPIndex() const { return CenterBodyIndex; }

@@ -589,13 +589,13 @@ void Monster_LothricKn::Start_B_Stab(GameEngineState * _State)
 	Hit.SetInvincible(true);
 	Hit.SetHit(false);
 	SetFlag(Enum_ActorFlag::BackStab, false);
+	SetCombatMode(eCombatState::Normal);
 	MainRenderer->ChangeAnimation("B_Stab");
 }
 
 void Monster_LothricKn::Start_B_Stab_Death(GameEngineState * _State)
 {
 	OffAllCollision();
-	SetFlag(Enum_ActorFlag::Death, true);
 	MainRenderer->ChangeAnimation("B_Stab_Death");
 }
 
@@ -609,12 +609,13 @@ void Monster_LothricKn::Start_F_Stab(GameEngineState * _State)
 	Hit.SetInvincible(true);
 	Hit.SetHit(false);
 	SetFlag(Enum_ActorFlag::FrontStab, false);
+	SetCombatMode(eCombatState::Normal);
 	MainRenderer->ChangeAnimation("F_Stab");
 }
 
 void Monster_LothricKn::Start_F_Stab_Death(GameEngineState * _State)
 {
-	SetFlag(Enum_ActorFlag::Death, true);
+	OffAllCollision();
 	MainRenderer->ChangeAnimation("F_Stab_Death");
 }
 
@@ -2311,7 +2312,7 @@ void Monster_LothricKn::Update_B_Stab_Death(float _DeltaTime, GameEngineState* _
 
 	if (true == MainRenderer->IsCurAnimationEnd())
 	{
-		_State->ChangeState(Enum_LothricKn_State::F_Death_End);
+		_State->ChangeState(Enum_LothricKn_State::B_Stab_Death_End);
 		return;
 	}
 }
@@ -2338,7 +2339,7 @@ void Monster_LothricKn::Update_F_Stab(float _DeltaTime, GameEngineState* _State)
 	{
 		if (true == Stat.IsDeath())
 		{
-			_State->ChangeState(Enum_LothricKn_State::B_Stab_Death);
+			_State->ChangeState(Enum_LothricKn_State::F_Stab_Death);
 			return;
 		}
 	}
@@ -2374,7 +2375,7 @@ void Monster_LothricKn::Update_F_Stab_Death(float _DeltaTime, GameEngineState* _
 
 	if (true == MainRenderer->IsCurAnimationEnd())
 	{
-		_State->ChangeState(Enum_LothricKn_State::F_Death_End);
+		_State->ChangeState(Enum_LothricKn_State::F_Stab_Death_End);
 		return;
 	}
 }
@@ -3220,22 +3221,9 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToGDodgeTable(Enum_TargetDist _e
 
 Enum_LothricKn_State Monster_LothricKn::GetStateToHitTable()
 {
-	bool DeathCheck = (0 >= Stat.GetHp());
-	if (DeathCheck)
-	{
-		return Enum_LothricKn_State::F_Death;
-	}
-
 	bool bHit = (true == Hit.IsHit());
 	if (bHit)
 	{
-		if (true == Hit.IsGuardSuccesss())
-		{
-			return Enum_LothricKn_State::G_F_Hit_W;
-		}
-
-		SetCombatMode(eCombatState::Normal);
-
 		if (true == IsFlag(Enum_ActorFlag::FrontStab))
 		{
 			return Enum_LothricKn_State::F_Stab;
@@ -3244,6 +3232,17 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToHitTable()
 		if (true == IsFlag(Enum_ActorFlag::BackStab))
 		{
 			return Enum_LothricKn_State::B_Stab;
+		}
+
+		bool DeathCheck = (0 >= Stat.GetHp());
+		if (DeathCheck)
+		{
+			return Enum_LothricKn_State::F_Death;
+		}
+
+		if (true == Hit.IsGuardSuccesss())
+		{
+			return Enum_LothricKn_State::G_F_Hit_W;
 		}
 
 		if (true == IsFlag(Enum_ActorFlag::Guard_Break))

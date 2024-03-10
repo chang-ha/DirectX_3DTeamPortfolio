@@ -244,6 +244,7 @@ void DummyActor::Stab()
 					const float4 StabPos = pActor->GetFrontStabPosition();
 					Transform.SetWorldPosition(StabPos + float4::UP * 150.0f);
 					Transform.SetWorldRotation(WRot);
+					pActor->Damage(3000);
 					pActor->SetHit(true);
 					pActor->SetFlag(Enum_ActorFlag::FrontStab, true);
 				}
