@@ -317,7 +317,7 @@ void Player::Start()
 		Arround_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Arround);
 		Arround_Col->SetCollisionType(ColType::SPHERE3D);
 		Arround_Col->Transform.SetLocalScale({ 2000.f,2000.f, 2000.f });
-		//Arround_Col->Off();
+		Arround_Col->Off();
 	}
 
 
@@ -1014,7 +1014,7 @@ void Player::CameraRotation(float Delta)
 	{
 
 
-		//if (abs(Actor_test->Transform.GetWorldPosition().Z - Actor_test_02->Transform.GetWorldPosition().Z) >= 10)
+		if (abs(Actor_test->Transform.GetWorldPosition().Z - Actor_test_02->Transform.GetWorldPosition().Z) >= 10)
 		{
 			Actor_test_02->Transform.AddWorldPosition(AS * 1400 * Delta);
 		}
