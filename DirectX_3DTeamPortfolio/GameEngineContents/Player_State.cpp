@@ -1972,7 +1972,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("ladder_Up_Right");
-				//Capsule->GravityOff();
+				Capsule->GravityOff();
 			};
 
 
@@ -2007,10 +2007,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("ladder_Up_Stop_Left");
-				Capsule->MoveForce({ 0.0f,-350.0f,0.0f }, Capsule->GetDir());
-				//Capsule->MoveForce({ 0.0f,-300.0f,0.0f }, Capsule->GetDir());
-				//Capsule->GravityOn();
-				
+				Capsule->MoveForce({ 0.0f,-350.0f,0.0f }, Capsule->GetDir());			
 			};
 
 
@@ -2069,14 +2066,14 @@ void Player::Player_State()
 				{
 					if (MainRenderer->GetCurAnimationFrame() < 40)
 					{
-						Capsule->MoveForce({ 0.0f,0.0f,200.0f }, Capsule->GetDir());
+						Capsule->MoveForce({ 0.0f,0.0f,210.0f }, Capsule->GetDir());
 					}
 					
 				}
 
 				if (MainRenderer->GetCurAnimationFrame() > 40)
 				{
-					Capsule->MoveForce({ 0.0f,-200.0f,0.0f }, Capsule->GetDir());
+					Capsule->MoveForce({ 0.0f,-210.0f,0.0f }, Capsule->GetDir());
 					Capsule->GravityOn();
 				}
 			};

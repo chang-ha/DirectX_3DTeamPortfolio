@@ -182,6 +182,7 @@ private:
 
 
 	float Angle = 0.0f;
+	float Labber_Angle = 0.0f;
 	float MonsterAngle = 0.0f;
 
 	

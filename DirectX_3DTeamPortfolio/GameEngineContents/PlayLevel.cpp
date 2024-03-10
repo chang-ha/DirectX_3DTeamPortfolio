@@ -69,14 +69,15 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 	
 	{
-		std::shared_ptr<Monster_HollowSoldier> GameMap = CreateActor<Monster_HollowSoldier>(0, "WorldMap");
+		std::shared_ptr<Boss_Vordt> GameMap = CreateActor<Boss_Vordt>(0, "WorldMap");
 
-		GameMap->Transform.SetWorldPosition({ 0.0f,0.0f,.0f });
+		GameMap->Transform.SetWorldPosition({ 0.0f,0.0f,300.3f });
 
 		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
 		Object->SetTargeting(GameMap.get());
 		//GameMap->SetTargeting(Object.get()); 
 		PlayerObject = Object;
+		GameMap->SetTargeting(GameMap.get());
 
 		// 시작위치
 		//PlayerObject->Transform.SetLocalPosition({ -1400.0f, 5101.0f, -5331.0f });
