@@ -1371,195 +1371,207 @@ void Player::Player_State()
 				Rotation_Player_Plus = false;
 				Rotation_Player_Mus = false;
 
-				Rock_On_Check = true; 
+				Rock_On_Check = true;
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
-			{
-				
-				
-				
-			
-				
-				
+		{
 
-				
-				if (Rotation_Player_Check == false)
-				{
-					if (GetTargetAngle() > 0)
+
+
+
+
+
+
+
+				if((degree_X > 0 && Actor_test->Transform.GetWorldRotationEuler().Y > 0) || (degree_X < 0 && Actor_test->Transform.GetWorldRotationEuler().Y < 0))
+				{ 
+					if (Rotation_Player_Check == false)
 					{
-						Rotation_Player_Plus = true;
+						if (GetTargetAngle() > 0)
+						{
+							Rotation_Player_Plus = true;
+						}
+
+						else if (GetTargetAngle() < 0)
+						{
+							Rotation_Player_Mus = true;
+						}
 					}
 
-					else if (GetTargetAngle() < 0)
+					if (Rotation_Player_Plus == true)
 					{
-						Rotation_Player_Mus = true;
+						Capsule->AddWorldRotation({ 0.0f,2.0f });
+
+						if (GetTargetAngle() < 0)
+						{
+							Rotation_Player_Check = true;
+							Rotation_Player_Mus = false;
+							Rotation_Player_Plus = false;
+						}
+
 					}
+					else if (Rotation_Player_Mus == true)
+					{
+
+						Capsule->AddWorldRotation({ 0.0f,-2.0f });
+
+						if (GetTargetAngle() > 0)
+						{
+							Rotation_Player_Check = true;
+							Rotation_Player_Mus = false;
+							Rotation_Player_Plus = false;
+						}
+					}
+
+
+
+
+
+					if (Rotation_Check_X == false)
+					{
+						if (degree_X > Actor_test->Transform.GetWorldRotationEuler().Y)
+						{
+							Rotation_Check_X_Plus = true;
+						}
+						else if (degree_X < Actor_test->Transform.GetWorldRotationEuler().Y)
+						{
+							Rotation_Check_X_Mus = true;
+						}
+
+					}
+
+					if (Rotation_Check_X_Plus == true)
+					{
+						if (degree_X > Actor_test->Transform.GetWorldRotationEuler().Y)
+						{
+							Actor_test->Transform.AddLocalRotation({ 0.0f, 5.0f });
+						}
+
+
+
+						if (degree_X < Actor_test->Transform.GetWorldRotationEuler().Y)
+						{
+							Rotation_Check_X_Plus = false;
+							Rotation_Check_X_Mus = false;
+							Rotation_Check_X = true;
+						}
+
+					}
+					else if (Rotation_Check_X_Mus == true)
+					{
+
+						if (degree_X < Actor_test->Transform.GetWorldRotationEuler().Y)
+						{
+							Actor_test->Transform.AddLocalRotation({ 0.0f,-5.0f });
+						}
+
+
+						if (degree_X > Actor_test->Transform.GetWorldRotationEuler().Y)
+						{
+
+							Rotation_Check_X_Mus = false;
+							Rotation_Check_X_Plus = false;
+							Rotation_Check_X = true;
+
+						}
+
+					}
+
+
+
+
+
+
+
+
+					if (Rotation_Check_Y == false)
+					{
+						if (Actor_test->Transform.GetWorldRotationEuler().X == 0)
+						{
+							Rotation_Check_Y = true;
+						}
+
+
+						if (Actor_test->Transform.GetWorldRotationEuler().X < 0)
+						{
+							Rotation_Check_Y_Plus = true;
+						}
+						else if (Actor_test->Transform.GetWorldRotationEuler().X > 0)
+						{
+							Rotation_Check_Y_Mus = true;
+						}
+					}
+
+
+					if (Rotation_Check_Y_Plus == true)
+					{
+						Actor_test->Transform.AddLocalRotation({ 2.0f,0.0f });
+
+
+
+						if (Actor_test->Transform.GetWorldRotationEuler().X >= 0)
+						{
+
+							Rotation_Check_Y_Plus = false;
+							Rotation_Check_Y_Mus = false;
+							Rotation_Check_Y = true;
+						}
+
+					}
+
+					else if (Rotation_Check_Y_Mus == true)
+					{
+
+						Actor_test->Transform.AddLocalRotation({ -2.0f,0.0f });
+
+						if (Actor_test->Transform.GetWorldRotationEuler().X <= 0)
+						{
+							Rotation_Check_Y_Mus = false;
+							Rotation_Check_Y_Plus = false;
+							Rotation_Check_Y = true;
+							//_Parent->ChangeState(PlayerState::RockOn);				
+						}
+
+					}
+				
+				
+				
+				
 				}
-
-				if (Rotation_Player_Plus == true)
+				else
 				{
-					Capsule->AddWorldRotation({ 0.0f,2.0f });
-
-					if (GetTargetAngle() < 0)
-					{
-						Rotation_Player_Check = true;
-						Rotation_Player_Mus = false;
-						Rotation_Player_Plus = false;
-					}
-
-				}
-				else if (Rotation_Player_Mus == true)
-				{
-					
-					Capsule->AddWorldRotation({ 0.0f,-2.0f });
-
-					if (GetTargetAngle() > 0)
-					{
-						Rotation_Player_Check = true;
-						Rotation_Player_Mus = false;
-						Rotation_Player_Plus = false;
-					}
-				}
-
-
-
-
-
-				if (Rotation_Check_X == false)
-				{
-					if (degree_X > Actor_test->Transform.GetWorldRotationEuler().Y)
-					{
-						Rotation_Check_X_Plus = true;
-					}
-					else if (degree_X < Actor_test->Transform.GetWorldRotationEuler().Y)
-					{
-						Rotation_Check_X_Mus = true;
-					}
-
-				}
-
-				if (Rotation_Check_X_Plus == true)
-				{
-					if (degree_X > Actor_test->Transform.GetWorldRotationEuler().Y)
-					{
-						Actor_test->Transform.AddLocalRotation({ 0.0f, 2.0f });
-					}
-
-					
-				
-					if (degree_X < Actor_test->Transform.GetWorldRotationEuler().Y )
-					{
-
-						Rotation_Check_X_Plus = false;
-						Rotation_Check_X_Mus = false;
-						Rotation_Check_X = true;
-					}
-
-				}
-				else if (Rotation_Check_X_Mus == true)
-				{
-
-					if (degree_X < Actor_test->Transform.GetWorldRotationEuler().Y)
-					{
-						Actor_test->Transform.AddLocalRotation({ 0.0f,-2.0f });
-					}
-					
-				
-					if (degree_X > Actor_test->Transform.GetWorldRotationEuler().Y)
-					{
-
-						Rotation_Check_X_Mus = false;
-						Rotation_Check_X_Plus = false;
-						Rotation_Check_X = true;
-									
-					}
-
-				}
-
-				
-
-
-
-				
-				
-				
-				if (Rotation_Check_Y == false)
-				{
-					if (Actor_test->Transform.GetWorldRotationEuler().X == 0)
-					{
-						Rotation_Check_Y = true; 
-					}
-
-
-					if (Actor_test->Transform.GetWorldRotationEuler().X < 0)
-					{
-						Rotation_Check_Y_Plus = true;
-					}
-					else if (Actor_test->Transform.GetWorldRotationEuler().X > 0)
-					{
-						Rotation_Check_Y_Mus = true;
-					}
-				}
-
-
-				if (Rotation_Check_Y_Plus == true)
-				{
-					Actor_test->Transform.AddLocalRotation({ 2.0f,0.0f });
-
-
-
-					if (Actor_test->Transform.GetWorldRotationEuler().X >= 0)
-					{
-
-						Rotation_Check_Y_Plus = false;
-						Rotation_Check_Y_Mus = false;
-						Rotation_Check_Y = true;
-					}
-
-				}
-
-				else if (Rotation_Check_Y_Mus == true)
-				{
-
-					Actor_test->Transform.AddLocalRotation({ -2.0f,0.0f });
-
-					if (Actor_test->Transform.GetWorldRotationEuler().X <= 0)
-					{
-						Rotation_Check_Y_Mus = false;
-						Rotation_Check_Y_Plus = false;
-						Rotation_Check_Y = true;
-						//_Parent->ChangeState(PlayerState::RockOn);				
-					}
-
+					Rock_On_Check = false;
+					return;
 				}
 				
 
 
-			
+
+
 				if (Rotation_Check_X == true && Rotation_Check_Y == true && Rotation_Player_Check == true)
 				{
 
-					
 
 
-				
+
+
 
 					if (true == GameEngineInput::IsPress('W', this))
 					{
 
 						PlayerStates.ChangeState(PlayerState::Move);
-						return; 
-						//Capsule->MoveForce({ float4::FORWARD * Speed }, GetTargetAngle());
+						return;
+
 					}
 
 					else if (true == GameEngineInput::IsPress('S', this))
 					{
 						MainRenderer->ChangeAnimation("Walk_Forward");
 						PlayerStates.ChangeState(PlayerState::Move);
-						return; 
-						//Capsule->MoveForce({ float4::BACKWARD * Speed }, GetTargetAngle());
+						return;
+
 					}
 
 					else if (true == GameEngineInput::IsPress('A', this))
@@ -1569,7 +1581,7 @@ void Player::Player_State()
 						MainRenderer->ChangeAnimation("Walk_Left");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
-						//Capsule->MoveForce({ float4::LEFT * Speed }, GetTargetAngle());
+
 
 					}
 
@@ -1580,12 +1592,12 @@ void Player::Player_State()
 						return;
 						//Capsule->MoveForce({ float4::RIGHT * Speed });
 					}
-					
+
 
 					else if (true == GameEngineInput::IsUp('W', this))
 					{
 						PlayerStates.ChangeState(PlayerState::Idle);
-						return; 
+						return;
 					}
 					else if (true == GameEngineInput::IsUp('S', this))
 					{
@@ -1614,7 +1626,6 @@ void Player::Player_State()
 
 		PlayerStates.CreateState(PlayerState::RockOn, NewPara);
 	}
-
 
 	{
 		CreateStateParameter NewPara;

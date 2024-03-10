@@ -138,6 +138,8 @@ private:
 	std::shared_ptr<BoneSocketCollision> Shield_Col;
 	std::shared_ptr<BoneSocketCollision> Attack_Col;
 
+	std::shared_ptr<GameEngineCollision> Arround_Col;
+
 
 	PlayerState StateValue = PlayerState::Idle;
 	float Mouse_Pos = 0.0f;
@@ -157,6 +159,8 @@ private:
 
 	EventParameter Body_Event;
 	EventParameter Labber_Event;
+	EventParameter Arround_Event;
+
 	Player_HitInteraction Body;
 
 
@@ -164,14 +168,22 @@ private:
 	bool Rotation_Player_Plus = false;
 	bool Rotation_Player_Mus = false;
 
+
+
+	float MonsterAngle;
+
+
 	bool Rock_On_Check = false;
 	bool Rabber_Collision_Check = false;
-
+	bool Rock_on_Time_Check = false;
 	float Time = 0.0f;
+	float Rock_on_Time = 0.0f;
+	float Delta_Time = 0.0f;
 	float Speed = 1000.0f;
 	float MoveSpeed = 0.0f;
 	float DeltaTime = 0.0f;
 
+	bool testads = false;
 
 	
 	float4 Player_Pos = {};
@@ -183,10 +195,16 @@ private:
 
 	float Angle = 0.0f;
 	float Labber_Angle = 0.0f;
-	float MonsterAngle = 0.0f;
+	//float MonsterAngle = 0.0f;
+
+	float Monser_Dir = 0.0f;
+	std::vector<int> MonsterAngles;
+	int Number = 0;
+
+	std::vector<GameEngineActor*> Monster_Actor;
 
 	
-	
+
 	std::shared_ptr<CameraCapsule> Cameracapsule;
 	std::shared_ptr<Weapon> Weapon_Actor;
 	std::shared_ptr<shield> Shield_Actor;

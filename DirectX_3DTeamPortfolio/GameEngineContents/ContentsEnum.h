@@ -35,6 +35,7 @@ enum class Enum_CollisionOrder
 	Player = (1 << 13),
 	Monster_Lantern = (1 << 14),
 	LabberMiddle = (1 << 15),
+	Player_Arround = (1 << 16),
 	
 };
 
