@@ -115,7 +115,7 @@ public:
 
 	std::multimap<int, std::function<void(GameContentsFBXRenderer*)>> FrameEventFunction;
 	std::function<void(UINT _FrameIndex)> FrameChangeFunction;
-	std::function<void()> AnimationChangeFunction;
+	std::list<std::function<void()>> AnimationChangeFunction;
 	std::function<void(GameContentsFBXRenderer*)> EndEvent;
 
 	void EventCall(UINT _Frame);
