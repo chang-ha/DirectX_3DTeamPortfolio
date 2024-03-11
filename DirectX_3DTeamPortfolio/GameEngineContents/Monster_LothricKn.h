@@ -403,7 +403,7 @@ private:
 
 	// Collision
 	void SetPatrolCollision(bool _SwitchValue);
-	bool FindAndSetTarget();
+	bool FindAndSetTarget(Enum_CollisionOrder _Order);
 	void AttackToPlayer(eAttackType _eBoneType);
 	void AttackToBody(eAttackType _eBoneType, Enum_CollisionOrder _Order);
 	void AttackToShield(eAttackType _eBoneType, Enum_CollisionOrder _Order);

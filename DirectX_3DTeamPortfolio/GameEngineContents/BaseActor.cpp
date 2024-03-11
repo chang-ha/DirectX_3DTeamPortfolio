@@ -123,11 +123,6 @@ bool BaseActor::IsFlag(Enum_ActorFlag _Flag) const
 
 void BaseActor::SetFlag(Enum_ActorFlag _Flag, bool _Value)
 {
-	if (Enum_ActorFlag::FrontStab == _Flag)
-	{
-		int a = 0;
-	}
-
 	AddFlag(_Flag);
 
 	if (false == _Value)

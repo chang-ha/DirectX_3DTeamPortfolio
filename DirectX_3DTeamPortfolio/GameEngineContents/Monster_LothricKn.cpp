@@ -340,20 +340,23 @@ void Monster_LothricKn::Update(float _Delta)
 {
 	BaseMonster::Update(_Delta);
 
-	Debug.OutPutChangeState(GetCurStateInt());
-
-	static bool s_bDrawValue = false;
-	if (GameEngineInput::IsDown('N', this))
+	if (bool DebugOn = false)
 	{
-		s_bDrawValue = !s_bDrawValue;
-	}
+		Debug.OutPutChangeState(GetCurStateInt());
 
-	if (s_bDrawValue)
-	{
-		DrawRange(CLOSE_RANGE * W_SCALE, float4(1.f,0.5f,0.f));
-		DrawRange(MELEE_RANGE * W_SCALE, float4(0.5f, 1.f, 0.f));
-		DrawRange(MEDIUM_RANGE * W_SCALE, float4(0.5f, 0.f, 1.f));
-		DrawRange(LONG_RANGE * W_SCALE, float4(0.5f, 1.f, 0.5f));
+		static bool s_bDrawValue = false;
+		if (GameEngineInput::IsDown('N', this))
+		{
+			s_bDrawValue = !s_bDrawValue;
+		}
+
+		if (s_bDrawValue)
+		{
+			DrawRange(CLOSE_RANGE * W_SCALE, float4(1.f,0.5f,0.f));
+			DrawRange(MELEE_RANGE * W_SCALE, float4(0.5f, 1.f, 0.f));
+			DrawRange(MEDIUM_RANGE * W_SCALE, float4(0.5f, 0.f, 1.f));
+			DrawRange(LONG_RANGE * W_SCALE, float4(0.5f, 1.f, 0.5f));
+		}
 	}
 }
 
@@ -407,7 +410,7 @@ void Monster_LothricKn::SetPatrolCollision(bool _SwitchValue)
 	MsgBoxAssert("정찰 충돌체를 생성하지 않았습니다");
 }
 
-bool Monster_LothricKn::FindAndSetTarget()
+bool Monster_LothricKn::FindAndSetTarget(Enum_CollisionOrder _Order)
 {
 	if (true == IsTargeting())
 	{
@@ -422,7 +425,7 @@ bool Monster_LothricKn::FindAndSetTarget()
 
 	std::shared_ptr<GameEngineActor> pActor;
 	
-	PatrolCollision->Collision(Enum_CollisionOrder::Dummy, [&pActor](std::vector<GameEngineCollision*>& _Other)
+	PatrolCollision->Collision(_Order, [&pActor](std::vector<GameEngineCollision*>& _Other)
 		{
 			for (GameEngineCollision* pCol : _Other)
 			{

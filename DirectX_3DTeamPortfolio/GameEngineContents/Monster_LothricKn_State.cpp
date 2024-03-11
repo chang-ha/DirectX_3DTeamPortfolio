@@ -7,6 +7,7 @@
 static constexpr float MIN_TIME_STEPSTATE = 0.5f;
 static constexpr float MAX_TIME_STEPSTATE = 2.0f;
 static constexpr float MAX_AGGRO_TIME = 8.0f;
+#define TARGET_ORDER Enum_CollisionOrder::Player
 
 bool Monster_LothricKn::IsFrame(int _StartFrame, int _EndFrame /*= -1*/) const
 {
@@ -659,7 +660,7 @@ void Monster_LothricKn::Update_Patrol(float _DeltaTime, GameEngineState* _State)
 		return;
 	}
 
-	bool IsFindTarget = FindAndSetTarget();
+	bool IsFindTarget = FindAndSetTarget(TARGET_ORDER);
 	if (IsFindTarget)
 	{
 		Enum_LothricKn_State FindDodgeState = GetStateToDodgeTable();
@@ -1383,8 +1384,7 @@ void Monster_LothricKn::Update_Idle_Sit(float _DeltaTime, GameEngineState* _Stat
 		return;
 	}
 
-
-	bool IsFindTarget = FindAndSetTarget();
+	bool IsFindTarget = FindAndSetTarget(TARGET_ORDER);
 	if (IsFindTarget)
 	{
 		_State->ChangeState(Enum_LothricKn_State::SitUp);
@@ -1797,15 +1797,10 @@ void Monster_LothricKn::Update_G_Run(float _DeltaTime, GameEngineState* _State)
 	// Check
 	if (false == IsTargetInAngle(MIN_ROT_ANGLE))
 	{
-		if (!IsTargeting())
-		{
-			int a = 0;
-		}
-
 		RotToTarget(_DeltaTime, MIN_ROTSPEED_TO_TARGET, MAX_ROTSPEED_TO_TARGET);
 	}
 
-	if (true == IsTargetInRange(Enum_TargetDist::Long))
+	if (true == IsTargetInRange(Enum_TargetDist::Medium))
 	{
 		Enum_LothricKn_State FindState = GetStateToAggroTable();
 		if (Enum_LothricKn_State::None == FindState)
