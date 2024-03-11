@@ -314,7 +314,7 @@ void Player::Start()
 	}
 
 	{
-		Arround_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Arround);
+		Arround_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::  Player_Arround);
 		Arround_Col->SetCollisionType(ColType::SPHERE3D);
 		Arround_Col->Transform.SetLocalScale({ 2000.f,2000.f, 2000.f });
 		Arround_Col->Off();
