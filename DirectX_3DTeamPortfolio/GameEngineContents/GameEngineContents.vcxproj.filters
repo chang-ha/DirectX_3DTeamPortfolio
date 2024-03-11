@@ -364,6 +364,9 @@
     <ClCompile Include="LothricKn_Debug.cpp">
       <Filter>Actor\Monster\LothricKnight\Debug</Filter>
     </ClCompile>
+    <ClCompile Include="Object_CandleHuman2.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -722,6 +725,9 @@
     </ClInclude>
     <ClInclude Include="LothricKn_Debug.h">
       <Filter>Actor\Monster\LothricKnight\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_CandleHuman2.h">
+      <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -21,6 +21,7 @@
 #include "Object_HumanTree.h"
 #include "Object_CandleHuman.h"
 #include "Object_Torchlight.h"
+#include "Object_CandleHuman2.h"
 
 
 //맵 헤더
@@ -308,7 +309,93 @@ void TestLevel_MapObject::CreateObject()
 		Object->Transform.SetWorldRotation({ 0, 180, 0 });
 	}
 
-	
+	{
+		std::shared_ptr<Object_CandleHuman> Object = CreateActor<Object_CandleHuman>(1);
+		Object->Transform.SetWorldScale({ 100, 100 , 100 });
+		Object->Transform.AddWorldRotation({ 0, -30 , 0 });
+		Object->Transform.SetWorldPosition({ -6611, 3400 , -3566 });
+	}
+
+	{
+		std::shared_ptr<Object_CandleHuman> Object = CreateActor<Object_CandleHuman>(1);
+		Object->Transform.SetWorldScale({ 100, 100 , 100 });
+		Object->Transform.AddWorldRotation({ 0, -30 , 0 });
+		Object->Transform.SetWorldPosition({ -7511, 3400 , -3966 });
+	}
+	{
+		std::shared_ptr<Object_CandleHuman> Object = CreateActor<Object_CandleHuman>(1);
+		Object->Transform.SetWorldScale({ 100, 100 , 100 });
+		Object->Transform.AddWorldRotation({ 0, -30 , 0 });
+		Object->Transform.SetWorldPosition({ -7111, 3470 , -4116 });
+	}
+	{
+		std::shared_ptr<Object_CandleHuman> Object = CreateActor<Object_CandleHuman>(1);
+		Object->Transform.SetWorldScale({ 100, 100 , 100 });
+		Object->Transform.AddWorldRotation({ 0, -30 , 0 });
+		Object->Transform.SetWorldPosition({ -6961, 3482 , -4016 });
+	}
+	{
+		std::shared_ptr<Object_CandleHuman> Object = CreateActor<Object_CandleHuman>(1);
+		Object->Transform.SetWorldScale({ 100, 100 , 100 });
+		Object->Transform.AddWorldRotation({ 0, -60 , 0 });
+		Object->Transform.SetWorldPosition({ -6355, 3480 , -4178 });
+	}
+	{
+		std::shared_ptr<Object_CandleHuman> Object = CreateActor<Object_CandleHuman>(1);
+		Object->Transform.SetWorldScale({ 100, 100 , 100 });
+		Object->Transform.AddWorldRotation({ 0, -40 , 0 });
+		Object->Transform.SetWorldPosition({ -5805, 3485 , -3878 });
+	}
+	{
+		std::shared_ptr<Object_CandleHuman> Object = CreateActor<Object_CandleHuman>(1);
+		Object->Transform.SetWorldScale({ 100, 100 , 100 });
+		Object->Transform.AddWorldRotation({ 0, 30 , 0 });
+		Object->Transform.SetWorldPosition({ -11664, 2887 , -4428 });
+	}
+	{
+		std::shared_ptr<Object_CandleHuman> Object = CreateActor<Object_CandleHuman>(1);
+		Object->Transform.SetWorldScale({ 100, 100 , 100 });
+		Object->Transform.AddWorldRotation({ 0, -30 , 0 });
+		Object->Transform.SetWorldPosition({ -11764, 2887 , -4428 });
+	}
+	{
+		std::shared_ptr<Object_CandleHuman> Object = CreateActor<Object_CandleHuman>(1);
+		Object->Transform.SetWorldScale({ 100, 100 , 100 });
+		Object->Transform.AddWorldRotation({ 0, 0 , 0 });
+		Object->Transform.SetWorldPosition({ -12648, 2890 , -4339 });
+	}
+	//2
+	{
+		std::shared_ptr<Object_CandleHuman2> Object = CreateActor<Object_CandleHuman2>(1);
+		Object->Transform.SetWorldScale({ 100, 100 , 100 });
+		Object->Transform.AddWorldRotation({ 0, 0 , 0 });
+		Object->Transform.SetWorldPosition({ -7092, 3400 , -3759 });
+	}
+
+	{
+		std::shared_ptr<Object_CandleHuman2> Object = CreateActor<Object_CandleHuman2>(1);
+		Object->Transform.SetWorldScale({ 100, 100 , 100 });
+		Object->Transform.AddWorldRotation({ 0, 0 , 0 });
+		Object->Transform.SetWorldPosition({ -5651, 3490 , -3813 });
+	}
+	{
+		std::shared_ptr<Object_CandleHuman2> Object = CreateActor<Object_CandleHuman2>(1);
+		Object->Transform.SetWorldScale({ 100, 100 , 100 });
+		Object->Transform.AddWorldRotation({ 0, 0 , 0 });
+		Object->Transform.SetWorldPosition({ -5399, 3480 , -3308 });
+	}
+	{
+		std::shared_ptr<Object_CandleHuman2> Object = CreateActor<Object_CandleHuman2>(1);
+		Object->Transform.SetWorldScale({ 100, 100 , 100 });
+		Object->Transform.AddWorldRotation({ 0, 0 , 0 });
+		Object->Transform.SetWorldPosition({ -12379, 2970 , -4687 });
+	}
+	{
+		std::shared_ptr<Object_CandleHuman2> Object = CreateActor<Object_CandleHuman2>(1);
+		Object->Transform.SetWorldScale({ 100, 100 , 100 });
+		Object->Transform.AddWorldRotation({ 0, 0 , 0 });
+		Object->Transform.SetWorldPosition({ -12166, 2888 , -4414 });
+	}
 	
 	//Object_BossDoor
 	//Object_CastleDoor
