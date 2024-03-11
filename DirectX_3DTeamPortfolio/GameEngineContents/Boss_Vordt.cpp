@@ -166,7 +166,6 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			break;
 		case Enum_TargetDeg::Deg_Front:
 			eAngle += "Front";
-			[[fallthrough]];
 			break;
 		case Enum_TargetDeg::Deg_Side:
 			eAngle += "Side";
@@ -300,7 +299,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->CreateFBXAnimation("Breath", "Breath.FBX", { ONE_FRAME_DTIME, false });
 		MainRenderer->CreateFBXAnimation("Combo1_Step1", "Combo1_Step1.FBX", { ONE_FRAME_DTIME, false });
 		MainRenderer->CreateFBXAnimation("Combo1_Step2", "Combo1_Step2.FBX", { ONE_FRAME_DTIME, false });
-		MainRenderer->CreateFBXAnimation("Combo1_Step3", "Combo1_Step3.FBX", { ONE_FRAME_DTIME, true });
+		MainRenderer->CreateFBXAnimation("Combo1_Step3", "Combo1_Step3.FBX", { ONE_FRAME_DTIME, false });
 		MainRenderer->CreateFBXAnimation("Combo2_Step1", "Combo2_Step1.FBX", { ONE_FRAME_DTIME, false });
 		MainRenderer->CreateFBXAnimation("Combo2_Step2", "Combo2_Step2.FBX", { ONE_FRAME_DTIME, false });
 		MainRenderer->CreateFBXAnimation("Death", "Death.FBX", { ONE_FRAME_DTIME, false });
@@ -387,13 +386,13 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 	//// Boss Collision
 	{
-		//BossCollision->SetCollisionType(ColType::SPHERE3D);
-		//BossCollision->Transform.SetLocalPosition({ 0.0f, 200.f, 0.0f });
-		//BossCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
+		// BossCollision->SetCollisionType(ColType::SPHERE3D);
+		// BossCollision->Transform.SetLocalPosition({ 0.0f, 0.f, 0.0f });
+		// BossCollision->Transform.SetLocalScale({ 1.0f, 1.0f, 1.0f });
 	}
 
 	// physx::PxMaterial* Material = GameEnginePhysX::GetPhysics()->createMaterial(3.0f, 0.0f, 0.0f);;
-	Capsule->PhysXComponentInit(400.0f, 5.0f/*, Material*/);
+	Capsule->PhysXComponentInit(320.0f, 5.0f/*, Material*/);
 	// Capsule->SetMass(10000000.f);
 	Capsule->SetPositioningComponent();
 
@@ -496,8 +495,13 @@ void Boss_Vordt::Start()
 		MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
 	}
 
+	//if (nullptr == BossCollision)
+	//{
+	//	BossCollision = CreateComponent<GameEngineCollision>(Enum_RenderOrder::Monster);
+	//}
+
 	MainRenderer->Transform.SetLocalScale({ W_SCALE, W_SCALE, W_SCALE });
-	MainRenderer->Transform.SetLocalPosition({0.f, 0.f, 1.3f});
+	MainRenderer->Transform.SetLocalPosition({0.f, 0.f, -130.0f});
 
 	if (nullptr == Capsule)
 	{

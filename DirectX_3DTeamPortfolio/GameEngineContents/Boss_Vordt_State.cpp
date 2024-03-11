@@ -835,11 +835,40 @@ Enum_JumpTableFlag Boss_Vordt::AI_Combo()
 	//	5. Combo2_Step2
 
 	int CurState = MainState.GetCurState();
+	int tDis = mTargetState.mTargetDis;
+	int tDeg = mTargetState.mTargetDeg;
 
 	switch (CurState)
 	{
+	default:
+		if (Enum_TargetDis::Dis_Close < tDis)
+		{
+			break;
+		}
+
+		if (Enum_TargetDeg::Deg_Front < tDeg)
+		{
+			break;
+		}
+
+		if (true == ChangeAI_State(Enum_BossState::Combo2_Step1))
+		{
+			return Enum_JumpTableFlag::StopJumpTable;
+		}
+
+		break;
 	case Enum_BossState::Combo1_Step1:
 	{
+		if (Enum_TargetDis::Dis_Close < tDis)
+		{
+			break;
+		}
+
+		if (Enum_TargetDeg::Deg_Side < tDeg)
+		{
+			break;
+		}
+
 		if (true == ChangeAI_State(Enum_BossState::Combo1_Step2))
 		{
 			return Enum_JumpTableFlag::StopJumpTable;
@@ -848,25 +877,34 @@ Enum_JumpTableFlag Boss_Vordt::AI_Combo()
 	}
 	case Enum_BossState::Combo1_Step2:
 	{
+		if (Enum_TargetDis::Dis_Middle < tDis)
+		{
+			break;
+		}
+
+		if (Enum_TargetDeg::Deg_Side < tDeg)
+		{
+			break;
+		}
+
 		if (true == ChangeAI_State(Enum_BossState::Combo1_Step3))
 		{
 			return Enum_JumpTableFlag::StopJumpTable;
 		}
 		break;
 	}
-	case Enum_BossState::Combo1_Step3:
-		break;
 	case Enum_BossState::Combo2_Step1:
 	{
+
+
 		if (true == ChangeAI_State(Enum_BossState::Combo2_Step2))
 		{
 			return Enum_JumpTableFlag::StopJumpTable;
 		}
 		break;
 	}
+	case Enum_BossState::Combo1_Step3:
 	case Enum_BossState::Combo2_Step2:
-		break;
-	default:
 		break;
 	}
 
