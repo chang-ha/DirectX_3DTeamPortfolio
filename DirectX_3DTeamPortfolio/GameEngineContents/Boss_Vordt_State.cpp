@@ -335,7 +335,7 @@ void Boss_Vordt::FrameEventInit()
 
 		MainRenderer->SetFrameEvent("Combo1_Step1", 36, [&](GameContentsFBXRenderer* _Renderer)
 			{
-				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME * 2.f);
+				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME * 1.5f);
 			});
 
 		MainRenderer->SetFrameEvent("Combo1_Step1", 75, [&](GameContentsFBXRenderer* _Renderer)
@@ -343,9 +343,14 @@ void Boss_Vordt::FrameEventInit()
 				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME);
 			});
 
+		MainRenderer->SetAnimationChangeEvent("Combo1_Step1", [&]()
+			{
+				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME);
+			});
+
 		MainRenderer->SetFrameEvent("Hit_Down_001_Front", 46, [&](GameContentsFBXRenderer* _Renderer)
 			{
-				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME / 2.f);
+				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME / 1.5f);
 			});
 
 		MainRenderer->SetFrameEvent("Hit_Down_001_Front", 67, [&](GameContentsFBXRenderer* _Renderer)
@@ -355,13 +360,18 @@ void Boss_Vordt::FrameEventInit()
 
 		MainRenderer->SetFrameEvent("Hit_Down_001_Front", 74, [&](GameContentsFBXRenderer* _Renderer)
 			{
-				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME * 2.f);
+				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME * 1.5f);
 			});
 
 		MainRenderer->SetFrameEvent("Hit_Down_001_Front", 81, [&](GameContentsFBXRenderer* _Renderer)
 			{
 				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME);
 			}); 
+
+		MainRenderer->SetAnimationChangeEvent("Hit_Down_001_Front", [&]()
+			{
+				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME);
+			});
 	}
 }
 
@@ -802,7 +812,7 @@ void Boss_Vordt::StateInit()
 		AI_States[Enum_BossState::Breath] = AI_State(0.f);
 		AI_States[Enum_BossState::Combo1_Step1] = AI_State(0.f);
 		AI_States[Enum_BossState::Combo1_Step2] = AI_State(0.f);
-		AI_States[Enum_BossState::Combo1_Step3] = AI_State(100.f);
+		AI_States[Enum_BossState::Combo1_Step3] = AI_State(0.f);
 		AI_States[Enum_BossState::Combo2_Step1] = AI_State(0.f);
 		AI_States[Enum_BossState::Combo2_Step2] = AI_State(0.f);
 		AI_States[Enum_BossState::Sweap_Twice_Right] = AI_State(0.f);
@@ -851,6 +861,11 @@ Enum_JumpTableFlag Boss_Vordt::AI_Combo()
 			break;
 		}
 
+		if (true == ChangeAI_State(Enum_BossState::Combo1_Step1))
+		{
+			return Enum_JumpTableFlag::StopJumpTable;
+		}
+
 		if (true == ChangeAI_State(Enum_BossState::Combo2_Step1))
 		{
 			return Enum_JumpTableFlag::StopJumpTable;
@@ -895,7 +910,15 @@ Enum_JumpTableFlag Boss_Vordt::AI_Combo()
 	}
 	case Enum_BossState::Combo2_Step1:
 	{
+		if (Enum_TargetDis::Dis_Close < tDis)
+		{
+			break;
+		}
 
+		if (Enum_TargetDeg::Deg_Front < tDeg)
+		{
+			break;
+		}
 
 		if (true == ChangeAI_State(Enum_BossState::Combo2_Step2))
 		{
@@ -1048,7 +1071,7 @@ void Boss_Vordt::Rush_Front_Start()
 
 void Boss_Vordt::Rush_Front_Update(float _Delta)
 {
-	if (21 <= MainRenderer->GetCurAnimationFrame() /*&& true == MainRenderer->IsLoop*/)
+	if (21 <= MainRenderer->GetCurAnimationFrame())
 	{
 		MainRenderer->ChangeAnimation("Rush_Front", true);
 	}
