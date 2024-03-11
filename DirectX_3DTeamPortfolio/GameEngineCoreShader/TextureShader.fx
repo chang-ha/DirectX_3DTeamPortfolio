@@ -23,7 +23,7 @@ cbuffer SpriteRendererInfo : register(b3)
 {
     int FlipLeft = 0;
     int FlipUp = 0;
-    float Temp1;
+    float BlackAlpha;
     float Temp2;
 };
 
@@ -173,7 +173,12 @@ PixelOut TextureShader_PS(PixelOutPut _Input) : SV_Target0
     Color += PlusColor;
     Color *= MulColor;
     
-    Color.a = (Color.x + Color.y + Color.z / 3.f);
+    if (BlackAlpha >= 1.0f)
+    {
+        Color.a = (Color.x + Color.y + Color.z / 3.f);
+    }
+    
+    
     
     if (0 < Target0)
     {

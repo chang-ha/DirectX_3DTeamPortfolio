@@ -954,6 +954,10 @@ Enum_JumpTableFlag Boss_Vordt::AI_Attack()
 	//	14. Rush&Turn
 	//  15. Sweep_002
 	//  16. Hit_Down_006
+
+	int CurState = MainState.GetCurState();
+	int tDis = mTargetState.mTargetDis;
+	int tDeg = mTargetState.mTargetDeg;
 	return Enum_JumpTableFlag::Default;
 }
 
@@ -969,6 +973,11 @@ Enum_JumpTableFlag Boss_Vordt::AI_MoveMent()
 	//	6. Turn_Right
 	//	7. Turn_Left_Twice
 	//	8. Turn_Right_Twice
+
+	int CurState = MainState.GetCurState();
+	int tDis = mTargetState.mTargetDis;
+	int tDeg = mTargetState.mTargetDeg;
+
 	return Enum_JumpTableFlag::Default;
 }
 
@@ -979,6 +988,10 @@ Enum_JumpTableFlag Boss_Vordt::AI_Dodge()
 	//	1. Jump_Back
 	//	2. Jump_Left
 	//	3. Jump_Right
+
+	int CurState = MainState.GetCurState();
+	int tDis = mTargetState.mTargetDis;
+	int tDeg = mTargetState.mTargetDeg;
 	return Enum_JumpTableFlag::Default;
 }
 

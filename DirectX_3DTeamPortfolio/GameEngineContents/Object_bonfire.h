@@ -23,6 +23,7 @@ private:
 	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer;
 	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer1;
 	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer2;
-	
+
+	std::shared_ptr<class ContentsLight> Light;
 };
 
