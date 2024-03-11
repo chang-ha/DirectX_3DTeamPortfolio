@@ -7,6 +7,7 @@
 #include <GameEngineCore\FogEffect.h>
 #include "FXAAEffect.h"
 #include "Monster_HollowSoldier.h"
+#include "LUTEffect.h"
 
 Stage_Lothric::Stage_Lothric()
 {
@@ -90,6 +91,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	////FXAA
 		
 	GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FXAAEffect>();
+	GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<LUTEffect>();
 
 	// Building
 
