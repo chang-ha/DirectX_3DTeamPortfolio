@@ -318,14 +318,20 @@ void Player::Start()
 		ColParameter.S = { 20.f, 60.f, 20.f };
 		ColParameter.T = { 0.f, 0.8f, 0.f };
 
-		Body_Col = CreateSocketCollision(Enum_CollisionOrder::P, 0, ColParameter, "Player_Body");
+		Body_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Body, 0, ColParameter, "Player_Body");
 		Body_Col->SetCollisionType(ColType::SPHERE3D);
 		Body_Col->Transform.SetLocalScale({ 100.f,120.f, 30.f });
 		Body_Col->On();
+
+
+		Player_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player);
+		Player_Col->SetCollisionType(ColType::SPHERE3D);
+		Player_Col->Transform.SetLocalScale({ 10.f,10.f, 10.f });
+
 	}
 
 	{
-		Arround_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::  Player_Arround);
+		Arround_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Arround);
 		Arround_Col->SetCollisionType(ColType::SPHERE3D);
 		Arround_Col->Transform.SetLocalScale({ 2000.f,2000.f, 2000.f});
 		Arround_Col->Off();
