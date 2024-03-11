@@ -375,7 +375,6 @@ private:
 	bool CanAttack(float _fDist, float _fDir) const;
 	bool IsTargetInAngle(float _fAngle) const;
 
-	void RotToTarget(float _DeltaTime, float _fMinSpeed, float _fMaxSpeed);
 	bool CheckAndSetHitState();
 	bool CheckAndSetAttackState();
 	
@@ -431,6 +430,7 @@ private:
 	static constexpr float MIN_ROT_ANGLE = 3.0f;
 	static constexpr float MAX_ROTSPEED_TO_TARGET = 510.0f;
 	static constexpr float MIN_ROTSPEED_TO_TARGET = 150.0f;
+	
 
 	LothricKn_Debug Debug;
 	

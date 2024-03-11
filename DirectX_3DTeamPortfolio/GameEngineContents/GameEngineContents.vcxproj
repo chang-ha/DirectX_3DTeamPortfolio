@@ -215,6 +215,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="CameraCapsule.cpp" />
+    <ClCompile Include="DummyNode.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="LothricKn_Debug.cpp">
       <SubType>
       </SubType>
@@ -543,6 +547,10 @@
     </ClInclude>
     <ClInclude Include="BossHpBar.h" />
     <ClInclude Include="CameraCapsule.h" />
+    <ClInclude Include="DummyNode.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="LothricKn_Debug.h">
       <SubType>
       </SubType>

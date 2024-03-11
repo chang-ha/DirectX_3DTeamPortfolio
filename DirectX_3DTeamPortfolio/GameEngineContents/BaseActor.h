@@ -419,6 +419,7 @@ public:
 
 	float GetTargetDistance() const;
 	float4 GetTargetDirection() const;
+	void RotToTarget(float _DeltaTime, float _fMinSpeed, float _fMaxSpeed, float DeclinePoint = 45.0f);
 
 private:
 	float TargetAngle = 0.f;

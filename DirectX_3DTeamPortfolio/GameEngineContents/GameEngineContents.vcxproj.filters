@@ -364,6 +364,9 @@
     <ClCompile Include="LothricKn_Debug.cpp">
       <Filter>Actor\Monster\LothricKnight\Debug</Filter>
     </ClCompile>
+    <ClCompile Include="DummyNode.cpp">
+      <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -722,6 +725,9 @@
     </ClInclude>
     <ClInclude Include="LothricKn_Debug.h">
       <Filter>Actor\Monster\LothricKnight\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyNode.h">
+      <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
