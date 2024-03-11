@@ -159,6 +159,9 @@ private:
 
 	EventParameter Body_Event;
 	EventParameter Labber_Event;
+	EventParameter Labber_Middle_Event;
+	EventParameter Labber_Top_Event;
+
 	EventParameter Arround_Event;
 
 	Player_HitInteraction Body;
