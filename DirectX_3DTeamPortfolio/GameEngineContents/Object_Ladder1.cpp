@@ -35,7 +35,7 @@ void Object_Ladder1::Start()
 	CollisionTop->Transform.SetLocalPosition({ 0.0f, 9.0f , 0.5f });
 	CollisionTop->Transform.SetWorldScale(float4(200, 200, 200));
 
-	CollisionBody = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::LadderTop);
+	CollisionBody = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::LabberMiddle);
 	CollisionBody->SetCollisionType(ColType::AABBBOX3D);
 	CollisionBody->Transform.SetLocalPosition({ 0.0f, 4, 0 });
 	CollisionBody->Transform.SetLocalScale(float4(0.2f, 7, 1));

@@ -31,7 +31,7 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 	if (nullptr == Test_Light)
 	{
 		Test_Light = CreateActor<ContentsLight>(0);
-		Test_Light->CreateShadowMap();
+		// Test_Light->CreateShadowMap();
 		LightData Data = Test_Light->GetLightData();
 
 		Data.DifLightPower = 0.1f;
@@ -43,7 +43,7 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 		Test_Light->SetLightData(Data);
 	}
 
-	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 0, 0, 0, 1 });
+	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 1, 1, 1, 1 });
 	
 	if (nullptr == TestPlayer)
 	{
@@ -54,10 +54,10 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 		Boss_Object->SetTargeting(TestPlayer.get());
 	}
 
-	if (nullptr == MapObject)
-	{
-		MapObject = CreateActor<WorldMap>(0, "WorldMap");
-	}
+	//if (nullptr == MapObject)
+	//{
+	//	MapObject = CreateActor<WorldMap>(0, "WorldMap");
+	//}
 
 	GetMainCamera()->Transform.SetLocalPosition({ -2800.f, -2500.f, 6700.f });
 	GetMainCamera()->Transform.SetLocalRotation({0.f, 165.f, 0.f});
@@ -95,10 +95,10 @@ void TestLevel_Boss::Start()
 	ContentLevel::Start();
 	GameEngineInput::AddInputObject(this);
 	// Test Ground
-	// physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
-	// physx::PxMaterial* mMaterial = GameEnginePhysX::GetDefaultMaterial();
-	// physx::PxRigidStatic* groundPlane = PxCreatePlane(*Physics, physx::PxPlane(0, 1, 0, 50), *mMaterial);
-	// Scene->addActor(*groundPlane);
+	physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
+	physx::PxMaterial* mMaterial = GameEnginePhysX::GetDefaultMaterial();
+	physx::PxRigidStatic* groundPlane = PxCreatePlane(*Physics, physx::PxPlane(0, 1, 0, 50), *mMaterial);
+	Scene->addActor(*groundPlane);
 }
 
 void TestLevel_Boss::Update(float _Delta)

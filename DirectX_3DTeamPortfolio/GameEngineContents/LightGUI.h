@@ -24,7 +24,7 @@ protected:
 
 private:
 	void ShowLightList(GameEngineLevel* _Level);
-	void LightEditor();
+	void LightEditor(GameEngineLevel* _Level);
 
 
 

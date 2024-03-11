@@ -11,14 +11,14 @@ public:
 	CameraCapsule(CameraCapsule&& _Other) noexcept = delete;
 	CameraCapsule& operator=(const CameraCapsule& _Other) = delete;
 	CameraCapsule& operator=(CameraCapsule&& _Other) noexcept = delete;
-
+	std::shared_ptr<class GameEnginePhysXCapsule> Capsule_02;
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 
 private:
-	std::shared_ptr<class GameEnginePhysXCapsule> Capsule_02;
+	//std::shared_ptr<class GameEnginePhysXCapsule> Capsule_02;
 
 
 
