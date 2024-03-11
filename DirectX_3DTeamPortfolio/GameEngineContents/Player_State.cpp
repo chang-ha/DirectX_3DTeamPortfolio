@@ -1919,7 +1919,6 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("ladder_Up_Start");
-				//Capsule->SetWorldPosition({ -8992 ,2040, -4428 });
 				Capsule->GravityOff();
 
 			};
@@ -1943,6 +1942,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				StateValue = PlayerState::ladder_Up_Left;
 				MainRenderer->ChangeAnimation("ladder_Up_Left");
 				Capsule->GravityOff();
 			};
@@ -1951,13 +1951,9 @@ void Player::Player_State()
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
 			
+				Body_Col->CollisionEvent(Enum_CollisionOrder::LabberMiddle, Labber_Middle_Event);
 
-
-				if (Body_Col->Collision(Enum_CollisionOrder::LadderTop))
-				{
-					PlayerStates.ChangeState(PlayerState::ladder_Up_Stop_Left);
-					return;
-				}
+				
 
 				if (MainRenderer->IsCurAnimationEnd())
 				{
@@ -1983,6 +1979,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				StateValue = PlayerState::ladder_Up_Right;
 				MainRenderer->ChangeAnimation("ladder_Up_Right");
 				Capsule->GravityOff();
 			};
@@ -1990,11 +1987,7 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				if (Body_Col->Collision(Enum_CollisionOrder::LadderTop))
-				{
-					PlayerStates.ChangeState(PlayerState::ladder_Up_Stop_Right);
-					return;
-				}
+				Body_Col->CollisionEvent(Enum_CollisionOrder::LabberMiddle, Labber_Middle_Event);
 
 				if (MainRenderer->IsCurAnimationEnd())
 				{
@@ -2031,19 +2024,7 @@ void Player::Player_State()
 					return;
 				}
 
-				/*if (MainRenderer->GetCurAnimationFrame() > 25)
-				{
-					if (MainRenderer->GetCurAnimationFrame() < 40)
-					{
-						Capsule->MoveForce({ 0.0f,0.0f,210.0f }, Capsule->GetDir());
-					}
-				}
-
-				if (MainRenderer->GetCurAnimationFrame() > 40)
-				{
-					Capsule->MoveForce({ 0.0f,-210.0f,0.0f }, Capsule->GetDir());
-					Capsule->GravityOn();
-				}*/
+				
 
 			};
 
@@ -2067,22 +2048,6 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
-
-
-			/*	if (MainRenderer->GetCurAnimationFrame() > 25)
-				{
-					if (MainRenderer->GetCurAnimationFrame() < 40)
-					{
-						Capsule->MoveForce({ 0.0f,0.0f,210.0f }, Capsule->GetDir());
-					}
-					
-				}
-
-				if (MainRenderer->GetCurAnimationFrame() > 40)
-				{
-					Capsule->MoveForce({ 0.0f,-210.0f,0.0f }, Capsule->GetDir());
-					Capsule->GravityOn();
-				}*/
 			};
 
 		PlayerStates.CreateState(PlayerState::ladder_Up_Stop_Right, NewPara);
@@ -2096,8 +2061,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("ladder_Down_Start");
-				Capsule->GravityOff();
-				//Capsule->MoveForce({ 0.0f,-300.0f,0.0f }, Capsule->GetDir());
+				
 			};
 
 
@@ -2105,7 +2069,6 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-					//Capsule->MoveForce({ 0.0f,-100.0f,0.0f }, Capsule->GetDir());
 					PlayerStates.ChangeState(PlayerState::ladder_Down_Left);
 					return;
 				}
