@@ -540,8 +540,7 @@ void Player::Start()
 					float4 TargetPos = col->Transform.GetWorldPosition();
 					float4 MyPos = Actor_test->Transform.GetWorldPosition();
 
-					float4 Dir = TargetPos - MyPos;
-
+					float4 Dir = MyPos-TargetPos;
 					float4 Monster = { 0,0,-1 };
 					float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
 					float radian = atan2(Dir.X, Dir.Z) - atan2(Monster.X, Monster.Z);
@@ -630,6 +629,7 @@ void Player::Update(float _Delta)
 	Arround_Col->CollisionEvent(Enum_CollisionOrder::Monster, Arround_Event);
 	Body_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack, Body_Event);
 	Body_Col->CollisionEvent(Enum_CollisionOrder::LadderBot, Labber_Event);
+	Body_Col->CollisionEvent(Enum_CollisionOrder::LadderTop, Labber_Event);
 	
 	
 	/*if (Body_Col->Collision(Enum_CollisionOrder::MonsterAttack))
