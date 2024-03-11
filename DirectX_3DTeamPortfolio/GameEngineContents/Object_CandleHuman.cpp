@@ -3,6 +3,7 @@
 #include "GameContentsFBXRenderer.h"
 #include "ContentsFireRenderer.h"
 #include "ContentsLight.h"
+#include "ContentsAlphaSpriteRenderer.h"
 
 
 Object_CandleHuman::Object_CandleHuman()
@@ -18,17 +19,22 @@ void Object_CandleHuman::Start()
 	//1
 	{
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>(0);
+		FBXRenderer->SetStatic();
 		FBXRenderer->SetFBXMesh("o302565.FBX", "FBX_Static");
 		FBXRenderer->Transform.SetWorldScale({ 100,100,100 });
+		FBXRenderer->RenderBaseInfoValue.IsNormal = -1;
 	}
 	{
-		FireRender = CreateComponent<ContentsFireRenderer>(Enum_RenderOrder::Effect);
+		FireRender = CreateComponent<ContentsAlphaSpriteRenderer>(Enum_RenderOrder::Effect);
 		FireRender->SetBillboardOn();
 		FireRender->SetName("Fire");
-		FireRender->Transform.SetLocalScale({ 8.0f, 15.0f, 10.0f });
+		FireRender->AutoSpriteSizeOn();
+		FireRender->Transform.SetLocalPosition({ -1.5f,90.f,37.f });
+		FireRender->SetAutoScaleRatio({ 0.15f, 0.15f, 0.15f });
 
-		float4 FirePos = { -1.5f, 87.0f, 35.0f };
-		FireRender->Transform.SetLocalPosition(FirePos);
+		FireRender->CreateAnimation("CandleFire", "CandleFire2.dds", 0.0666f, -1, -1);
+		FireRender->ChangeAnimation("CandleFire");
+
 
 
 		GameEngineLevel* Level = GetLevel();
@@ -48,5 +54,5 @@ void Object_CandleHuman::Start()
 
 void Object_CandleHuman::Update(float _Delta)
 {
-
+	Light->Transform.SetLocalPosition(FireRender->Transform.GetWorldPosition());
 }
