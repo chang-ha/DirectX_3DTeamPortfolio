@@ -28,12 +28,12 @@ void Object_Ladder6::Start()
 
 	CollisionBottom = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::LadderBot);
 	CollisionBottom->SetCollisionType(ColType::SPHERE3D);
-	CollisionBottom->Transform.SetWorldPosition({ -9600, 984 , 4594 });
+	CollisionBottom->Transform.SetLocalPosition({ 0, 0 , 0.5f });
 	CollisionBottom->Transform.SetWorldScale(float4(200, 200, 200));
 
 	CollisionTop = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::LadderTop);
 	CollisionTop->SetCollisionType(ColType::SPHERE3D);
-	CollisionTop->Transform.SetWorldPosition({ -9600, 1630 , 4594 });
+	CollisionTop->Transform.SetLocalPosition({ 0, 6.44f , 0.5f });
 	CollisionTop->Transform.SetWorldScale(float4(200, 200, 200));
 
 

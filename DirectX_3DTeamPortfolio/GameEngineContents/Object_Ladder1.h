@@ -27,6 +27,7 @@ private:
 	std::shared_ptr<GameEngineCollision> CollisionTop;
 	std::shared_ptr<GameEngineCollision> CollisionBottom;
 	std::shared_ptr<GameEngineCollision> CollisionFront;
+	std::shared_ptr<GameEngineCollision> CollisionBody;
 	
 };
 

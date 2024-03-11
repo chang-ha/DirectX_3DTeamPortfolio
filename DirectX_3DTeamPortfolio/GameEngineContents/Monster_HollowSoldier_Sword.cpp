@@ -24,7 +24,7 @@ void Monster_HollowSoldier_Sword::Start()
 	AddBoneIndex(Enum_BoneType::B_01_RightHand, 44);
 	CreateBoneCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
 	
-	
+	//AttackRangeCollision->Off();
 
 	ChangeState(Enum_HollowSoldier_Sword_State::Idle1);
 
@@ -271,7 +271,15 @@ void Monster_HollowSoldier_Sword::StateUpdate(float _Delta)
 
 void Monster_HollowSoldier_Sword::ChangeAttackState()
 {
-	AttackPattern = ContentsRandom::RandomInt(1, 16);
+	if (GetTargetDistance_e() == Enum_TargetDist::Melee)
+	{
+		AttackPattern = ContentsRandom::RandomInt(14, 19);
+	}
+	else
+	{ 
+		AttackPattern = ContentsRandom::RandomInt(1, 16);
+	}
+	
 	switch (AttackPattern)
 	{
 	case 1:
@@ -321,6 +329,11 @@ void Monster_HollowSoldier_Sword::ChangeAttackState()
 		break;
 	case 16:
 		ChangeState(Enum_HollowSoldier_Sword_State::Walk_Right);
+		break;
+	case 17:
+	case 18:
+	case 19:
+		ChangeState(Enum_HollowSoldier_Sword_State::Walk_Front);
 		break;
 	default:
 		break;
@@ -415,7 +428,7 @@ void Monster_HollowSoldier_Sword::State_Idle2_Update(float _Delta)
 		Capsule->AddWorldRotation(float4(0.0f, RotAngle, 0.0f));
 	}*/
 
-	EventParameter AttackParameter;
+	/*EventParameter AttackParameter;
 	AttackParameter.Stay = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
 		{
 			IsAttack = true;
@@ -424,9 +437,9 @@ void Monster_HollowSoldier_Sword::State_Idle2_Update(float _Delta)
 		{
 			IsAttack = false;
 		};
-	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);
+	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);*/
 
-	if (StateTime >= 0.1f)
+	if (StateTime >= 0.0f)
 	{
 		// 거리 구하기
 		if (GetTargetDistance_e() == Enum_TargetDist::Long)
@@ -435,18 +448,24 @@ void Monster_HollowSoldier_Sword::State_Idle2_Update(float _Delta)
 			StateTime = 0.0;
 			ChangeState(Enum_HollowSoldier_Sword_State::Run);
 		}
+		else if (GetTargetDistance_e() == Enum_TargetDist::Medium)
+		{
+			StateTime = 0.0f;
+			ChangeState(Enum_HollowSoldier_Sword_State::Walk_Front);
+		}
 		else
 		{
-			if (IsAttack == false)
+			StateTime = 0.0f;
+			ChangeAttackState();
+			/*if (IsAttack == false)
 			{
 				StateTime = 0.0f;
 				ChangeState(Enum_HollowSoldier_Sword_State::Walk_Front);
 			}
 			else
 			{
-				StateTime = 0.0f;
-				ChangeAttackState();
-			}
+				
+			}*/
 		}
 		
 	}
@@ -524,27 +543,38 @@ void Monster_HollowSoldier_Sword::State_Walk_Front_Start()
 }
 void Monster_HollowSoldier_Sword::State_Walk_Front_Update(float _Delta)
 {
+
 	if (false == IsTargetInAngle(3.0f))
 	{
 		RotToTarget(_Delta);
 	}
 
-	if (GetTargetDistance_e() == Enum_TargetDist::Long)
+	if(MainRenderer->GetCurAnimationFrame() >= 41)
 	{
-		ChangeState(Enum_HollowSoldier_Sword_State::Run);
+		if (GetTargetDistance_e() == Enum_TargetDist::Long)
+		{
+			ChangeState(Enum_HollowSoldier_Sword_State::Run);
+		}
+		else
+		{
+			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+		}
+		
 	}
 
-	EventParameter AttackParameter;
+	/*EventParameter AttackParameter;
 	AttackParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
 		{
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 		};
-	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);
+	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);*/
+
+	
 }
 
 void Monster_HollowSoldier_Sword::State_Walk_Back_Start()
 {
-	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.7f, 2.8f);
 	MainRenderer->ChangeAnimation("c1100_Walk_Back");
 }
 void Monster_HollowSoldier_Sword::State_Walk_Back_Update(float _Delta)
@@ -565,7 +595,7 @@ void Monster_HollowSoldier_Sword::State_Walk_Back_Update(float _Delta)
 
 void Monster_HollowSoldier_Sword::State_Walk_Left_Start()
 {
-	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.65f, 2.6f);
 	MainRenderer->ChangeAnimation("c1100_Walk_Left");
 }
 void Monster_HollowSoldier_Sword::State_Walk_Left_Update(float _Delta)
@@ -586,7 +616,7 @@ void Monster_HollowSoldier_Sword::State_Walk_Left_Update(float _Delta)
 
 void Monster_HollowSoldier_Sword::State_Walk_Right_Start()
 {
-	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.65f, 2.6f);
 	MainRenderer->ChangeAnimation("c1100_Walk_Right");
 }
 void Monster_HollowSoldier_Sword::State_Walk_Right_Update(float _Delta)

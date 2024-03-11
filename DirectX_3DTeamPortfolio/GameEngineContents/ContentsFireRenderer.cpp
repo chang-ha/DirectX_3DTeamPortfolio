@@ -69,8 +69,8 @@ void ContentsFireRenderer::Start()
 
 
 	Unit->ShaderResHelper.SetTexture("DiffuseTexture", GameEngineTexture::Find("fire02.png"));
+	Unit->ShaderResHelper.SetTexture("AlphaTexture", GameEngineTexture::Find("firealpha02.png"));
 	Unit->ShaderResHelper.SetTexture("NoiseTexture", GameEngineTexture::Find("firenoise01.dds"));
-	Unit->ShaderResHelper.SetTexture("AlphaTexture", GameEngineTexture::Find("firealpha03.png"));
 	Unit->ShaderResHelper.SetSampler("WrapSampler", "EngineBaseWRAPSampler");
 	Unit->ShaderResHelper.SetSampler("ClampSampler", "EngineBaseSampler");
 	Unit->ShaderResHelper.SetConstantBufferLink("FireInfo", FireInfoValue);

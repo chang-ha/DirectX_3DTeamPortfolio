@@ -34,6 +34,7 @@ class GameEngineCamera : public GameEngineActor, public DebugObject
 	friend class GameEngineRenderer;
 	friend class GameEngineActor;
 	friend class GameEngineLevel;
+	friend class LightGUI;
 
 public:
 	static float FreeRotSpeed;
@@ -264,6 +265,6 @@ private:
 
 	CameraBaseInfo  CameraBaseInfoValue;
 
-	bool StaticRenderInitValue = false;
+	bool StaticRenderInitValue = true;
 };
 

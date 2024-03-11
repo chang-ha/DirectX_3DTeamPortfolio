@@ -15,6 +15,7 @@
 #include "Object_bonfire.h"
 #include "Monster_Hollow_Unarmed.h"
 #include "ContentsAlphaSpriteRenderer.h"
+#include "Object_Torchlight.h"
 
 TestLevel_Shader::TestLevel_Shader()
 {
@@ -38,9 +39,7 @@ void TestLevel_Shader::Start()
 
 	ContentLevel::Start();
 
-	// GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, 3000.0f });
-	// GetMainCamera()->Transform.AddWorldRotation({ 0.f, 180.f, 0.f });
-
+	
 
 
 	
@@ -175,7 +174,7 @@ void TestLevel_Shader::Start()
 		Render->Transform.SetLocalRotation({ 0.0f, 60.0f, 0.0f });*/
 	}
 	// ÃÐºÒ ¼ö³à µ¿»ó
-	{
+	/*{
 		std::shared_ptr<GameEngineActor> Object = CreateActor<GameEngineActor>(Enum_UpdateOrder::Component, "HumanCandle");
 
 		std::shared_ptr<GameContentsFBXRenderer> Render = Object->CreateComponent<GameContentsFBXRenderer>();
@@ -195,18 +194,24 @@ void TestLevel_Shader::Start()
 
 		Render2->CreateAnimation("CandleFire", "CandleFire2.dds", 0.0666f, -1, -1);
 		Render2->ChangeAnimation("CandleFire");
-	}
+	}*/
+
+	//{
+	//	Test_Light1 = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Point");
+	//	Test_Light1->SetLightType(Enum_LightType::Point);
+	//	Test_Light1->Transform.SetLocalPosition({ -1.5f,90.f,37.f });
+
+	//	LightData Data = Test_Light1->GetLightData();
+
+
+	//	Test_Light1->SetLightData(Data);
+	//	//Test_Light1->IsDebugValue = true; µð¹ö±×·»´õ¸µ
+	//}
 
 	{
-		Test_Light1 = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Point");
-		Test_Light1->SetLightType(Enum_LightType::Point);
-		Test_Light1->Transform.SetLocalPosition({ -1.5f,90.f,37.f });
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(Enum_UpdateOrder::Component, "Torch");
 
-		LightData Data = Test_Light1->GetLightData();
-
-
-		Test_Light1->SetLightData(Data);
-		//Test_Light1->IsDebugValue = true; µð¹ö±×·»´õ¸µ
+		
 	}
 
 	//SkyRenderer = CreateComponent<GameContentsFBXRenderer>();
@@ -279,6 +284,27 @@ void TestLevel_Shader::Update(float _Delta)
 
 	float MoveSpeed = 300.0f;
 
+	if (true == GameEngineInput::IsDown('1', this))
+	{
+		GameEngineCamera::FreeSpeed = 10000.0f;
+	}
+	if (true == GameEngineInput::IsDown('3', this))
+	{
+		GameEngineCamera::FreeSpeed = 200.0f;
+	}
+
+
+	if (true == GameEngineInput::IsDown(VK_F6, this))
+	{
+		GameEngineGUI::AllWindowSwitch();
+	}
+
+
+	if (Test_Light1 == nullptr)
+	{
+		return;
+	}
+
 	if (true == GameEngineInput::IsPress('A', this))
 	{
 		Test_Light1->Transform.AddLocalPosition(float4::LEFT * _Delta * MoveSpeed);
@@ -323,21 +349,7 @@ void TestLevel_Shader::Update(float _Delta)
 		Test_Light1->Transform.AddLocalRotation(float4::DOWN * _Delta * MoveSpeed);
 		GetMainCamera()->Transform.AddLocalRotation(float4::DOWN * _Delta * MoveSpeed);
 	}
-	if (true == GameEngineInput::IsDown('1', this))
-	{
-		GameEngineCamera::FreeSpeed = 10000.0f;
-	}
-	if (true == GameEngineInput::IsDown('3', this))
-	{
-		GameEngineCamera::FreeSpeed = 200.0f;
-	}
-
 	
-	if (true == GameEngineInput::IsDown(VK_F6, this))
-	{
-		GameEngineGUI::AllWindowSwitch();
-	}
-
 
 }
 

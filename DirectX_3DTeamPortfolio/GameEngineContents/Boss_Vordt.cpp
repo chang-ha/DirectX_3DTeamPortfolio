@@ -392,8 +392,9 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		//BossCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 100.0f });
 	}
 
-	Capsule->PhysXComponentInit(400.0f, 5.0f);
-	Capsule->SetMass(10000000000.f);
+	// physx::PxMaterial* Material = GameEnginePhysX::GetPhysics()->createMaterial(3.0f, 0.0f, 0.0f);;
+	Capsule->PhysXComponentInit(400.0f, 5.0f/*, Material*/);
+	// Capsule->SetMass(10000000.f);
 	Capsule->SetPositioningComponent();
 
 	if (nullptr == GameEngineGUI::FindGUIWindow<Boss_State_GUI>("Boss_State"))
