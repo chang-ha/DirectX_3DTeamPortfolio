@@ -225,11 +225,22 @@ void Player::Start()
 
 	//MainRenderer->SetRootMotion("ladder_Up_Start");
 
-	/*MainRenderer->SetRootMotion("ladder_Up_Left","", Enum_RootMotionMode::RealTimeDir);
-	MainRenderer->SetRootMotion("ladder_Up_Right", "", Enum_RootMotionMode::RealTimeDir);*/
+	MainRenderer->SetRootMotion("ladder_Up_Left","", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("ladder_Up_Right", "", Enum_RootMotionMode::RealTimeDir);
 
-	/*MainRenderer->SetRootMotion("ladder_Up_Stop_Left", "", Enum_RootMotionMode::RealTimeDir);
-	MainRenderer->SetRootMotion("ladder_Up_Stop_Right", "", Enum_RootMotionMode::RealTimeDir);*/
+	MainRenderer->SetRootMotion("ladder_Up_Stop_Left", "", Enum_RootMotionMode::RealTimeDir);
+	MainRenderer->SetRootMotion("ladder_Up_Stop_Right", "", Enum_RootMotionMode::RealTimeDir);
+
+
+	MainRenderer->SetRootMotionGravityFlag("ladder_Up_Stop_Left", true);
+	MainRenderer->SetRootMotionGravityFlag("ladder_Up_Stop_Right", true);
+
+	MainRenderer->SetRootMotionGravityFlag("ladder_Up_Left", true); 
+	MainRenderer->SetRootMotionGravityFlag("ladder_Up_Right", true);
+	
+
+
+
 
 	/*MainRenderer->SetRootMotionMoveRatio("ladder_Up_Stop_Left",-1.0, cdcdc, -1.0);
 	MainRenderer->SetRootMotionMoveRatio("ladder_Up_Stop_Right", -1.0, cdcdc, -1.0);*/
@@ -307,7 +318,7 @@ void Player::Start()
 		ColParameter.S = { 20.f, 60.f, 20.f };
 		ColParameter.T = { 0.f, 0.8f, 0.f };
 
-		Body_Col = CreateSocketCollision(Enum_CollisionOrder::Player, 0, ColParameter, "Player_Body");
+		Body_Col = CreateSocketCollision(Enum_CollisionOrder::P, 0, ColParameter, "Player_Body");
 		Body_Col->SetCollisionType(ColType::SPHERE3D);
 		Body_Col->Transform.SetLocalScale({ 100.f,120.f, 30.f });
 		Body_Col->On();
@@ -316,7 +327,7 @@ void Player::Start()
 	{
 		Arround_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Arround);
 		Arround_Col->SetCollisionType(ColType::SPHERE3D);
-		Arround_Col->Transform.SetLocalScale({ 2000.f,2000.f, 2000.f });
+		Arround_Col->Transform.SetLocalScale({ 2000.f,2000.f, 2000.f});
 		Arround_Col->Off();
 	}
 
@@ -499,14 +510,14 @@ void Player::Start()
 					float radian = atan2(Dir.X, Dir.Z) - atan2(Monster.X, Monster.Z);
 					Labber_Angle = abs(float(radian * (180.0 / 3.141592)));
 
-					Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
+					//Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
 
 					
 
 
 					//Capsule->SetWorldRotation({ 0.0f,Labber_Angle,0.0f });
 					Capsule->GravityOff(); 
-					Capsule->MoveForce(float4{ 0.0f,500.0f,0.0f,Labber_Angle });
+					//Capsule->MoveForce(float4{ 0.0f,500.0f,0.0f,Labber_Angle });
 					PlayerStates.ChangeState(PlayerState::ladder_Up_Left);
 
 					//Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
@@ -617,7 +628,7 @@ void Player::Update(float _Delta)
 	
 	Arround_Col->CollisionEvent(Enum_CollisionOrder::Monster, Arround_Event);
 	Body_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack, Body_Event);
-	Body_Col->CollisionEvent(Enum_CollisionOrder::LabberMiddle, Labber_Event);
+	Body_Col->CollisionEvent(Enum_CollisionOrder::LadderBot, Labber_Event);
 	
 	
 	/*if (Body_Col->Collision(Enum_CollisionOrder::MonsterAttack))
@@ -626,7 +637,7 @@ void Player::Update(float _Delta)
 	}*/
 
 
-	if (Body_Col->Collision(Enum_CollisionOrder::LadderBot))
+	/*if (Body_Col->Collision(Enum_CollisionOrder::LadderBot))
 	{
 		if (GameEngineInput::IsDown('E', this))
 		{
@@ -635,7 +646,7 @@ void Player::Update(float _Delta)
 
 		}
 	}
-	
+	*/
 		
 	
 	
