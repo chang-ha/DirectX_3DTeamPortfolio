@@ -844,10 +844,7 @@ Enum_JumpTableFlag Boss_Vordt::AI_Combo()
 		{
 			return Enum_JumpTableFlag::StopJumpTable;
 		}
-		else
-		{
-			return Enum_JumpTableFlag::Default;
-		}
+		break;
 	}
 	case Enum_BossState::Combo1_Step2:
 	{
@@ -855,29 +852,22 @@ Enum_JumpTableFlag Boss_Vordt::AI_Combo()
 		{
 			return Enum_JumpTableFlag::StopJumpTable;
 		}
-		else
-		{
-			return Enum_JumpTableFlag::Default;
-		}
+		break;
 	}
 	case Enum_BossState::Combo1_Step3:
-		return Enum_JumpTableFlag::Default;
+		break;
 	case Enum_BossState::Combo2_Step1:
 	{
 		if (true == ChangeAI_State(Enum_BossState::Combo2_Step2))
 		{
 			return Enum_JumpTableFlag::StopJumpTable;
 		}
-		else
-		{
-			return Enum_JumpTableFlag::Default;
-		}
-		return Enum_JumpTableFlag::StopJumpTable;
+		break;
 	}
 	case Enum_BossState::Combo2_Step2:
-		return Enum_JumpTableFlag::Default;
+		break;
 	default:
-		return Enum_JumpTableFlag::Default;
+		break;
 	}
 
 	return Enum_JumpTableFlag::Default;

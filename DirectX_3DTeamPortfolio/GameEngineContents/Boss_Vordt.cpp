@@ -156,6 +156,30 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		float Angle = Linked_Boss->GetTargetAngle();
 		std::string cAngle = "Target Angle : ";
 		cAngle += std::to_string(Angle);
+		cAngle += "(";
+
+		std::string eAngle = "";
+		switch (Linked_Boss->mTargetState.mTargetDeg)
+		{
+		case Enum_TargetDeg::Deg_Null:
+			eAngle += "Null";
+			break;
+		case Enum_TargetDeg::Deg_Front:
+			eAngle += "Front";
+			[[fallthrough]];
+			break;
+		case Enum_TargetDeg::Deg_Side:
+			eAngle += "Side";
+			break;
+		case Enum_TargetDeg::Deg_Back:
+			eAngle += "Back";
+			break;
+		default:
+			break;
+		}
+
+		cAngle += eAngle + ")";
+
 		ImGui::Text(cAngle.c_str());
 
 		Enum_RotDir Dir = Linked_Boss->GetRotDir_e();
@@ -186,6 +210,32 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		float Dis = Linked_Boss->GetTargetDistance();
 		std::string cDistance = "Target Distance : ";
 		cDistance += std::to_string(Dis);
+		cDistance += "(";
+
+		std::string eDistance = "";
+		switch (Linked_Boss->mTargetState.mTargetDis)
+		{
+		case Enum_TargetDis::Dis_Null:
+			eDistance += "Null";
+			break;
+		case Enum_TargetDis::Dis_Close:
+			eDistance += "Close";
+			break;
+		case Enum_TargetDis::Dis_Middle:
+			eDistance += "Middle";
+			break;
+		case Enum_TargetDis::Dis_Long:
+			eDistance += "Long";
+			break;
+		case Enum_TargetDis::Dis_Far:
+			eDistance += "Far";
+			break;
+		default:
+			break;
+		}
+
+		cDistance += eDistance +")";
+
 		ImGui::Text(cDistance.c_str());
 	}
 }
@@ -304,8 +354,6 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->SetRootMotion("Hit_Down_005");
 		MainRenderer->SetRootMotion("Hit_Down_006");
 		MainRenderer->SetRootMotion("Howling");
-		MainRenderer->SetRootMotion("Rush&Hit&Turn"); 
-		MainRenderer->SetRootMotion("Rush&Turn"); // 
 		MainRenderer->SetRootMotion("Rush_Attack");
 		MainRenderer->SetRootMotion("Rush_Attack_002");
 		MainRenderer->SetRootMotion("Rush_Front");
@@ -332,6 +380,8 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->SetRootMotion("Combo1_Step3", "", Enum_RootMotionMode::RealTimeDir);
 		MainRenderer->SetRootMotion("Combo2_Step1", "", Enum_RootMotionMode::RealTimeDir);
 		MainRenderer->SetRootMotion("Combo2_Step2", "", Enum_RootMotionMode::RealTimeDir);
+		MainRenderer->SetRootMotion("Rush&Turn", "", Enum_RootMotionMode::RealTimeDir); // 
+		MainRenderer->SetRootMotion("Rush&Hit&Turn", "", Enum_RootMotionMode::RealTimeDir);
 		MainRenderer->SetRootMotion("Rush&Hit&Turn&Rush", "", Enum_RootMotionMode::RealTimeDir); // 
 	}
 
@@ -343,7 +393,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	Capsule->PhysXComponentInit(400.0f, 5.0f);
-	// Capsule->SetMass(10000000.f);
+	Capsule->SetMass(10000000000.f);
 	Capsule->SetPositioningComponent();
 
 	if (nullptr == GameEngineGUI::FindGUIWindow<Boss_State_GUI>("Boss_State"))
@@ -478,6 +528,8 @@ void Boss_Vordt::Update(float _Delta)
 	{
 		_Pair.second.Update(_Delta);
 	}
+
+	TargetStateUpdate();
 }
 
 void Boss_Vordt::Release()
@@ -534,6 +586,46 @@ void Boss_Vordt::Release()
 	AI_States.clear();
 
 	BaseActor::Release();
+}
+
+void Boss_Vordt::TargetStateUpdate()
+{
+	if (false == IsTargeting())
+	{
+		mTargetState.mTargetDeg = Enum_TargetDeg::Deg_Null;
+		mTargetState.mTargetDis = Enum_TargetDis::Dis_Null;
+		return;
+	}
+
+	float CurTargetAngle = abs(GetTargetAngle());
+	float CurTargetDis = GetTargetDistance();
+
+	CurTargetAngle /= Degree_Standard;
+	CurTargetDis /= Distance_Standard;
+
+	int ICurTargetAngle = static_cast<int>(CurTargetAngle);
+	int ICurTargetDis = static_cast<int>(CurTargetDis);
+
+	if (Enum_TargetDis::Dis_Close > ICurTargetDis)
+	{
+		ICurTargetDis = Enum_TargetDis::Dis_Close;
+	}
+	else if (Enum_TargetDis::Dis_Far < ICurTargetDis)
+	{
+		ICurTargetDis = Enum_TargetDis::Dis_Far;
+	}
+
+	if (Enum_TargetDeg:: Deg_Front > ICurTargetAngle)
+	{
+		ICurTargetAngle = Enum_TargetDeg::Deg_Front;
+	}
+	else if (Enum_TargetDeg::Deg_Back < ICurTargetAngle)
+	{
+		ICurTargetAngle = Enum_TargetDeg::Deg_Back;
+	}
+
+	mTargetState.mTargetDeg = ICurTargetAngle;
+	mTargetState.mTargetDis = ICurTargetDis;
 }
 
 bool Boss_Vordt::ChangeAI_State(Enum_BossState _State)

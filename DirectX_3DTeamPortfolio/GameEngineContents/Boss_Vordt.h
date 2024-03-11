@@ -64,6 +64,29 @@ enum Enum_BossState
 	Rush_Hit_Turn_Rush,
 };
 
+enum Enum_TargetDis
+{
+	Dis_Null = -1,
+	Dis_Close = 1,
+	Dis_Middle = 2,
+	Dis_Long = 3,
+	Dis_Far = 4
+};
+
+enum Enum_TargetDeg
+{
+	Deg_Null = -1,
+	Deg_Front = 1,
+	Deg_Side = 2,
+	Deg_Back = 3
+};
+
+struct TargetState
+{
+	int mTargetDis = Enum_TargetDis::Dis_Null;
+	int mTargetDeg = Enum_TargetDeg::Deg_Null;
+};
+
 struct AI_State
 {
 	AI_State()
@@ -73,6 +96,12 @@ struct AI_State
 
 	AI_State(float _StateCoolDown)
 		: StateCoolDown(_StateCoolDown)
+	{
+
+	}
+
+	AI_State(float _StateCoolDown, float _InitCurCoolDown)
+		: StateCoolDown(_StateCoolDown), CurCoolDown(_InitCurCoolDown)
 	{
 
 	}
@@ -117,19 +146,20 @@ private:
 
 	void FrameEventInit();
 	void StateInit();
-	std::map<Enum_BossState, AI_State> AI_States;
 	float4 BoneWorldPos(int _BoneIndex);
 
-	// static constexpr float Close = 500.f;
-	// static constexpr float Middle = 1000.f;
-	// static constexpr float Long = 1500.f;
-	// static constexpr float Max = 2000.f;
+	static constexpr float Distance_Standard = 500.f;
+	static constexpr float Degree_Standard = 60.f;
+
+	void TargetStateUpdate();
+	TargetState mTargetState;
 
 	Enum_JumpTableFlag AI_MoveMent();
 	Enum_JumpTableFlag AI_Attack();
 	Enum_JumpTableFlag AI_Combo();
 	Enum_JumpTableFlag AI_Dodge();
 	bool ChangeAI_State(Enum_BossState _State);
+	std::map<Enum_BossState, AI_State> AI_States;
 
 	// State
 	////////////////////////// Move & Others
