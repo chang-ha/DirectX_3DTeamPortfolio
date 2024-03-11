@@ -469,7 +469,35 @@ void Player::Start()
 			{
 				if (GameEngineInput::IsDown('E', this))
 				{
+
+
 					float4 TargetPos = col->Transform.GetWorldPosition();
+					float4 MyPos = Actor_test->Transform.GetWorldPosition();
+
+					// YÃà °í·Á X
+					TargetPos.Y = MyPos.Y = 0.f;
+
+					float4 FrontVector = float4(0.f, 0.f, -1.f, 0.f);
+					FrontVector.VectorRotationToDegY(Capsule->GetDir());
+
+					float4 LocationVector = (TargetPos - MyPos).NormalizeReturn();
+
+					float4 Angle_ = DirectX::XMVector3AngleBetweenNormals(FrontVector.DirectXVector, LocationVector.DirectXVector);
+
+					float4 RotationDir = DirectX::XMVector3Cross(FrontVector.DirectXVector, LocationVector.DirectXVector);
+
+					Labber_Angle = Angle_.X * GameEngineMath::R2D;
+
+					if (0.0f <= RotationDir.Y)
+					{
+
+					}
+					else
+					{
+						Labber_Angle *= -1.f;
+					}
+
+					/*float4 TargetPos = { col->Transform.GetWorldPosition().X,col->Transform.GetWorldPosition().Y,col->Transform.GetWorldPosition().Z};
 					float4 MyPos = Actor_test->Transform.GetWorldPosition();
 
 					float4 Dir = TargetPos - MyPos;
@@ -477,10 +505,10 @@ void Player::Start()
 					float4 Monster = { 0,0,-1 };
 					float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
 					float radian = atan2(Dir.X, Dir.Z) - atan2(Monster.X, Monster.Z);
-					Labber_Angle = float(radian * (180.0 / 3.141592));
+					Labber_Angle = float(radian * (180.0 / 3.141592));*/
 
 					//Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
-					Capsule->SetWorldRotation({ 0.0f,Labber_Angle,0.0f });
+					Capsule->SetWorldRotation({ 0.0f, -Labber_Angle,0.0f });
 					Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
 					Capsule->GravityOff(); 
 					//Capsule->MoveForce(float4{ 0.0f,500.0f,0.0f,Labber_Angle });
@@ -550,6 +578,7 @@ void Player::Start()
 					Capsule->SetWorldRotation({ 0.0f,Labber_Angle,0.0f });
 					Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
 					Capsule->GravityOff();
+					//MainRenderer->SetRootMotionMode(")
 					//Capsule->MoveForce(float4{ 0.0f,500.0f,0.0f,Labber_Angle });
 					PlayerStates.ChangeState(PlayerState::ladder_Down_Start);
 					Rabber_Collision_Check = true;
@@ -935,23 +964,9 @@ void Player::CameraRotation(float Delta)
 	
 
 
-	if (PrevPos.Y > Mouse_Ro_Y+5 )
+	if (PrevPos.Y > Mouse_Ro_Y)
 	{
 		float4 Cur_Camera_Pos = { 0.0f, PrevPos.Y - Mouse_Ro_Y,0.0f };
-
-		Cur_Camera_Pos.Normalize();
-
-		Camera_Pos_Y += Cur_Camera_Pos.Y * Delta * 200;
-
-		if (Camera_Pos_Y >= 60)
-		{
-			Camera_Pos_Y -= Cur_Camera_Pos.Y * Delta * 200;
-		}
-	}
-
-	else if (PrevPos.Y < Mouse_Ro_Y-5 )
-	{
-		float4 Cur_Camera_Pos = { 0.0f, Mouse_Ro_Y- PrevPos.Y,0.0f };
 
 		Cur_Camera_Pos.Normalize();
 
@@ -960,6 +975,21 @@ void Player::CameraRotation(float Delta)
 		if (Camera_Pos_Y <= -40)
 		{
 			Camera_Pos_Y += Cur_Camera_Pos.Y * Delta * 200;
+		}
+	}
+
+	else if (PrevPos.Y < Mouse_Ro_Y)
+	{
+		float4 Cur_Camera_Pos = { 0.0f, Mouse_Ro_Y- PrevPos.Y,0.0f };
+
+		Cur_Camera_Pos.Normalize();
+
+		Camera_Pos_Y += Cur_Camera_Pos.Y * Delta * 200;
+
+		
+		if (Camera_Pos_Y >= 60)
+		{
+			Camera_Pos_Y -= Cur_Camera_Pos.Y * Delta * 200;
 		}
 
 	}
@@ -1028,7 +1058,7 @@ void Player::CameraRotation(float Delta)
 
 		if (abs(Actor_test->Transform.GetWorldPosition().Z - Actor_test_02->Transform.GetWorldPosition().Z) >= 10)
 		{
-			Actor_test_02->Transform.AddWorldPosition(AS * 1400 * Delta);
+			Actor_test_02->Transform.AddWorldPosition(AS * 800 * Delta);
 		}
 	}
 
@@ -1042,7 +1072,7 @@ void Player::CameraRotation(float Delta)
 		
 		if (abs(Actor_test_02->Transform.GetLocalPosition().Z) < abs(250))
 		{
-			Actor_test_02->Transform.AddWorldPosition(-AS * Delta * 1400);
+			Actor_test_02->Transform.AddWorldPosition(-AS * Delta * 800);
 		}
 		
 	}
