@@ -16,6 +16,10 @@ void Monster_Hollow_NonFirstAttack::Start()
 	//ChangeState(Enum_Hollow_State::PrayToIdle);
 	//MainRenderer->ChangeAnimation("c1100_PrayToIdle3");
 
+	// Status
+	Stat.SetHp(68);
+	Stat.SetAtt(1);
+
 	CheckLanternCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster);
 	CheckLanternCollision->SetCollisionType(ColType::SPHERE3D);
 	CheckLanternCollision->SetCollisionColor(float4::BLACK);
@@ -123,8 +127,17 @@ void Monster_Hollow_NonFirstAttack::ChangeState(Enum_Hollow_State _State)
 		case Enum_Hollow_State::Parrying:
 			State_Parrying_Start();
 			break;
-		case Enum_Hollow_State::Hit:
-			State_Hit_Start();
+		case Enum_Hollow_State::Hit_Front:
+			State_Hit_Front_Start();
+			break;
+		case Enum_Hollow_State::Hit_Back:
+			State_Hit_Back_Start();
+			break;
+		case Enum_Hollow_State::Hit_Left:
+			State_Hit_Left_Start();
+			break;
+		case Enum_Hollow_State::Hit_Right:
+			State_Hit_Right_Start();
 			break;
 		case Enum_Hollow_State::HitToDeath:
 			State_HitToDeath_Start();
@@ -202,8 +215,14 @@ void Monster_Hollow_NonFirstAttack::StateUpdate(float _Delta)
 		return State_AttackFail_Update(_Delta);
 	case Enum_Hollow_State::Parrying:
 		return State_Parrying_Update(_Delta);
-	case Enum_Hollow_State::Hit:
-		return State_Hit_Update(_Delta);
+	case Enum_Hollow_State::Hit_Front:
+		return State_Hit_Front_Update(_Delta);
+	case Enum_Hollow_State::Hit_Back:
+		return State_Hit_Back_Update(_Delta);
+	case Enum_Hollow_State::Hit_Left:
+		return State_Hit_Left_Update(_Delta);
+	case Enum_Hollow_State::Hit_Right:
+		return State_Hit_Right_Update(_Delta);
 	case Enum_Hollow_State::HitToDeath:
 		return State_HitToDeath_Update(_Delta);
 	case Enum_Hollow_State::BackAttackHit:
@@ -258,6 +277,39 @@ void Monster_Hollow_NonFirstAttack::ChangeAttackState()
 	}
 }
 
+void Monster_Hollow_NonFirstAttack::ChangeHitState()
+{
+	if (true == Hit.IsHit())
+	{
+		Enum_DirectionXZ_Quat HitDir = Hit.GetHitDir();
+		BodyCollision->Off();
+		Hit.SetHit(false);
+
+		switch (HitDir)
+		{
+		case Enum_DirectionXZ_Quat::F:
+			ChangeState(Enum_Hollow_State::Hit_Front);
+			break;
+		case Enum_DirectionXZ_Quat::R:
+			ChangeState(Enum_Hollow_State::Hit_Right);
+			break;
+		case Enum_DirectionXZ_Quat::B:
+			ChangeState(Enum_Hollow_State::Hit_Back);
+			break;
+		case Enum_DirectionXZ_Quat::L:
+			ChangeState(Enum_Hollow_State::Hit_Left);
+			break;
+		default:
+			ChangeState(Enum_Hollow_State::Hit_Front);
+			break;
+		}
+	}
+	else
+	{
+		return;
+	}
+}
+
 void Monster_Hollow_NonFirstAttack::CheckAwake()
 {
 	EventParameter AwakeParameter;
@@ -302,6 +354,8 @@ void Monster_Hollow_NonFirstAttack::State_Pray1_Update(float _Delta)
 	//	ChangeState(Enum_Hollow_State::PrayToBeScared1);
 	//}
 
+	ChangeHitState();
+
 
 	// 플레이어 충돌시
 	if (false)
@@ -333,7 +387,7 @@ void Monster_Hollow_NonFirstAttack::State_Pray2_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_Pray2_Update(float _Delta)
 {
-	
+	ChangeHitState();
 	
 	// 플레이어 충돌시
 	if (false)
@@ -361,6 +415,8 @@ void Monster_Hollow_NonFirstAttack::State_Pray3_Update(float _Delta)
 	//{
 	//	ChangeState(Enum_Hollow_State::PrayToIdle3);
 	//}
+
+	ChangeHitState();
 
 	// 플레이어 충돌시
 	if (false)
@@ -399,6 +455,8 @@ void Monster_Hollow_NonFirstAttack::State_PrayToBeScared1_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_PrayToBeScared1_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End) - 1)
 	{
 		ChangeState(Enum_Hollow_State::BeScared);
@@ -411,6 +469,8 @@ void Monster_Hollow_NonFirstAttack::State_PrayToBeScared2_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_PrayToBeScared2_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End) - 1)
 	{
 		ChangeState(Enum_Hollow_State::BeScared);
@@ -423,6 +483,8 @@ void Monster_Hollow_NonFirstAttack::State_PrayToBeScared3_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_PrayToBeScared3_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End) - 1)
 	{
 		ChangeState(Enum_Hollow_State::BeScared);
@@ -441,6 +503,8 @@ void Monster_Hollow_NonFirstAttack::State_BeScared_Update(float _Delta)
 	{
 		ChangeState(Enum_Hollow_State::BeScaredToIdle);
 	}*/
+
+	ChangeHitState();
 
 	// 랜턴 효과 받았을때
 	if (false)
@@ -557,6 +621,13 @@ void Monster_Hollow_NonFirstAttack::State_Idle_Update(float _Delta)
 {
 	StateTime += _Delta;
 
+	ChangeHitState();
+
+	if (BodyCollision->IsUpdate() == false)
+	{
+		BodyCollision->On();
+	}
+
 	const float AbsTargetAngle = std::fabs(BaseActor::GetTargetAngle());
 	if (AbsTargetAngle >= 90.0f && AbsTargetAngle <= 150.0f)
 	{
@@ -642,6 +713,8 @@ void Monster_Hollow_NonFirstAttack::State_Walk_Front_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_Walk_Front_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (false == IsTargetInAngle(3.0f))
 	{
 		RotToTarget(_Delta);
@@ -679,6 +752,8 @@ void Monster_Hollow_NonFirstAttack::State_Walk_Back_Update(float _Delta)
 {
 	WalkTime += _Delta;
 
+	ChangeHitState();
+
 	if (false == IsTargetInAngle(3.0f))
 	{
 		RotToTarget(_Delta);
@@ -699,6 +774,8 @@ void Monster_Hollow_NonFirstAttack::State_Walk_Left_Start()
 void Monster_Hollow_NonFirstAttack::State_Walk_Left_Update(float _Delta)
 {
 	WalkTime += _Delta;
+
+	ChangeHitState();
 
 	if (false == IsTargetInAngle(3.0f))
 	{
@@ -721,6 +798,8 @@ void Monster_Hollow_NonFirstAttack::State_Walk_Right_Update(float _Delta)
 {
 	WalkTime += _Delta;
 
+	ChangeHitState();
+
 	if (false == IsTargetInAngle(3.0f))
 	{
 		RotToTarget(_Delta);
@@ -741,6 +820,8 @@ void Monster_Hollow_NonFirstAttack::State_Run_Start()
 void Monster_Hollow_NonFirstAttack::State_Run_Update(float _Delta)
 {
 	WalkTime += _Delta;
+
+	ChangeHitState();
 
 	if (false == IsTargetInAngle(3.0f))
 	{
@@ -767,6 +848,8 @@ void Monster_Hollow_NonFirstAttack::State_RH_VerticalSlash_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_RH_VerticalSlash_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 61)
 	{
 		ChangeState(Enum_Hollow_State::Idle);
@@ -779,6 +862,8 @@ void Monster_Hollow_NonFirstAttack::State_RH_HorizontalSlash_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_RH_HorizontalSlash_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 53)
 	{
 		ChangeState(Enum_Hollow_State::Idle);
@@ -791,6 +876,8 @@ void Monster_Hollow_NonFirstAttack::State_TH_VerticalSlash_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_TH_VerticalSlash_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 73)
 	{
 		ChangeState(Enum_Hollow_State::Idle);
@@ -803,6 +890,8 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 165)
 	{
 		ChangeState(Enum_Hollow_State::Idle);
@@ -815,6 +904,8 @@ void Monster_Hollow_NonFirstAttack::State_RH_RunToSlash_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_RH_RunToSlash_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 82)
 	{
 		ChangeState(Enum_Hollow_State::Idle);
@@ -827,6 +918,8 @@ void Monster_Hollow_NonFirstAttack::State_Turn_Left2_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_Turn_Left2_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 35)
 	{
 		ChangeState(Enum_Hollow_State::Idle);
@@ -839,6 +932,8 @@ void Monster_Hollow_NonFirstAttack::State_Turn_Right2_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_Turn_Right2_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 35)
 	{
 		ChangeState(Enum_Hollow_State::Idle);
@@ -851,6 +946,8 @@ void Monster_Hollow_NonFirstAttack::State_Turn_Left_Twice2_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_Turn_Left_Twice2_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 38)
 	{
 		ChangeState(Enum_Hollow_State::Idle);
@@ -863,6 +960,8 @@ void Monster_Hollow_NonFirstAttack::State_Turn_Right_Twice2_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_Turn_Right_Twice2_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 38)
 	{
 		ChangeState(Enum_Hollow_State::Idle);
@@ -887,7 +986,7 @@ void Monster_Hollow_NonFirstAttack::State_Parrying_Update(float _Delta)
 
 }
 
-void Monster_Hollow_NonFirstAttack::State_Hit_Start()
+void Monster_Hollow_NonFirstAttack::State_Hit_Front_Start()
 {
 	// 무기가 없는 상태일때 맞았을때 꺼내야됨
 	MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
@@ -896,9 +995,52 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Start()
 	// 이 전에 있던 State가 Pray 또는 BeScared일때
 	// 타게팅은 여기서 이루어짐.
 }
-void Monster_Hollow_NonFirstAttack::State_Hit_Update(float _Delta)
+void Monster_Hollow_NonFirstAttack::State_Hit_Front_Update(float _Delta)
 {
+	if (MainRenderer->GetCurAnimationFrame() >= 46)
+	{
+		BodyCollision->On();
+		ChangeState(Enum_Hollow_State::Idle);
+	}
+}
 
+void Monster_Hollow_NonFirstAttack::State_Hit_Back_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Hit_Back");
+}
+void Monster_Hollow_NonFirstAttack::State_Hit_Back_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 46)
+	{
+		BodyCollision->On();
+		ChangeState(Enum_Hollow_State::Idle);
+	}
+}
+
+void Monster_Hollow_NonFirstAttack::State_Hit_Left_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Hit_Left");
+}
+void Monster_Hollow_NonFirstAttack::State_Hit_Left_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 46)
+	{
+		BodyCollision->On();
+		ChangeState(Enum_Hollow_State::Idle);
+	}
+}
+
+void Monster_Hollow_NonFirstAttack::State_Hit_Right_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Hit_Right");
+}
+void Monster_Hollow_NonFirstAttack::State_Hit_Right_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 46)
+	{
+		BodyCollision->On();
+		ChangeState(Enum_Hollow_State::Idle);
+	}
 }
 
 void Monster_Hollow_NonFirstAttack::State_HitToDeath_Start()

@@ -24,6 +24,10 @@ void Monster_HollowSoldier_Spear::Start()
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::SmallLeatherVest);
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::Pants);
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::TopRobe);
+
+	// Status
+	Stat.SetHp(190);
+	Stat.SetAtt(1);
 }
 void Monster_HollowSoldier_Spear::Update(float _Delta)
 {
@@ -160,8 +164,17 @@ void Monster_HollowSoldier_Spear::ChangeState(Enum_HollowSoldier_Spear_State _St
 		case Enum_HollowSoldier_Spear_State::Parrying:
 			State_Parrying_Start();
 			break;
-		case Enum_HollowSoldier_Spear_State::Hit:
-			State_Hit_Start();
+		case Enum_HollowSoldier_Spear_State::Hit_Front:
+			State_Hit_Front_Start();
+			break;
+		case Enum_HollowSoldier_Spear_State::Hit_Back:
+			State_Hit_Back_Start();
+			break;
+		case Enum_HollowSoldier_Spear_State::Hit_Left:
+			State_Hit_Left_Start();
+			break;
+		case Enum_HollowSoldier_Spear_State::Hit_Right:
+			State_Hit_Right_Start();
 			break;
 		case Enum_HollowSoldier_Spear_State::HitToDeath:
 			State_HitToDeath_Start();
@@ -264,8 +277,14 @@ void Monster_HollowSoldier_Spear::StateUpdate(float _Delta)
 		return State_AttackFail_Update(_Delta);
 	case Enum_HollowSoldier_Spear_State::Parrying:
 		return State_Parrying_Update(_Delta);
-	case Enum_HollowSoldier_Spear_State::Hit:
-		return State_Hit_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Hit_Front:
+		return State_Hit_Front_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Hit_Back:
+		return State_Hit_Back_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Hit_Left:
+		return State_Hit_Left_Update(_Delta);
+	case Enum_HollowSoldier_Spear_State::Hit_Right:
+		return State_Hit_Right_Update(_Delta);
 	case Enum_HollowSoldier_Spear_State::HitToDeath:
 		return State_HitToDeath_Update(_Delta);
 	case Enum_HollowSoldier_Spear_State::BackAttackHit:
@@ -327,6 +346,39 @@ void Monster_HollowSoldier_Spear::ChangeAttackState()
 	}
 
 	//ChangeState(Enum_HollowSoldier_Spear_State::Walk_Left3);
+}
+
+void Monster_HollowSoldier_Spear::ChangeHitState()
+{
+	if (true == Hit.IsHit())
+	{
+		Enum_DirectionXZ_Quat HitDir = Hit.GetHitDir();
+		BodyCollision->Off();
+		Hit.SetHit(false);
+
+		switch (HitDir)
+		{
+		case Enum_DirectionXZ_Quat::F:
+			ChangeState(Enum_HollowSoldier_Spear_State::Hit_Front);
+			break;
+		case Enum_DirectionXZ_Quat::R:
+			ChangeState(Enum_HollowSoldier_Spear_State::Hit_Right);
+			break;
+		case Enum_DirectionXZ_Quat::B:
+			ChangeState(Enum_HollowSoldier_Spear_State::Hit_Back);
+			break;
+		case Enum_DirectionXZ_Quat::L:
+			ChangeState(Enum_HollowSoldier_Spear_State::Hit_Left);
+			break;
+		default:
+			ChangeState(Enum_HollowSoldier_Spear_State::Hit_Front);
+			break;
+		}
+	}
+	else
+	{
+		return;
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Idle1_Start()
@@ -1041,11 +1093,38 @@ void Monster_HollowSoldier_Spear::State_Parrying_Update(float _Delta)
 
 }
 
-void Monster_HollowSoldier_Spear::State_Hit_Start()
+void Monster_HollowSoldier_Spear::State_Hit_Front_Start()
 {
 	MainRenderer->ChangeAnimation("c1100_Spear_Hit_Front");
 }
-void Monster_HollowSoldier_Spear::State_Hit_Update(float _Delta)
+void Monster_HollowSoldier_Spear::State_Hit_Front_Update(float _Delta)
+{
+
+}
+
+void Monster_HollowSoldier_Spear::State_Hit_Back_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Hit_Back");
+}
+void Monster_HollowSoldier_Spear::State_Hit_Back_Update(float _Delta)
+{
+
+}
+
+void Monster_HollowSoldier_Spear::State_Hit_Left_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Hit_Left");
+}
+void Monster_HollowSoldier_Spear::State_Hit_Left_Update(float _Delta)
+{
+
+}
+
+void Monster_HollowSoldier_Spear::State_Hit_Right_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Spear_Hit_Right");
+}
+void Monster_HollowSoldier_Spear::State_Hit_Right_Update(float _Delta)
 {
 
 }

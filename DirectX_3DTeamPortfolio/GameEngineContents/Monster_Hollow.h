@@ -79,6 +79,7 @@ protected:
 	std::shared_ptr<GameEngineCollision> RecognizeCollision;
 	//std::shared_ptr<GameEngineCollision> AttackRangeCollision;
 	std::shared_ptr<GameEngineCollision> BodyCollision;
+	std::shared_ptr<GameEngineCollision> MonsterCollision;
 
 	void FindTarget();
 	bool IsTargetInAngle(float _fAngle) const;
