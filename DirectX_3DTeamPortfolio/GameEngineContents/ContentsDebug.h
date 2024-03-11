@@ -1,6 +1,5 @@
 #pragma once
 
-
 namespace ContentsDebug
 {	
 	void DistanceCheck(const float4& _f4Pos, float _fDist, const float4& _f4Color = float4::RED);
@@ -18,4 +17,6 @@ namespace ContentsDebug
 		OutputStr += std::to_string(_Value) + "\n";
 		OutputDebugStringA(OutputStr.c_str());
 	}
+
+	void OutputString(std::string_view _Title, std::string_view _Subject);
 }

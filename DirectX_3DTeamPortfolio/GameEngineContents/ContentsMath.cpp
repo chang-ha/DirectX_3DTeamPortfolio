@@ -70,6 +70,12 @@ float4 ContentsMath::GetVector3Length(const float4& _V)
 	return DirectX::XMVector3Length(_V.DirectXVector);
 }
 
+float ContentsMath::DotNormalizeReturnDeg(float _Dot)
+{
+	const float QuatCircleDeg = CIRCLE * 0.25f;
+	return (_Dot + 1.0f) * 0.5f * QuatCircleDeg;
+}
+
 Enum_DirectionXZ_Quat ContentsMath::ReturnXZDirectionToVector(const float4& _V)
 {
 	float4 DirVector = _V;

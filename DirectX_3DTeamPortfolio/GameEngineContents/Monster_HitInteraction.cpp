@@ -76,8 +76,8 @@ void Monster_HitInteraction::CollisionToShield(Enum_CollisionOrder _Order, int _
 					continue;
 				}
 
-				RecordCollision(pActor.get());
 				pActor->GetHitToShield({ pParent, _iStiffness });
+				RecordCollision(pActor.get());
 			}
 		};
 

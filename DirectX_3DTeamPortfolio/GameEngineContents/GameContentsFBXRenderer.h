@@ -20,6 +20,7 @@ class RootMotionData
 	float MoveFrameTime = 0.f;
 	Enum_RootMotionMode RootMotionMode = Enum_RootMotionMode::StartDir;
 	bool IsRotation = true;
+	bool IsIgnoreGravity = false;
 
 	float MoveRatio_X = 1.f;
 	float MoveRatio_Y = 1.f;
@@ -224,6 +225,9 @@ public:
 		Pause = !Pause;
 	}
 
+	inline void SetPause(int _SwitchValue) { Pause = _SwitchValue; }
+		
+
 	inline bool IsFrameChange() const
 	{
 		return bFrameChange;
@@ -295,6 +299,7 @@ public:
 	void SetRootMotionMode(std::string_view _AniName, Enum_RootMotionMode _Mode);
 	void SetRootMotionMoveRatio(std::string_view _AniName, float _Ratio_X = -1, float _Ratio_Z = -1, float _Ratio_Y = -1);
 	void SetAllRootMotionMoveRatio(float _Ratio_X = -1, float _Ratio_Z = -1, float _Ratio_Y = -1);
+	void SetRootMotionGravityFlag(std::string_view _AniName, bool _IsIgnoreGravity);
 
 	void SetStartEvent(std::string_view _AnimationName, std::function<void(GameContentsFBXRenderer*)> _Function);
 	void SetEndEvent(std::string_view _AnimationName, std::function<void(GameContentsFBXRenderer*)> _Function);

@@ -21,10 +21,9 @@ void Monster_HollowSoldier_Sword::Start()
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::SmallLeatherVest);
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::Pants);
 
-	AddBoneIndex(Enum_BoneType::B_01_RightHand, 44);
-	CreateBoneCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
+	CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, static_cast<int>(Enum_Hollow_BoneType::RightHand), { float4(1.0f,1.0f,1.0f), float4::ZERONULL, float4::ZERO }, "RightHand");
 	
-	//AttackRangeCollision->Off();
+	//AttackRangeCollision->Off(); 
 
 	ChangeState(Enum_HollowSoldier_Sword_State::Idle1);
 
@@ -158,14 +157,26 @@ void Monster_HollowSoldier_Sword::ChangeState(Enum_HollowSoldier_Sword_State _St
 		case Enum_HollowSoldier_Sword_State::Parrying:
 			State_Parrying_Start();
 			break;
-		case Enum_HollowSoldier_Sword_State::Hit:
-			State_Hit_Start();
+		case Enum_HollowSoldier_Sword_State::Hit_Front:
+			State_Hit_Front_Start();
+			break;
+		case Enum_HollowSoldier_Sword_State::Hit_Back:
+			State_Hit_Back_Start();
+			break;
+		case Enum_HollowSoldier_Sword_State::Hit_Left:
+			State_Hit_Left_Start();
+			break;
+		case Enum_HollowSoldier_Sword_State::Hit_Right:
+			State_Hit_Right_Start();
 			break;
 		case Enum_HollowSoldier_Sword_State::HitToDeath:
 			State_HitToDeath_Start();
 			break;
 		case Enum_HollowSoldier_Sword_State::BackAttackHit:
 			State_BackAttackHit_Start();
+			break;
+		case Enum_HollowSoldier_Sword_State::AfterGuardBreakHit:
+			State_AfterGuardBreakHit_Start();
 			break;
 		case Enum_HollowSoldier_Sword_State::Death:
 			State_Death_Start();
@@ -256,12 +267,20 @@ void Monster_HollowSoldier_Sword::StateUpdate(float _Delta)
 		return State_AttackFail_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::Parrying:
 		return State_Parrying_Update(_Delta);
-	case Enum_HollowSoldier_Sword_State::Hit:
-		return State_Hit_Update(_Delta);
+	case Enum_HollowSoldier_Sword_State::Hit_Front:
+		return State_Hit_Front_Update(_Delta);
+	case Enum_HollowSoldier_Sword_State::Hit_Back:
+		return State_Hit_Back_Update(_Delta);
+	case Enum_HollowSoldier_Sword_State::Hit_Left:
+		return State_Hit_Left_Update(_Delta);
+	case Enum_HollowSoldier_Sword_State::Hit_Right:
+		return State_Hit_Right_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::HitToDeath:
 		return State_HitToDeath_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::BackAttackHit:
 		return State_BackAttackHit_Update(_Delta);
+	case Enum_HollowSoldier_Sword_State::AfterGuardBreakHit:
+		return State_AfterGuardBreakHit_Update(_Delta);
 	case Enum_HollowSoldier_Sword_State::Death:
 		return State_Death_Update(_Delta);
 	default:
@@ -339,6 +358,39 @@ void Monster_HollowSoldier_Sword::ChangeAttackState()
 		break;
 	}
 
+}
+
+void Monster_HollowSoldier_Sword::ChangeHitState()
+{
+	if (true == Hit.IsHit())
+	{
+		Enum_DirectionXZ_Quat HitDir = Hit.GetHitDir();
+		BodyCollision->Off();
+		Hit.SetHit(false);
+
+		switch (HitDir)
+		{
+		case Enum_DirectionXZ_Quat::F:
+			ChangeState(Enum_HollowSoldier_Sword_State::Hit_Front);
+			break;
+		case Enum_DirectionXZ_Quat::R:
+			ChangeState(Enum_HollowSoldier_Sword_State::Hit_Right);
+			break;
+		case Enum_DirectionXZ_Quat::B:
+			ChangeState(Enum_HollowSoldier_Sword_State::Hit_Back);
+			break;
+		case Enum_DirectionXZ_Quat::L:
+			ChangeState(Enum_HollowSoldier_Sword_State::Hit_Left);
+			break;
+		default:
+			ChangeState(Enum_HollowSoldier_Sword_State::Hit_Front);
+			break;
+		}
+	}
+	else
+	{
+		return;
+	}
 }
 
 void Monster_HollowSoldier_Sword::State_Idle1_Start()
@@ -543,6 +595,7 @@ void Monster_HollowSoldier_Sword::State_Walk_Front_Start()
 }
 void Monster_HollowSoldier_Sword::State_Walk_Front_Update(float _Delta)
 {
+	ChangeHitState();
 
 	if (false == IsTargetInAngle(3.0f))
 	{
@@ -1278,13 +1331,54 @@ void Monster_HollowSoldier_Sword::State_Parrying_Update(float _Delta)
 
 }
 
-void Monster_HollowSoldier_Sword::State_Hit_Start()
+void Monster_HollowSoldier_Sword::State_Hit_Front_Start()
 {
+	
 	MainRenderer->ChangeAnimation("c1100_Hit_Front");
 }
-void Monster_HollowSoldier_Sword::State_Hit_Update(float _Delta)
+void Monster_HollowSoldier_Sword::State_Hit_Front_Update(float _Delta)
 {
+	if (MainRenderer->GetCurAnimationFrame() >= 46)
+	{
+		BodyCollision->On();
+		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+	}
+}
 
+void Monster_HollowSoldier_Sword::State_Hit_Back_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Hit_Back");
+}
+void Monster_HollowSoldier_Sword::State_Hit_Back_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 46)
+	{
+		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+	}
+}
+
+void Monster_HollowSoldier_Sword::State_Hit_Left_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Hit_Left");
+}
+void Monster_HollowSoldier_Sword::State_Hit_Left_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 46)
+	{
+		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+	}
+}
+
+void Monster_HollowSoldier_Sword::State_Hit_Right_Start()
+{
+	MainRenderer->ChangeAnimation("C1100_Hit_Right");
+}
+void Monster_HollowSoldier_Sword::State_Hit_Right_Update(float _Delta)
+{
+	if (MainRenderer->GetCurAnimationFrame() >= 46)
+	{
+		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+	}
 }
 
 void Monster_HollowSoldier_Sword::State_HitToDeath_Start()
@@ -1310,6 +1404,15 @@ void Monster_HollowSoldier_Sword::State_BackAttackHit_Start()
 	MainRenderer->ChangeAnimation("c1100_BackAttackHit");
 }
 void Monster_HollowSoldier_Sword::State_BackAttackHit_Update(float _Delta)
+{
+
+}
+
+void Monster_HollowSoldier_Sword::State_AfterGuardBreakHit_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_AfterGuardBreakHit");
+}
+void Monster_HollowSoldier_Sword::State_AfterGuardBreakHit_Update(float _Delta)
 {
 
 }

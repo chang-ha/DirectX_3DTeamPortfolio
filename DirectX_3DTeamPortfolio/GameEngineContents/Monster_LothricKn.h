@@ -2,6 +2,7 @@
 #include "BaseMonster.h"
 
 #include "Monster_HitInteraction.h"
+#include "LothricKn_Debug.h"
 
 enum class Enum_LothricKn_State
 {
@@ -9,6 +10,7 @@ enum class Enum_LothricKn_State
 	Debug,
 	Sleep,
 	Idle_Standing1,
+	Idle_Gaurding,
 	L_Side_Step, // L == Left
 	R_Side_Step, // R == Right
 	F_Step, // F == Forward
@@ -98,6 +100,19 @@ class Monster_LothricKn : public BaseMonster
 		SwordCover,
 	};
 
+	enum class eBoneType
+	{
+		Pelvis = 7,
+		L_Thight_Twist = 9,
+		L_Calf = 11,
+		R_Thight_Twist = 15,
+		R_Calf = 17,
+		Spine2 = 22,
+		Shield = 46,
+		Sword = 71,
+		Head = 82,
+	};
+
 	enum class Enum_IdleType
 	{
 		Standing,
@@ -105,7 +120,7 @@ class Monster_LothricKn : public BaseMonster
 		None,
 	};
 
-	enum class Enum_Combat_State
+	enum class eCombatState
 	{
 		Normal,
 		Two_Handed,
@@ -154,6 +169,7 @@ private:
 	void Start_Debug(GameEngineState* _State);
 	void StartSleep(GameEngineState* _State);
 	void Start_Idle_Standing1(GameEngineState* _State);
+	void Start_Idle_Gaurding(GameEngineState* _State);
 	void Start_Patrol(GameEngineState* _State);
 	void Start_Combo_Att_11(GameEngineState* _State);
 	void Start_Combo_Att_12(GameEngineState* _State);
@@ -226,6 +242,7 @@ private:
 		// Update  G_Run
 	void Update_Debug(float _DeltaTime, GameEngineState* _State);
 	void Update_Idle_Standing1(float _DeltaTime, GameEngineState* _State);
+	void Update_Idle_Gaurding(float _DeltaTime, GameEngineState* _State);
 	void Update_Patrol(float _DeltaTime, GameEngineState* _State);
 	void Update_Combo_Att_11(float _DeltaTime, GameEngineState* _State);
 	void Update_Combo_Att_12(float _DeltaTime, GameEngineState* _State);
@@ -288,6 +305,7 @@ private:
 	// End
 	void EndSleep(GameEngineState* _State);
 
+	void End_Idle_Gaurding(float _DeltaTime, GameEngineState* _State);
 	void End_Combo_Att_11(GameEngineState* _State);
 	void End_Combo_Att_12(GameEngineState* _State);
 	void End_Combo_Att_13(GameEngineState* _State);
@@ -339,10 +357,10 @@ private:
 	void StateTimeSet(float _fMin, float _fMax);
 	void ResetStateTime();
 
-	void SetCombatMode(Enum_Combat_State _Combat);
+	void SetCombatMode(eCombatState _Combat);
 
 	// 자식에서 함수 재정의해서 사용할 것
-	Enum_TargetAngle GetTargetAngle_e() const override
+	Enum_TargetAngle GetTargetAngle_e() const
 	{
 		return BaseMonster::GetTargetAngle_e(FRONT_ANGLE, SIDE_ANGLE);
 	}
@@ -357,7 +375,7 @@ private:
 	bool CanAttack(float _fDist, float _fDir) const;
 	bool IsTargetInAngle(float _fAngle) const;
 
-	void RotToTarget(float _DeltaTime, float _fSpeed);
+	void RotToTarget(float _DeltaTime, float _fMinSpeed, float _fMaxSpeed);
 	bool CheckAndSetHitState();
 	bool CheckAndSetAttackState();
 	
@@ -384,36 +402,36 @@ private:
 	Enum_LothricKn_State GetStateToHitTable();
 
 	// Collision
-	bool FindAndSetTarget();
+	void SetPatrolCollision(bool _SwitchValue);
+	bool FindAndSetTarget(Enum_CollisionOrder _Order);
 	void AttackToPlayer(eAttackType _eBoneType);
 	void AttackToBody(eAttackType _eBoneType, Enum_CollisionOrder _Order);
 	void AttackToShield(eAttackType _eBoneType, Enum_CollisionOrder _Order);
-
-	bool FrontStabCheck(const float4& _WPos, float _RotY) const override;
-	bool BackStabCheck(const float4& _WPos, float _RotY) const override;
-	float4 GetBackStabPosition() override;
-	float4 GetFrontStabPosition() override;
+	void AttackDone(eAttackType _eBoneType);
 
 private:
-	std::shared_ptr<GameEngineCollision> PatrolCollision;  
+	std::shared_ptr<GameEngineCollision> PatrolCollision;
 	Monster_HitInteraction Sword;
 	Monster_HitInteraction Shield;
 
 	Enum_IdleType IdleType = Enum_IdleType::None;
-	Enum_Combat_State CombatState = Enum_Combat_State::None;
+	eCombatState CombatState = eCombatState::None;
 
 	int AttackRecord = 0;
 	float fMaxStateTime = 0.0f;
 
 	static constexpr float CLOSE_RANGE = 3.0f;
 	static constexpr float MELEE_RANGE = 5.0f;
-	static constexpr float MEDIUM_RANGE = 7.0f;
-	static constexpr float LONG_RANGE = 10.0f;
+	static constexpr float MEDIUM_RANGE = 9.0f;
+	static constexpr float LONG_RANGE = 15.0f;
 	static constexpr float FRONT_ANGLE = 75.0f;
 	static constexpr float SIDE_ANGLE = 115.0f;
 	static constexpr float BACK_ANGLE = 150.0f;
 
 	static constexpr float MIN_ROT_ANGLE = 3.0f;
-	static constexpr float ROTSPEED_TO_TARGET = 510.0f;
+	static constexpr float MAX_ROTSPEED_TO_TARGET = 510.0f;
+	static constexpr float MIN_ROTSPEED_TO_TARGET = 150.0f;
+
+	LothricKn_Debug Debug;
 	
 };

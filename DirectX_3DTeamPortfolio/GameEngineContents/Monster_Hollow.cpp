@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "Monster_Hollow.h"
 #include "BasePlayer.h"
-
+#include "BoneSocketCollision.h"
 
 Monster_Hollow::Monster_Hollow()
 {
@@ -41,14 +41,18 @@ void Monster_Hollow::Start()
 	RecognizeCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
 	RecognizeCollision->SetCollisionType(ColType::SPHERE3D);
 	RecognizeCollision->SetCollisionColor(float4::BLACK);
-	RecognizeCollision->Transform.SetLocalPosition(float4(0, 100, 0));
-	RecognizeCollision->Transform.SetWorldScale(float4(500, 500, 500));
+	RecognizeCollision->Transform.SetLocalPosition(float4(0.0f, 100.0f, 0.0f));
+	RecognizeCollision->Transform.SetWorldScale(float4(500.0f, 500.0f, 500.0f));
 
 	/*AttackRangeCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
 	AttackRangeCollision->SetCollisionType(ColType::SPHERE3D);
 	AttackRangeCollision->SetCollisionColor(float4::RED);
 	AttackRangeCollision->Transform.SetLocalPosition(float4(0, 100, 0));
 	AttackRangeCollision->Transform.SetWorldScale(float4(300, 300, 300));*/
+
+	BodyCollision = CreateSocketCollision(Enum_CollisionOrder::Monster, static_cast<int>(Enum_Hollow_BoneType::Spine), { float4(100.0f, 100.0f, 100.0f), float4::ZERONULL, float4::ZERO }, "Spine");
+	
+	BodyCollision->On();
 }
 
 void Monster_Hollow::Update(float _Delta)

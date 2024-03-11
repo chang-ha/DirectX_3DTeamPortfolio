@@ -132,7 +132,7 @@ private:
 	EventParameter Mini_Event;
 	std::string BoneName;
 
-	std::shared_ptr<GameEngineCollision> Col;
+	std::shared_ptr<GameEngineCollision> Player_Col;
 
 	std::shared_ptr<BoneSocketCollision> Body_Col;
 	std::shared_ptr<BoneSocketCollision> Shield_Col;

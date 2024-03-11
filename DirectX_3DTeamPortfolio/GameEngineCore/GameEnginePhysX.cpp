@@ -109,7 +109,7 @@ void GameEnginePhysX::PhysXInit()
 		MsgBoxAssert("Cooking 생성에 실패했습니다.");
 	}
 
-	Material = Physics->createMaterial(2.0f, 0.5f, 0.0f);
+	Material = Physics->createMaterial(1.7f, 0.5f, 0.0f);
 
 	if (nullptr == Material)
 	{

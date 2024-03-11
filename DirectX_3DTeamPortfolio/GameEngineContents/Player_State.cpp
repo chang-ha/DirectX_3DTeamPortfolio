@@ -1874,7 +1874,8 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				MainRenderer->ChangeAnimation("String_Hit_Backward");
+				// 애니메이션 터짐
+				MainRenderer->ChangeAnimation("String_Hit_Behind");
 			};
 
 
@@ -2018,7 +2019,6 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("ladder_Up_Stop_Left");
-				Capsule->MoveForce({ 0.0f,-350.0f,0.0f }, Capsule->GetDir());			
 			};
 
 
@@ -2031,7 +2031,7 @@ void Player::Player_State()
 					return;
 				}
 
-				if (MainRenderer->GetCurAnimationFrame() > 25)
+				/*if (MainRenderer->GetCurAnimationFrame() > 25)
 				{
 					if (MainRenderer->GetCurAnimationFrame() < 40)
 					{
@@ -2043,7 +2043,7 @@ void Player::Player_State()
 				{
 					Capsule->MoveForce({ 0.0f,-210.0f,0.0f }, Capsule->GetDir());
 					Capsule->GravityOn();
-				}
+				}*/
 
 			};
 
@@ -2056,10 +2056,6 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("ladder_Up_Stop_Right");
-
-				Capsule->MoveForce({ 0.0f,-350.0f,0.0f }, Capsule->GetDir());
-			
-				//Capsule->MoveForce({ 0.0f,-500.0f,0.0f }, Capsule->GetDir());
 			};
 
 
@@ -2073,7 +2069,7 @@ void Player::Player_State()
 				}
 
 
-				if (MainRenderer->GetCurAnimationFrame() > 25)
+			/*	if (MainRenderer->GetCurAnimationFrame() > 25)
 				{
 					if (MainRenderer->GetCurAnimationFrame() < 40)
 					{
@@ -2086,7 +2082,7 @@ void Player::Player_State()
 				{
 					Capsule->MoveForce({ 0.0f,-210.0f,0.0f }, Capsule->GetDir());
 					Capsule->GravityOn();
-				}
+				}*/
 			};
 
 		PlayerStates.CreateState(PlayerState::ladder_Up_Stop_Right, NewPara);
