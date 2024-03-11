@@ -67,7 +67,7 @@ PSOutput ContentsDeferredMergeRender_PS(PixelOutPut _Input)
     float3 SpecularColor = SpecularTex.Sample(POINTClamp, _Input.TEXCOORD.xy).rgb;
     float3 HBAOTexColor = HBAOTex.Sample(LINEARClamp, _Input.TEXCOORD.xy).rgb;
     
-    SpecularColor = SpecularColor * 2.2f;
+    SpecularColor = SpecularColor * 6.0;
     
     SpcLight.xyz *= SpecularColor;
     PointSpcLight.xyz *= SpecularColor;
