@@ -2020,6 +2020,7 @@ void Player::Player_State()
 				if (MainRenderer->IsCurAnimationEnd())
 				{		
 					Capsule->GravityOn();
+					Rabber_Collision_Check = false;
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
@@ -2045,6 +2046,7 @@ void Player::Player_State()
 				if (MainRenderer->IsCurAnimationEnd())
 				{
 					Capsule->GravityOn();
+					Rabber_Collision_Check = false;;
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
@@ -2125,7 +2127,7 @@ void Player::Player_State()
 					return;
 				}
 
-
+				
 
 
 				if (MainRenderer->IsCurAnimationEnd())
@@ -2153,6 +2155,7 @@ void Player::Player_State()
 				if (MainRenderer->IsCurAnimationEnd())
 				{
 					Capsule->GravityOn();
+					Rabber_Collision_Check = false;
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
@@ -2178,6 +2181,7 @@ void Player::Player_State()
 				if (MainRenderer->IsCurAnimationEnd())
 				{
 					Capsule->GravityOn();
+					Rabber_Collision_Check = false; 
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
