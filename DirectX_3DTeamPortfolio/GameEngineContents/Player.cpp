@@ -541,7 +541,6 @@ void Player::Start()
 					float4 MyPos = Actor_test->Transform.GetWorldPosition();
 
 					float4 Dir = MyPos-TargetPos;
-					z
 					float4 Monster = { 0,0,-1 };
 					float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
 					float radian = atan2(Dir.X, Dir.Z) - atan2(Monster.X, Monster.Z);
