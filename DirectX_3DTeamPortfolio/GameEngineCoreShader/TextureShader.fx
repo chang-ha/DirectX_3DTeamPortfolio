@@ -23,7 +23,7 @@ cbuffer SpriteRendererInfo : register(b3)
 {
     int FlipLeft = 0;
     int FlipUp = 0;
-    float Temp1;
+    float BlackAlpha;
     float Temp2;
 };
 
