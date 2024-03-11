@@ -1874,6 +1874,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				// 애니메이션 터짐
 				MainRenderer->ChangeAnimation("String_Hit_Backward");
 			};
 
