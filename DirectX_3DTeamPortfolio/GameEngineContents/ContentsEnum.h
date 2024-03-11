@@ -17,7 +17,6 @@ enum class Enum_RenderOrder
 
 enum class Enum_CollisionOrder
 {
-
 	Null = 0,
 	Map = (1 << 0),
 	Player_Shield = (1 << 1),
@@ -33,8 +32,12 @@ enum class Enum_CollisionOrder
 	LadderTop = (1 << 11),
 	LadderBot = (1 << 12),
 	Player = (1 << 13),
-	Monster_Lantern = (1 << 14),
-	
+	Player_Body = (1 << 14),
+	Monster_Body = (1 << 15),
+	Monster_Lantern = (1 << 16),
+	LabberMiddle = (1 << 17),
+	Player_Arround = (1 << 18),
+
 };
 
 enum class Enum_RenderDepth

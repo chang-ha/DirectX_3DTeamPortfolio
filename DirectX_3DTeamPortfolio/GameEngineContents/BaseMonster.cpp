@@ -48,51 +48,6 @@ bool BaseMonster::CheckAnimationName(std::string _AnimationName)
 	}
 }
 
-void BaseMonster::AddBoneIndex(Enum_BoneType _BoneType, int _BoneNum)
-{
-	BoneIndex.insert(std::make_pair(_BoneType, _BoneNum));
-}
-
-/// <summary>
-/// 엔진에서 정의한 해시와 본 인덱스를 매핑시킨 데이터를 반환합니다.
-/// </summary>
-/// <param name="_BoneType">해시 정보</param>
-/// <returns> Default Value : 0 </returns>
-int BaseMonster::GetBoneIndex(Enum_BoneType _BoneType)
-{
-	std::unordered_map<Enum_BoneType, int>::const_iterator FindIter = BoneIndex.find(_BoneType);
-	if (FindIter == BoneIndex.end())
-	{
-		return 0;
-	}
-
-	return FindIter->second;
-}
-
-float4x4& BaseMonster::GetBoneMatrixToType(Enum_BoneType _BoneType)
-{
-	int Index = GetBoneIndex(_BoneType);
-	return GetBoneMatrixToIndex(Index);
-}
-
-std::shared_ptr<BoneSocketCollision> BaseMonster::FindSocketCollision(Enum_BoneType _Type)
-{
-	int SocketIndex = GetBoneIndex(_Type);
-	return GetSocketCollision(SocketIndex);
-}
-
-void BaseMonster::OnSocketCollisionInt(Enum_BoneType _Type)
-{
-	int SocketIndex = GetBoneIndex(_Type);
-	OnSocketCollision(SocketIndex);
-}
-
-void BaseMonster::OffSocketCollisionInt(Enum_BoneType _Type)
-{
-	int SocketIndex = GetBoneIndex(_Type);
-	OffSocketCollision(SocketIndex);
-}
-
 void BaseMonster::GravityOn()
 {
 	if (nullptr == Capsule)
@@ -174,7 +129,7 @@ bool BaseMonster::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 	const int AttackerAtt = pAttacker->GetAtt();
 	const int Stiffness = _Para.iStiffness;
 
-	Stat.AddPoise(Stiffness);
+	Stat.AddPoise(-Stiffness);
 	if (0 >= Stat.GetPoise())
 	{
 		SetFlag(Enum_ActorFlag::Break_Posture, true);
@@ -222,7 +177,7 @@ bool BaseMonster::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 	{
 		const int AttackerAtt = pAttacker->GetAtt();
 		const int Stiffness = _Para.iStiffness;
-		Stat.AddPoise(Stiffness);
+		Stat.AddPoise(-Stiffness);
 		if (0 >= Stat.GetPoise())
 		{
 			SetFlag(Enum_ActorFlag::Guard_Break, true);
@@ -230,6 +185,13 @@ bool BaseMonster::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 		}
 		else
 		{
+			const int PassPoise = 50;
+			if (Stiffness < PassPoise)
+			{
+				pAttacker->SetHit(true);
+				pAttacker->SetFlag(Enum_ActorFlag::Block_Shield, true);
+			}
+			
 			Hit.SetGuardSuccesss(true);
 		}
 
@@ -241,4 +203,77 @@ bool BaseMonster::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 	}
 
 	return false;
+}
+
+
+static constexpr float STAB_RECOGNITION_RANGE = 1.5f;
+static constexpr float STAB_POS_RANGE = 0.8f;
+static constexpr float STAB_ANGLE = 45.0f;
+
+bool BaseMonster::FrontStabCheck(const float4& _WPos, float _RotY) const
+{
+	const float4 MyPos = Transform.GetWorldPosition();
+	const float4 MyRot = Transform.GetWorldRotationEuler();
+	const float4 MyXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);
+	const float4 OtherXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, _RotY);
+
+	// Y PosCheck << Y 높이 체크 해야됨
+
+	float4 VectorToOther = MyPos - _WPos;
+	VectorToOther.Y = 0;
+
+	const float Dist = ContentsMath::GetVector3Length(VectorToOther).X;
+	const float Dot = float4::DotProduct3D(MyXZDirVector, OtherXZDirVector);
+	const float Deg = ContentsMath::DotNormalizeReturnDeg(Dot);
+
+	bool RangeCheck = (Dist < STAB_RECOGNITION_RANGE * W_SCALE);
+	bool DirCheck = (Deg < STAB_ANGLE);
+	return (RangeCheck && DirCheck);
+}
+
+bool BaseMonster::BackStabCheck(const float4& _WPos, float _RotY) const
+{
+	const float4 MyPos = Transform.GetWorldPosition();
+	const float4 MyRot = Transform.GetWorldRotationEuler();
+	const float4 MyXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);
+	const float4 OtherXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, _RotY);
+
+	// Y PosCheck << Y 높이 체크 해야됨
+
+	float4 VectorToOther = MyPos - _WPos;
+	VectorToOther.Y = 0;
+
+	const float Dist = ContentsMath::GetVector3Length(VectorToOther).X;
+	const float Dot = float4::DotProduct3D(MyXZDirVector, OtherXZDirVector);
+	const float Deg = ContentsMath::DotNormalizeReturnDeg(Dot);
+	const float BackStabAngle = CIRCLE - STAB_ANGLE;
+
+	bool RangeCheck = (Dist < STAB_RECOGNITION_RANGE * W_SCALE);
+	bool DirCheck = (Dot > BackStabAngle);
+	return (RangeCheck && DirCheck);
+}
+
+float4 BaseMonster::GetBackStabPosition()
+{
+	SetFlag(Enum_ActorFlag::BackStab, true);
+	Hit.SetHit(true);
+
+	const float4 MyPos = Transform.GetWorldPosition();
+	const float4 MyRot = Transform.GetWorldRotationEuler();
+	const float4 BackDirVector = float4::VectorRotationToDegY(float4::BACKWARD, MyRot.Y);
+	const float StabDist = W_SCALE * STAB_POS_RANGE;
+	const float4 RelativePos = BackDirVector * StabDist;
+	const float4 OtherPos = RelativePos + MyPos;
+	return OtherPos;
+}
+
+float4 BaseMonster::GetFrontStabPosition()
+{
+	const float4 MyPos = Transform.GetWorldPosition();
+	const float4 MyRot = Transform.GetWorldRotationEuler();
+	const float4 DirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);
+	const float StabDist = W_SCALE * STAB_POS_RANGE;
+	const float4 RelativePos = DirVector * StabDist;
+	const float4 OtherPos = RelativePos + MyPos;
+	return OtherPos;
 }

@@ -41,6 +41,12 @@ enum class Enum_Hollow_MeshIndex
 	None
 };
 
+enum class Enum_Hollow_BoneType
+{
+	Spine = 7,
+	RightHand = 44,
+};
+
 // Ό³Έν : 
 class Monster_Hollow : public BaseMonster
 {
@@ -71,7 +77,8 @@ private:
 
 protected:
 	std::shared_ptr<GameEngineCollision> RecognizeCollision;
-	std::shared_ptr<GameEngineCollision> AttackRangeCollision;
+	//std::shared_ptr<GameEngineCollision> AttackRangeCollision;
+	std::shared_ptr<GameEngineCollision> BodyCollision;
 
 	void FindTarget();
 	bool IsTargetInAngle(float _fAngle) const;

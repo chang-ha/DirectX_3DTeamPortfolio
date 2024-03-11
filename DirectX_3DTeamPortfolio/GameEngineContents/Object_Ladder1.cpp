@@ -27,19 +27,24 @@ void Object_Ladder1::Start()
 
 	CollisionBottom = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::LadderBot);
 	CollisionBottom->SetCollisionType(ColType::SPHERE3D);
-	CollisionBottom->Transform.SetLocalPosition({ 0, 0 , 0 });
-	CollisionBottom->Transform.SetWorldScale(float4(200, 200, 200));
+	CollisionBottom->Transform.SetLocalPosition({ 0, 0 , 0.5f });
+	CollisionBottom->Transform.SetWorldScale(float4(250, 250, 250));
 
 	CollisionTop = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::LadderTop);
 	CollisionTop->SetCollisionType(ColType::SPHERE3D);
-	CollisionTop->Transform.SetLocalPosition({ 0.0f, 8.5f , 0.0f });
-	CollisionTop->Transform.SetWorldScale(float4(200, 200, 200));
+	CollisionTop->Transform.SetLocalPosition({ 0.0f, 7.8f , 0.42f });
+	CollisionTop->Transform.SetWorldScale(float4(300, 300, 300));
+
+	CollisionBody = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::LabberMiddle);
+	CollisionBody->SetCollisionType(ColType::AABBBOX3D);
+	CollisionBody->Transform.SetLocalPosition({ 0.0f, 4, 0 });
+	CollisionBody->Transform.SetLocalScale(float4(0.2f, 7.2f, 1));
 
 	
-	CollisionFront = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::LadderTop);
+	/*CollisionFront = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::LadderTop);
 	CollisionFront->SetCollisionType(ColType::AABBBOX3D);
 	CollisionFront->Transform.SetLocalPosition({ 0.0f, 8.5f , -0.8f });
-	CollisionFront->Transform.SetWorldScale(float4(20, 200, 200));
+	CollisionFront->Transform.SetWorldScale(float4(20, 200, 200));*/
 
 
 }

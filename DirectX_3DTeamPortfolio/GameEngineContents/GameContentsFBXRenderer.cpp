@@ -389,10 +389,10 @@ void GameContentsFBXAnimationInfo::RootMotionUpdate(float _Delta)
 	switch (mRootMotionData.RootMotionMode)
 	{
 	case Enum_RootMotionMode::StartDir:
-		ParentRenderer->RootMotionComponent->MoveForce(MotionVector, mRootMotionData.RootMotion_StartDir, false);
+		ParentRenderer->RootMotionComponent->MoveForce(MotionVector, mRootMotionData.RootMotion_StartDir, mRootMotionData.IsIgnoreGravity);
 		break;
 	case Enum_RootMotionMode::RealTimeDir:
-		ParentRenderer->RootMotionComponent->MoveForce(MotionVector, false);
+		ParentRenderer->RootMotionComponent->MoveForce(MotionVector, mRootMotionData.IsIgnoreGravity);
 		break;
 	default:
 		MsgBoxAssert("존재하지 않는 루트모션 모드입니다.");
@@ -873,6 +873,11 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 			BlendBoneData = AnimationBoneDatas;
 		}
 
+		for (std::function<void()> _Function : CurAnimation->AnimationChangeFunction)
+		{
+			_Function();
+		}
+
 		CurAnimation->Reset();
 
 		if (nullptr != CurAnimation->FrameChangeFunction)
@@ -882,10 +887,6 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 	}
 
 	CurAnimation = Ptr;
-	if (nullptr != CurAnimation->AnimationChangeFunction)
-	{
-		CurAnimation->AnimationChangeFunction();
-	}
 
 	if (nullptr != MultiBlendAnimation)
 	{
@@ -1349,6 +1350,17 @@ void GameContentsFBXRenderer::SetAllRootMotionMoveRatio(float _Ratio_X /*= -1*/,
 	}
 }
 
+void GameContentsFBXRenderer::SetRootMotionGravityFlag(std::string_view _AniName, bool _IsIgnoreGravity)
+{
+	std::string UpperName = GameEngineString::ToUpperReturn(_AniName.data());
+	if (false == Animations.contains(UpperName))
+	{
+		MsgBoxAssert("존재하지 않는 애니메이션입니다.");
+	}
+
+	std::shared_ptr<GameContentsFBXAnimationInfo> AniInfo = Animations[UpperName];
+	AniInfo->mRootMotionData.IsIgnoreGravity = _IsIgnoreGravity;
+}
 
 AnimationBoneData GameContentsFBXRenderer::GetBoneData(std::string_view _Name)
 {
@@ -1435,7 +1447,7 @@ void GameContentsFBXRenderer::SetAnimationChangeEvent(std::string_view _Animatio
 		MsgBoxAssert("존재하지 않는 애니메이션에 이벤트를 만들려고 했습니다.");
 	}
 
-	Animation->AnimationChangeFunction = _Function;
+	Animation->AnimationChangeFunction.push_back(_Function);
 }
 
 

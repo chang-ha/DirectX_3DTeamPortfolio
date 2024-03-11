@@ -19,7 +19,7 @@ public:
 	ContentsLight& operator=(ContentsLight&& _Other) noexcept = delete;
 
 	bool IsDebugValue = false;
-
+	//bool ChangeShadow = false;
 
 
 protected:

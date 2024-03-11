@@ -136,9 +136,6 @@
     <ClCompile Include="LightGUI.cpp">
       <Filter>ImGui\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="ContentsDebug.cpp">
-      <Filter>Actor\Monster\LothricKnight</Filter>
-    </ClCompile>
     <ClCompile Include="SwitchFlagFrameEvent.cpp">
       <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClCompile>
@@ -340,14 +337,8 @@
     <ClCompile Include="shield.cpp">
       <Filter>Actor\Player</Filter>
     </ClCompile>
-    <ClCompile Include="BaseActor_Para.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
     <ClCompile Include="MaterialLoopSoundFrameEvent.cpp">
       <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseActor_Struct.cpp">
-      <Filter>Actor</Filter>
     </ClCompile>
     <ClCompile Include="SingleCenterSoundFrameEvent.cpp">
       <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
@@ -359,6 +350,21 @@
       <Filter>Resource\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Object_Torchlight.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseActor_Struct.cpp">
+      <Filter>Actor\Struct</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseActor_Para.cpp">
+      <Filter>Actor\Struct</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsDebug.cpp">
+      <Filter>Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="LothricKn_Debug.cpp">
+      <Filter>Actor\Monster\LothricKnight\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_CandleHuman2.cpp">
       <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
@@ -494,9 +500,6 @@
     </ClInclude>
     <ClInclude Include="LightGUI.h">
       <Filter>ImGui\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="ContentsDebug.h">
-      <Filter>Actor\Monster\LothricKnight</Filter>
     </ClInclude>
     <ClInclude Include="SwitchFlagFrameEvent.h">
       <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
@@ -696,14 +699,8 @@
     <ClInclude Include="shield.h">
       <Filter>Actor\Player</Filter>
     </ClInclude>
-    <ClInclude Include="BaseActor_Para.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
     <ClInclude Include="MaterialLoopSoundFrameEvent.h">
       <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseActor_Struct.h">
-      <Filter>Actor</Filter>
     </ClInclude>
     <ClInclude Include="SingleCenterSoundFrameEvent.h">
       <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
@@ -715,6 +712,21 @@
       <Filter>Resource\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Object_Torchlight.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseActor_Struct.h">
+      <Filter>Actor\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseActor_Para.h">
+      <Filter>Actor\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsDebug.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="LothricKn_Debug.h">
+      <Filter>Actor\Monster\LothricKnight\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_CandleHuman2.h">
       <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
@@ -835,6 +847,12 @@
     </Filter>
     <Filter Include="Object">
       <UniqueIdentifier>{4949b61b-b6b3-42f9-b607-52f7f08aafaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{2dbac47e-d02b-467e-81da-5e9f1befb8ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Monster\LothricKnight\Debug">
+      <UniqueIdentifier>{f75f5fca-fbe1-4ce4-99ff-214846536e1f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

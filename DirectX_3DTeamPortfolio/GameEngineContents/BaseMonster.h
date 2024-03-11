@@ -1,27 +1,6 @@
 #pragma once
 #include "BaseActor.h"
 
-// Collision, BoneIndex
-enum class Enum_BoneType
-{
-	None,
-	B_01_LeftHand = 1,
-	B_01_RightHand = 21,
-	B_01_Spine = 31,
-};
-
-namespace std
-{
-	template<>
-	class hash<Enum_BoneType>
-	{
-	public:
-		int operator()(Enum_BoneType _Type) const
-		{
-			return static_cast<int>(_Type);
-		}
-	};
-}
 
 class BaseMonster : public BaseActor
 {
@@ -70,26 +49,6 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 
-	// BoneIndex
-	// BoneIndex를 Enum타입으로 쉽게 참조하기위해 구현했습니다.
-	// 하지만 사용하지 않는다면 내리겠습니다. 
-	// 사용하지 않으면 반대를 선택해주세요
-	// 투표 : 찬성(), 반대() << 2명이 반대할 경우 바로 내리겠습니다. 
-	void AddBoneIndex(Enum_BoneType _BoneType, int _BoneNum);
-	int GetBoneIndex(Enum_BoneType _BoneType);
-	float4x4& GetBoneMatrixToType(Enum_BoneType _BoneType);
-
-	// Socket Collision
-	std::shared_ptr<BoneSocketCollision> CreateBoneCollision(Enum_CollisionOrder _Order, Enum_BoneType _Type, std::string_view ColName = "")
-	{
-		int SocketIndex = GetBoneIndex(_Type);
-		return CreateSocketCollision(_Order, SocketIndex, {}, ColName);
-	}
-
-	std::shared_ptr<BoneSocketCollision> FindSocketCollision(Enum_BoneType _Type);
-	void OnSocketCollisionInt(Enum_BoneType _Type);
-	void OffSocketCollisionInt(Enum_BoneType _Type);
-
 	// Mesh
 	template<typename EnumType>
 	void MeshOnOffSwitch(EnumType _MeshIndex)
@@ -117,14 +76,6 @@ protected:
 	}
 
 	bool CheckAnimationName(std::string _AnimationName);
-
-
-	// 자식에서 함수 재정의해서 사용할 것
-	virtual Enum_TargetAngle GetTargetAngle_e() const
-	{
-		MsgBoxAssert("재정의를 하지 않고 사용할 수 없는 함수입니다.");
-		return Enum_TargetAngle::None;
-	}
 
 	// 타겟 범윈 정의
 	Enum_TargetAngle GetTargetAngle_e(float _fFrontAngle, float _fSideAngle) const
@@ -167,6 +118,7 @@ protected:
 	}
 
 	// 자식에서 함수 재정의해서 사용할 것
+	// 사용자 지정 거리타입을 float로 변환해주는 함수입니다.
 	virtual float ConvertDistance_eTof(Enum_TargetDist _eTDist) const;
 
 	// 타겟 거리 정의
@@ -217,8 +169,13 @@ protected:
 	virtual int HitFormula(int _Att) { return _Att; }
 	virtual int GuardHitFormula(int _Att) { return _Att; }
 
+	// 앞잡, 뒤잡
+	bool FrontStabCheck(const float4& _WPos, float _RotY) const override;
+	bool BackStabCheck(const float4& _WPos, float _RotY) const override;
+	float4 GetBackStabPosition() override;
+	float4 GetFrontStabPosition() override;
+
 private:
-	std::unordered_map<Enum_BoneType, int> BoneIndex;
 	std::shared_ptr<class MonsterHpBar> MonsterUI;
 
 };

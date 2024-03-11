@@ -56,6 +56,8 @@ void ContentsCore::Start()
 
 	GameEnginePhysX::PushSkipCollisionPair(3, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Big_Camera, Enum_CollisionOrder::Camera);
 	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Big_Camera, Enum_CollisionOrder::Camera);
+
+
 }
 
 void ContentsCore::Update(float _Delta)

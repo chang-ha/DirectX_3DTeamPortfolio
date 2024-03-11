@@ -45,9 +45,12 @@ public:
 
 	static float ClampDeg(float _D);
 
+	// -1 ~ 1 사이 값을 0~180도로 정규화합니다.
 	static float4 GetVector3Length(const float4& _V);
+	static float DotNormalizeReturnDeg(float _Dot);
 
 	static Enum_DirectionXZ_Quat ReturnXZDirectionToVector(const float4& _V);
+
 
 protected:
 

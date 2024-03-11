@@ -4,7 +4,6 @@
 #include "DS3DummyData.h"
 
 #include "BoneSocketCollision.h"
-#include "ContentsMath.h"
 
 
 Monster_LothricKn::Monster_LothricKn() 
@@ -32,18 +31,16 @@ void Monster_LothricKn::Start()
 	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E3020, "c128003020.wav");
 	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E4001, "c128004001.wav");
 	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E4101, "c128004101.wav");
+	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E4310, "c128004310.wav");
+	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E4320, "c128004320.wav");
 	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E5500, "c128005500.wav");
 	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E6000, "c128006000.wav");
+	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E6003, "c128006003.wav");
 	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E6005, "c128006005.wav");
 	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E6501, "c128006501.wav");
 	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E8000, "c128008000.wav");
 	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E8001, "c128008001.wav");
-	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E8001, "c128008500.wav");
-
-	// Actor Res
-	AddBoneIndex(Enum_BoneType::B_01_RightHand, 78);
-	AddBoneIndex(Enum_BoneType::B_01_LeftHand, 47);
-	AddBoneIndex(Enum_BoneType::B_01_Spine, 21);
+	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E8500, "c128008500.wav");
 
 	// Physx Component
 	Capsule = CreateComponent<GameEnginePhysXCapsule>();
@@ -291,28 +288,48 @@ void Monster_LothricKn::Start()
 	const float PatrolSize = 5.0f * W_SCALE;
 
 	// Collision
-	std::shared_ptr<BoneSocketCollision> AttackCol = CreateBoneCollision(Enum_CollisionOrder::MonsterAttack, Enum_BoneType::B_01_RightHand, "B_01_RightHand");
-	AttackCol->Transform.SetLocalScale(float4(AttackSize, AttackSize, AttackSize));
+	std::shared_ptr<GameEngineCollision> SwordCol = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, eBoneType::Sword, { float4(22,16,140), float4::ZERONULL, float4(0,0, 0.9f) }, "Sword");
+	std::shared_ptr<GameEngineCollision> ShieldCol = CreateSocketCollision(Enum_CollisionOrder::Monster_Shield, eBoneType::Shield, { float4(16,123,52), float4::ZERONULL, float4(0.04f, 0.24f, -0.2f) }, "Shield");
+	CreateSocketCollision(Enum_CollisionOrder::Monster_Body, eBoneType::Spine2, { float4(65,65,25) }, "Spine2");
+	CreateSocketCollision(Enum_CollisionOrder::Monster_Body, eBoneType::Pelvis, { float4(26,41,13) }, "Pelvis");
+	CreateSocketCollision(Enum_CollisionOrder::Monster_Body, eBoneType::R_Thight_Twist, { float4(41,20,10), float4::ZERONULL, float4(0.2f)}, "R_Thight_Twist");
+	CreateSocketCollision(Enum_CollisionOrder::Monster_Body, eBoneType::L_Thight_Twist, { float4(41,20,10), float4::ZERONULL, float4(0.2f)}, "L_Thight_Twist");
+	CreateSocketCollision(Enum_CollisionOrder::Monster_Body, eBoneType::R_Calf, { float4(46,13,15), float4::ZERONULL, float4(0.28f)}, "R_Calf");
+	CreateSocketCollision(Enum_CollisionOrder::Monster_Body, eBoneType::L_Calf, { float4(46,13,15), float4::ZERONULL, float4(0.28f)}, "L_Calf");
+	CreateSocketCollision(Enum_CollisionOrder::Monster_Body, eBoneType::Head, { float4(21,23,30), float4(0,12,0), float4(0.14f,0.0f,-0.03f)}, "Head");
 
-	std::shared_ptr<DummyPolyCollision> SwordCol = CreateDummyPolyCollision(Enum_CollisionOrder::MonsterAttack, SetDPMatrixParameter(this, 7, 82, Enum_DP_Matrix_Type::ReversePos));
-	SwordCol->Transform.SetWorldScale(float4(20.0f, 20.0f, 100.0f));
-	SwordCol->SetCollisionType(ColType::AABBBOX3D);
-	SwordCol->On();
+	for (const std::pair<int, std::shared_ptr<BoneSocketCollision>>& Pair : SocketCollisions)
+	{
+		std::shared_ptr<GameEngineCollision> Col = Pair.second;
+		if (nullptr == Col)
+		{
+			MsgBoxAssert("존재하지 않는 충돌체를 참조하려 했습니다.");
+			return;
+		}
 
-	std::shared_ptr<BoneSocketCollision> BodyCol = CreateBoneCollision(Enum_CollisionOrder::Monster, Enum_BoneType::B_01_Spine, "B_01_Spine");
-	BodyCol->Transform.SetLocalScale(float4(BodySize, BodySize, BodySize));
-	BodyCol->Transform.DebugOn();
+		Col->SetCollisionType(ColType::OBBBOX3D);
 
-	// Sword.Init(this, AttackCol.get());
+		const int Order = Col->GetOrder();
+		const int BodyOrder = static_cast<int>(Enum_CollisionOrder::Monster_Body);
+		if (BodyOrder == Order)
+		{
+			Col->On();
+		}
+	}
+
+	Sword.Init(this, SwordCol.get());
+	Sword.On();
+	Shield.Init(this, ShieldCol.get());
+	Shield.On();
 
 	PatrolCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
 	PatrolCollision->Transform.SetWorldScale(float4(PatrolSize, PatrolSize, PatrolSize));
 	PatrolCollision->SetCollisionType(ColType::SPHERE3D);
-	PatrolCollision->SetCollisionColor(float4::BLUE);
+	PatrolCollision->SetCollisionColor(float4::GREEN);
 	PatrolCollision->Off();
 
 	// FSM
-	CombatState = Enum_Combat_State::Normal;
+	CombatState = eCombatState::Normal;
 
 	CreateFSM();
 
@@ -323,20 +340,24 @@ void Monster_LothricKn::Update(float _Delta)
 {
 	BaseMonster::Update(_Delta);
 
-	static bool s_bDrawValue = false;
-	if (GameEngineInput::IsDown('N', this))
+	if (bool DebugOn = false)
 	{
-		s_bDrawValue = !s_bDrawValue;
-	}
+		Debug.OutPutChangeState(GetCurStateInt());
 
-	if (s_bDrawValue)
-	{
-		DrawRange(CLOSE_RANGE * W_SCALE);
-		DrawRange(MELEE_RANGE * W_SCALE, float4::WHITE);
-		DrawRange(MEDIUM_RANGE * W_SCALE, float4::BLACK);
-	}
+		static bool s_bDrawValue = false;
+		if (GameEngineInput::IsDown('N', this))
+		{
+			s_bDrawValue = !s_bDrawValue;
+		}
 
-	float Dir = Capsule->GetDir();
+		if (s_bDrawValue)
+		{
+			DrawRange(CLOSE_RANGE * W_SCALE, float4(1.f,0.5f,0.f));
+			DrawRange(MELEE_RANGE * W_SCALE, float4(0.5f, 1.f, 0.f));
+			DrawRange(MEDIUM_RANGE * W_SCALE, float4(0.5f, 0.f, 1.f));
+			DrawRange(LONG_RANGE * W_SCALE, float4(0.5f, 1.f, 0.5f));
+		}
+	}
 }
 
 
@@ -378,7 +399,18 @@ void Monster_LothricKn::OnWeaponMask()
 	SetMeshVisibility(eMeshInfo::Shield, true);
 }
 
-bool Monster_LothricKn::FindAndSetTarget()
+void Monster_LothricKn::SetPatrolCollision(bool _SwitchValue)
+{
+	if (PatrolCollision)
+	{
+		_SwitchValue  ? PatrolCollision->On() : PatrolCollision->Off();
+		return;
+	}
+
+	MsgBoxAssert("정찰 충돌체를 생성하지 않았습니다");
+}
+
+bool Monster_LothricKn::FindAndSetTarget(Enum_CollisionOrder _Order)
 {
 	if (true == IsTargeting())
 	{
@@ -393,7 +425,7 @@ bool Monster_LothricKn::FindAndSetTarget()
 
 	std::shared_ptr<GameEngineActor> pActor;
 	
-	PatrolCollision->Collision(Enum_CollisionOrder::Dummy, [&pActor](std::vector<GameEngineCollision*>& _Other)
+	PatrolCollision->Collision(_Order, [&pActor](std::vector<GameEngineCollision*>& _Other)
 		{
 			for (GameEngineCollision* pCol : _Other)
 			{
@@ -414,8 +446,8 @@ bool Monster_LothricKn::FindAndSetTarget()
 			}
 		});
 
-	bool FindValue = (nullptr != pActor);
-	if (FindValue)
+	bool bFindTarget = (nullptr != pActor);
+	if (bFindTarget)
 	{
 		PatrolCollision->Off();
 		SetTargeting(pActor.get());
@@ -454,8 +486,20 @@ float Monster_LothricKn::ConvertDistance_eTof(Enum_TargetDist _eTDist) const
 
 void Monster_LothricKn::AttackToPlayer(eAttackType _eBoneType)
 {
-	AttackToBody(_eBoneType, Enum_CollisionOrder::Player);
+	switch (_eBoneType)
+	{
+	case Monster_LothricKn::eAttackType::Sword:
+		Sword.On();
+		break;
+	case Monster_LothricKn::eAttackType::Shield:
+		Shield.On();
+		break;
+	default:
+		break;
+	}
+
 	AttackToShield(_eBoneType, Enum_CollisionOrder::Player_Shield);
+	AttackToBody(_eBoneType, Enum_CollisionOrder::Player_Body);
 }
 
 void Monster_LothricKn::AttackToBody(eAttackType _eBoneType, Enum_CollisionOrder _Order)
@@ -492,86 +536,17 @@ void Monster_LothricKn::AttackToShield(eAttackType _eBoneType, Enum_CollisionOrd
 	}
 }
 
-static constexpr float STAB_RECOGNITION_RANGE = 0.3f;
-static constexpr float STAB_POS_RANGE = 0.2f;
-static constexpr float STAB_HANGLE = 15.0f;
-
-bool Monster_LothricKn::FrontStabCheck(const float4& _WPos, float _RotY) const
+void Monster_LothricKn::AttackDone(eAttackType _eBoneType)
 {
-	if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+	switch (_eBoneType)
 	{
-		const float4 MyPos = Transform.GetWorldPosition();
-		const float4 MyRot = Transform.GetWorldRotationEuler();
-		const float4 MyXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);
-		const float4 OtherXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, _RotY);
-		// Y PosCheck << Y 높이 체크 해야됨
-		float4 VectorToOther = MyPos - _WPos;
-		VectorToOther.Y = 0;
-
-		const float Dist = ContentsMath::GetVector3Length(VectorToOther).X;
-		const float Dot = float4::DotProduct3D(MyXZDirVector, OtherXZDirVector);
-		const float SemiCircle = CIRCLE * 0.5f;
-
-		bool RangeCheck = (Dist < STAB_RECOGNITION_RANGE * W_SCALE);
-		bool DirCheck = (Dot > SemiCircle - STAB_HANGLE);
-		if (RangeCheck && DirCheck)
-		{
-			return true;
-		}
+	case Monster_LothricKn::eAttackType::Sword:
+		Sword.Off();
+		break;
+	case Monster_LothricKn::eAttackType::Shield:
+		Shield.Off();
+		break;
+	default:
+		break;
 	}
-
-	return false;
-}
-
-bool Monster_LothricKn::BackStabCheck(const float4& _WPos, float _RotY) const
-{
-	if (true == IsFlag(Enum_ActorFlag::Break_Posture))
-	{
-		const float4 MyPos = Transform.GetWorldPosition();
-		const float4 MyRot = Transform.GetWorldRotationEuler();
-		const float4 MyXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);
-		const float4 OtherXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, _RotY);
-		// Y PosCheck << Y 높이 체크 해야됨
-		float4 VectorToOther = MyPos - _WPos;
-		VectorToOther.Y = 0;
-
-		const float Dist = ContentsMath::GetVector3Length(VectorToOther).X;
-		const float Dot = float4::DotProduct3D(MyXZDirVector, OtherXZDirVector);
-		const float SemiCircle = CIRCLE * 0.5f;
-
-		bool RangeCheck = (Dist < STAB_RECOGNITION_RANGE * W_SCALE);
-		bool DirCheck = (Dot < STAB_HANGLE - SemiCircle);
-		if (RangeCheck && DirCheck)
-		{
-			return true;
-		}
-	}
-
-	return false;
-}
-
-float4 Monster_LothricKn::GetBackStabPosition()
-{
-	SetFlag(Enum_ActorFlag::BackStab, true);
-	Hit.SetHit(true);
-	const float4 MyPos = Transform.GetWorldPosition();
-	const float4 MyRot = Transform.GetWorldRotationEuler();
-	const float4 BackDirVector = float4::VectorRotationToDegY(float4::BACKWARD, MyRot.Y);
-	const float StabDist = W_SCALE * STAB_POS_RANGE;
-	const float4 RelativePos = BackDirVector * StabDist;
-	const float4 OtherPos = RelativePos + MyPos;
-	return OtherPos;
-}
-
-float4 Monster_LothricKn::GetFrontStabPosition()
-{
-	SetFlag(Enum_ActorFlag::FrontStab, true);
-	Hit.SetHit(true);
-	const float4 MyPos = Transform.GetWorldPosition();
-	const float4 MyRot = Transform.GetWorldRotationEuler();
-	const float4 DirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);
-	const float StabDist = W_SCALE * STAB_POS_RANGE;
-	const float4 RelativePos = DirVector * StabDist;
-	const float4 OtherPos = RelativePos + MyPos;
-	return OtherPos;
 }

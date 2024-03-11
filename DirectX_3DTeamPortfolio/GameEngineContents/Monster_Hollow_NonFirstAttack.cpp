@@ -22,6 +22,8 @@ void Monster_Hollow_NonFirstAttack::Start()
 	CheckLanternCollision->Transform.SetLocalPosition(float4(0, 100, 0));
 	CheckLanternCollision->Transform.SetWorldScale(float4(300, 300, 300));
 
+	//AttackRangeCollision->Off();
+	
 	ChangeState(Enum_Hollow_State::Pray1);
 }
 
@@ -215,35 +217,42 @@ void Monster_Hollow_NonFirstAttack::StateUpdate(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::ChangeAttackState()
 {
-	AttackPattern = ContentsRandom::RandomInt(1, 7);
-	/*if (IsAttack == true)
+	if (GetTargetDistance_e() == Enum_TargetDist::Melee)
 	{
-		AttackPattern = ContentsRandom::RandomInt(3, 7);
-	}*/
+		AttackPattern = ContentsRandom::RandomInt(5, 10);
+	}
+	else
+	{
+		AttackPattern = ContentsRandom::RandomInt(1, 4);
+	}
 	
 	switch (AttackPattern)  
 	{
 	case 1:
-		ChangeState(Enum_Hollow_State::Walk_Back);
-		break;
-	case 2:
-		ChangeState(Enum_Hollow_State::Walk_Left);
-		break;
-	case 3:
-		ChangeState(Enum_Hollow_State::Walk_Right);
-		break;
-	case 4:
 		ChangeState(Enum_Hollow_State::RH_VerticalSlash);
 		break;
-	case 5:
+	case 2:
 		ChangeState(Enum_Hollow_State::RH_HorizontalSlash);
 		break;
-	case 6:
+	case 3:
 		ChangeState(Enum_Hollow_State::TH_VerticalSlash);
 		break;
-	case 7:
+	case 4:
 		ChangeState(Enum_Hollow_State::RH_ComboAttack);
 		break;
+	case 5:
+		ChangeState(Enum_Hollow_State::Walk_Back);
+		break;
+	case 6:
+		ChangeState(Enum_Hollow_State::Walk_Left);
+		break;
+	case 7:
+		ChangeState(Enum_Hollow_State::Walk_Right);
+		break;
+	case 8:
+	case 9:
+	case 10:
+		ChangeState(Enum_Hollow_State::Walk_Front);
 	default:
 		break;
 	}
@@ -581,7 +590,7 @@ void Monster_Hollow_NonFirstAttack::State_Idle_Update(float _Delta)
 		}
 	}
 
-	EventParameter AttackParameter;
+	/*EventParameter AttackParameter;
 	AttackParameter.Stay = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
 		{
 			IsAttack = true;
@@ -590,7 +599,7 @@ void Monster_Hollow_NonFirstAttack::State_Idle_Update(float _Delta)
 		{
 			IsAttack = false;
 		};
-	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);
+	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);*/
 
 	if (StateTime >= 0.1f)
 	{
@@ -598,22 +607,30 @@ void Monster_Hollow_NonFirstAttack::State_Idle_Update(float _Delta)
 		if (GetTargetDistance_e() == Enum_TargetDist::Long)
 		{
 			//RunToSting
-			StateTime = 0.0;
+			StateTime = 0.0f;
 			ChangeState(Enum_Hollow_State::Run);
+		}
+		else if (GetTargetDistance_e() == Enum_TargetDist::Medium)
+		{
+			StateTime = 0.0f;
+			ChangeState(Enum_Hollow_State::Walk_Front);
 		}
 		else
 		{
-			if (IsAttack == false)
-			{
-				StateTime = 0.0f;
-				ChangeState(Enum_Hollow_State::Walk_Front);
-			}
-			else
-			{
-				StateTime = 0.0f;
-				ChangeAttackState();
-				//ChangeState(Enum_Hollow_State::Walk_Front);
-			}
+			StateTime = 0.0f;
+			ChangeAttackState();
+
+			//if (IsAttack == false)
+			//{
+			//	StateTime = 0.0f;
+			//	ChangeState(Enum_Hollow_State::Walk_Front);
+			//}
+			//else
+			//{
+			//	StateTime = 0.0f;
+			//	ChangeAttackState();
+			//	//ChangeState(Enum_Hollow_State::Walk_Front);
+			//}
 		}
 
 	}
@@ -630,23 +647,32 @@ void Monster_Hollow_NonFirstAttack::State_Walk_Front_Update(float _Delta)
 		RotToTarget(_Delta);
 	}
 
-	if (GetTargetDistance_e() == Enum_TargetDist::Long)
+	if (MainRenderer->GetCurAnimationFrame() >= 41)
 	{
-		// Idle로 넘어갈지 바로 Run으로 넘어갈지 조사해야할듯..
-		ChangeState(Enum_Hollow_State::Run);
+		if (GetTargetDistance_e() == Enum_TargetDist::Long)
+		{
+			// Idle로 넘어갈지 바로 Run으로 넘어갈지 조사해야할듯..
+			ChangeState(Enum_Hollow_State::Run);
+		}
+		else
+		{
+			ChangeState(Enum_Hollow_State::Idle);
+		}
 	}
 
-	EventParameter AttackParameter;
+	
+
+	/*EventParameter AttackParameter;
 	AttackParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
 		{
 			ChangeState(Enum_Hollow_State::Idle);
 		};
-	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);
+	AttackRangeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, AttackParameter);*/
 }
 
 void Monster_Hollow_NonFirstAttack::State_Walk_Back_Start()
 {
-	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.7f, 2.8f);
 	MainRenderer->ChangeAnimation("c1100_Walk_Back");
 }
 void Monster_Hollow_NonFirstAttack::State_Walk_Back_Update(float _Delta)
@@ -667,7 +693,7 @@ void Monster_Hollow_NonFirstAttack::State_Walk_Back_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_Walk_Left_Start()
 {
-	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.65f, 2.6f);
 	MainRenderer->ChangeAnimation("c1100_Walk_Left");
 }
 void Monster_Hollow_NonFirstAttack::State_Walk_Left_Update(float _Delta)
@@ -688,7 +714,7 @@ void Monster_Hollow_NonFirstAttack::State_Walk_Left_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_Walk_Right_Start()
 {
-	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.65f, 2.6f);
 	MainRenderer->ChangeAnimation("c1100_Walk_Right");
 }
 void Monster_Hollow_NonFirstAttack::State_Walk_Right_Update(float _Delta)
