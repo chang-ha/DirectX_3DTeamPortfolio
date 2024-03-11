@@ -42,10 +42,29 @@ void DummyActor::Start()
 	MainRenderer->SetMaterial("FBXStaticColor");
 	MainRenderer->Transform.SetWorldScale(float4(RenScale, RenScale, RenScale));
 
-	BodyCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Dummy);
-	BodyCollision->SetCollisionType(ColType::SPHERE3D);
-	BodyCollision->Transform.SetWorldScale(float4(1.0f, 1.0f, 1.0f));
+	DummyCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Dummy);
+	DummyCollision->SetCollisionType(ColType::SPHERE3D);
+	DummyCollision->Transform.SetWorldScale(float4(1.0f, 1.0f, 1.0f));
+	DummyCollision->Transform.SetLocalPosition(float4::ZERO);
+
+	const float BodyScale = 30.0f;
+
+	BodyCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Body);
+	BodyCollision->SetCollisionType(ColType::OBBBOX3D);
+	BodyCollision->Transform.SetWorldScale(float4(BodyScale, BodyScale, BodyScale));
 	BodyCollision->Transform.SetLocalPosition(float4::ZERO);
+
+	ShieldCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Shield);
+	ShieldCollision->SetCollisionType(ColType::OBBBOX3D);
+	ShieldCollision->Transform.SetWorldScale(float4(50.0f, 70.0f, 10.0f));
+	ShieldCollision->Transform.SetLocalPosition(float4::FORWARD * 50.0f);
+	ShieldCollision->Off();
+
+	StabCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Shield);
+	StabCollision->SetCollisionType(ColType::OBBBOX3D);
+	StabCollision->Transform.SetWorldScale(float4(10.0f, 10.0f, 100.0f));
+	StabCollision->Transform.SetLocalPosition(float4::FORWARD * 50.0f);
+	StabCollision->Off();
 
 
 	 Projectiles.resize(MAX_PROJECTILE);
@@ -70,13 +89,17 @@ void DummyActor::Update(float _Delta)
 	MoveUpdate(_Delta);
 	CameraControlUpdate(_Delta);
 	ProjectileUpdate(_Delta);
+	ModeInputUpdate();
 }
 
 void DummyActor::Release()
 {
 	CameraControler.Release();
 	MainRenderer = nullptr;
+	DummyCollision = nullptr;
 	BodyCollision = nullptr;
+	ShieldCollision = nullptr;
+	StabCollision = nullptr;
 
 	Projectiles.clear();
 
@@ -96,19 +119,23 @@ void DummyActor::MoveUpdate(float _Delta)
 
 	if (float4::ZERO != InputVector)
 	{
+		float4 DirVector;
+
 		if (CameraControler.IsUpdate())
 		{
 			const float4 Rot = CameraControler.GetQuaternion();
-			const float4 DirVector = InputVector.VectorRotationToDegYReturn(Rot.Y);
-			const float4 MovePos = DirVector * MoveSpeed* _Delta;
+			DirVector = InputVector.VectorRotationToDegYReturn(Rot.Y);
 			Transform.SetLocalRotation(float4(0.0f, Rot.Y));
-			Transform.AddLocalPosition(MovePos);
 		}
 		else
 		{
-			const float4 MovePos = InputVector * MoveSpeed * _Delta;
-			Transform.AddLocalPosition(MovePos);
+			DirVector = InputVector;
 		}
+
+		const float4 WPos = Transform.GetWorldPosition();
+		const float4 MovePos = DirVector * MoveSpeed * _Delta;
+		const float4 DestPos = WPos + MovePos;
+		Transform.SetWorldPosition(DestPos);
 	}
 }
 
@@ -160,8 +187,80 @@ void DummyActor::CameraControlUpdate(float _Delta)
 	CameraControler.ControlUpdate(_Delta);
 }
 
+void DummyActor::ModeInputUpdate()
+{
+	if (GameEngineInput::IsDown('5', this))
+	{
+		if (nullptr != ShieldCollision)
+		{
+			ShieldCollision->OnOffSwitch();
+		}
+	}
+
+	if (GameEngineInput::IsDown('6', this))
+	{
+		bool bParryFlag = IsFlag(Enum_ActorFlag::Parrying);
+		SetFlag(Enum_ActorFlag::Parrying, !bParryFlag);
+	}
+
+	if (GameEngineInput::IsDown('7', this))
+	{
+		bool bGaurdValue = IsFlag(Enum_ActorFlag::Guarding);
+		SetFlag(Enum_ActorFlag::Guarding, !bGaurdValue);
+	}
 
 
+	if (GameEngineInput::IsPress('T', this))
+	{
+		Stab();
+	}
+	else
+	{
+		if (StabCollision)
+		{
+			StabCollision->Off();
+		}
+	}
+
+	{
+		Stat.SetPoise(100);
+		Hit.SetHit(false);
+		Hit.SetGuardSuccesss(false);
+	}
+}
+
+void DummyActor::Stab()
+{
+	std::function StabCollisionEvent = [=](std::vector<GameEngineCollision*>& _Other)
+		{
+			for (GameEngineCollision* pCol : _Other)
+			{
+				const std::shared_ptr<BaseActor>& pActor = pCol->GetActor()->GetDynamic_Cast_This<BaseActor>();
+				const float4 WRot = Transform.GetWorldRotationEuler();
+				const float4 WPos = Transform.GetWorldPosition();
+				bool CheckFrontStab = pActor->FrontStabCheck(WPos, WRot.Y);
+				if (CheckFrontStab)
+				{
+					const float4 StabPos = pActor->GetFrontStabPosition();
+					Transform.SetWorldPosition(StabPos + float4::UP * 150.0f);
+					Transform.SetWorldRotation(WRot);
+					pActor->Damage(3000);
+					pActor->SetHit(true);
+					pActor->SetFlag(Enum_ActorFlag::FrontStab, true);
+				}
+			}
+		};
+
+	if (StabCollision)
+	{
+		StabCollision->On();
+		StabCollision->Collision(Enum_CollisionOrder::Monster_Body, StabCollisionEvent);
+	}
+}
+
+/*////////////////////////////////////////////////////////////////////////////////////////////////////////
+///                                         CameraControl                                              ///
+////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 void DummyActor::CameraControl::Init(GameEngineActor* _pParent)
 {
@@ -334,12 +433,6 @@ void DummyActor::CameraControl::ControlUpdate(float _Delta)
 	if (false == IsUpdate())
 	{
 		return;
-	}
-
-	bool bFreeCamera = pParent->GetLevel()->GetMainCamera()->IsFreeCamera();
-	if (bFreeCamera)
-	{
-		Off();
 	}
 
 	InputUpdate(_Delta);

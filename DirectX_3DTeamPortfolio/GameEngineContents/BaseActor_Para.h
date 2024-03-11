@@ -27,15 +27,16 @@ class BSCol_TransitionParameter
 public:
 	BSCol_TransitionParameter() {}
 	~BSCol_TransitionParameter() {}
-	BSCol_TransitionParameter(const float4& _S, const float4& _R, const float4& _T)
+	BSCol_TransitionParameter(const float4& _S, const float4& _R = float4::ZERONULL, const float4& _T = float4::ZERO)
 		:S(_S), R(_R), T(_T)
 	{
 
 	}
 
 
-	float4 S = float4::ONE;
-	float4 R = float4::ZERONULL;
-	float4 T = float4::ZERO;
+	float4 S;
+	float4 R;
+	float4 T;
+
 };
 

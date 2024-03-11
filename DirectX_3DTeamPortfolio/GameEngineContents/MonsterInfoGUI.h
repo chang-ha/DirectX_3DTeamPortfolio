@@ -36,8 +36,7 @@ private:
 	float4 MonsterScale = float4(100.0f, 100.0f, 100.0f);
 
 	bool bFixPos = false;
-
-	
+	bool bPause = false;
 
 };
 
