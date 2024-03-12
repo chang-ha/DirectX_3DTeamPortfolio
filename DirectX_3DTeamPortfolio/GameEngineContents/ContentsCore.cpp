@@ -48,7 +48,7 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<TestLevel_Shader>("TestLevel_Shader"); 
 	GameEngineCore::CreateLevel<TestLevel_Map>("TestLevel_Map");
 	GameEngineCore::CreateLevel<TestLevel_PhysX>("TestLevel_PhysX");
-	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");*/
+	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
 	GameEngineCore::CreateLevel<TestLevel_MapObject>("TestLevel_MapObject");
 	GameEngineCore::CreateLevel<TestLevel_ObjectTest>("TestLevel_ObjectTest");
 	GameEngineCore::ChangeLevel("Stage_Lothric");
