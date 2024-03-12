@@ -95,6 +95,8 @@ protected:
 
 	void ChangeHitState();
 
+	std::shared_ptr<GameEngineCollision> ShieldCollision;
+
 protected:
 	// State Function
 	

@@ -370,6 +370,11 @@ void Monster_HollowSoldier_Sword::ChangeHitState()
 {
 	if (true == Hit.IsHit())
 	{
+		/*if (Stat.GetHp() <= 0)
+		{
+			ChangeState(Enum_HollowSoldier_Sword_State::HitToDeath);
+		}*/
+
 		Enum_DirectionXZ_Quat HitDir = Hit.GetHitDir();
 		BodyCollision->Off();
 		Hit.SetHit(false);
