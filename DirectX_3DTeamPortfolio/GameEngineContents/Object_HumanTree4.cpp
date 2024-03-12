@@ -17,6 +17,7 @@ void Object_HumanTree4::Start()
 	FBXRenderer = CreateComponent<GameContentsFBXRenderer>(0);
 	FBXRenderer->SetFBXMesh("o302583.FBX", "FBX_Static");
 	FBXRenderer->Transform.SetWorldScale({ 100, 100 , 100 });
+	FBXRenderer->SetStatic();
 	
 }
 

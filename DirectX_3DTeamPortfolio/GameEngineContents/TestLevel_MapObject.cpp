@@ -623,6 +623,42 @@ void TestLevel_MapObject::CreateObject()
 		Object->Transform.AddWorldRotation({ 0, -60 , 0 });
 		Object->Transform.SetWorldPosition({ -11879, 2143 , 5269 });
 	}
+
+	{
+		std::shared_ptr<Object_Skeleton> Object = CreateActor<Object_Skeleton>(1);
+		Object->Transform.SetWorldPosition({ -1337, 4950 , -4634 });
+		Object->Transform.SetWorldRotation({ 0, 0 , 0 });
+	}
+
+	{
+		std::shared_ptr<Object_Skeleton> Object = CreateActor<Object_Skeleton>(1);
+		Object->Transform.SetWorldPosition({ -1187, 4950 , -4534 });
+		Object->Transform.SetWorldRotation({ 0, 0 , 0 });
+	}
+
+	{
+		std::shared_ptr<Object_Skeleton> Object = CreateActor<Object_Skeleton>(1);
+		Object->Transform.SetWorldPosition({ -845, 4950 , -5299 });
+		Object->Transform.SetWorldRotation({ 0, 90 , 0 });
+	}
+
+	{
+		std::shared_ptr<Object_Skeleton> Object = CreateActor<Object_Skeleton>(1);
+		Object->Transform.SetWorldPosition({ -845, 4950 , -5149 });
+		Object->Transform.SetWorldRotation({ 0, 120 , 0 });
+	}
+
+	{
+		std::shared_ptr<Object_Skeleton1> Object = CreateActor<Object_Skeleton1>(1);
+		Object->Transform.SetWorldPosition({ -1037, 4950 , -4634 });
+		Object->Transform.SetWorldRotation({ 0, 0 , 0 });
+	}
+
+	{
+		std::shared_ptr<Object_Skeleton1> Object = CreateActor<Object_Skeleton1>(1);
+		Object->Transform.SetWorldPosition({ -937, 4950 , -4734 });
+		Object->Transform.SetWorldRotation({ 0, 90 , 0 });
+	}
 	//
 	//Object_BossDoor
 	//Object_CastleDoor
