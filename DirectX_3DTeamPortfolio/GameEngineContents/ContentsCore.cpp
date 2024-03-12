@@ -43,7 +43,11 @@ void ContentsCore::Start()
 	TreeGUIWindow->On();
 
 	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
+<<<<<<< HEAD
 	//GameEngineCore::CreateLevel<Stage_Lothric>("Stage_Lothric");
+=======
+	GameEngineCore::CreateLevel<Stage_Lothric>("Stage_Lothric");
+>>>>>>> Develop
 	/*GameEngineCore::CreateLevel<TestLevel_Boss>("TestLevel_Boss");
 	GameEngineCore::CreateLevel<TestLevel_Monster>("TestLevel_Monster");
 	GameEngineCore::CreateLevel<TestLevel_Shader>("TestLevel_Shader"); 
@@ -51,8 +55,13 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<TestLevel_PhysX>("TestLevel_PhysX");
 	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");*/
 	GameEngineCore::CreateLevel<TestLevel_MapObject>("TestLevel_MapObject");
+<<<<<<< HEAD
 	GameEngineCore::CreateLevel<TestLevel_ObjectTest>("TestLevel_ObjectTest");
 	GameEngineCore::ChangeLevel("TestLevel_MapObject");
+=======
+	GameEngineCore::CreateLevel<TestLevel_ObjectTest>("TestLevel_ObjectTest");*/
+	GameEngineCore::ChangeLevel("Stage_Lothric");
+>>>>>>> Develop
 
 	GameEnginePhysX::PushSkipCollisionPair(3, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Big_Camera, Enum_CollisionOrder::Camera);
 	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Big_Camera, Enum_CollisionOrder::Camera);

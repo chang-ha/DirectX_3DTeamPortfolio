@@ -73,7 +73,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		//Data.DifLightPower = 0.1f;
 		Data.AmbientLight = float4(0.05f, 0.05f, 0.025f, 1.0f);
 		Data.LightColor = float4(1.0f, 1.0f, 0.7f); 
-		Data.LightPower = 2.5f;
+		Data.LightPower = 10.0f;
 		Data.ForceLightPower = 0.25f;
 
 		Light->Transform.SetLocalPosition({ -12000.0f, 16200.0f, -4260.0f });

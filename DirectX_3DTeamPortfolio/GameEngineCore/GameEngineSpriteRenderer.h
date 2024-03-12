@@ -68,7 +68,7 @@ struct SpriteRendererInfo
 {
 	int FlipLeft = 0;
 	int FlipUp = 0;
-	float Temp1;
+	float BlackAlpha = 0.0f;
 	float Temp2;
 };
 
@@ -250,6 +250,7 @@ protected:
 
 	int Index = 0;
 
+	SpriteRendererInfo SpriteRendererInfoValue;
 
 private:
 	// 부모인 actor를 기준으로한
@@ -260,7 +261,6 @@ private:
 
 	std::shared_ptr<GameEngineSprite> Sprite;
 	SpriteData CurSprite;
-	SpriteRendererInfo SpriteRendererInfoValue;
 
 	std::shared_ptr<class GameEngineSampler> Sampler;
 
