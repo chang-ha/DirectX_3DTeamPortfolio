@@ -296,49 +296,49 @@ void Player::Player_State()
 				else if (true == GameEngineInput::IsPress('W', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
 					MainRenderer->ChangeAnimation("Walk_Forward");
-					Capsule->MoveForce({ float4::FORWARD * Speed},Capsule->GetDir());
+					//Capsule->MoveForce({ float4::FORWARD * Speed},Capsule->GetDir());
 					//Capsule->SetWorldRotation({ 0.0f,180.0f,0.0f });
 				}
 
 				else if (true == GameEngineInput::IsPress('S', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
 					//MainRenderer->ChangeAnimation("Walk_Forward");
-					Capsule->MoveForce({ float4::BACKWARD * Speed }, Capsule->GetDir());
+					//Capsule->MoveForce({ float4::BACKWARD * Speed }, Capsule->GetDir());
 					//Capsule->SetWorldRotation({ 0.0f,180.0f,0.0f });
 				}
 				else if (true == GameEngineInput::IsPress('A', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
 					MainRenderer->ChangeAnimation("Walk_Left");
-					Capsule->MoveForce({ float4::LEFT * Speed }, Capsule->GetDir());
+					//Capsule->MoveForce({ float4::LEFT * Speed }, Capsule->GetDir());
 					//Capsule->SetWorldRotation({ 0.0f,180.0f,0.0f });
 				}
 				else if (true == GameEngineInput::IsPress('D', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
 					MainRenderer->ChangeAnimation("Walk_Right");
-					Capsule->MoveForce({ float4::RIGHT * Speed }, Capsule->GetDir());
+					//Capsule->MoveForce({ float4::RIGHT * Speed }, Capsule->GetDir());
 					//Capsule->SetWorldRotation({ 0.0f,180.0f,0.0f });
 				}
 			
 				else if (true == GameEngineInput::IsPress('W', this)&& Rock_On_Check == true)
 				{
 					MainRenderer->ChangeAnimation("Walk_Forward");
-					Capsule->MoveForce({ float4::FORWARD * Speed } , degree_X);
+					//Capsule->MoveForce({ float4::FORWARD * Speed } , degree_X);
 				}
 
 				else if (true == GameEngineInput::IsPress('S', this) && Rock_On_Check ==true)
 				{				
 					//MainRenderer->ChangeAnimation("Walk_Forward");
-					Capsule->MoveForce({ float4::BACKWARD * Speed }, degree_X);
+					//Capsule->MoveForce({ float4::BACKWARD * Speed }, degree_X);
 				}
 				else if (true == GameEngineInput::IsPress('A', this) && Rock_On_Check == true)
 				{
 					MainRenderer->ChangeAnimation("Walk_Left");
-					Capsule->MoveForce({ float4::LEFT * Speed }, degree_X);
+					//Capsule->MoveForce({ float4::LEFT * Speed }, degree_X);
 				}
 				else if (true == GameEngineInput::IsPress('D', this) && Rock_On_Check == true)
 				{
 					MainRenderer->ChangeAnimation("Walk_Right");
-					Capsule->MoveForce({ float4::RIGHT * Speed }, degree_X);
+					//Capsule->MoveForce({ float4::RIGHT * Speed }, degree_X);
 				}
 				
 
@@ -355,6 +355,71 @@ void Player::Player_State()
 					_Parent->ChangeState(PlayerState::Back_Step);
 					return;
 				}
+
+
+
+				if (true == GameEngineInput::IsPress('W', this) && true == GameEngineInput::IsPress('A', this) && Rotation_Check_X == true && Rock_On_Check == false)
+				{
+					Capsule->MoveForce({ float4{-1.0f, 0.0f,1.0f,} * Speed }, Capsule->GetDir());
+				}
+				else if (true == GameEngineInput::IsPress('W', this) && true == GameEngineInput::IsPress('D', this) && Rotation_Check_X == true && Rock_On_Check == false)
+				{
+					Capsule->MoveForce({ float4{1.0f, 0.0f,1.0f,} *Speed }, Capsule->GetDir());
+				}
+				else if (true == GameEngineInput::IsPress('S', this) && true == GameEngineInput::IsPress('A', this) && Rotation_Check_X == true && Rock_On_Check == false)
+				{
+					Capsule->MoveForce({ float4{-1.0f, 0.0f,-1.0f,} *Speed }, Capsule->GetDir());
+				}
+				else if (true == GameEngineInput::IsPress('S', this) && true == GameEngineInput::IsPress('D', this) && Rotation_Check_X == true && Rock_On_Check == false)
+				{
+					Capsule->MoveForce({ float4{1.0f, 0.0f,-1.0f,} *Speed }, Capsule->GetDir());
+				}
+
+
+				else if (true == GameEngineInput::IsPress('W', this) && Rotation_Check_X == true && Rock_On_Check == false)
+				{
+					
+					Capsule->MoveForce({ float4::FORWARD * Speed }, Capsule->GetDir());
+					
+				}
+
+				else if (true == GameEngineInput::IsPress('S', this) && Rotation_Check_X == true && Rock_On_Check == false)
+				{
+					
+					Capsule->MoveForce({ float4::BACKWARD * Speed }, Capsule->GetDir());
+					
+					}
+				else if (true == GameEngineInput::IsPress('A', this) && Rotation_Check_X == true && Rock_On_Check == false)
+				{
+				
+					Capsule->MoveForce({ float4::LEFT * Speed }, Capsule->GetDir());
+				
+					}
+				else if (true == GameEngineInput::IsPress('D', this) && Rotation_Check_X == true && Rock_On_Check == false)
+				{
+					
+					Capsule->MoveForce({ float4::RIGHT * Speed }, Capsule->GetDir());
+				
+				}
+
+				else if (true == GameEngineInput::IsPress('W', this) && Rock_On_Check == true)
+				{
+					Capsule->MoveForce({ float4::FORWARD * Speed }, degree_X);
+				}
+
+				else if (true == GameEngineInput::IsPress('S', this) && Rock_On_Check == true)
+				{		
+					Capsule->MoveForce({ float4::BACKWARD * Speed }, degree_X);
+				}
+				else if (true == GameEngineInput::IsPress('A', this) && Rock_On_Check == true)
+				{		
+					Capsule->MoveForce({ float4::LEFT * Speed }, degree_X);
+				}
+				else if (true == GameEngineInput::IsPress('D', this) && Rock_On_Check == true)
+				{	
+					Capsule->MoveForce({ float4::RIGHT * Speed }, degree_X);
+				}
+
 				if (GameEngineInput::IsUp('A', this) )
 				{
 					Rotation_Check_X = false;
@@ -602,34 +667,72 @@ void Player::Player_State()
 		PlayerStates.CreateState(PlayerState::Slow_Walk, NewPara);
 	}
 
-	/*{
-		CreateStateParameter NewPara;
+/*{
+	CreateStateParameter NewPara;
 
 
 
 
 
-		NewPara.Start = [=](class GameEngineState* _Parent)
+	NewPara.Start = [=](class GameEngineState* _Parent)
+	{
+			MainRenderer->ChangeAnimation("Run");
+	};
+
+
+	NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+	{
+
+
+
+		if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SHIFT, this))
 		{
-				MainRenderer->ChangeAnimation("Run");
+			GetFBXRenderer()->Transform.AddLocalPosition({ 0.0f,0.0f,0.0f });
+		}
+
+		if (GameEngineInput::IsUp('W', this) )
+		{
+			MainRenderer->ChangeAnimation("Forward_Stop");
+			PlayerStates.ChangeState(PlayerState::Move_Stop);
+			return;
+		}
+
+		if (GameEngineInput::IsUp(VK_SHIFT, this))
+		{
+			MainRenderer->ChangeAnimation("Forward_Stop");
+			PlayerStates.ChangeState(PlayerState::Move);
+			return;
+		}
+
+	};
+
+	PlayerStates.CreateState(PlayerState::Run, NewPara);
+}*/
+
+{
+	CreateStateParameter NewPara;
+
+	NewPara.Start = [=](class GameEngineState* _Parent)
+		{
+			Rotation_Check_X = true;
+			MainRenderer->ChangeAnimation("Run");
+			StateValue = PlayerState::Run;
 		};
 
 
-	    NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+	NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 		{
 
-
-			
 			if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SHIFT, this))
 			{
-				GetFBXRenderer()->Transform.AddLocalPosition({ 0.0f,0.0f,0.0f });
+				Capsule->MoveForce({ float4::FORWARD * Speed * 1.5 });
 			}
 
-			if (GameEngineInput::IsUp('W', this) )
+			if (GameEngineInput::IsUp('W', this))
 			{
 				MainRenderer->ChangeAnimation("Forward_Stop");
 				PlayerStates.ChangeState(PlayerState::Move_Stop);
-				return; 
+				return;
 			}
 
 			if (GameEngineInput::IsUp(VK_SHIFT, this))
@@ -641,58 +744,34 @@ void Player::Player_State()
 
 		};
 
-	    PlayerStates.CreateState(PlayerState::Run, NewPara);
-	}*/
-
-	{
-		CreateStateParameter NewPara;
-
-		NewPara.Start = [=](class GameEngineState* _Parent)
-			{
-				Rotation_Check_X = true;
-				MainRenderer->ChangeAnimation("Run");
-				StateValue = PlayerState::Run;
-			};
-
-
-		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
-		{
-
-				if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SHIFT, this))
-				{
-					Capsule->MoveForce({ float4::FORWARD * Speed*1.5 });
-				}
-
-				if (GameEngineInput::IsUp('W', this))
-				{
-					MainRenderer->ChangeAnimation("Forward_Stop");
-					PlayerStates.ChangeState(PlayerState::Move_Stop);
-					return;
-				}
-
-				if (GameEngineInput::IsUp(VK_SHIFT, this))
-				{
-					MainRenderer->ChangeAnimation("Forward_Stop");
-					PlayerStates.ChangeState(PlayerState::Move);
-					return;
-				}
-
-		};
-
-		PlayerStates.CreateState(PlayerState::Run, NewPara);
+	PlayerStates.CreateState(PlayerState::Run, NewPara);
 	}
 
-	{
-		CreateStateParameter NewPara;
+{
+	CreateStateParameter NewPara;
 
-		NewPara.Start = [=](class GameEngineState* _Parent)
-			{
-				MainRenderer->ChangeAnimation("Attack_01");
-			};
-
-
-		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+	NewPara.Start = [=](class GameEngineState* _Parent)
 		{
+			MainRenderer->ChangeAnimation("Attack_01");
+		};
+
+
+	NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+		{
+			if (MainRenderer->GetCurAnimationFrame() >= 13)
+			{
+				if (MainRenderer->GetCurAnimationFrame() <= 16)
+				{
+					Attack_Col->On();
+				}
+			}
+			if  (MainRenderer->GetCurAnimationFrame() > 16)
+			{
+				Attack_Col->Off();
+			}
+
+
+
 				if (Rock_On_Check == true)
 				{
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
@@ -710,6 +789,7 @@ void Player::Player_State()
 
 				if (Attack_Check == false && MainRenderer->IsCurAnimationEnd())
 				{
+					Attack_Col->Off();
 					Attack_Check = false;
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
@@ -726,6 +806,7 @@ void Player::Player_State()
 				{
 					if (true == GameEngineInput::IsPress('W', this))
 					{
+						Attack_Col->Off();
 						MainRenderer->ChangeAnimation("Walk_Forward");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -733,6 +814,7 @@ void Player::Player_State()
 
 					if (true == GameEngineInput::IsPress('S', this))
 					{
+						Attack_Col->Off();
 						MainRenderer->ChangeAnimation("Walk_Behind");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -740,6 +822,7 @@ void Player::Player_State()
 
 					if (true == GameEngineInput::IsPress('A', this))
 					{
+						Attack_Col->Off();
 						MainRenderer->ChangeAnimation("Walk_Left");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -747,6 +830,7 @@ void Player::Player_State()
 
 					if (true == GameEngineInput::IsPress('D', this))
 					{
+						Attack_Col->Off();
 						MainRenderer->ChangeAnimation("Walk_Right");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -771,6 +855,20 @@ void Player::Player_State()
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
 
+				if (MainRenderer->GetCurAnimationFrame() >= 14)
+				{
+					if (MainRenderer->GetCurAnimationFrame() <= 18)
+					{
+						Attack_Col->On();
+					}
+
+				}
+				if (MainRenderer->GetCurAnimationFrame() > 18)
+				{
+					Attack_Col->Off();
+				}
+
+
 				if (Rock_On_Check == true)
 				{
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
@@ -788,6 +886,7 @@ void Player::Player_State()
 
 				if (Attack_Check == false && MainRenderer->IsCurAnimationEnd())
 				{
+					Attack_Col->Off();
 					Attack_Check = false;
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
@@ -795,6 +894,7 @@ void Player::Player_State()
 
 				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 20)
 				{
+
 					Attack_Check = false;
 					PlayerStates.ChangeState(PlayerState::Attack_03);
 					return;
@@ -804,6 +904,7 @@ void Player::Player_State()
 				{
 					if (true == GameEngineInput::IsPress('W', this))
 					{
+						Attack_Col->Off();
 						MainRenderer->ChangeAnimation("Walk_Forward");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -811,6 +912,7 @@ void Player::Player_State()
 
 					if (true == GameEngineInput::IsPress('S', this))
 					{
+						Attack_Col->Off();
 						MainRenderer->ChangeAnimation("Walk_Behind");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -818,6 +920,7 @@ void Player::Player_State()
 
 					if (true == GameEngineInput::IsPress('A', this))
 					{
+						Attack_Col->Off();
 						MainRenderer->ChangeAnimation("Walk_Left");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -825,6 +928,7 @@ void Player::Player_State()
 
 					if (true == GameEngineInput::IsPress('D', this))
 					{
+						Attack_Col->Off();
 						MainRenderer->ChangeAnimation("Walk_Right");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -848,6 +952,20 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+
+				if (MainRenderer->GetCurAnimationFrame() >= 13)
+				{
+					if (MainRenderer->GetCurAnimationFrame() <= 15)
+					{
+						Attack_Col->On();
+					}
+
+				}
+				if (MainRenderer->GetCurAnimationFrame() > 15)
+				{
+					Attack_Col->Off();
+				}
+
 				if (Rock_On_Check == true)
 				{
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
@@ -865,6 +983,7 @@ void Player::Player_State()
 
 				if (Attack_Check == false && MainRenderer->IsCurAnimationEnd())
 				{
+					Attack_Col->Off();
 					Attack_Check = false;
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
@@ -882,6 +1001,7 @@ void Player::Player_State()
 				{
 					if (true == GameEngineInput::IsPress('W', this))
 					{
+						Attack_Col->Off();
 						MainRenderer->ChangeAnimation("Walk_Forward");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -889,6 +1009,7 @@ void Player::Player_State()
 
 					if (true == GameEngineInput::IsPress('S', this))
 					{
+						Attack_Col->Off();
 						MainRenderer->ChangeAnimation("Walk_Behind");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -896,6 +1017,7 @@ void Player::Player_State()
 
 					if (true == GameEngineInput::IsPress('A', this))
 					{
+						Attack_Col->Off();
 						MainRenderer->ChangeAnimation("Walk_Left");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -903,6 +1025,7 @@ void Player::Player_State()
 
 					if (true == GameEngineInput::IsPress('D', this))
 					{
+						Attack_Col->Off();
 						MainRenderer->ChangeAnimation("Walk_Right");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -926,6 +1049,20 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+
+				if (MainRenderer->GetCurAnimationFrame() >= 16)
+				{
+					if (MainRenderer->GetCurAnimationFrame() <= 19)
+					{
+						Attack_Col->On();
+					}
+
+				}
+
+				if (MainRenderer->GetCurAnimationFrame() > 19)
+				{ 
+					Attack_Col->Off();
+				}
 				if (Rock_On_Check == true)
 				{
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
@@ -943,6 +1080,7 @@ void Player::Player_State()
 
 				if (Attack_Check == false && MainRenderer->IsCurAnimationEnd())
 				{
+					Attack_Col->Off();
 					Attack_Check = false;
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
@@ -959,6 +1097,7 @@ void Player::Player_State()
 				{
 					if (true == GameEngineInput::IsPress('W', this))
 					{
+						Attack_Col->Off();
 						MainRenderer->ChangeAnimation("Walk_Forward");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -966,6 +1105,7 @@ void Player::Player_State()
 
 					if (true == GameEngineInput::IsPress('S', this))
 					{
+						Attack_Col->Off();
 						MainRenderer->ChangeAnimation("Walk_Behind");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -973,6 +1113,7 @@ void Player::Player_State()
 
 					if (true == GameEngineInput::IsPress('A', this))
 					{
+						Attack_Col->Off();
 						MainRenderer->ChangeAnimation("Walk_Left");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -980,6 +1121,7 @@ void Player::Player_State()
 
 					if (true == GameEngineInput::IsPress('D', this))
 					{
+						Attack_Col->Off();
 						MainRenderer->ChangeAnimation("Walk_Right");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -1079,16 +1221,30 @@ void Player::Player_State()
 				{
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
 					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
-					Capsule->MoveForce({ float4::BACKWARD * Speed * float(1.2) }, degree_X);
+					Capsule->MoveForce({ float4::BACKWARD * Speed  }, degree_X);
 				}
 
 				else 
 				{
-					if (MainRenderer->GetCurAnimationFrame() < 25)
+					if (MainRenderer->GetCurAnimationFrame() < 5)
 					{
-						Capsule->MoveForce({ float4::BACKWARD * Speed * float(1.2) });
+						Capsule->MoveForce({ float4::BACKWARD * Speed });
 					}
 				}
+
+				if (MainRenderer->GetCurAnimationFrame() < 15)
+				{
+					Body_Col->Off(); 
+				}
+				else if (MainRenderer->GetCurAnimationFrame() > 15)
+				{
+					Body_Col->On();
+				}
+
+
+
+
+
 
 
 				if (MainRenderer->GetCurAnimationFrame() > 30)
@@ -1118,19 +1274,31 @@ void Player::Player_State()
 				{
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
 					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
-					if (MainRenderer->GetCurAnimationFrame() < 10)
+					if (MainRenderer->GetCurAnimationFrame() < 5)
 					{
-						Capsule->MoveForce({ float4::FORWARD * Speed * float(1.2) });
+						Capsule->MoveForce({ float4::FORWARD * Speed }, degree_X);
 					}
 				}
 
 				else
 				{
-					if (MainRenderer->GetCurAnimationFrame() < 10)
+					if (MainRenderer->GetCurAnimationFrame() < 5)
 					{
-						Capsule->MoveForce({ float4::FORWARD * Speed * float(1.2) });
+						Capsule->MoveForce({ float4::FORWARD * Speed });
 					}
 				}
+
+
+				if (MainRenderer->GetCurAnimationFrame() < 15)
+				{
+					Body_Col->Off();
+				}
+				else if (MainRenderer->GetCurAnimationFrame() > 15)
+				{
+					Body_Col->On();
+				}
+
+
 				if (MainRenderer->GetCurAnimationFrame() > 30)
 				{
 					PlayerStates.ChangeState(PlayerState::Idle);
@@ -1165,21 +1333,32 @@ void Player::Player_State()
 			
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
 					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
-					if (MainRenderer->GetCurAnimationFrame() < 10)
+					if (MainRenderer->GetCurAnimationFrame() < 5)
 					{
-						Capsule->MoveForce({ float4::LEFT * Speed * float(1.2) });
+						Capsule->MoveForce({ float4::LEFT * Speed  });
 					}
 				}
 
 				else
 				{
-					if (MainRenderer->GetCurAnimationFrame() < 10)
+					if (MainRenderer->GetCurAnimationFrame() < 5)
 					{
-						Capsule->MoveForce({ float4::LEFT * Speed * float(1.2) });
+						Capsule->MoveForce({ float4::LEFT * Speed });
 					}
 
 					
 				}
+
+				if (MainRenderer->GetCurAnimationFrame() < 23)
+				{
+					Body_Col->Off();
+				}
+				else if (MainRenderer->GetCurAnimationFrame() > 15)
+				{
+					Body_Col->On();
+				}
+
+
 				if (MainRenderer->GetCurAnimationFrame() > 30)
 				{
 					PlayerStates.ChangeState(PlayerState::Idle);
@@ -1205,19 +1384,31 @@ void Player::Player_State()
 				{
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
 					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
-					if (MainRenderer->GetCurAnimationFrame() < 10)
+					if (MainRenderer->GetCurAnimationFrame() < 5)
 					{
-						Capsule->MoveForce({ float4::RIGHT * Speed * float(1.2) });
+						Capsule->MoveForce({ float4::RIGHT * Speed  });
 					}
 				}
 
 				else
 				{
-					if (MainRenderer->GetCurAnimationFrame() < 10)
+					if (MainRenderer->GetCurAnimationFrame() < 5)
 					{
-						Capsule->MoveForce({ float4::RIGHT * Speed * float(1.2) });
+						Capsule->MoveForce({ float4::RIGHT * Speed  });
 					}
 				}
+
+
+				if (MainRenderer->GetCurAnimationFrame() < 23)
+				{
+					Body_Col->Off();
+				}
+				else if (MainRenderer->GetCurAnimationFrame() > 15)
+				{
+					Body_Col->On();
+				}
+
+
 
 				if (MainRenderer->GetCurAnimationFrame() > 30)
 				{
@@ -1274,20 +1465,28 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Shield_Idle");
+				Shield_Col->On();
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+				if (Shield_Col->Collision(Enum_CollisionOrder::MonsterAttack))
+				{
+					Body_Col->Off(); 
+					PlayerStates.ChangeState(PlayerState::Weak_Shield_block);
+					return; 
+				}
 				
-
-
-
-
-
+				/*if (Shield_Col->Collision(Enum_CollisionOrder::MonsterAttack))
+				{
+					PlayerStates.ChangeState(PlayerState::Weak_Shield_block);
+					return;
+				}*/
 
 				if (true == GameEngineInput::IsUp(VK_RBUTTON, this))
 				{
+					Shield_Col->Off(); 
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
@@ -1342,12 +1541,27 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				//if(GameEngineInput::)
+				
+
+				if (MainRenderer->GetCurAnimationFrame() < 14)
+				{
+					Shield_Col->On();
+				}
+				if (MainRenderer->GetCurAnimationFrame() > 14)
+				{
+					Shield_Col->Off();
+				}
+
+				
+
 				if (MainRenderer->IsCurAnimationEnd())
 				{
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return; 
 				}
+
+
+
 			};
 
 		PlayerStates.CreateState(PlayerState::Parrying, NewPara);
@@ -2215,15 +2429,21 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Weak_Shield_block");
+				StateValue = PlayerState::Weak_Shield_block; 
+
+				Shield_Col->On(); 
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				PlayerStates.ChangeState(PlayerState::Idle);
-				return;
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					//Shield_Col->Off();
+					PlayerStates.ChangeState(PlayerState::Shield_Idle);
+					return;
+				};
 			};
-
 		PlayerStates.CreateState(PlayerState::Weak_Shield_block, NewPara);
 	}
 
@@ -2234,15 +2454,21 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Middle_Shield_block");
+				StateValue = PlayerState::Middle_Shield_block;
+				Shield_Col->On();
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				PlayerStates.ChangeState(PlayerState::Idle);
-				return;
-			};
+				if (MainRenderer->IsCurAnimationEnd())
+				{
 
+					//Shield_Col->Off();
+					PlayerStates.ChangeState(PlayerState::Shield_Idle);
+					return;
+				};
+			};
 		PlayerStates.CreateState(PlayerState::Middle_Shield_block, NewPara);
 	}
 
@@ -2251,14 +2477,22 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Shield_Col->On();
 				MainRenderer->ChangeAnimation("Big_Shield_block");
+				StateValue = PlayerState::Big_Shield_block;
+
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				PlayerStates.ChangeState(PlayerState::Idle);
-				return; 
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					//Shield_Col->Off();
+					PlayerStates.ChangeState(PlayerState::Shield_Idle);
+					return;
+				};
+				
 			};
 
 		PlayerStates.CreateState(PlayerState::Big_Shield_block, NewPara);

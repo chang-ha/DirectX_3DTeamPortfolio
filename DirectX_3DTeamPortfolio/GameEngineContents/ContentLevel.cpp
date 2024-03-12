@@ -129,6 +129,7 @@ void ContentsCollisionCallBack::onContact(const physx::PxContactPairHeader& pair
 
 			}		
 		}
+		
 		if (thisFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Big_Camera))
 		{
 			if ((CollisionFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Map)))
@@ -139,32 +140,20 @@ void ContentsCollisionCallBack::onContact(const physx::PxContactPairHeader& pair
 				Player::Main_Player->testaa = true;
 			}
 		}
-		//if (Player::Main_Player->testaa == false && Player::Main_Player->testa == false)
-		//{
-		//	//wrwrw = true;
-
-		//	if (abs(Player::Main_Player->Actor_test_02->Transform.GetLocalPosition().Z) <= abs(300))
-		//	{
-		//		Player::Main_Player->Actor_test_02->Transform.AddWorldPosition(-Player::Main_Player->CameraDir * 10);
-		//	}
-		//}
-
-
-
-		/*else if(thisFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Camera))
-		{
-			
-
-			if (abs(Player::Main_Player->Actor_test_02->Transform.GetLocalPosition().Z) <= abs(300) && Player::Main_Player->testa == false)
-			{
-				Player::Main_Player->Actor_test_02->Transform.AddWorldPosition(-Player::Main_Player->CameraDir * 10);
-			}
-           
-		}*/
 		
 
-
 	}
+
+
+
+
+
+
+
+
+
+	//Player::Main_Player->testaa = false;
+	//Player::Main_Player->testa = false;
 
 
 }
