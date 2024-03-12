@@ -22,11 +22,11 @@ void Object_CandleHuman::Start()
 		FBXRenderer->SetStatic();
 		FBXRenderer->SetFBXMesh("o302565.FBX", "FBX_Static");
 		FBXRenderer->Transform.SetWorldScale({ 100,100,100 });
-<<<<<<< HEAD
+
 		FBXRenderer->SetStatic();
-=======
+
 		FBXRenderer->RenderBaseInfoValue.IsNormal = -1;
->>>>>>> Develop
+
 	}
 	{
 		FireRender = CreateComponent<ContentsAlphaSpriteRenderer>(Enum_RenderOrder::Effect);
