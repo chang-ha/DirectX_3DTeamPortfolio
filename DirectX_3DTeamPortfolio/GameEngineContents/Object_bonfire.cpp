@@ -19,6 +19,7 @@ void Object_bonfire::Start()
 	{
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>(0);
 		FBXRenderer->SetFBXMesh("o000100.FBX", "FBX_Static");
+		FBXRenderer->SetStatic();
 		//FBXRenderer->Transform.SetWorldPosition({ -3925, 4120 , -1961 });
 		FBXRenderer->Transform.SetWorldScale({ 100, 100 , 100 });
 		//FBXRenderer->Transform.SetWorldRotation({ 0, 0 , 0 });

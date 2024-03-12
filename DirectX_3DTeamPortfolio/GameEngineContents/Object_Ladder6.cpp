@@ -19,6 +19,7 @@ void Object_Ladder6::Start()
 	{
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>(0);
 		FBXRenderer->SetFBXMesh("o300715.FBX", "FBX_Static");
+		FBXRenderer->SetStatic();
 
 	}
 

@@ -43,8 +43,8 @@ void TestLevel_MapObject::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 
-	{/*
-		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
+	{
+		/*std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
 		Object->Transform.SetWorldPosition({ -8930, 2030, -4427 });*/
 	
 
@@ -107,7 +107,7 @@ void TestLevel_MapObject::Start()
 	Data.AmbientLight = float4(0.05f, 0.05f, 0.025f, 1.0f);
 	Data.LightColor = float4(1.0f, 1.0f, 0.7f);
 	Data.LightPower = 0.7f;
-	Data.ForceLightPower = 0.25f;
+	Data.ForceLightPower = 8.0f;
 
 	Light->Transform.SetLocalPosition({ -3400.0f, 10101.0f, -5331.0f });
 	Light->Transform.SetLocalRotation({ 40.0f, 0.0f, 0.0f });

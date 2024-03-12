@@ -19,6 +19,7 @@ void Object_Ladder1::Start()
 	{
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>(0);
 		FBXRenderer->SetFBXMesh("o300700.FBX", "FBX_Static");
+		FBXRenderer->SetStatic();
 	}
 
 	Transform.SetWorldPosition({ -8930, 2030 , -4427 });
@@ -32,7 +33,7 @@ void Object_Ladder1::Start()
 
 	CollisionTop = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::LadderTop);
 	CollisionTop->SetCollisionType(ColType::SPHERE3D);
-	CollisionTop->Transform.SetLocalPosition({ 0.0f, 7.8f , 0.42f });
+	CollisionTop->Transform.SetLocalPosition({ 0.0f, 7.8f , -0.45f });
 	CollisionTop->Transform.SetWorldScale(float4(300, 300, 300));
 
 	CollisionBody = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::LabberMiddle);

@@ -28,5 +28,7 @@ private:
 	std::shared_ptr<class ContentsLight> Light;
 	std::shared_ptr<class Player> Player_Object;
 	std::shared_ptr<class WorldMap> Map_Lothric;
+
+	void CreateObject();
 };
 

@@ -20,6 +20,7 @@ void Object_CandleHuman::Start()
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>(0);
 		FBXRenderer->SetFBXMesh("o302565.FBX", "FBX_Static");
 		FBXRenderer->Transform.SetWorldScale({ 100,100,100 });
+		FBXRenderer->SetStatic();
 	}
 	{
 		FireRender = CreateComponent<ContentsFireRenderer>(Enum_RenderOrder::Effect);
