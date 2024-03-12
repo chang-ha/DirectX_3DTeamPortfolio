@@ -2,7 +2,8 @@
 #include "Boss_Vordt.h"
 #include "BoneSocketCollision.h"
 
-#define NORMAL_ATTACK_COOLDOWN 10.f
+#define JUMP_COOLDOWN 10.f
+#define NORMAL_ATTACK_COOLDOWN 15.f
 #define COMBO_COOLDOWN1 60.f
 #define COMBO_COOLDOWN2 120.f
 
@@ -803,9 +804,9 @@ void Boss_Vordt::StateInit()
 		AI_States[Enum_BossState::Walk_Right] = AI_State(0.f);
 		AI_States[Enum_BossState::Walk_Left] = AI_State(0.f);
 		AI_States[Enum_BossState::Rush_Front] = AI_State(0.f);
-		AI_States[Enum_BossState::Jump_Back] = AI_State(0.f);
-		AI_States[Enum_BossState::Jump_Right] = AI_State(0.f);
-		AI_States[Enum_BossState::Jump_Left] = AI_State(0.f);
+		AI_States[Enum_BossState::Jump_Back] = AI_State(JUMP_COOLDOWN);
+		AI_States[Enum_BossState::Jump_Right] = AI_State(JUMP_COOLDOWN);
+		AI_States[Enum_BossState::Jump_Left] = AI_State(JUMP_COOLDOWN);
 		AI_States[Enum_BossState::Turn_Right] = AI_State(0.f);
 		AI_States[Enum_BossState::Turn_Left] = AI_State(0.f);
 		AI_States[Enum_BossState::Turn_Right_Twice] = AI_State(0.f);
@@ -1048,11 +1049,6 @@ Enum_JumpTableFlag Boss_Vordt::AI_Attack()
 			return Enum_JumpTableFlag::StopJumpTable;
 		}
 
-		if (true == ChangeAI_State(Enum_BossState::Rush_Turn))
-		{
-			return Enum_JumpTableFlag::StopJumpTable;
-		}
-
 		if (Enum_TargetDeg::Deg_Front < tDeg)
 		{
 			break;
@@ -1096,9 +1092,9 @@ Enum_JumpTableFlag Boss_Vordt::AI_Attack()
 		break;
 	}
 
-	if (Enum_TargetDeg::Deg_Side < tDeg)
+	if (Enum_TargetDeg::Deg_Side < tDeg && true == ChangeAI_State(Enum_BossState::Rush_Turn))
 	{
-		return Enum_JumpTableFlag::Default;
+		return Enum_JumpTableFlag::StopJumpTable;
 	}
 
 	if (Enum_TargetDis::Dis_Close >= tDis)
@@ -1171,6 +1167,7 @@ Enum_JumpTableFlag Boss_Vordt::AI_MoveMent()
 	int tDis = mTargetState.mTargetDis;
 	int tDeg = mTargetState.mTargetDeg;
 
+
 	return Enum_JumpTableFlag::Default;
 }
 
@@ -1185,6 +1182,47 @@ Enum_JumpTableFlag Boss_Vordt::AI_Dodge()
 	int CurState = MainState.GetCurState();
 	int tDis = mTargetState.mTargetDis;
 	int tDeg = mTargetState.mTargetDeg;
+
+	if (Enum_TargetDis::Dis_Close < tDis)
+	{
+		return Enum_JumpTableFlag::Default;
+	}
+
+	if (Enum_TargetDeg::Deg_Side < tDeg)
+	{
+		return Enum_JumpTableFlag::Default;
+	}
+
+	if (Enum_TargetDeg::Deg_Front == tDeg && true == ChangeAI_State(Enum_BossState::Jump_Back))
+	{
+		return Enum_JumpTableFlag::StopJumpTable;
+	}
+
+	Enum_RotDir Dir = GetRotDir_e();
+
+	switch (Dir)
+	{
+	case Left:
+	{
+		if (true == ChangeAI_State(Enum_BossState::Jump_Left))
+		{
+			return Enum_JumpTableFlag::StopJumpTable;
+		}
+		break;
+	}
+	case Right:
+	{
+		if (true == ChangeAI_State(Enum_BossState::Jump_Right))
+		{
+			return Enum_JumpTableFlag::StopJumpTable;
+		}
+		break;
+	}
+	case Not_Rot:
+	default:
+		break;
+	}
+
 	return Enum_JumpTableFlag::Default;
 }
 
