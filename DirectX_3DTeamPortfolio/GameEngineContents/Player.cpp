@@ -56,7 +56,9 @@ void Player::Start()
 	MainRenderer->CreateFBXAnimation("Waek_jump", "004200.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Middle_jump", "004210.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("String_Jump", "004220.FBX", { Frame, true });
-	MainRenderer->CreateFBXAnimation("Roll_Forward", "004280.FBX", { Frame, true });
+
+	
+
 	MainRenderer->CreateFBXAnimation("Hit_right", "005000.FBX", { Frame, false });
 	MainRenderer->CreateFBXAnimation("Hit_Left", "005001.FBX", { Frame, false });
 	MainRenderer->CreateFBXAnimation("Hit_Forward", "005002.FBX", { Frame, false });
@@ -84,6 +86,7 @@ void Player::Start()
 	//FBXRenderer->CreateFBXAnimation("Shield_Move", "023050.FBX", { Frame, true });
 
 	MainRenderer->CreateFBXAnimation("Back_Step", "027000.FBX", { Frame, true });
+	MainRenderer->CreateFBXAnimation("Roll_Forward", "004280.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Roll_Behind", "027101.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Roll_Right", "027102.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Roll_Left", "027103.FBX", { Frame, true });
@@ -278,12 +281,6 @@ void Player::Start()
 
 
 
-	{
-		Shield_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Shield, 18);
-		Shield_Col->SetCollisionType(ColType::SPHERE3D);
-		Shield_Col->Transform.SetLocalScale({ 70.f,70.f, 50.f });
-		Shield_Col->On();
-	}
 	
 
 
@@ -308,15 +305,16 @@ void Player::Start()
 	{
 
 		ColParameter.R = 0.0f;
-		ColParameter.S = { 20.f, 60.f, 20.f };
+		ColParameter.S = { 60.f, 120.f, 40.f };
 		ColParameter.T = { 0.f, 0.8f, 0.f };
 
 		Body_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Body, 0, ColParameter, "Player_Body");
-		Body_Col->SetCollisionType(ColType::SPHERE3D);
-		Body_Col->Transform.SetLocalScale({ 100.f,120.f, 30.f });
+		Body_Col->SetCollisionType(ColType::AABBBOX3D);
+		//Body_Col->Transform.SetLocalScale({ 100.f,120.f, 30.f });
 		Body_Col->On();
 
-
+	}
+	{
 		Player_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player);
 		Player_Col->SetCollisionType(ColType::SPHERE3D);
 		Player_Col->Transform.SetLocalScale({ 10.f,10.f, 10.f });
@@ -330,6 +328,12 @@ void Player::Start()
 		Arround_Col->Off();
 	}
 
+	{
+		Shield_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Shield, 18);
+		Shield_Col->SetCollisionType(ColType::SPHERE3D);
+		Shield_Col->Transform.SetLocalScale({ 70.f,70.f, 50.f });
+		Shield_Col->Off();
+	}
 
 
 	
@@ -399,16 +403,14 @@ void Player::Start()
 			{
 				if (Monster_Degree <= 180)
 				{
-					//Collision_Left_drop();
-					PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);
+					PlayerStates.ChangeState(PlayerState::Forward_Hit);
 				}
 			}
 			if (Monster_Degree >= -180)
 			{
 				if (Monster_Degree < -135)
 				{
-					//Collision_Left_drop();
-					PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);
+					PlayerStates.ChangeState(PlayerState::Backward_Hit);
 				}
 			}
 
@@ -438,12 +440,8 @@ void Player::Start()
 				{
 					//Collision_Right_drop();
 					PlayerStates.ChangeState(PlayerState::Left_Hit);
-
 				}
 			}
-
-
-
 		};
 
 	Body_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
@@ -452,6 +450,25 @@ void Player::Start()
 		};
 
 	Body_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+
+		};
+
+
+	Shield_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+
+			
+		};
+
+	Shield_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+
+
+
+		};
+
+	Shield_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
 
 		};
@@ -620,7 +637,8 @@ void Player::Start()
 		};
 
 	//SoundFrameEvent();
-
+	Shield_Col->Off();
+	Attack_Col->Off(); 
 }
 
 void Player::Update(float _Delta)
@@ -1133,7 +1151,7 @@ void Player::CameraRotation(float Delta)
 		}
 
 	}
-
+	
 
 	else
 	{
