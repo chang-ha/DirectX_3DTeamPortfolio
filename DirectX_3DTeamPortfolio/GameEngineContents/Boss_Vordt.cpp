@@ -16,7 +16,15 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	{
 		return;
 	}
-		
+	ImGui::NewLine();
+
+	if (true == ImGui::Checkbox("Awake", &Linked_Boss->IsAwake))
+	{
+		Linked_Boss->OnOffSwitch();
+	}
+
+	ImGui::NewLine();
+
 	int Index = 0;
 
 	if (0 == StateNames.size())
@@ -366,6 +374,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->SetRootMotion("Hit_Groggy");
 		MainRenderer->SetRootMotion("Howling");
 		MainRenderer->SetRootMotion("Rush_Front");
+		MainRenderer->SetRootMotion("Rush&Turn"); // 
 		MainRenderer->SetRootMotion("Turn_Left");
 		MainRenderer->SetRootMotion("Turn_Left_Twice");
 		MainRenderer->SetRootMotion("Turn_Right");
@@ -397,11 +406,10 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->SetRootMotion("Sweep_002", "", Enum_RootMotionMode::RealTimeDir);
 		MainRenderer->SetRootMotion("Rush_Attack", "", Enum_RootMotionMode::RealTimeDir);
 		MainRenderer->SetRootMotion("Rush_Attack_002", "", Enum_RootMotionMode::RealTimeDir);
-		MainRenderer->SetRootMotion("Rush&Turn", "", Enum_RootMotionMode::RealTimeDir); // 
 		MainRenderer->SetRootMotion("Rush&Hit&Turn", "", Enum_RootMotionMode::RealTimeDir);
 		MainRenderer->SetRootMotion("Rush&Hit&Turn&Rush", "", Enum_RootMotionMode::RealTimeDir); // 
 
-		MainRenderer->SetAllRootMotionMoveRatio(3.f, 3.f, 3.f);
+		MainRenderer->SetAllRootMotionMoveRatio(2.f, 2.f, 2.f);
 	}
 
 	//// Boss Collision
@@ -499,6 +507,8 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	Stat.SetHp(BOSS_HP);
 	Stat.SetAtt(1);
 	Stat.SetSouls(10000);
+
+	Off();
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)

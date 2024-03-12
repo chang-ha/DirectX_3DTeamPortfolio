@@ -1261,11 +1261,6 @@ Enum_JumpTableFlag Boss_Vordt::AI_MoveMent()
 	}
 	case Enum_TargetDeg::Deg_Back:
 	{
-		if (tDis > Enum_TargetDis::Dis_Close)
-		{
-			break;
-		}
-
 		switch (Dir)
 		{
 		case Left:

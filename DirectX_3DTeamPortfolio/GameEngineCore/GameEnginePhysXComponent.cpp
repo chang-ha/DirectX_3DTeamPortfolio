@@ -37,7 +37,7 @@ void GameEnginePhysXComponent::Start()
 
 void GameEnginePhysXComponent::Update(float _Delta)
 {
-	
+
 }
 
 void GameEnginePhysXComponent::Release()
@@ -70,6 +70,10 @@ void GameEnginePhysXComponent::MoveForce(const physx::PxVec3 _Force, bool _Ignor
 	if (false == _IgnoreGravity)
 	{
 		CurLV = DynamicActor->getLinearVelocity();
+		if (0.f < CurLV.y)
+		{
+			CurLV.y = 0.f;
+		}
 	}
 
 	DynamicActor->setLinearVelocity({ _Force.x, _Force.y + CurLV.y, _Force.z }); // 현재 중력을 받아오기 위해

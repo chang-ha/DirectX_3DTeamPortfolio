@@ -164,6 +164,8 @@ private:
 	Enum_Boss_Phase mBoss_Phase = Enum_Boss_Phase::Phase_1;
 	int Rush_Combo_Count = 0;
 
+	bool IsAwake = false;
+
 	Enum_JumpTableFlag AI_MoveMent();
 	Enum_JumpTableFlag AI_Attack();
 	Enum_JumpTableFlag AI_Combo();

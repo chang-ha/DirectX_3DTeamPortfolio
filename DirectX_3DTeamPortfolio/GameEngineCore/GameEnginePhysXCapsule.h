@@ -42,6 +42,8 @@ public:
 		return CapsuleActor->getGlobalPose().p;
 	}
 
+	void ChangeMaterial(physx::PxMaterial* const* _Material);
+
 	
 	bool IsGravity()
 	{

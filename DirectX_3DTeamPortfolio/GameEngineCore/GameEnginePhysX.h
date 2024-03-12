@@ -4,7 +4,7 @@
 #include <PxPhysicsAPI.h>
 
 #define SCENE_MAX_ACTOR 512
-#define GRAVITY_FORCE 4000.f
+#define GRAVITY_FORCE 6000.f
 
 #define PVD_HOST "127.0.0.1"	//Set this to the IP address of the system running the PhysX Visual Debugger that you want to connect to.
 
@@ -98,6 +98,16 @@ public:
 		return Material;
 	}
 
+	static inline  physx::PxMaterial* const* GetConstDefaultMaterial()
+	{
+		return &Material;
+	}
+
+	static inline  physx::PxMaterial* const* GetConstClimbMaterial()
+	{
+		return &ClimbMaterial;
+	}
+
 	static inline physx::PxCooking* GetCooking()
 	{
 		return Cooking;
@@ -120,6 +130,7 @@ private:
 	static physx::PxCooking* Cooking;
 	static physx::PxDefaultCpuDispatcher* CpuDispatcher;
 	static physx::PxMaterial* Material;
+	static physx::PxMaterial* ClimbMaterial;
 
 	static std::map<std::string, physx::PxScene*> AllLevelScene;
 	static std::set<int> SkipCollisionPair;
