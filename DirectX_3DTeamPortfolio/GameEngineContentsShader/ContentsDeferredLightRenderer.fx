@@ -219,7 +219,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
             
             
             if (
-                fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.001f)
+                fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.00005f)
              )
                 {
             
@@ -243,7 +243,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
             
             
             
-                    if (fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.001f))
+                    if (fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.00005f))
                     {
             
                         shadow += 1.0f;

@@ -153,6 +153,12 @@ void LightGUI::LightEditor(GameEngineLevel* _Level)
 		ImGui::InputFloat("constantAttenuation", &Data.constantAttenuation);
 		ImGui::InputFloat("linearAttenuation", &Data.linearAttenuation, 0.0f, 0.0f, "%.5f");
 		ImGui::InputFloat("quadraticAttenuation", &Data.quadraticAttenuation,0.0f,0.0f,"%.6f");
+
+		if (ImGui::InputFloat("LightFar", &Data.LightFar, 0.0f, 0.0f))
+		{
+
+			_Level->GetMainCamera()->StaticRenderInitValue = true;
+		}
 		
 
 

@@ -88,7 +88,7 @@ PSOutput ContentsDeferredMergeRender_PS(PixelOutPut _Input)
     Result.Light.xyz += DifColor.xyz * (PointDifLight.xyz + PointSpcLight.xyz);
     
     //¾Úºñ¾ðÆ®
-    Result.Light.xyz += DifColor.xyz * float3(0.05f, 0.05f, 0.03f);
+    Result.Light.xyz += DifColor.xyz * float3(0.15f, 0.15f, 0.10f);
     
     
     

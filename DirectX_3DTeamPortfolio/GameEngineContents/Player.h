@@ -131,6 +131,9 @@ private:
 	float4 MoveDir;
 	GameEngineState PlayerStates;
 	EventParameter Mini_Event;
+
+
+
 	std::string BoneName;
 
 	std::shared_ptr<GameEngineCollision> Player_Col;
@@ -162,6 +165,9 @@ private:
 	EventParameter Labber_Event;
 	EventParameter Labber_Middle_Event;
 	EventParameter Labber_Top_Event;
+	EventParameter Shield_Event;
+
+
 
 	EventParameter Arround_Event;
 
