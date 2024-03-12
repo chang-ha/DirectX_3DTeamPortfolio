@@ -90,7 +90,6 @@ private:
 	float WalkToChangeTime = 0.0f;
 	float WalkTime = 0.0f;
 
-
 protected:
 	Enum_HollowSoldier_Sword_State SoldierState = Enum_HollowSoldier_Sword_State::Max;
 
@@ -101,7 +100,9 @@ protected:
 
 	void ChangeHitState();
 
-	
+	std::shared_ptr<GameEngineCollision> SwordCollision;
+
+	Monster_HitInteraction Sword;
 
 private:
 	bool IsRecognize = false;

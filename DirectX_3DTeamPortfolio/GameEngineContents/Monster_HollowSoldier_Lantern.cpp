@@ -32,6 +32,9 @@ void Monster_HollowSoldier_Lantern::Start()
 	AwakeCollision->Transform.SetWorldScale(float4(100, 100, 100));
 	AwakeCollision->Off();
 
+	// 62 4 7 / 0.16 0.0 0.015
+	
+
 	ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
 }
 void Monster_HollowSoldier_Lantern::Update(float _Delta)
@@ -565,7 +568,7 @@ void Monster_HollowSoldier_Lantern::State_Scout_Update(float _Delta)
 		ChangeState(Enum_HollowSoldier_Lantern_State::AwakeHollows);
 	}
 
-	ChangeAttackState();
+	//ChangeAttackState();
 
 	EventParameter RecognizeParameter;
 	RecognizeParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)

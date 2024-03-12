@@ -100,7 +100,8 @@ protected:
 	void ChangeHitState();
 
 	std::shared_ptr<GameEngineCollision> ShieldCollision;
-
+	std::shared_ptr<GameEngineCollision> SwordCollision;
+	Monster_HitInteraction Sword;
 
 protected:
 	// State Function

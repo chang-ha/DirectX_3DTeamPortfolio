@@ -36,6 +36,12 @@ void Monster_HollowSoldier_RoundShield::Start()
 	ShieldCollision->SetCollisionType(ColType::OBBBOX3D);
 	ShieldCollision->On();
 
+	// 105 4 7 / 0.33 0.0 0.02
+	SwordCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_Hollow_BoneType::Sword, { float4(106.0f, 4.0f, 7.0f), float4::ZERONULL, float4(0.33f, 0.0f, 0.015f) });
+	SwordCollision->SetCollisionType(ColType::OBBBOX3D);
+
+	Sword.Init(this, SwordCollision.get());
+	Sword.On();
 
 	//ChangeState(Enum_HollowSoldier_RoundShield_State::Idle1);
 }

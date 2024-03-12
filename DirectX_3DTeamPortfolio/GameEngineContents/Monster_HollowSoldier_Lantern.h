@@ -78,6 +78,8 @@ protected:
 
 	void ChangeHitState();
 
+	std::shared_ptr<GameEngineCollision> SwordCollision;
+
 protected:
 	void State_Stay_Start();
 	void State_Stay_Update(float _Delta);

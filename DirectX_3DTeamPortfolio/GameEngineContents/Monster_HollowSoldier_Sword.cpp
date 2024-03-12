@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Monster_HollowSoldier_Sword.h"
+#include "BoneSocketCollision.h"
 
 Monster_HollowSoldier_Sword::Monster_HollowSoldier_Sword()
 {
@@ -25,11 +26,16 @@ void Monster_HollowSoldier_Sword::Start()
 	Stat.SetHp(130);
 	Stat.SetAtt(1);
 
-	CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, static_cast<int>(Enum_Hollow_BoneType::RightHand), { float4(1.0f,1.0f,1.0f), float4::ZERONULL, float4::ZERO }, "RightHand");
+	// 105 4 7 / 0.33 0.0 0.02
+	SwordCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_Hollow_BoneType::Sword, { float4(106.0f, 4.0f, 7.0f), float4::ZERONULL, float4(0.33f, 0.0f, 0.015f) });
+	SwordCollision->SetCollisionType(ColType::OBBBOX3D);
+
+	Sword.Init(this, SwordCollision.get());
+	Sword.On();
 	
 	//AttackRangeCollision->Off(); 
 
-
+	
 
 	ChangeState(Enum_HollowSoldier_Sword_State::Idle1);
 

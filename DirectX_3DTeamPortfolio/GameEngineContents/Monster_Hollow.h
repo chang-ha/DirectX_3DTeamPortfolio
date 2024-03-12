@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseMonster.h"
+#include "Monster_HitInteraction.h"
 
 enum class Enum_Hollow_MeshIndex
 {
@@ -46,7 +47,7 @@ enum class Enum_Hollow_BoneType
 	Spine = 7,
 	RoundShield = 15,
 	WoodShield = 16,
-	RightHand = 44,
+	Sword = 44,
 };
 
 // Ό³Έν : 
