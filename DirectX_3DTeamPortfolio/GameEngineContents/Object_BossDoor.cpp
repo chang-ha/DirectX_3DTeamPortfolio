@@ -19,6 +19,7 @@ void Object_BossDoor::Start()
 	{
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>(0);
 		FBXRenderer->SetFBXMesh("o300390.FBX", "FBX_Static");
+		FBXRenderer->SetStatic();
 		/*FBXRenderer->Transform.SetWorldScale({ 125, 125 , 125 });
 		FBXRenderer->Transform.AddWorldRotation({ 0, -25 , 0 });
 		FBXRenderer->Transform.SetWorldPosition({ -800, -2500 , 2400 });*/

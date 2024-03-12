@@ -18,7 +18,11 @@
 #include "Object_StartDoor.h"
 #include "Object_bonfire.h"
 #include "Object_Table.h"
-#include "Object_HumanTree.h"
+#include "Object_HumanTree1.h"
+#include "Object_HumanTree2.h"
+#include "Object_HumanTree3.h"
+#include "Object_HumanTree4.h"
+#include "Object_HumanTree5.h"
 #include "Object_CandleHuman.h"
 #include "Object_Torchlight.h"
 #include "Object_CandleHuman2.h"
@@ -43,8 +47,8 @@ void TestLevel_MapObject::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 
-	{/*
-		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
+	{
+		/*std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
 		Object->Transform.SetWorldPosition({ -8930, 2030, -4427 });*/
 	
 
@@ -107,7 +111,7 @@ void TestLevel_MapObject::Start()
 	Data.AmbientLight = float4(0.05f, 0.05f, 0.025f, 1.0f);
 	Data.LightColor = float4(1.0f, 1.0f, 0.7f);
 	Data.LightPower = 0.7f;
-	Data.ForceLightPower = 0.25f;
+	Data.ForceLightPower = 8.0f;
 
 	Light->Transform.SetLocalPosition({ -3400.0f, 10101.0f, -5331.0f });
 	Light->Transform.SetLocalRotation({ 40.0f, 0.0f, 0.0f });
@@ -201,17 +205,18 @@ void TestLevel_MapObject::CreateObject()
 	{
 		std::shared_ptr<Object_Skeleton1> Object = CreateActor<Object_Skeleton1>(1);
 	}
-	{
-		std::shared_ptr<Object_StartDoor> Object = CreateActor<Object_StartDoor>(1);
-	}
-	
-	{
-		std::shared_ptr<Object_Table> Object = CreateActor<Object_Table>(1);
-	}
 
-	{
+	/*{
+		std::shared_ptr<Object_StartDoor> Object = CreateActor<Object_StartDoor>(1);
+	}*/
+	
+	/*{
+		std::shared_ptr<Object_Table> Object = CreateActor<Object_Table>(1);
+	}*/
+
+	/*{
 		std::shared_ptr<Object_HumanTree> Object = CreateActor<Object_HumanTree>(1);
-	}
+	}*/
 
 	/*{
 		std::shared_ptr<Object_CandleHuman> Object = CreateActor<Object_CandleHuman>(1);
@@ -383,7 +388,278 @@ void TestLevel_MapObject::CreateObject()
 		Object->Transform.AddWorldRotation({ 0, 0 , 0 });
 		Object->Transform.SetWorldPosition({ -12166, 2888 , -4414 });
 	}
-	
+
+	//테이블
+
+	{
+		std::shared_ptr<Object_Table> Object = CreateActor<Object_Table>(1);
+		Object->Transform.AddWorldRotation({ 0, 100 , 0 });
+		Object->Transform.SetWorldPosition({ -9420, 2873 , -5022 });
+	}
+
+	{
+		std::shared_ptr<Object_Table> Object = CreateActor<Object_Table>(1);
+		Object->Transform.AddWorldRotation({ 0, 90 , 0 });
+		Object->Transform.SetWorldPosition({ -8970, 2873 , -5022 });
+	}
+	{
+		std::shared_ptr<Object_Table> Object = CreateActor<Object_Table>(1);
+		Object->Transform.AddWorldRotation({ 0, 10 , 0 });
+		Object->Transform.SetWorldPosition({ -8320, 2873 , -4772 });
+	}
+	{
+		std::shared_ptr<Object_Table> Object = CreateActor<Object_Table>(1);
+		Object->Transform.AddWorldRotation({ 0, 0 , 0 });
+		Object->Transform.SetWorldPosition({ -8270, 2873 , -4372 });
+	}
+	{
+		std::shared_ptr<Object_Table> Object = CreateActor<Object_Table>(1);
+		Object->Transform.AddWorldRotation({ 0, -30 , 0 });
+		Object->Transform.SetWorldPosition({ -12981, 1630 , 3222 });
+	}
+	{
+		std::shared_ptr<Object_Table> Object = CreateActor<Object_Table>(1);
+		Object->Transform.AddWorldRotation({ 0, 90 , 0 });
+		Object->Transform.SetWorldPosition({ -16644, 2324 , 703 });
+	}
+	{
+		std::shared_ptr<Object_Table> Object = CreateActor<Object_Table>(1);
+		Object->Transform.AddWorldRotation({ 0, 110 , 0 });
+		Object->Transform.SetWorldPosition({ -17144, 2324 , 853 });
+	}
+	{
+		std::shared_ptr<Object_Table> Object = CreateActor<Object_Table>(1);
+		Object->Transform.AddWorldRotation({ 0, 40 , 0 });
+		Object->Transform.SetWorldPosition({ -16380, 2440 , -3867 });
+	}
+	{
+		std::shared_ptr<Object_Table> Object = CreateActor<Object_Table>(1);
+		Object->Transform.AddWorldRotation({ 0, -30 , 0 });
+		Object->Transform.SetWorldPosition({ -15830, 2440 , -3817 });
+	}
+	{
+		std::shared_ptr<Object_Table> Object = CreateActor<Object_Table>(1);
+		Object->Transform.AddWorldRotation({ 0, 60 , 0 });
+		Object->Transform.SetWorldPosition({ -11242, 996 , 5644 });
+	}
+	{
+		std::shared_ptr<Object_Table> Object = CreateActor<Object_Table>(1);
+		Object->Transform.AddWorldRotation({ 0, 60 , 0 });
+		Object->Transform.SetWorldPosition({ -10892, 996 , 5794 });
+	}
+	{
+		std::shared_ptr<Object_Table> Object = CreateActor<Object_Table>(1);
+		Object->Transform.AddWorldRotation({ 0, 50 , 0 });
+		Object->Transform.SetWorldPosition({ -11462, 996 , 6044 });
+	}
+
+	{
+		std::shared_ptr<Object_HumanTree1> Object = CreateActor<Object_HumanTree1>(1);
+		Object->Transform.AddWorldRotation({ 0, 90 , 0 });
+		Object->Transform.SetWorldPosition({ -4208, 4121 , -2223 });
+	}
+
+	{
+		std::shared_ptr<Object_HumanTree1> Object = CreateActor<Object_HumanTree1>(1);
+		Object->Transform.SetWorldScale({ 100, 100 , 100 });
+		Object->Transform.SetWorldPosition({ -5862, 3373 , -2474 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree1> Object = CreateActor<Object_HumanTree1>(1);
+		Object->Transform.AddWorldRotation({ 0, -50 , 0 });
+		Object->Transform.SetWorldPosition({ -7124, 3400 , -2627 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree1> Object = CreateActor<Object_HumanTree1>(1);
+		Object->Transform.AddWorldRotation({ 0, -50 , 0 });
+		Object->Transform.SetWorldPosition({ -10304, 3630 , -4057 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree1> Object = CreateActor<Object_HumanTree1>(1);
+		Object->Transform.AddWorldRotation({ 0, -30 , 0 });
+		Object->Transform.SetWorldPosition({ -9779, 3625 , -3386 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree1> Object = CreateActor<Object_HumanTree1>(1);
+		Object->Transform.AddWorldRotation({ 0, -75 , 0 });
+		Object->Transform.SetWorldPosition({ -11954, 2880 , -3783 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree1> Object = CreateActor<Object_HumanTree1>(1);
+		Object->Transform.AddWorldRotation({ 0, 0 , 0 });
+		Object->Transform.SetWorldPosition({ -15964, 3383 , 2464 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree1> Object = CreateActor<Object_HumanTree1>(1);
+		Object->Transform.AddWorldRotation({ 0, 30 , 0 });
+		Object->Transform.SetWorldPosition({ -16253, 3392 , 786 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree1> Object = CreateActor<Object_HumanTree1>(1);
+		Object->Transform.AddWorldRotation({ 0, 30 , 0 });
+		Object->Transform.SetWorldPosition({ -15684, 2685 , -228 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree1> Object = CreateActor<Object_HumanTree1>(1);
+		Object->Transform.AddWorldRotation({ 0, -90 , 0 });
+		Object->Transform.SetWorldPosition({ -16702, 2760 , -2225 });
+	}
+
+	//타입2
+	{
+		std::shared_ptr<Object_HumanTree2> Object = CreateActor<Object_HumanTree2>(1);
+		Object->Transform.AddWorldRotation({ 0, -110 , 0 });
+		Object->Transform.SetWorldPosition({ -3863, 4132 , -829 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree2> Object = CreateActor<Object_HumanTree2>(1);
+		Object->Transform.AddWorldRotation({ 0, -30 , 0 });
+		Object->Transform.SetWorldPosition({ -12805, 2028 , -2796 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree2> Object = CreateActor<Object_HumanTree2>(1);
+		Object->Transform.AddWorldRotation({ 0, 180 , 0 });
+		Object->Transform.SetWorldPosition({ -15877, 3390 , 693 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree2> Object = CreateActor<Object_HumanTree2>(1);
+		Object->Transform.AddWorldRotation({ 0, 0 , 0 });
+		Object->Transform.SetWorldPosition({ -16953, 3387 , 1146 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree2> Object = CreateActor<Object_HumanTree2>(1);
+		Object->Transform.AddWorldRotation({ 0, -100 , 0 });
+		Object->Transform.SetWorldPosition({ -16724, 2761 , -1474 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree2> Object = CreateActor<Object_HumanTree2>(1);
+		Object->Transform.AddWorldRotation({ 0, 0 , 0 });
+		Object->Transform.SetWorldPosition({ -12679, 2652 , 2944 });
+	}
+
+	//3
+	{
+		std::shared_ptr<Object_HumanTree3> Object = CreateActor<Object_HumanTree3>(1);
+		Object->Transform.AddWorldRotation({ 0, -30 , 0 });
+		Object->Transform.SetWorldPosition({ -5616, 3400 , -2408 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree3> Object = CreateActor<Object_HumanTree3>(1);
+		Object->Transform.AddWorldRotation({ 0, -50 , 0 });
+		Object->Transform.SetWorldPosition({ -10276, 3635 , -4497 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree3> Object = CreateActor<Object_HumanTree3>(1);
+		Object->Transform.AddWorldRotation({ 0, 60 , 0 });
+		Object->Transform.SetWorldPosition({ -16323, 3383 , 1735 });
+	}
+
+	//4
+	{
+		std::shared_ptr<Object_HumanTree4> Object = CreateActor<Object_HumanTree4>(1);
+		Object->Transform.AddWorldRotation({ 0, -90 , 0 });
+		Object->Transform.SetWorldPosition({ -7280, 3410 , -3220 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree4> Object = CreateActor<Object_HumanTree4>(1);
+		Object->Transform.AddWorldRotation({ 0, -30 , 0 });
+		Object->Transform.SetWorldPosition({ -10125, 3628 , -3695 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree4> Object = CreateActor<Object_HumanTree4>(1);
+		Object->Transform.AddWorldRotation({ 0, -30 , 0 });
+		Object->Transform.SetWorldPosition({ -12936, 2879 , -3303 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree4> Object = CreateActor<Object_HumanTree4>(1);
+		Object->Transform.AddWorldRotation({ 0, -120 , 0 });
+		Object->Transform.SetWorldPosition({ -11593, 2229 , 5327 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree4> Object = CreateActor<Object_HumanTree4>(1);
+		Object->Transform.AddWorldRotation({ 0, 30 , 0 });
+		Object->Transform.SetWorldPosition({ -15570, 3392 , 1287 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree4> Object = CreateActor<Object_HumanTree4>(1);
+		Object->Transform.AddWorldRotation({ 0, -30 , 0 });
+		Object->Transform.SetWorldPosition({ -12659, 2020 , -2837 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree4> Object = CreateActor<Object_HumanTree4>(1);
+		Object->Transform.AddWorldRotation({ 0, -30 , 0 });
+		Object->Transform.SetWorldPosition({ -4312, 4131 , -1138 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree4> Object = CreateActor<Object_HumanTree4>(1);
+		Object->Transform.AddWorldRotation({ 0, -60 , 0 });
+		Object->Transform.SetWorldPosition({ -6452, 3410 , -2587 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree4> Object = CreateActor<Object_HumanTree4>(1);
+		Object->Transform.AddWorldRotation({ 0, -60 , 0 });
+		Object->Transform.SetWorldPosition({ -16699, 2763 , -1721 });
+	}
+
+	//5
+
+	{
+		std::shared_ptr<Object_HumanTree5> Object = CreateActor<Object_HumanTree5>(1);
+		Object->Transform.AddWorldRotation({ 0, -60 , 0 });
+		Object->Transform.SetWorldPosition({ -4181, 4123 , -2059 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree5> Object = CreateActor<Object_HumanTree5>(1);
+		Object->Transform.AddWorldRotation({ 0, -60 , 0 });
+		Object->Transform.SetWorldPosition({ 3515, 4130 , -744 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree5> Object = CreateActor<Object_HumanTree5>(1);
+		Object->Transform.AddWorldRotation({ 0, -40 , 0 });
+		Object->Transform.SetWorldPosition({ -12085, 2893 , -3772 });
+	}
+	{
+		std::shared_ptr<Object_HumanTree5> Object = CreateActor<Object_HumanTree5>(1);
+		Object->Transform.AddWorldRotation({ 0, -60 , 0 });
+		Object->Transform.SetWorldPosition({ -11879, 2143 , 5269 });
+	}
+
+	{
+		std::shared_ptr<Object_Skeleton> Object = CreateActor<Object_Skeleton>(1);
+		Object->Transform.SetWorldPosition({ -1337, 4950 , -4634 });
+		Object->Transform.SetWorldRotation({ 0, 0 , 0 });
+	}
+
+	{
+		std::shared_ptr<Object_Skeleton> Object = CreateActor<Object_Skeleton>(1);
+		Object->Transform.SetWorldPosition({ -1187, 4950 , -4534 });
+		Object->Transform.SetWorldRotation({ 0, 0 , 0 });
+	}
+
+	{
+		std::shared_ptr<Object_Skeleton> Object = CreateActor<Object_Skeleton>(1);
+		Object->Transform.SetWorldPosition({ -845, 4950 , -5299 });
+		Object->Transform.SetWorldRotation({ 0, 90 , 0 });
+	}
+
+	{
+		std::shared_ptr<Object_Skeleton> Object = CreateActor<Object_Skeleton>(1);
+		Object->Transform.SetWorldPosition({ -845, 4950 , -5149 });
+		Object->Transform.SetWorldRotation({ 0, 120 , 0 });
+	}
+
+	{
+		std::shared_ptr<Object_Skeleton1> Object = CreateActor<Object_Skeleton1>(1);
+		Object->Transform.SetWorldPosition({ -1037, 4950 , -4634 });
+		Object->Transform.SetWorldRotation({ 0, 0 , 0 });
+	}
+
+	{
+		std::shared_ptr<Object_Skeleton1> Object = CreateActor<Object_Skeleton1>(1);
+		Object->Transform.SetWorldPosition({ -937, 4950 , -4734 });
+		Object->Transform.SetWorldRotation({ 0, 90 , 0 });
+	}
+	//
 	//Object_BossDoor
 	//Object_CastleDoor
 	//Object_Desk

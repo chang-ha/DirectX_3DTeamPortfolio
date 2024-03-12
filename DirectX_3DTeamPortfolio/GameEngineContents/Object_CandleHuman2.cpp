@@ -19,6 +19,7 @@ void Object_CandleHuman2::Start()
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>(0);
 		FBXRenderer->SetFBXMesh("o302566.FBX", "FBX_Static");
 		FBXRenderer->Transform.SetWorldScale({ 100,100,100 });
+		FBXRenderer->SetStatic();
 	}
 }
 
