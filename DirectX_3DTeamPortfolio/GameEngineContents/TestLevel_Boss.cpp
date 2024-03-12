@@ -23,8 +23,9 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 	if (nullptr == Boss_Object)
 	{
 		Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
-		Boss_Object->Transform.SetWorldPosition({ -1000.f, -2450.f, 3000.f });
-		Boss_Object->Transform.SetWorldRotation({0.f, -30.f, 0.f});
+		// Boss_Object->Transform.SetWorldPosition({ -1000.f, -2450.f, 3000.f });
+		Boss_Object->Transform.SetWorldPosition({ 0.f, 0.f, 0.f});
+		Boss_Object->Transform.SetWorldRotation({0.f, 180.f, 0.f});
 	}
 
 	// Light
@@ -48,8 +49,8 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 	if (nullptr == TestPlayer)
 	{
 		TestPlayer = CreateActor<Player>(0, "Player");
-		TestPlayer->Transform.SetWorldPosition({ -2800.f, -2500.f, 6700.f });
-		TestPlayer->Transform.SetWorldRotation({ 0.f, 165.f, 0.f });
+		TestPlayer->Transform.SetWorldPosition({ 0.f, 0.f, -2000.f});
+		TestPlayer->Transform.SetWorldRotation({ 0.f, 0.f, 0.f });
 		TestPlayer->SetTargeting(Boss_Object.get());
 		Boss_Object->SetTargeting(TestPlayer.get());
 	}
@@ -59,8 +60,50 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 	//	MapObject = CreateActor<WorldMap>(0, "WorldMap");
 	//}
 
-	GetMainCamera()->Transform.SetLocalPosition({ -2800.f, -2500.f, 6700.f });
-	GetMainCamera()->Transform.SetLocalRotation({0.f, 165.f, 0.f});
+	GetMainCamera()->Transform.SetLocalPosition({ 0.f, 0.f, 3000.f});
+	GetMainCamera()->Transform.SetLocalRotation({0.f, 180.f, 0.f});
+
+	//if (nullptr == Boss_Object)
+	//{
+	//	Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
+	//	Boss_Object->Transform.SetWorldPosition({ -1000.f, -2450.f, 3000.f });
+	//	Boss_Object->Transform.SetWorldRotation({ 0.f, -30.f, 0.f });
+	//}
+
+	//// Light
+	//if (nullptr == Test_Light)
+	//{
+	//	Test_Light = CreateActor<ContentsLight>(0);
+	//	// Test_Light->CreateShadowMap();
+	//	LightData Data = Test_Light->GetLightData();
+
+	//	Data.DifLightPower = 0.1f;
+	//	float scale = 2.f;
+	//	Data.AmbientLight = float4(scale, scale, scale, 1.0f);
+	//	Data.SpcPow = 200.0f;
+	//	Data.LightPower = 500.f;
+
+	//	Test_Light->SetLightData(Data);
+	//}
+
+	//GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 1, 1, 1, 1 });
+
+	//if (nullptr == TestPlayer)
+	//{
+	//	TestPlayer = CreateActor<Player>(0, "Player");
+	//	TestPlayer->Transform.SetWorldPosition({ -2800.f, -2500.f, 6700.f });
+	//	TestPlayer->Transform.SetWorldRotation({ 0.f, 165.f, 0.f });
+	//	TestPlayer->SetTargeting(Boss_Object.get());
+	//	Boss_Object->SetTargeting(TestPlayer.get());
+	//}
+
+	////if (nullptr == MapObject)
+	////{
+	////	MapObject = CreateActor<WorldMap>(0, "WorldMap");
+	////}
+
+	//GetMainCamera()->Transform.SetLocalPosition({ -2800.f, -2500.f, 6700.f });
+	//GetMainCamera()->Transform.SetLocalRotation({ 0.f, 165.f, 0.f });
 }
 
 void TestLevel_Boss::LevelEnd(GameEngineLevel* _NextLevel)
