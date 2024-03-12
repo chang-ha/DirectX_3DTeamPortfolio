@@ -17,7 +17,7 @@
 #include "Object_StartDoor.h"
 #include "Object_bonfire.h"
 #include "Object_Table.h"
-#include "Object_HumanTree.h"
+#include "Object_HumanTree1.h"
 #include "Object_CandleHuman.h"
 #include "Object_Torchlight.h"
 #include "Player.h"
