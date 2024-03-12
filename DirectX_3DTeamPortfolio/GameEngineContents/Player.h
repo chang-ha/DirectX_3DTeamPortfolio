@@ -116,6 +116,7 @@ public:
 	float4 PreP = {};
 	float4 PrePc = {};
 	std::shared_ptr<GameEngineActor> Actor_test;
+	float Delta_Time = 0.0f;
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -181,7 +182,7 @@ private:
 	bool Rock_on_Time_Check = false;
 	float Time = 0.0f;
 	float Rock_on_Time = 0.0f;
-	float Delta_Time = 0.0f;
+	
 	float Speed = 1000.0f;
 	float MoveSpeed = 0.0f;
 	float DeltaTime = 0.0f;

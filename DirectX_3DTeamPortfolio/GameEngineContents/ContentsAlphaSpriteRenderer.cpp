@@ -13,6 +13,8 @@ void ContentsAlphaSpriteRenderer::Start()
 {
 	DefalutRenderPathValue = RenderPath::Alpha;
 
+	SpriteRendererInfoValue.BlackAlpha = 1.0f;
+
 	GameEngineSpriteRenderer::Start();
 }
 
