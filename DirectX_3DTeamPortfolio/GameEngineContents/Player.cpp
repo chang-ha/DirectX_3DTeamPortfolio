@@ -340,7 +340,7 @@ void Player::Start()
 
 	Transform.AddLocalPosition({ 0.0f,-300.0f });
 	
-	GameEngineCore::MainWindow.SetMousePos(1280,720);
+	GameEngineCore::MainWindow.SetMousePos(960,540);
 
 	{
 		Actor_test = GetLevel()->CreateActor<GameEngineActor>();		
@@ -964,32 +964,36 @@ void Player::CameraRotation(float Delta)
 	
 
 
-	if (PrevPos.Y > Mouse_Ro_Y+5)
+	if (PrevPos.Y > Mouse_Ro_Y)
 	{
 		float4 Cur_Camera_Pos = { 0.0f, PrevPos.Y - Mouse_Ro_Y,0.0f };
 
-		Cur_Camera_Pos.Normalize();
+		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta);
 
-		Camera_Pos_Y -= Cur_Camera_Pos.Y * Delta * 200;
+
+		Camera_Pos_Y -= Lerp.Y *10;
 
 		if (Camera_Pos_Y <= -40)
 		{
-			Camera_Pos_Y += Cur_Camera_Pos.Y * Delta * 200;
+			Camera_Pos_Y += Lerp.Y * 10;
 		}
 	}
 
-	else if (PrevPos.Y < Mouse_Ro_Y-5)
+	else if (PrevPos.Y < Mouse_Ro_Y)
 	{
 		float4 Cur_Camera_Pos = { 0.0f, Mouse_Ro_Y- PrevPos.Y,0.0f };
 
-		Cur_Camera_Pos.Normalize();
 
-		Camera_Pos_Y += Cur_Camera_Pos.Y * Delta * 200;
+		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta);
+
+		//Cur_Camera_Pos.Normalize();
+
+		Camera_Pos_Y += Lerp.Y * 10;
 
 		
 		if (Camera_Pos_Y >= 60)
 		{
-			Camera_Pos_Y -= Cur_Camera_Pos.Y * Delta * 200;
+			Camera_Pos_Y -= Lerp.Y  * 10;
 		}
 
 	}
@@ -999,14 +1003,17 @@ void Player::CameraRotation(float Delta)
 
 		float4 Cur_Camera_Pos = { PrevPos.X - Mouse_Ro_X,0.0f,0.0f };
 
-		Cur_Camera_Pos.Normalize();
+		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta);
+		//Cur_Camera_Pos.Normalize();
 
-		Camera_Pos_X += Cur_Camera_Pos.X * Delta * 200;
-		Player_Pos.X -= Cur_Camera_Pos.X * Delta * 200;
+
+
+		Camera_Pos_X += Lerp.X * 20;
+		Player_Pos.X -= Lerp.X * 20;
 
 		if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
 		{
-			Capsule->AddWorldRotation({ 0.0f,-Cur_Camera_Pos.X * Delta * 200,0.0f });
+			Capsule->AddWorldRotation({ 0.0f,-Lerp.X * 20,0.0f });
 
 		}
 	}
@@ -1015,39 +1022,27 @@ void Player::CameraRotation(float Delta)
 
 		float4 Cur_Camera_Pos = { Mouse_Ro_X - PrevPos.X,0.0f,0.0f };
 
-		Cur_Camera_Pos.Normalize();
+		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta);
+		//Cur_Camera_Pos.Normalize();
 
-		Camera_Pos_X -= Cur_Camera_Pos.X * Delta * 200;
-		Player_Pos.X += Cur_Camera_Pos.X * Delta * 200;
+		Camera_Pos_X -= Lerp.X * 20;
+		Player_Pos.X += Lerp.X * 20;
+
+
 
 		if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
 		{
-			Capsule->AddWorldRotation({ 0.0f, Cur_Camera_Pos.X * Delta * 200, 0.0f });
-
+			Capsule->AddWorldRotation({ 0.0f, Lerp.X * 20, 0.0f });
 		}
 	}
 
 
-
-
-
-
-
-	float4 ASDF = { Actor_test->Transform.GetWorldPosition().X,Actor_test->Transform.GetWorldPosition().Y,Actor_test->Transform.GetWorldPosition().Z };
-
-	float4 ASsd	 = float4{ Actor_test_02->Transform.GetWorldPosition().X, Actor_test_02->Transform.GetWorldPosition().Y, Actor_test_02->Transform.GetWorldPosition().Z };
-
-	float4 AS = ASDF - ASsd;
-
-
-	int a = 0; 
-	AS.Normalize();
-
+	float4 sadasd = float4::LerpClamp(Actor_test_02->Transform.GetWorldPosition(),Actor_test->Transform.GetWorldPosition(), Delta*5);
+	float4 sadassd = float4::LerpClamp(Actor_test_02->Transform.GetWorldPosition(), Actor_test->Transform.GetWorldPosition(), -Delta*5);
 
 	
-
-
 	//140.0f, -300.0f
+
 
 
 	
@@ -1056,28 +1051,27 @@ void Player::CameraRotation(float Delta)
 	{
 
 
-		if (abs(Actor_test->Transform.GetWorldPosition().Z - Actor_test_02->Transform.GetWorldPosition().Z) >= 10)
+		//if (abs(Actor_test->Transform.GetWorldPosition().Z - Actor_test_02->Transform.GetWorldPosition().Z) >= 50)
 		{
-			Actor_test_02->Transform.AddWorldPosition(AS * 800 * Delta);
+			//float4 sadasd = float4::LerpClamp(Actor_test_02->Transform.GetWorldPosition(),Actor_test->Transform.GetWorldPosition(), Delta);
+			Actor_test_02->Transform.SetWorldPosition(sadasd);
 		}
 	}
 
-	/*if (testa == true && testaa == false)z
-	{
-		Actor_test_02->Transform.AddWorldPosition(-AS * 800 * Delta);
-	}*/
 
-	else if (testaa == false)
+	if (testaa == false)
 	{
 		
 		if (abs(Actor_test_02->Transform.GetLocalPosition().Z) < abs(250))
 		{
-			Actor_test_02->Transform.AddWorldPosition(-AS * Delta * 800);
+			//float4 sadasd = float4::LerpClamp(Actor_test->Transform.GetWorldPosition(), Actor_test_02->Transform.GetWorldPosition(), Delta);
+			//sadasd.Normalize();
+			Actor_test_02->Transform.SetWorldPosition(sadassd);
 		}
 		
 	}
 
-
+	// 다음 프레임에 콜리전이 충돌한 포지션이면 멈춰 
 
 
 
@@ -1109,9 +1103,9 @@ void Player::CameraRotation(float Delta)
 	//}
 
 
+	
 	PrevPos.Y = Mouse_Ro_Y;
 	PrevPos.X = Mouse_Ro_X;
-
 
 
 
@@ -1133,16 +1127,19 @@ void Player::CameraRotation(float Delta)
 		{
 			Time = 0;
 
-			PrevPos.Y = 258;
-			PrevPos.X = 864;
-			GameEngineCore::MainWindow.SetMousePos(1280, 720);
+			PrevPos.Y = 540;
+			PrevPos.X = 960;
+			GameEngineCore::MainWindow.SetMousePos(960, 540);
 		}
 
 	}
+
+
 	else
 	{
 
 	}
+
 
 
 	//Actor_test->Transform.SetLocalPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });

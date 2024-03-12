@@ -296,49 +296,49 @@ void Player::Player_State()
 				else if (true == GameEngineInput::IsPress('W', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
 					MainRenderer->ChangeAnimation("Walk_Forward");
-					Capsule->MoveForce({ float4::FORWARD * Speed},Capsule->GetDir());
+					//Capsule->MoveForce({ float4::FORWARD * Speed},Capsule->GetDir());
 					//Capsule->SetWorldRotation({ 0.0f,180.0f,0.0f });
 				}
 
 				else if (true == GameEngineInput::IsPress('S', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
 					//MainRenderer->ChangeAnimation("Walk_Forward");
-					Capsule->MoveForce({ float4::BACKWARD * Speed }, Capsule->GetDir());
+					//Capsule->MoveForce({ float4::BACKWARD * Speed }, Capsule->GetDir());
 					//Capsule->SetWorldRotation({ 0.0f,180.0f,0.0f });
 				}
 				else if (true == GameEngineInput::IsPress('A', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
 					MainRenderer->ChangeAnimation("Walk_Left");
-					Capsule->MoveForce({ float4::LEFT * Speed }, Capsule->GetDir());
+					//Capsule->MoveForce({ float4::LEFT * Speed }, Capsule->GetDir());
 					//Capsule->SetWorldRotation({ 0.0f,180.0f,0.0f });
 				}
 				else if (true == GameEngineInput::IsPress('D', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
 					MainRenderer->ChangeAnimation("Walk_Right");
-					Capsule->MoveForce({ float4::RIGHT * Speed }, Capsule->GetDir());
+					//Capsule->MoveForce({ float4::RIGHT * Speed }, Capsule->GetDir());
 					//Capsule->SetWorldRotation({ 0.0f,180.0f,0.0f });
 				}
 			
 				else if (true == GameEngineInput::IsPress('W', this)&& Rock_On_Check == true)
 				{
 					MainRenderer->ChangeAnimation("Walk_Forward");
-					Capsule->MoveForce({ float4::FORWARD * Speed } , degree_X);
+					//Capsule->MoveForce({ float4::FORWARD * Speed } , degree_X);
 				}
 
 				else if (true == GameEngineInput::IsPress('S', this) && Rock_On_Check ==true)
 				{				
 					//MainRenderer->ChangeAnimation("Walk_Forward");
-					Capsule->MoveForce({ float4::BACKWARD * Speed }, degree_X);
+					//Capsule->MoveForce({ float4::BACKWARD * Speed }, degree_X);
 				}
 				else if (true == GameEngineInput::IsPress('A', this) && Rock_On_Check == true)
 				{
 					MainRenderer->ChangeAnimation("Walk_Left");
-					Capsule->MoveForce({ float4::LEFT * Speed }, degree_X);
+					//Capsule->MoveForce({ float4::LEFT * Speed }, degree_X);
 				}
 				else if (true == GameEngineInput::IsPress('D', this) && Rock_On_Check == true)
 				{
 					MainRenderer->ChangeAnimation("Walk_Right");
-					Capsule->MoveForce({ float4::RIGHT * Speed }, degree_X);
+					//Capsule->MoveForce({ float4::RIGHT * Speed }, degree_X);
 				}
 				
 
@@ -355,6 +355,71 @@ void Player::Player_State()
 					_Parent->ChangeState(PlayerState::Back_Step);
 					return;
 				}
+
+
+
+				if (true == GameEngineInput::IsPress('W', this) && true == GameEngineInput::IsPress('A', this) && Rotation_Check_X == true && Rock_On_Check == false)
+				{
+					Capsule->MoveForce({ float4{-1.0f, 0.0f,1.0f,} * Speed }, Capsule->GetDir());
+				}
+				else if (true == GameEngineInput::IsPress('W', this) && true == GameEngineInput::IsPress('D', this) && Rotation_Check_X == true && Rock_On_Check == false)
+				{
+					Capsule->MoveForce({ float4{1.0f, 0.0f,1.0f,} *Speed }, Capsule->GetDir());
+				}
+				else if (true == GameEngineInput::IsPress('S', this) && true == GameEngineInput::IsPress('A', this) && Rotation_Check_X == true && Rock_On_Check == false)
+				{
+					Capsule->MoveForce({ float4{-1.0f, 0.0f,-1.0f,} *Speed }, Capsule->GetDir());
+				}
+				else if (true == GameEngineInput::IsPress('S', this) && true == GameEngineInput::IsPress('D', this) && Rotation_Check_X == true && Rock_On_Check == false)
+				{
+					Capsule->MoveForce({ float4{1.0f, 0.0f,-1.0f,} *Speed }, Capsule->GetDir());
+				}
+
+
+				else if (true == GameEngineInput::IsPress('W', this) && Rotation_Check_X == true && Rock_On_Check == false)
+				{
+					
+					Capsule->MoveForce({ float4::FORWARD * Speed }, Capsule->GetDir());
+					
+				}
+
+				else if (true == GameEngineInput::IsPress('S', this) && Rotation_Check_X == true && Rock_On_Check == false)
+				{
+					
+					Capsule->MoveForce({ float4::BACKWARD * Speed }, Capsule->GetDir());
+					
+					}
+				else if (true == GameEngineInput::IsPress('A', this) && Rotation_Check_X == true && Rock_On_Check == false)
+				{
+				
+					Capsule->MoveForce({ float4::LEFT * Speed }, Capsule->GetDir());
+				
+					}
+				else if (true == GameEngineInput::IsPress('D', this) && Rotation_Check_X == true && Rock_On_Check == false)
+				{
+					
+					Capsule->MoveForce({ float4::RIGHT * Speed }, Capsule->GetDir());
+				
+				}
+
+				else if (true == GameEngineInput::IsPress('W', this) && Rock_On_Check == true)
+				{
+					Capsule->MoveForce({ float4::FORWARD * Speed }, degree_X);
+				}
+
+				else if (true == GameEngineInput::IsPress('S', this) && Rock_On_Check == true)
+				{		
+					Capsule->MoveForce({ float4::BACKWARD * Speed }, degree_X);
+				}
+				else if (true == GameEngineInput::IsPress('A', this) && Rock_On_Check == true)
+				{		
+					Capsule->MoveForce({ float4::LEFT * Speed }, degree_X);
+				}
+				else if (true == GameEngineInput::IsPress('D', this) && Rock_On_Check == true)
+				{	
+					Capsule->MoveForce({ float4::RIGHT * Speed }, degree_X);
+				}
+
 				if (GameEngineInput::IsUp('A', this) )
 				{
 					Rotation_Check_X = false;
