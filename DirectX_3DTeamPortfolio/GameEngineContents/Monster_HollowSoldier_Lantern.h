@@ -79,6 +79,7 @@ protected:
 	void ChangeHitState();
 
 	std::shared_ptr<GameEngineCollision> SwordCollision;
+	Monster_HitInteraction Sword;
 
 protected:
 	void State_Stay_Start();

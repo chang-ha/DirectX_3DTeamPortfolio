@@ -141,9 +141,9 @@ void Monster_HollowSoldier_RoundShield::ChangeState(Enum_HollowSoldier_RoundShie
 		case Enum_HollowSoldier_RoundShield_State::Attack6:
 			State_Attack6_Start();
 			break;
-		case Enum_HollowSoldier_RoundShield_State::Attack7:
+		/*case Enum_HollowSoldier_RoundShield_State::Attack7:
 			State_Attack7_Start();
-			break;
+			break;*/
 		case Enum_HollowSoldier_RoundShield_State::Turn_Left2:
 			State_Turn_Left2_Start();
 			break;
@@ -279,8 +279,8 @@ void Monster_HollowSoldier_RoundShield::StateUpdate(float _Delta)
 		return State_Attack5_Update(_Delta);
 	case Enum_HollowSoldier_RoundShield_State::Attack6:
 		return State_Attack6_Update(_Delta);
-	case Enum_HollowSoldier_RoundShield_State::Attack7:
-		return State_Attack7_Update(_Delta);
+	/*case Enum_HollowSoldier_RoundShield_State::Attack7:
+		return State_Attack7_Update(_Delta);*/
 	case Enum_HollowSoldier_RoundShield_State::Turn_Left2:
 		return State_Turn_Left2_Update(_Delta);
 	case Enum_HollowSoldier_RoundShield_State::Turn_Right2:
@@ -363,9 +363,9 @@ void Monster_HollowSoldier_RoundShield::ChangeAttackState()
 	case 6:
 		ChangeState(Enum_HollowSoldier_RoundShield_State::Attack6);
 		break;
-	case 7:
+	/*case 7:
 		ChangeState(Enum_HollowSoldier_RoundShield_State::Attack7);
-		break;
+		break;*/
 	case 8:
 		ChangeState(Enum_HollowSoldier_RoundShield_State::Walk_Back3);
 		break;
@@ -866,6 +866,27 @@ void Monster_HollowSoldier_RoundShield::State_Attack1_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_RH_VerticalSlash"))
 	{
+		if (MainRenderer->GetCurAnimationFrame() >= 23 && MainRenderer->GetCurAnimationFrame() <= 27)
+		{
+			Sword.On();
+
+			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Sword.GetBlock())
+			{
+				ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
+			}
+			else
+			{
+				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+			}
+
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 28)
+		{
+			Sword.Off();
+		}
+
 		if (MainRenderer->GetCurAnimationFrame() >= 57)
 		{
 			ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
@@ -885,6 +906,27 @@ void Monster_HollowSoldier_RoundShield::State_Attack2_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_RH_VerticalSlash"))
 	{
+		if (MainRenderer->GetCurAnimationFrame() >= 23 && MainRenderer->GetCurAnimationFrame() <= 27)
+		{
+			Sword.On();
+
+			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Sword.GetBlock())
+			{
+				ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
+			}
+			else
+			{
+				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+			}
+
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 28)
+		{
+			Sword.Off();
+		}
+
 		if (MainRenderer->GetCurAnimationFrame() >= 35)
 		{
 			MainRenderer->ChangeAnimation("c1100_RH_HorizontalSlash");
@@ -900,6 +942,27 @@ void Monster_HollowSoldier_RoundShield::State_Attack2_Update(float _Delta)
 				RotToTarget(_Delta);
 			}
 			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 11 && MainRenderer->GetCurAnimationFrame() <= 15)
+		{
+			Sword.On();
+
+			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Sword.GetBlock())
+			{
+				ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
+			}
+			else
+			{
+				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+			}
+
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 16)
+		{
+			Sword.Off();
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 45)
@@ -921,6 +984,27 @@ void Monster_HollowSoldier_RoundShield::State_Attack3_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_RH_VerticalSlash"))
 	{
+		if (MainRenderer->GetCurAnimationFrame() >= 23 && MainRenderer->GetCurAnimationFrame() <= 27)
+		{
+			Sword.On();
+
+			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Sword.GetBlock())
+			{
+				ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
+			}
+			else
+			{
+				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+			}
+
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 28)
+		{
+			Sword.Off();
+		}
+
 		if (MainRenderer->GetCurAnimationFrame() >= 35)
 		{
 			MainRenderer->ChangeAnimation("c1100_RH_HorizontalSlash");
@@ -937,6 +1021,27 @@ void Monster_HollowSoldier_RoundShield::State_Attack3_Update(float _Delta)
 				RotToTarget(_Delta);
 			}
 			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 11 && MainRenderer->GetCurAnimationFrame() <= 15)
+		{
+			Sword.On();
+
+			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Sword.GetBlock())
+			{
+				ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
+			}
+			else
+			{
+				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+			}
+
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 16)
+		{
+			Sword.Off();
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 22)
@@ -958,6 +1063,27 @@ void Monster_HollowSoldier_RoundShield::State_Attack3_Update(float _Delta)
 			MainRenderer->ChangeCurFrame(5);
 		}
 
+		if (MainRenderer->GetCurAnimationFrame() >= 25 && MainRenderer->GetCurAnimationFrame() <= 28)
+		{
+			Sword.On();
+
+			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Sword.GetBlock())
+			{
+				ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
+			}
+			else
+			{
+				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+			}
+
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 29)
+		{
+			Sword.Off();
+		}
+
 		if (MainRenderer->GetCurAnimationFrame() >= 85)
 		{
 			ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
@@ -977,6 +1103,27 @@ void Monster_HollowSoldier_RoundShield::State_Attack4_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_TH_VerticalSlash"))
 	{
+		if (MainRenderer->GetCurAnimationFrame() >= 25 && MainRenderer->GetCurAnimationFrame() <= 28)
+		{
+			Sword.On();
+
+			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Sword.GetBlock())
+			{
+				ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
+			}
+			else
+			{
+				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+			}
+
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 29)
+		{
+			Sword.Off();
+		}
+		
 		if (MainRenderer->GetCurAnimationFrame() >= 85)
 		{
 			ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
@@ -996,6 +1143,27 @@ void Monster_HollowSoldier_RoundShield::State_Attack5_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_RH_TwinSlash"))
 	{
+		if (MainRenderer->GetCurAnimationFrame() >= 13 && MainRenderer->GetCurAnimationFrame() <= 16)
+		{
+			Sword.On();
+
+			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Sword.GetBlock())
+			{
+				ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
+			}
+			else
+			{
+				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+			}
+
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 17)
+		{
+			Sword.Off();
+		}
+
 		if (MainRenderer->GetCurAnimationFrame() >= 85)
 		{
 			ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
@@ -1015,6 +1183,27 @@ void Monster_HollowSoldier_RoundShield::State_Attack6_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_RH_Sting"))
 	{
+		if (MainRenderer->GetCurAnimationFrame() >= 21 && MainRenderer->GetCurAnimationFrame() <= 26)
+		{
+			Sword.On();
+
+			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Sword.GetBlock())
+			{
+				ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
+			}
+			else
+			{
+				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+			}
+
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 27)
+		{
+			Sword.Off();
+		}
+
 		if (MainRenderer->GetCurAnimationFrame() >= 66)
 		{
 			ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
@@ -1022,42 +1211,67 @@ void Monster_HollowSoldier_RoundShield::State_Attack6_Update(float _Delta)
 	}
 }
 
-void Monster_HollowSoldier_RoundShield::State_Attack7_Start()
-{
-	MainRenderer->ChangeAnimation("c1100_LH_Fist");
-}
-void Monster_HollowSoldier_RoundShield::State_Attack7_Update(float _Delta)
-{
-	SetFlag(Enum_ActorFlag::Guarding, false);
-
-	ChangeHitState();
-
-	if (CheckAnimationName("c1100_LH_Fist"))
-	{
-		if (MainRenderer->GetCurAnimationFrame() >= 43)
-		{
-			MainRenderer->ChangeAnimation("c1100_RH_ChargingSting");
-		}
-	}
-
-	if (CheckAnimationName("c1100_RH_ChargingSting"))
-	{
-		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 4)
-		{
-			if (false == IsTargetInAngle(3.0f))
-			{
-				RotToTarget(_Delta);
-			}
-			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
-			//MainRenderer->ChangeCurFrame(5);
-		}
-
-		if (MainRenderer->GetCurAnimationFrame() >= 98)
-		{
-			ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
-		}
-	}
-}
+//void Monster_HollowSoldier_RoundShield::State_Attack7_Start()
+//{
+//	MainRenderer->ChangeAnimation("c1100_LH_Fist");
+//}
+//void Monster_HollowSoldier_RoundShield::State_Attack7_Update(float _Delta)
+//{
+//	SetFlag(Enum_ActorFlag::Guarding, false);
+//
+//	ChangeHitState();
+//
+//	if (CheckAnimationName("c1100_LH_Fist"))
+//	{
+//		// 방패로 때리네...?
+//		// 24 ~ 28 Frame
+//		// 빼버릴까...
+//
+//		if (MainRenderer->GetCurAnimationFrame() >= 43)
+//		{
+//			MainRenderer->ChangeAnimation("c1100_RH_ChargingSting");
+//		}
+//	}
+//
+//	if (CheckAnimationName("c1100_RH_ChargingSting"))
+//	{
+//		if (MainRenderer->GetCurAnimationFrame() >= 0 && MainRenderer->GetCurAnimationFrame() <= 4)
+//		{
+//			if (false == IsTargetInAngle(3.0f))
+//			{
+//				RotToTarget(_Delta);
+//			}
+//			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
+//			//MainRenderer->ChangeCurFrame(5);
+//		}
+//
+//		if (MainRenderer->GetCurAnimationFrame() >= 44 && MainRenderer->GetCurAnimationFrame() <= 48)
+//		{
+//			Sword.On();
+//
+//			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+//			if (true == Sword.GetBlock())
+//			{
+//				ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
+//			}
+//			else
+//			{
+//				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+//			}
+//
+//		}
+//
+//		if (MainRenderer->GetCurAnimationFrame() >= 49)
+//		{
+//			Sword.Off();
+//		}
+//
+//		if (MainRenderer->GetCurAnimationFrame() >= 98)
+//		{
+//			ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
+//		}
+//	}
+//}
 
 void Monster_HollowSoldier_RoundShield::State_Turn_Left2_Start()
 {

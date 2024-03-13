@@ -816,6 +816,27 @@ void Monster_HollowSoldier_Spear::State_Attack1_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_Spear_Pike1"))
 	{
+		/*if (MainRenderer->GetCurAnimationFrame() >= 21 && MainRenderer->GetCurAnimationFrame() <= 24)
+		{
+			Sword.On();
+
+			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Sword.GetBlock())
+			{
+				ChangeState(Enum_HollowSoldier_Spear_State::AttackFail);
+			}
+			else
+			{
+				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+			}
+
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 25)
+		{
+			Sword.Off();
+		}*/
+
 		if (MainRenderer->GetCurAnimationFrame() >= 53)
 		{
 			ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
@@ -836,8 +857,25 @@ void Monster_HollowSoldier_Spear::State_Attack2_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_Spear_Pike1"))
 	{
+		/*if (MainRenderer->GetCurAnimationFrame() >= 21 && MainRenderer->GetCurAnimationFrame() <= 24)
+		{
+			Sword.On();
+
+			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Sword.GetBlock())
+			{
+				ChangeState(Enum_HollowSoldier_Spear_State::AttackFail);
+			}
+			else
+			{
+				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+			}
+
+		}*/
+
 		if (MainRenderer->GetCurAnimationFrame() >= 25)
 		{
+			//Sword.Off();
 			MainRenderer->ChangeAnimation("c1100_Spear_Pike2");
 		}
 	}
@@ -852,6 +890,27 @@ void Monster_HollowSoldier_Spear::State_Attack2_Update(float _Delta)
 			}
 			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
 		}
+
+		/*if (MainRenderer->GetCurAnimationFrame() >= 29 && MainRenderer->GetCurAnimationFrame() <= 32)
+		{
+			Sword.On();
+
+			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Sword.GetBlock())
+			{
+				ChangeState(Enum_HollowSoldier_Spear_State::AttackFail);
+			}
+			else
+			{
+				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+			}
+
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 33)
+		{
+			Sword.Off();
+		}*/
 
 		if (MainRenderer->GetCurAnimationFrame() >= 62)
 		{
@@ -873,6 +932,27 @@ void Monster_HollowSoldier_Spear::State_Attack3_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_Spear_Pike1"))
 	{
+		/*if (MainRenderer->GetCurAnimationFrame() >= 21 && MainRenderer->GetCurAnimationFrame() <= 24)
+		{
+			Sword.On();
+
+			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Sword.GetBlock())
+			{
+				ChangeState(Enum_HollowSoldier_Spear_State::AttackFail);
+			}
+			else
+			{
+				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+			}
+
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 25)
+		{
+			Sword.Off();
+		}*/
+
 		if (MainRenderer->GetCurAnimationFrame() >= 53)
 		{
 			MainRenderer->ChangeAnimation("c1100_Spear_Swing");
@@ -889,6 +969,27 @@ void Monster_HollowSoldier_Spear::State_Attack3_Update(float _Delta)
 			}
 			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
 		}
+
+		/*if (MainRenderer->GetCurAnimationFrame() >= 22 && MainRenderer->GetCurAnimationFrame() <= 26)
+		{
+			Sword.On();
+
+			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Sword.GetBlock())
+			{
+				ChangeState(Enum_HollowSoldier_Spear_State::AttackFail);
+			}
+			else
+			{
+				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+			}
+
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 27)
+		{
+			Sword.Off();
+		}*/
 
 		if (MainRenderer->GetCurAnimationFrame() >= 68)
 		{
@@ -910,6 +1011,27 @@ void Monster_HollowSoldier_Spear::State_Attack4_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_Spear_StepAndPike"))
 	{
+		/*if (MainRenderer->GetCurAnimationFrame() >= 28 && MainRenderer->GetCurAnimationFrame() <= 31)
+		{
+			Sword.On();
+
+			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Sword.GetBlock())
+			{
+				ChangeState(Enum_HollowSoldier_Spear_State::AttackFail);
+			}
+			else
+			{
+				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+			}
+
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 32)
+		{
+			Sword.Off();
+		}*/
+
 		if (MainRenderer->GetCurAnimationFrame() >= 91)
 		{
 			ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
@@ -930,6 +1052,27 @@ void Monster_HollowSoldier_Spear::State_Attack5_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_Spear_Swing"))
 	{
+		/*if (MainRenderer->GetCurAnimationFrame() >= 22 && MainRenderer->GetCurAnimationFrame() <= 26)
+		{
+			Sword.On();
+
+			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Sword.GetBlock())
+			{
+				ChangeState(Enum_HollowSoldier_Spear_State::AttackFail);
+			}
+			else
+			{
+				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+			}
+
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 27)
+		{
+			Sword.Off();
+		}*/
+
 		if (MainRenderer->GetCurAnimationFrame() >= 68)
 		{
 			ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
@@ -950,6 +1093,27 @@ void Monster_HollowSoldier_Spear::State_Attack6_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_Spear_Swing"))
 	{
+		/*if (MainRenderer->GetCurAnimationFrame() >= 22 && MainRenderer->GetCurAnimationFrame() <= 26)
+		{
+			Sword.On();
+
+			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Sword.GetBlock())
+			{
+				ChangeState(Enum_HollowSoldier_Spear_State::AttackFail);
+			}
+			else
+			{
+				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+			}
+
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 27)
+		{
+			Sword.Off();
+		}*/
+
 		if (MainRenderer->GetCurAnimationFrame() >= 68)
 		{
 			MainRenderer->ChangeAnimation("c1100_Spear_Pike1");
@@ -967,6 +1131,27 @@ void Monster_HollowSoldier_Spear::State_Attack6_Update(float _Delta)
 			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
 		}
 
+		/*if (MainRenderer->GetCurAnimationFrame() >= 21 && MainRenderer->GetCurAnimationFrame() <= 24)
+		{
+			Sword.On();
+
+			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Sword.GetBlock())
+			{
+				ChangeState(Enum_HollowSoldier_Spear_State::AttackFail);
+			}
+			else
+			{
+				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+			}
+
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 25)
+		{
+			Sword.Off();
+		}*/
+
 		if (MainRenderer->GetCurAnimationFrame() >= 53)
 		{
 			ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
@@ -983,6 +1168,27 @@ void Monster_HollowSoldier_Spear::State_RunToPike_Update(float _Delta)
 	SetFlag(Enum_ActorFlag::Guarding, false);
 
 	ChangeHitState();
+
+	/*if (MainRenderer->GetCurAnimationFrame() >= 23 && MainRenderer->GetCurAnimationFrame() <= 27)
+		{
+			Sword.On();
+
+			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Sword.GetBlock())
+			{
+				ChangeState(Enum_HollowSoldier_Spear_State::AttackFail);
+			}
+			else
+			{
+				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+			}
+
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 28)
+		{
+			Sword.Off();
+		}*/
 
 	if (MainRenderer->GetCurAnimationFrame() >= 74)
 	{
@@ -1204,38 +1410,58 @@ void Monster_HollowSoldier_Spear::State_Parrying_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Hit_Front_Start()
 {
+	Hit.SetHit(false);
 	MainRenderer->ChangeAnimation("c1100_Spear_Hit_Front");
 }
 void Monster_HollowSoldier_Spear::State_Hit_Front_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 46)
+	{
+		// BodyCollision->On();
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Hit_Back_Start()
 {
+	Hit.SetHit(false);
 	MainRenderer->ChangeAnimation("c1100_Spear_Hit_Back");
 }
 void Monster_HollowSoldier_Spear::State_Hit_Back_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 46)
+	{
+		// BodyCollision->On();
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Hit_Left_Start()
 {
+	Hit.SetHit(false);
 	MainRenderer->ChangeAnimation("c1100_Spear_Hit_Left");
 }
 void Monster_HollowSoldier_Spear::State_Hit_Left_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 46)
+	{
+		// BodyCollision->On();
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_Hit_Right_Start()
 {
+	Hit.SetHit(false);
 	MainRenderer->ChangeAnimation("c1100_Spear_Hit_Right");
 }
 void Monster_HollowSoldier_Spear::State_Hit_Right_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 46)
+	{
+		// BodyCollision->On();
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_HitToDeath_Start()

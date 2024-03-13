@@ -106,6 +106,9 @@ protected:
 
 	void NonFindTarget(float _Delta);
 
+	std::shared_ptr<GameEngineCollision> SwordCollision;
+	Monster_HitInteraction Sword;
+
 protected:
 	// State Function
 	void State_Pray1_Start();

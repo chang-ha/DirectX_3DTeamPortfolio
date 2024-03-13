@@ -197,8 +197,8 @@ protected:
 	void State_Attack6_Update(float _Delta);
 
 	// Fist Charging
-	void State_Attack7_Start();
-	void State_Attack7_Update(float _Delta);
+	/*void State_Attack7_Start();
+	void State_Attack7_Update(float _Delta);*/
 
 	void State_Turn_Left2_Start();
 	void State_Turn_Left2_Update(float _Delta);
