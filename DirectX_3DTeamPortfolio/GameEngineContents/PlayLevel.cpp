@@ -59,7 +59,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 	}
 
-	//GameEngineGUI::CreateGUIWindow<ContentsControlWindow>("Test");
+	GameEngineGUI::CreateGUIWindow<ContentsControlWindow>("Test");
 
 
 	//GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 1.0f,1.0f,1.0f,1.0f });

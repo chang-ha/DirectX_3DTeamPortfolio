@@ -20,6 +20,8 @@ void Object_CandleHuman2::Start()
 		FBXRenderer->SetFBXMesh("o302566.FBX", "FBX_Static");
 		FBXRenderer->Transform.SetWorldScale({ 100,100,100 });
 		FBXRenderer->SetStatic();
+		
+		FBXRenderer->RenderBaseInfoValue.IsNormal = -1;
 	}
 }
 

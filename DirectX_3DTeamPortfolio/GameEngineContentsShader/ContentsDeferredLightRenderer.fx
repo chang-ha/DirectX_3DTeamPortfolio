@@ -127,7 +127,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
     //Result.PBRLight.w = 1.0f;
     
   
-    Result.AmbLight = CalAmbientLight(LightDataValue);
+    //Result.AmbLight = CalAmbientLight(LightDataValue);
     
     if (0 == LightDataValue.LightType)
     {
