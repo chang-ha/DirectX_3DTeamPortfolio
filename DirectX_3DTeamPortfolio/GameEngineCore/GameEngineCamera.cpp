@@ -7,6 +7,7 @@
 #include <unordered_set>
 #include "GameEngineMesh.h"
 #include "FogEffect.h"
+#include "BlurPostEffect.h"
 
 // std::shared_ptr<class GameEngineRenderTarget> GameEngineCamera::AllRenderTarget = nullptr;
 
@@ -91,6 +92,8 @@ void GameEngineCamera::Start()
 		//Texture2D PositionTex : register(t1);
 		//Texture2D NormalTex : register(t2);
 		//SamplerState POINTWRAP : register(s0);
+
+		DeferredLightTarget->CreateEffect<BlurPostEffect>();
 
 
 		//DeferredTarget = GameEngineRenderTarget::Create();
@@ -560,6 +563,8 @@ void GameEngineCamera::Render(float _DeltaTime)
 				DeferredLightTarget->Setting();
 				DeferredLightRenderUnit.Render();
 			}
+
+			DeferredLightTarget->PostEffect(_DeltaTime);
 
 			DeferredLightTarget->RenderTargetReset();
 			

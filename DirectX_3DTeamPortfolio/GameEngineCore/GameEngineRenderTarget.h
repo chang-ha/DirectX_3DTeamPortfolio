@@ -4,6 +4,14 @@
 
 #define MAX_RENDER_TARGET_SETTING_COUNT 8
 
+struct MergeInfo
+{
+	int MergeTargetCount = 0;
+	int def1 = 0;
+	int def2 = 0;
+	int def3 = 0;
+};
+
 class Effect : public GameEngineObjectBase
 {
 	friend class GameEngineRenderTarget;
@@ -125,6 +133,7 @@ protected:
 
 private:
 	static GameEngineRenderUnit MergeUnit;
+	static MergeInfo MergeInfoValue;
 	static void MergeRenderUnitInit();
 
 	std::vector<std::shared_ptr<GameEngineTexture>> Textures;

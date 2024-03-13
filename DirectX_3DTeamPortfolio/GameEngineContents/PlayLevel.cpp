@@ -15,6 +15,7 @@
 #include "Monster_LothricKn.h"
 #include "Monster_HollowSoldier.h"
 #include "Monster_HollowSoldier_Spear.h"
+#include "DummyActor.h"
 PlayLevel::PlayLevel()
 {
 }
@@ -77,7 +78,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 		/*std::shared_ptr<Monster_HollowSoldier_Spear> GameMap2 = CreateActor<Monster_HollowSoldier_Spear>(0, "WorldMap");
 
 		GameMap2->Transform.SetWorldPosition({ 0.0f,000.0f,-2000.3f });*/
-
+		
 		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
 		Object->SetTargeting(GameMap.get());
 		GameMap->SetTargeting(Object.get()); 
@@ -90,20 +91,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 		
 	}
-	{
 	
-
-	}
-	//{
-	//	std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
-
-	//	//Object->Transform.AddLocalPosition({ 500.0f,0.0f });
-	//	PlayerObject = Object;
-
-	//	Ptr->MainPlayer = PlayerObject.get();
-	//	Object->check = true;
-	//}
-
 	
 
 	{
