@@ -85,5 +85,14 @@ void Monster_HitInteraction::CollisionToShield(Enum_CollisionOrder _Order, int _
 			}
 		};
 
-	pCollision->Collision(_Order, ColEvent);
+	// pCollision->Collision(_Order, ColEvent);
+
+	if (true == pCollision->Collision(_Order, ColEvent))
+	{
+		Block = true;
+	}
+	else
+	{
+		Block = false;
+	}
 }

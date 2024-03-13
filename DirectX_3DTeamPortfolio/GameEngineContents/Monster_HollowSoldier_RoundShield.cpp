@@ -404,7 +404,6 @@ void Monster_HollowSoldier_RoundShield::ChangeHitState()
 
 		Enum_DirectionXZ_Quat HitDir = Hit.GetHitDir();
 		BodyCollision->Off();
-		Hit.SetHit(false);
 
 		switch (HitDir)
 		{
@@ -1275,6 +1274,7 @@ void Monster_HollowSoldier_RoundShield::State_Parrying_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Hit_Front_Start()
 {
+	Hit.SetHit(false);
 	MainRenderer->ChangeAnimation("c1100_Hit_Front");
 }
 void Monster_HollowSoldier_RoundShield::State_Hit_Front_Update(float _Delta)
@@ -1288,6 +1288,7 @@ void Monster_HollowSoldier_RoundShield::State_Hit_Front_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Hit_Back_Start()
 {
+	Hit.SetHit(false);
 	MainRenderer->ChangeAnimation("c1100_Hit_Back");
 }
 void Monster_HollowSoldier_RoundShield::State_Hit_Back_Update(float _Delta)
@@ -1301,6 +1302,7 @@ void Monster_HollowSoldier_RoundShield::State_Hit_Back_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Hit_Left_Start()
 {
+	Hit.SetHit(false);
 	MainRenderer->ChangeAnimation("c1100_Hit_Left");
 }
 void Monster_HollowSoldier_RoundShield::State_Hit_Left_Update(float _Delta)
@@ -1314,6 +1316,7 @@ void Monster_HollowSoldier_RoundShield::State_Hit_Left_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Hit_Right_Start()
 {
+	Hit.SetHit(false);
 	MainRenderer->ChangeAnimation("c1100_Hit_Right");
 }
 void Monster_HollowSoldier_RoundShield::State_Hit_Right_Update(float _Delta)

@@ -283,7 +283,6 @@ void Monster_Hollow_NonFirstAttack::ChangeHitState()
 	{
 		Enum_DirectionXZ_Quat HitDir = Hit.GetHitDir();
 		BodyCollision->Off();
-		Hit.SetHit(false);
 
 		switch (HitDir)
 		{
@@ -988,6 +987,7 @@ void Monster_Hollow_NonFirstAttack::State_Parrying_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_Hit_Front_Start()
 {
+	Hit.SetHit(false);
 	// 무기가 없는 상태일때 맞았을때 꺼내야됨
 	MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
 	MainRenderer->ChangeAnimation("c1100_Hit_Front");
@@ -1006,6 +1006,7 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Front_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_Hit_Back_Start()
 {
+	Hit.SetHit(false);
 	MainRenderer->ChangeAnimation("c1100_Hit_Back");
 }
 void Monster_Hollow_NonFirstAttack::State_Hit_Back_Update(float _Delta)
@@ -1019,6 +1020,7 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Back_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_Hit_Left_Start()
 {
+	Hit.SetHit(false);
 	MainRenderer->ChangeAnimation("c1100_Hit_Left");
 }
 void Monster_Hollow_NonFirstAttack::State_Hit_Left_Update(float _Delta)
@@ -1032,6 +1034,7 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Left_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_Hit_Right_Start()
 {
+	Hit.SetHit(false);
 	MainRenderer->ChangeAnimation("c1100_Hit_Right");
 }
 void Monster_Hollow_NonFirstAttack::State_Hit_Right_Update(float _Delta)
