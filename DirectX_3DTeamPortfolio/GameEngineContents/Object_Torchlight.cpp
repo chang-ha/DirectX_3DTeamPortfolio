@@ -33,22 +33,22 @@ void Object_Torchlight::Start()
 		FireRender->Transform.SetLocalPosition(FirePos);
 	
 
-		GameEngineLevel* Level = GetLevel();
-		Light = Level->CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Point");
-		Light->SetLightType(Enum_LightType::Point);
+		//GameEngineLevel* Level = GetLevel();
+		//Light = Level->CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Point");
+		//Light->SetLightType(Enum_LightType::Point);
 
-		//Light->IsDebugValue = true;
+		////Light->IsDebugValue = true;
 
-		LightData Data = Light->GetLightData();
+		//LightData Data = Light->GetLightData();
 
-		Data.LightPower = 5.0f;
-		Data.LightColor = { 1.2f,0.7f,0.4f };
+		//Data.LightPower = 5.0f;
+		//Data.LightColor = { 1.2f,0.7f,0.4f };
 
-		Light->SetLightData(Data);
+		//Light->SetLightData(Data);
 	}
 }
 
 void Object_Torchlight::Update(float _Delta)
 {
-	Light->Transform.SetLocalPosition(FireRender->Transform.GetWorldPosition());
+	//Light->Transform.SetLocalPosition(FireRender->Transform.GetWorldPosition());
 }
