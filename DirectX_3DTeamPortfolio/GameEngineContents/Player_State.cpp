@@ -1221,12 +1221,16 @@ void Player::Player_State()
 				{
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
 					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
-					Capsule->MoveForce({ float4::BACKWARD * Speed  }, degree_X);
+
+					if (MainRenderer->GetCurAnimationFrame() < 20)
+					{
+						Capsule->MoveForce({ float4::BACKWARD * Speed }, degree_X);
+					}
 				}
 
 				else 
 				{
-					if (MainRenderer->GetCurAnimationFrame() < 5)
+					if (MainRenderer->GetCurAnimationFrame() < 20)
 					{
 						Capsule->MoveForce({ float4::BACKWARD * Speed });
 					}
@@ -1274,7 +1278,7 @@ void Player::Player_State()
 				{
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
 					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
-					if (MainRenderer->GetCurAnimationFrame() < 5)
+					if (MainRenderer->GetCurAnimationFrame() < 20)
 					{
 						Capsule->MoveForce({ float4::FORWARD * Speed }, degree_X);
 					}
@@ -1282,7 +1286,7 @@ void Player::Player_State()
 
 				else
 				{
-					if (MainRenderer->GetCurAnimationFrame() < 5)
+					if (MainRenderer->GetCurAnimationFrame() < 20)
 					{
 						Capsule->MoveForce({ float4::FORWARD * Speed });
 					}
@@ -1333,7 +1337,7 @@ void Player::Player_State()
 			
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
 					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
-					if (MainRenderer->GetCurAnimationFrame() < 5)
+					if (MainRenderer->GetCurAnimationFrame() < 20)
 					{
 						Capsule->MoveForce({ float4::LEFT * Speed  });
 					}
@@ -1341,7 +1345,7 @@ void Player::Player_State()
 
 				else
 				{
-					if (MainRenderer->GetCurAnimationFrame() < 5)
+					if (MainRenderer->GetCurAnimationFrame() < 20)
 					{
 						Capsule->MoveForce({ float4::LEFT * Speed });
 					}
@@ -1384,7 +1388,7 @@ void Player::Player_State()
 				{
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
 					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
-					if (MainRenderer->GetCurAnimationFrame() < 5)
+					if (MainRenderer->GetCurAnimationFrame() < 20)
 					{
 						Capsule->MoveForce({ float4::RIGHT * Speed  });
 					}
@@ -1392,7 +1396,7 @@ void Player::Player_State()
 
 				else
 				{
-					if (MainRenderer->GetCurAnimationFrame() < 5)
+					if (MainRenderer->GetCurAnimationFrame() < 20)
 					{
 						Capsule->MoveForce({ float4::RIGHT * Speed  });
 					}
@@ -1536,6 +1540,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Parrying");
+				StateValue = PlayerState::Parrying;
 			};
 
 
@@ -1556,6 +1561,7 @@ void Player::Player_State()
 
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					StateValue = PlayerState::Idle;
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return; 
 				}
@@ -2171,10 +2177,7 @@ void Player::Player_State()
 
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-					ladder_Time += _DeltaTime;
-
 					
-						ladder_Time = 0;
 						PlayerStates.ChangeState(PlayerState::ladder_Up_Right);
 						return;
 									
@@ -2205,10 +2208,6 @@ void Player::Player_State()
 
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-					ladder_Time += _DeltaTime;
-
-					
-						ladder_Time = 0;
 						PlayerStates.ChangeState(PlayerState::ladder_Up_Left);
 						return;
 				}
@@ -2443,6 +2442,15 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Shield_Idle);
 					return;
 				};
+				
+				if (GameEngineInput::IsUp(VK_RBUTTON, this))
+				{
+					Shield_Col->Off();
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return; 
+				}
+
+
 			};
 		PlayerStates.CreateState(PlayerState::Weak_Shield_block, NewPara);
 	}
@@ -2468,6 +2476,14 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Shield_Idle);
 					return;
 				};
+
+				if (GameEngineInput::IsUp(VK_RBUTTON, this))
+				{
+					Shield_Col->Off();
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+
 			};
 		PlayerStates.CreateState(PlayerState::Middle_Shield_block, NewPara);
 	}
@@ -2492,6 +2508,14 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Shield_Idle);
 					return;
 				};
+
+				if (GameEngineInput::IsUp(VK_RBUTTON, this))
+				{
+					Shield_Col->Off();
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+
 				
 			};
 
@@ -2503,20 +2527,45 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				
 				MainRenderer->ChangeAnimation("Parring_Attack");
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				PlayerStates.ChangeState(PlayerState::Idle);
-				return;
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
 			};
 
 		PlayerStates.CreateState(PlayerState::Parring_Attack, NewPara);
 	}
 
+	{
 
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Attack_Block");
+			};
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::Attack_Block, NewPara);
+
+
+	}
 
 	PlayerStates.ChangeState(PlayerState::Idle);
 
