@@ -35,7 +35,7 @@ void TestLevel_ObjectTest::LevelStart(GameEngineLevel* _PrevLevel)
 	ContentLevel::LevelStart(_PrevLevel);
 	//Å×½ºÆ®
 	{
-		std::shared_ptr<Object_CandleHuman> Object = CreateActor<Object_CandleHuman>(1);
+		std::shared_ptr<Object_Ladder3> Object = CreateActor<Object_Ladder3>(1);
 		GetMainCamera()->Transform.SetWorldPosition({ Object->Transform.GetWorldPosition() });
 	}
 }
