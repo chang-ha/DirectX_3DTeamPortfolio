@@ -505,7 +505,6 @@ void Stage_Lothric::CreateObject()
 
 	{
 		std::shared_ptr<Object_HumanTree1> Object = CreateActor<Object_HumanTree1>(1);
-		Object->Transform.SetWorldScale({ 100, 100 , 100 });
 		Object->Transform.SetWorldPosition({ -5862, 3373 , -2474 });
 	}
 	{
