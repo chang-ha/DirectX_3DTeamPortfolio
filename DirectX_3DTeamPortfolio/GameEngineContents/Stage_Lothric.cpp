@@ -257,25 +257,9 @@ void Stage_Lothric::CreateObject()
 	{
 		std::shared_ptr<Object_CastleDoor> Object = CreateActor<Object_CastleDoor>(1);
 	}
-	{
-		std::shared_ptr<Object_Desk> Object = CreateActor<Object_Desk>(1);
-	}
-	{
-		std::shared_ptr<Object_Skeleton> Object = CreateActor<Object_Skeleton>(1);
-	}
-	{
-		std::shared_ptr<Object_Skeleton1> Object = CreateActor<Object_Skeleton1>(1);
-	}
+	
 	{
 		std::shared_ptr<Object_StartDoor> Object = CreateActor<Object_StartDoor>(1);
-	}
-
-	{
-		std::shared_ptr<Object_Table> Object = CreateActor<Object_Table>(1);
-	}
-
-	{
-		std::shared_ptr<Object_HumanTree1> Object = CreateActor<Object_HumanTree1>(1);
 	}
 
 	/*{
