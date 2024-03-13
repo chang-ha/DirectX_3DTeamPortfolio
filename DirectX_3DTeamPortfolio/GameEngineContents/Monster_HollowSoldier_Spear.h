@@ -97,6 +97,9 @@ protected:
 
 	std::shared_ptr<GameEngineCollision> ShieldCollision;
 
+	std::shared_ptr<GameEngineCollision> SpearCollision;
+	Monster_HitInteraction Spear;
+
 protected:
 	// State Function
 	

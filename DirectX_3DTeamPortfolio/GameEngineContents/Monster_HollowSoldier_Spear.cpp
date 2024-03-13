@@ -29,10 +29,18 @@ void Monster_HollowSoldier_Spear::Start()
 	// Status
 	Stat.SetHp(190);
 	Stat.SetAtt(1);
+	
+	
 
 	ShieldCollision = CreateSocketCollision(Enum_CollisionOrder::Monster_Shield, Enum_Hollow_BoneType::WoodShield, { float4(14.0f, 56.0f ,126.0f), float4::ZERONULL, float4(0.12f,0.02f, -0.08f)}, "WoodShield");
 	ShieldCollision->SetCollisionType(ColType::OBBBOX3D);
 	ShieldCollision->On();
+
+	SpearCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_Hollow_BoneType::Sword, { float4(313.0f, 12.0f, 12.0f), float4::ZERONULL, float4(0.38f, -0.002f, 0.008f) }, "Spear");
+	SpearCollision->SetCollisionType(ColType::OBBBOX3D);
+
+	Spear.Init(this, SpearCollision.get());
+	Spear.On();
 }
 void Monster_HollowSoldier_Spear::Update(float _Delta)
 {
@@ -427,6 +435,7 @@ void Monster_HollowSoldier_Spear::State_Idle1_Update(float _Delta)
 
 	// test
 	StateTime += _Delta;
+	//if(false)
 	if (StateTime >= 5.0f)
 	{
 		ChangeState(Enum_HollowSoldier_Spear_State::Scout);
@@ -816,26 +825,26 @@ void Monster_HollowSoldier_Spear::State_Attack1_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_Spear_Pike1"))
 	{
-		/*if (MainRenderer->GetCurAnimationFrame() >= 21 && MainRenderer->GetCurAnimationFrame() <= 24)
+		if (MainRenderer->GetCurAnimationFrame() >= 21 && MainRenderer->GetCurAnimationFrame() <= 24)
 		{
-			Sword.On();
+			Spear.On();
 
-			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
-			if (true == Sword.GetBlock())
+			Spear.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Spear.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Spear_State::AttackFail);
 			}
 			else
 			{
-				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+				Spear.CollisionToBody(Enum_CollisionOrder::Player_Body);
 			}
 
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 25)
 		{
-			Sword.Off();
-		}*/
+			Spear.Off();
+		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 53)
 		{
@@ -857,25 +866,25 @@ void Monster_HollowSoldier_Spear::State_Attack2_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_Spear_Pike1"))
 	{
-		/*if (MainRenderer->GetCurAnimationFrame() >= 21 && MainRenderer->GetCurAnimationFrame() <= 24)
+		if (MainRenderer->GetCurAnimationFrame() >= 21 && MainRenderer->GetCurAnimationFrame() <= 24)
 		{
-			Sword.On();
+			Spear.On();
 
-			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
-			if (true == Sword.GetBlock())
+			Spear.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Spear.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Spear_State::AttackFail);
 			}
 			else
 			{
-				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+				Spear.CollisionToBody(Enum_CollisionOrder::Player_Body);
 			}
 
-		}*/
+		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 25)
 		{
-			//Sword.Off();
+			Spear.Off();
 			MainRenderer->ChangeAnimation("c1100_Spear_Pike2");
 		}
 	}
@@ -891,26 +900,26 @@ void Monster_HollowSoldier_Spear::State_Attack2_Update(float _Delta)
 			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
 		}
 
-		/*if (MainRenderer->GetCurAnimationFrame() >= 29 && MainRenderer->GetCurAnimationFrame() <= 32)
+		if (MainRenderer->GetCurAnimationFrame() >= 29 && MainRenderer->GetCurAnimationFrame() <= 32)
 		{
-			Sword.On();
+			Spear.On();
 
-			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
-			if (true == Sword.GetBlock())
+			Spear.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Spear.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Spear_State::AttackFail);
 			}
 			else
 			{
-				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+				Spear.CollisionToBody(Enum_CollisionOrder::Player_Body);
 			}
 
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 33)
 		{
-			Sword.Off();
-		}*/
+			Spear.Off();
+		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 62)
 		{
@@ -932,26 +941,26 @@ void Monster_HollowSoldier_Spear::State_Attack3_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_Spear_Pike1"))
 	{
-		/*if (MainRenderer->GetCurAnimationFrame() >= 21 && MainRenderer->GetCurAnimationFrame() <= 24)
+		if (MainRenderer->GetCurAnimationFrame() >= 21 && MainRenderer->GetCurAnimationFrame() <= 24)
 		{
-			Sword.On();
+			Spear.On();
 
-			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
-			if (true == Sword.GetBlock())
+			Spear.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Spear.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Spear_State::AttackFail);
 			}
 			else
 			{
-				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+				Spear.CollisionToBody(Enum_CollisionOrder::Player_Body);
 			}
 
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 25)
 		{
-			Sword.Off();
-		}*/
+			Spear.Off();
+		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 53)
 		{
@@ -970,26 +979,26 @@ void Monster_HollowSoldier_Spear::State_Attack3_Update(float _Delta)
 			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
 		}
 
-		/*if (MainRenderer->GetCurAnimationFrame() >= 22 && MainRenderer->GetCurAnimationFrame() <= 26)
+		if (MainRenderer->GetCurAnimationFrame() >= 22 && MainRenderer->GetCurAnimationFrame() <= 26)
 		{
-			Sword.On();
+			Spear.On();
 
-			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
-			if (true == Sword.GetBlock())
+			Spear.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Spear.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Spear_State::AttackFail);
 			}
 			else
 			{
-				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+				Spear.CollisionToBody(Enum_CollisionOrder::Player_Body);
 			}
 
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 27)
 		{
-			Sword.Off();
-		}*/
+			Spear.Off();
+		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 68)
 		{
@@ -1011,26 +1020,26 @@ void Monster_HollowSoldier_Spear::State_Attack4_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_Spear_StepAndPike"))
 	{
-		/*if (MainRenderer->GetCurAnimationFrame() >= 28 && MainRenderer->GetCurAnimationFrame() <= 31)
+		if (MainRenderer->GetCurAnimationFrame() >= 28 && MainRenderer->GetCurAnimationFrame() <= 31)
 		{
-			Sword.On();
+			Spear.On();
 
-			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
-			if (true == Sword.GetBlock())
+			Spear.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Spear.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Spear_State::AttackFail);
 			}
 			else
 			{
-				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+				Spear.CollisionToBody(Enum_CollisionOrder::Player_Body);
 			}
 
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 32)
 		{
-			Sword.Off();
-		}*/
+			Spear.Off();
+		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 91)
 		{
@@ -1052,26 +1061,26 @@ void Monster_HollowSoldier_Spear::State_Attack5_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_Spear_Swing"))
 	{
-		/*if (MainRenderer->GetCurAnimationFrame() >= 22 && MainRenderer->GetCurAnimationFrame() <= 26)
+		if (MainRenderer->GetCurAnimationFrame() >= 22 && MainRenderer->GetCurAnimationFrame() <= 26)
 		{
-			Sword.On();
+			Spear.On();
 
-			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
-			if (true == Sword.GetBlock())
+			Spear.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Spear.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Spear_State::AttackFail);
 			}
 			else
 			{
-				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+				Spear.CollisionToBody(Enum_CollisionOrder::Player_Body);
 			}
 
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 27)
 		{
-			Sword.Off();
-		}*/
+			Spear.Off();
+		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 68)
 		{
@@ -1093,26 +1102,26 @@ void Monster_HollowSoldier_Spear::State_Attack6_Update(float _Delta)
 
 	if (CheckAnimationName("c1100_Spear_Swing"))
 	{
-		/*if (MainRenderer->GetCurAnimationFrame() >= 22 && MainRenderer->GetCurAnimationFrame() <= 26)
+		if (MainRenderer->GetCurAnimationFrame() >= 22 && MainRenderer->GetCurAnimationFrame() <= 26)
 		{
-			Sword.On();
+			Spear.On();
 
-			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
-			if (true == Sword.GetBlock())
+			Spear.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Spear.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Spear_State::AttackFail);
 			}
 			else
 			{
-				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+				Spear.CollisionToBody(Enum_CollisionOrder::Player_Body);
 			}
 
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 27)
 		{
-			Sword.Off();
-		}*/
+			Spear.Off();
+		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 68)
 		{
@@ -1131,26 +1140,26 @@ void Monster_HollowSoldier_Spear::State_Attack6_Update(float _Delta)
 			MainRenderer->GetCurAnimation()->SetBlendTime(0.4f);
 		}
 
-		/*if (MainRenderer->GetCurAnimationFrame() >= 21 && MainRenderer->GetCurAnimationFrame() <= 24)
+		if (MainRenderer->GetCurAnimationFrame() >= 21 && MainRenderer->GetCurAnimationFrame() <= 24)
 		{
-			Sword.On();
+			Spear.On();
 
-			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
-			if (true == Sword.GetBlock())
+			Spear.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Spear.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Spear_State::AttackFail);
 			}
 			else
 			{
-				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+				Spear.CollisionToBody(Enum_CollisionOrder::Player_Body);
 			}
 
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 25)
 		{
-			Sword.Off();
-		}*/
+			Spear.Off();
+		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 53)
 		{
@@ -1169,26 +1178,26 @@ void Monster_HollowSoldier_Spear::State_RunToPike_Update(float _Delta)
 
 	ChangeHitState();
 
-	/*if (MainRenderer->GetCurAnimationFrame() >= 23 && MainRenderer->GetCurAnimationFrame() <= 27)
+	if (MainRenderer->GetCurAnimationFrame() >= 23 && MainRenderer->GetCurAnimationFrame() <= 27)
 		{
-			Sword.On();
+			Spear.On();
 
-			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
-			if (true == Sword.GetBlock())
+			Spear.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Spear.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Spear_State::AttackFail);
 			}
 			else
 			{
-				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+				Spear.CollisionToBody(Enum_CollisionOrder::Player_Body);
 			}
 
 		}
 
 		if (MainRenderer->GetCurAnimationFrame() >= 28)
 		{
-			Sword.Off();
-		}*/
+			Spear.Off();
+		}
 
 	if (MainRenderer->GetCurAnimationFrame() >= 74)
 	{
