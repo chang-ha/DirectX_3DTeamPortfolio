@@ -52,36 +52,5 @@ void LUTGUI::LUTEditor(GameEngineLevel* _Level)
 		LUTEffect::SetCurLUTNameValue(LUTName);
 	}
 
-	std::string Frame = std::to_string(1.0f / GameEngineCore::MainTime.GetDeltaTime());
-
-	ImGui::Text(Frame.c_str());
-
-	static std::string FrameSelect = "Off";
-	static int FrameCount = 0;
-	static float FrameSecond = 0.0f;
-	static int FrameResult = 0;
-
-
-	FrameSecond += GameEngineCore::MainTime.GetDeltaTime();
-	FrameCount++;
-
-
-
-
-	if (ImGui::Button("FrameCatch"))
-	{
-		FrameSelect = Frame;
-	}
-	ImGui::Text(FrameSelect.c_str());
-
-	if (FrameSecond >= 1.0f)
-	{
-		FrameResult = FrameCount;
-		FrameCount = 0;
-		FrameSecond -= 1.0f;
-	}
-
-	std::string Frame2 = "Average Frame: " + std::to_string(FrameResult);
-
-	ImGui::Text(Frame2.c_str());
+	
 }
