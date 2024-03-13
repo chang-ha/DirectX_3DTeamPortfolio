@@ -8,7 +8,7 @@ struct DeferrdOut
     float4 NorColor : SV_Target3;
     float4 SpcColor : SV_Target4;
     float4 MatColor : SV_Target5;
-    float4 WorldPosColor : SV_Target6;
+    //float4 WorldPosColor : SV_Target6;
 };
 
 
@@ -20,7 +20,7 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout DeferrdOut _Result)
     Color.w = 1.0f;
     _Result.DifColor = Color;
     _Result.PosColor = _Input.VIEWPOSITION;
-    _Result.WorldPosColor = _Input.WorldPOSITION;
+    //_Result.WorldPosColor = _Input.WorldPOSITION;
            
     _Result.SpcColor = float4(1.f, 1.f, 1.f, 1.f);
      

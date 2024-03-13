@@ -17,7 +17,7 @@
 #include "Object_StartDoor.h"
 #include "Object_bonfire.h"
 #include "Object_Table.h"
-//#include "Object_HumanTree.h"
+#include "Object_HumanTree1.h"
 #include "Object_CandleHuman.h"
 #include "Object_Torchlight.h"
 #include "Player.h"
@@ -35,7 +35,7 @@ void TestLevel_ObjectTest::LevelStart(GameEngineLevel* _PrevLevel)
 	ContentLevel::LevelStart(_PrevLevel);
 	//Å×½ºÆ®
 	{
-		std::shared_ptr<Object_CandleHuman> Object = CreateActor<Object_CandleHuman>(1);
+		std::shared_ptr<Object_Ladder3> Object = CreateActor<Object_Ladder3>(1);
 		GetMainCamera()->Transform.SetWorldPosition({ Object->Transform.GetWorldPosition() });
 	}
 }

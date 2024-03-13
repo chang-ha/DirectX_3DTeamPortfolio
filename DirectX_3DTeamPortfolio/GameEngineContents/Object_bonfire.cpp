@@ -45,25 +45,25 @@ void Object_bonfire::Start()
 
 	
 
-	GameEngineLevel* Level = GetLevel();
-	Light = Level->CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Point");
-	Light->SetLightType(Enum_LightType::Point);
+	//GameEngineLevel* Level = GetLevel();
+	//Light = Level->CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Point");
+	//Light->SetLightType(Enum_LightType::Point);
 
-	//Light->IsDebugValue = true;
+	////Light->IsDebugValue = true;
 
-	LightData Data = Light->GetLightData();
+	//LightData Data = Light->GetLightData();
 
-	Data.LightPower = 50.0f;
-	Data.LightColor = { 1.2f,0.7f,0.4f };
-	Data.linearAttenuation = 0.04f;
-	Data.quadraticAttenuation = 0.003f;
+	//Data.LightPower = 50.0f;
+	//Data.LightColor = { 1.2f,0.7f,0.4f };
+	//Data.linearAttenuation = 0.04f;
+	//Data.quadraticAttenuation = 0.003f;
 
-	Light->SetLightData(Data);
+	//Light->SetLightData(Data);
 
 }
 
 void Object_bonfire::Update(float _Delta)
 {
 
-	Light->Transform.SetLocalPosition(Transform.GetWorldPosition() + float4(0.f,40.f,0.f));
+	//Light->Transform.SetLocalPosition(Transform.GetWorldPosition() + float4(0.f,40.f,0.f));
 }
