@@ -136,11 +136,178 @@ void TestLevel_Map::Release()
 
 void TestLevel_Map::SetAllMonster()
 {
+	// 18마리이상부터 문제가있는듯.
+	// 18마리 아래에서도 터지거나 안터지거나 미지수 일수도있음.
+	for (size_t i = 0; i < 18; i++)
 	{
-		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
-		Monster->SetResponPos({ -2738.0f, 4435.0f, -1457.0f });
-		AllMonster.push_back(Monster);
+		{
+			std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+			Monster->SetWorldPosition({ -2738.0f, 4120.0f, -1457.0f });
+		}
 	}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -2738.0f, 4120.0f, -1457.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -3874.0f, 4118.0f, -1151.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -5730.0f, 3409.0f, -2575.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -6764.0f, 3400.0f, -3607.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -8496.0f, 2878.0f, -4483.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -9050.0f, 2033.0f, -4071.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -10210.0f, 2030.0f, -3207.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -11265.0f, 2891.0f, -4376.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -13050.0f, 2886.0f, -3783.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -14467.0f, 2893.0f, -4080.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -15491.0f, 2943.0f, -4392.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -14397.0f, 2277.0f, -2812.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -16297.0f, 2689.0f, -1427.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -15816.0f, 2683.0f, -472.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -17594.0f, 2834.0f, 1350.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -15476.0f, 2327.0f, 2870.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -11968.0f, 1924.0f, 3882.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -10196.0f, 984.0f, 4174.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -8623.0f, 907.0f, 3707.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -8546.0f, -683.0f, 3904.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -9154.0f, 542.0f, 5211.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -7885.0f, -538.0f, 5512.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -8476.0f, -548.0f, 7715.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -2738.0f, 4435.0f, -1457.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -6396.0f, -624.0f, 8055.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -6433.0f, -750.0f, 10232.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+	//	Monster->SetResponPos({ -4026.0f, -1788.0f, 9562.0f });
+	//	AllMonster.push_back(Monster);
+	//}
+
 
 	AllMonsterOn();
 }
@@ -150,7 +317,7 @@ void TestLevel_Map::AllMonsterOn()
 
 	for (size_t i = 0; i < AllMonster.size(); i++)
 	{
-		AllMonster[i]->Transform.SetWorldPosition(AllMonster[i]->GetResponPos());
+		AllMonster[i]->SetWorldPosition(AllMonster[i]->GetResponPos());
 		AllMonster[i]->On();
 	}
 }
