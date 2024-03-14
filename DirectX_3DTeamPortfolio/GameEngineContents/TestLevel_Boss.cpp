@@ -2,7 +2,6 @@
 #include "TestLevel_Boss.h"
 #include "Boss_Vordt.h"
 #include "ContentsLight.h"
-#include "TestObject.h"
 
 // Test code
 #include "Player.h"
