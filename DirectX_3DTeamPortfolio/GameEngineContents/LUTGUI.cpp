@@ -51,4 +51,6 @@ void LUTGUI::LUTEditor(GameEngineLevel* _Level)
 
 		LUTEffect::SetCurLUTNameValue(LUTName);
 	}
+
+	
 }

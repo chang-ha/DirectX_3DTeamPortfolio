@@ -873,6 +873,11 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 			BlendBoneData = AnimationBoneDatas;
 		}
 
+		for (std::function<void()> _Function : CurAnimation->AnimationChangeFunction)
+		{
+			_Function();
+		}
+
 		CurAnimation->Reset();
 
 		if (nullptr != CurAnimation->FrameChangeFunction)
@@ -882,10 +887,6 @@ void GameContentsFBXRenderer::ChangeAnimation(const std::string_view _AnimationN
 	}
 
 	CurAnimation = Ptr;
-	if (nullptr != CurAnimation->AnimationChangeFunction)
-	{
-		CurAnimation->AnimationChangeFunction();
-	}
 
 	if (nullptr != MultiBlendAnimation)
 	{
@@ -1446,7 +1447,7 @@ void GameContentsFBXRenderer::SetAnimationChangeEvent(std::string_view _Animatio
 		MsgBoxAssert("존재하지 않는 애니메이션에 이벤트를 만들려고 했습니다.");
 	}
 
-	Animation->AnimationChangeFunction = _Function;
+	Animation->AnimationChangeFunction.push_back(_Function);
 }
 
 

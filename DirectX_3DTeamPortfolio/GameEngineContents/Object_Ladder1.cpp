@@ -19,26 +19,29 @@ void Object_Ladder1::Start()
 	{
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>(0);
 		FBXRenderer->SetFBXMesh("o300700.FBX", "FBX_Static");
+		FBXRenderer->SetStatic();
 	}
 
-	Transform.SetWorldPosition({ -8930, 2030 , -4427 });
-	Transform.SetWorldScale({ 100, 100 , 100 });
-	Transform.SetWorldRotation({ 0, -90 , 0 });
+	
 
 	CollisionBottom = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::LadderBot);
 	CollisionBottom->SetCollisionType(ColType::SPHERE3D);
 	CollisionBottom->Transform.SetLocalPosition({ 0, 0 , 0.5f });
-	CollisionBottom->Transform.SetWorldScale(float4(200, 200, 200));
+	CollisionBottom->Transform.SetWorldScale(float4(2.5f, 2.5f, 2.5f));
 
 	CollisionTop = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::LadderTop);
 	CollisionTop->SetCollisionType(ColType::SPHERE3D);
-	CollisionTop->Transform.SetLocalPosition({ 0.0f, 9.0f , 0.5f });
-	CollisionTop->Transform.SetWorldScale(float4(200, 200, 200));
+	CollisionTop->Transform.SetLocalPosition({ 0.0f, 7.8f , -0.45f });
+	CollisionTop->Transform.SetWorldScale(float4(3, 3, 3));
 
 	CollisionBody = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::LabberMiddle);
 	CollisionBody->SetCollisionType(ColType::AABBBOX3D);
 	CollisionBody->Transform.SetLocalPosition({ 0.0f, 4, 0 });
-	CollisionBody->Transform.SetLocalScale(float4(0.2f, 7, 1));
+	CollisionBody->Transform.SetLocalScale(float4(1, 7.2f, 1));
+
+	Transform.SetWorldPosition({ -8930, 2030 , -4427 });
+	Transform.SetWorldScale({ 100, 100 , 100 });
+	Transform.SetWorldRotation({ 0, -90 , 0 });
 
 	
 	/*CollisionFront = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::LadderTop);

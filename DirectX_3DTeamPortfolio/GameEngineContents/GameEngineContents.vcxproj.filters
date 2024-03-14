@@ -274,52 +274,13 @@
     <ClCompile Include="DummyPolySoundFrameEvent.cpp">
       <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClCompile>
-    <ClCompile Include="Object_BossDoor.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_CastleDoor.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
     <ClCompile Include="Object_Desk.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_HumanTree.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_Ladder1.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_Ladder2.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_Ladder3.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_Ladder4.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_Ladder5.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_Ladder6.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_Skeleton.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_Skeleton1.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_StartDoor.cpp">
       <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="Object_bonfire.cpp">
       <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="Object_Table.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Object_CandleHuman.cpp">
       <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="TestLevel_MapObject.cpp">
@@ -364,8 +325,59 @@
     <ClCompile Include="LothricKn_Debug.cpp">
       <Filter>Actor\Monster\LothricKnight\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="DummyNode.cpp">
-      <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
+    <ClCompile Include="Object_Ladder1.cpp">
+      <Filter>Object\Ladder</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Ladder2.cpp">
+      <Filter>Object\Ladder</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Ladder3.cpp">
+      <Filter>Object\Ladder</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Ladder4.cpp">
+      <Filter>Object\Ladder</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Ladder5.cpp">
+      <Filter>Object\Ladder</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Ladder6.cpp">
+      <Filter>Object\Ladder</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_CandleHuman.cpp">
+      <Filter>Object\Candle</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_CandleHuman2.cpp">
+      <Filter>Object\Candle</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_HumanTree1.cpp">
+      <Filter>Object\HumanTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_HumanTree2.cpp">
+      <Filter>Object\HumanTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_HumanTree3.cpp">
+      <Filter>Object\HumanTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_HumanTree4.cpp">
+      <Filter>Object\HumanTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_HumanTree5.cpp">
+      <Filter>Object\HumanTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Skeleton.cpp">
+      <Filter>Object\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Skeleton1.cpp">
+      <Filter>Object\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_BossDoor.cpp">
+      <Filter>Object\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_CastleDoor.cpp">
+      <Filter>Object\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_StartDoor.cpp">
+      <Filter>Object\Door</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -636,52 +648,13 @@
     <ClInclude Include="DummyPolySoundFrameEvent.h">
       <Filter>ImGui\Editor\ActorGUI\FrameEvent</Filter>
     </ClInclude>
-    <ClInclude Include="Object_BossDoor.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_CastleDoor .h">
-      <Filter>Object</Filter>
-    </ClInclude>
     <ClInclude Include="Object_Desk.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_HumanTree.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_Ladder1.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_Ladder2.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_Ladder3.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_Ladder4.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_Ladder5.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_Ladder6.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_Skeleton.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_Skeleton1.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_StartDoor.h">
       <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="Object_bonfire.h">
       <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="Object_Table.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Object_CandleHuman.h">
       <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="TestLevel_MapObject.h">
@@ -726,8 +699,59 @@
     <ClInclude Include="LothricKn_Debug.h">
       <Filter>Actor\Monster\LothricKnight\Debug</Filter>
     </ClInclude>
-    <ClInclude Include="DummyNode.h">
-      <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
+    <ClInclude Include="Object_Ladder1.h">
+      <Filter>Object\Ladder</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder2.h">
+      <Filter>Object\Ladder</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder3.h">
+      <Filter>Object\Ladder</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder4.h">
+      <Filter>Object\Ladder</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder5.h">
+      <Filter>Object\Ladder</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Ladder6.h">
+      <Filter>Object\Ladder</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_CandleHuman.h">
+      <Filter>Object\Candle</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_CandleHuman2.h">
+      <Filter>Object\Candle</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_HumanTree1.h">
+      <Filter>Object\HumanTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_HumanTree2.h">
+      <Filter>Object\HumanTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_HumanTree3.h">
+      <Filter>Object\HumanTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_HumanTree4.h">
+      <Filter>Object\HumanTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_HumanTree5.h">
+      <Filter>Object\HumanTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Skeleton.h">
+      <Filter>Object\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Skeleton1.h">
+      <Filter>Object\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_BossDoor.h">
+      <Filter>Object\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_CastleDoor .h">
+      <Filter>Object\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_StartDoor.h">
+      <Filter>Object\Door</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -853,6 +877,21 @@
     </Filter>
     <Filter Include="Actor\Monster\LothricKnight\Debug">
       <UniqueIdentifier>{f75f5fca-fbe1-4ce4-99ff-214846536e1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Ladder">
+      <UniqueIdentifier>{4555b1e6-34f2-44ab-9391-97659ff4e698}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Candle">
+      <UniqueIdentifier>{5cccf57a-cade-4dd1-b06d-309321fc2c5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\HumanTree">
+      <UniqueIdentifier>{5d14fcb5-668f-4b69-9ba8-7ab60b366303}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Skeleton">
+      <UniqueIdentifier>{61e770f7-7f9d-4943-a015-05df193f4dad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Door">
+      <UniqueIdentifier>{0977542a-82cd-43fd-875a-90519c049dbb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

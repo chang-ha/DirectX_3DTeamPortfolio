@@ -14,7 +14,7 @@ void Player_HitInteraction::CollisionToBody(Enum_CollisionOrder _Order, int _iSt
 {
 	ValidityCheck();
 
-	/*std::function ColEvent = [=](std::vector<GameEngineCollision*> _Other)
+	std::function ColEvent = [=](std::vector<GameEngineCollision*> _Other)
 		{
 			for (GameEngineCollision* pCol : _Other)
 			{
@@ -41,12 +41,13 @@ void Player_HitInteraction::CollisionToBody(Enum_CollisionOrder _Order, int _iSt
 				const float4 DirVector = ColPos - OtherPos;
 				Enum_DirectionXZ_Quat eDir = ContentsMath::ReturnXZDirectionToVector(DirVector);
 
+				//RecordCollision(pActor.get());
 				pActor->GetHit({ pParent, _iStiffness, eDir });
-				RecordCollision(pActor.get());
+				
 			}
 		};
 
-	pCollision->Collision(_Order, ColEvent);*/
+	pCollision->Collision(_Order, ColEvent);
 
 	int a = 0;
 }
@@ -77,8 +78,10 @@ void Player_HitInteraction::CollisionToShield(Enum_CollisionOrder _Order, int _i
 				{
 					continue;
 				}
+				
 
 				RecordCollision(pActor.get());
+
 				pActor->GetHitToShield({ pParent, _iStiffness });
 			}
 		};

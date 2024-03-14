@@ -21,6 +21,8 @@ public:
 		return CapsuleActor->getLinearVelocity();
 	}
 
+	float4 GetLinearVelocity_f();
+
 	inline float GetMass()
 	{
 		return CapsuleActor->getMass();
@@ -41,6 +43,8 @@ public:
 	{
 		return CapsuleActor->getGlobalPose().p;
 	}
+
+	void ChangeMaterial(physx::PxMaterial* const* _Material);
 
 	
 	bool IsGravity()

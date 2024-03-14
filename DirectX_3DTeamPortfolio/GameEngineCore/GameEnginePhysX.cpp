@@ -10,6 +10,7 @@ physx::PxPhysics* GameEnginePhysX::Physics = nullptr;
 physx::PxCooking* GameEnginePhysX::Cooking = nullptr;
 physx::PxDefaultCpuDispatcher* GameEnginePhysX::CpuDispatcher = nullptr;
 physx::PxMaterial* GameEnginePhysX::Material = nullptr;
+physx::PxMaterial* GameEnginePhysX::ClimbMaterial = nullptr;
 
 std::map<std::string, physx::PxScene*> GameEnginePhysX::AllLevelScene;
 std::set<int> GameEnginePhysX::SkipCollisionPair;
@@ -109,7 +110,8 @@ void GameEnginePhysX::PhysXInit()
 		MsgBoxAssert("Cooking 생성에 실패했습니다.");
 	}
 
-	Material = Physics->createMaterial(1.7f, 0.5f, 0.0f);
+	Material = Physics->createMaterial(2.f, 2.f, 0.0f);
+	ClimbMaterial = Physics->createMaterial(0.f, 0.f, 0.f);
 
 	if (nullptr == Material)
 	{

@@ -36,8 +36,7 @@ void ContentsCore::Start()
 	CoreGUIWindow = GameEngineGUI::CreateGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 	CoreGUIWindow->On();
 
-	ContentsGUIWindow = GameEngineGUI::CreateGUIWindow<ContentsControlWindow>("ContentsControlWindow");
-	ContentsGUIWindow->On(); 
+	
 
 	TreeGUIWindow = GameEngineGUI::CreateGUIWindow<TreeWindow>("TreeWindow");
 	TreeGUIWindow->On();
@@ -53,6 +52,7 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<TestLevel_MapObject>("TestLevel_MapObject");
 	GameEngineCore::CreateLevel<TestLevel_ObjectTest>("TestLevel_ObjectTest");
 	GameEngineCore::ChangeLevel("TestLevel_Monster");
+
 
 	GameEnginePhysX::PushSkipCollisionPair(3, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Big_Camera, Enum_CollisionOrder::Camera);
 	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Big_Camera, Enum_CollisionOrder::Camera);

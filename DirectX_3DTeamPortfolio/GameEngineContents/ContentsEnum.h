@@ -37,6 +37,7 @@ enum class Enum_CollisionOrder
 	Monster_Lantern = (1 << 16),
 	LabberMiddle = (1 << 17),
 	Player_Arround = (1 << 18),
+
 };
 
 enum class Enum_RenderDepth

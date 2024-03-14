@@ -67,6 +67,7 @@ enum Enum_BossState
 enum Enum_TargetDis
 {
 	Dis_Null = -1,
+	Dis_Attach = 0,
 	Dis_Close = 1,
 	Dis_Middle = 2,
 	Dis_Long = 3,
@@ -76,15 +77,22 @@ enum Enum_TargetDis
 enum Enum_TargetDeg
 {
 	Deg_Null = -1,
-	Deg_Front = 1,
-	Deg_Side = 2,
-	Deg_Back = 3
+	Deg_Front = 0,
+	Deg_Side = 1,
+	Deg_Back = 2
 };
 
 struct TargetState
 {
 	int mTargetDis = Enum_TargetDis::Dis_Null;
 	int mTargetDeg = Enum_TargetDeg::Deg_Null;
+};
+
+enum Enum_Boss_Phase
+{
+	Phase_Null = 0,
+	Phase_1 = 1,
+	Phase_2 = 2,
 };
 
 struct AI_State
@@ -153,6 +161,10 @@ private:
 
 	void TargetStateUpdate();
 	TargetState mTargetState;
+	Enum_Boss_Phase mBoss_Phase = Enum_Boss_Phase::Phase_1;
+	int Rush_Combo_Count = 0;
+
+	bool IsAwake = false;
 
 	Enum_JumpTableFlag AI_MoveMent();
 	Enum_JumpTableFlag AI_Attack();

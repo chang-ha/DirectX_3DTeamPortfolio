@@ -20,6 +20,18 @@ void GameEnginePhysXCapsule::Start()
 void GameEnginePhysXCapsule::Update(float _Delta)
 {
 	Positioning(_Delta);
+
+	physx::PxVec3 Vec = CapsuleActor->getLinearVelocity();
+
+	float VecScale = Vec.magnitude();
+	if (0.1f < VecScale && -0.5f < Vec.y)
+	{
+		ChangeMaterial(GameEnginePhysX::GetConstClimbMaterial());
+	}
+	else
+	{
+		ChangeMaterial(GameEnginePhysX::GetConstDefaultMaterial());
+	}
 }
 
 void GameEnginePhysXCapsule::Release()
@@ -114,6 +126,15 @@ void GameEnginePhysXCapsule::Positioning(float _Delta)
 	}
 }
 
+float4 GameEnginePhysXCapsule::GetLinearVelocity_f()
+{
+	physx::PxVec3 Vector = GetLinearVelocity();
+
+	float4 Result = float4(Vector.x, Vector.y, Vector.z);
+
+	return Result;
+}
+
 void GameEnginePhysXCapsule::GravityOn()
 {
 	ComponentActor->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, false);
@@ -160,4 +181,11 @@ void GameEnginePhysXCapsule::CollisionOff(bool _GravityOff /*= true*/)
 	{
 		GravityOff();
 	}
+}
+
+void GameEnginePhysXCapsule::ChangeMaterial(physx::PxMaterial* const* _Material)
+{
+	CapsuleActor->detachShape(*CapsuleShape);
+	CapsuleShape->setMaterials(_Material, 1);
+	CapsuleActor->attachShape(*CapsuleShape);
 }

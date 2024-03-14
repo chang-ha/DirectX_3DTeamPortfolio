@@ -66,6 +66,7 @@ enum class PlayerState
 	Middle_Shield_block,
 	Big_Shield_block,
 	Parring_Attack, 
+	Attack_Block, 
 };
 
 // Ό³Έν :
@@ -110,12 +111,17 @@ public:
 	bool testaaa = false;
 	
 
-	float4 trerer = {};
+	
 	float Camera_Pos_Y = 0.0f;
-	int ererer = 0;
-	float4 PreP = {};
-	float4 PrePc = {};
+	
+
 	std::shared_ptr<GameEngineActor> Actor_test;
+	float Delta_Time = 0.0f;
+
+	bool GetHit(const HitParameter& _Para);
+	bool GetHitToShield(const HitParameter& _Para);
+
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -123,16 +129,21 @@ protected:
 	
 
 private:
-	GameEngineSoundPlayer Sound; 
-	float ladder_Time = 0.0f; 
 
+	GameEngineSoundPlayer Sound; 
+
+	float Poise_Time = 0.0f;
+	float Stamina = 0.0f;
 
 	float4 MoveDir;
 	GameEngineState PlayerStates;
 	EventParameter Mini_Event;
+
+
+
 	std::string BoneName;
 
-	std::shared_ptr<GameEngineCollision> Col;
+	std::shared_ptr<GameEngineCollision> Player_Col;
 
 	std::shared_ptr<BoneSocketCollision> Body_Col;
 	std::shared_ptr<BoneSocketCollision> Shield_Col;
@@ -159,16 +170,22 @@ private:
 
 	EventParameter Body_Event;
 	EventParameter Labber_Event;
+	EventParameter Labber_Middle_Event;
+	EventParameter Labber_Top_Event;
+	EventParameter Shield_Event;
+
+
+
 	EventParameter Arround_Event;
 
-	Player_HitInteraction Body;
+	Player_HitInteraction Sword;
 
 
 	bool Rotation_Player_Check = false;
 	bool Rotation_Player_Plus = false;
 	bool Rotation_Player_Mus = false;
 
-
+	
 
 	float MonsterAngle;
 
@@ -178,7 +195,7 @@ private:
 	bool Rock_on_Time_Check = false;
 	float Time = 0.0f;
 	float Rock_on_Time = 0.0f;
-	float Delta_Time = 0.0f;
+	
 	float Speed = 1000.0f;
 	float MoveSpeed = 0.0f;
 	float DeltaTime = 0.0f;

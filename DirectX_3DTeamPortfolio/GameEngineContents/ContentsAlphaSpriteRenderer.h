@@ -15,6 +15,8 @@ public:
 	ContentsAlphaSpriteRenderer& operator=(const ContentsAlphaSpriteRenderer& _Other) = delete;
 	ContentsAlphaSpriteRenderer& operator=(ContentsAlphaSpriteRenderer&& _Other) noexcept = delete;
 
+	static void Load();
+
 protected:
 
 	void Start() override;

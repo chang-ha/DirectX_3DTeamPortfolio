@@ -8,6 +8,7 @@
 #include "LUTEffect.h"
 #include "BaseActor.h"
 #include "DS3DummyData.h"
+#include "ContentsAlphaSpriteRenderer.h"
 
 ContentResources::ContentResources()
 {
@@ -258,6 +259,8 @@ void ContentResources::ContentResourcesInit()
 			GameEngineSound::SoundLoad(pFile.GetStringPath());
 		}
 	}
+	//Effect
+	ContentsAlphaSpriteRenderer::Load();
 
 	//Defferd
 

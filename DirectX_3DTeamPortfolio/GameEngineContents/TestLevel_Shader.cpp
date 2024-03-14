@@ -208,8 +208,14 @@ void TestLevel_Shader::Start()
 	//	//Test_Light1->IsDebugValue = true; 디버그렌더링
 	//}
 
-	{
+	/*{
 		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(Enum_UpdateOrder::Component, "Torch");
+
+		
+	}*/
+	
+	{
+		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(Enum_UpdateOrder::Component, "Torch");
 
 		
 	}

@@ -7,6 +7,7 @@
 #include <unordered_set>
 #include "GameEngineMesh.h"
 #include "FogEffect.h"
+#include "BlurPostEffect.h"
 
 // std::shared_ptr<class GameEngineRenderTarget> GameEngineCamera::AllRenderTarget = nullptr;
 
@@ -91,6 +92,8 @@ void GameEngineCamera::Start()
 		//Texture2D PositionTex : register(t1);
 		//Texture2D NormalTex : register(t2);
 		//SamplerState POINTWRAP : register(s0);
+
+		DeferredLightTarget->CreateEffect<BlurPostEffect>();
 
 
 		//DeferredTarget = GameEngineRenderTarget::Create();
@@ -550,6 +553,11 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 			for (std::shared_ptr<GameEngineLight> Light : Lights)
 			{
+				if (Light->LightDataValue.LightType != static_cast<int>(Enum_LightType::Directional) and InCamera(Light->Transform, Light->LightDataValue.PointLightRange) == false)
+				{
+					continue;
+				}
+
 				if (true == Light->IsShadow())
 				{
 					DeferredLightRenderUnit.ShaderResHelper.SetTexture("ShadowTex", Light->GetShadowTarget()->GetDepthTexture());
@@ -560,6 +568,8 @@ void GameEngineCamera::Render(float _DeltaTime)
 				DeferredLightTarget->Setting();
 				DeferredLightRenderUnit.Render();
 			}
+
+			DeferredLightTarget->PostEffect(_DeltaTime);
 
 			DeferredLightTarget->RenderTargetReset();
 			
@@ -749,6 +759,9 @@ void GameEngineCamera::CameraUpdate(float _DeltaTime)
 		break;
 	}
 
+	CameraLightFrustum = CameraFrustum;
+	CameraLightFrustum.Far = Far * 0.3f;
+
 }
 
 
@@ -776,6 +789,34 @@ bool GameEngineCamera::InCamera(const GameEngineTransform& _Trans, MeshBaseInfo 
 	Result = CameraFrustum.Intersects(AABB);
 
 	
+	//Result = true;
+
+	return Result;
+}
+
+bool GameEngineCamera::InCamera(const GameEngineTransform& _Trans, float Scale)
+{
+	//UnitTransform.LocalPosition = _MeshBaseInfo.CenterPosition;
+	//UnitTransform.LocalScale = _MeshBaseInfo.BoundScaleBox;
+	//UnitTransform.LocalRotation = float4::ZERONULL;
+
+	UnitTransform.LocalCalculation(_Trans.GetWorldMatrix());
+	UnitTransform.WorldDecompos();
+
+	// ¹ÝÁö¸§ 
+	//ColData.OBB.Extents = TransData.WorldScale.ToABS().Half().Float3;
+	//ColData.OBB.Center = TransData.WorldPosition.Float3;
+
+	DirectX::BoundingSphere AABB;
+	AABB.Center = UnitTransform.WorldPosition.Float3;
+	AABB.Radius = Scale;
+
+
+	bool Result;
+
+	Result = CameraFrustum.Intersects(AABB);
+
+
 	//Result = true;
 
 	return Result;

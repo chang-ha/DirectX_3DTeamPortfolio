@@ -77,9 +77,10 @@ void GameEngineWindow::InitInstance()
 
 
 
-	// WS_OVERLAPPEDWINDOW
+	// WS_OVERLAPPEDWINDOW 창모드
+	// WS_POPUP 테두리 없는 창모드
 
-	hWnd = CreateWindowA("DefaultWindow", Title.c_str(), WS_OVERLAPPEDWINDOW,
+	hWnd = CreateWindowA("DefaultWindow", Title.c_str(), WS_POPUP,
 		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, Instance, nullptr);
 
 	if (!hWnd)

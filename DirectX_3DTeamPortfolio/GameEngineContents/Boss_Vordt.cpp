@@ -3,6 +3,8 @@
 #include "BoneSocketCollision.h"
 #include "DS3DummyData.h"
 
+#define BOSS_HP 1328
+
 void Boss_State_GUI::Start()
 {
 
@@ -14,7 +16,15 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	{
 		return;
 	}
-		
+	ImGui::NewLine();
+
+	if (true == ImGui::Checkbox("Awake", &Linked_Boss->IsAwake))
+	{
+		Linked_Boss->OnOffSwitch();
+	}
+
+	ImGui::NewLine();
+
 	int Index = 0;
 
 	if (0 == StateNames.size())
@@ -152,6 +162,7 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 	ImGui::NewLine();
 
+	if (true == Linked_Boss->IsTargeting())
 	{
 		float Angle = Linked_Boss->GetTargetAngle();
 		std::string cAngle = "Target Angle : ";
@@ -205,6 +216,7 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 	ImGui::NewLine();
 
+	if (true == Linked_Boss->IsTargeting())
 	{
 		float Dis = Linked_Boss->GetTargetDistance();
 		std::string cDistance = "Target Distance : ";
@@ -216,6 +228,9 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		{
 		case Enum_TargetDis::Dis_Null:
 			eDistance += "Null";
+			break;
+		case Enum_TargetDis::Dis_Attach:
+			eDistance += "Attach";
 			break;
 		case Enum_TargetDis::Dis_Close:
 			eDistance += "Close";
@@ -236,6 +251,17 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		cDistance += eDistance +")";
 
 		ImGui::Text(cDistance.c_str());
+	}
+
+	ImGui::NewLine();
+
+	{
+		if (true == ImGui::Button("SetWorldOrigin", ImVec2(250, 30)))
+		{
+			Linked_Boss->Capsule->SetWorldPosition({0.f, 0.f, 0.f});
+			Linked_Boss->Capsule->SetWorldRotation({0.f, 180.f, 0.f});
+			Linked_Boss->MainState.ChangeState(Enum_BossState::Idle);
+		}
 	}
 }
 
@@ -346,21 +372,9 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->SetRootMotion("Hit_003_Right");
 		MainRenderer->SetRootMotion("Hit_004_Groggy");
 		MainRenderer->SetRootMotion("Hit_Groggy");
-		MainRenderer->SetRootMotion("Hit_Down_001_Front");
-		MainRenderer->SetRootMotion("Hit_Down_001_Right");
-		MainRenderer->SetRootMotion("Hit_Down_001_Left");
-		MainRenderer->SetRootMotion("Hit_Down_004");
-		MainRenderer->SetRootMotion("Hit_Down_005");
-		MainRenderer->SetRootMotion("Hit_Down_006");
 		MainRenderer->SetRootMotion("Howling");
-		MainRenderer->SetRootMotion("Rush_Attack");
-		MainRenderer->SetRootMotion("Rush_Attack_002");
 		MainRenderer->SetRootMotion("Rush_Front");
-		MainRenderer->SetRootMotion("Sweep&Sweep_Left");
-		MainRenderer->SetRootMotion("Sweep&Sweep_Right");
-		MainRenderer->SetRootMotion("Sweep_001");
-		MainRenderer->SetRootMotion("Sweep_002");
-		MainRenderer->SetRootMotion("Thrust");
+		MainRenderer->SetRootMotion("Rush&Turn"); // 
 		MainRenderer->SetRootMotion("Turn_Left");
 		MainRenderer->SetRootMotion("Turn_Left_Twice");
 		MainRenderer->SetRootMotion("Turn_Right");
@@ -379,9 +393,23 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->SetRootMotion("Combo1_Step3", "", Enum_RootMotionMode::RealTimeDir);
 		MainRenderer->SetRootMotion("Combo2_Step1", "", Enum_RootMotionMode::RealTimeDir);
 		MainRenderer->SetRootMotion("Combo2_Step2", "", Enum_RootMotionMode::RealTimeDir);
-		MainRenderer->SetRootMotion("Rush&Turn", "", Enum_RootMotionMode::RealTimeDir); // 
+		MainRenderer->SetRootMotion("Hit_Down_001_Front", "", Enum_RootMotionMode::RealTimeDir);
+		MainRenderer->SetRootMotion("Hit_Down_001_Right", "", Enum_RootMotionMode::RealTimeDir);
+		MainRenderer->SetRootMotion("Hit_Down_001_Left", "", Enum_RootMotionMode::RealTimeDir);
+		MainRenderer->SetRootMotion("Hit_Down_004", "", Enum_RootMotionMode::RealTimeDir);
+		MainRenderer->SetRootMotion("Hit_Down_005", "", Enum_RootMotionMode::RealTimeDir);
+		MainRenderer->SetRootMotion("Hit_Down_006", "", Enum_RootMotionMode::RealTimeDir);
+		MainRenderer->SetRootMotion("Thrust", "", Enum_RootMotionMode::RealTimeDir);
+		MainRenderer->SetRootMotion("Sweep&Sweep_Left", "", Enum_RootMotionMode::RealTimeDir);
+		MainRenderer->SetRootMotion("Sweep&Sweep_Right", "", Enum_RootMotionMode::RealTimeDir);
+		MainRenderer->SetRootMotion("Sweep_001", "", Enum_RootMotionMode::RealTimeDir);
+		MainRenderer->SetRootMotion("Sweep_002", "", Enum_RootMotionMode::RealTimeDir);
+		MainRenderer->SetRootMotion("Rush_Attack", "", Enum_RootMotionMode::RealTimeDir);
+		MainRenderer->SetRootMotion("Rush_Attack_002", "", Enum_RootMotionMode::RealTimeDir);
 		MainRenderer->SetRootMotion("Rush&Hit&Turn", "", Enum_RootMotionMode::RealTimeDir);
 		MainRenderer->SetRootMotion("Rush&Hit&Turn&Rush", "", Enum_RootMotionMode::RealTimeDir); // 
+
+		MainRenderer->SetAllRootMotionMoveRatio(2.f, 2.f, 2.f);
 	}
 
 	//// Boss Collision
@@ -421,15 +449,19 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 	StateInit();
 
-	if (nullptr == BossCollision)
-	{
-		// BossCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 0);
-	}
-
-	 // Capsule->SetFiltering(Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);
-
 	// Socket Collision
 	BSCol_TransitionParameter ColParameter;
+	if (nullptr == BossCollision)
+	{
+		ColParameter.S = float4(300.f, 300.f, 300.f);
+		ColParameter.R = float4(0.f);
+		ColParameter.T = float4(0.f, 0.f, 0.f);
+
+		BossCollision = CreateSocketCollision(Enum_CollisionOrder::Monster, 21, ColParameter, "Hit_Collision");
+		BossCollision->SetCollisionType(ColType::SPHERE3D);
+		BossCollision->On();
+	}
+
 	if (nullptr == WeaponCollision)
 	{
 		ColParameter.S = float4(100.f, 100.f, 500.f);
@@ -471,10 +503,12 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::Boss_Vordt));
-	// SetCenterBodyDPIndex(220);
 
-	Stat.SetHp(1328);
+	Stat.SetHp(BOSS_HP);
 	Stat.SetAtt(1);
+	Stat.SetSouls(10000);
+
+	Off();
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
@@ -494,11 +528,6 @@ void Boss_Vordt::Start()
 	{
 		MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
 	}
-
-	//if (nullptr == BossCollision)
-	//{
-	//	BossCollision = CreateComponent<GameEngineCollision>(Enum_RenderOrder::Monster);
-	//}
 
 	MainRenderer->Transform.SetLocalScale({ W_SCALE, W_SCALE, W_SCALE });
 	MainRenderer->Transform.SetLocalPosition({0.f, 0.f, -130.0f});
@@ -524,17 +553,23 @@ void Boss_Vordt::Update(float _Delta)
 		MainRenderer->SwitchPause();
 	}
 
-	if (true == GameEngineInput::IsDown('C', this))
-	{
-		// MainRenderer->SetAllRootMotionMoveRatio(100.f, 2.f, 2.f);
-	}
-
 	for (std::pair<const Enum_BossState, AI_State>& _Pair : AI_States)
 	{
 		_Pair.second.Update(_Delta);
 	}
 
 	TargetStateUpdate();
+
+	if (Enum_Boss_Phase::Phase_2 == mBoss_Phase)
+	{
+		return;
+	}
+
+	int CurHp = GetHp();
+	if (BOSS_HP * 0.5f > CurHp)
+	{
+		mBoss_Phase = Enum_Boss_Phase::Phase_2;
+	}
 }
 
 void Boss_Vordt::Release()
@@ -611,9 +646,9 @@ void Boss_Vordt::TargetStateUpdate()
 	int ICurTargetAngle = static_cast<int>(CurTargetAngle);
 	int ICurTargetDis = static_cast<int>(CurTargetDis);
 
-	if (Enum_TargetDis::Dis_Close > ICurTargetDis)
+	if (Enum_TargetDis::Dis_Attach > ICurTargetDis)
 	{
-		ICurTargetDis = Enum_TargetDis::Dis_Close;
+		ICurTargetDis = Enum_TargetDis::Dis_Attach;
 	}
 	else if (Enum_TargetDis::Dis_Far < ICurTargetDis)
 	{

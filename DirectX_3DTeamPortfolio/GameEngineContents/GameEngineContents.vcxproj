@@ -223,6 +223,12 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Object_CandleHuman2.cpp" />
+    <ClCompile Include="Object_HumanTree1.cpp" />
+    <ClCompile Include="Object_HumanTree2.cpp" />
+    <ClCompile Include="Object_HumanTree3.cpp" />
+    <ClCompile Include="Object_HumanTree4.cpp" />
+    <ClCompile Include="Object_HumanTree5.cpp" />
     <ClCompile Include="Object_Torchlight.cpp" />
     <ClCompile Include="SingleCenterSoundFrameEvent.cpp">
       <SubType>
@@ -349,7 +355,6 @@
     <ClCompile Include="Object_CandleHuman.cpp" />
     <ClCompile Include="Object_CastleDoor.cpp" />
     <ClCompile Include="Object_Desk.cpp" />
-    <ClCompile Include="Object_HumanTree.cpp" />
     <ClCompile Include="Object_Ladder1.cpp" />
     <ClCompile Include="Object_Ladder2.cpp" />
     <ClCompile Include="Object_Ladder3.cpp" />
@@ -555,6 +560,12 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Object_CandleHuman2.h" />
+    <ClInclude Include="Object_HumanTree1.h" />
+    <ClInclude Include="Object_HumanTree2.h" />
+    <ClInclude Include="Object_HumanTree3.h" />
+    <ClInclude Include="Object_HumanTree4.h" />
+    <ClInclude Include="Object_HumanTree5.h" />
     <ClInclude Include="Object_Torchlight.h" />
     <ClInclude Include="SingleCenterSoundFrameEvent.h">
       <SubType>
@@ -684,7 +695,6 @@
     <ClInclude Include="Object_CandleHuman.h" />
     <ClInclude Include="Object_CastleDoor .h" />
     <ClInclude Include="Object_Desk.h" />
-    <ClInclude Include="Object_HumanTree.h" />
     <ClInclude Include="Object_Ladder1.h" />
     <ClInclude Include="Object_Ladder2.h" />
     <ClInclude Include="Object_Ladder3.h" />

@@ -20,7 +20,7 @@ void BlurPostEffect::Start()
 	ArrScreenSize.push_back(WindowScale);
 
 	// EffectUnit.ShaderResHelper.SetStructedBufferLink("ArrScreenSize", ArrScreenSize);
-	EffectUnit.ShaderResHelper.SetTexture("DiffuseTex", EffectTarget->GetTexture(0));
+	EffectUnit.ShaderResHelper.SetTexture("DiffuseTex", EffectTarget->GetTexture(3));
 	EffectUnit.ShaderResHelper.SetSampler("DiffuseTexSampler", "LINEAR");
 
 	ResultTarget = GameEngineRenderTarget::Create();
@@ -31,5 +31,6 @@ void BlurPostEffect::EffectProcess(float _DeltaTime)
 	ResultTarget->Setting();
 	EffectUnit.Render();
 	EffectUnit.ShaderResHelper.AllShaderResourcesReset();
-	EffectTarget->Copy(0, ResultTarget, 0);
+	EffectTarget->Clear(3);
+	EffectTarget->Merge(3, ResultTarget, 0);
 }

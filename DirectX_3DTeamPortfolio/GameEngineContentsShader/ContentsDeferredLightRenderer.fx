@@ -99,9 +99,16 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
     if (0 != LightDataValue.LightType)
     {
         float Distance = length(LightDataValue.ViewLightPos.xyz - Pos.xyz);
+        
+        if (Distance >= LightDataValue.PointLightRange * 2.0f)
+        {
+            clip(-1);
+        }
              
         float attenuation = 1.0 / (LightDataValue.constantAttenuation + LightDataValue.linearAttenuation * Distance + LightDataValue.quadraticAttenuation * Distance * Distance);
         LightPower = attenuation;
+        
+        
     }
     
     if (Material.z >= 1.0f)
@@ -127,7 +134,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
     //Result.PBRLight.w = 1.0f;
     
   
-    Result.AmbLight = CalAmbientLight(LightDataValue);
+    //Result.AmbLight = CalAmbientLight(LightDataValue);
     
     if (0 == LightDataValue.LightType)
     {
@@ -219,7 +226,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
             
             
             if (
-                fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.001f)
+                fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.00005f)
              )
                 {
             
@@ -243,7 +250,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
             
             
             
-                    if (fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.001f))
+                    if (fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.00005f))
                     {
             
                         shadow += 1.0f;

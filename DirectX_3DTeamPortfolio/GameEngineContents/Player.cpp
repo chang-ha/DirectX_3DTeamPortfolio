@@ -25,6 +25,7 @@ Player::~Player()
 
 void Player::Start()
 {
+	BaseActor::Start(); 
 	
 	Main_Player = this;
 
@@ -56,7 +57,9 @@ void Player::Start()
 	MainRenderer->CreateFBXAnimation("Waek_jump", "004200.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Middle_jump", "004210.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("String_Jump", "004220.FBX", { Frame, true });
-	MainRenderer->CreateFBXAnimation("Roll_Forward", "004280.FBX", { Frame, true });
+
+	
+
 	MainRenderer->CreateFBXAnimation("Hit_right", "005000.FBX", { Frame, false });
 	MainRenderer->CreateFBXAnimation("Hit_Left", "005001.FBX", { Frame, false });
 	MainRenderer->CreateFBXAnimation("Hit_Forward", "005002.FBX", { Frame, false });
@@ -84,6 +87,7 @@ void Player::Start()
 	//FBXRenderer->CreateFBXAnimation("Shield_Move", "023050.FBX", { Frame, true });
 
 	MainRenderer->CreateFBXAnimation("Back_Step", "027000.FBX", { Frame, true });
+	MainRenderer->CreateFBXAnimation("Roll_Forward", "004280.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Roll_Behind", "027101.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Roll_Right", "027102.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Roll_Left", "027103.FBX", { Frame, true });
@@ -145,11 +149,11 @@ void Player::Start()
 	MainRenderer->CreateFBXAnimation("ladder_Down_Stop_Left", "028023.FBX", { Frame, false }); // 사다리 내려가기 왼발?
 	MainRenderer->CreateFBXAnimation("ladder_Down_Stop_Right", "028024.FBX", { Frame, false }); // 사다리 내려가기 오른발?
 
-
+	
 
 
 	MainRenderer->CreateFBXAnimation("Parry_Attack", "030400.FBX", { Frame, false }); // 패링후 공격 
-
+	MainRenderer->CreateFBXAnimation("Attack_Block", "034200.FBX", { Frame, false }); 
 
 
 	MainRenderer->ChangeAnimation("Shield_Idle");
@@ -223,38 +227,48 @@ void Player::Start()
 	MainRenderer->SetRootMotion("String_Hit_Behind", "", Enum_RootMotionMode::RealTimeDir);*/
 	//MainRenderer->SetRootMotionMoveRatio("String_Hit_Forward");
 
-	//MainRenderer->SetRootMotion("ladder_Up_Start");
+	MainRenderer->SetRootMotion("ladder_Up_Start");
 
-	/*MainRenderer->SetRootMotion("ladder_Up_Left","", Enum_RootMotionMode::RealTimeDir);
-	MainRenderer->SetRootMotion("ladder_Up_Right", "", Enum_RootMotionMode::RealTimeDir);*/
+	MainRenderer->SetRootMotion("ladder_Up_Left");
+	MainRenderer->SetRootMotion("ladder_Up_Right");
 
-	/*MainRenderer->SetRootMotion("ladder_Up_Stop_Left", "", Enum_RootMotionMode::RealTimeDir);
-	MainRenderer->SetRootMotion("ladder_Up_Stop_Right", "", Enum_RootMotionMode::RealTimeDir);*/
+	MainRenderer->SetRootMotion("ladder_Up_Stop_Left");
+	MainRenderer->SetRootMotion("ladder_Up_Stop_Right");
 
-	/*MainRenderer->SetRootMotionMoveRatio("ladder_Up_Stop_Left",-1.0, cdcdc, -1.0);
-	MainRenderer->SetRootMotionMoveRatio("ladder_Up_Stop_Right", -1.0, cdcdc, -1.0);*/
 
-	MainRenderer->SetRootMotion("ladder_Down_Start", "", Enum_RootMotionMode::RealTimeDir);
-	MainRenderer->SetRootMotionMoveRatio("ladder_Down_Start", 0.2f, -0.01f, 0.2f);
-	/*MainRenderer->SetRootMotion("ladder_Down_Left", "", Enum_RootMotionMode::RealTimeDir);
-	MainRenderer->SetRootMotion("ladder_Down_Right", "", Enum_RootMotionMode::RealTimeDir);*/
-
-	MainRenderer->SetRootMotion("ladder_Down_Stop_Left", "", Enum_RootMotionMode::RealTimeDir);
-	MainRenderer->SetRootMotion("ladder_Down_Stop_Right", "", Enum_RootMotionMode::RealTimeDir);
 	
 
-	/*MainRenderer->SetRootMotionMoveRatio("ladder_Up_Left", cdcdc, cdcdc, cdcdc);
-	MainRenderer->SetRootMotionMoveRatio("ladder_Up_Right", cdcdc, cdcdc, cdcdc);
-	MainRenderer->SetRootMotionMoveRatio("ladder_Up_Stop_Left", cdcdc, cdcdc, cdcdc);
-	MainRenderer->SetRootMotionMoveRatio("ladder_Up_Stop_Right", cdcdc, cdcdc, cdcdc);
-	MainRenderer->SetRootMotionMoveRatio("ladder_Down_Start", cdcdc, cdcdc, cdcdc);
-	MainRenderer->SetRootMotionMoveRatio("ladder_Down_Left", cdcdc, cdcdc, cdcdc);
-	MainRenderer->SetRootMotionMoveRatio("ladder_Down_Right", cdcdc, cdcdc, cdcdc);
-	MainRenderer->SetRootMotionMoveRatio("ladder_Down_Stop_Left", cdcdc, cdcdc, cdcdc);
-	MainRenderer->SetRootMotionMoveRatio("ladder_Down_Stop_Right", cdcdc, cdcdc, cdcdc);*/
+
+
+
+	MainRenderer->SetRootMotion("ladder_Down_Start");
+
+	MainRenderer->SetRootMotion("ladder_Down_Left");
+	MainRenderer->SetRootMotion("ladder_Down_Right");
+
+	MainRenderer->SetRootMotion("ladder_Down_Stop_Left");
+	MainRenderer->SetRootMotion("ladder_Down_Stop_Right");
+	
+
+
+	// 중력 x 
+	MainRenderer->SetRootMotionGravityFlag("ladder_Up_Stop_Left", true);
+	MainRenderer->SetRootMotionGravityFlag("ladder_Up_Stop_Right", true);
+	MainRenderer->SetRootMotionGravityFlag("ladder_Up_Left", true);
+	MainRenderer->SetRootMotionGravityFlag("ladder_Up_Right", true);
+	MainRenderer->SetRootMotionGravityFlag("ladder_Up_Start", true);
+
+
+	MainRenderer->SetRootMotionGravityFlag("ladder_Down_Stop_Left", true);
+	MainRenderer->SetRootMotionGravityFlag("ladder_Down_Stop_Right", true);
+	MainRenderer->SetRootMotionGravityFlag("ladder_Down_Left", true);
+	MainRenderer->SetRootMotionGravityFlag("ladder_Down_Right", true);
+	MainRenderer->SetRootMotionGravityFlag("ladder_Down_Start", true);
+
+
+	
 	{
-		//SwordActor = GetLevel()->CreateActor<GameEngineActor>();
-		//SwordActor->Transform.SetLocalPosition({ 0.0f - 300.0f });
+		
 		Weapon_Actor = GetLevel()->CreateActor<Weapon>();
 
 		Weapon_Actor->Transform.SetWorldRotation({ 0.0f, 0.0f, -90.0f });
@@ -263,23 +277,11 @@ void Player::Start()
 		Shield_Actor = GetLevel()->CreateActor<shield>();
 		Shield_Actor->Transform.SetWorldRotation({ 0.0f, 0.0f, -90.0f });
 
-		//Weapon->SetFBXMesh("WP_A_0221.FBX", "FBXAnimationTexture");
-
-		//Weapon->Transform.SetLocalScale({ 100, 100, 100 });
-		////Weapon->Transform.SetLocalPosition({ -4.0f, -152.0f, 165.0f });
-		//Weapon->Transform.SetLocalRotation({ 0.0f, 0.0f, 180.0f });
+		
 	}
 
-	
-	
 
 
-	{
-		Shield_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Shield, 18);
-		Shield_Col->SetCollisionType(ColType::SPHERE3D);
-		Shield_Col->Transform.SetLocalScale({ 70.f,70.f, 50.f });
-		Shield_Col->On();
-	}
 	
 
 
@@ -290,7 +292,7 @@ void Player::Start()
 	{
 
 		ColParameter.R = 0.0f;
-		ColParameter.S = { 20.f, 60.f, 20.f };
+		ColParameter.S = { 20.f, 80.f, 20.f };
 		ColParameter.T = { 0.f, 0.5f, 0.f };
 
 		Attack_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Attack, Bone_index_01, ColParameter,"Player_Weapon");
@@ -304,47 +306,40 @@ void Player::Start()
 	{
 
 		ColParameter.R = 0.0f;
-		ColParameter.S = { 20.f, 60.f, 20.f };
+		ColParameter.S = { 60.f, 120.f, 40.f };
 		ColParameter.T = { 0.f, 0.8f, 0.f };
 
-		Body_Col = CreateSocketCollision(Enum_CollisionOrder::Player, 0, ColParameter, "Player_Body");
-		Body_Col->SetCollisionType(ColType::SPHERE3D);
-		Body_Col->Transform.SetLocalScale({ 100.f,120.f, 30.f });
+		Body_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Body, 0, ColParameter, "Player_Body");
+		Body_Col->SetCollisionType(ColType::AABBBOX3D);
+		//Body_Col->Transform.SetLocalScale({ 100.f,120.f, 30.f });
 		Body_Col->On();
+
+	}
+	{
+		Player_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player);
+		Player_Col->SetCollisionType(ColType::SPHERE3D);
+		Player_Col->Transform.SetLocalScale({ 10.f,10.f, 10.f });
+
 	}
 
 	{
-		Arround_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::  Player_Arround);
+		Arround_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Arround);
 		Arround_Col->SetCollisionType(ColType::SPHERE3D);
-		Arround_Col->Transform.SetLocalScale({ 2000.f,2000.f, 2000.f });
+		Arround_Col->Transform.SetLocalScale({ 2000.f,2000.f, 2000.f});
 		Arround_Col->Off();
 	}
 
-
 	{
-		Col = CreateComponent<GameEngineCollision>();
-		Col->Transform.SetLocalScale({ 200.0f,200.0f });
+		Shield_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Shield, 18);
+		Shield_Col->SetCollisionType(ColType::SPHERE3D);
+		Shield_Col->Transform.SetLocalScale({ 70.f,70.f, 50.f });
+		Shield_Col->Off();
 	}
 
-	/*Mini_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
-		{
+	Stat.SetHp(100);
+	Stat.SetAtt(20);
 
-		};
-	Mini_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
-		{
-			std::shared_ptr<BaseActor> pActor = col->GetActor()->GetDynamic_Cast_This<BaseActor>();
-
-
-			pActor->
-
-
-
-		};
-
-	Mini_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
-		{
-
-		};*/
+	Sword.Init(this, Attack_Col.get());
 	
 	MainRenderer->AddNotBlendBoneIndex(53);
 
@@ -353,7 +348,7 @@ void Player::Start()
 
 	Transform.AddLocalPosition({ 0.0f,-300.0f });
 	
-	GameEngineCore::MainWindow.SetMousePos(1280,720);
+	GameEngineCore::MainWindow.SetMousePos(960,540);
 
 	{
 		Actor_test = GetLevel()->CreateActor<GameEngineActor>();		
@@ -362,7 +357,7 @@ void Player::Start()
 	{
 		Actor_test_02 = GetLevel()->CreateActor<GameEngineActor>();
 		Actor_test_02->SetParent(Actor_test);
-		//Actor_test_02->Transform.SetWorldPosition({ 0.0f,140.0f,-250.0f });
+	
 
 		Actor_test_02->Transform.SetLocalPosition({ 0.0f,0.0f,-250.0f });
 
@@ -396,6 +391,8 @@ void Player::Start()
 
 			Monster_Degree = Angle_.X * GameEngineMath::R2D;
 
+			Shield_Col->Off();
+
 			if (0.0f <= RotationDir.Y)
 			{
 
@@ -406,70 +403,175 @@ void Player::Start()
 			}
 
 
-
-
-			if (Monster_Degree >= 135)
+			if (Stat.GetPoise() <= 0)
 			{
-				if (Monster_Degree <= 180)
+				if (Monster_Degree >= 135)
 				{
-					//Collision_Left_drop();
-					PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);
+					if (Monster_Degree <= 180)
+					{
+						PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);
+					}
+				}
+				if (Monster_Degree >= -180)
+				{
+					if (Monster_Degree < -135)
+					{
+						PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);
+					}
+				}
+
+				if (Monster_Degree <= 135)
+				{
+					if (Monster_Degree > 45)
+					{
+						//Collision_Up_drop();
+
+						PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);
+
+					}
+				}
+
+				if (Monster_Degree <= 45)
+				{
+					if (Monster_Degree > -45)
+					{
+						//Collision_Down_drop();
+						PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);
+
+					}
+				}
+				if (Monster_Degree >= -135)
+				{
+					if (Monster_Degree < -45)
+					{
+						//Collision_Right_drop();
+						PlayerStates.ChangeState(PlayerState::Backward_Big_Hit);
+					}
 				}
 			}
-			if (Monster_Degree >= -180)
+
+			else if (Stat.GetPoise() > 50)
 			{
-				if (Monster_Degree < -135)
+				if (Monster_Degree >= 135)
 				{
-					//Collision_Left_drop();
-					PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);
+					if (Monster_Degree <= 180)
+					{
+						PlayerStates.ChangeState(PlayerState::Forward_Hit);
+					}
+				}
+				if (Monster_Degree >= -180)
+				{
+					if (Monster_Degree < -135)
+					{
+						PlayerStates.ChangeState(PlayerState::Forward_Hit);
+					}
+				}
+
+				if (Monster_Degree <= 135)
+				{
+					if (Monster_Degree > 45)
+					{
+						//Collision_Up_drop();
+
+						PlayerStates.ChangeState(PlayerState::Right_Hit);
+
+					}
+				}
+
+				if (Monster_Degree <= 45)
+				{
+					if (Monster_Degree > -45)
+					{
+						//Collision_Down_drop();
+						PlayerStates.ChangeState(PlayerState::Backward_Hit);
+
+					}
+				}
+				if (Monster_Degree >= -135)
+				{
+					if (Monster_Degree < -45)
+					{
+						//Collision_Right_drop();
+						PlayerStates.ChangeState(PlayerState::Left_Hit);
+					}
 				}
 			}
 
-			if (Monster_Degree <= 135)
+			else if (Stat.GetPoise() < 50)
 			{
-				if (Monster_Degree > 45)
+				if (Monster_Degree >= 135)
 				{
-					//Collision_Up_drop();
+					if (Monster_Degree <= 180)
+					{
+						PlayerStates.ChangeState(PlayerState::Forward_Middle_Hit);
+					}
+				}
+				if (Monster_Degree >= -180)
+				{
+					if (Monster_Degree < -135)
+					{
+						PlayerStates.ChangeState(PlayerState::Forward_Middle_Hit);
+					}
+				}
 
-					PlayerStates.ChangeState(PlayerState::Right_Hit);
+				if (Monster_Degree <= 135)
+				{
+					if (Monster_Degree > 45)
+					{
+						//Collision_Up_drop();
 
+						PlayerStates.ChangeState(PlayerState::Right_Middle_Hit);
+
+					}
+				}
+
+				if (Monster_Degree <= 45)
+				{
+					if (Monster_Degree > -45)
+					{
+						//Collision_Down_drop();
+						PlayerStates.ChangeState(PlayerState::Backward_Middle_Hit);
+
+					}
+				}
+				if (Monster_Degree >= -135)
+				{
+					if (Monster_Degree < -45)
+					{
+						//Collision_Right_drop();
+						PlayerStates.ChangeState(PlayerState::Left_Middle_Hit);
+					}
 				}
 			}
 
-			if (Monster_Degree <= 45)
-			{
-				if (Monster_Degree > -45)
-				{
-					//Collision_Down_drop();
-					PlayerStates.ChangeState(PlayerState::Backward_Big_Hit);
-
-				}
-			}
-			if (Monster_Degree >= -135)
-			{
-				if (Monster_Degree < -45)
-				{
-					//Collision_Right_drop();
-					PlayerStates.ChangeState(PlayerState::Left_Hit);
-
-				}
-			}
-
-
-
+			
 		};
 
 	Body_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
 
+		};
+
+	Body_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+
+		};
 
 
+	Shield_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+
+			
+		};
+
+	Shield_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
 
 
 
 		};
 
-	Body_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
+	Shield_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
 
 		};
@@ -487,31 +589,50 @@ void Player::Start()
 			{
 				if (GameEngineInput::IsDown('E', this))
 				{
-					
+
 
 					float4 TargetPos = col->Transform.GetWorldPosition();
 					float4 MyPos = Actor_test->Transform.GetWorldPosition();
 
+					// Y축 고려 X
+					TargetPos.Y = MyPos.Y = 0.f;
+
+					float4 FrontVector = float4(0.f, 0.f, -1.f, 0.f);
+					FrontVector.VectorRotationToDegY(Capsule->GetDir());
+
+					float4 LocationVector = (TargetPos - MyPos).NormalizeReturn();
+
+					float4 Angle_ = DirectX::XMVector3AngleBetweenNormals(FrontVector.DirectXVector, LocationVector.DirectXVector);
+
+					float4 RotationDir = DirectX::XMVector3Cross(FrontVector.DirectXVector, LocationVector.DirectXVector);
+
+					Labber_Angle = Angle_.X * GameEngineMath::R2D;
+
+					if (0.0f <= RotationDir.Y)
+					{
+
+					}
+					else
+					{
+						Labber_Angle *= -1.f;
+					}
+
+					/*float4 TargetPos = { col->Transform.GetWorldPosition().X,col->Transform.GetWorldPosition().Y,col->Transform.GetWorldPosition().Z};
+					float4 MyPos = Actor_test->Transform.GetWorldPosition();
+
 					float4 Dir = TargetPos - MyPos;
 
-					float4 Monster = { 0,0,0,-1.0f };
+					float4 Monster = { 0,0,-1 };
 					float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
 					float radian = atan2(Dir.X, Dir.Z) - atan2(Monster.X, Monster.Z);
-					Labber_Angle = abs(float(radian * (180.0 / 3.141592)));
-
-					Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
-
-					
-
-
-					//Capsule->SetWorldRotation({ 0.0f,Labber_Angle,0.0f });
-					Capsule->GravityOff(); 
-					Capsule->MoveForce(float4{ 0.0f,500.0f,0.0f,Labber_Angle });
-					PlayerStates.ChangeState(PlayerState::ladder_Up_Left);
+					Labber_Angle = float(radian * (180.0 / 3.141592));*/
 
 					//Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
-
-					
+					Capsule->SetWorldRotation({ 0.0f, -Labber_Angle,0.0f });
+					Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
+					Capsule->GravityOff(); 
+					//Capsule->MoveForce(float4{ 0.0f,500.0f,0.0f,Labber_Angle });
+					PlayerStates.ChangeState(PlayerState::ladder_Up_Start);				
 					Rabber_Collision_Check = true;
 				}
 			}
@@ -520,9 +641,75 @@ void Player::Start()
 
 		};
 
-	Labber_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
+
+	
+
+	Labber_Middle_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
-			Rabber_Collision_Check = false;
+
+		};
+
+	Labber_Middle_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+
+		};
+
+	Labber_Middle_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+
+			if (StateValue == PlayerState::ladder_Up_Left)
+			{
+				PlayerStates.ChangeState(PlayerState::ladder_Up_Stop_Right);
+			}
+			else if(StateValue == PlayerState::ladder_Up_Right)
+			{
+				PlayerStates.ChangeState(PlayerState::ladder_Up_Stop_Left);
+			}
+
+
+
+
+		};
+
+
+
+
+	Labber_Top_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+
+		};
+
+	Labber_Top_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+			if (Rabber_Collision_Check == false)
+			{
+				if (GameEngineInput::IsDown('E', this))
+				{
+					float4 TargetPos = col->Transform.GetWorldPosition();
+					float4 MyPos = Actor_test->Transform.GetWorldPosition();
+
+					float4 Dir = MyPos-TargetPos;
+					float4 Monster = { 0,0,-1 };
+					float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
+					float radian = atan2(Dir.X, Dir.Z) - atan2(Monster.X, Monster.Z);
+					Labber_Angle = float(radian * (180.0 / 3.141592));
+
+					//Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
+					Capsule->SetWorldRotation({ 0.0f,Labber_Angle,0.0f });
+					Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
+					Capsule->GravityOff();
+					//MainRenderer->SetRootMotionMode(")
+					//Capsule->MoveForce(float4{ 0.0f,500.0f,0.0f,Labber_Angle });
+					PlayerStates.ChangeState(PlayerState::ladder_Down_Start);
+					Rabber_Collision_Check = true;
+				}
+			}
+		};
+
+	Labber_Top_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+
+
 		};
 
 
@@ -553,11 +740,18 @@ void Player::Start()
 		};
 
 	//SoundFrameEvent();
-
+	Shield_Col->Off();
+	Attack_Col->Off(); 
 }
 
 void Player::Update(float _Delta)
 {
+	//SetFlag(Enum_ActorFlag::Guarding, true);
+
+	Sword.CollisionToBody(Enum_CollisionOrder::Monster_Body,0);
+	Sword.CollisionToShield(Enum_CollisionOrder::Monster_Shield, 0);
+
+	Poise_Time += _Delta;
 	Delta_Time = _Delta;
 
 	if (Rock_on_Time_Check == true)
@@ -566,7 +760,10 @@ void Player::Update(float _Delta)
 	}
 	
 
-	
+	if (Poise_Time > 1.0)
+	{
+		Stat.SetPoise(100);
+	}
 
 	if (GameEngineInput::IsDown('G', this))
 	{
@@ -584,40 +781,14 @@ void Player::Update(float _Delta)
 	BaseActor::Update(_Delta);
 
 
-	//Body.CollisionToBody(Enum_CollisionOrder::Player);
-
-
-	//float4 TargetPos = GetTargetPos();
-	//float4 MyPos = Actor_test->Transform.GetWorldPosition();
-
-	//// Y축 고려 X
-	//TargetPos.Y = MyPos.Y = 0.f;
-
-	//float4 FrontVector = float4(0.f, 0.f, -1.f, 0.f);
-	//FrontVector.VectorRotationToDegY(Capsule->GetDir());
-
-	//float4 LocationVector = (TargetPos - MyPos).NormalizeReturn();
-
-	//float4 Angle_ = DirectX::XMVector3AngleBetweenNormals(FrontVector.DirectXVector, LocationVector.DirectXVector);
-
-	//float4 RotationDir = DirectX::XMVector3Cross(FrontVector.DirectXVector, LocationVector.DirectXVector);
-
-	//Monster_Degree = Angle_.X * GameEngineMath::R2D;
-
-	//if (0.0f <= RotationDir.Y)
-	//{
-
-	//}
-	//else
-	//{
-	//	Monster_Degree *= -1.f;
-	//}
+	
 	
 
 	
 	Arround_Col->CollisionEvent(Enum_CollisionOrder::Monster, Arround_Event);
 	Body_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack, Body_Event);
-	Body_Col->CollisionEvent(Enum_CollisionOrder::LabberMiddle, Labber_Event);
+	Body_Col->CollisionEvent(Enum_CollisionOrder::LadderBot, Labber_Event);
+	Body_Col->CollisionEvent(Enum_CollisionOrder::LadderTop, Labber_Event);
 	
 	
 	/*if (Body_Col->Collision(Enum_CollisionOrder::MonsterAttack))
@@ -626,7 +797,7 @@ void Player::Update(float _Delta)
 	}*/
 
 
-	if (Body_Col->Collision(Enum_CollisionOrder::LadderBot))
+	/*if (Body_Col->Collision(Enum_CollisionOrder::LadderBot))
 	{
 		if (GameEngineInput::IsDown('E', this))
 		{
@@ -635,7 +806,7 @@ void Player::Update(float _Delta)
 
 		}
 	}
-	
+	*/
 		
 	
 	
@@ -680,7 +851,7 @@ void Player::Update(float _Delta)
 		Shield_Actor->Transform.SetLocalRotation(Data.RotQuaternion.QuaternionToEulerDeg());
 		Shield_Actor->Transform.SetWorldPosition(Data.Pos + float4{ Capsule->GetWorldPosition().x, Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
 	}
-	Col->Off();
+	//Col->Off();
 	
 
 	Time += _Delta;
@@ -923,31 +1094,36 @@ void Player::CameraRotation(float Delta)
 	
 
 
-	if (PrevPos.Y > Mouse_Ro_Y+5 )
+	if (PrevPos.Y > Mouse_Ro_Y)
 	{
 		float4 Cur_Camera_Pos = { 0.0f, PrevPos.Y - Mouse_Ro_Y,0.0f };
 
-		Cur_Camera_Pos.Normalize();
+		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta);
 
-		Camera_Pos_Y += Cur_Camera_Pos.Y * Delta * 200;
 
-		if (Camera_Pos_Y >= 60)
-		{
-			Camera_Pos_Y -= Cur_Camera_Pos.Y * Delta * 200;
-		}
-	}
-
-	else if (PrevPos.Y < Mouse_Ro_Y-5 )
-	{
-		float4 Cur_Camera_Pos = { 0.0f, Mouse_Ro_Y- PrevPos.Y,0.0f };
-
-		Cur_Camera_Pos.Normalize();
-
-		Camera_Pos_Y -= Cur_Camera_Pos.Y * Delta * 200;
+		Camera_Pos_Y -= Lerp.Y *10;
 
 		if (Camera_Pos_Y <= -40)
 		{
-			Camera_Pos_Y += Cur_Camera_Pos.Y * Delta * 200;
+			Camera_Pos_Y += Lerp.Y * 10;
+		}
+	}
+
+	else if (PrevPos.Y < Mouse_Ro_Y)
+	{
+		float4 Cur_Camera_Pos = { 0.0f, Mouse_Ro_Y- PrevPos.Y,0.0f };
+
+
+		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta);
+
+		//Cur_Camera_Pos.Normalize();
+
+		Camera_Pos_Y += Lerp.Y * 10;
+
+		
+		if (Camera_Pos_Y >= 60)
+		{
+			Camera_Pos_Y -= Lerp.Y  * 10;
 		}
 
 	}
@@ -957,14 +1133,17 @@ void Player::CameraRotation(float Delta)
 
 		float4 Cur_Camera_Pos = { PrevPos.X - Mouse_Ro_X,0.0f,0.0f };
 
-		Cur_Camera_Pos.Normalize();
+		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta);
+		//Cur_Camera_Pos.Normalize();
 
-		Camera_Pos_X += Cur_Camera_Pos.X * Delta * 200;
-		Player_Pos.X -= Cur_Camera_Pos.X * Delta * 200;
+
+
+		Camera_Pos_X += Lerp.X * 20;
+		Player_Pos.X -= Lerp.X * 20;
 
 		if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
 		{
-			Capsule->AddWorldRotation({ 0.0f,-Cur_Camera_Pos.X * Delta * 200,0.0f });
+			Capsule->AddWorldRotation({ 0.0f,-Lerp.X * 20,0.0f });
 
 		}
 	}
@@ -973,39 +1152,27 @@ void Player::CameraRotation(float Delta)
 
 		float4 Cur_Camera_Pos = { Mouse_Ro_X - PrevPos.X,0.0f,0.0f };
 
-		Cur_Camera_Pos.Normalize();
+		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta);
+		//Cur_Camera_Pos.Normalize();
 
-		Camera_Pos_X -= Cur_Camera_Pos.X * Delta * 200;
-		Player_Pos.X += Cur_Camera_Pos.X * Delta * 200;
+		Camera_Pos_X -= Lerp.X * 20;
+		Player_Pos.X += Lerp.X * 20;
+
+
 
 		if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
 		{
-			Capsule->AddWorldRotation({ 0.0f, Cur_Camera_Pos.X * Delta * 200, 0.0f });
-
+			Capsule->AddWorldRotation({ 0.0f, Lerp.X * 20, 0.0f });
 		}
 	}
 
 
-
-
-
-
-
-	float4 ASDF = { Actor_test->Transform.GetWorldPosition().X,Actor_test->Transform.GetWorldPosition().Y,Actor_test->Transform.GetWorldPosition().Z };
-
-	float4 ASsd	 = float4{ Actor_test_02->Transform.GetWorldPosition().X, Actor_test_02->Transform.GetWorldPosition().Y, Actor_test_02->Transform.GetWorldPosition().Z };
-
-	float4 AS = ASDF - ASsd;
-
-
-	int a = 0; 
-	AS.Normalize();
-
+	float4 sadasd = float4::LerpClamp(Actor_test_02->Transform.GetWorldPosition(),Actor_test->Transform.GetWorldPosition(), Delta*5);
+	float4 sadassd = float4::LerpClamp(Actor_test_02->Transform.GetWorldPosition(), Actor_test->Transform.GetWorldPosition(), -Delta*5);
 
 	
-
-
 	//140.0f, -300.0f
+
 
 
 	
@@ -1014,28 +1181,27 @@ void Player::CameraRotation(float Delta)
 	{
 
 
-		if (abs(Actor_test->Transform.GetWorldPosition().Z - Actor_test_02->Transform.GetWorldPosition().Z) >= 10)
+		//if (abs(Actor_test->Transform.GetWorldPosition().Z - Actor_test_02->Transform.GetWorldPosition().Z) >= 50)
 		{
-			Actor_test_02->Transform.AddWorldPosition(AS * 1400 * Delta);
+			//float4 sadasd = float4::LerpClamp(Actor_test_02->Transform.GetWorldPosition(),Actor_test->Transform.GetWorldPosition(), Delta);
+			Actor_test_02->Transform.SetWorldPosition(sadasd);
 		}
 	}
 
-	/*if (testa == true && testaa == false)z
-	{
-		Actor_test_02->Transform.AddWorldPosition(-AS * 800 * Delta);
-	}*/
 
-	else if (testaa == false)
+	if (testaa == false)
 	{
 		
 		if (abs(Actor_test_02->Transform.GetLocalPosition().Z) < abs(250))
 		{
-			Actor_test_02->Transform.AddWorldPosition(-AS * Delta * 1400);
+			//float4 sadasd = float4::LerpClamp(Actor_test->Transform.GetWorldPosition(), Actor_test_02->Transform.GetWorldPosition(), Delta);
+			//sadasd.Normalize();
+			Actor_test_02->Transform.SetWorldPosition(sadassd);
 		}
 		
 	}
 
-
+	// 다음 프레임에 콜리전이 충돌한 포지션이면 멈춰 
 
 
 
@@ -1067,9 +1233,9 @@ void Player::CameraRotation(float Delta)
 	//}
 
 
+	
 	PrevPos.Y = Mouse_Ro_Y;
 	PrevPos.X = Mouse_Ro_X;
-
 
 
 
@@ -1091,16 +1257,19 @@ void Player::CameraRotation(float Delta)
 		{
 			Time = 0;
 
-			PrevPos.Y = 258;
-			PrevPos.X = 864;
-			GameEngineCore::MainWindow.SetMousePos(1280, 720);
+			PrevPos.Y = 540;
+			PrevPos.X = 960;
+			GameEngineCore::MainWindow.SetMousePos(960, 540);
 		}
 
 	}
+	
+
 	else
 	{
 
 	}
+
 
 
 	//Actor_test->Transform.SetLocalPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
@@ -1112,3 +1281,89 @@ void Player::CameraRotation(float Delta)
 
 }
 
+bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
+{
+	Poise_Time = 0; 
+
+	if (nullptr == _Para.pAttacker)
+	{
+		MsgBoxAssert("공격자를 모르고 사용할 수 없는 기능입니다.");
+		return false;
+	}
+
+	BaseActor* pAttacker = _Para.pAttacker;
+
+
+	const int AttackerAtt = pAttacker->GetAtt();
+	const int Stiffness = _Para.iStiffness;
+
+	Stat.AddPoise(-Stiffness);
+	Stat.AddHp(-AttackerAtt);
+
+	
+
+	return true;
+}
+
+bool Player::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
+{
+	
+
+	if (nullptr == _Para.pAttacker)
+	{
+		MsgBoxAssert("공격자의 포인터를 모르고 사용할 수 없는 기능입니다.");
+		return false;
+	}
+
+	if (true == Hit.IsHit())
+	{
+		return false;
+	}
+
+	BaseActor* pAttacker = _Para.pAttacker;
+
+	// 패링상태
+	if (StateValue == PlayerState::Parrying)
+	{		
+	
+		pAttacker->SetHit(true);
+		pAttacker->SetFlag(Enum_ActorFlag::Break_Posture, true);
+		return true;
+	}
+
+	if (StateValue == PlayerState::Shield_Idle)
+	{
+		const int AttackerAtt = pAttacker->GetAtt();
+		const int Stiffness = _Para.iStiffness;
+		Stat.AddPoise(-Stiffness);
+
+		Stamina -= pAttacker->GetAtt();
+
+
+		if (0 >= Stamina)
+		{
+			PlayerStates.ChangeState(PlayerState::Big_Shield_block);
+		}
+
+
+		else
+		{
+			const int PassPoise = 50;
+			if (Stiffness < PassPoise)
+			{
+				pAttacker->SetHit(true);
+				pAttacker->SetFlag(Enum_ActorFlag::Block_Shield, true);
+			}
+
+			Hit.SetGuardSuccesss(true);
+		}
+
+		//const int FinalDamage = -10;
+		//Stat.AddHp(FinalDamage);
+		
+
+		return true;
+	}
+	
+	return false;
+}
