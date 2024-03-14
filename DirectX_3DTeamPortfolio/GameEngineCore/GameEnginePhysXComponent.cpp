@@ -265,7 +265,7 @@ void GameEnginePhysXComponent::RayCastTargetOff()
 void GameEnginePhysXComponent::CollisionOn(bool _GravityOn /*= true*/)
 {
 	ComponentActor->detachShape(*Shape);
-	Shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+	Shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, true);
 	ComponentActor->attachShape(*Shape);
 
 	if (true == _GravityOn)
