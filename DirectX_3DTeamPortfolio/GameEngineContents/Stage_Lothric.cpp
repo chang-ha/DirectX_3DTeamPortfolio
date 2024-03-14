@@ -7,6 +7,7 @@
 #include <GameEngineCore\FogEffect.h>
 #include "FXAAEffect.h"
 #include "Monster_HollowSoldier.h"
+#include "Monster_LothricKn.h"
 #include "LUTEffect.h"
 
 //오브젝트 헤더
@@ -139,8 +140,15 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		GameMap->Transform.SetWorldPosition({ -2900.f,-2500.f,6800.f });
 	}*/
 
+	
+
 	{
 		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
+	}
+
+	{
+		std::shared_ptr<Monster_LothricKn> Monster;
+		// Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster);
 	}
 
 	std::shared_ptr<GameEngineCoreWindow> CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
