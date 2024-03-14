@@ -80,6 +80,25 @@ void BaseActor::Release()
 	mJumpTableManager.Release();
 }
 
+void BaseActor::SetWorldPosition(const float4& _Pos)
+{
+	if (false == Capsule->IsInit())
+	{
+		MsgBoxAssert("PhysX 충돌체가 존재하지 않습니다.");
+	}
+
+	Capsule->SetWorldPosition(_Pos);
+}
+void BaseActor::SetWorldRotation(const float4& _Rot)
+{
+	if (false == Capsule->IsInit())
+	{
+		MsgBoxAssert("PhysX 충돌체가 존재하지 않습니다.");
+	}
+
+	Capsule->SetWorldRotation(_Rot);
+}
+
 void BaseActor::AddWDirection(float _Degree)
 {
 	Transform.AddWorldRotation(float4(0.0f, 0.0f, _Degree));
