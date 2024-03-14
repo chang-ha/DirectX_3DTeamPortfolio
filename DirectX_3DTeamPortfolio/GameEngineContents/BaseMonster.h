@@ -41,6 +41,19 @@ public:
 	void GravityOn();
 	void GravityOff();
 
+	void SetPatrolPath(const std::vector<float4>& _Paths, int _Index = 0);
+
+	// 리스폰 위치
+	void SetResponPos(float4 _Pos)
+	{
+		ResponPos = _Pos;
+	}
+
+	float4 GetResponPos()
+	{
+		return ResponPos;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -175,8 +188,13 @@ protected:
 	float4 GetBackStabPosition() override;
 	float4 GetFrontStabPosition() override;
 
+protected:
+	std::unique_ptr<class PatrolPath> PatrolPaths;
+
+	// 몬스터 리스폰 위치
+	float4 ResponPos = float4::ZERO;
+
 private:
 	std::shared_ptr<class MonsterHpBar> MonsterUI;
 
 };
-

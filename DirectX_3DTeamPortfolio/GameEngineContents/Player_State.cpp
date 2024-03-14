@@ -201,32 +201,33 @@ void Player::Player_State()
 					}	
 					
 
-				if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check_X ==true)
+
+				if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check_X ==true && Stamina > 0)
 				{
 					Rotation_Check_X = false;
 					PlayerStates.ChangeState(PlayerState::Roll_Forward);
 					return;
 				}
-				else if (GameEngineInput::IsPress('S', this) && GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check_X == true)
+				else if (GameEngineInput::IsPress('S', this) && GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check_X == true && Stamina > 0)
 				{
 					Rotation_Check_X = false;
 					PlayerStates.ChangeState(PlayerState::Roll_Behind);
 					return;
 				}
-				else if (GameEngineInput::IsPress('A', this) && GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check_X == true)
+				else if (GameEngineInput::IsPress('A', this) && GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check_X == true && Stamina > 0)
 				{
 					Rotation_Check_X = false;
 					PlayerStates.ChangeState(PlayerState::Roll_Left);
 					return;
 				}
-				else if (GameEngineInput::IsPress('D', this) && GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check_X == true)
+				else if (GameEngineInput::IsPress('D', this) && GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check_X == true && Stamina > 0)
 				{
 					Rotation_Check_X = false;
 					PlayerStates.ChangeState(PlayerState::Roll_Right);
 					return;
 				}
 
-				else if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SHIFT, this) && Rotation_Check_X == true)
+				else if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SHIFT, this) && Rotation_Check_X == true && Stamina > 0)
 				{
 					Rotation_Check_X = false;
 					PlayerStates.ChangeState(PlayerState::Run);
@@ -272,20 +273,20 @@ void Player::Player_State()
 					_Parent->ChangeState(PlayerState::Shield_Idle);
 					return;
 				}
-				else if (true == GameEngineInput::IsPress(VK_LBUTTON, this) && Rotation_Check_X == true)
+				else if (true == GameEngineInput::IsPress(VK_LBUTTON, this) && Rotation_Check_X == true && Stamina > 0)
 				{
 					Rotation_Check_X = false;
 					_Parent->ChangeState(PlayerState::Attack_01);
 					return;
 				}
-				else if (true == GameEngineInput::IsPress(VK_LBUTTON, this) && Rotation_Check_X == true && Rock_On_Check == true)
+				else if (true == GameEngineInput::IsPress(VK_LBUTTON, this) && Rotation_Check_X == true && Rock_On_Check == true && Stamina > 0)
 				{
 					Rotation_Check_X = false;
 					_Parent->ChangeState(PlayerState::Attack_01);
 					return;
 				}
 
-				else if (true == GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check_X == true)
+				else if (true == GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check_X == true && Stamina > 0)
 				{
 					Rotation_Check_X = false;
 					_Parent->ChangeState(PlayerState::Back_Step);
@@ -342,14 +343,14 @@ void Player::Player_State()
 				}
 				
 
-				else if (GameEngineInput::IsPress(VK_CONTROL, this) && Rotation_Check_X == true)
+				else if (GameEngineInput::IsPress(VK_CONTROL, this) && Rotation_Check_X == true && Stamina > 0)
 				{
 					Rotation_Check_X = false;
 					_Parent->ChangeState(PlayerState::Parrying);
 					return;
 				}
 
-				else if (true == GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check_X == true)
+				else if (true == GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check_X == true && Stamina > 0)
 				{
 					Rotation_Check_X = false;
 					_Parent->ChangeState(PlayerState::Back_Step);
@@ -449,7 +450,7 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Move_Stop);
 					return;
 				}
-				if (GameEngineInput::IsPress(VK_CONTROL, this) && Rotation_Check_X == true)
+				if (GameEngineInput::IsPress(VK_CONTROL, this) && Rotation_Check_X == true && Stamina > 0)
 				{
 					Rotation_Check_X = false;
 					_Parent->ChangeState(PlayerState::Parrying);
@@ -506,19 +507,19 @@ void Player::Player_State()
 					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
 				}
 
-				if (GameEngineInput::IsPress(VK_CONTROL, this))
+				if (GameEngineInput::IsPress(VK_CONTROL, this) && Stamina > 0)
 				{
 					_Parent->ChangeState(PlayerState::Parrying);
 					return;
 				}
 
-				if (GameEngineInput::IsPress(VK_RBUTTON, this))
+				if (GameEngineInput::IsPress(VK_RBUTTON, this) && Stamina > 0)
 				{
 					_Parent->ChangeState(PlayerState::Shield_Idle);
 					return;
 				}
 
-				if (true == GameEngineInput::IsPress(VK_LBUTTON, this))
+				if (true == GameEngineInput::IsPress(VK_LBUTTON, this) && Stamina > 0)
 				{
 					_Parent->ChangeState(PlayerState::Attack_01);
 					return;
@@ -716,12 +717,14 @@ void Player::Player_State()
 		{
 			Rotation_Check_X = true;
 			MainRenderer->ChangeAnimation("Run");
-			StateValue = PlayerState::Run;
+			StateValue = PlayerState::StaminaCheck;
 		};
 
 
 	NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 		{
+			// 임시 지정 값 
+			Stamina -= _DeltaTime * 10;
 
 			if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SHIFT, this))
 			{
@@ -753,6 +756,8 @@ void Player::Player_State()
 	NewPara.Start = [=](class GameEngineState* _Parent)
 		{
 			MainRenderer->ChangeAnimation("Attack_01");
+			StateValue = PlayerState::StaminaCheck;
+			Stamina -= 15;
 		};
 
 
@@ -795,7 +800,7 @@ void Player::Player_State()
 					return;
 				}
 
-				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 20)
+				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 20 && Stamina > 0)
 				{
 					Attack_Check = false;
 					PlayerStates.ChangeState(PlayerState::Attack_02);
@@ -849,6 +854,8 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Attack_02");
+				StateValue = PlayerState::StaminaCheck;
+				Stamina -= 15;
 			};
 
 
@@ -892,7 +899,7 @@ void Player::Player_State()
 					return;
 				}
 
-				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 20)
+				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 20 && Stamina > 0)
 				{
 
 					Attack_Check = false;
@@ -947,6 +954,8 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Attack_03");
+				StateValue = PlayerState::StaminaCheck;
+				Stamina -= 15;
 			};
 
 
@@ -990,7 +999,7 @@ void Player::Player_State()
 				}
 
 
-				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 20)
+				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 20 && Stamina > 0)
 				{
 					Attack_Check = false;
 					PlayerStates.ChangeState(PlayerState::Attack_04);
@@ -1044,6 +1053,8 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Attack_04");
+				StateValue = PlayerState::StaminaCheck;
+				Stamina -= 15;
 			};
 
 
@@ -1086,7 +1097,7 @@ void Player::Player_State()
 					return;
 				}
 
-				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 30)
+				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 30 && Stamina > 0)
 				{
 					Attack_Check = false;
 					PlayerStates.ChangeState(PlayerState::Attack_01);
@@ -1145,7 +1156,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Portion_Drink_01");
-				Weapon_Actor->Off(); 
+				Weapon_Actor->Getweapon()->Off(); 
 			};
 
 
@@ -1195,7 +1206,7 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-					Weapon_Actor->On();
+					Weapon_Actor->Getweapon()->On();
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
@@ -1211,6 +1222,8 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Roll_Behind");
+				StateValue = PlayerState::StaminaCheck;
+
 			};
 
 
@@ -1267,6 +1280,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Roll_Forward");
+				StateValue = PlayerState::StaminaCheck;
 			};
 
 
@@ -1326,6 +1340,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Roll_Right");
+				StateValue = PlayerState::StaminaCheck;
 			};
 
 
@@ -1379,6 +1394,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Roll_Left");
+				StateValue = PlayerState::StaminaCheck;
 			};
 
 
@@ -1430,6 +1446,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Back_Step");
+				StateValue = PlayerState::StaminaCheck;
 			};
 
 
@@ -1469,6 +1486,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Shield_Idle");
+				StateValue = PlayerState::Shield_Idle;
 				Shield_Col->On();
 			};
 
@@ -1540,6 +1558,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Parrying");
+
 				StateValue = PlayerState::Parrying;
 			};
 
@@ -1852,7 +1871,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				MainRenderer->ChangeAnimation("Hit_Forward");
+				MainRenderer->ChangeAnimation("Hit_Forward",true);
 			};
 
 
@@ -1876,7 +1895,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				MainRenderer->ChangeAnimation("Hit_Behind");
+				MainRenderer->ChangeAnimation("Hit_Behind", true);
 			};
 
 
@@ -1899,7 +1918,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				MainRenderer->ChangeAnimation("Hit_right");
+				MainRenderer->ChangeAnimation("Hit_right", true);
 			};
 
 
@@ -1922,7 +1941,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				MainRenderer->ChangeAnimation("Hit_Left");
+				MainRenderer->ChangeAnimation("Hit_Left", true);
 			};
 
 
@@ -1950,7 +1969,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				MainRenderer->ChangeAnimation("Middle_Hit_Forward");
+				MainRenderer->ChangeAnimation("Middle_Hit_Forward", true);
 			};
 
 
@@ -1974,7 +1993,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				MainRenderer->ChangeAnimation("Middle_Hit_Behind");
+				MainRenderer->ChangeAnimation("Middle_Hit_Behind", true);
 			};
 
 
@@ -1997,7 +2016,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				MainRenderer->ChangeAnimation("Middle_Hit_Right");
+				MainRenderer->ChangeAnimation("Middle_Hit_Right", true);
 			};
 
 
@@ -2020,7 +2039,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				MainRenderer->ChangeAnimation("Middle_Hit_Left");
+				MainRenderer->ChangeAnimation("Middle_Hit_Left", true);
 				Capsule->SetWorldRotation({ 0.0f,degree_X });
 			};
 
@@ -2047,7 +2066,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("String_Hit_Forward");
-				//Capsule->SetWorldRotation({ 0.0f,degree_X });
+				Body_Col->Off(); 
 			};
 
 
@@ -2055,6 +2074,7 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					Body_Col->On(); 
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
@@ -2069,7 +2089,7 @@ void Player::Player_State()
 
 					if (MainRenderer->GetCurAnimationFrame() < 15)
 					{
-						Capsule->MoveForce({ 0.0f,0.0f,-800.0f }, degree_X);
+						Capsule->MoveForce({ 0.0f,0.0f,-600.0f }, degree_X);
 
 					}
 				}
@@ -2077,7 +2097,7 @@ void Player::Player_State()
 				{
 					if (MainRenderer->GetCurAnimationFrame() < 15)
 					{
-						Capsule->MoveForce({ 0.0f,0.0f,-800.0f }, Capsule->GetDir());
+						Capsule->MoveForce({ 0.0f,0.0f,-600.0f }, Capsule->GetDir());
 					}
 				}
 
@@ -2096,6 +2116,7 @@ void Player::Player_State()
 			{
 				// 애니메이션 터짐
 				MainRenderer->ChangeAnimation("String_Hit_Behind");
+				Body_Col->Off();
 			};
 
 
@@ -2103,6 +2124,7 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					Body_Col->On();
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
@@ -2114,7 +2136,7 @@ void Player::Player_State()
 
 					if (MainRenderer->GetCurAnimationFrame() < 15)
 					{
-						Capsule->MoveForce({ 0.0f,0.0f,-700.0f }, degree_X);
+						Capsule->MoveForce({ 0.0f,0.0f,-600.0f }, degree_X);
 
 					}
 				}
@@ -2122,7 +2144,7 @@ void Player::Player_State()
 				{
 					if (MainRenderer->GetCurAnimationFrame() < 15)
 					{
-						Capsule->MoveForce({ 0.0f,0.0f,700.0f }, Capsule->GetDir());
+						Capsule->MoveForce({ 0.0f,0.0f,600.0f }, Capsule->GetDir());
 					}
 				}
 
@@ -2148,8 +2170,16 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-					PlayerStates.ChangeState(PlayerState::ladder_Up_Left);
-					return;
+					
+					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
+
+					if (GameEngineInput::IsPress('W', this))
+					{
+						PlayerStates.ChangeState(PlayerState::ladder_Up_Left);
+						return;
+					}
+
+					
 				}
 			};
 
@@ -2177,10 +2207,20 @@ void Player::Player_State()
 
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-					
+					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
+
+					if (GameEngineInput::IsPress('W', this))
+					{
 						PlayerStates.ChangeState(PlayerState::ladder_Up_Right);
 						return;
-									
+					}
+
+					if (GameEngineInput::IsPress('S', this))
+					{
+						PlayerStates.ChangeState(PlayerState::ladder_Down_Right);
+						return;
+					}
+					
 				}
 				
 
@@ -2208,8 +2248,21 @@ void Player::Player_State()
 
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
+
+					if (GameEngineInput::IsPress('W', this))
+					{
 						PlayerStates.ChangeState(PlayerState::ladder_Up_Left);
 						return;
+					}	
+
+					if (GameEngineInput::IsPress('S', this))
+					{
+						PlayerStates.ChangeState(PlayerState::ladder_Down_Left);
+						return;
+					}
+
+
 				}
 				
 
@@ -2232,6 +2285,8 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{		
+					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
+
 					Capsule->GravityOn();
 					Rabber_Collision_Check = false;
 					PlayerStates.ChangeState(PlayerState::Idle);
@@ -2258,6 +2313,8 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
+
 					Capsule->GravityOn();
 					Rabber_Collision_Check = false;;
 					PlayerStates.ChangeState(PlayerState::Idle);
@@ -2276,7 +2333,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("ladder_Down_Start");
-				
+				Capsule->GravityOff();
 			};
 
 
@@ -2284,8 +2341,11 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
+
 					PlayerStates.ChangeState(PlayerState::ladder_Down_Left);
 					return;
+					
 				}
 			};
 
@@ -2299,6 +2359,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("ladder_Down_Left");
+
 			};
 
 
@@ -2311,8 +2372,20 @@ void Player::Player_State()
 				}
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-					PlayerStates.ChangeState(PlayerState::ladder_Down_Right);
-					return;
+					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
+
+
+
+					if (GameEngineInput::IsPress('W', this))
+					{
+						PlayerStates.ChangeState(PlayerState::ladder_Up_Right);
+						return;
+					}
+					if (GameEngineInput::IsPress('S', this))
+					{
+						PlayerStates.ChangeState(PlayerState::ladder_Down_Right);
+						return;
+					}
 				}
 
 
@@ -2345,8 +2418,18 @@ void Player::Player_State()
 
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-					PlayerStates.ChangeState(PlayerState::ladder_Down_Left);
-					return;
+					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
+
+					if (GameEngineInput::IsPress('W', this))
+					{
+						PlayerStates.ChangeState(PlayerState::ladder_Up_Left);
+						return;
+					}
+					if (GameEngineInput::IsPress('S', this))
+					{
+						PlayerStates.ChangeState(PlayerState::ladder_Down_Left);
+						return;
+					}
 				}
 			};
 
@@ -2367,6 +2450,8 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
+
 					Capsule->GravityOn();
 					Rabber_Collision_Check = false;
 					PlayerStates.ChangeState(PlayerState::Idle);
@@ -2393,6 +2478,8 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
+
 					Capsule->GravityOn();
 					Rabber_Collision_Check = false; 
 					PlayerStates.ChangeState(PlayerState::Idle);
@@ -2428,7 +2515,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Weak_Shield_block");
-				StateValue = PlayerState::Weak_Shield_block; 
+				StateValue = PlayerState::StaminaCheck;
 
 				Shield_Col->On(); 
 			};
@@ -2439,6 +2526,7 @@ void Player::Player_State()
 				if (MainRenderer->IsCurAnimationEnd())
 				{
 					//Shield_Col->Off();
+					
 					PlayerStates.ChangeState(PlayerState::Shield_Idle);
 					return;
 				};
@@ -2446,6 +2534,7 @@ void Player::Player_State()
 				if (GameEngineInput::IsUp(VK_RBUTTON, this))
 				{
 					Shield_Col->Off();
+					Body_Col->On(); 
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return; 
 				}
@@ -2462,7 +2551,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Middle_Shield_block");
-				StateValue = PlayerState::Middle_Shield_block;
+				StateValue = PlayerState::StaminaCheck;
 				Shield_Col->On();
 			};
 
@@ -2480,6 +2569,7 @@ void Player::Player_State()
 				if (GameEngineInput::IsUp(VK_RBUTTON, this))
 				{
 					Shield_Col->Off();
+					Body_Col->On();
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
@@ -2495,7 +2585,7 @@ void Player::Player_State()
 			{
 				Shield_Col->On();
 				MainRenderer->ChangeAnimation("Big_Shield_block");
-				StateValue = PlayerState::Big_Shield_block;
+				StateValue = PlayerState::StaminaCheck;
 
 			};
 
@@ -2504,13 +2594,13 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-					//Shield_Col->Off();
 					PlayerStates.ChangeState(PlayerState::Shield_Idle);
 					return;
 				};
 
 				if (GameEngineInput::IsUp(VK_RBUTTON, this))
 				{
+					Body_Col->On();
 					Shield_Col->Off();
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
@@ -2528,7 +2618,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				
-				MainRenderer->ChangeAnimation("Parring_Attack");
+				MainRenderer->ChangeAnimation("Parry_Attack");
 			};
 
 
@@ -2550,7 +2640,62 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				
 				MainRenderer->ChangeAnimation("Attack_Block");
+
+			};
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					Sword.ResetRecord();
+					SetFlag(Enum_ActorFlag::Block_Shield, false);
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::Attack_Block, NewPara);
+
+
+	}
+
+
+	{
+
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Sit_Down");
+			};
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					if (GameEngineInput::IsDown('W',this))
+					{
+						PlayerStates.ChangeState(PlayerState::Stand_Up);
+						return;
+					}
+				}
+				
+			};
+
+		PlayerStates.CreateState(PlayerState::Sit_Down, NewPara);
+
+
+	}
+
+	{
+
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Stand_Up");
 			};
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
@@ -2562,10 +2707,80 @@ void Player::Player_State()
 				}
 			};
 
-		PlayerStates.CreateState(PlayerState::Attack_Block, NewPara);
+		PlayerStates.CreateState(PlayerState::Stand_Up, NewPara);
 
 
 	}
+
+	{
+
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Stand_Up");
+			};
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::Stand_Up, NewPara);
+
+
+	}
+
+	{
+
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Fail");
+				testaaa = false;
+			};
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (testaaa == true)
+				{
+					PlayerStates.ChangeState(PlayerState::landing);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::fail, NewPara);
+	}
+
+	{
+
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("landing");
+				testaaa = false;
+			};
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::landing, NewPara);
+	}
+
+
+
 
 	PlayerStates.ChangeState(PlayerState::Idle);
 

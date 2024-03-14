@@ -761,6 +761,8 @@ void GameEngineDevice::ResourcesInit()
 		Mat->SetRasterizer("EngineRasterizer");
 	}
 
+	
+
 	{
 		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FadePostEffect");
 		Mat->SetVertexShader("FadePostEffect_VS");
@@ -773,6 +775,14 @@ void GameEngineDevice::ResourcesInit()
 		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("BlurPostEffect");
 		Mat->SetVertexShader("BlurPostEffect_VS");
 		Mat->SetPixelShader("BlurPostEffect_PS");
+		Mat->SetDepthState("AlwaysDepth");
+		Mat->SetRasterizer("EngineRasterizer");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("DepthOfField");
+		Mat->SetVertexShader("DepthOfField_VS");
+		Mat->SetPixelShader("DepthOfField_PS");
 		Mat->SetDepthState("AlwaysDepth");
 		Mat->SetRasterizer("EngineRasterizer");
 	}

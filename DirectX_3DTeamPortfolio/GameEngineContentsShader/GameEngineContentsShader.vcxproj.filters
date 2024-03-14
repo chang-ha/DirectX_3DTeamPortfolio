@@ -90,6 +90,7 @@
     <FxCompile Include="Fog.fx">
       <Filter>PostEffect</Filter>
     </FxCompile>
+    <FxCompile Include="TargetMergeShadow.fx" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BloomCombine.fx">

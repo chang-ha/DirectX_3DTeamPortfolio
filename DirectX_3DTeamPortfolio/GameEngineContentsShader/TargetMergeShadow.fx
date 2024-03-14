@@ -1,10 +1,3 @@
-//cbuffer MergeInfo : register(b11)
-//{
-//    int MergeTargetCount = 0;
-//    int def1 = 0;
-//    int def2 = 0;
-//    int def3 = 0;
-//};
 
 struct GameEngineVertex2D
 {
@@ -20,7 +13,7 @@ struct PixelOutPut
     float4 TEXCOORD : TEXCOORD;
 };
 
-PixelOutPut TargetMerge_VS(GameEngineVertex2D _Input)
+PixelOutPut TargetMergeShadow_VS(GameEngineVertex2D _Input)
 {
     PixelOutPut Result = (PixelOutPut) 0;
     Result.POSITION = _Input.POSITION;
@@ -33,11 +26,11 @@ SamplerState DiffuseTexSampler : register(s0);
 
 struct PSOutPut
 {
-    float4 Target0 : SV_Target0;
+    float4 Target : SV_Target3;
     
 };
 
-PSOutPut TargetMerge_PS(PixelOutPut _Input)
+PSOutPut TargetMergeShadow_PS(PixelOutPut _Input)
 {
     PSOutPut OutPut = (PSOutPut) 0;
     
@@ -64,7 +57,7 @@ PSOutPut TargetMerge_PS(PixelOutPut _Input)
     }
     
    
-    OutPut.Target0 = Color;
+    OutPut.Target = Color;
     
     
   
