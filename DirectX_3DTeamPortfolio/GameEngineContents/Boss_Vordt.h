@@ -1,6 +1,6 @@
 #pragma once
 #include "BaseActor.h"
-#include "Boss_HitInteraction.h"
+#include "Monster_HitInteraction.h"
 // Ό³Έν :
 class Boss_State_GUI : public GameEngineGUIWindow
 {
@@ -146,13 +146,13 @@ private:
 	// HitCollision
 	std::shared_ptr<BoneSocketCollision> BossCollision;
 	// AttackCollision
-	Boss_HitInteraction mBodyHitInteraction;
+	Monster_HitInteraction mBodyHitInteraction;
 	std::shared_ptr<BoneSocketCollision> BodyCollision;
-	Boss_HitInteraction mHeadHitInteraction;
+	Monster_HitInteraction mHeadHitInteraction;
 	std::shared_ptr<BoneSocketCollision> HeadCollision;
-	Boss_HitInteraction mWeaponHitInteraction;
+	Monster_HitInteraction mWeaponHitInteraction;
 	std::shared_ptr<BoneSocketCollision> WeaponCollision;
-	Boss_HitInteraction mHandHitInteraction;
+	Monster_HitInteraction mHandHitInteraction;
 	std::shared_ptr<BoneSocketCollision> R_HandCollision;
 
 	void CollisionUpdate();

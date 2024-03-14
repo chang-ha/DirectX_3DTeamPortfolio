@@ -16,6 +16,7 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	{
 		return;
 	}
+
 	ImGui::NewLine();
 
 	if (true == ImGui::Checkbox("Awake", &Linked_Boss->IsAwake))
@@ -412,15 +413,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->SetAllRootMotionMoveRatio(1.f, 1.f, 1.f);
 	}
 
-	//// Boss Collision
-	{
-		// BossCollision->SetCollisionType(ColType::SPHERE3D);
-		// BossCollision->Transform.SetLocalPosition({ 0.0f, 0.f, 0.0f });
-		// BossCollision->Transform.SetLocalScale({ 1.0f, 1.0f, 1.0f });
-	}
-
-	// physx::PxMaterial* Material = GameEnginePhysX::GetPhysics()->createMaterial(3.0f, 0.0f, 0.0f);;
-	Capsule->PhysXComponentInit(320.0f, 5.0f/*, Material*/);
+	Capsule->PhysXComponentInit(320.0f, 5.0f);
 	Capsule->SetPositioningComponent();
 
 	if (nullptr == GameEngineGUI::FindGUIWindow<Boss_State_GUI>("Boss_State"))
