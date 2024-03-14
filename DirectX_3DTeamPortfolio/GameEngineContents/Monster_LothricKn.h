@@ -409,6 +409,7 @@ private:
 	void AttackDone(eAttackType _eBoneType);
 
 private:
+	std::shared_ptr<GameEngineCollision> MonsterCollision;
 	std::shared_ptr<GameEngineCollision> PatrolCollision;
 	Monster_HitInteraction Sword;
 	Monster_HitInteraction Shield;
