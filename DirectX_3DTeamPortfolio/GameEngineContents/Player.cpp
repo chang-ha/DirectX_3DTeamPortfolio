@@ -32,7 +32,7 @@ void Player::Start()
 	GameEngineInput::AddInputObject(this);
 
 	
-	Capsule = CreateComponent<GameEnginePhysXCapsule>();
+	Capsule = CreateComponent<GameEnginePhysXCapsule>(Enum_CollisionOrder::Player);
 	
 	Cameracapsule = GetLevel()->CreateActor<CameraCapsule>(0,"Camera");
 
@@ -765,7 +765,19 @@ void Player::Update(float _Delta)
 	Delta_Time = _Delta;
 	Time += _Delta;
 
-	
+	if (GameEngineInput::IsDown(VK_F1, this))
+	{
+		Cameratest = !Cameratest;
+	}
+
+	if (true == Cameratest)
+	{
+		int a = 0;
+	}
+	else if (false == Cameratest)
+	{
+		CameraRotation(_Delta);
+	}
 
 
 	// 충돌 
@@ -800,6 +812,14 @@ void Player::Update(float _Delta)
 		Stat.SetPoise(100);
 	}
 
+	if (StateValue != PlayerState::StaminaCheck || StateValue != PlayerState::Parrying)
+	{
+		if (Stamina <= 100)
+		{
+			Stamina += _Delta * 50;
+		}
+	}
+
 	
 	// 디버그용 
 	if (GameEngineInput::IsPress('N', this))
@@ -818,19 +838,7 @@ void Player::Update(float _Delta)
 	OutputDebugStringA(WorldMousePos2.ToString("\n").c_str());
 	OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
 
-	if (GameEngineInput::IsDown(VK_F1, this))
-	{
-		Cameratest = !Cameratest;
-	}
-
-	if (true == Cameratest)
-	{
-		int a = 0;
-	}
-	else if (false == Cameratest)
-	{
-		CameraRotation(_Delta);
-	}
+	
 
 
 	// 무기 방패 트랜스폼 
@@ -848,7 +856,10 @@ void Player::Update(float _Delta)
 	}
 
 
-
+	if (Capsule->GetLinearVelocity_f().Y <= -1200)
+	{
+		PlayerStates.ChangeState(PlayerState::fail);
+	}
 
 
 	
@@ -1065,7 +1076,7 @@ void Player::CameraRotation(float Delta)
 
 		Camera_Pos_Y -= Lerp.Y *10;
 
-		if (Camera_Pos_Y <= -40)
+		if (Camera_Pos_Y <= -50)
 		{
 			Camera_Pos_Y += Lerp.Y * 10;
 		}
@@ -1292,6 +1303,7 @@ bool Player::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 		pAttacker->SetFlag(Enum_ActorFlag::Break_Posture, true);
 		return true;
 	}
+	
 
 	if (StateValue == PlayerState::Shield_Idle)
 	{

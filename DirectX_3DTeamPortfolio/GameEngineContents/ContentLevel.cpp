@@ -141,7 +141,15 @@ void ContentsCollisionCallBack::onContact(const physx::PxContactPairHeader& pair
 			}
 		}
 		
+		if (thisFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Player))
+		{
+			if ((CollisionFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Map)))
+			{
+				
 
+				Player::Main_Player->testaaa = true;
+			}
+		}
 	}
 
 
