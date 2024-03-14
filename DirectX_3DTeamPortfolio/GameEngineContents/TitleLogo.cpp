@@ -13,20 +13,25 @@ TitleLogo::~TitleLogo()
 
 void TitleLogo::Start()
 {
+	
+	float4 WindowScale = GameEngineCore::MainWindow.GetScale();
+
 	BanDaiNamco_Logo = CreateComponent<GameEngineSpriteRenderer>();
 	BanDaiNamco_Logo->SetSprite("BanDaiNaco_Logo.Png");
+	BanDaiNamco_Logo->SetImageScale({ WindowScale.X , WindowScale.Y });
 	BanDaiNamco_Logo->Transform.SetLocalPosition({ 0.0f, 0.0f, 500.0f });
 	BanDaiNamco_Logo->On();
 
 	FromSoft_Logo = CreateComponent<GameEngineSpriteRenderer>();
 	FromSoft_Logo->SetSprite("FromSoftLogo.Png");
+	FromSoft_Logo->SetImageScale({ 1024, 1024 });
 	FromSoft_Logo->Transform.SetLocalPosition({ 0.0f, 0.0f, 300.0f });
 	FromSoft_Logo->GetColorData().MulColor.A = 0.0f;
 
 	DarkSouls_Logo = CreateComponent<GameEngineSpriteRenderer>();
 	DarkSouls_Logo->SetSprite("DarkSoulsLogo.Png");
 	DarkSouls_Logo->AutoSpriteSizeOn();
-	DarkSouls_Logo->Transform.SetLocalPosition({ 0.0f, 0.0f, 500.0f });
+	DarkSouls_Logo->Transform.SetLocalPosition({ 0.0f, 50.0f, 500.0f });
 	DarkSouls_Logo->GetColorData().MulColor.A = 0.0f;
 
 	Inc_Logo = CreateComponent<GameEngineSpriteRenderer>();

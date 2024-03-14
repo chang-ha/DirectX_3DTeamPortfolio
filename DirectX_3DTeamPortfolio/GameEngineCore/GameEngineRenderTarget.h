@@ -85,6 +85,9 @@ public:
 	}
 
 	void Clear();
+
+	void Clear(int _num);
+
 	void Setting();
 
 	void CreateDepthTexture(int _Index = 0);

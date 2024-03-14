@@ -924,7 +924,7 @@ void Player::Update(float _Delta)
 			{
 				if (MonsterAngle <= 180)
 				{
-					MonsterAngles.push_back(i);
+					MonsterAngles.push_back(static_cast<int>(i));
 
 				}
 			}
@@ -932,13 +932,13 @@ void Player::Update(float _Delta)
 			{
 				if (MonsterAngle < -135)
 				{
-					MonsterAngles.push_back(i);
+					MonsterAngles.push_back(static_cast<int>(i));
 				}
 			}
 
 		}
 
-		for (size_t i = 0; i < MonsterAngles.size(); i++)
+		for (int i = 0; i < static_cast<int>(MonsterAngles.size()); i++)
 		{
 			float Check = abs(Transform.GetWorldPosition().Z -Monster_Actor[MonsterAngles[i]]->Transform.GetWorldPosition().Z);
 

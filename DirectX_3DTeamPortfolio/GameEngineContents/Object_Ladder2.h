@@ -23,6 +23,6 @@ private:
 	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer;
 	std::shared_ptr<GameEngineCollision> CollisionTop;
 	std::shared_ptr<GameEngineCollision> CollisionBottom;
-	
+	std::shared_ptr<GameEngineCollision> CollisionBody;
 };
 

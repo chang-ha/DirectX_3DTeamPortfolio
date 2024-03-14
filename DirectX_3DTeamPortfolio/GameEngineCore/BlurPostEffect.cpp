@@ -31,5 +31,6 @@ void BlurPostEffect::EffectProcess(float _DeltaTime)
 	ResultTarget->Setting();
 	EffectUnit.Render();
 	EffectUnit.ShaderResHelper.AllShaderResourcesReset();
+	EffectTarget->Clear(3);
 	EffectTarget->Merge(3, ResultTarget, 0);
 }

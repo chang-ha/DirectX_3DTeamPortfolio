@@ -35,7 +35,10 @@ enum class Enum_Hollow_State
 	Turn_Right_Twice1,
 	AttackFail,
 	Parrying,
-	Hit,
+	Hit_Front,
+	Hit_Back,
+	Hit_Left,
+	Hit_Right,
 	HitToDeath,
 	BackAttackHit,
 	Death,
@@ -97,9 +100,14 @@ protected:
 
 	void ChangeAttackState();
 
+	void ChangeHitState();
+
 	void CheckAwake();
 
 	void NonFindTarget(float _Delta);
+
+	std::shared_ptr<GameEngineCollision> SwordCollision;
+	Monster_HitInteraction Sword;
 
 protected:
 	// State Function
@@ -187,8 +195,17 @@ protected:
 	void State_Parrying_Start();
 	void State_Parrying_Update(float _Delta);
 
-	void State_Hit_Start();
-	void State_Hit_Update(float _Delta);
+	void State_Hit_Front_Start();
+	void State_Hit_Front_Update(float _Delta);
+
+	void State_Hit_Back_Start();
+	void State_Hit_Back_Update(float _Delta);
+
+	void State_Hit_Left_Start();
+	void State_Hit_Left_Update(float _Delta);
+
+	void State_Hit_Right_Start();
+	void State_Hit_Right_Update(float _Delta);
 
 	void State_HitToDeath_Start();
 	void State_HitToDeath_Update(float _Delta);

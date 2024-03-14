@@ -44,7 +44,10 @@ enum class Enum_HollowSoldier_Spear_State
 	GuardBreak,		// 창병 애니메이션 따로 존재함.
 	AttackFail,
 	Parrying,
-	Hit,
+	Hit_Front,
+	Hit_Back,
+	Hit_Left,
+	Hit_Right,
 	HitToDeath,
 	BackAttackHit,
 	Death,
@@ -89,6 +92,13 @@ protected:
 	void StateUpdate(float _Delta);
 
 	void ChangeAttackState();
+
+	void ChangeHitState();
+
+	std::shared_ptr<GameEngineCollision> ShieldCollision;
+
+	std::shared_ptr<GameEngineCollision> SpearCollision;
+	Monster_HitInteraction Spear;
 
 protected:
 	// State Function
@@ -216,8 +226,17 @@ protected:
 	void State_Parrying_Start();
 	void State_Parrying_Update(float _Delta);
 
-	void State_Hit_Start();
-	void State_Hit_Update(float _Delta);
+	void State_Hit_Front_Start();
+	void State_Hit_Front_Update(float _Delta);
+
+	void State_Hit_Back_Start();
+	void State_Hit_Back_Update(float _Delta);
+
+	void State_Hit_Left_Start();
+	void State_Hit_Left_Update(float _Delta);
+
+	void State_Hit_Right_Start();
+	void State_Hit_Right_Update(float _Delta);
 
 	void State_HitToDeath_Start();
 	void State_HitToDeath_Update(float _Delta);

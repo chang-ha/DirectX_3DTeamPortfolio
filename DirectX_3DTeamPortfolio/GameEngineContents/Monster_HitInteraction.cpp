@@ -37,10 +37,14 @@ void Monster_HitInteraction::CollisionToBody(Enum_CollisionOrder _Order, int _iS
 					continue;
 				}
 
-				const float4 ColPos = pCollision->Transform.GetWorldPosition();
-				const float4 OtherPos = pCol->Transform.GetWorldPosition();
-				const float4 DirVector = ColPos - OtherPos;
-				Enum_DirectionXZ_Quat eDir = ContentsMath::ReturnXZDirectionToVector(DirVector);
+				const float4 Bullet_WPos = pCollision->Transform.GetWorldPosition();
+				const float4 Other_WPos = pActor->Transform.GetWorldPosition();
+				const float4 DirVec = Other_WPos - Bullet_WPos;
+
+				const float4 Other_WRot = pActor->Transform.GetWorldRotationEuler();
+				const float4 Other_Forward = float4::VectorRotationToDegY(float4::FORWARD, Other_WRot.Y);
+
+				const Enum_DirectionXZ_Quat eDir = ContentsMath::ReturnXZDirectionToVector(Other_Forward, DirVec);
 
 				pActor->GetHit({ pParent, _iStiffness, eDir });
 				RecordCollision(pActor.get());
@@ -81,5 +85,14 @@ void Monster_HitInteraction::CollisionToShield(Enum_CollisionOrder _Order, int _
 			}
 		};
 
-	pCollision->Collision(_Order, ColEvent);
+	// pCollision->Collision(_Order, ColEvent);
+
+	if (true == pCollision->Collision(_Order, ColEvent))
+	{
+		Block = true;
+	}
+	else
+	{
+		Block = false;
+	}
 }

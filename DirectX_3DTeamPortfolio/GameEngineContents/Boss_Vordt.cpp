@@ -409,7 +409,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->SetRootMotion("Rush&Hit&Turn", "", Enum_RootMotionMode::RealTimeDir);
 		MainRenderer->SetRootMotion("Rush&Hit&Turn&Rush", "", Enum_RootMotionMode::RealTimeDir); // 
 
-		MainRenderer->SetAllRootMotionMoveRatio(2.f, 2.f, 2.f);
+		MainRenderer->SetAllRootMotionMoveRatio(1.f, 1.f, 1.f);
 	}
 
 	//// Boss Collision
@@ -421,7 +421,6 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 	// physx::PxMaterial* Material = GameEnginePhysX::GetPhysics()->createMaterial(3.0f, 0.0f, 0.0f);;
 	Capsule->PhysXComponentInit(320.0f, 5.0f/*, Material*/);
-	// Capsule->SetMass(10000000.f);
 	Capsule->SetPositioningComponent();
 
 	if (nullptr == GameEngineGUI::FindGUIWindow<Boss_State_GUI>("Boss_State"))
@@ -453,11 +452,11 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	BSCol_TransitionParameter ColParameter;
 	if (nullptr == BossCollision)
 	{
-		ColParameter.S = float4(300.f, 300.f, 300.f);
+		ColParameter.S = float4(500.f, 500.f, 500.f);
 		ColParameter.R = float4(0.f);
 		ColParameter.T = float4(0.f, 0.f, 0.f);
 
-		BossCollision = CreateSocketCollision(Enum_CollisionOrder::Monster, 21, ColParameter, "Hit_Collision");
+		BossCollision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 21, ColParameter, "Hit_Collision");
 		BossCollision->SetCollisionType(ColType::SPHERE3D);
 		BossCollision->On();
 	}
@@ -471,6 +470,11 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		WeaponCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 47, ColParameter, "Weapon");
 		WeaponCollision->SetCollisionType(ColType::OBBBOX3D);
 	}
+	WeaponCollision->Collision(Enum_CollisionOrder::Player_Shield, [&](std::vector<GameEngineCollision*> _Collisions)
+		{
+
+		}
+	);
 
 	if (nullptr == BodyCollision)
 	{
@@ -545,7 +549,11 @@ void Boss_Vordt::Update(float _Delta)
 	if (true == GameEngineInput::IsDown('B', this))
 	{
 		Capsule->CollisionOff();
-		Capsule->ResetMove(Enum_Axies::All);
+	}
+
+	if (true == GameEngineInput::IsDown('V', this))
+	{
+		Capsule->CollisionOn();
 	}
 
 	if (true == GameEngineInput::IsDown('M', this))
@@ -569,6 +577,12 @@ void Boss_Vordt::Update(float _Delta)
 	if (BOSS_HP * 0.5f > CurHp)
 	{
 		mBoss_Phase = Enum_Boss_Phase::Phase_2;
+	}
+
+	if (true == WeaponCollision->IsUpdate())
+	{
+		mHitInteraction.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+		mHitInteraction.CollisionToBody(Enum_CollisionOrder::Player_Body);
 	}
 }
 

@@ -72,51 +72,45 @@ float4 ContentsMath::GetVector3Length(const float4& _V)
 
 float ContentsMath::DotNormalizeReturnDeg(float _Dot)
 {
-	const float QuatCircleDeg = CIRCLE * 0.25f;
+	const float QuatCircleDeg = CIRCLE * 0.5f;
 	return (_Dot + 1.0f) * 0.5f * QuatCircleDeg;
 }
 
-Enum_DirectionXZ_Quat ContentsMath::ReturnXZDirectionToVector(const float4& _V)
+Enum_DirectionXZ_Quat ContentsMath::ReturnXZDirectionToVector(const float4& _V1, const float4& _V2)
 {
-	float4 DirVector = _V;
-	DirVector.Y = 0.0f;
-	DirVector.Normalize();
-	const float DotResult = float4::DotProduct3D(float4::FORWARD, DirVector);
-	const float Quater = CIRCLE * 0.25f;
+	float4 V1 = _V1;
+	float4 V2 = _V2;
+	V1.Y = 0.0f;
+	V2.Y = 0.0f;
+	V1.Normalize();
+	V2.Normalize();
+
 	const float Eighth = CIRCLE * 0.125f;
-	float Angle = (DotResult + 1.0f) * Quater;
+	const float DotResult = float4::DotProduct3D(V1, V2);
+	float Angle = DotNormalizeReturnDeg(DotResult);
 
-	if (DirVector.X > 0.0f)
-	{
-		Angle = CIRCLE - Angle;
-	}
-
-	if (Angle <= Eighth || Angle > Eighth * 7.0f)
-	{
-		return Enum_DirectionXZ_Quat::F;
-	}
-
-	int i = 1;
-	float CheckAngle = Eighth;
-
-	for (; i < 4; i++)
-	{
-		CheckAngle += Eighth * 2.0f;
-		if (Angle < CheckAngle)
-		{
-			break;
-		}
-	}
-
-	Enum_DirectionXZ_Quat ReturnValue = static_cast<Enum_DirectionXZ_Quat>(i);
-
-	if (false)
+	if (true)
 	{
 		ContentsDebug::DebugOuput(DotResult, "DotResult");
 		ContentsDebug::DebugOuput(Angle, "Angle");
-		ContentsDebug::DebugOuput(i, "eDir");
 	}
-	return ReturnValue;
+
+	if (Angle < Eighth)
+	{
+		return Enum_DirectionXZ_Quat::F;
+	}
+	else if (Angle >= Eighth * 3.0f)
+	{
+		return Enum_DirectionXZ_Quat::B;
+	}
+
+	const float4 Cross = float4::Cross3D(V1, V2);
+	if (Cross.Y < 0.0f)
+	{
+		return Enum_DirectionXZ_Quat::L;
+	}
+
+	return Enum_DirectionXZ_Quat::R;
 }
 
 float ContentsMath::ClampDeg(float _D)

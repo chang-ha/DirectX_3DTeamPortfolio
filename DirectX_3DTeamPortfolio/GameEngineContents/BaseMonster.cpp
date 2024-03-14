@@ -246,10 +246,11 @@ bool BaseMonster::BackStabCheck(const float4& _WPos, float _RotY) const
 	const float Dist = ContentsMath::GetVector3Length(VectorToOther).X;
 	const float Dot = float4::DotProduct3D(MyXZDirVector, OtherXZDirVector);
 	const float Deg = ContentsMath::DotNormalizeReturnDeg(Dot);
-	const float BackStabAngle = CIRCLE - STAB_ANGLE;
+	const float SemiCircle = CIRCLE * 0.5f;
+	const float BackStabAngle = SemiCircle - STAB_ANGLE;
 
 	bool RangeCheck = (Dist < STAB_RECOGNITION_RANGE * W_SCALE);
-	bool DirCheck = (Dot > BackStabAngle);
+	bool DirCheck = (Deg > BackStabAngle);
 	return (RangeCheck && DirCheck);
 }
 

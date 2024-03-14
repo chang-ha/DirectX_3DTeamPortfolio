@@ -283,11 +283,9 @@ void Monster_LothricKn::Start()
 	Stat.SetHp(326); // Official Hp
 	Stat.SetAtt(1);
 
-	const float AttackSize = 1.0f * W_SCALE;
-	const float BodySize = 1.0f * W_SCALE;
+	// Collision
 	const float PatrolSize = 5.0f * W_SCALE;
 
-	// Collision
 	std::shared_ptr<GameEngineCollision> SwordCol = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, eBoneType::Sword, { float4(22,16,140), float4::ZERONULL, float4(0,0, 0.9f) }, "Sword");
 	std::shared_ptr<GameEngineCollision> ShieldCol = CreateSocketCollision(Enum_CollisionOrder::Monster_Shield, eBoneType::Shield, { float4(16,123,52), float4::ZERONULL, float4(0.04f, 0.24f, -0.2f) }, "Shield");
 	CreateSocketCollision(Enum_CollisionOrder::Monster_Body, eBoneType::Spine2, { float4(65,65,25) }, "Spine2");
@@ -321,6 +319,10 @@ void Monster_LothricKn::Start()
 	Sword.On();
 	Shield.Init(this, ShieldCol.get());
 	Shield.On();
+
+	MonsterCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster);
+	MonsterCollision->SetCollisionType(ColType::SPHERE3D);
+	MonsterCollision->SetCollisionColor(float4::GREEN);
 
 	PatrolCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
 	PatrolCollision->Transform.SetWorldScale(float4(PatrolSize, PatrolSize, PatrolSize));

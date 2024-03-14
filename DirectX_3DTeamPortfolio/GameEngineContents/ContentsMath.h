@@ -49,7 +49,7 @@ public:
 	static float4 GetVector3Length(const float4& _V);
 	static float DotNormalizeReturnDeg(float _Dot);
 
-	static Enum_DirectionXZ_Quat ReturnXZDirectionToVector(const float4& _V);
+	static Enum_DirectionXZ_Quat ReturnXZDirectionToVector(const float4& _V1, const float4& _V2);
 
 
 protected:

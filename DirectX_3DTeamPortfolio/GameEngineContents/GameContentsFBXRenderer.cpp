@@ -281,7 +281,7 @@ void GameContentsFBXAnimationInfo::Release()
 
 void GameContentsFBXAnimationInfo::SetBlendTime(float _Value)
 {
-	float TotalTime = Inter* (End + 1);
+	float TotalTime = Inter* static_cast<int>(End + 1);
 	if (TotalTime < _Value)
 	{
 		BlendIn = TotalTime;

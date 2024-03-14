@@ -379,6 +379,10 @@
     <ClCompile Include="Object_StartDoor.cpp">
       <Filter>Object\Door</Filter>
     </ClCompile>
+    <ClCompile Include="DummyNode.cpp" />
+    <ClCompile Include="Boss_HitInteraction.cpp">
+      <Filter>Actor\Monster\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -752,6 +756,10 @@
     </ClInclude>
     <ClInclude Include="Object_StartDoor.h">
       <Filter>Object\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyNode.h" />
+    <ClInclude Include="Boss_HitInteraction.h">
+      <Filter>Actor\Monster\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

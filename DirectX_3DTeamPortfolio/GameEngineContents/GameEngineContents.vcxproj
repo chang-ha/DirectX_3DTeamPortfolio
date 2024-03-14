@@ -209,12 +209,20 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Boss_HitInteraction.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Boss_Vordt_State.cpp" />
     <ClCompile Include="BaseMonster.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="CameraCapsule.cpp" />
+    <ClCompile Include="DummyNode.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="LothricKn_Debug.cpp">
       <SubType>
       </SubType>
@@ -547,7 +555,15 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BossHpBar.h" />
+    <ClInclude Include="Boss_HitInteraction.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="CameraCapsule.h" />
+    <ClInclude Include="DummyNode.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="LothricKn_Debug.h">
       <SubType>
       </SubType>
