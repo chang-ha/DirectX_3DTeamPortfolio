@@ -1274,7 +1274,7 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 	Stat.AddPoise(-Stiffness);
 	Stat.AddHp(-AttackerAtt);
 
-	Hp =  Stat.GetHp()
+	Hp = Stat.GetHp();
 
 
 	return true;
