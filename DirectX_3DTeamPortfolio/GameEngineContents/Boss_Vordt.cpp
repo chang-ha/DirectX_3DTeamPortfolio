@@ -629,6 +629,27 @@ void Boss_Vordt::Release()
 	BaseActor::Release();
 }
 
+bool Boss_Vordt::GetHit(const HitParameter& _Para /*= HitParameter()*/)
+{
+	if (nullptr == _Para.pAttacker)
+	{
+		MsgBoxAssert("공격자를 모르고 사용할 수 없는 기능입니다.");
+		return false;
+	}
+
+	if (true == Hit.IsHit())
+	{
+		return false;
+	}
+
+	BaseActor* CurAttacker = _Para.pAttacker;
+}
+
+bool Boss_Vordt::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
+{
+
+}
+
 void Boss_Vordt::TargetStateUpdate()
 {
 	if (false == IsTargeting())
