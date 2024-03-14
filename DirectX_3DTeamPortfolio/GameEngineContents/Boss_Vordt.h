@@ -146,12 +146,16 @@ private:
 	// HitCollision
 	std::shared_ptr<BoneSocketCollision> BossCollision;
 	// AttackCollision
+	Boss_HitInteraction mBodyHitInteraction;
 	std::shared_ptr<BoneSocketCollision> BodyCollision;
+	Boss_HitInteraction mHeadHitInteraction;
 	std::shared_ptr<BoneSocketCollision> HeadCollision;
+	Boss_HitInteraction mWeaponHitInteraction;
 	std::shared_ptr<BoneSocketCollision> WeaponCollision;
+	Boss_HitInteraction mHandHitInteraction;
 	std::shared_ptr<BoneSocketCollision> R_HandCollision;
 
-	Boss_HitInteraction mHitInteraction;
+	void CollisionUpdate();
 
 	std::shared_ptr<Boss_State_GUI> GUI = nullptr;
 
