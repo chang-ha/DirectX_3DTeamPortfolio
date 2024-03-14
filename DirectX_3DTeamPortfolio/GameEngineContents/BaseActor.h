@@ -241,6 +241,12 @@ public:
 		Capsule->Off();
 	}
 
+	void OnOffSwitch() override
+	{
+		GameEngineActor::OnOffSwitch();
+		IsUpdate() ? Capsule->On() : Capsule->Off();
+	}
+
 	void SetWorldPosition(const float4& _Pos);
 	void SetWorldRotation(const float4& _Rot);
 
