@@ -42,6 +42,12 @@ void GameEnginePhysXComponent::Update(float _Delta)
 
 void GameEnginePhysXComponent::Release()
 {
+	if (nullptr != Shape)
+	{
+		Shape->release();
+		Shape = nullptr;
+	}
+
 	if (nullptr != ComponentActor)
 	{
 		ComponentActor->release();
@@ -230,3 +236,59 @@ void GameEnginePhysXComponent::SetFiltering(int _MyCollisionOrder, int _Target1C
 	free(Shapes);
 }
 
+
+
+void GameEnginePhysXComponent::GravityOn()
+{
+	ComponentActor->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, false);
+}
+
+void GameEnginePhysXComponent::GravityOff()
+{
+	ComponentActor->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, true);
+}
+
+void GameEnginePhysXComponent::RayCastTargetOn()
+{
+	ComponentActor->detachShape(*Shape);
+	Shape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
+	ComponentActor->attachShape(*Shape);
+}
+
+void GameEnginePhysXComponent::RayCastTargetOff()
+{
+	ComponentActor->detachShape(*Shape);
+	Shape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
+	ComponentActor->attachShape(*Shape);
+}
+
+void GameEnginePhysXComponent::CollisionOn(bool _GravityOn /*= true*/)
+{
+	ComponentActor->detachShape(*Shape);
+	Shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+	ComponentActor->attachShape(*Shape);
+
+	if (true == _GravityOn)
+	{
+		GravityOn();
+	}
+}
+
+void GameEnginePhysXComponent::CollisionOff(bool _GravityOff /*= true*/)
+{
+	ComponentActor->detachShape(*Shape);
+	Shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+	ComponentActor->attachShape(*Shape);
+
+	if (true == _GravityOff)
+	{
+		GravityOff();
+	}
+}
+
+void GameEnginePhysXComponent::ChangeMaterial(physx::PxMaterial* const* _Material)
+{
+	ComponentActor->detachShape(*Shape);
+	Shape->setMaterials(_Material, 1);
+	ComponentActor->attachShape(*Shape);
+}

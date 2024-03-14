@@ -229,6 +229,18 @@ public:
 	BaseActor& operator=(const BaseActor& _Other) = delete;
 	BaseActor& operator=(BaseActor&& _Other) noexcept = delete;
 
+	void On() override
+	{
+		GameEngineActor::On();
+		Capsule->On();
+	}
+
+	void Off() override
+	{
+		GameEngineActor::Off();
+		Capsule->Off();
+	}
+
 	// ID
 	// 애니메이션 프레임 이벤트를 사용하려면 필수로 등록해줘야하는 자신의 고유 ID입니다.
 	// 등록하지 않으면 Animation Editor 기능을 사용할 수 없습니다. 

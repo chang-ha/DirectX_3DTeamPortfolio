@@ -36,17 +36,12 @@ void GameEnginePhysXCapsule::Update(float _Delta)
 
 void GameEnginePhysXCapsule::Release()
 {
-	if (nullptr != CapsuleShape)
-	{
-		CapsuleShape->release();
-		CapsuleShape = nullptr;
-	}
-
 	if (nullptr != CapsuleActor)
 	{
 		CapsuleActor->release();
 		CapsuleActor = nullptr;
 	}
+	GameEnginePhysXComponent::Release();
 }
 
 void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight, const physx::PxMaterial* _Material /*= GameEnginePhysX::GetDefaultMaterial()*/)
@@ -57,7 +52,7 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 	float4 WolrdPos = Transform.GetWorldPosition();
 	float4 WorldDeg = Transform.GetWorldRotationEuler();
 	
-	CapsuleShape = Physics->createShape(physx::PxCapsuleGeometry(_Radius, _HalfHeight), *_Material); // 캡슐이 똑바로 서있는 모양은 1/4Pi 만큼 회전 필요
+	Shape = Physics->createShape(physx::PxCapsuleGeometry(_Radius, _HalfHeight), *_Material); // 캡슐이 똑바로 서있는 모양은 1/4Pi 만큼 회전 필요
 
 	physx::PxVec3 Pos = { WolrdPos.X, WolrdPos.Y , WolrdPos.Z };
 	// WorldDeg.Z += physx::PxHalfPi * GameEngineMath::R2D;
@@ -65,14 +60,14 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
 
 	// Basically RayCastTarget is Off
-	CapsuleShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
+	Shape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
 	// Pivot to Bottom
 	physx::PxVec3 Pivot = { 0, 0.0f + _Radius * 1.f + _HalfHeight , 0 };
-	CapsuleShape->setLocalPose(physx::PxTransform(Pivot, physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1))));
+	Shape->setLocalPose(physx::PxTransform(Pivot, physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1))));
 
 	physx::PxTransform Transform(Pos, Quat);
 	CapsuleActor = Physics->createRigidDynamic(Transform);
-	CapsuleActor->attachShape(*CapsuleShape);
+	CapsuleActor->attachShape(*Shape);
 	physx::PxRigidBodyExt::updateMassAndInertia(*CapsuleActor, 0.01f);
 	CapsuleActor->setMassSpaceInertiaTensor(physx::PxVec3(0.f));
 
@@ -133,59 +128,4 @@ float4 GameEnginePhysXCapsule::GetLinearVelocity_f()
 	float4 Result = float4(Vector.x, Vector.y, Vector.z);
 
 	return Result;
-}
-
-void GameEnginePhysXCapsule::GravityOn()
-{
-	ComponentActor->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, false);
-}
-
-void GameEnginePhysXCapsule::GravityOff()
-{
-	ComponentActor->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, true);
-}
-
-void GameEnginePhysXCapsule::RayCastTargetOn()
-{
-	ComponentActor->detachShape(*CapsuleShape);
-	CapsuleShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
-	ComponentActor->attachShape(*CapsuleShape);
-}
-
-void GameEnginePhysXCapsule::RayCastTargetOff()
-{
-	ComponentActor->detachShape(*CapsuleShape);
-	CapsuleShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
-	ComponentActor->attachShape(*CapsuleShape);
-}
-
-void GameEnginePhysXCapsule::CollisionOn(bool _GravityOn /*= true*/)
-{
-	ComponentActor->detachShape(*CapsuleShape);
-	CapsuleShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
-	ComponentActor->attachShape(*CapsuleShape);
-
-	if (true == _GravityOn)
-	{
-		GravityOn();
-	}
-}
-
-void GameEnginePhysXCapsule::CollisionOff(bool _GravityOff /*= true*/)
-{
-	ComponentActor->detachShape(*CapsuleShape);
-	CapsuleShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
-	ComponentActor->attachShape(*CapsuleShape);
-
-	if (true == _GravityOff)
-	{
-		GravityOff();
-	}
-}
-
-void GameEnginePhysXCapsule::ChangeMaterial(physx::PxMaterial* const* _Material)
-{
-	CapsuleActor->detachShape(*CapsuleShape);
-	CapsuleShape->setMaterials(_Material, 1);
-	CapsuleActor->attachShape(*CapsuleShape);
 }
