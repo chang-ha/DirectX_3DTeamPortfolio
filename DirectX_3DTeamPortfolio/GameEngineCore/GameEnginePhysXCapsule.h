@@ -21,6 +21,8 @@ public:
 		return CapsuleActor->getLinearVelocity();
 	}
 
+	float4 GetLinearVelocity_f();
+
 	inline float GetMass()
 	{
 		return CapsuleActor->getMass();

@@ -126,6 +126,15 @@ void GameEnginePhysXCapsule::Positioning(float _Delta)
 	}
 }
 
+float4 GameEnginePhysXCapsule::GetLinearVelocity_f()
+{
+	physx::PxVec3 Vector = GetLinearVelocity();
+
+	float4 Result = float4(Vector.x, Vector.y, Vector.z);
+
+	return Result;
+}
+
 void GameEnginePhysXCapsule::GravityOn()
 {
 	ComponentActor->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, false);
