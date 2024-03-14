@@ -30,6 +30,7 @@ void Player::Start()
 	Main_Player = this;
 
 	GameEngineInput::AddInputObject(this);
+	
 
 	
 	Capsule = CreateComponent<GameEnginePhysXCapsule>(Enum_CollisionOrder::Player);
@@ -1273,7 +1274,8 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 	Stat.AddPoise(-Stiffness);
 	Stat.AddHp(-AttackerAtt);
 
-	
+	Hp =  Stat.GetHp()
+
 
 	return true;
 }

@@ -133,6 +133,10 @@ public:
 	{
 		return Stamina;
 	}
+	float GetHp()
+	{
+		return Hp;
+	}
 
 
 
@@ -148,6 +152,8 @@ private:
 
 	float Poise_Time = 0.0f;
 	float Stamina = 100.0f;
+	float Hp = 100.0f;
+
 
 	float4 MoveDir;
 	GameEngineState PlayerStates;
