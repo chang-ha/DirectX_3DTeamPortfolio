@@ -241,6 +241,9 @@ public:
 		Capsule->Off();
 	}
 
+	void SetWorldPosition(const float4& _Pos);
+	void SetWorldRotation(const float4& _Rot);
+
 	// ID
 	// 애니메이션 프레임 이벤트를 사용하려면 필수로 등록해줘야하는 자신의 고유 ID입니다.
 	// 등록하지 않으면 Animation Editor 기능을 사용할 수 없습니다. 

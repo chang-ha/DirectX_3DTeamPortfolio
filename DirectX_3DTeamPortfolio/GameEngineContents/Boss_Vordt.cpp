@@ -413,9 +413,6 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->SetAllRootMotionMoveRatio(1.f, 1.f, 1.f);
 	}
 
-	Capsule->PhysXComponentInit(320.0f, 5.0f);
-	Capsule->SetPositioningComponent();
-
 	if (nullptr == GameEngineGUI::FindGUIWindow<Boss_State_GUI>("Boss_State"))
 	{
 		GameEngineGUI::CreateGUIWindow<Boss_State_GUI>("Boss_State");
@@ -531,6 +528,9 @@ void Boss_Vordt::Start()
 	if (nullptr == Capsule)
 	{
 		Capsule = CreateComponent<GameEnginePhysXCapsule>();
+
+		Capsule->PhysXComponentInit(320.0f, 5.0f);
+		Capsule->SetPositioningComponent();
 	}
 }
 

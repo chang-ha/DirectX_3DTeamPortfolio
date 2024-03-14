@@ -40,9 +40,3 @@ enum class Enum_CollisionOrder
 	Parring_Arround = (1 << 19),
 
 };
-
-enum class Enum_RenderDepth
-{
-	Player,
-	Monster,
-};
