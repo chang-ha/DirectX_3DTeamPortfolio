@@ -457,7 +457,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		ColParameter.R = float4(0.f);
 		ColParameter.T = float4(0.f, 0.f, 0.f);
 
-		BossCollision = CreateSocketCollision(Enum_CollisionOrder::Monster, 21, ColParameter, "Hit_Collision");
+		BossCollision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 21, ColParameter, "Hit_Collision");
 		BossCollision->SetCollisionType(ColType::SPHERE3D);
 		BossCollision->On();
 	}
@@ -569,6 +569,12 @@ void Boss_Vordt::Update(float _Delta)
 	if (BOSS_HP * 0.5f > CurHp)
 	{
 		mBoss_Phase = Enum_Boss_Phase::Phase_2;
+	}
+
+	if (true == WeaponCollision->IsUpdate())
+	{
+		mHitInteraction.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+		mHitInteraction.CollisionToBody(Enum_CollisionOrder::Player_Body);
 	}
 }
 
