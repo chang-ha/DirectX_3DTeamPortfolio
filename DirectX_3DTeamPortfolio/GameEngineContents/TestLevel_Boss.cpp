@@ -66,7 +66,7 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 	if (nullptr == Boss_Object)
 	{
 		Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
-		Boss_Object->Transform.SetWorldPosition({ -1000.f, -2200.f, 3000.f });
+		Boss_Object->Transform.SetWorldPosition({ -1000.f, -2450.f, 3000.f });
 		Boss_Object->Transform.SetWorldRotation({ 0.f, -30.f, 0.f });
 	}
 
@@ -91,7 +91,7 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 	if (nullptr == TestPlayer)
 	{
 		TestPlayer = CreateActor<Player>(0, "Player");
-		TestPlayer->Transform.SetWorldPosition({ -2800.f, -2200.f, 6700.f });
+		TestPlayer->Transform.SetWorldPosition({ -2800.f, -2450.f, 6700.f });
 		TestPlayer->Transform.SetWorldRotation({ 0.f, 165.f, 0.f });
 		TestPlayer->SetTargeting(Boss_Object.get());
 		Boss_Object->SetTargeting(TestPlayer.get());

@@ -379,7 +379,6 @@
     <ClCompile Include="Object_StartDoor.cpp">
       <Filter>Object\Door</Filter>
     </ClCompile>
-    <ClCompile Include="DummyNode.cpp" />
     <ClCompile Include="PatrolPath.cpp">
       <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
     </ClCompile>
@@ -757,7 +756,6 @@
     <ClInclude Include="Object_StartDoor.h">
       <Filter>Object\Door</Filter>
     </ClInclude>
-    <ClInclude Include="DummyNode.h" />
     <ClInclude Include="PatrolPath.h">
       <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
     </ClInclude>

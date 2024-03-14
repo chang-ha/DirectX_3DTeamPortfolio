@@ -24,7 +24,7 @@ void GameEnginePhysXCapsule::Update(float _Delta)
 	physx::PxVec3 Vec = CapsuleActor->getLinearVelocity();
 
 	float VecScale = Vec.magnitude();
-	if (0.1f < VecScale && -0.5f < Vec.y)
+	if (0.5f < VecScale && -0.5f < Vec.y)
 	{
 		ChangeMaterial(GameEnginePhysX::GetConstClimbMaterial());
 	}

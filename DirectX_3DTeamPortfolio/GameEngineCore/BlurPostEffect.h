@@ -22,5 +22,7 @@ protected:
 private:
 	void Start() override;
 	void EffectProcess(float _DeltaTime) override;
+
+	GameEngineRenderUnit MergeUnit;
 };
 
