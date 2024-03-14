@@ -2148,8 +2148,16 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-					PlayerStates.ChangeState(PlayerState::ladder_Up_Left);
-					return;
+					
+					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
+
+					if (GameEngineInput::IsPress('W', this))
+					{
+						PlayerStates.ChangeState(PlayerState::ladder_Up_Left);
+						return;
+					}
+
+					
 				}
 			};
 
@@ -2177,10 +2185,20 @@ void Player::Player_State()
 
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-					
+					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
+
+					if (GameEngineInput::IsPress('W', this))
+					{
 						PlayerStates.ChangeState(PlayerState::ladder_Up_Right);
 						return;
-									
+					}
+
+					if (GameEngineInput::IsPress('S', this))
+					{
+						PlayerStates.ChangeState(PlayerState::ladder_Down_Right);
+						return;
+					}
+					
 				}
 				
 
@@ -2208,8 +2226,21 @@ void Player::Player_State()
 
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
+
+					if (GameEngineInput::IsPress('W', this))
+					{
 						PlayerStates.ChangeState(PlayerState::ladder_Up_Left);
 						return;
+					}	
+
+					if (GameEngineInput::IsPress('S', this))
+					{
+						PlayerStates.ChangeState(PlayerState::ladder_Down_Left);
+						return;
+					}
+
+
 				}
 				
 
@@ -2232,6 +2263,8 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{		
+					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
+
 					Capsule->GravityOn();
 					Rabber_Collision_Check = false;
 					PlayerStates.ChangeState(PlayerState::Idle);
@@ -2258,6 +2291,8 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
+
 					Capsule->GravityOn();
 					Rabber_Collision_Check = false;;
 					PlayerStates.ChangeState(PlayerState::Idle);
@@ -2276,7 +2311,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("ladder_Down_Start");
-				
+				Capsule->GravityOff();
 			};
 
 
@@ -2284,8 +2319,11 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
+
 					PlayerStates.ChangeState(PlayerState::ladder_Down_Left);
 					return;
+					
 				}
 			};
 
@@ -2311,8 +2349,20 @@ void Player::Player_State()
 				}
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-					PlayerStates.ChangeState(PlayerState::ladder_Down_Right);
-					return;
+					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
+
+
+
+					if (GameEngineInput::IsPress('W', this))
+					{
+						PlayerStates.ChangeState(PlayerState::ladder_Up_Right);
+						return;
+					}
+					if (GameEngineInput::IsPress('S', this))
+					{
+						PlayerStates.ChangeState(PlayerState::ladder_Down_Right);
+						return;
+					}
 				}
 
 
@@ -2345,8 +2395,18 @@ void Player::Player_State()
 
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-					PlayerStates.ChangeState(PlayerState::ladder_Down_Left);
-					return;
+					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
+
+					if (GameEngineInput::IsPress('W', this))
+					{
+						PlayerStates.ChangeState(PlayerState::ladder_Up_Left);
+						return;
+					}
+					if (GameEngineInput::IsPress('S', this))
+					{
+						PlayerStates.ChangeState(PlayerState::ladder_Down_Left);
+						return;
+					}
 				}
 			};
 
@@ -2367,6 +2427,8 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
+
 					Capsule->GravityOn();
 					Rabber_Collision_Check = false;
 					PlayerStates.ChangeState(PlayerState::Idle);
@@ -2393,6 +2455,8 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
+
 					Capsule->GravityOn();
 					Rabber_Collision_Check = false; 
 					PlayerStates.ChangeState(PlayerState::Idle);
@@ -2566,6 +2630,105 @@ void Player::Player_State()
 
 
 	}
+
+
+	{
+
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Sit_Down");
+			};
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					if (GameEngineInput::IsDown('W',this))
+					{
+						PlayerStates.ChangeState(PlayerState::Stand_Up);
+						return;
+					}
+				}
+				
+			};
+
+		PlayerStates.CreateState(PlayerState::Sit_Down, NewPara);
+
+
+	}
+
+	{
+
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Stand_Up");
+			};
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::Stand_Up, NewPara);
+
+
+	}
+
+	{
+
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Stand_Up");
+			};
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::Stand_Up, NewPara);
+
+
+	}
+
+	{
+
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Fail");
+			};
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::landing);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::Fail, NewPara);
+
+
+	}
+
+
 
 	PlayerStates.ChangeState(PlayerState::Idle);
 

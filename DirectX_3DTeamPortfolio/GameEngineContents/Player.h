@@ -67,6 +67,13 @@ enum class PlayerState
 	Big_Shield_block,
 	Parring_Attack, 
 	Attack_Block, 
+	Sit_Down,
+	Stand_Up, 
+	ladder_Fast_Down_Start,
+	ladder_Fast_Down,
+	ladder_Fast_Down_Stop,
+	fail,
+	landing,
 };
 
 // Ό³Έν :

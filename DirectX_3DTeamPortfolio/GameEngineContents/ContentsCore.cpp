@@ -37,7 +37,7 @@ void ContentsCore::Start()
 	CoreGUIWindow->On();
 
 	
-
+		
 	TreeGUIWindow = GameEngineGUI::CreateGUIWindow<TreeWindow>("TreeWindow");
 	TreeGUIWindow->On();
 
