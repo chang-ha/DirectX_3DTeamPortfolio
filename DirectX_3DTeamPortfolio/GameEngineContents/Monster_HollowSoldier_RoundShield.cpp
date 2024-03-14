@@ -210,6 +210,15 @@ void Monster_HollowSoldier_RoundShield::ChangeState(Enum_HollowSoldier_RoundShie
 		case Enum_HollowSoldier_RoundShield_State::BackAttackHit:
 			State_BackAttackHit_Start();
 			break;
+		case Enum_HollowSoldier_RoundShield_State::BackAttackDeath:
+			State_BackAttackDeath_Start();
+			break;
+		case Enum_HollowSoldier_RoundShield_State::AfterGuardBreakHit:
+			State_AfterGuardBreakHit_Start();
+			break;
+		case Enum_HollowSoldier_RoundShield_State::AfterGuardBreakDeath:
+			State_AfterGuardBreakDeath_Start();
+			break;
 		case Enum_HollowSoldier_RoundShield_State::Death:
 			State_Death_Start();
 			break;
@@ -325,6 +334,12 @@ void Monster_HollowSoldier_RoundShield::StateUpdate(float _Delta)
 		return State_HitToDeath_Update(_Delta);
 	case Enum_HollowSoldier_RoundShield_State::BackAttackHit:
 		return State_BackAttackHit_Update(_Delta);
+	case Enum_HollowSoldier_RoundShield_State::BackAttackDeath:
+		return State_BackAttackDeath_Update(_Delta);
+	case Enum_HollowSoldier_RoundShield_State::AfterGuardBreakHit:
+		return State_AfterGuardBreakHit_Update(_Delta);
+	case Enum_HollowSoldier_RoundShield_State::AfterGuardBreakDeath:
+		return State_AfterGuardBreakDeath_Update(_Delta);
 	case Enum_HollowSoldier_RoundShield_State::Death:
 		return State_Death_Update(_Delta);
 	default:
@@ -389,6 +404,24 @@ void Monster_HollowSoldier_RoundShield::ChangeHitState()
 {
 	if (true == Hit.IsHit())
 	{
+		if (true == IsFlag(Enum_ActorFlag::FrontStab))
+		{
+			ChangeState(Enum_HollowSoldier_RoundShield_State::AfterGuardBreakHit);
+			return;
+		}
+
+		if (true == IsFlag(Enum_ActorFlag::BackStab))
+		{
+			ChangeState(Enum_HollowSoldier_RoundShield_State::BackAttackHit);
+			return;
+		}
+
+		if (Stat.GetHp() <= 0)
+		{
+			ChangeState(Enum_HollowSoldier_RoundShield_State::HitToDeath);
+			return;
+		}
+
 		if (true == Hit.IsGuardSuccesss())
 		{
 			ChangeState(Enum_HollowSoldier_RoundShield_State::Guard);
@@ -1476,6 +1509,7 @@ void Monster_HollowSoldier_RoundShield::State_AttackFail_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Parrying_Start()
 {
+	Hit.SetHit(false);
 	MainRenderer->ChangeAnimation("c1100_Parrying");
 }
 void Monster_HollowSoldier_RoundShield::State_Parrying_Update(float _Delta)
@@ -1566,6 +1600,55 @@ void Monster_HollowSoldier_RoundShield::State_BackAttackHit_Start()
 	MainRenderer->ChangeAnimation("c1100_BackAttackHit");
 }
 void Monster_HollowSoldier_RoundShield::State_BackAttackHit_Update(float _Delta)
+{
+	if (Stat.GetHp() <= 0)
+	{
+		if (MainRenderer->GetCurAnimationFrame() >= 80)
+		{
+			ChangeState(Enum_HollowSoldier_RoundShield_State::BackAttackDeath);
+		}
+	}
+
+	if (MainRenderer->GetCurAnimationFrame() >= 167)
+	{
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
+	}
+}
+
+void Monster_HollowSoldier_RoundShield::State_BackAttackDeath_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_BackAttackDeath");
+}
+void Monster_HollowSoldier_RoundShield::State_BackAttackDeath_Update(float _Delta)
+{
+
+}
+
+void Monster_HollowSoldier_RoundShield::State_AfterGuardBreakHit_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_AfterGuardBreakHit");
+}
+void Monster_HollowSoldier_RoundShield::State_AfterGuardBreakHit_Update(float _Delta)
+{
+	if (Stat.GetHp() <= 0)
+	{
+		if (MainRenderer->GetCurAnimationFrame() >= 140)
+		{
+			ChangeState(Enum_HollowSoldier_RoundShield_State::BackAttackDeath);
+		}
+	}
+
+	if (MainRenderer->GetCurAnimationFrame() >= 194)
+	{
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
+	}
+}
+
+void Monster_HollowSoldier_RoundShield::State_AfterGuardBreakDeath_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_AfterGuardBreakDeath");
+}
+void Monster_HollowSoldier_RoundShield::State_AfterGuardBreakDeath_Update(float _Delta)
 {
 
 }

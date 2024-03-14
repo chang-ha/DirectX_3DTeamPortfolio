@@ -136,7 +136,9 @@ void Monster_Hollow::CreateAnimation()
 	MainRenderer->CreateFBXAnimation("c1100_Death", "c1100_Death.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_BurnToDeath", "c1100_BurnToDeath.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_BackAttackHit", "c1100_BackAttackHit.FBX", { Inter, false });
+	MainRenderer->CreateFBXAnimation("c1100_BackAttackDeath", "c1100_BackAttackDeath.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_AfterGuardBreakHit", "c1100_AfterGuardBreakHit.FBX", { Inter, false });
+	MainRenderer->CreateFBXAnimation("c1100_AfterGuardBreakDeath", "c1100_AfterGuardBreakDeath.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_PrayToBeScared1", "c1100_PrayToBeScared1.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_PrayToBeScared2", "c1100_PrayToBeScared2.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_PrayToBeScared3", "c1100_PrayToBeScared3.FBX", { Inter, false });
