@@ -42,6 +42,7 @@
     <FxCompile Include="Normal.fx" />
     <FxCompile Include="Random.fx" />
     <FxCompile Include="RenderBase.fx" />
+    <FxCompile Include="TargetMergeShadow.fx" />
     <FxCompile Include="Transform.fx" />
   </ItemGroup>
   <ItemGroup>
