@@ -1156,7 +1156,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Portion_Drink_01");
-				Weapon_Actor->Off(); 
+				Weapon_Actor->Getweapon()->Off(); 
 			};
 
 
@@ -1206,7 +1206,7 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-					Weapon_Actor->On();
+					Weapon_Actor->Getweapon()->On();
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
@@ -1486,6 +1486,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Shield_Idle");
+				StateValue = PlayerState::Shield_Idle;
 				Shield_Col->On();
 			};
 
@@ -2514,7 +2515,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Weak_Shield_block");
-				StateValue = PlayerState::Weak_Shield_block; 
+				StateValue = PlayerState::StaminaCheck;
 
 				Shield_Col->On(); 
 			};
@@ -2525,6 +2526,7 @@ void Player::Player_State()
 				if (MainRenderer->IsCurAnimationEnd())
 				{
 					//Shield_Col->Off();
+					
 					PlayerStates.ChangeState(PlayerState::Shield_Idle);
 					return;
 				};
@@ -2532,6 +2534,7 @@ void Player::Player_State()
 				if (GameEngineInput::IsUp(VK_RBUTTON, this))
 				{
 					Shield_Col->Off();
+					Body_Col->On(); 
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return; 
 				}
@@ -2548,7 +2551,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Middle_Shield_block");
-				StateValue = PlayerState::Middle_Shield_block;
+				StateValue = PlayerState::StaminaCheck;
 				Shield_Col->On();
 			};
 
@@ -2566,6 +2569,7 @@ void Player::Player_State()
 				if (GameEngineInput::IsUp(VK_RBUTTON, this))
 				{
 					Shield_Col->Off();
+					Body_Col->On();
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
@@ -2581,7 +2585,7 @@ void Player::Player_State()
 			{
 				Shield_Col->On();
 				MainRenderer->ChangeAnimation("Big_Shield_block");
-				StateValue = PlayerState::Big_Shield_block;
+				StateValue = PlayerState::StaminaCheck;
 
 			};
 
@@ -2590,13 +2594,13 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-					//Shield_Col->Off();
 					PlayerStates.ChangeState(PlayerState::Shield_Idle);
 					return;
 				};
 
 				if (GameEngineInput::IsUp(VK_RBUTTON, this))
 				{
+					Body_Col->On();
 					Shield_Col->Off();
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
@@ -2614,7 +2618,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				
-				MainRenderer->ChangeAnimation("Parring_Attack");
+				MainRenderer->ChangeAnimation("Parry_Attack");
 			};
 
 
@@ -2636,13 +2640,17 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				
 				MainRenderer->ChangeAnimation("Attack_Block");
+
 			};
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					Sword.ResetRecord();
+					SetFlag(Enum_ActorFlag::Block_Shield, false);
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
