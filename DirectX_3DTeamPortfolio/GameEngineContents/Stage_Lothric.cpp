@@ -128,8 +128,13 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		Player_Object = CreateActor<Player>(0, "Player");
 		// 볼드 위치
 		//Player_Object->Transform.SetWorldPosition({ -2800.f, -2500.f, 6700.f });
+		// 
 		// 계단 위치
-		Player_Object->Transform.SetWorldPosition({ -9910.0f, 2328.0f, -2894.0f });
+		//Player_Object->Transform.SetWorldPosition({ -9910.0f, 2328.0f, -2894.0f });
+		// 
+		// 시작 위치
+		Player_Object->Transform.SetLocalPosition({ -1400.0f, 5101.0f, -5331.0f });
+
 		Player_Object->Transform.SetWorldRotation({ 0.f, 165.f, 0.f });
 		Player_Object->SetTargeting(Boss_Object.get());
 		Boss_Object->SetTargeting(Player_Object.get());
@@ -138,7 +143,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		std::shared_ptr<Monster_HollowSoldier> GameMap = CreateActor<Monster_HollowSoldier>(0 );
 		GameMap->Transform.SetWorldPosition({ -2900.f,-2500.f,6800.f });
 	}*/
-
+	
 	{
 		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
 	}
