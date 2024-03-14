@@ -10,6 +10,8 @@
 #include "Monster_LothricKn.h"
 #include "LUTEffect.h"
 
+#include "Monster_LothricKn.h"
+
 //오브젝트 헤더
 #include "Object_Ladder1.h"
 #include "Object_Ladder2.h"
@@ -130,7 +132,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		// 볼드 위치
 		//Player_Object->Transform.SetWorldPosition({ -2800.f, -2500.f, 6700.f });
 		// 계단 위치
-		Player_Object->Transform.SetWorldPosition({ -9910.0f, 2328.0f, -2894.0f });
+		Player_Object->Transform.SetWorldPosition({ -9910.0f, 2400.0f, -2894.0f });
 		Player_Object->Transform.SetWorldRotation({ 0.f, 165.f, 0.f });
 		Player_Object->SetTargeting(Boss_Object.get());
 		Boss_Object->SetTargeting(Player_Object.get());
@@ -149,6 +151,14 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		std::shared_ptr<Monster_LothricKn> Monster;
 		// Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster);
+	}
+
+	{
+		std::shared_ptr<Monster_LothricKn> Monster;
+		Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Lothric1");
+		Monster->SetWPosition(float4(-5443.0f, -876.f, 10681.f));		
+		Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Lothric2");
+		Monster->SetWPosition(float4(-6276, -683, 13803));
 	}
 
 	std::shared_ptr<GameEngineCoreWindow> CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
@@ -186,6 +196,10 @@ void Stage_Lothric::Update(float _Delta)
 	if (true == GameEngineInput::IsDown(VK_F6, this))
 	{
 		GameEngineGUI::AllWindowSwitch();
+	}
+	if (true == GameEngineInput::IsDown('J', this))
+	{
+		Player_Object->Off();
 	}
 
 }

@@ -41,6 +41,8 @@ public:
 	void GravityOn();
 	void GravityOff();
 
+	void SetPatrolPath(const std::vector<float4>& _Paths, int _Index = 0);
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -175,8 +177,10 @@ protected:
 	float4 GetBackStabPosition() override;
 	float4 GetFrontStabPosition() override;
 
+protected:
+	std::unique_ptr<class PatrolPath> PatrolPaths;
+
 private:
 	std::shared_ptr<class MonsterHpBar> MonsterUI;
 
 };
-
