@@ -136,7 +136,6 @@ protected:
 
 private:
 	static GameEngineRenderUnit MergeUnit;
-	static MergeInfo MergeInfoValue;
 	static void MergeRenderUnitInit();
 
 	std::vector<std::shared_ptr<GameEngineTexture>> Textures;

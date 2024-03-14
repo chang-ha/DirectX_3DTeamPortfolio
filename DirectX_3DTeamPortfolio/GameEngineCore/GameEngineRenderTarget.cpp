@@ -5,7 +5,6 @@
 bool GameEngineRenderTarget::IsDepth = true;
 
 GameEngineRenderUnit GameEngineRenderTarget::MergeUnit;
-MergeInfo GameEngineRenderTarget::MergeInfoValue;
 
 void GameEngineRenderTarget::RenderTargetReset()
 {
@@ -19,7 +18,7 @@ void GameEngineRenderTarget::MergeRenderUnitInit()
 {
 	GameEngineRenderTarget::MergeUnit.SetMesh("FullRect");
 	GameEngineRenderTarget::MergeUnit.SetMaterial("TargetMerge");
-	GameEngineRenderTarget::MergeUnit.ShaderResHelper.SetConstantBufferLink("MergeInfo", MergeInfoValue);
+	
 };
 
 GameEngineRenderTarget::GameEngineRenderTarget() 
@@ -209,7 +208,7 @@ void GameEngineRenderTarget::Merge(unsigned int ThisTarget, std::shared_ptr<Game
 {
 	Setting();
 
-	MergeInfoValue.MergeTargetCount = static_cast<int>(ThisTarget);
+	
 
 	MergeUnit.ShaderResHelper.SetTexture("DiffuseTex", _Target->Textures[_CopyTarget]);
 	MergeUnit.ShaderResHelper.SetSampler("DiffuseTexSampler", "POINT");
