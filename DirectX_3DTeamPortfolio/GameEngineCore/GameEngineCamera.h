@@ -205,6 +205,8 @@ protected:
 
 	
 	bool InCamera(const GameEngineTransform& _Trans, class MeshBaseInfo _MeshBaseInfo);
+	bool InCamera(const GameEngineTransform& _Trans, float Scale);
+	
 	
 
 private:
@@ -235,6 +237,9 @@ private:
 
 	// 카메라 범위
 	DirectX::BoundingFrustum CameraFrustum;
+
+	// 라이트 컬링범위
+	DirectX::BoundingFrustum CameraLightFrustum;
 
 	std::set<int> ZSortMap;
 	std::set<int> YSortMap;

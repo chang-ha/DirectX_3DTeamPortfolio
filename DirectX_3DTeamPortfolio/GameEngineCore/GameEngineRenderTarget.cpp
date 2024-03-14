@@ -47,6 +47,11 @@ void GameEngineRenderTarget::Clear()
 	}
 }
 
+void GameEngineRenderTarget::Clear(int _num)
+{
+	GameEngineCore::GetContext()->ClearRenderTargetView(RTV[_num], ClearColor[_num].Arr1D);
+}
+
 void GameEngineRenderTarget::Setting()
 {
 	RenderTargetReset();
