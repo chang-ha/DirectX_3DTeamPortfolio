@@ -431,7 +431,7 @@ bool Monster_LothricKn::FindAndSetTarget(Enum_CollisionOrder _Order)
 		{
 			for (GameEngineCollision* pCol : _Other)
 			{
-				if (nullptr == pCol)
+				if (nullptr == pCol) 
 				{
 					MsgBoxAssert("충돌체를 가지고 있는 액터가 존재하지 않습니다.");
 					return;

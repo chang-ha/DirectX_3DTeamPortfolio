@@ -2,6 +2,7 @@
 #include "BaseMonster.h"
 
 #include "MonsterHpBar.h"
+#include "PatrolPath.h"
 
 BaseMonster::BaseMonster()
 {
@@ -68,6 +69,16 @@ void BaseMonster::GravityOff()
 	}
 
 	Capsule->GravityOff();
+}
+
+void BaseMonster::SetPatrolPath(const std::vector<float4>& _Paths, int _Index /*= 0*/)
+{
+	if (nullptr == PatrolPaths)
+	{
+		PatrolPaths = std::make_unique<PatrolPath>();
+	}
+
+	PatrolPaths->Init(_Paths, _Index);
 }
 
 float BaseMonster::ConvertDistance_eTof(Enum_TargetDist _eTDist) const

@@ -39,9 +39,3 @@ enum class Enum_CollisionOrder
 	Player_Arround = (1 << 18),
 
 };
-
-enum class Enum_RenderDepth
-{
-	Player,
-	Monster,
-};
