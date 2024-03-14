@@ -2635,35 +2635,6 @@ bool Monster_LothricKn::IsTargetInAngle(float _fAngle) const
 	return (AbsTargetAngle < _fAngle);
 }
 
-void Monster_LothricKn::RotToTarget(float _DeltaTime, float _fMinSpeed, float _fMaxSpeed)
-{
-	float Speed = _fMaxSpeed;
-
-	const float fRotDir = BaseActor::GetRotDir_f();
-	if (fRotDir == 0.0f)
-	{
-		int a = 0;
-	}
-
-	const float fAbsTargetAngle = std::fabs(BaseActor::GetTargetAngle());
-	const float DeclinePoint = 45.0f;
-	if (fAbsTargetAngle < DeclinePoint)
-	{
-		const float Ratio = fAbsTargetAngle / DeclinePoint;
-		Speed = std::lerp(_fMinSpeed, _fMaxSpeed, Ratio);
-	}
-
-	const float RotAngle = fRotDir * Speed * _DeltaTime;
-
-	if (nullptr == Capsule)
-	{
-		MsgBoxAssert("피직스 컨포넌트가 존재하지 않습니다.");
-		return;
-	}
-
-	Capsule->AddWorldRotation(float4(0.0f, RotAngle, 0.0f));
-}
-
 bool Monster_LothricKn::CheckAndSetHitState()
 {
 	if (true == Hit.IsInvincible())

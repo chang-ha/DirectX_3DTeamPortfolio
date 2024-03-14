@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseMonster.h"
+#include "Monster_HitInteraction.h"
 
 enum class Enum_Hollow_MeshIndex
 {
@@ -44,7 +45,9 @@ enum class Enum_Hollow_MeshIndex
 enum class Enum_Hollow_BoneType
 {
 	Spine = 7,
-	RightHand = 44,
+	RoundShield = 15,
+	WoodShield = 16,
+	Sword = 44,
 };
 
 // Ό³Έν : 
@@ -79,6 +82,7 @@ protected:
 	std::shared_ptr<GameEngineCollision> RecognizeCollision;
 	//std::shared_ptr<GameEngineCollision> AttackRangeCollision;
 	std::shared_ptr<GameEngineCollision> BodyCollision;
+	std::shared_ptr<GameEngineCollision> MonsterCollision;
 
 	void FindTarget();
 	bool IsTargetInAngle(float _fAngle) const;

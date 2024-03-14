@@ -2,8 +2,8 @@
 #include "Boss_Vordt.h"
 #include "BoneSocketCollision.h"
 
-#define JUMP_COOLDOWN 10.f
-#define NORMAL_ATTACK_COOLDOWN 15.f
+#define JUMP_COOLDOWN 3.f
+#define NORMAL_ATTACK_COOLDOWN 5.f
 #define COMBO_COOLDOWN1 60.f
 #define COMBO_COOLDOWN2 120.f
 

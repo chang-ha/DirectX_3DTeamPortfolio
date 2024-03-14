@@ -16,6 +16,7 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	{
 		return;
 	}
+
 	ImGui::NewLine();
 
 	if (true == ImGui::Checkbox("Awake", &Linked_Boss->IsAwake))
@@ -409,19 +410,10 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->SetRootMotion("Rush&Hit&Turn", "", Enum_RootMotionMode::RealTimeDir);
 		MainRenderer->SetRootMotion("Rush&Hit&Turn&Rush", "", Enum_RootMotionMode::RealTimeDir); // 
 
-		MainRenderer->SetAllRootMotionMoveRatio(2.f, 2.f, 2.f);
+		MainRenderer->SetAllRootMotionMoveRatio(1.f, 1.f, 1.f);
 	}
 
-	//// Boss Collision
-	{
-		// BossCollision->SetCollisionType(ColType::SPHERE3D);
-		// BossCollision->Transform.SetLocalPosition({ 0.0f, 0.f, 0.0f });
-		// BossCollision->Transform.SetLocalScale({ 1.0f, 1.0f, 1.0f });
-	}
-
-	// physx::PxMaterial* Material = GameEnginePhysX::GetPhysics()->createMaterial(3.0f, 0.0f, 0.0f);;
-	Capsule->PhysXComponentInit(320.0f, 5.0f/*, Material*/);
-	// Capsule->SetMass(10000000.f);
+	Capsule->PhysXComponentInit(320.0f, 5.0f);
 	Capsule->SetPositioningComponent();
 
 	if (nullptr == GameEngineGUI::FindGUIWindow<Boss_State_GUI>("Boss_State"))
@@ -453,11 +445,11 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	BSCol_TransitionParameter ColParameter;
 	if (nullptr == BossCollision)
 	{
-		ColParameter.S = float4(300.f, 300.f, 300.f);
+		ColParameter.S = float4(500.f, 500.f, 500.f);
 		ColParameter.R = float4(0.f);
 		ColParameter.T = float4(0.f, 0.f, 0.f);
 
-		BossCollision = CreateSocketCollision(Enum_CollisionOrder::Monster, 21, ColParameter, "Hit_Collision");
+		BossCollision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 21, ColParameter, "Hit_Collision");
 		BossCollision->SetCollisionType(ColType::SPHERE3D);
 		BossCollision->On();
 	}
@@ -470,6 +462,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 		WeaponCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 47, ColParameter, "Weapon");
 		WeaponCollision->SetCollisionType(ColType::OBBBOX3D);
+		mWeaponHitInteraction.Init(this, WeaponCollision.get());
 	}
 
 	if (nullptr == BodyCollision)
@@ -480,6 +473,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 		BodyCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 22, ColParameter, "Body");
 		BodyCollision->SetCollisionType(ColType::SPHERE3D);
+		mBodyHitInteraction.Init(this, BodyCollision.get());
 	}
 
 	if (nullptr == HeadCollision)
@@ -490,6 +484,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 		HeadCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 76, ColParameter, "Head");
 		HeadCollision->SetCollisionType(ColType::SPHERE3D);
+		mHeadHitInteraction.Init(this, HeadCollision.get());
 	}
 
 	if (nullptr == R_HandCollision)
@@ -500,6 +495,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 		R_HandCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 57, ColParameter, "R_Hand");
 		R_HandCollision->SetCollisionType(ColType::OBBBOX3D);
+		mHandHitInteraction.Init(this, R_HandCollision.get());
 	}
 
 	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::Boss_Vordt));
@@ -545,7 +541,11 @@ void Boss_Vordt::Update(float _Delta)
 	if (true == GameEngineInput::IsDown('B', this))
 	{
 		Capsule->CollisionOff();
-		Capsule->ResetMove(Enum_Axies::All);
+	}
+
+	if (true == GameEngineInput::IsDown('V', this))
+	{
+		Capsule->CollisionOn();
 	}
 
 	if (true == GameEngineInput::IsDown('M', this))
@@ -559,6 +559,7 @@ void Boss_Vordt::Update(float _Delta)
 	}
 
 	TargetStateUpdate();
+	CollisionUpdate();
 
 	if (Enum_Boss_Phase::Phase_2 == mBoss_Phase)
 	{
@@ -700,4 +701,31 @@ float4 Boss_Vordt::BoneWorldPos(int _BoneIndex)
 	BoneWMat.Decompose(S, R, P);
 
 	return P;
+}
+
+void Boss_Vordt::CollisionUpdate()
+{
+	if (true == WeaponCollision->IsUpdate())
+	{
+		mWeaponHitInteraction.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+		mWeaponHitInteraction.CollisionToBody(Enum_CollisionOrder::Player_Body);
+	}
+
+	if (true == BodyCollision->IsUpdate())
+	{
+		mBodyHitInteraction.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+		mBodyHitInteraction.CollisionToBody(Enum_CollisionOrder::Player_Body);
+	}
+
+	if (true == HeadCollision->IsUpdate())
+	{
+		mHeadHitInteraction.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+		mHeadHitInteraction.CollisionToBody(Enum_CollisionOrder::Player_Body);
+	}
+
+	if (true == R_HandCollision->IsUpdate())
+	{
+		mHandHitInteraction.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+		mHandHitInteraction.CollisionToBody(Enum_CollisionOrder::Player_Body);
+	}
 }

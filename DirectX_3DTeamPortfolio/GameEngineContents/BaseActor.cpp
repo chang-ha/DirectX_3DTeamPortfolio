@@ -397,6 +397,35 @@ float4 BaseActor::GetTargetDirection() const
 	return Direction;
 }
 
+
+void BaseActor::RotToTarget(float _DeltaTime, float _fMinSpeed, float _fMaxSpeed, float _DeclinePoint /*= 45.0f*/)
+{
+	float Speed = _fMaxSpeed;
+
+	const float fRotDir = BaseActor::GetRotDir_f();
+	if (fRotDir == 0.0f)
+	{
+		int a = 0;
+	}
+
+	const float fAbsTargetAngle = std::fabs(BaseActor::GetTargetAngle());
+	if (fAbsTargetAngle < _DeclinePoint)
+	{
+		const float Ratio = fAbsTargetAngle / _DeclinePoint;
+		Speed = std::lerp(_fMinSpeed, _fMaxSpeed, Ratio);
+	}
+
+	const float RotAngle = fRotDir * Speed * _DeltaTime;
+
+	if (nullptr == Capsule)
+	{
+		MsgBoxAssert("피직스 컨포넌트가 존재하지 않습니다.");
+		return;
+	}
+
+	Capsule->AddWorldRotation(float4(0.0f, RotAngle, 0.0f));
+}
+
 void JumpTableManager::AddJumpTable(std::string_view _AnimationName, JumpTableInfo _JumpTableInfo)
 {
 	Owner->MainRenderer->SetFrameEvent(_AnimationName, _JumpTableInfo.StartFrame, std::bind(&JumpTableManager::PushJumpTable, this, _JumpTableInfo));

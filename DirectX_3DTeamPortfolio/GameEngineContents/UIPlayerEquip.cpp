@@ -9,7 +9,7 @@ UIPlayerEquip::~UIPlayerEquip()
 {
 }
 
-#define ImgaeRatio 0.7f
+#define ImgaeRatio 0.9f
 void UIPlayerEquip::Start()
 {
 	{
@@ -125,8 +125,8 @@ void UIPlayerEquip::Release()
 	EquipMent.clear();
 }
 
-#define XDistance 80.0f
-#define YDistance 57.0f
+#define XDistance 100.0f
+#define YDistance 70.0f
 UIEquipFrame* UIPlayerEquip::CreatEquipActor(Enum_EquipType _Type)
 {
 	std::shared_ptr<UIEquipFrame> UIFrame = GetLevel()->CreateActor<UIEquipFrame>();
@@ -136,7 +136,7 @@ UIEquipFrame* UIPlayerEquip::CreatEquipActor(Enum_EquipType _Type)
 	EquipMent.insert(std::make_pair(_Type, pFrame));
 
 	float4 WindowScale = GameEngineCore::MainWindow.GetScale().Half();
-	FixPos = { -WindowScale.X + 170.0f , -200.0f };
+	FixPos = { -WindowScale.X + 170.0f , -250.0f }; // 장비프레임 중심 위치
 
 	switch (_Type)
 	{

@@ -11,9 +11,6 @@ UIEquipFrame::~UIEquipFrame()
 
 }
 
-#define XDistance 110.0f
-#define YDistance 80.0f
-
 void UIEquipFrame::Start()
 {
 	float4 WindowScale = GameEngineCore::MainWindow.GetScale().Half();
@@ -23,7 +20,7 @@ void UIEquipFrame::Start()
 		Equip_Frame = CreateComponent<GameEngineUIRenderer>();
 		Equip_Frame->SetSprite("EquipFrame.Png");
 		Equip_Frame->AutoSpriteSizeOn();
-		Equip_Frame->SetAutoScaleRatio(0.7f);
+		Equip_Frame->SetAutoScaleRatio(0.9f);
 	}
 }
 

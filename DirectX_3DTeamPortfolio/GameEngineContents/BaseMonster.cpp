@@ -2,6 +2,7 @@
 #include "BaseMonster.h"
 
 #include "MonsterHpBar.h"
+#include "PatrolPath.h"
 
 BaseMonster::BaseMonster()
 {
@@ -68,6 +69,16 @@ void BaseMonster::GravityOff()
 	}
 
 	Capsule->GravityOff();
+}
+
+void BaseMonster::SetPatrolPath(const std::vector<float4>& _Paths, int _Index /*= 0*/)
+{
+	if (nullptr == PatrolPaths)
+	{
+		PatrolPaths = std::make_unique<PatrolPath>();
+	}
+
+	PatrolPaths->Init(_Paths, _Index);
 }
 
 float BaseMonster::ConvertDistance_eTof(Enum_TargetDist _eTDist) const
@@ -246,10 +257,11 @@ bool BaseMonster::BackStabCheck(const float4& _WPos, float _RotY) const
 	const float Dist = ContentsMath::GetVector3Length(VectorToOther).X;
 	const float Dot = float4::DotProduct3D(MyXZDirVector, OtherXZDirVector);
 	const float Deg = ContentsMath::DotNormalizeReturnDeg(Dot);
-	const float BackStabAngle = CIRCLE - STAB_ANGLE;
+	const float SemiCircle = CIRCLE * 0.5f;
+	const float BackStabAngle = SemiCircle - STAB_ANGLE;
 
 	bool RangeCheck = (Dist < STAB_RECOGNITION_RANGE * W_SCALE);
-	bool DirCheck = (Dot > BackStabAngle);
+	bool DirCheck = (Deg > BackStabAngle);
 	return (RangeCheck && DirCheck);
 }
 

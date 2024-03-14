@@ -42,6 +42,31 @@ public:
 	GameEnginePhysXComponent& operator=(const GameEnginePhysXComponent& _Other) = delete;
 	GameEnginePhysXComponent& operator=(GameEnginePhysXComponent&& _Other) noexcept = delete;
 
+	void On() override
+	{
+		GameEngineComponent::On();
+
+		CollisionOn();
+		if (true == JudgeDynamic())
+		{
+			physx::PxRigidDynamic* DynamicActor = ComponentActor->is<physx::PxRigidDynamic>();
+			ResetMove(Enum_Axies::All);
+			DynamicActor->putToSleep();
+		}
+	}
+	void Off() override
+	{
+		GameEngineComponent::Off();
+
+		CollisionOff();
+		if (true == JudgeDynamic())
+		{
+			physx::PxRigidDynamic* DynamicActor = ComponentActor->is<physx::PxRigidDynamic>();
+			ResetMove(Enum_Axies::All);
+			DynamicActor->wakeUp();
+		}
+	}
+
 	void MoveForce(const float4& _Force, float _Dir, bool _IgnoreGravity = false)
 	{
 		float4 Force = _Force;
@@ -115,6 +140,17 @@ public:
 
 	void SetFiltering(FilterData& _FilterData);
 
+	void ChangeMaterial(physx::PxMaterial* const* _Material);
+
+	void GravityOn();
+	void GravityOff();
+
+	void RayCastTargetOn();
+	void RayCastTargetOff();
+
+	void CollisionOn(bool _GravityOn = true);
+	void CollisionOff(bool _GravityOff = true);
+
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override; 
@@ -128,6 +164,7 @@ protected:
 	float Dir = 0.f;
 	GameEngineActor* ParentActor = nullptr;
 	physx::PxRigidActor* ComponentActor = nullptr;
+	physx::PxShape* Shape = nullptr;
 
 private:
 

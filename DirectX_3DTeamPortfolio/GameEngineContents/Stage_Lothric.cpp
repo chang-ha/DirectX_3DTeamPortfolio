@@ -5,9 +5,13 @@
 #include "Player.h"
 #include "WorldMap.h"
 #include <GameEngineCore\FogEffect.h>
+#include <GameEngineCore\DepthOfField.h>
 #include "FXAAEffect.h"
 #include "Monster_HollowSoldier.h"
+#include "Monster_LothricKn.h"
 #include "LUTEffect.h"
+
+#include "Monster_LothricKn.h"
 
 //오브젝트 헤더
 #include "Object_Ladder1.h"
@@ -109,12 +113,19 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	//}
 	// 
 
-	//
-	// Fog
+	// DepthOfField
 	{
-		std::shared_ptr<FogEffect> Effect = GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FogEffect>();
+		std::shared_ptr<DepthOfField> Effect = GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<DepthOfField>();
 		Effect->Init(GetMainCamera());
 	}
+	//
+	// Fog
+	/*{
+		std::shared_ptr<FogEffect> Effect = GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FogEffect>();
+		Effect->Init(GetMainCamera());
+	}*/
+
+	
 	////FXAA
 		
 	GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FXAAEffect>();
@@ -146,6 +157,19 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	
 	{
 		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
+	}
+
+	{
+		std::shared_ptr<Monster_LothricKn> Monster;
+		// Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster);
+	}
+
+	{
+		std::shared_ptr<Monster_LothricKn> Monster;
+		Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Lothric1");
+		Monster->SetWPosition(float4(-5443.0f, -876.f, 10681.f));		
+		Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Lothric2");
+		Monster->SetWPosition(float4(-6276, -683, 13803));
 	}
 
 	std::shared_ptr<GameEngineCoreWindow> CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
@@ -183,6 +207,10 @@ void Stage_Lothric::Update(float _Delta)
 	if (true == GameEngineInput::IsDown(VK_F6, this))
 	{
 		GameEngineGUI::AllWindowSwitch();
+	}
+	if (true == GameEngineInput::IsDown('J', this))
+	{
+		Player_Object->Off();
 	}
 
 }

@@ -99,9 +99,16 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
     if (0 != LightDataValue.LightType)
     {
         float Distance = length(LightDataValue.ViewLightPos.xyz - Pos.xyz);
+        
+        if (Distance >= LightDataValue.PointLightRange * 1.7f)
+        {
+            clip(-1);
+        }
              
         float attenuation = 1.0 / (LightDataValue.constantAttenuation + LightDataValue.linearAttenuation * Distance + LightDataValue.quadraticAttenuation * Distance * Distance);
         LightPower = attenuation;
+        
+        
     }
     
     if (Material.z >= 1.0f)

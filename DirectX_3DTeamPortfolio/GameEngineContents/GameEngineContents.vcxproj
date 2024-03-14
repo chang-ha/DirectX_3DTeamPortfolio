@@ -226,6 +226,10 @@
     <ClCompile Include="Object_HumanTree4.cpp" />
     <ClCompile Include="Object_HumanTree5.cpp" />
     <ClCompile Include="Object_Torchlight.cpp" />
+    <ClCompile Include="PatrolPath.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="SingleCenterSoundFrameEvent.cpp">
       <SubType>
       </SubType>
@@ -559,6 +563,10 @@
     <ClInclude Include="Object_HumanTree4.h" />
     <ClInclude Include="Object_HumanTree5.h" />
     <ClInclude Include="Object_Torchlight.h" />
+    <ClInclude Include="PatrolPath.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="SingleCenterSoundFrameEvent.h">
       <SubType>
       </SubType>

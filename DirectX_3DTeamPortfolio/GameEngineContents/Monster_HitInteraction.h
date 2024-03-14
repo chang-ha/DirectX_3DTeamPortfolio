@@ -26,9 +26,14 @@ public:
 	void CollisionToBody(Enum_CollisionOrder _Order, int _iStiffness = 0) override;
 	void CollisionToShield(Enum_CollisionOrder _Order, int _iStiffness = 0) override;
 
+	bool GetBlock()
+	{
+		return Block;
+	}
+
 protected:
 
 private:
-
+	bool Block = false;
 };
 

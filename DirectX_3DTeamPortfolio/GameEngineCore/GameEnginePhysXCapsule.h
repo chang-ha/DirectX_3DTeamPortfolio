@@ -21,6 +21,8 @@ public:
 		return CapsuleActor->getLinearVelocity();
 	}
 
+	float4 GetLinearVelocity_f();
+
 	inline float GetMass()
 	{
 		return CapsuleActor->getMass();
@@ -41,9 +43,6 @@ public:
 	{
 		return CapsuleActor->getGlobalPose().p;
 	}
-
-	void ChangeMaterial(physx::PxMaterial* const* _Material);
-
 	
 	bool IsGravity()
 	{
@@ -52,15 +51,6 @@ public:
 		return !Result;
 	}
 
-	void GravityOn();
-	void GravityOff();
-
-	void RayCastTargetOn();
-	void RayCastTargetOff();
-
-	void CollisionOn(bool _GravityOn = true);
-	void CollisionOff(bool _GravityOff = true);
-
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -68,7 +58,6 @@ protected:
 
 private:
 	bool IsPositioningComponent = false;
-	physx::PxShape* CapsuleShape = nullptr;
 	physx::PxRigidDynamic* CapsuleActor = nullptr;
 
 	void Positioning(float _Delta);

@@ -67,6 +67,14 @@ enum class PlayerState
 	Big_Shield_block,
 	Parring_Attack, 
 	Attack_Block, 
+	Sit_Down,
+	Stand_Up, 
+	ladder_Fast_Down_Start,
+	ladder_Fast_Down,
+	ladder_Fast_Down_Stop,
+	fail,
+	landing,
+	StaminaCheck
 };
 
 // Ό³Έν :
@@ -121,6 +129,16 @@ public:
 	bool GetHit(const HitParameter& _Para);
 	bool GetHitToShield(const HitParameter& _Para);
 
+	float GetStamina()
+	{
+		return Stamina;
+	}
+	float GetHp()
+	{
+		return Hp;
+	}
+
+
 
 protected:
 	void Start() override;
@@ -133,7 +151,9 @@ private:
 	GameEngineSoundPlayer Sound; 
 
 	float Poise_Time = 0.0f;
-	float Stamina = 0.0f;
+	float Stamina = 100.0f;
+	float Hp = 100.0f;
+
 
 	float4 MoveDir;
 	GameEngineState PlayerStates;

@@ -25,11 +25,21 @@ void BlurPostEffect::Start()
 
 	ResultTarget = GameEngineRenderTarget::Create();
 	ResultTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+
+	MergeUnit.SetMesh("FullRect");
+	MergeUnit.SetMaterial("TargetMergeShadow");
+	MergeUnit.ShaderResHelper.SetSampler("DiffuseTexSampler", "POINT");
+	MergeUnit.ShaderResHelper.SetTexture("DiffuseTex", ResultTarget->GetTexture(0));
+
 }
 void BlurPostEffect::EffectProcess(float _DeltaTime)
 {
 	ResultTarget->Setting();
 	EffectUnit.Render();
 	EffectUnit.ShaderResHelper.AllShaderResourcesReset();
-	EffectTarget->Merge(3, ResultTarget, 0);
+	EffectTarget->Clear(3);
+	EffectTarget->Setting();
+
+	MergeUnit.Render();
+	MergeUnit.ShaderResHelper.AllShaderResourcesReset();
 }

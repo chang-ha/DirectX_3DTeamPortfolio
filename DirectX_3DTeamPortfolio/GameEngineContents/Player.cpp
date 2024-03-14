@@ -30,9 +30,10 @@ void Player::Start()
 	Main_Player = this;
 
 	GameEngineInput::AddInputObject(this);
+	
 
 	
-	Capsule = CreateComponent<GameEnginePhysXCapsule>();
+	Capsule = CreateComponent<GameEnginePhysXCapsule>(Enum_CollisionOrder::Player);
 	
 	Cameracapsule = GetLevel()->CreateActor<CameraCapsule>(0,"Camera");
 
@@ -55,7 +56,6 @@ void Player::Start()
 	MainRenderer->CreateFBXAnimation("Idle", "00000.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Shield_Idle", "00100.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Waek_jump", "004200.FBX", { Frame, true });
-	MainRenderer->CreateFBXAnimation("Middle_jump", "004210.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("String_Jump", "004220.FBX", { Frame, true });
 
 	
@@ -111,8 +111,8 @@ void Player::Start()
 	MainRenderer->CreateFBXAnimation("Portion_Drink_01", "050110.FBX", { Frame, false });
 	MainRenderer->CreateFBXAnimation("Portion_Drink_02", "050111.FBX", { Frame, false });
 	MainRenderer->CreateFBXAnimation("Portion_Drink_03", "050112.FBX", { Frame, false });
-	MainRenderer->CreateFBXAnimation("Sit_Down", "068010.FBX", { Frame, true });
-	MainRenderer->CreateFBXAnimation("Stand_Up", "068012.FBX", { Frame, true });
+	MainRenderer->CreateFBXAnimation("Sit_Down", "068010.FBX", { Frame, false });
+	MainRenderer->CreateFBXAnimation("Stand_Up", "068012.FBX", { Frame, false });
 
 	MainRenderer->CreateFBXAnimation("Solar_hurray", "080001.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Hi", "080011.FBX", { Frame, true });
@@ -148,12 +148,20 @@ void Player::Start()
 
 	MainRenderer->CreateFBXAnimation("ladder_Down_Stop_Left", "028023.FBX", { Frame, false }); // 사다리 내려가기 왼발?
 	MainRenderer->CreateFBXAnimation("ladder_Down_Stop_Right", "028024.FBX", { Frame, false }); // 사다리 내려가기 오른발?
-
+	 
 	
 
 
 	MainRenderer->CreateFBXAnimation("Parry_Attack", "030400.FBX", { Frame, false }); // 패링후 공격 
 	MainRenderer->CreateFBXAnimation("Attack_Block", "034200.FBX", { Frame, false }); 
+
+
+	MainRenderer->CreateFBXAnimation("ladder_Fast_Down_Stop", "028002.FBX", { Frame, false });
+	MainRenderer->CreateFBXAnimation("fail", "004000.FBX", { Frame, false });
+	MainRenderer->CreateFBXAnimation("landing", "004210.FBX", { Frame, false });
+	MainRenderer->CreateFBXAnimation("ladder_Fast_Down_Start", "028000.FBX", { Frame, false });
+	MainRenderer->CreateFBXAnimation("ladder_Fast_Down", "028001.FBX", { Frame, false });
+
 
 
 	MainRenderer->ChangeAnimation("Shield_Idle");
@@ -251,7 +259,20 @@ void Player::Start()
 	
 
 
+
+	//MainRenderer->SetRootMotion("ladder_Fast_Down_Start");
+	MainRenderer->SetRootMotion("ladder_Fast_Down");
+	MainRenderer->SetRootMotion("ladder_Fast_Down_Stop");
+	MainRenderer->SetRootMotion("fail");
+	//MainRenderer->SetRootMotion("landing");
+
 	// 중력 x 
+
+	//MainRenderer->SetRootMotionGravityFlag("ladder_Fast_Down_Start", true);
+
+	MainRenderer->SetRootMotionGravityFlag("ladder_Fast_Down", true);
+	MainRenderer->SetRootMotionGravityFlag("ladder_Fast_Down_Stop", true);
+
 	MainRenderer->SetRootMotionGravityFlag("ladder_Up_Stop_Left", true);
 	MainRenderer->SetRootMotionGravityFlag("ladder_Up_Stop_Right", true);
 	MainRenderer->SetRootMotionGravityFlag("ladder_Up_Left", true);
@@ -617,15 +638,7 @@ void Player::Start()
 						Labber_Angle *= -1.f;
 					}
 
-					/*float4 TargetPos = { col->Transform.GetWorldPosition().X,col->Transform.GetWorldPosition().Y,col->Transform.GetWorldPosition().Z};
-					float4 MyPos = Actor_test->Transform.GetWorldPosition();
-
-					float4 Dir = TargetPos - MyPos;
-
-					float4 Monster = { 0,0,-1 };
-					float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
-					float radian = atan2(Dir.X, Dir.Z) - atan2(Monster.X, Monster.Z);
-					Labber_Angle = float(radian * (180.0 / 3.141592));*/
+					
 
 					//Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
 					Capsule->SetWorldRotation({ 0.0f, -Labber_Angle,0.0f });
@@ -746,118 +759,114 @@ void Player::Start()
 
 void Player::Update(float _Delta)
 {
-	//SetFlag(Enum_ActorFlag::Guarding, true);
+	BaseActor::Update(_Delta);
 
+	// 시간 
+	Poise_Time += _Delta;
+	Delta_Time = _Delta;
+	Time += _Delta;
+
+	if (GameEngineInput::IsDown(VK_F1, this))
+	{
+		Cameratest = !Cameratest;
+	}
+
+	if (true == Cameratest)
+	{
+		int a = 0;
+	}
+	else if (false == Cameratest)
+	{
+		CameraRotation(_Delta);
+	}
+
+
+	// 충돌 
 	Sword.CollisionToBody(Enum_CollisionOrder::Monster_Body,0);
 	Sword.CollisionToShield(Enum_CollisionOrder::Monster_Shield, 0);
 
-	Poise_Time += _Delta;
-	Delta_Time = _Delta;
-
-	if (Rock_on_Time_Check == true)
-	{
-		Rock_on_Time += Delta_Time;
-	}
-	
-
-	if (Poise_Time > 1.0)
-	{
-		Stat.SetPoise(100);
-	}
-
-	if (GameEngineInput::IsDown('G', this))
-	{
-		PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);
-	}
-
-	if (GameEngineInput::IsPress('N', this))
-	{
-		Capsule->MoveForce({ 0.0f,200.0f,0.0f },Capsule->GetDir());
-
-		//Capsule->SetWorldRotation({ 0.0f,Labber_Angle,0.0f });
-	}
-
-
-	BaseActor::Update(_Delta);
-
-
-	
-	
-
-	
 	Arround_Col->CollisionEvent(Enum_CollisionOrder::Monster, Arround_Event);
 	Body_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack, Body_Event);
 	Body_Col->CollisionEvent(Enum_CollisionOrder::LadderBot, Labber_Event);
 	Body_Col->CollisionEvent(Enum_CollisionOrder::LadderTop, Labber_Event);
-	
-	
-	/*if (Body_Col->Collision(Enum_CollisionOrder::MonsterAttack))
-	{
-		Body.CollisionToBody(Enum_CollisionOrder::MonsterAttack);
-	}*/
-
-
-	/*if (Body_Col->Collision(Enum_CollisionOrder::LadderBot))
-	{
-		if (GameEngineInput::IsDown('E', this))
-		{
-			
-			
-
-		}
-	}
-	*/
-		
-	
 	
 	if (Body_Col->Collision(Enum_CollisionOrder::LadderTop))
 	{
 		if (GameEngineInput::IsDown('E', this))
 		{
 			Body_Col->CollisionEvent(Enum_CollisionOrder::LadderTop, Labber_Event);
-			//	Capsule->MoveForce({ 0.0f,-500.0f,0.0f }, Capsule->GetDir());
 			PlayerStates.ChangeState(PlayerState::ladder_Down_Start);
 		}
+	}
+
+
+
+	// 일단 두자 
+	if (Rock_on_Time_Check == true)
+	{
+		Rock_on_Time += Delta_Time;
+	}
+	
+	// 경직도 
+	if (Poise_Time > 1.0)
+	{
+		Stat.SetPoise(100);
+	}
+
+	if (StateValue != PlayerState::StaminaCheck || StateValue != PlayerState::Parrying)
+	{
+		if (Stamina <= 100)
+		{
+			Stamina += _Delta * 50;
+		}
+	}
+
+	
+	// 디버그용 
+	if (GameEngineInput::IsPress('N', this))
+	{
+		Capsule->MoveForce({ 0.0f,200.0f,0.0f },Capsule->GetDir());
 	}
 
 	if (GameEngineInput::IsDown('H', this))
 	{
 		PlayerStates.ChangeState(PlayerState::Idle);
 	}
-	
-	
 
+	float4 WorldMousePos = { Actor_test_02->Transform.GetWorldRotationEuler() };
+	float4 WorldMousePos2 = { degree_X };
 
-
-
-
-
-
-
-
-
-
+	OutputDebugStringA(WorldMousePos2.ToString("\n").c_str());
+	OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
 
 	
+
+
+	// 무기 방패 트랜스폼 
 
 	{
 		AnimationBoneData Data = MainRenderer->GetBoneData(Bone_index_01);
 		Weapon_Actor->Transform.SetLocalRotation(Data.RotQuaternion.QuaternionToEulerDeg());
 		Weapon_Actor->Transform.SetWorldPosition(Data.Pos + float4{ Capsule->GetWorldPosition().x, Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
 	}
-	//MainRenderer->G
+
 	{
 		AnimationBoneData Data = MainRenderer->GetBoneData(Bone_index_02);
 		Shield_Actor->Transform.SetLocalRotation(Data.RotQuaternion.QuaternionToEulerDeg());
 		Shield_Actor->Transform.SetWorldPosition(Data.Pos + float4{ Capsule->GetWorldPosition().x, Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
 	}
-	//Col->Off();
+
+
+	if (Capsule->GetLinearVelocity_f().Y <= -1200)
+	{
+		PlayerStates.ChangeState(PlayerState::fail);
+	}
+
+
 	
 
-	Time += _Delta;
 
-
-
+	// 각도 계산 
 	{
 		float4 TargetPos = GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
 		float4 MyPos = Actor_test->Transform.GetWorldPosition();
@@ -886,43 +895,7 @@ void Player::Update(float _Delta)
 		}
 	}
 
-	
-
-
-	float4 WorldMousePos = { Actor_test_02->Transform.GetWorldRotationEuler()};
-	float4 WorldMousePos2 = { degree_X };
-
-
-	OutputDebugStringA(WorldMousePos2.ToString("\n").c_str());
-
-	
-	
-
-
-	OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
-	
-	
-
-	
-
-	if (GameEngineInput::IsDown(VK_F1, this))
-	{
-		Cameratest = !Cameratest;
-	}
-
-	if (true == Cameratest)
-	{
-		int a = 0;
-	}
-	else if (false == Cameratest)
-	{
-		CameraRotation(_Delta);
-	}
-	
-	
-
-
-	
+	// 락온계산 
 
 	if (GameEngineInput::IsDown('Q', this) && Rock_On_Check == false && Rock_on_Time_Check ==true)
 	{
@@ -963,7 +936,7 @@ void Player::Update(float _Delta)
 			{
 				if (MonsterAngle <= 180)
 				{
-					MonsterAngles.push_back(i);
+					MonsterAngles.push_back(static_cast<int>(i));
 
 				}
 			}
@@ -971,13 +944,13 @@ void Player::Update(float _Delta)
 			{
 				if (MonsterAngle < -135)
 				{
-					MonsterAngles.push_back(i);
+					MonsterAngles.push_back(static_cast<int>(i));
 				}
 			}
 
 		}
 
-		for (size_t i = 0; i < MonsterAngles.size(); i++)
+		for (int i = 0; i < static_cast<int>(MonsterAngles.size()); i++)
 		{
 			float Check = abs(Transform.GetWorldPosition().Z -Monster_Actor[MonsterAngles[i]]->Transform.GetWorldPosition().Z);
 
@@ -1037,7 +1010,8 @@ void Player::Update(float _Delta)
 	}
 	
 
-	
+	// 애니메이션 업데이트 
+
 	PlayerStates.Update(_Delta);
 
 
@@ -1103,7 +1077,7 @@ void Player::CameraRotation(float Delta)
 
 		Camera_Pos_Y -= Lerp.Y *10;
 
-		if (Camera_Pos_Y <= -40)
+		if (Camera_Pos_Y <= -50)
 		{
 			Camera_Pos_Y += Lerp.Y * 10;
 		}
@@ -1300,7 +1274,8 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 	Stat.AddPoise(-Stiffness);
 	Stat.AddHp(-AttackerAtt);
 
-	
+	Hp = Stat.GetHp();
+
 
 	return true;
 }
@@ -1330,6 +1305,7 @@ bool Player::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 		pAttacker->SetFlag(Enum_ActorFlag::Break_Posture, true);
 		return true;
 	}
+	
 
 	if (StateValue == PlayerState::Shield_Idle)
 	{

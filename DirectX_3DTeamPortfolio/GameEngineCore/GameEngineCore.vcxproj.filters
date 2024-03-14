@@ -971,6 +971,9 @@
     <ClInclude Include="FogEffect.h">
       <Filter>Rendering\PostEffect</Filter>
     </ClInclude>
+    <ClInclude Include="DepthOfField.h">
+      <Filter>Rendering\PostEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -1190,6 +1193,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineAO.cpp" />
     <ClCompile Include="FogEffect.cpp">
+      <Filter>Rendering\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="DepthOfField.cpp">
       <Filter>Rendering\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>
