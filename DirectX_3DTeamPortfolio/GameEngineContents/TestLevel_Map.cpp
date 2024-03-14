@@ -5,7 +5,7 @@
 #include "ContentsLight.h"
 #include <GameEngineCore\FogEffect.h>
 #include "FXAAEffect.h"
-
+#include "Monster_LothricKn.h"
 
 
 TestLevel_Map::TestLevel_Map()
@@ -26,6 +26,13 @@ void TestLevel_Map::LevelStart(GameEngineLevel* _PrevLevel)
 		std::shared_ptr<WorldMap> Object = CreateActor<WorldMap>(1, "WorldMap");
 		
 	}
+
+
+
+	// 몬스터 셋팅
+	SetAllMonster();
+
+
 
 	//GetMainCamera()->Transform.SetLocalPosition({ -1400.0f, 5101.0f, -5331.0f });
 	//{
@@ -70,7 +77,6 @@ void TestLevel_Map::Start()
 	// 시작위치
 	GetMainCamera()->Transform.SetLocalPosition({ -1400.0f, 5101.0f, -5331.0f });
 
-	
 
 	// 포그 관련
 	std::shared_ptr< FogEffect> Effect =GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FogEffect>();
@@ -113,6 +119,8 @@ void TestLevel_Map::Update(float _Delta)
 
 	RayCast({ 100.0f, }, { 0.0f,0.0f, 5.0f }, 1000.0f);
 
+	float4 Pos = GetMainCamera()->Transform.GetWorldPosition();
+
 
 	if (true == GameEngineInput::IsDown(VK_F6, this))
 	{
@@ -123,4 +131,34 @@ void TestLevel_Map::Update(float _Delta)
 void TestLevel_Map::Release()
 {
 
+}
+
+
+void TestLevel_Map::SetAllMonster()
+{
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -2738.0f, 4435.0f, -1457.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	AllMonsterOn();
+}
+
+void TestLevel_Map::AllMonsterOn()
+{
+
+	for (size_t i = 0; i < AllMonster.size(); i++)
+	{
+		AllMonster[i]->Transform.SetWorldPosition(AllMonster[i]->GetResponPos());
+		AllMonster[i]->On();
+	}
+}
+
+void TestLevel_Map::AllMonsterOff()
+{
+	for (size_t i = 0; i < AllMonster.size(); i++)
+	{
+		AllMonster[i]->Off();
+	}
 }

@@ -59,8 +59,8 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		// NewRenderer->GetShaderResHelper().SetTexture("NormalTexture", "BumpNormal.gif");
 		NewRenderer->Transform.SetLocalPosition({ 0.0f, -40000.0f, 0.0f });
 		NewRenderer->Transform.SetLocalScale({ 1000000.0f, 100.0f, 1000000.0f });
-		NewRenderer->RenderBaseInfoValue.BaseColor = float4(0.0f,0.0f,0.0f,1.0f);
-	}	
+		NewRenderer->RenderBaseInfoValue.BaseColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
+	}
 
 	if (nullptr == Boss_Object)
 	{
@@ -70,7 +70,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 
 	}
 
-	
+
 	// Light
 	if (nullptr == Light)
 	{
@@ -80,7 +80,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 
 		//Data.DifLightPower = 0.1f;
 		Data.AmbientLight = float4(0.05f, 0.05f, 0.025f, 1.0f);
-		Data.LightColor = float4(1.0f, 1.0f, 0.7f); 
+		Data.LightColor = float4(1.0f, 1.0f, 0.7f);
 		Data.LightPower = 10.0f;
 		Data.ForceLightPower = 0.25f;
 
@@ -125,9 +125,9 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		Effect->Init(GetMainCamera());
 	}*/
 
-	
+
 	////FXAA
-		
+
 	GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FXAAEffect>();
 	GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<LUTEffect>();
 
@@ -154,7 +154,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		std::shared_ptr<Monster_HollowSoldier> GameMap = CreateActor<Monster_HollowSoldier>(0 );
 		GameMap->Transform.SetWorldPosition({ -2900.f,-2500.f,6800.f });
 	}*/
-	
+
 	{
 		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
 	}
@@ -167,10 +167,12 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		std::shared_ptr<Monster_LothricKn> Monster;
 		Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Lothric1");
-		Monster->SetWPosition(float4(-5443.0f, -876.f, 10681.f));		
+		Monster->SetWPosition(float4(-5443.0f, -876.f, 10681.f));
 		Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Lothric2");
 		Monster->SetWPosition(float4(-6276, -683, 13803));
 	}
+
+	SetAllMonster();
 
 	std::shared_ptr<GameEngineCoreWindow> CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 
@@ -192,8 +194,6 @@ void Stage_Lothric::LevelEnd(GameEngineLevel* _NextLevel)
 
 void Stage_Lothric::Start()
 {
-	
-
 	ContentLevel::Start();
 	GameEngineInput::AddInputObject(this);
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 0, 0, 0, 1 });
@@ -239,6 +239,36 @@ void Stage_Lothric::Release()
 	{
 		Light->Death();
 		Light = nullptr;
+	}
+}
+
+void Stage_Lothric::SetAllMonster()
+{
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -2738.0f, 4435.0f, -1457.0f });
+
+		AllMonster.push_back(Monster);
+	}
+
+	AllMonsterOn();
+}
+
+void Stage_Lothric::AllMonsterOn()
+{
+
+	for (size_t i = 0; i < AllMonster.size(); i++)
+	{
+		AllMonster[i]->Transform.SetWorldPosition(AllMonster[i]->GetResponPos());
+		AllMonster[i]->On();
+	}
+}
+
+void Stage_Lothric::AllMonsterOff()
+{
+	for (size_t i = 0; i < AllMonster.size(); i++)
+	{
+		AllMonster[i]->Off();
 	}
 }
 
@@ -290,7 +320,7 @@ void Stage_Lothric::CreateObject()
 	{
 		std::shared_ptr<Object_CastleDoor> Object = CreateActor<Object_CastleDoor>(1);
 	}
-	
+
 	{
 		std::shared_ptr<Object_StartDoor> Object = CreateActor<Object_StartDoor>(1);
 	}
