@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "WorldMap.h"
 #include <GameEngineCore\FogEffect.h>
+#include <GameEngineCore\DepthOfField.h>
 #include "FXAAEffect.h"
 #include "Monster_HollowSoldier.h"
 #include "LUTEffect.h"
@@ -109,12 +110,19 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	//}
 	// 
 
-	//
-	// Fog
+	// DepthOfField
 	{
-		std::shared_ptr<FogEffect> Effect = GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FogEffect>();
+		std::shared_ptr<DepthOfField> Effect = GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<DepthOfField>();
 		Effect->Init(GetMainCamera());
 	}
+	//
+	// Fog
+	/*{
+		std::shared_ptr<FogEffect> Effect = GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FogEffect>();
+		Effect->Init(GetMainCamera());
+	}*/
+
+	
 	////FXAA
 		
 	GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FXAAEffect>();
