@@ -75,6 +75,11 @@ void GameEngineDebug::DrawMesh(std::string_view _Mesh, float4 _Scale, float4 _Ro
 		_Camera = GameEngineDebug::GameEngineDebugCore::CurLevel->GetMainCamera().get();
 	}
 
+	if (false == GameEngineLevel::IsDebug)
+	{
+		return;
+	}
+
 
 
 	GameEngineDebugInfo& Value = DebugUnit.emplace_back();
@@ -100,6 +105,11 @@ void GameEngineDebug::DrawLine(float4 _Start, float4 _End, float4 _Color/* = flo
 	if (nullptr == _Camera)
 	{
 		_Camera = GameEngineDebug::GameEngineDebugCore::CurLevel->GetMainCamera().get();
+	}
+
+	if (false == GameEngineLevel::IsDebug)
+	{
+		return;
 	}
 
 	GameEngineDebugInfo& Value = DebugUnit.emplace_back();
