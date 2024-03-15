@@ -128,23 +128,23 @@ struct AI_State
 class Vordt_HitCollision
 {
 	friend class Boss_Vordt;
-	std::shared_ptr<BoneSocketCollision> BodyCollision;
-	std::shared_ptr<BoneSocketCollision> L_Claf_Collision;
-	std::shared_ptr<BoneSocketCollision> L_ClafWist1_Collision;
-	std::shared_ptr<BoneSocketCollision> L_Toe_Collision;
-	std::shared_ptr<BoneSocketCollision> L_Foot_Collision;
-	std::shared_ptr<BoneSocketCollision> L_UpArmTwist_Collision;
-	std::shared_ptr<BoneSocketCollision> L_ForeArm_Collision;
-	std::shared_ptr<BoneSocketCollision> L_Hand_Collision;
-	std::shared_ptr<BoneSocketCollision> R_Claf_Collision;
-	std::shared_ptr<BoneSocketCollision> R_ClafWist1_Collision;
-	std::shared_ptr<BoneSocketCollision> R_Toe_Collision;
-	std::shared_ptr<BoneSocketCollision> R_Foot_Collision;
-	std::shared_ptr<BoneSocketCollision> R_UpArmTwist_Collision;
-	std::shared_ptr<BoneSocketCollision> R_ForeArm_Collision;
-	std::shared_ptr<BoneSocketCollision> R_Hand_Collision;
-	std::shared_ptr<BoneSocketCollision> Neck_Collision;
-	std::shared_ptr<BoneSocketCollision> Throw_Collision;
+	std::shared_ptr<BoneSocketCollision> BodyCollision = nullptr;
+	std::shared_ptr<BoneSocketCollision> L_Claf_Collision = nullptr;
+	std::shared_ptr<BoneSocketCollision> L_ClafWist1_Collision = nullptr;
+	std::shared_ptr<BoneSocketCollision> L_Toe_Collision = nullptr;
+	std::shared_ptr<BoneSocketCollision> L_Foot_Collision = nullptr;
+	std::shared_ptr<BoneSocketCollision> L_UpArmTwist_Collision = nullptr;
+	std::shared_ptr<BoneSocketCollision> L_ForeArm_Collision = nullptr;
+	std::shared_ptr<BoneSocketCollision> L_Hand_Collision = nullptr;
+	std::shared_ptr<BoneSocketCollision> R_Claf_Collision = nullptr;
+	std::shared_ptr<BoneSocketCollision> R_ClafWist1_Collision = nullptr;
+	std::shared_ptr<BoneSocketCollision> R_Toe_Collision = nullptr;
+	std::shared_ptr<BoneSocketCollision> R_Foot_Collision = nullptr;
+	std::shared_ptr<BoneSocketCollision> R_UpArmTwist_Collision = nullptr;
+	std::shared_ptr<BoneSocketCollision> R_ForeArm_Collision = nullptr;
+	std::shared_ptr<BoneSocketCollision> R_Hand_Collision = nullptr;
+	std::shared_ptr<BoneSocketCollision> Neck_Collision = nullptr;
+	std::shared_ptr<BoneSocketCollision> Throw_Collision = nullptr;
 
 	void Off();
 	void On();
@@ -155,13 +155,13 @@ class Vordt_AttackCollision
 {
 	friend class Boss_Vordt;
 	Monster_HitInteraction mBodyHitInteraction;
-	std::shared_ptr<BoneSocketCollision> BodyCollision;
+	std::shared_ptr<BoneSocketCollision> BodyCollision = nullptr;
 	Monster_HitInteraction mHeadHitInteraction;
-	std::shared_ptr<BoneSocketCollision> HeadCollision;
+	std::shared_ptr<BoneSocketCollision> HeadCollision = nullptr;
 	Monster_HitInteraction mWeaponHitInteraction;
-	std::shared_ptr<BoneSocketCollision> WeaponCollision;
+	std::shared_ptr<BoneSocketCollision> WeaponCollision = nullptr;
 	Monster_HitInteraction mHandHitInteraction;
-	std::shared_ptr<BoneSocketCollision> R_HandCollision;
+	std::shared_ptr<BoneSocketCollision> R_HandCollision = nullptr;
 
 	void ResetRecord();
 	void Release();
@@ -193,6 +193,8 @@ protected:
 	bool GetHitToShield(const HitParameter& _Para = HitParameter()) override;
 
 private:
+	// RockOnCollision
+	std::shared_ptr<GameEngineCollision> RockOnCollision = nullptr;
 	// HitCollision
 	Vordt_HitCollision mHitCollision;
 	// AttackCollision

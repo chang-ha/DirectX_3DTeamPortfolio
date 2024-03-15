@@ -615,6 +615,12 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 	StateInit();
 
+	// RockOnCollision
+	if (nullptr == RockOnCollision)
+	{
+		RockOnCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster);
+	}
+
 	//////// Socket Collision
 	// HitCollision
 	BSCol_TransitionParameter ColParameter;
