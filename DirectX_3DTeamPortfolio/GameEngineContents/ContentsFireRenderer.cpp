@@ -60,6 +60,7 @@ void ContentsFireRenderer::Start()
 
 	MainFire = this;
 
+	
 }
 
 void ContentsFireRenderer::Update(float _Delta)
@@ -72,5 +73,10 @@ void ContentsFireRenderer::Update(float _Delta)
 	{
 		FireInfoValue.frameTime -= 1000.0f;
 	}
+
+
+
+
+	
 }
 
