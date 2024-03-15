@@ -771,7 +771,7 @@ void Player::Player_State()
 	NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 		{
 			// 임시 지정 값 
-			 int Stamina = _DeltaTime * 10;
+			 float Stamina = _DeltaTime * 10.0f;
 
 			 Stat.AddStamina(-Stamina);
 

@@ -102,7 +102,7 @@ private:
 	int Att = 0; // 공격력
 	int Souls = 0; // 소울량
 	int Poise = 0; // 강인도
-	float Stamina = 0; // 지구력 
+	float Stamina = 0.0f; // 지구력 
 };
 
 class HitStruct

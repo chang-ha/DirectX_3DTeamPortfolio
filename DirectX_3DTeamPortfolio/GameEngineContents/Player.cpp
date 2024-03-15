@@ -377,7 +377,7 @@ void Player::Start()
 
 	Stat.SetHp(100);
 	Stat.SetAtt(20);
-	Stat.SetStamina(100); 
+	Stat.SetStamina(100.0f); 
 	Sword.Init(this, Attack_Col.get());
 	
 	MainRenderer->AddNotBlendBoneIndex(53);
@@ -896,12 +896,24 @@ void Player::Update(float _Delta)
 		Stat.SetPoise(100);
 	}
 	// 스태미나 
-	if (StateValue != PlayerState::StaminaCheck || StateValue != PlayerState::Parrying || StateValue != PlayerState::Shield_Idle)
+	if (StateValue != PlayerState::StaminaCheck)
 	{
 		if (Stat.GetStamina() < 100)
 		{
-			//int Stamina = _Delta * 10;
-
+			Stat.AddStamina(_Delta * 10);
+		}
+	}
+	else if (StateValue != PlayerState::Parrying)
+	{
+		if (Stat.GetStamina() < 100)
+		{
+			Stat.AddStamina(_Delta * 10);
+		}
+	}
+	else if (StateValue != PlayerState::Shield_Idle)
+	{
+		if (Stat.GetStamina() < 100)
+		{
 			Stat.AddStamina(_Delta * 10);
 		}
 	}
@@ -943,7 +955,7 @@ void Player::Update(float _Delta)
 
 	HitRenderer->Transform.SetWorldPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y,Capsule->GetWorldPosition().z });
 
-	if (Capsule->GetLinearVelocity_f().Y <= -1200)
+	if (Capsule->GetLinearVelocity_f().Y <= -1600)
 	{
 		PlayerStates.ChangeState(PlayerState::fail);
 	}
@@ -1527,7 +1539,7 @@ bool Player::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 
 		Stat.AddPoise(-Stiffness);
 		//Stat.AddStamina(-AttackerAtt);
-		Stat.AddStamina(-AttackerAtt);
+		Stat.AddStamina(-20.0f);
 
 		if (Stat.GetPoise() > 70)
 		{
