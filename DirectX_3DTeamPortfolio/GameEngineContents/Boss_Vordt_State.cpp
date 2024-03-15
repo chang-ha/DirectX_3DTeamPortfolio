@@ -875,6 +875,10 @@ Enum_JumpTableFlag Boss_Vordt::AI_Combo()
 
 	if (true == AI_Off)
 	{
+		if (true == ChangeAI_State(Enum_BossState::Idle))
+		{
+			return Enum_JumpTableFlag::StopJumpTable;
+		}
 		return Enum_JumpTableFlag::Default;
 	}
 
@@ -1012,6 +1016,10 @@ Enum_JumpTableFlag Boss_Vordt::AI_Attack()
 
 	if (true == AI_Off)
 	{
+		if (true == ChangeAI_State(Enum_BossState::Idle))
+		{
+			return Enum_JumpTableFlag::StopJumpTable;
+		}
 		return Enum_JumpTableFlag::Default;
 	}
 
@@ -1209,6 +1217,10 @@ Enum_JumpTableFlag Boss_Vordt::AI_MoveMent()
 
 	if (true == AI_Off)
 	{
+		if (true == ChangeAI_State(Enum_BossState::Idle))
+		{
+			return Enum_JumpTableFlag::StopJumpTable;
+		}
 		return Enum_JumpTableFlag::Default;
 	}
 
@@ -1330,6 +1342,10 @@ Enum_JumpTableFlag Boss_Vordt::AI_Dodge()
 
 	if (true == AI_Off)
 	{
+		if (true == ChangeAI_State(Enum_BossState::Idle))
+		{
+			return Enum_JumpTableFlag::StopJumpTable;
+		}
 		return Enum_JumpTableFlag::Default;
 	}
 

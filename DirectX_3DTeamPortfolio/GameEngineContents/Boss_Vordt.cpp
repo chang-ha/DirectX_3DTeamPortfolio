@@ -853,9 +853,11 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::Boss_Vordt));
 
 	Stat.SetHp(BOSS_HP);
-	Stat.SetAtt(10);
+	Stat.SetAtt(0);
 	Stat.SetSouls(3000);
 	Stat.SetPoise(100);
+
+	Off();
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
