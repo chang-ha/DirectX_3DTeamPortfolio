@@ -22,7 +22,7 @@ protected:
 	bool IsArrive(const float4& _ActorPos) const;
 	void ChangePath();
 
-	void ValidityCheck(std::string_view _MSG = nullptr);
+	void ValidityCheck(std::string_view _MSG = "");
 
 private:
 	std::vector<float4> Paths;
