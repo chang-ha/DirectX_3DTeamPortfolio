@@ -71,7 +71,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 	
 	{
-		std::shared_ptr<Boss_Vordt> GameMap = CreateActor<Boss_Vordt>(0);
+		std::shared_ptr<Monster_LothricKn> GameMap = CreateActor<Monster_LothricKn>(0);
 
 		//GameMap->Transform.SetWorldPosition({ 0.0f,000.0f,-1000.3f });
 
@@ -80,6 +80,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 		GameMap2->Transform.SetWorldPosition({ 0.0f,000.0f,-2000.3f });*/
 		
 		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
+		GameMap->SetTargeting(Object.get());
 		
 		
 
