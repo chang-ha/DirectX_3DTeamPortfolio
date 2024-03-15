@@ -31,6 +31,9 @@ enum class Enum_HollowSoldier_Lantern_State
 	Hit_Right,
 	HitToDeath,
 	BackAttackHit,
+	BackAttackDeath,
+	AfterGuardBreakHit,
+	AfterGuardBreakDeath,
 	Death,
 	Max,
 };
@@ -165,6 +168,15 @@ protected:
 
 	void State_BackAttackHit_Start();
 	void State_BackAttackHit_Update(float _Delta);
+
+	void State_BackAttackDeath_Start();
+	void State_BackAttackDeath_Update(float _Delta);
+
+	void State_AfterGuardBreakHit_Start();
+	void State_AfterGuardBreakHit_Update(float _Delta);
+
+	void State_AfterGuardBreakDeath_Start();
+	void State_AfterGuardBreakDeath_Update(float _Delta);
 
 	void State_Death_Start();
 	void State_Death_Update(float _Delta);

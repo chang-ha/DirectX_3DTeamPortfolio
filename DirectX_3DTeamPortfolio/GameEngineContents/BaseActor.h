@@ -22,7 +22,6 @@ enum class Enum_ActorFlag
 	Death,
 	Parrying,
 	Guarding,
-	Hit,
 	HyperArmor,
 	Block_Shield,
 	Guard_Break,
@@ -44,7 +43,6 @@ enum class Enum_ActorFlagBit
 	Death = (1 << 1),
 	Parrying = (1 << 2),
 	Guarding = (1 << 3),
-	Hit = (1 << 10),
 	HyperArmor = (1 << 11),
 	Block_Shield = (1 << 12), // 방패에 막힘
 	Guard_Break = (1 <<  13), // 가드 브레이크
@@ -255,9 +253,6 @@ public:
 		IsUpdate() ? Capsule->On() : Capsule->Off();
 	}
 
-	void SetWorldPosition(const float4& _Pos);
-	void SetWorldRotation(const float4& _Rot);
-
 	// ID
 	// 애니메이션 프레임 이벤트를 사용하려면 필수로 등록해줘야하는 자신의 고유 ID입니다.
 	// 등록하지 않으면 Animation Editor 기능을 사용할 수 없습니다. 
@@ -273,6 +268,12 @@ public:
 	float GetWDirection() const;
 	void SetWPosition(const float4& _wPos);
 
+	void SetWorldPosition(const float4& _Pos);
+	void SetWorldRotation(const float4& _Rot);
+
+	// 로직 리셋
+	virtual void Reset() {} 
+
 	// Flag
 	// 상대방의 행동을 지정해주려면 Flag 즉, 상대방의 State 변수를 바꿔주는 것이 효율적일 것 같아서 구현했습니다.
 	// 상대방의 State에 관련된 Flag Bit를 바꿔 그 Flag에 맞는 상태를 구현하는게 직접 State를 변경하는 것보다 더 낫다고 생각합니다. 
@@ -280,6 +281,7 @@ public:
 	void SetFlag(Enum_ActorFlag _Flag, bool _Value);
 	void AddFlag(Enum_ActorFlag _Flag);
 	void SubFlag(Enum_ActorFlag _Flag);
+	void SetFlagNull() { Flags = 0; }
 	void DebugFlag() const;
 
 	// Getter
@@ -372,6 +374,7 @@ private:
 
 protected:
 	static constexpr float W_SCALE = 100.0f; // 모두의 스케일
+	static constexpr int MAX_POISE = 100; // 강직도 세팅
 
 	std::shared_ptr<GameContentsFBXRenderer> MainRenderer;
 	std::shared_ptr<class GameEnginePhysXCapsule> Capsule;
