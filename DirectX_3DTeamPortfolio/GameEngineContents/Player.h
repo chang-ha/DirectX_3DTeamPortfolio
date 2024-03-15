@@ -133,10 +133,6 @@ public:
 	{
 		return Stamina;
 	}
-	float GetHp()
-	{
-		return Hp;
-	}
 
 
 
@@ -208,7 +204,7 @@ private:
 
 	
 
-	float MonsterAngle;
+	float MonsterAngle = 0.0f;
 
 
 	bool Rock_On_Check = false;
