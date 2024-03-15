@@ -881,6 +881,7 @@ void Monster_HollowSoldier_Spear::State_Attack1_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 53)
 		{
+			Spear.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
 		}
 	}
@@ -918,6 +919,7 @@ void Monster_HollowSoldier_Spear::State_Attack2_Update(float _Delta)
 		if (MainRenderer->GetCurAnimationFrame() >= 25)
 		{
 			Spear.Off();
+			Spear.ResetRecord();
 			MainRenderer->ChangeAnimation("c1100_Spear_Pike2");
 		}
 	}
@@ -956,6 +958,7 @@ void Monster_HollowSoldier_Spear::State_Attack2_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 62)
 		{
+			Spear.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
 		}
 	}
@@ -997,6 +1000,7 @@ void Monster_HollowSoldier_Spear::State_Attack3_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 53)
 		{
+			Spear.ResetRecord();
 			MainRenderer->ChangeAnimation("c1100_Spear_Swing");
 		}
 	}
@@ -1035,6 +1039,7 @@ void Monster_HollowSoldier_Spear::State_Attack3_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 68)
 		{
+			Spear.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
 		}
 	}
@@ -1076,6 +1081,7 @@ void Monster_HollowSoldier_Spear::State_Attack4_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 91)
 		{
+			Spear.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
 		}
 	}
@@ -1117,6 +1123,7 @@ void Monster_HollowSoldier_Spear::State_Attack5_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 68)
 		{
+			Spear.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
 		}
 	}
@@ -1158,6 +1165,7 @@ void Monster_HollowSoldier_Spear::State_Attack6_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 68)
 		{
+			Spear.ResetRecord();
 			MainRenderer->ChangeAnimation("c1100_Spear_Pike1");
 		}
 	}
@@ -1196,6 +1204,7 @@ void Monster_HollowSoldier_Spear::State_Attack6_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 53)
 		{
+			Spear.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
 		}
 	}
@@ -1212,28 +1221,29 @@ void Monster_HollowSoldier_Spear::State_RunToPike_Update(float _Delta)
 	ChangeHitState();
 
 	if (MainRenderer->GetCurAnimationFrame() >= 23 && MainRenderer->GetCurAnimationFrame() <= 27)
+	{
+		Spear.On();
+
+		Spear.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+		if (true == Spear.GetBlock())
 		{
-			Spear.On();
-
-			Spear.CollisionToShield(Enum_CollisionOrder::Player_Shield);
-			if (true == Spear.GetBlock())
-			{
-				ChangeState(Enum_HollowSoldier_Spear_State::AttackFail);
-			}
-			else
-			{
-				Spear.CollisionToBody(Enum_CollisionOrder::Player_Body);
-			}
-
+			ChangeState(Enum_HollowSoldier_Spear_State::AttackFail);
+		}
+		else
+		{
+			Spear.CollisionToBody(Enum_CollisionOrder::Player_Body);
 		}
 
-		if (MainRenderer->GetCurAnimationFrame() >= 28)
-		{
-			Spear.Off();
-		}
+	}
+
+	if (MainRenderer->GetCurAnimationFrame() >= 28)
+	{
+		Spear.Off();
+	}
 
 	if (MainRenderer->GetCurAnimationFrame() >= 74)
 	{
+		Spear.ResetRecord();
 		ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
 	}
 }
@@ -1428,6 +1438,8 @@ void Monster_HollowSoldier_Spear::State_GuardBreak_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_AttackFail_Start()
 {
+	Spear.Off();
+	Spear.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Spear_AttackFail");
 }
 void Monster_HollowSoldier_Spear::State_AttackFail_Update(float _Delta)
@@ -1440,6 +1452,8 @@ void Monster_HollowSoldier_Spear::State_AttackFail_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Parrying_Start()
 {
+	Hit.SetHit(false);
+	Spear.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Spear_Parrying");
 }
 void Monster_HollowSoldier_Spear::State_Parrying_Update(float _Delta)

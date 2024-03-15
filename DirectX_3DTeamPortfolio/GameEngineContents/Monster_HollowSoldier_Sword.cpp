@@ -824,8 +824,31 @@ void Monster_HollowSoldier_Sword::State_RH_RunToSting_Start()
 }
 void Monster_HollowSoldier_Sword::State_RH_RunToSting_Update(float _Delta)
 {
+	ChangeHitState();
+
+	if (MainRenderer->GetCurAnimationFrame() >= 35 && MainRenderer->GetCurAnimationFrame() <= 41)
+	{
+		Sword.On();
+
+		Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+		if (true == Sword.GetBlock())
+		{
+			ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+		}
+		else
+		{
+			Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+		}
+	}
+	
+	if (MainRenderer->GetCurAnimationFrame() >= 42)
+	{
+		Sword.Off();
+	}
+
 	if (MainRenderer->GetCurAnimationFrame() >= 159)
 	{
+		Sword.ResetRecord();
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 	}
 }
@@ -833,7 +856,6 @@ void Monster_HollowSoldier_Sword::State_RH_RunToSting_Update(float _Delta)
 void Monster_HollowSoldier_Sword::State_Attack1_Start()
 {
 	MainRenderer->ChangeAnimation("c1100_RH_VerticalSlash");
-	
 }
 void Monster_HollowSoldier_Sword::State_Attack1_Update(float _Delta)
 {
@@ -868,6 +890,7 @@ void Monster_HollowSoldier_Sword::State_Attack1_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 100)
 		{
+			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 		}
 	}
@@ -906,6 +929,7 @@ void Monster_HollowSoldier_Sword::State_Attack2_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 35)
 		{
+			Sword.ResetRecord();
 			MainRenderer->ChangeAnimation("c1100_RH_HorizontalSlash");
 		}
 	}
@@ -945,6 +969,7 @@ void Monster_HollowSoldier_Sword::State_Attack2_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 107)
 		{
+			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 		}
 	}
@@ -983,6 +1008,7 @@ void Monster_HollowSoldier_Sword::State_Attack3_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 35)
 		{
+			Sword.ResetRecord();
 			MainRenderer->ChangeAnimation("c1100_RH_HorizontalSlash");
 		}
 	}
@@ -1022,6 +1048,7 @@ void Monster_HollowSoldier_Sword::State_Attack3_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 22)
 		{
+			Sword.ResetRecord();
 			MainRenderer->ChangeAnimation("c1100_TH_VerticalSlash");
 		}
 	}
@@ -1062,6 +1089,7 @@ void Monster_HollowSoldier_Sword::State_Attack3_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 107)
 		{
+			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 		}
 	}
@@ -1146,6 +1174,7 @@ void Monster_HollowSoldier_Sword::State_Attack5_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 35)
 		{
+			Sword.ResetRecord();
 			MainRenderer->ChangeAnimation("c1100_RH_HorizontalSlash");
 		}
 	}
@@ -1184,6 +1213,7 @@ void Monster_HollowSoldier_Sword::State_Attack5_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 22)
 		{
+			Sword.ResetRecord();
 			MainRenderer->ChangeAnimation("c1100_RH_ChargingSting");
 		}
 	}
@@ -1224,6 +1254,7 @@ void Monster_HollowSoldier_Sword::State_Attack5_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 144)
 		{
+			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 		}
 	}
@@ -1262,6 +1293,7 @@ void Monster_HollowSoldier_Sword::State_Attack6_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 35)
 		{
+			Sword.ResetRecord();
 			MainRenderer->ChangeAnimation("c1100_RH_TwinSlash");
 		}
 	}
@@ -1300,6 +1332,12 @@ void Monster_HollowSoldier_Sword::State_Attack6_Update(float _Delta)
 			Sword.Off();
 		}
 
+		// 중간에 RecordReset 호출 한번 해야할꺼같은데?
+		if (MainRenderer->GetCurAnimationFrame() >= 18 && MainRenderer->GetCurAnimationFrame() <= 19)
+		{
+			Sword.ResetRecord();
+		}
+
 		if (MainRenderer->GetCurAnimationFrame() >= 31 && MainRenderer->GetCurAnimationFrame() <= 34)
 		{
 			Sword.On();
@@ -1323,6 +1361,7 @@ void Monster_HollowSoldier_Sword::State_Attack6_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 113)
 		{
+			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 		}
 	}
@@ -1361,6 +1400,7 @@ void Monster_HollowSoldier_Sword::State_Attack7_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 35)
 		{
+			Sword.ResetRecord();
 			MainRenderer->ChangeAnimation("c1100_RH_TwinSlash");
 		}
 	}
@@ -1399,6 +1439,12 @@ void Monster_HollowSoldier_Sword::State_Attack7_Update(float _Delta)
 			Sword.Off();
 		}
 
+		// 중간에 RecordReset 한번 호출 해야할꺼같은데?
+		if (MainRenderer->GetCurAnimationFrame() >= 18 && MainRenderer->GetCurAnimationFrame() <= 19)
+		{
+			Sword.ResetRecord();
+		}
+
 		if (MainRenderer->GetCurAnimationFrame() >= 31 && MainRenderer->GetCurAnimationFrame() <= 34)
 		{
 			Sword.On();
@@ -1422,6 +1468,7 @@ void Monster_HollowSoldier_Sword::State_Attack7_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 47)
 		{
+			Sword.ResetRecord();
 			MainRenderer->ChangeAnimation("c1100_TH_VerticalSlash");
 		}
 	}
@@ -1462,6 +1509,7 @@ void Monster_HollowSoldier_Sword::State_Attack7_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 125)
 		{
+			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 		}
 	}
@@ -1501,6 +1549,7 @@ void Monster_HollowSoldier_Sword::State_Attack8_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 35)
 		{
+			Sword.ResetRecord();
 			MainRenderer->ChangeAnimation("c1100_Th_VerticalSlash");
 		}
 	}
@@ -1541,6 +1590,7 @@ void Monster_HollowSoldier_Sword::State_Attack8_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 125)
 		{
+			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 		}
 	}
@@ -1575,6 +1625,12 @@ void Monster_HollowSoldier_Sword::State_Attack9_Update(float _Delta)
 			Sword.Off();
 		}
 
+		// 중간에 ResetRecord 해줘야함.
+		if (MainRenderer->GetCurAnimationFrame() >= 18 && MainRenderer->GetCurAnimationFrame() <= 19)
+		{
+			Sword.ResetRecord();
+		}
+
 		if (MainRenderer->GetCurAnimationFrame() >= 31 && MainRenderer->GetCurAnimationFrame() <= 34)
 		{
 			Sword.On();
@@ -1598,6 +1654,7 @@ void Monster_HollowSoldier_Sword::State_Attack9_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 113)
 		{
+			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 		}
 	}
@@ -1634,6 +1691,12 @@ void Monster_HollowSoldier_Sword::State_Attack10_Update(float _Delta)
 			Sword.Off();
 		}
 
+		// 중간에 ResetRecord 해줘야함.
+		if (MainRenderer->GetCurAnimationFrame() >= 18 && MainRenderer->GetCurAnimationFrame() <= 19)
+		{
+			Sword.ResetRecord();
+		}
+
 		if (MainRenderer->GetCurAnimationFrame() >= 31 && MainRenderer->GetCurAnimationFrame() <= 34)
 		{
 			Sword.On();
@@ -1657,6 +1720,7 @@ void Monster_HollowSoldier_Sword::State_Attack10_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 45)
 		{
+			Sword.ResetRecord();
 			MainRenderer->ChangeAnimation("c1100_TH_VerticalSlash");
 		}
 	}
@@ -1696,6 +1760,7 @@ void Monster_HollowSoldier_Sword::State_Attack10_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 125)
 		{
+			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 		}
 	}
@@ -1734,6 +1799,7 @@ void Monster_HollowSoldier_Sword::State_Attack11_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 119)
 		{
+			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 		}
 	}
@@ -1817,6 +1883,7 @@ void Monster_HollowSoldier_Sword::State_Attack13_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 125)
 		{
+			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 		}
 	}
@@ -1937,6 +2004,7 @@ void Monster_HollowSoldier_Sword::State_Turn_Right_Twice1_Update(float _Delta)
 void Monster_HollowSoldier_Sword::State_AttackFail_Start() 
 {
 	Sword.Off();
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_AttackFail");
 
 }
@@ -1951,6 +2019,7 @@ void Monster_HollowSoldier_Sword::State_AttackFail_Update(float _Delta)
 void Monster_HollowSoldier_Sword::State_Parrying_Start()
 {
 	Hit.SetHit(false);
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Parrying");
 }
 void Monster_HollowSoldier_Sword::State_Parrying_Update(float _Delta)
