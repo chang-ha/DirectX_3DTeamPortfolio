@@ -36,10 +36,14 @@ void Player_HitInteraction::CollisionToBody(Enum_CollisionOrder _Order, int _iSt
 					continue;
 				}
 
-				const float4 ColPos = pCollision->Transform.GetWorldPosition();
-				const float4 OtherPos = pCol->Transform.GetWorldPosition();
-				const float4 DirVector = ColPos - OtherPos;
-				Enum_DirectionXZ_Quat eDir = ContentsMath::ReturnXZDirectionToVector(DirVector);
+				const float4 Bullet_WPos = pCollision->Transform.GetWorldPosition();
+				const float4 Other_WPos = pActor->Transform.GetWorldPosition();
+				const float4 DirVec = Other_WPos - Bullet_WPos;
+
+				const float4 Other_WRot = pActor->Transform.GetWorldRotationEuler();
+				const float4 Other_Forward = float4::VectorRotationToDegY(float4::FORWARD, Other_WRot.Y);
+
+				const Enum_DirectionXZ_Quat eDir = ContentsMath::ReturnXZDirectionToVector(Other_Forward, DirVec);
 
 				//RecordCollision(pActor.get());
 				pActor->GetHit({ pParent, _iStiffness, eDir });

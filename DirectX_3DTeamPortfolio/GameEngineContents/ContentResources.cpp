@@ -286,4 +286,12 @@ void ContentResources::ContentResourcesInit()
 	{
 		GameEngineFont::Load("OptimusPrincepsSemiBold");
 	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("TargetMergeShadow");
+		Mat->SetVertexShader("TargetMergeShadow_VS");
+		Mat->SetPixelShader("TargetMergeShadow_PS");
+		Mat->SetDepthState("AlwaysDepth");
+		Mat->SetRasterizer("EngineRasterizer");
+	}
 }

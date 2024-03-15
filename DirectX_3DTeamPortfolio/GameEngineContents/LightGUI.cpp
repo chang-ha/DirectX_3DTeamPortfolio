@@ -166,7 +166,9 @@ void LightGUI::LightEditor(GameEngineLevel* _Level)
 		{
 			SelectActor->IsDebugValue = !SelectActor->IsDebugValue;
 		}
+
 		
+		ImGui::InputFloat("DynamicShadowDistance", &GameEngineCamera::DynamicShadowDistance, 0.0f, 0.0f, "%.3f");
 
 		SelectActor->SetLightData(Data);
 

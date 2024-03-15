@@ -215,6 +215,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="CameraCapsule.cpp" />
+    <ClCompile Include="ContentsHitRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="LothricKn_Debug.cpp">
       <SubType>
       </SubType>
@@ -226,6 +230,10 @@
     <ClCompile Include="Object_HumanTree4.cpp" />
     <ClCompile Include="Object_HumanTree5.cpp" />
     <ClCompile Include="Object_Torchlight.cpp" />
+    <ClCompile Include="PatrolPath.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="SingleCenterSoundFrameEvent.cpp">
       <SubType>
       </SubType>
@@ -459,20 +467,12 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TestLevel_ObjectTest.cpp" />
-    <ClCompile Include="TestLevel_PhysX.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="TestLevel_Shader.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="TestMap.cpp" />
     <ClCompile Include="TestMapObject.cpp" />
-    <ClCompile Include="TestObject.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="TestObject_Shader.cpp" />
     <ClCompile Include="TitleLevel.cpp">
       <SubType>
@@ -548,6 +548,10 @@
     </ClInclude>
     <ClInclude Include="BossHpBar.h" />
     <ClInclude Include="CameraCapsule.h" />
+    <ClInclude Include="ContentsHitRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="LothricKn_Debug.h">
       <SubType>
       </SubType>
@@ -559,6 +563,10 @@
     <ClInclude Include="Object_HumanTree4.h" />
     <ClInclude Include="Object_HumanTree5.h" />
     <ClInclude Include="Object_Torchlight.h" />
+    <ClInclude Include="PatrolPath.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="SingleCenterSoundFrameEvent.h">
       <SubType>
       </SubType>
@@ -792,20 +800,12 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TestLevel_ObjectTest.h" />
-    <ClInclude Include="TestLevel_PhysX.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="TestLevel_Shader.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="TestMap.h" />
     <ClInclude Include="TestMapObjcet.h" />
-    <ClInclude Include="TestObject.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="TestObject_Shader.h" />
     <ClInclude Include="TitleLevel.h">
       <SubType>

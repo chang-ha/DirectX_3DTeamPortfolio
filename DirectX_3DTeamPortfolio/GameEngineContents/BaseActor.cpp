@@ -37,9 +37,10 @@ void ContentsActorInitial::Init()
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Block_Shield, Enum_ActorFlagBit::Block_Shield));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Guard_Break, Enum_ActorFlagBit::Guard_Break));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Break_Posture, Enum_ActorFlagBit::Break_Posture));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::TwoHand, Enum_ActorFlagBit::TwoHand));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Groggy, Enum_ActorFlagBit::Groggy));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::FrontStab, Enum_ActorFlagBit::FrontStab));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::BackStab, Enum_ActorFlagBit::BackStab));
+	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::TwoHand, Enum_ActorFlagBit::TwoHand));
 }
 
 std::unordered_map<Enum_ActorFlag, Enum_ActorFlagBit> BaseActor::FlagIndex;
@@ -78,6 +79,25 @@ void BaseActor::Release()
 	SocketCollisions.clear();
 	Target = nullptr;
 	mJumpTableManager.Release();
+}
+
+void BaseActor::SetWorldPosition(const float4& _Pos)
+{
+	if (false == Capsule->IsInit())
+	{
+		MsgBoxAssert("PhysX 충돌체가 존재하지 않습니다.");
+	}
+
+	Capsule->SetWorldPosition(_Pos);
+}
+void BaseActor::SetWorldRotation(const float4& _Rot)
+{
+	if (false == Capsule->IsInit())
+	{
+		MsgBoxAssert("PhysX 충돌체가 존재하지 않습니다.");
+	}
+
+	Capsule->SetWorldRotation(_Rot);
 }
 
 void BaseActor::AddWDirection(float _Degree)
@@ -155,7 +175,6 @@ void BaseActor::DebugFlag() const
 	bool TwoHandValue = IsFlag(Enum_ActorFlag::TwoHand);
 	bool FrontStabValue = IsFlag(Enum_ActorFlag::FrontStab);
 	bool BackStabValue = IsFlag(Enum_ActorFlag::BackStab);
-	int a = 0;
 }
 
 float4x4& BaseActor::GetBoneMatrixToIndex(int _Index)
@@ -395,6 +414,35 @@ float4 BaseActor::GetTargetDirection() const
 	float4 Direction = TargetPos - MyPos;
 	Direction.Normalize();
 	return Direction;
+}
+
+
+void BaseActor::RotToTarget(float _DeltaTime, float _fMinSpeed, float _fMaxSpeed, float _DeclinePoint /*= 45.0f*/)
+{
+	float Speed = _fMaxSpeed;
+
+	const float fRotDir = BaseActor::GetRotDir_f();
+	if (fRotDir == 0.0f)
+	{
+		int a = 0;
+	}
+
+	const float fAbsTargetAngle = std::fabs(BaseActor::GetTargetAngle());
+	if (fAbsTargetAngle < _DeclinePoint)
+	{
+		const float Ratio = fAbsTargetAngle / _DeclinePoint;
+		Speed = std::lerp(_fMinSpeed, _fMaxSpeed, Ratio);
+	}
+
+	const float RotAngle = fRotDir * Speed * _DeltaTime;
+
+	if (nullptr == Capsule)
+	{
+		MsgBoxAssert("피직스 컨포넌트가 존재하지 않습니다.");
+		return;
+	}
+
+	Capsule->AddWorldRotation(float4(0.0f, RotAngle, 0.0f));
 }
 
 void JumpTableManager::AddJumpTable(std::string_view _AnimationName, JumpTableInfo _JumpTableInfo)

@@ -34,8 +34,11 @@ void WorldMap::Start()
 		physx::PxFilterData FilterData;
 
 		FilterData.word0 = static_cast<int>(Enum_CollisionOrder::Map);
+		FilterData.word0 = static_cast<int>(Enum_CollisionOrder::Player);
 		FilterData.word1 = static_cast<int>(Enum_CollisionOrder::Camera);		
 		FilterData.word2 = static_cast<int>(Enum_CollisionOrder::Big_Camera);
+		
+
 
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>();
 		FBXRenderer->SetMapFBXMesh("World1.FBX", "FBX_Static");
@@ -55,7 +58,7 @@ void WorldMap::Start()
 		TriMesh2->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.0f });
 		TriMesh2->PhysXComponentInit("World2.FBX0" , &FilterData);
 
-		SkyRenderer = CreateComponent<GameContentsFBXRenderer>();
+		SkyRenderer = CreateComponent<GameContentsFBXRenderer>(-1);
 		SkyRenderer->SetFBXMesh("WorldSky.FBX", "FBX_Static_Alpha", RenderPath::Alpha);
 		//SkyRenderer->RenderBaseInfoValue.TEXCOORDMult = 1.0f;
 

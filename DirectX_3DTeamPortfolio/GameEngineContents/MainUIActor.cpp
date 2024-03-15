@@ -67,7 +67,7 @@ void MainUIActor::Start()
 		PlayerIcon = CreateComponent<GameEngineUIRenderer>();
 		PlayerIcon->SetSprite("PlayerIcon.Png");
 		PlayerIcon->AutoSpriteSizeOn();
-		PlayerIcon->Transform.SetLocalPosition({ -WindowScale.X + 60.0f, 300.0f });
+		PlayerIcon->Transform.SetLocalPosition({ -WindowScale.X + 60.0f, 400.0f });
 	}
 
 
@@ -102,6 +102,5 @@ void MainUIActor::Update(float _Delta)
 
 	float4 MousePos = GameEngineCore::MainWindow.GetMousePos();
 
-	int a = 0;
 }
 

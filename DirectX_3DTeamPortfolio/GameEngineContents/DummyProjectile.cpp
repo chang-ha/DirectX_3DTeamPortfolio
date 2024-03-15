@@ -120,11 +120,6 @@ void DummyProjectile::AttackCollision()
 					return;
 				}
 
-				const float4 Bullet_WPos = AttackCol->Transform.GetWorldPosition();
-				const float4 Other_WPos = pCollsion->Transform.GetWorldPosition();
-				const float4 DirVec = Other_WPos - Bullet_WPos;
-				const Enum_DirectionXZ_Quat eDir = ContentsMath::ReturnXZDirectionToVector(DirVec);
-
 				std::weak_ptr<BaseActor> wpObject = pCollsion->GetActor()->GetDynamic_Cast_This<BaseActor>();
 				if (wpObject.expired())
 				{
@@ -132,7 +127,17 @@ void DummyProjectile::AttackCollision()
 					return;
 				}
 
-				std::shared_ptr<BaseActor> pActor = wpObject.lock();
+				const std::shared_ptr<BaseActor>& pActor = wpObject.lock();
+
+				const float4 Bullet_WPos = AttackCol->Transform.GetWorldPosition();
+				const float4 Other_WPos = pActor->Transform.GetWorldPosition();
+				const float4 DirVec = Other_WPos - Bullet_WPos;
+
+				const float4 Other_WRot = pActor->Transform.GetWorldRotationEuler();
+				const float4 Other_Forward = float4::VectorRotationToDegY(float4::FORWARD,Other_WRot.Y);
+
+				const Enum_DirectionXZ_Quat eDir = ContentsMath::ReturnXZDirectionToVector(Other_Forward, DirVec);
+
 				if (pActor->GetHitToShield({ pParent, 100 }))
 				{
 					MainState.ChangeState(eState::Ready); 

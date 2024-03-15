@@ -31,7 +31,7 @@ void ContentsAlphaSpriteRenderer::Load()
 	}
 
 	{
-		// Fire 로드
+		// Hit 로드
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExistsChild("ContentsResources");
 		Dir.MoveChild("ContentsResources");

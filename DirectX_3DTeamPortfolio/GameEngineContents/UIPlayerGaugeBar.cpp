@@ -12,7 +12,7 @@ UIPlayerGaugeBar::~UIPlayerGaugeBar()
 
 //BarStruct* BarStruct::BackBar;
 
-#define First_Bar_Pos float4(105, 320)
+#define First_Bar_Pos float4(105, 420)
 
 void UIPlayerGaugeBar::Start()
 {

@@ -23,5 +23,9 @@ private:
 	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer;
 	std::shared_ptr<class ContentsLight> Light;
 	std::shared_ptr<ContentsFireRenderer> FireRender;
+
+	float LightPowerTime = 0.0f;
+	unsigned int NoiseXOffset = 0;
+	std::shared_ptr<GameEngineTexture> NoiseTexture;
 };
 

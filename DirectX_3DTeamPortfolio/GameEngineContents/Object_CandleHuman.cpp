@@ -4,6 +4,7 @@
 #include "ContentsFireRenderer.h"
 #include "ContentsLight.h"
 #include "ContentsAlphaSpriteRenderer.h"
+#include "ContentsHitRenderer.h"
 
 
 Object_CandleHuman::Object_CandleHuman()
@@ -39,24 +40,27 @@ void Object_CandleHuman::Start()
 		FireRender->CreateAnimation("CandleFire", "CandleFire2.dds", 0.0666f, -1, -1);
 		FireRender->ChangeAnimation("CandleFire");
 
+		/*std::shared_ptr<ContentsHitRenderer> Render = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
 
+		Render->Transform.SetLocalPosition({ -1.5f,90.f,87.f });
+		Render->SetAutoScaleRatio({ 0.15f, 0.15f, 0.15f });*/
 
-		//GameEngineLevel* Level = GetLevel();
-		//Light = Level->CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Point");
-		//Light->SetLightType(Enum_LightType::Point);
+		GameEngineLevel* Level = GetLevel();
+		Light = Level->CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Point");
+		Light->SetLightType(Enum_LightType::Point);
 
-		////Light->IsDebugValue = true;
+		//Light->IsDebugValue = true;
 
-		//LightData Data = Light->GetLightData();
+		LightData Data = Light->GetLightData();
 
-		//Data.LightPower = 5.0f;
-		//Data.LightColor = { 1.2f,0.7f,0.4f };
+		Data.LightPower = 5.0f;
+		Data.LightColor = { 1.2f,0.7f,0.4f };
 
-		//Light->SetLightData(Data);
+		Light->SetLightData(Data);
 	}
 }
 
 void Object_CandleHuman::Update(float _Delta)
 {
-	//Light->Transform.SetLocalPosition(FireRender->Transform.GetWorldPosition());
+	Light->Transform.SetLocalPosition(FireRender->Transform.GetWorldPosition());
 }

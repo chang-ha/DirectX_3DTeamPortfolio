@@ -53,5 +53,7 @@ private:
 
     FireInfo FireInfoValue;
     float TimeScale = 1.0f;
+
+   
 };
 

@@ -27,9 +27,10 @@ enum class Enum_ActorFlag
 	Block_Shield,
 	Guard_Break,
 	Break_Posture,
-	TwoHand,
+	Groggy,
 	FrontStab,
 	BackStab,
+	TwoHand,
 };
 
 // 실제 상태 비트값
@@ -48,9 +49,10 @@ enum class Enum_ActorFlagBit
 	Block_Shield = (1 << 12), // 방패에 막힘
 	Guard_Break = (1 <<  13), // 가드 브레이크
 	Break_Posture = (1 << 14), // 패링 당함  << 마땅한 명칭이 없음
-	TwoHand = (1 << 15), 
+	Groggy = (1 << 15),
 	FrontStab = (1 << 16), // 앞잡
 	BackStab = (1 << 17), // 뒤잡
+	TwoHand = (1 << 20), // 뒤잡
 };
 
 enum Enum_RotDir
@@ -228,6 +230,27 @@ public:
 	BaseActor(BaseActor&& _Other) noexcept = delete;
 	BaseActor& operator=(const BaseActor& _Other) = delete;
 	BaseActor& operator=(BaseActor&& _Other) noexcept = delete;
+
+	void On() override
+	{
+		GameEngineActor::On();
+		Capsule->On();
+	}
+
+	void Off() override
+	{
+		GameEngineActor::Off();
+		Capsule->Off();
+	}
+
+	void OnOffSwitch() override
+	{
+		GameEngineActor::OnOffSwitch();
+		IsUpdate() ? Capsule->On() : Capsule->Off();
+	}
+
+	void SetWorldPosition(const float4& _Pos);
+	void SetWorldRotation(const float4& _Rot);
 
 	// ID
 	// 애니메이션 프레임 이벤트를 사용하려면 필수로 등록해줘야하는 자신의 고유 ID입니다.
@@ -419,6 +442,7 @@ public:
 
 	float GetTargetDistance() const;
 	float4 GetTargetDirection() const;
+	void RotToTarget(float _DeltaTime, float _fMinSpeed, float _fMaxSpeed, float DeclinePoint = 45.0f);
 
 private:
 	float TargetAngle = 0.f;

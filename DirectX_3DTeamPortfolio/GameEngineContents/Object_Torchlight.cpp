@@ -33,22 +33,56 @@ void Object_Torchlight::Start()
 		FireRender->Transform.SetLocalPosition(FirePos);
 	
 
-		//GameEngineLevel* Level = GetLevel();
-		//Light = Level->CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Point");
-		//Light->SetLightType(Enum_LightType::Point);
+		GameEngineLevel* Level = GetLevel();
+		Light = Level->CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "PointFire");
+		Light->SetLightType(Enum_LightType::Point);
 
-		////Light->IsDebugValue = true;
+		//Light->IsDebugValue = true;
 
-		//LightData Data = Light->GetLightData();
+		LightData Data = Light->GetLightData();
 
-		//Data.LightPower = 5.0f;
-		//Data.LightColor = { 1.2f,0.7f,0.4f };
+		Data.LightPower = 5.0f;
+		Data.LightColor = { 1.2f,0.7f,0.4f };
 
-		//Light->SetLightData(Data);
+		Light->SetLightData(Data);
 	}
+
+	static unsigned int Offset = 0;
+	Offset += 2;
+
+	NoiseXOffset = Offset;
 }
 
 void Object_Torchlight::Update(float _Delta)
 {
-	//Light->Transform.SetLocalPosition(FireRender->Transform.GetWorldPosition());
+	Light->Transform.SetLocalPosition(FireRender->Transform.GetWorldPosition());
+
+	//노이즈값에 의한 라이트 파워 변화
+
+	NoiseTexture = GameEngineTexture::Find("firenoise02.png");
+
+	LightPowerTime += _Delta * 10.0f;
+
+	if (LightPowerTime >= 255.f)
+	{
+		LightPowerTime -= 255.f;
+	}
+
+	float ceilYPixel = ceil(LightPowerTime);
+
+	float floorYPixel = floor(LightPowerTime);
+
+	float LerpTime = LightPowerTime - floorYPixel;
+
+
+	float ceilColor = static_cast<float>(NoiseTexture->GetColor(NoiseXOffset, static_cast<unsigned int>(ceilYPixel), GameEngineColor::WHITE).R) / 255.f;
+	float floorColor = static_cast<float>(NoiseTexture->GetColor(NoiseXOffset, static_cast<unsigned int>(floorYPixel), GameEngineColor::WHITE).R) / 255.f;
+
+	float FinalLightPower = floorColor * (1 - LerpTime) + ceilColor * LerpTime;
+
+	LightData Data = Light->GetLightData();
+
+	Data.LightPower = 2.5f + (7.5f * FinalLightPower);
+
+	Light->SetLightData(Data);
 }
