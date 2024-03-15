@@ -158,7 +158,7 @@ void Player::Player_State()
 				
 				if (Rotation_Check_X == false)
 				{
-				if (Angle > 0)
+					if (Angle > 0)
 					{
 						Rotation_Check_X_Plus = true;
 					}
@@ -166,7 +166,7 @@ void Player::Player_State()
 					{
 						Rotation_Check_X_Mus = true;
 					}
-				}
+
 					if (Rotation_Check_X_Plus == true)
 					{
 						Capsule->AddWorldRotation({ 0.0f,10.0f });
@@ -174,17 +174,17 @@ void Player::Player_State()
 
 						if (Angle < 0)
 						{
-							
+
 							Rotation_Check_X_Plus = false;
 							Rotation_Check_X_Mus = false;
 							Rotation_Check_X = true;
-							
-							
+
+
 						}
 
 					}
 
-					
+
 					if (Rotation_Check_X_Mus == true)
 					{
 						Capsule->AddWorldRotation({ 0.0f,-10.0f });
@@ -192,16 +192,14 @@ void Player::Player_State()
 
 						if (Angle > 0)
 						{
-							
+
 							Rotation_Check_X_Mus = false;
 							Rotation_Check_X_Plus = false;
 							Rotation_Check_X = true;
-							
-							
 						}
 
-					}	
-					
+					}
+				}
 
 
 				if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check_X ==true && Stat.GetStamina() > 0)
@@ -222,12 +220,39 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Roll_Left);
 					return;
 				}
-				else if (GameEngineInput::IsPress('D', this) && GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check_X == true && Stat.GetStamina() > 0)
+
+				else if (GameEngineInput::IsPress('D', this) && GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check_X == true && Rock_On_Check == true && Stat.GetStamina() > 0)
 				{
 					Rotation_Check_X = false;
 					PlayerStates.ChangeState(PlayerState::Roll_Right);
 					return;
 				}
+
+				else if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SPACE, this) && Stat.GetStamina() > 0)
+				{
+					Rotation_Check_X = false;
+					PlayerStates.ChangeState(PlayerState::Roll_Forward);
+					return;
+				}
+				else if (GameEngineInput::IsPress('S', this) && GameEngineInput::IsPress(VK_SPACE, this)  && Rock_On_Check ==true && Stat.GetStamina() > 0)
+				{
+					Rotation_Check_X = false;
+					PlayerStates.ChangeState(PlayerState::Roll_Behind);
+					return;
+				}
+				else if (GameEngineInput::IsPress('A', this) && GameEngineInput::IsPress(VK_SPACE, this)  && Rock_On_Check == true && Stat.GetStamina() > 0)
+				{
+					Rotation_Check_X = false;
+					PlayerStates.ChangeState(PlayerState::Roll_Left);
+					return;
+				}
+				else if (GameEngineInput::IsPress('D', this) && GameEngineInput::IsPress(VK_SPACE, this)  && Rock_On_Check == true && Stat.GetStamina() > 0)
+				{
+					Rotation_Check_X = false;
+					PlayerStates.ChangeState(PlayerState::Roll_Right);
+					return;
+				}
+
 
 				else if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SHIFT, this) && Rotation_Check_X == true && Stat.GetStamina() > 0)
 				{
