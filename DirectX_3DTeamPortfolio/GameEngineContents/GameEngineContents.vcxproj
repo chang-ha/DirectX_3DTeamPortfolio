@@ -219,6 +219,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="NewBossUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Object_CandleHuman2.cpp" />
     <ClCompile Include="Object_HumanTree1.cpp" />
     <ClCompile Include="Object_HumanTree2.cpp" />
@@ -549,6 +553,10 @@
     <ClInclude Include="BossHpBar.h" />
     <ClInclude Include="CameraCapsule.h" />
     <ClInclude Include="LothricKn_Debug.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="NewBossUI.h">
       <SubType>
       </SubType>
     </ClInclude>

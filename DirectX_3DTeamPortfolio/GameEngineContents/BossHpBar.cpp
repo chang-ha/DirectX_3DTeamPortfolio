@@ -2,6 +2,8 @@
 #include "BossHpBar.h"
 #include <algorithm>
 
+#include "Boss_Vordt.h"
+
 BossHpBar::BossHpBar()
 {
 
@@ -39,7 +41,7 @@ void BossHpBar::Start()
 	Boss_HpBar = CreateComponent<GameEngineUIRenderer>();
 	Boss_HpBar->SetSprite("BossHp.Png");
 	Boss_HpBar->AutoSpriteSizeOff();
-	Boss_HpBar->SetImageScale({ (BossCurHp / BossHp) * ImageXScale, HpBarYScale });
+	//Boss_HpBar->SetImageScale({ (BossCurHp / BossHp) * ImageXScale, HpBarYScale });
 	Boss_HpBar->SetPivotType(PivotType::Left);
 	Boss_HpBar->Transform.SetLocalPosition(BossHpPos);
 
@@ -75,7 +77,7 @@ void BossHpBar::Update(float _Delta)
 	}
 	if (GameEngineInput::IsDown('6', this))
 	{
-		ChangeState(BossHpActor::Appear);
+		ChangeState(eHpState::Appear);
 	}
 	if (GameEngineInput::IsDown('7', this))
 	{
@@ -96,9 +98,24 @@ void BossHpBar::Update(float _Delta)
 
 		Dam = true;
 	}
+
 	BossHpBarUpdate();
 
+	// 보스 상태? 어웨이크 되면 UI 뜨게하려고?
+	//Boss_Object->Get
+
 	StateUpdate(_Delta);
+	int a = 0;
+}
+
+void BossHpBar::SetParent(class Boss_Vordt* _Object)
+{ 
+	Boss_Object = _Object;
+
+	BossHp = static_cast<float>(Boss_Object->GetHp());
+	BossCurHp = BossHp;
+
+	Boss_HpBar->SetImageScale({ (BossCurHp / BossHp) * ImageXScale, HpBarYScale });
 }
 
 void BossHpBar::BossHpBarUpdate()
@@ -135,31 +152,35 @@ void BossHpBar::DamageCal()
 
 void BossHpBar::Release()
 {
-	Death();
+	Boss_HpBackBar = nullptr;
+	Boss_DamageBar = nullptr;
+	Boss_HpBar = nullptr;
+	Boss_Name = nullptr;
+	BossDamageFont = nullptr;
 }
 
-void BossHpBar::ChangeState(BossHpActor _State)
+void BossHpBar::ChangeState(eHpState _State)
 {
 	if (_State != BHpActor)
 	{
 		switch (_State)
 		{
-		case BossHpActor::Off:
+		case eHpState::Off:
 			OffStart();
 			break;
-		case BossHpActor::Appear:
+		case eHpState::Appear:
 			AppearStart();
 			break;
-		case BossHpActor::Add:
+		case eHpState::Add:
 			AddStart();
 			break;
-		case BossHpActor::None:
+		case eHpState::None:
 		default:
 			MsgBoxAssert("없는 상태로 BossHpBar의 상태를 바꾸려 했습니다.");
 			break;
 		}
 	}
-
+	
 	BHpActor = _State;
 }
 
@@ -167,13 +188,13 @@ void BossHpBar::StateUpdate(float _Delta)
 {
 	switch (BHpActor)
 	{
-	case BossHpActor::Off:
+	case eHpState::Off:
 		return OffUpdate(_Delta);
-	case BossHpActor::Appear:
+	case eHpState::Appear:
 		return AppearUpdate(_Delta);
-	case BossHpActor::Add:
+	case eHpState::Add:
 		return AddUpdate(_Delta);
-	case BossHpActor::None:
+	case eHpState::None:
 	default:
 		break;
 	}
@@ -196,7 +217,7 @@ void BossHpBar::OffUpdate(float _Delta)
 		return;
 	}
 
-	ChangeState(BossHpActor::Appear);
+	ChangeState(eHpState::Appear);
 }
 
 void BossHpBar::AppearStart()
@@ -222,7 +243,7 @@ void BossHpBar::AppearUpdate(float _Delta)
 	{
 		if (BossCurHp != BossPrevHp)
 		{
-			ChangeState(BossHpActor::Add);
+			ChangeState(eHpState::Add);
 			return;
 		}
 
@@ -233,7 +254,7 @@ void BossHpBar::AppearUpdate(float _Delta)
 				DamageCal();
 				Dam = false;
 				CurTime = 0;
-				ChangeState(BossHpActor::Off);
+				ChangeState(eHpState::Off);
 				return;
 			}
 		}
@@ -259,7 +280,7 @@ void BossHpBar::AddUpdate(float _Delta)
 			DamageCal();
 			Dam = false;
 			CurTime = 0;
-			ChangeState(BossHpActor::Off);
+			ChangeState(eHpState::Off);
 			return;
 		}
 	}

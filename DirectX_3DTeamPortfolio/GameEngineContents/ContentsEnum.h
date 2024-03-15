@@ -6,6 +6,7 @@ enum class Enum_UpdateOrder
 	Monster,
 	Component,
 	Light,
+	UI,
 };
 
 enum class Enum_RenderOrder

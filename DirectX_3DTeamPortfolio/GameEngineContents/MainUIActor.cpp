@@ -10,6 +10,8 @@
 #include "AddSouls.h"
 #include "AppearTextures.h"
 
+#include "Boss_Vordt.h"
+
 MainUIActor::MainUIActor()
 {
 
@@ -71,9 +73,9 @@ void MainUIActor::Start()
 	}
 
 
-	{
+	/*{
 		GetLevel()->CreateActor<BossHpBar>();
-	}
+	}*/
 
 	GameEngineInput::AddInputObject(this);
 
@@ -83,6 +85,7 @@ void MainUIActor::Start()
 	GetLevel()->CreateActor<AddSouls>();
 
 	GetLevel()->CreateActor<AppearTextures>();
+
 }
 
 void MainUIActor::Update(float _Delta)
@@ -104,3 +107,11 @@ void MainUIActor::Update(float _Delta)
 
 }
 
+void MainUIActor::CreateBossUI(Boss_Vordt* _pBoss)
+{
+	BossHpObject = GetLevel()->CreateActor<BossHpBar>(Enum_UpdateOrder::UI);
+
+	BossHpObject->SetParent(_pBoss);
+	BossHpObject.get();
+
+}

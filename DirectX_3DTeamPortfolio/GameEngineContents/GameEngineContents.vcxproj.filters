@@ -379,6 +379,9 @@
     <ClCompile Include="Object_StartDoor.cpp">
       <Filter>Object\Door</Filter>
     </ClCompile>
+    <ClCompile Include="NewBossUI.cpp">
+      <Filter>Actor\UI\Monster\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -752,6 +755,9 @@
     </ClInclude>
     <ClInclude Include="Object_StartDoor.h">
       <Filter>Object\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="NewBossUI.h">
+      <Filter>Actor\UI\Monster\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

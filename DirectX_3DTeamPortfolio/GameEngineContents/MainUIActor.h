@@ -15,6 +15,8 @@ public:
 	MainUIActor& operator = (const MainUIActor& _Other) = delete;
 	MainUIActor& operator = (MainUIActor&& _Other) noexcept = delete;
 
+	void CreateBossUI(class Boss_Vordt* _pBoss);
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -23,6 +25,8 @@ protected:
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 private:
+	std::shared_ptr<class Boss_Vordt> BossObject = nullptr;
+	std::shared_ptr<class BossHpBar> BossHpObject = nullptr;
 	//// PlayerIcon
 	std::shared_ptr<GameEngineUIRenderer> PlayerIcon;
 

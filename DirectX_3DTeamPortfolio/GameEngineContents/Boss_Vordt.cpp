@@ -504,10 +504,6 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::Boss_Vordt));
 
-	Stat.SetHp(BOSS_HP);
-	Stat.SetAtt(1);
-	Stat.SetSouls(10000);
-
 	Off();
 }
 
@@ -536,6 +532,10 @@ void Boss_Vordt::Start()
 	{
 		Capsule = CreateComponent<GameEnginePhysXCapsule>();
 	}
+
+	Stat.SetHp(BOSS_HP);
+	Stat.SetAtt(1);
+	Stat.SetSouls(10000);
 }
 
 void Boss_Vordt::Update(float _Delta)
