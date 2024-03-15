@@ -38,5 +38,5 @@ enum class Enum_CollisionOrder
 	LabberMiddle = (1 << 17),
 	Player_Arround = (1 << 18),
 	Parring_Arround = (1 << 19),
-
+	Fog_Wall = (1 << 20),
 };

@@ -40,15 +40,13 @@ void GameEnginePhysXBox::PhysXComponentInit(float _hX, float _hY, float _hZ, con
 	float4 WolrdPos = Transform.GetWorldPosition();
 	float4 WorldQuat = Transform.GetWorldRotationEuler().EulerDegToQuaternion();
 
-	physx::PxShape* Boxshape = Physics->createShape(physx::PxBoxGeometry(_hX, _hY, _hZ), *_Material);
+	Shape = Physics->createShape(physx::PxBoxGeometry(_hX, _hY, _hZ), *_Material);
 
 	physx::PxVec3 Pos = { WolrdPos.X, WolrdPos.Y , WolrdPos.Z };
 	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
 	physx::PxTransform Transform(Pos, Quat);
 	ComponentActor = Physics->createRigidStatic(Transform);
-	ComponentActor->attachShape(*Boxshape);
+	ComponentActor->attachShape(*Shape);
 
 	Scene->addActor(*ComponentActor);
-
-	Boxshape->release();
 }

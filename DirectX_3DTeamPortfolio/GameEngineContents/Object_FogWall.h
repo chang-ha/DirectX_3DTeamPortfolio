@@ -18,10 +18,12 @@ public:
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
-
+	void Release() override;
 
 private:
 
-	std::shared_ptr< class ContentsFogWallRenderer> FogWallRenderer;
+	std::shared_ptr<class ContentsFogWallRenderer> FogWallRenderer = nullptr;
+	std::shared_ptr<GameEnginePhysXBox> WallCollision = nullptr;
+	std::shared_ptr<GameEngineCollision> DetectCollision = nullptr;
 };
 
