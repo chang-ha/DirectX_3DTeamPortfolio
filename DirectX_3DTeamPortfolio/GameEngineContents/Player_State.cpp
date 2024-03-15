@@ -228,7 +228,7 @@ void Player::Player_State()
 					return;
 				}
 
-				else if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SPACE, this) && Stat.GetStamina() > 0)
+				else if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SPACE, this) && Rock_On_Check == true && Stat.GetStamina() > 0)
 				{
 					Rotation_Check_X = false;
 					PlayerStates.ChangeState(PlayerState::Roll_Forward);
