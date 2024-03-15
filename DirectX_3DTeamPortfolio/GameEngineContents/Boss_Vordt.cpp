@@ -886,6 +886,7 @@ void Boss_Vordt::Start()
 		Capsule = CreateComponent<GameEnginePhysXCapsule>();
 		Capsule->PhysXComponentInit(320.0f, 5.0f);
 		Capsule->SetPositioningComponent();
+		Capsule->SetFiltering(Enum_CollisionOrder::Monster);
 	}
 }
 
