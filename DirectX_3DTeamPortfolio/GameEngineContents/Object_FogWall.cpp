@@ -23,11 +23,15 @@ void Object_FogWall::Start()
 		WallCollision = CreateComponent<GameEnginePhysXBox>(Enum_CollisionOrder::Fog_Wall);
 		WallCollision->PhysXComponentInit(600.f, 1000.f, 3.f);
 		WallCollision->SetFiltering(Enum_CollisionOrder::Fog_Wall);
+		WallCollision->CollisionOff();
 	}
 
 	if (nullptr == DetectCollision)
 	{
 		// 해당 콜리전과 충돌 시 플레이어가 상호작용 가능
+		DetectCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
+		DetectCollision->Transform.SetLocalScale({10.f, 10.f, 10.f});
+		DetectCollision->Transform.SetLocalPosition({0.f, -300.f, -20.f});
 	}
 
 	GameEngineInput::AddInputObject(this);
