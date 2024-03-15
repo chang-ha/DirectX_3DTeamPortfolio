@@ -1927,7 +1927,10 @@ void Boss_Vordt::Rush_Hit_Turn_Start()
 {
 	++Rush_Combo_Count;
 	MainRenderer->ChangeAnimation("Rush&Hit&Turn", true);
-	AI_States[Enum_BossState::Rush_Hit_Turn].CurCoolDown = 0.f;
+	if (3 > Rush_Combo_Count)
+	{
+		AI_States[Enum_BossState::Rush_Hit_Turn].CurCoolDown = 0.f;
+	}
 }
 
 void Boss_Vordt::Rush_Hit_Turn_Update(float _Delta)

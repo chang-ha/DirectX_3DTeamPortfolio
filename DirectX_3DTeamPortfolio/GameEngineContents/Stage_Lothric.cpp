@@ -67,7 +67,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
 		Boss_Object->SetWorldPosition({ -1000.f, -2500.f, 3000.f });
 		Boss_Object->SetWorldRotation({ 0.f, -30.f, 0.f });
-
+		Boss_Object->Off();
 	}
 
 
