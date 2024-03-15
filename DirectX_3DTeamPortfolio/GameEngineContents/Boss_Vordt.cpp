@@ -615,6 +615,12 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 	StateInit();
 
+	// RockOnCollision
+	if (nullptr == RockOnCollision)
+	{
+		RockOnCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster);
+	}
+
 	//////// Socket Collision
 	// HitCollision
 	BSCol_TransitionParameter ColParameter;
@@ -886,6 +892,7 @@ void Boss_Vordt::Start()
 		Capsule = CreateComponent<GameEnginePhysXCapsule>();
 		Capsule->PhysXComponentInit(320.0f, 5.0f);
 		Capsule->SetPositioningComponent();
+		Capsule->SetFiltering(Enum_CollisionOrder::Monster);
 	}
 }
 

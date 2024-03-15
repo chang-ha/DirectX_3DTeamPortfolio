@@ -63,10 +63,17 @@ void TestLevel_Monster::Update(float _Delta)
 void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	std::shared_ptr<Monster_LothricKn> LothricKn = CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn");
+	LothricKn->SetIdleType(Enum_Lothric_IdleType::Sit);
 	LothricKn->SetWPosition(float4(100.0f, 0.0f, 0.0f));
+	LothricKn->Off();
+
+	std::shared_ptr<Monster_LothricKn> LothricKn1 = CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn1");
+	LothricKn1->SetIdleType(Enum_Lothric_IdleType::Standing);
+	LothricKn1->SetWPosition(float4(300.0f, 0.0f, 0.0f));
+	LothricKn1->Off();
 
 
-	std::shared_ptr<Monster_HollowSoldier_Spear> Hollow = CreateActor<Monster_HollowSoldier_Spear>(static_cast<int>(Enum_UpdateOrder::Monster), "Hollow");
+	std::shared_ptr<Monster_HollowSoldier_Sword> Hollow = CreateActor<Monster_HollowSoldier_Sword>(static_cast<int>(Enum_UpdateOrder::Monster), "Hollow");
 	Hollow->SetWPosition(float4(-400.0f, 0.0f, 0.0f));
 	//Hollow->Transform.SetWorldRotation(float4(0.0f, 180.0f, 0.0f));
 	//Hollow->Transform.SetWorldRotation(float4(0.0f, 90.0f, 0.0f));
@@ -83,5 +90,5 @@ void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 void TestLevel_Monster::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	AllDeathObjectGroupConvert<Monster_LothricKn>(Enum_UpdateOrder::Monster);
-	AllDeathObjectGroupConvert<Monster_HollowSoldier_Spear>(Enum_UpdateOrder::Monster);
+	AllDeathObjectGroupConvert<Monster_HollowSoldier_Sword>(Enum_UpdateOrder::Monster);
 }

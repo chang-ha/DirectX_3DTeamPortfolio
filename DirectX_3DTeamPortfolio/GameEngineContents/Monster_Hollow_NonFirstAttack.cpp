@@ -152,6 +152,15 @@ void Monster_Hollow_NonFirstAttack::ChangeState(Enum_Hollow_State _State)
 		case Enum_Hollow_State::BackAttackHit:
 			State_BackAttackHit_Start();
 			break;
+		case Enum_Hollow_State::BackAttackDeath:
+			State_BackAttackDeath_Start();
+			break;
+		case Enum_Hollow_State::AfterGuardBreakHit:
+			State_AfterGuardBreakHit_Start();
+			break;
+		case Enum_Hollow_State::AfterGuardBreakDeath:
+			State_AfterGuardBreakDeath_Start();
+			break;
 		case Enum_Hollow_State::Death:
 			State_Death_Start();
 			break;
@@ -234,6 +243,12 @@ void Monster_Hollow_NonFirstAttack::StateUpdate(float _Delta)
 		return State_HitToDeath_Update(_Delta);
 	case Enum_Hollow_State::BackAttackHit:
 		return State_BackAttackHit_Update(_Delta);
+	case Enum_Hollow_State::BackAttackDeath:
+		return State_BackAttackDeath_Update(_Delta);
+	case Enum_Hollow_State::AfterGuardBreakHit:
+		return State_AfterGuardBreakHit_Update(_Delta);
+	case Enum_Hollow_State::AfterGuardBreakDeath:
+		return State_AfterGuardBreakDeath_Update(_Delta);
 	case Enum_Hollow_State::Death:
 		return State_Death_Update(_Delta);
 	default:
@@ -288,6 +303,24 @@ void Monster_Hollow_NonFirstAttack::ChangeHitState()
 {
 	if (true == Hit.IsHit())
 	{
+		if (true == IsFlag(Enum_ActorFlag::FrontStab))
+		{
+			ChangeState(Enum_Hollow_State::AfterGuardBreakHit);
+			return;
+		}
+
+		if (true == IsFlag(Enum_ActorFlag::BackStab))
+		{
+			ChangeState(Enum_Hollow_State::BackAttackHit);
+			return;
+		}
+
+		if (Stat.GetHp() <= 0)
+		{
+			ChangeState(Enum_Hollow_State::HitToDeath);
+			return;
+		}
+
 		Enum_DirectionXZ_Quat HitDir = Hit.GetHitDir();
 		BodyCollision->Off();
 
@@ -335,7 +368,7 @@ void Monster_Hollow_NonFirstAttack::NonFindTarget(float _Delta)
 		{
 
 		};
-	if (true == RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, RecognizeParameter))
+	if (true == RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Player, RecognizeParameter))
 	{
 		FindTarget();
 	}
@@ -879,6 +912,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_VerticalSlash_Update(float _Delta)
 
 	if (MainRenderer->GetCurAnimationFrame() >= 61)
 	{
+		Sword.ResetRecord();
 		ChangeState(Enum_Hollow_State::Idle);
 	}
 }
@@ -914,6 +948,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_HorizontalSlash_Update(float _Delta
 
 	if (MainRenderer->GetCurAnimationFrame() >= 53)
 	{
+		Sword.ResetRecord();
 		ChangeState(Enum_Hollow_State::Idle);
 	}
 }
@@ -949,6 +984,7 @@ void Monster_Hollow_NonFirstAttack::State_TH_VerticalSlash_Update(float _Delta)
 
 	if (MainRenderer->GetCurAnimationFrame() >= 73)
 	{
+		Sword.ResetRecord();
 		ChangeState(Enum_Hollow_State::Idle);
 	}
 }
@@ -983,6 +1019,11 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 		Sword.Off();
 	}
 
+	if (MainRenderer->GetCurAnimationFrame() >= 38 && MainRenderer->GetCurAnimationFrame() <= 39)
+	{
+		Sword.ResetRecord();
+	}
+
 	// 2nd
 	if (MainRenderer->GetCurAnimationFrame() >= 50 && MainRenderer->GetCurAnimationFrame() <= 53)
 	{
@@ -1003,6 +1044,11 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 54)
 	{
 		Sword.Off();
+	}
+
+	if (MainRenderer->GetCurAnimationFrame() >= 55 && MainRenderer->GetCurAnimationFrame() <= 56)
+	{
+		Sword.ResetRecord();
 	}
 
 	// 3rd
@@ -1027,6 +1073,11 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 		Sword.Off();
 	}
 
+	if (MainRenderer->GetCurAnimationFrame() >= 69 && MainRenderer->GetCurAnimationFrame() <= 70)
+	{
+		Sword.ResetRecord();
+	}
+
 	// 4th
 	if (MainRenderer->GetCurAnimationFrame() >= 71 && MainRenderer->GetCurAnimationFrame() <= 74)
 	{
@@ -1049,6 +1100,11 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 		Sword.Off();
 	}
 
+	if (MainRenderer->GetCurAnimationFrame() >= 76 && MainRenderer->GetCurAnimationFrame() <= 77)
+	{
+		Sword.ResetRecord();
+	}
+
 	// 5th
 	if (MainRenderer->GetCurAnimationFrame() >= 78 && MainRenderer->GetCurAnimationFrame() <= 82)
 	{
@@ -1069,6 +1125,11 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 83)
 	{
 		Sword.Off();
+	}
+
+	if (MainRenderer->GetCurAnimationFrame() >= 84 && MainRenderer->GetCurAnimationFrame() <= 85)
+	{
+		Sword.ResetRecord();
 	}
 
 	// 6th
@@ -1095,6 +1156,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 
 	if (MainRenderer->GetCurAnimationFrame() >= 165)
 	{
+		Sword.ResetRecord();
 		ChangeState(Enum_Hollow_State::Idle);
 	}
 }
@@ -1130,6 +1192,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_RunToSlash_Update(float _Delta)
 
 	if (MainRenderer->GetCurAnimationFrame() >= 82)
 	{
+		Sword.ResetRecord();
 		ChangeState(Enum_Hollow_State::Idle);
 	}
 }
@@ -1192,6 +1255,8 @@ void Monster_Hollow_NonFirstAttack::State_Turn_Right_Twice2_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_AttackFail_Start()
 {
+	Sword.Off();
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_AttackFail");
 }
 void Monster_Hollow_NonFirstAttack::State_AttackFail_Update(float _Delta)
@@ -1204,11 +1269,16 @@ void Monster_Hollow_NonFirstAttack::State_AttackFail_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_Parrying_Start()
 {
+	Hit.SetHit(false);
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Parrying");
 }
 void Monster_Hollow_NonFirstAttack::State_Parrying_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 64)
+	{
+		ChangeState(Enum_Hollow_State::Idle);
+	}
 }
 
 void Monster_Hollow_NonFirstAttack::State_Hit_Front_Start()
@@ -1295,6 +1365,54 @@ void Monster_Hollow_NonFirstAttack::State_BackAttackHit_Start()
 	MainRenderer->ChangeAnimation("c1100_BackAttackHit");
 }
 void Monster_Hollow_NonFirstAttack::State_BackAttackHit_Update(float _Delta)
+{
+	if (Stat.GetHp() <= 0)
+	{
+		if (MainRenderer->GetCurAnimationFrame() >= 80)
+		{
+			ChangeState(Enum_Hollow_State::BackAttackDeath);
+		}
+	}
+
+	if (MainRenderer->GetCurAnimationFrame() >= 167)
+	{
+		ChangeState(Enum_Hollow_State::Idle);
+	}
+}
+
+void Monster_Hollow_NonFirstAttack::State_BackAttackDeath_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_BackAttackDeath");
+}
+void Monster_Hollow_NonFirstAttack::State_BackAttackDeath_Update(float _Delta)
+{
+
+}
+
+void Monster_Hollow_NonFirstAttack::State_AfterGuardBreakHit_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_AftefGuardBreakHit");
+}
+void Monster_Hollow_NonFirstAttack::State_AfterGuardBreakHit_Update(float _Delta)
+{
+	if (Stat.GetHp() <= 0)
+	{
+		if (MainRenderer->GetCurAnimationFrame() >= 140)
+		{
+			ChangeState(Enum_Hollow_State::AfterGuardBreakDeath);
+		}
+	}
+	if (MainRenderer->GetCurAnimationFrame() >= 194)
+	{
+		ChangeState(Enum_Hollow_State::Idle);
+	}
+}
+
+void Monster_Hollow_NonFirstAttack::State_AfterGuardBreakDeath_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_AfterGuardBreakDeath");
+}
+void Monster_Hollow_NonFirstAttack::State_AfterGuardBreakDeath_Update(float _Delta)
 {
 
 }

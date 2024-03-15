@@ -131,6 +131,12 @@ public:
 		SetFiltering(static_cast<int>(_CollisionOrder), static_cast<int>(_TargetCollisionOrder));
 	}
 
+	template <typename EnumType>
+	void SetFiltering(EnumType _MyCollisionOrder)
+	{
+		SetFiltering(static_cast<int>(_MyCollisionOrder));
+	}
+
 	void SetFiltering(int _MyCollisionOrder)
 	{
 		SetFiltering(_MyCollisionOrder, 0);
