@@ -41,9 +41,9 @@ protected:
 	void AddUpdate(float _Delta);
 
 private:
-	std::shared_ptr<GameEngineUIRenderer> Boss_HpBar;
-	std::shared_ptr<GameEngineUIRenderer> Boss_Hp;
+	std::shared_ptr<GameEngineUIRenderer> Boss_HpBackBar;
 	std::shared_ptr<GameEngineUIRenderer> Boss_DamageBar;
+	std::shared_ptr<GameEngineUIRenderer> Boss_HpBar;
 	std::shared_ptr<GameEngineUIRenderer> Boss_Name;
 
 	float BossPrevHp = 0.0f;
