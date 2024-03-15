@@ -258,6 +258,9 @@ private:
 	float4 ASS = {};
 
 	float Monster_Degree = 0.0f;
+
+	std::shared_ptr<class ContentsHitRenderer> HitRenderer;
+	std::shared_ptr<class ContentsHitRenderer> StrikeRenderer;
 };
 
 

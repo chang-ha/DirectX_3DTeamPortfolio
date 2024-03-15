@@ -67,7 +67,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
 		Boss_Object->SetWorldPosition({ -1000.f, -2500.f, 3000.f });
 		Boss_Object->SetWorldRotation({ 0.f, -30.f, 0.f });
-
+		Boss_Object->Off();
 	}
 
 
@@ -159,6 +159,8 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
 	}
 
+	CreateObject();
+
 	{
 		std::shared_ptr<Monster_LothricKn> Monster;
 		Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Lothric1");
@@ -194,7 +196,7 @@ void Stage_Lothric::Start()
 	ContentLevel::Start();
 	GameEngineInput::AddInputObject(this);
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 0, 0, 0, 1 });
-	CreateObject();
+	
 }
 
 void Stage_Lothric::Update(float _Delta)

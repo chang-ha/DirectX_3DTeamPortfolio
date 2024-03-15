@@ -70,9 +70,6 @@
     <ClCompile Include="Boss_Vordt_State.cpp">
       <Filter>Actor\Monster\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="TestObject.cpp">
-      <Filter>Actor\Monster\Boss</Filter>
-    </ClCompile>
     <ClCompile Include="Monster_LothricKn_State.cpp">
       <Filter>Actor\Monster\LothricKnight</Filter>
     </ClCompile>
@@ -379,6 +376,9 @@
     <ClCompile Include="PatrolPath.cpp">
       <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
     </ClCompile>
+    <ClCompile Include="ContentsHitRenderer.cpp">
+      <Filter>Resource\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -449,9 +449,6 @@
     </ClInclude>
     <ClInclude Include="Monster_HollowSoldier_Lantern.h">
       <Filter>Actor\Monster\Hollow</Filter>
-    </ClInclude>
-    <ClInclude Include="TestObject.h">
-      <Filter>Actor\Monster\Boss</Filter>
     </ClInclude>
     <ClInclude Include="BoneSocketCollision.h">
       <Filter>Actor\Monster\Component</Filter>
@@ -752,6 +749,9 @@
     </ClInclude>
     <ClInclude Include="PatrolPath.h">
       <Filter>Actor\Monster\LothricKnight\Dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsHitRenderer.h">
+      <Filter>Resource\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

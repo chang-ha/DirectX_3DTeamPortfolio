@@ -7,6 +7,8 @@
 #include "GameEngineNetWindow.h"
 #include "Player_HitInteraction.h"
 #include "BoneSocketCollision.h"
+
+#include "ContentsHitRenderer.h"
 #define Frame 0.033f
 
 Player* Player::Main_Player;
@@ -755,6 +757,11 @@ void Player::Start()
 	//SoundFrameEvent();
 	Shield_Col->Off();
 	Attack_Col->Off(); 
+
+
+	HitRenderer = CreateComponent< ContentsHitRenderer>(Enum_RenderOrder::Effect);
+	StrikeRenderer = CreateComponent< ContentsHitRenderer>(Enum_RenderOrder::Effect);
+	HitRenderer->Transform.AddLocalPosition({ 0.0f,20.0f,20.f});
 }
 
 void Player::Update(float _Delta)
@@ -1071,15 +1078,19 @@ void Player::Update(float _Delta)
 			}
 		};
 
+
 	if (GameEngineInput::IsPress(VK_LBUTTON, this))
 	{
 		int a = 0;
+		HitRenderer->On();
+		HitRenderer->ChangeAnimation("Hit", true);
+
+		
 	}
 
 
 
 
-	
 
 }
 

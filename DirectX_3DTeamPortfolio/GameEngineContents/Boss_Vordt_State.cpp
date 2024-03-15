@@ -3,9 +3,10 @@
 #include "BoneSocketCollision.h"
 
 #define JUMP_COOLDOWN 2.f
-#define NORMAL_ATTACK_COOLDOWN 7.f
-#define COMBO_COOLDOWN1 20.f
+#define NORMAL_ATTACK_COOLDOWN 25.f
+#define COMBO_COOLDOWN1 40.f
 #define COMBO_COOLDOWN2 50.f
+#define BOSS_ATT 5
 
 void Boss_Vordt::FrameEventInit()
 {
@@ -311,12 +312,14 @@ void Boss_Vordt::FrameEventInit()
 
 		MainRenderer->SetFrameEvent("Sweep&Sweep_Right", 26, [&](GameContentsFBXRenderer* _Renderer)
 			{
+				Stat.SetAtt(BOSS_ATT * 3);
 				mAttackCollision.BodyCollision->On();
 				mAttackCollision.WeaponCollision->On();
 			});
 
 		MainRenderer->SetFrameEvent("Sweep&Sweep_Right", 36, [&](GameContentsFBXRenderer* _Renderer)
 			{
+				Stat.SetAtt(BOSS_ATT * 5);
 				mAttackCollision.BodyCollision->Off();
 				mAttackCollision.WeaponCollision->Off();
 			});
@@ -1004,6 +1007,12 @@ Enum_JumpTableFlag Boss_Vordt::AI_Attack()
 
 	int CurState = MainState.GetCurState();
 	int tDis = mTargetState.mTargetDis;
+
+	if (Enum_TargetDis::Dis_OutOfRange == tDis)
+	{
+		return Enum_JumpTableFlag::Default;
+	}
+
 	int tDeg = mTargetState.mTargetDeg;
 	Enum_RotDir Dir = GetRotDir_e();
 
@@ -1063,50 +1072,50 @@ Enum_JumpTableFlag Boss_Vordt::AI_Attack()
 			break;
 		}
 
-		if (true == ChangeAI_State(Enum_BossState::Hit_Down_006))
+		if (Enum_TargetDeg::Deg_Front == tDeg)
 		{
-			return Enum_JumpTableFlag::StopJumpTable;
-		}
-
-		if (Enum_TargetDeg::Deg_Front < tDeg)
-		{
-			break;
-		}
-
-		if (true == ChangeAI_State(Enum_BossState::Hit_Down_001_Front))
-		{
-			return Enum_JumpTableFlag::StopJumpTable;
-		}
-
-		switch (Dir)
-		{
-		case Left:
-		{
-			if (true == ChangeAI_State(Enum_BossState::Hit_Down_001_Left))
+			if (true == ChangeAI_State(Enum_BossState::Hit_Down_006))
 			{
 				return Enum_JumpTableFlag::StopJumpTable;
 			}
 
-			break;
+			if (true == ChangeAI_State(Enum_BossState::Hit_Down_001_Front))
+			{
+				return Enum_JumpTableFlag::StopJumpTable;
+			}
 		}
-		case Right:
+		else
 		{
-			if (true == ChangeAI_State(Enum_BossState::Hit_Down_001_Right))
+			switch (Dir)
 			{
-				return Enum_JumpTableFlag::StopJumpTable;
-			}
+			case Left:
+			{
+				if (true == ChangeAI_State(Enum_BossState::Hit_Down_001_Left))
+				{
+					return Enum_JumpTableFlag::StopJumpTable;
+				}
 
-			if (true == ChangeAI_State(Enum_BossState::Hit_Down_004))
+				break;
+			}
+			case Right:
 			{
-				return Enum_JumpTableFlag::StopJumpTable;
+				if (true == ChangeAI_State(Enum_BossState::Hit_Down_001_Right))
+				{
+					return Enum_JumpTableFlag::StopJumpTable;
+				}
+
+				if (true == ChangeAI_State(Enum_BossState::Hit_Down_004))
+				{
+					return Enum_JumpTableFlag::StopJumpTable;
+				}
+				break;
+			}
+			case Not_Rot:
+			default:
+				break;
 			}
 			break;
 		}
-		case Not_Rot:
-		default:
-			break;
-		}
-		break;
 	}
 	default:
 		break;
@@ -1122,7 +1131,7 @@ Enum_JumpTableFlag Boss_Vordt::AI_Attack()
 		return Enum_JumpTableFlag::Default;
 	}
 
-	if (Enum_TargetDis::Dis_Close >= tDis)
+	if (Enum_TargetDis::Dis_Close >= tDis && Enum_RotDir::Left == Dir)
 	{
 		if (true == ChangeAI_State(Enum_BossState::Thrust))
 		{
@@ -1203,7 +1212,7 @@ Enum_JumpTableFlag Boss_Vordt::AI_MoveMent()
 			break;
 		}
 
-		if (tDis == Enum_TargetDis::Dis_Far)
+		if (tDis >= Enum_TargetDis::Dis_Far && Enum_Boss_Phase::Phase_2 == mBoss_Phase)
 		{
 			if (true == ChangeAI_State(Enum_BossState::Rush_Front))
 			{
@@ -1636,6 +1645,7 @@ void Boss_Vordt::Breath_End()
 void Boss_Vordt::Combo1_Step1_Start()
 {
 	MainRenderer->ChangeAnimation("Combo1_Step1", true);
+	Stat.SetAtt(BOSS_ATT * 6);
 }
 
 void Boss_Vordt::Combo1_Step1_Update(float _Delta)
@@ -1652,6 +1662,7 @@ void Boss_Vordt::Combo1_Step1_End()
 void Boss_Vordt::Combo1_Step2_Start()
 {
 	MainRenderer->ChangeAnimation("Combo1_Step2", true);
+	Stat.SetAtt(BOSS_ATT * 6);
 }
 
 void Boss_Vordt::Combo1_Step2_Update(float _Delta)
@@ -1667,6 +1678,7 @@ void Boss_Vordt::Combo1_Step2_End()
 void Boss_Vordt::Combo1_Step3_Start()
 {
 	MainRenderer->ChangeAnimation("Combo1_Step3", true);
+	Stat.SetAtt(BOSS_ATT * 4);
 }
 
 void Boss_Vordt::Combo1_Step3_Update(float _Delta)
@@ -1683,6 +1695,7 @@ void Boss_Vordt::Combo1_Step3_End()
 void Boss_Vordt::Combo2_Step1_Start()
 {
 	MainRenderer->ChangeAnimation("Combo2_Step1", true);
+	Stat.SetAtt(BOSS_ATT * 5);
 }
 
 void Boss_Vordt::Combo2_Step1_Update(float _Delta)
@@ -1698,6 +1711,7 @@ void Boss_Vordt::Combo2_Step1_End()
 void Boss_Vordt::Combo2_Step2_Start()
 {
 	MainRenderer->ChangeAnimation("Combo2_Step2", true);
+	Stat.SetAtt(BOSS_ATT * 3);
 }
 
 void Boss_Vordt::Combo2_Step2_Update(float _Delta)
@@ -1727,6 +1741,7 @@ void Boss_Vordt::Sweap_Twice_Right_End()
 
 void Boss_Vordt::Sweap_Twice_Left_Start()
 {
+	Stat.SetAtt(BOSS_ATT * 4);
 	MainRenderer->ChangeAnimation("Sweep&Sweep_Left", true);
 }
 
@@ -1742,6 +1757,7 @@ void Boss_Vordt::Sweap_Twice_Left_End()
 
 void Boss_Vordt::Hit_Down_001_Front_Start()
 {
+	Stat.SetAtt(BOSS_ATT * 6);
 	MainRenderer->ChangeAnimation("Hit_Down_001_Front", true);
 }
 
@@ -1757,6 +1773,7 @@ void Boss_Vordt::Hit_Down_001_Front_End()
 
 void Boss_Vordt::Hit_Down_001_Right_Start()
 {
+	Stat.SetAtt(BOSS_ATT * 6);
 	MainRenderer->ChangeAnimation("Hit_Down_001_Right", true);
 }
 
@@ -1772,6 +1789,7 @@ void Boss_Vordt::Hit_Down_001_Right_End()
 
 void Boss_Vordt::Hit_Down_001_Left_Start()
 {
+	Stat.SetAtt(BOSS_ATT * 6);
 	MainRenderer->ChangeAnimation("Hit_Down_001_Left", true);
 }
 
@@ -1787,6 +1805,7 @@ void Boss_Vordt::Hit_Down_001_Left_End()
 
 void Boss_Vordt::Hit_Down_004_Start()
 {
+	Stat.SetAtt(BOSS_ATT * 3);
 	MainRenderer->ChangeAnimation("Hit_Down_004", true);
 }
 
@@ -1802,6 +1821,7 @@ void Boss_Vordt::Hit_Down_004_End()
 
 void Boss_Vordt::Hit_Down_005_Start()
 {
+	Stat.SetAtt(BOSS_ATT * 4);
 	MainRenderer->ChangeAnimation("Hit_Down_005", true);
 }
 
@@ -1817,6 +1837,7 @@ void Boss_Vordt::Hit_Down_005_End()
 
 void Boss_Vordt::Hit_Down_006_Start()
 {
+	Stat.SetAtt(BOSS_ATT * 5);
 	MainRenderer->ChangeAnimation("Hit_Down_006", true);
 }
 
@@ -1832,6 +1853,7 @@ void Boss_Vordt::Hit_Down_006_End()
 
 void Boss_Vordt::Thrust_Start()
 {
+	Stat.SetAtt(BOSS_ATT * 2);
 	MainRenderer->ChangeAnimation("Thrust", true);
 }
 
@@ -1848,6 +1870,7 @@ void Boss_Vordt::Thrust_End()
 // Sweep_002 is faster than Sweep_001
 void Boss_Vordt::Sweep_001_Start()
 {
+	Stat.SetAtt(BOSS_ATT * 7);
 	MainRenderer->ChangeAnimation("Sweep_001", true);
 }
 
@@ -1863,6 +1886,7 @@ void Boss_Vordt::Sweep_001_End()
 
 void Boss_Vordt::Sweep_002_Start()
 {
+	Stat.SetAtt(BOSS_ATT * 5);
 	MainRenderer->ChangeAnimation("Sweep_002", true);
 }
 
@@ -1879,6 +1903,7 @@ void Boss_Vordt::Sweep_002_End()
 // Rush_Attack_002 is faster than Rush_Attack_001
 void Boss_Vordt::Rush_Attack_001_Start()
 {
+	Stat.SetAtt(BOSS_ATT * 7);
 	MainRenderer->ChangeAnimation("Rush_Attack", true);
 
 }
@@ -1895,6 +1920,7 @@ void Boss_Vordt::Rush_Attack_001_End()
 
 void Boss_Vordt::Rush_Attack_002_Start()
 {
+	Stat.SetAtt(BOSS_ATT * 5);
 	MainRenderer->ChangeAnimation("Rush_Attack_002", true);
 }
 
@@ -1910,6 +1936,7 @@ void Boss_Vordt::Rush_Attack_002_End()
 
 void Boss_Vordt::Rush_Turn_Start()
 {
+	Stat.SetAtt(BOSS_ATT * 3);
 	MainRenderer->ChangeAnimation("Rush&Turn", true);
 }
 
@@ -1925,9 +1952,13 @@ void Boss_Vordt::Rush_Turn_End()
 
 void Boss_Vordt::Rush_Hit_Turn_Start()
 {
+	Stat.SetAtt(BOSS_ATT * 7);
 	++Rush_Combo_Count;
 	MainRenderer->ChangeAnimation("Rush&Hit&Turn", true);
-	AI_States[Enum_BossState::Rush_Hit_Turn].CurCoolDown = 0.f;
+	if (3 > Rush_Combo_Count)
+	{
+		AI_States[Enum_BossState::Rush_Hit_Turn].CurCoolDown = 0.f;
+	}
 }
 
 void Boss_Vordt::Rush_Hit_Turn_Update(float _Delta)
@@ -1948,6 +1979,7 @@ void Boss_Vordt::Rush_Hit_Turn_End()
 
 void Boss_Vordt::Rush_Hit_Turn_Rush_Start()
 {
+	Stat.SetAtt(BOSS_ATT * 8);
 	MainRenderer->ChangeAnimation("Rush&Hit&Turn&Rush", true);
 	MainRenderer->SetRootMotionMode("Rush&Hit&Turn&Rush", Enum_RootMotionMode::RealTimeDir);
 }

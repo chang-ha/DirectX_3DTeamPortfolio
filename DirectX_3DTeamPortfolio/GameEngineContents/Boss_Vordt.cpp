@@ -277,12 +277,54 @@ void AI_State::Update(float _Delta)
 	CurCoolDown -= _Delta;
 }
 
+void Vordt_HitCollision::Off()
+{
+	BodyCollision->Off();
+}
+
+void Vordt_HitCollision::Release()
+{
+	if (nullptr != BodyCollision)
+	{
+		BodyCollision->Death();
+		BodyCollision = nullptr;
+	}
+}
+
+
 void Vordt_AttackCollision::ResetRecord()
 {
 	mBodyHitInteraction.ResetRecord();
 	mHeadHitInteraction.ResetRecord();
 	mWeaponHitInteraction.ResetRecord();
 	mHandHitInteraction.ResetRecord();
+}
+
+void Vordt_AttackCollision::Release()
+{
+	if (nullptr != WeaponCollision)
+	{
+		WeaponCollision->Death();
+		WeaponCollision = nullptr;
+	}
+
+	if (nullptr != BodyCollision)
+	{
+		BodyCollision->Death();
+		BodyCollision = nullptr;
+	}
+
+	if (nullptr != HeadCollision)
+	{
+		HeadCollision->Death();
+		HeadCollision = nullptr;
+	}
+
+	if (nullptr != R_HandCollision)
+	{
+		R_HandCollision->Death();
+		R_HandCollision = nullptr;
+	}
 }
 
 
@@ -450,21 +492,21 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	//////// Socket Collision
 	// HitCollision
 	BSCol_TransitionParameter ColParameter;
-	if (nullptr == mHitCollision.BossCollision)
+	if (nullptr == mHitCollision.BodyCollision)
 	{
-		ColParameter.S = float4(500.f, 500.f, 500.f);
+		ColParameter.S = float4(400.f, 400.f, 400.f);
 		ColParameter.R = float4(0.f);
 		ColParameter.T = float4(0.f, 0.f, 0.f);
 
-		mHitCollision.BossCollision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 21, ColParameter, "Hit_Collision");
-		mHitCollision.BossCollision->SetCollisionType(ColType::SPHERE3D);
-		mHitCollision.BossCollision->On();
+		mHitCollision.BodyCollision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 21, ColParameter, "Hit_Collision");
+		mHitCollision.BodyCollision->SetCollisionType(ColType::SPHERE3D);
+		mHitCollision.BodyCollision->Off();
 	}
 
 	// AttackCollision
 	if (nullptr == mAttackCollision.WeaponCollision)
 	{
-		ColParameter.S = float4(100.f, 100.f, 500.f);
+		ColParameter.S = float4(150.f, 150.f, 500.f);
 		ColParameter.R = float4(170.f);
 		ColParameter.T = float4(0.f, 0.f, 1.55f);
 
@@ -509,11 +551,9 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::Boss_Vordt));
 
 	Stat.SetHp(BOSS_HP);
-	Stat.SetAtt(1);
-	Stat.SetSouls(10000);
+	Stat.SetAtt(10);
+	Stat.SetSouls(3000);
 	Stat.SetPoise(100);
-
-	Off();
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
@@ -558,6 +598,7 @@ void Boss_Vordt::Update(float _Delta)
 	TargetStateUpdate();
 	CollisionUpdate();
 	PhaseChangeCheck();
+	HitUpdate(_Delta);
 }
 
 void Boss_Vordt::Release()
@@ -575,35 +616,8 @@ void Boss_Vordt::Release()
 		MainRenderer = nullptr;
 	}
 
-	if (nullptr != mAttackCollision.WeaponCollision)
-	{
-		mAttackCollision.WeaponCollision->Death();
-		mAttackCollision.WeaponCollision = nullptr;
-	}
-
-	if (nullptr != mAttackCollision.BodyCollision)
-	{
-		mAttackCollision.BodyCollision->Death();
-		mAttackCollision.BodyCollision = nullptr;
-	}
-
-	if (nullptr != mAttackCollision.HeadCollision)
-	{
-		mAttackCollision.HeadCollision->Death();
-		mAttackCollision.HeadCollision = nullptr;
-	}
-
-	if (nullptr != mAttackCollision.R_HandCollision)
-	{
-		mAttackCollision.R_HandCollision->Death();
-		mAttackCollision.R_HandCollision = nullptr;
-	}
-
-	if (nullptr != mHitCollision.BossCollision)
-	{
-		mHitCollision.BossCollision->Death();
-		mHitCollision.BossCollision = nullptr;
-	}
+	mAttackCollision.Release();
+	mHitCollision.Release();
 
 	if (nullptr != Capsule)
 	{
@@ -633,6 +647,22 @@ bool Boss_Vordt::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 
 	const int AttackerAtt = CurAttacker->GetAtt();
 	const int Stiffness = _Para.iStiffness;
+
+	std::string SoundName = "damage_SE";
+	if (1 != HitSoune_Count)
+	{
+		SoundName += std::to_string(HitSoune_Count);
+	}
+
+	SoundName += ".wav";
+	GameEngineSound::Sound3DPlay(SoundName, Transform.GetWorldPosition());
+
+	++HitSoune_Count;
+
+	if (3 < HitSoune_Count)
+	{
+		HitSoune_Count = 1;
+	}
 
 	Stat.AddPoise(-Stiffness);
 	if (0 >= Stat.GetPoise())
@@ -674,9 +704,9 @@ void Boss_Vordt::TargetStateUpdate()
 	{
 		ICurTargetDis = Enum_TargetDis::Dis_Attach;
 	}
-	else if (Enum_TargetDis::Dis_Far < ICurTargetDis)
+	else if (Enum_TargetDis::Dis_OutOfRange < ICurTargetDis)
 	{
-		ICurTargetDis = Enum_TargetDis::Dis_Far;
+		ICurTargetDis = Enum_TargetDis::Dis_OutOfRange;
 	}
 
 	if (Enum_TargetDeg:: Deg_Front > ICurTargetAngle)
@@ -740,6 +770,22 @@ void Boss_Vordt::PhaseChangeCheck()
 	}
 }
 
+void Boss_Vordt::HitUpdate(float _Delta)
+{
+	if (false == Hit.IsHit())
+	{
+		return;
+	}
+
+	Hit_CoolDown -= _Delta;
+
+	if (0.f >= Hit_CoolDown)
+	{
+		SetHit(false);
+		Hit_CoolDown = HIT_COOLDOWN;
+	}
+}
+
 void Boss_Vordt::AIUpdate(float _Delta)
 {
 	for (std::pair<const Enum_BossState, AI_State>& _Pair : AI_States)
@@ -758,7 +804,7 @@ void Boss_Vordt::AIUpdate(float _Delta)
 		return;
 	}
 
-	Stat_CoolDown = 1.f;
+	Stat_CoolDown = STAT_COOLDOWN;
 
 	Stat.AddPoise(1);
 }
