@@ -34,7 +34,9 @@ void Player::Start()
 
 	
 	Capsule = CreateComponent<GameEnginePhysXCapsule>(Enum_CollisionOrder::Player);
-	
+	Capsule->PhysXComponentInit(50.0f, 50.0f);
+	Capsule->SetPositioningComponent();
+
 	Cameracapsule = GetLevel()->CreateActor<CameraCapsule>(0,"Camera");
 
 
@@ -776,9 +778,9 @@ void Player::Update(float _Delta)
 
 				if (GameEngineInput::IsDown('E', this))
 				{
-					pActor->DebugFlag();
+					//pActor->DebugFlag();
 
-					if (pActor->IsFlag(Enum_ActorFlag::FrontStab) == true)
+					if (pActor->IsFlag(Enum_ActorFlag::Groggy) == true)
 					{
 						PlayerStates.ChangeState(PlayerState::Parring_Attack);
 						const float4 StabPos = pActor->GetFrontStabPosition();
@@ -1097,10 +1099,7 @@ void Player::LevelStart(GameEngineLevel* _PrevLevel)
 		}
 	}
 
-
-
-	Capsule->PhysXComponentInit(50.0f, 50.0f);
-	Capsule->SetPositioningComponent();
+	
 
 	Capsule->SetFiltering(Enum_CollisionOrder::Player, Enum_CollisionOrder::Camera);
 	Capsule->SetFiltering(Enum_CollisionOrder::Player, Enum_CollisionOrder::Big_Camera);
@@ -1329,6 +1328,10 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 		return false;
 	}
 
+	/*if (true == Hit.IsHit())
+	{
+		return false;
+	}*/
 	BaseActor* pAttacker = _Para.pAttacker;
 
 
@@ -1338,6 +1341,7 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 	Stat.AddPoise(-Stiffness);
 	Stat.AddHp(-AttackerAtt);
 
+	//Hit.SetHit(true);
 	
 
 
@@ -1400,7 +1404,7 @@ bool Player::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 
 		//const int FinalDamage = -10;
 		//Stat.AddHp(FinalDamage);
-		
+		//Hit.SetHit(true);
 
 		return true;
 	}
