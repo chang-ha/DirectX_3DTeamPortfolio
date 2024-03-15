@@ -67,7 +67,6 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
 		Boss_Object->SetWorldPosition({ -1000.f, -2500.f, 3000.f });
 		Boss_Object->SetWorldRotation({ 0.f, -30.f, 0.f });
-		Boss_Object->Off();
 	}
 
 
@@ -146,7 +145,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		// 시작 위치
 		//Player_Object->Transform.SetLocalPosition({ -1400.0f, 5101.0f, -5331.0f });
 
-		Player_Object->Transform.SetWorldRotation({ 0.f, 165.f, 0.f });
+		Player_Object->SetWorldRotation({ 0.f, 165.f, 0.f });
 		Player_Object->SetTargeting(Boss_Object.get());
 		Boss_Object->SetTargeting(Player_Object.get());
 	}

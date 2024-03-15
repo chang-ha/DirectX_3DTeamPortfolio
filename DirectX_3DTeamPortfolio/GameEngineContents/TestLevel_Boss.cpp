@@ -48,8 +48,8 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 	if (nullptr == TestPlayer)
 	{
 		TestPlayer = CreateActor<Player>(0, "Player");
-		TestPlayer->Transform.SetWorldPosition({ 0.f, 0.f, -2000.f});
-		TestPlayer->Transform.SetWorldRotation({ 0.f, 0.f, 0.f });
+		TestPlayer->SetWorldPosition({ 0.f, 0.f, -2000.f});
+		TestPlayer->SetWorldRotation({ 0.f, 0.f, 0.f });
 		TestPlayer->SetTargeting(Boss_Object.get());
 		Boss_Object->SetTargeting(TestPlayer.get());
 	}
