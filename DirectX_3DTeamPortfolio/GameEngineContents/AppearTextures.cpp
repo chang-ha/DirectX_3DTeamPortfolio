@@ -17,14 +17,15 @@ void AppearTextures::Start()
 	Lit = CreateComponent<GameEngineUIRenderer>();
 	Lit->SetSprite("Lit.Png");
 	Lit->AutoSpriteSizeOn();
+	Lit->SetAutoScaleRatio(2.0f);
 	Lit->Off();
 
 	LitBack = CreateComponent<GameEngineUIRenderer>();
 	LitBack->SetSprite("LitBack.Png");
 	ImageScale = LitBack->GetSprite()->GetSpriteData(0).GetScale();
 	LitBack->AutoSpriteSizeOff();
-	LitBack->SetImageScale(ImageScale);
-	LitBack->GetColorData().MulColor.A = 0.7f;
+	LitBack->SetImageScale(ImageScale * 2.0f);
+	LitBack->GetColorData().MulColor.A = 0.9f;
 	LitBack->Off();
 
 	GameEngineInput::AddInputObject(this);
@@ -47,8 +48,8 @@ void AppearTextures::Update(float _Delta)
 	{
 		Lit->On();
 		LitBack->On();
-		LitBack->GetColorData().MulColor.A = 0.7f;
-		LitBack->SetImageScale(ImageScale);
+		LitBack->GetColorData().MulColor.A = 0.9f;
+		LitBack->SetImageScale(ImageScale * 2.0f);
 	}
 
 	StateUpdate(_Delta);
