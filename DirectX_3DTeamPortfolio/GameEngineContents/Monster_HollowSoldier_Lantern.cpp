@@ -693,6 +693,7 @@ void Monster_HollowSoldier_Lantern::State_RH_VerticalSlash_Update(float _Delta)
 
 	if (MainRenderer->GetCurAnimationFrame() >= 61)
 	{
+		Sword.ResetRecord();
 		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
 	}
 }
@@ -728,6 +729,7 @@ void Monster_HollowSoldier_Lantern::State_RH_HorizontalSlash_Update(float _Delta
 
 	if (MainRenderer->GetCurAnimationFrame() >= 53)
 	{
+		Sword.ResetRecord();
 		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
 	}
 }
@@ -763,6 +765,7 @@ void Monster_HollowSoldier_Lantern::State_TH_VerticalSlash_Update(float _Delta)
 
 	if (MainRenderer->GetCurAnimationFrame() >= 73)
 	{
+		Sword.ResetRecord();
 		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
 	}
 }
@@ -796,6 +799,11 @@ void Monster_HollowSoldier_Lantern::State_RH_ComboAttack_Update(float _Delta)
 	{
 		Sword.Off();
 	}
+
+	if (MainRenderer->GetCurAnimationFrame() >= 38 && MainRenderer->GetCurAnimationFrame() <= 39)
+	{
+		Sword.ResetRecord();
+	}
 	
 	// 2nd
 	if (MainRenderer->GetCurAnimationFrame() >= 50 && MainRenderer->GetCurAnimationFrame() <= 53)
@@ -817,6 +825,11 @@ void Monster_HollowSoldier_Lantern::State_RH_ComboAttack_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 54)
 	{
 		Sword.Off();
+	}
+
+	if (MainRenderer->GetCurAnimationFrame() >= 55 && MainRenderer->GetCurAnimationFrame() <= 56)
+	{
+		Sword.ResetRecord();
 	}
 
 	// 3rd
@@ -841,6 +854,11 @@ void Monster_HollowSoldier_Lantern::State_RH_ComboAttack_Update(float _Delta)
 		Sword.Off();
 	}
 
+	if (MainRenderer->GetCurAnimationFrame() >= 69 && MainRenderer->GetCurAnimationFrame() <= 70)
+	{
+		Sword.ResetRecord();
+	}
+
 	// 4th
 	if (MainRenderer->GetCurAnimationFrame() >= 71 && MainRenderer->GetCurAnimationFrame() <= 74)
 	{
@@ -863,6 +881,11 @@ void Monster_HollowSoldier_Lantern::State_RH_ComboAttack_Update(float _Delta)
 		Sword.Off();
 	}
 
+	if (MainRenderer->GetCurAnimationFrame() >= 76 && MainRenderer->GetCurAnimationFrame() <= 77)
+	{
+		Sword.ResetRecord();
+	}
+
 	// 5th
 	if (MainRenderer->GetCurAnimationFrame() >= 78 && MainRenderer->GetCurAnimationFrame() <= 82)
 	{
@@ -883,6 +906,11 @@ void Monster_HollowSoldier_Lantern::State_RH_ComboAttack_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 83)
 	{
 		Sword.Off();
+	}
+
+	if (MainRenderer->GetCurAnimationFrame() >= 84 && MainRenderer->GetCurAnimationFrame() <= 85)
+	{
+		Sword.ResetRecord();
 	}
 
 	// 6th
@@ -944,6 +972,7 @@ void Monster_HollowSoldier_Lantern::State_RH_RunToSlash_Update(float _Delta)
 
 	if (MainRenderer->GetCurAnimationFrame() >= 82)
 	{
+		Sword.ResetRecord();
 		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
 	}
 }
@@ -1006,6 +1035,8 @@ void Monster_HollowSoldier_Lantern::State_Turn_Right_Twice_Update(float _Delta)
 
 void Monster_HollowSoldier_Lantern::State_AttackFail_Start()
 {
+	Sword.Off();
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_AttackFail");
 }
 void Monster_HollowSoldier_Lantern::State_AttackFail_Update(float _Delta)
@@ -1019,6 +1050,7 @@ void Monster_HollowSoldier_Lantern::State_AttackFail_Update(float _Delta)
 void Monster_HollowSoldier_Lantern::State_Parrying_Start()
 {
 	Hit.SetHit(false);
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Parrying");
 }
 void Monster_HollowSoldier_Lantern::State_Parrying_Update(float _Delta)

@@ -922,6 +922,7 @@ void Monster_HollowSoldier_RoundShield::State_Attack1_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 57)
 		{
+			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
 		}
 	}
@@ -962,6 +963,7 @@ void Monster_HollowSoldier_RoundShield::State_Attack2_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 35)
 		{
+			Sword.ResetRecord();
 			MainRenderer->ChangeAnimation("c1100_RH_HorizontalSlash");
 		}
 	}
@@ -1000,6 +1002,7 @@ void Monster_HollowSoldier_RoundShield::State_Attack2_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 45)
 		{
+			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
 		}
 	}
@@ -1040,6 +1043,7 @@ void Monster_HollowSoldier_RoundShield::State_Attack3_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 35)
 		{
+			Sword.ResetRecord();
 			MainRenderer->ChangeAnimation("c1100_RH_HorizontalSlash");
 		}
 	}
@@ -1079,6 +1083,7 @@ void Monster_HollowSoldier_RoundShield::State_Attack3_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 22)
 		{
+			Sword.ResetRecord();
 			MainRenderer->ChangeAnimation("c1100_TH_VerticalSlash");
 		}
 	}
@@ -1119,6 +1124,7 @@ void Monster_HollowSoldier_RoundShield::State_Attack3_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 85)
 		{
+			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
 		}
 	}
@@ -1159,6 +1165,7 @@ void Monster_HollowSoldier_RoundShield::State_Attack4_Update(float _Delta)
 		
 		if (MainRenderer->GetCurAnimationFrame() >= 85)
 		{
+			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
 		}
 	}
@@ -1197,8 +1204,34 @@ void Monster_HollowSoldier_RoundShield::State_Attack5_Update(float _Delta)
 			Sword.Off();
 		}
 
+		if (MainRenderer->GetCurAnimationFrame() >= 18 && MainRenderer->GetCurAnimationFrame() <= 19)
+		{
+			Sword.ResetRecord();
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 31 && MainRenderer->GetCurAnimationFrame() <= 34)
+		{
+			Sword.On();
+
+			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+			if (true == Sword.GetBlock())
+			{
+				ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
+			}
+			else
+			{
+				Sword.CollisionToBody(Enum_CollisionOrder::Player_Body);
+			}
+		}
+
+		if (MainRenderer->GetCurAnimationFrame() >= 35)
+		{
+			Sword.Off();
+		}
+
 		if (MainRenderer->GetCurAnimationFrame() >= 85)
 		{
+			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
 		}
 	}
@@ -1239,6 +1272,7 @@ void Monster_HollowSoldier_RoundShield::State_Attack6_Update(float _Delta)
 
 		if (MainRenderer->GetCurAnimationFrame() >= 66)
 		{
+			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
 		}
 	}
@@ -1497,6 +1531,8 @@ void Monster_HollowSoldier_RoundShield::State_GuardBreak_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_AttackFail_Start()
 {
+	Sword.Off();
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_AttackFail");
 }
 void Monster_HollowSoldier_RoundShield::State_AttackFail_Update(float _Delta)
@@ -1510,6 +1546,7 @@ void Monster_HollowSoldier_RoundShield::State_AttackFail_Update(float _Delta)
 void Monster_HollowSoldier_RoundShield::State_Parrying_Start()
 {
 	Hit.SetHit(false);
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Parrying");
 }
 void Monster_HollowSoldier_RoundShield::State_Parrying_Update(float _Delta)
