@@ -19,10 +19,15 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 	ImGui::NewLine();
 
-	if (true == ImGui::Checkbox("Awake", &Linked_Boss->IsAwake))
+	if (true == ImGui::Checkbox("Awake", &Linked_Boss->IsUpdateValue))
 	{
 		Linked_Boss->OnOffSwitch();
+		Linked_Boss->OnOffSwitch();
 	}
+
+	ImGui::NewLine();
+
+	ImGui::Checkbox("AI_OFF", &Linked_Boss->AI_Off);
 
 	ImGui::NewLine();
 
@@ -280,6 +285,43 @@ void AI_State::Update(float _Delta)
 void Vordt_HitCollision::Off()
 {
 	BodyCollision->Off();
+	L_Claf_Collision->Off();
+	L_ClafWist1_Collision->Off();
+	L_Foot_Collision->Off();
+	L_Toe_Collision->Off();
+	L_UpArmTwist_Collision->Off();
+	L_ForeArm_Collision->Off();
+	L_Hand_Collision->Off();
+	R_Claf_Collision->Off();
+	R_ClafWist1_Collision->Off();
+	R_Foot_Collision->Off();
+	R_Toe_Collision->Off();
+	R_UpArmTwist_Collision->Off();
+	R_ForeArm_Collision->Off();
+	R_Hand_Collision->Off();
+	Neck_Collision->Off();
+	Throw_Collision->Off();
+}
+
+void Vordt_HitCollision::On()
+{
+	BodyCollision->On();
+	L_Claf_Collision->On();
+	L_ClafWist1_Collision->On();
+	L_Foot_Collision->On();
+	L_Toe_Collision->On();
+	L_UpArmTwist_Collision->On();
+	L_ForeArm_Collision->On();
+	L_Hand_Collision->On();
+	R_Claf_Collision->On();
+	R_ClafWist1_Collision->On();
+	R_Foot_Collision->On();
+	R_Toe_Collision->On();
+	R_UpArmTwist_Collision->On();
+	R_ForeArm_Collision->On();
+	R_Hand_Collision->On();
+	Neck_Collision->On();
+	Throw_Collision->On();
 }
 
 void Vordt_HitCollision::Release()
@@ -288,6 +330,90 @@ void Vordt_HitCollision::Release()
 	{
 		BodyCollision->Death();
 		BodyCollision = nullptr;
+	}
+
+	if (nullptr != L_Claf_Collision)
+	{
+		L_Claf_Collision->Death();
+		L_Claf_Collision = nullptr;
+	}
+
+	if (nullptr != L_Foot_Collision)
+	{
+		L_Foot_Collision->Death();
+		L_Foot_Collision = nullptr;
+	}
+
+	if (nullptr != L_Toe_Collision)
+	{
+		L_Toe_Collision->Death();
+		L_Toe_Collision = nullptr;
+	}
+
+	if (nullptr != L_UpArmTwist_Collision)
+	{
+		L_UpArmTwist_Collision->Death();
+		L_UpArmTwist_Collision = nullptr;
+	}
+
+	if (nullptr != L_ForeArm_Collision)
+	{
+		L_ForeArm_Collision->Death();
+		L_ForeArm_Collision = nullptr;
+	}
+
+	if (nullptr != L_Hand_Collision)
+	{
+		L_Hand_Collision->Death();
+		L_Hand_Collision = nullptr;
+	}
+
+	if (nullptr != R_Claf_Collision)
+	{
+		R_Claf_Collision->Death();
+		R_Claf_Collision = nullptr;
+	}
+
+	if (nullptr != R_Foot_Collision)
+	{
+		R_Foot_Collision->Death();
+		R_Foot_Collision = nullptr;
+	}
+
+	if (nullptr != R_Toe_Collision)
+	{
+		R_Toe_Collision->Death();
+		R_Toe_Collision = nullptr;
+	}
+
+	if (nullptr != R_UpArmTwist_Collision)
+	{
+		R_UpArmTwist_Collision->Death();
+		R_UpArmTwist_Collision = nullptr;
+	}
+
+	if (nullptr != R_ForeArm_Collision)
+	{
+		R_ForeArm_Collision->Death();
+		R_ForeArm_Collision = nullptr;
+	}
+
+	if (nullptr != R_Hand_Collision)
+	{
+		R_Hand_Collision->Death();
+		R_Hand_Collision = nullptr;
+	}
+
+	if (nullptr != Neck_Collision)
+	{
+		Neck_Collision->Death();
+		Neck_Collision = nullptr;
+	}
+
+	if (nullptr != Throw_Collision)
+	{
+		Throw_Collision->Death();
+		Throw_Collision = nullptr;
 	}
 }
 
@@ -401,7 +527,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->CreateFBXAnimation("Rush&Turn", "Rush&Turn.FBX", { ONE_FRAME_DTIME, false });
 		MainRenderer->CreateFBXAnimation("Rush_Attack", "Rush_Attack.FBX", { ONE_FRAME_DTIME, false });
 		MainRenderer->CreateFBXAnimation("Rush_Attack_002", "Rush_Attack_002.FBX", { ONE_FRAME_DTIME, false });
-		MainRenderer->CreateFBXAnimation("Rush_Front", "Rush_Front.FBX", { ONE_FRAME_DTIME / 1.5f, true });
+		MainRenderer->CreateFBXAnimation("Rush_Front", "Rush_Front.FBX", { ONE_FRAME_DTIME * 1.5f, true });
 		MainRenderer->CreateFBXAnimation("Sweep_001", "Sweep_001.FBX", { ONE_FRAME_DTIME, false });
 		MainRenderer->CreateFBXAnimation("Sweep_002", "Sweep_002.FBX", { ONE_FRAME_DTIME, false });
 		MainRenderer->CreateFBXAnimation("Thrust", "Thrust.FBX", { ONE_FRAME_DTIME, false });
@@ -494,13 +620,189 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	BSCol_TransitionParameter ColParameter;
 	if (nullptr == mHitCollision.BodyCollision)
 	{
-		ColParameter.S = float4(400.f, 400.f, 400.f);
+		ColParameter.S = float4(350.f, 350.f, 350.f);
 		ColParameter.R = float4(0.f);
 		ColParameter.T = float4(0.f, 0.f, 0.f);
 
 		mHitCollision.BodyCollision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 21, ColParameter, "Hit_Collision");
 		mHitCollision.BodyCollision->SetCollisionType(ColType::SPHERE3D);
-		mHitCollision.BodyCollision->Off();
+		mHitCollision.BodyCollision->On();
+	}
+
+	if (nullptr == mHitCollision.L_Claf_Collision)
+	{
+		ColParameter.S = float4(140.f, 140.f, 140.f);
+		ColParameter.R = float4(0.f);
+		ColParameter.T = float4(0.f, 0.f, 0.f);
+
+		mHitCollision.L_Claf_Collision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 7, ColParameter, "Hit_Collision");
+		mHitCollision.L_Claf_Collision->SetCollisionType(ColType::SPHERE3D);
+		mHitCollision.L_Claf_Collision->On();
+	}
+
+	if (nullptr == mHitCollision.L_ClafWist1_Collision)
+	{
+		ColParameter.S = float4(120.f, 120.f, 120.f);
+		ColParameter.R = float4(0.f);
+		ColParameter.T = float4(1.f, 0.f, 0.f);
+
+		mHitCollision.L_ClafWist1_Collision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 9, ColParameter, "Hit_Collision");
+		mHitCollision.L_ClafWist1_Collision->SetCollisionType(ColType::SPHERE3D);
+		mHitCollision.L_ClafWist1_Collision->On();
+	}
+
+	if (nullptr == mHitCollision.L_Foot_Collision)
+	{
+		ColParameter.S = float4(75.f, 75.f, 75.f);
+		ColParameter.R = float4(0.f);
+		ColParameter.T = float4(0.24f, 0.f, 0.f);
+
+		mHitCollision.L_Foot_Collision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 10, ColParameter, "Hit_Collision");
+		mHitCollision.L_Foot_Collision->SetCollisionType(ColType::SPHERE3D);
+		mHitCollision.L_Foot_Collision->On();
+	}
+
+	if (nullptr == mHitCollision.L_Toe_Collision)
+	{
+		ColParameter.S = float4(65.f, 65.f, 65.f);
+		ColParameter.R = float4(0.f);
+		ColParameter.T = float4(0.f, 0.f, -0.16f);
+
+		mHitCollision.L_Toe_Collision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 11, ColParameter, "Hit_Collision");
+		mHitCollision.L_Toe_Collision->SetCollisionType(ColType::SPHERE3D);
+		mHitCollision.L_Toe_Collision->On();
+	}
+
+	if (nullptr == mHitCollision.L_UpArmTwist_Collision)
+	{
+		ColParameter.S = float4(125.f, 125.f, 125.f);
+		ColParameter.R = float4(0.f);
+		ColParameter.T = float4(0.f, 0.f, 0.f);
+
+		mHitCollision.L_UpArmTwist_Collision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 27, ColParameter, "Hit_Collision");
+		mHitCollision.L_UpArmTwist_Collision->SetCollisionType(ColType::SPHERE3D);
+		mHitCollision.L_UpArmTwist_Collision->On();
+	}
+
+	if (nullptr == mHitCollision.L_ForeArm_Collision)
+	{
+		ColParameter.S = float4(110.f, 110.f, 110.f);
+		ColParameter.R = float4(0.f);
+		ColParameter.T = float4(0.16f, 0.f, 0.f);
+
+		mHitCollision.L_ForeArm_Collision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 30, ColParameter, "Hit_Collision");
+		mHitCollision.L_ForeArm_Collision->SetCollisionType(ColType::SPHERE3D);
+		mHitCollision.L_ForeArm_Collision->On();
+	}
+
+	if (nullptr == mHitCollision.L_Hand_Collision)
+	{
+		ColParameter.S = float4(110.f, 110.f, 110.f);
+		ColParameter.R = float4(0.f);
+		ColParameter.T = float4(-0.16f, 0.f, 0.f);
+
+		mHitCollision.L_Hand_Collision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 32, ColParameter, "Hit_Collision");
+		mHitCollision.L_Hand_Collision->SetCollisionType(ColType::SPHERE3D);
+		mHitCollision.L_Hand_Collision->On();
+	}
+
+	if (nullptr == mHitCollision.R_Claf_Collision)
+	{
+		ColParameter.S = float4(140.f, 140.f, 140.f);
+		ColParameter.R = float4(0.f);
+		ColParameter.T = float4(0.f, 0.f, 0.f);
+
+		mHitCollision.R_Claf_Collision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 16, ColParameter, "Hit_Collision");
+		mHitCollision.R_Claf_Collision->SetCollisionType(ColType::SPHERE3D);
+		mHitCollision.R_Claf_Collision->On();
+	}
+
+	if (nullptr == mHitCollision.R_ClafWist1_Collision)
+	{
+		ColParameter.S = float4(120.f, 120.f, 120.f);
+		ColParameter.R = float4(0.f);
+		ColParameter.T = float4(1.f, 0.f, 0.f);
+
+		mHitCollision.R_ClafWist1_Collision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 18, ColParameter, "Hit_Collision");
+		mHitCollision.R_ClafWist1_Collision->SetCollisionType(ColType::SPHERE3D);
+		mHitCollision.R_ClafWist1_Collision->On();
+	}
+
+	if (nullptr == mHitCollision.R_Foot_Collision)
+	{
+		ColParameter.S = float4(75.f, 75.f, 75.f);
+		ColParameter.R = float4(0.f);
+		ColParameter.T = float4(0.24f, 0.f, 0.f);
+
+		mHitCollision.R_Foot_Collision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 19, ColParameter, "Hit_Collision");
+		mHitCollision.R_Foot_Collision->SetCollisionType(ColType::SPHERE3D);
+		mHitCollision.R_Foot_Collision->On();
+	}
+
+	if (nullptr == mHitCollision.R_Toe_Collision)
+	{
+		ColParameter.S = float4(65.f, 65.f, 65.f);
+		ColParameter.R = float4(0.f);
+		ColParameter.T = float4(0.f, 0.f, -0.16f);
+
+		mHitCollision.R_Toe_Collision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 20, ColParameter, "Hit_Collision");
+		mHitCollision.R_Toe_Collision->SetCollisionType(ColType::SPHERE3D);
+		mHitCollision.R_Toe_Collision->On();
+	}
+
+	if (nullptr == mHitCollision.R_UpArmTwist_Collision)
+	{
+		ColParameter.S = float4(125.f, 125.f, 125.f);
+		ColParameter.R = float4(0.f);
+		ColParameter.T = float4(0.f, 0.f, 0.f);
+
+		mHitCollision.R_UpArmTwist_Collision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 53, ColParameter, "Hit_Collision");
+		mHitCollision.R_UpArmTwist_Collision->SetCollisionType(ColType::SPHERE3D);
+		mHitCollision.R_UpArmTwist_Collision->On();
+	}
+
+	if (nullptr == mHitCollision.R_ForeArm_Collision)
+	{
+		ColParameter.S = float4(110.f, 110.f, 110.f);
+		ColParameter.R = float4(0.f);
+		ColParameter.T = float4(0.16f, 0.f, 0.f);
+
+		mHitCollision.R_ForeArm_Collision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 56, ColParameter, "Hit_Collision");
+		mHitCollision.R_ForeArm_Collision->SetCollisionType(ColType::SPHERE3D);
+		mHitCollision.R_ForeArm_Collision->On();
+	}
+
+	if (nullptr == mHitCollision.R_Hand_Collision)
+	{
+		ColParameter.S = float4(110.f, 110.f, 110.f);
+		ColParameter.R = float4(0.f);
+		ColParameter.T = float4(-0.16f, 0.f, 0.f);
+
+		mHitCollision.R_Hand_Collision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 58, ColParameter, "Hit_Collision");
+		mHitCollision.R_Hand_Collision->SetCollisionType(ColType::SPHERE3D);
+		mHitCollision.R_Hand_Collision->On();
+	}
+
+	if (nullptr == mHitCollision.Neck_Collision)
+	{
+		ColParameter.S = float4(150.f, 150.f, 150.f);
+		ColParameter.R = float4(0.f);
+		ColParameter.T = float4(0.68f, 0.f, 0.28f);
+
+		mHitCollision.Neck_Collision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 75, ColParameter, "Hit_Collision");
+		mHitCollision.Neck_Collision->SetCollisionType(ColType::SPHERE3D);
+		mHitCollision.Neck_Collision->On();
+	}
+
+	if (nullptr == mHitCollision.Throw_Collision)
+	{
+		ColParameter.S = float4(150.f, 150.f, 150.f);
+		ColParameter.R = float4(0.f);
+		ColParameter.T = float4(0.f, -0.68f, 0.6f);
+
+		mHitCollision.Throw_Collision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 99, ColParameter, "Hit_Collision");
+		mHitCollision.Throw_Collision->SetCollisionType(ColType::SPHERE3D);
+		mHitCollision.Throw_Collision->On();
 	}
 
 	// AttackCollision
@@ -740,20 +1042,6 @@ bool Boss_Vordt::ChangeAI_State(Enum_BossState _State)
 	CurAIState.CurCoolDown = CurAIState.StateCoolDown;
 	MainState.ChangeState(_State);
 	return true;
-}
-
-float4 Boss_Vordt::BoneWorldPos(int _BoneIndex)
-{
-	std::vector<float4x4>& BoneMats = MainRenderer->GetBoneSockets();
-	float4x4 BoneMatrix = BoneMats.at(_BoneIndex);
-
-	float4x4 BoneWMat = BoneMatrix * Transform.GetWorldMatrix();
-	float4 S;
-	float4 R;
-	float4 P;
-	BoneWMat.Decompose(S, R, P);
-
-	return P;
 }
 
 void Boss_Vordt::PhaseChangeCheck()

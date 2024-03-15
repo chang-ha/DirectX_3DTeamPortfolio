@@ -129,11 +129,25 @@ class Vordt_HitCollision
 {
 	friend class Boss_Vordt;
 	std::shared_ptr<BoneSocketCollision> BodyCollision;
-	std::shared_ptr<BoneSocketCollision> HeadCollision;
-	std::shared_ptr<BoneSocketCollision> L_HandCollision;
-	std::shared_ptr<BoneSocketCollision> R_HandCollision;
+	std::shared_ptr<BoneSocketCollision> L_Claf_Collision;
+	std::shared_ptr<BoneSocketCollision> L_ClafWist1_Collision;
+	std::shared_ptr<BoneSocketCollision> L_Toe_Collision;
+	std::shared_ptr<BoneSocketCollision> L_Foot_Collision;
+	std::shared_ptr<BoneSocketCollision> L_UpArmTwist_Collision;
+	std::shared_ptr<BoneSocketCollision> L_ForeArm_Collision;
+	std::shared_ptr<BoneSocketCollision> L_Hand_Collision;
+	std::shared_ptr<BoneSocketCollision> R_Claf_Collision;
+	std::shared_ptr<BoneSocketCollision> R_ClafWist1_Collision;
+	std::shared_ptr<BoneSocketCollision> R_Toe_Collision;
+	std::shared_ptr<BoneSocketCollision> R_Foot_Collision;
+	std::shared_ptr<BoneSocketCollision> R_UpArmTwist_Collision;
+	std::shared_ptr<BoneSocketCollision> R_ForeArm_Collision;
+	std::shared_ptr<BoneSocketCollision> R_Hand_Collision;
+	std::shared_ptr<BoneSocketCollision> Neck_Collision;
+	std::shared_ptr<BoneSocketCollision> Throw_Collision;
 
 	void Off();
+	void On();
 	void Release();
 };
 
@@ -183,14 +197,13 @@ private:
 	Vordt_HitCollision mHitCollision;
 	// AttackCollision
 	Vordt_AttackCollision mAttackCollision;
-
 	void CollisionUpdate();
 
+	bool AI_Off = false;
 	std::shared_ptr<Boss_State_GUI> GUI = nullptr;
 
 	void FrameEventInit();
 	void StateInit();
-	float4 BoneWorldPos(int _BoneIndex);
 
 	static constexpr float Distance_Standard = 500.f;
 	static constexpr float Degree_Standard = 60.f;
