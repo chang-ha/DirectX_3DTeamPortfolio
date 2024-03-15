@@ -4,7 +4,7 @@ cbuffer CameraBaseInfo : register(b2)
 {
     float SizeX;
     float SizeY;
-    float Temp0;
+    float DynamicShadowDistance;
     float Temp1;
 };
 
@@ -99,9 +99,16 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
     if (0 != LightDataValue.LightType)
     {
         float Distance = length(LightDataValue.ViewLightPos.xyz - Pos.xyz);
+        
+        if (Distance >= LightDataValue.PointLightRange * 1.7f)
+        {
+            clip(-1);
+        }
              
         float attenuation = 1.0 / (LightDataValue.constantAttenuation + LightDataValue.linearAttenuation * Distance + LightDataValue.quadraticAttenuation * Distance * Distance);
         LightPower = attenuation;
+        
+        
     }
     
     if (Material.z >= 1.0f)
@@ -208,33 +215,10 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
         }
         else
         {
-            // 동적 쉐도우 계산
-            float shadow = 0.0f;
-            
-            [unroll]
-            for (int i = 0; i < 13; ++i)
-            {
-                float fShadowDepth = ShadowTex.Sample(LINEARClamp, ShadowUV + offsets[i]).r;
-            
-            
-            
-            if (
-                fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.00005f)
-             )
-                {
-            
-                    shadow += 1.0f;
-                }
-            }
-            
-            shadow /= 15.0f;
-            
-            DynamicShadow = shadow;
-            
             // 정적 쉐도우 계산
             
-
-            shadow = 0.0f;
+            float shadow = 0.0f;
+            
             {
                 [unroll]
                 for (int i = 0; i < 13; ++i)
@@ -257,10 +241,40 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
             
             StaticShadow = shadow;
             
+            shadow = 0.0f;
+            // 동적 쉐도우 계산
             
-      
+            [unroll]
+            for (int i = 0; i < 13; ++i)
+            {
+                float fShadowDepth = ShadowTex.Sample(LINEARClamp, ShadowUV + offsets[i]).r;     
+            if (
+                fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.00005f)
+             )
+                {
+                    if (LightProjection.z - fShadowDepth < DynamicShadowDistance || StaticShadow < 0.3f)
+                    {
+                      shadow += 1.0f;
+                    }
+                }
+            }
+            
+            shadow /= 15.0f;
+            
+            DynamicShadow = shadow;
         }
         
+        //float ShadowPower = saturate(StaticShadow + DynamicShadow);
+        //if (DynamicShadowDistance >= 0.0f && ShadowPower >= 13.0f / 15.0f)
+        //{
+        //    float fShadowDepth = ShadowTex.Sample(LINEARClamp, ShadowUV).r;
+            
+        //    if (LightProjection.z - fShadowDepth > DynamicShadowDistance)
+        //    {
+        //        ShadowPower = 13.0f / 15.0f;
+        //    }
+        //}
+            
         Result.Shadow = saturate(StaticShadow + DynamicShadow);
         
         

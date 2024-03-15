@@ -11,7 +11,10 @@ public:
 	Weapon(Weapon&& _Other) noexcept = delete;
 	Weapon& operator=(const Weapon& _Other) = delete;
 	Weapon& operator=(Weapon&& _Other) noexcept = delete;
-
+	std::shared_ptr<GameContentsFBXRenderer> Getweapon()
+	{
+		return weapon;
+	}
 	
 protected:
 

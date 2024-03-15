@@ -347,8 +347,32 @@ private:
 	void End_G_Run(GameEngineState* _State);
 	void End_G_Att_Bash(GameEngineState* _State);
 
-	void End_F_Stab(GameEngineState* _State);
+	void End_F_Hit_W(GameEngineState* _State);
+	void End_B_Hit_W(GameEngineState* _State);
+	void End_R_Hit_W(GameEngineState* _State);
+	void End_L_Hit_W(GameEngineState* _State);
+	void End_F_Hit(GameEngineState* _State);
+	void End_B_Hit(GameEngineState* _State);
+	void End_R_Hit(GameEngineState* _State);
+	void End_L_Hit(GameEngineState* _State);
+	void End_G_F_Hit_W(GameEngineState* _State);
+	void End_G_F_Hit_W_PushBack(GameEngineState* _State);
+	void End_G_F_Hit(GameEngineState* _State);
+	void End_G_F_Hit_PushBack(GameEngineState* _State);
+	void End_G_F_Hit_S_PushBack(GameEngineState* _State);
+	void End_Block_Shield(GameEngineState* _State);
+	void End_G_Break(GameEngineState* _State);
+	void End_Break_Down(GameEngineState* _State);
+	void End_F_Death(GameEngineState* _State);
+	void End_F_Death_End(GameEngineState* _State);
+	void End_F_Death_B(GameEngineState* _State);
+	void End_F_Death_B_End(GameEngineState* _State);
 	void End_B_Stab(GameEngineState* _State);
+	void End_B_Stab_Death(GameEngineState* _State);
+	void End_B_Stab_Death_End(GameEngineState* _State);
+	void End_F_Stab(GameEngineState* _State);
+	void End_F_Stab_Death(GameEngineState* _State);
+	void End_F_Stab_Death_End(GameEngineState* _State);
 
 	// State Func
 	bool IsFrame(int _StartFrame, int _EndFrame = -1) const;
@@ -375,7 +399,6 @@ private:
 	bool CanAttack(float _fDist, float _fDir) const;
 	bool IsTargetInAngle(float _fAngle) const;
 
-	void RotToTarget(float _DeltaTime, float _fMinSpeed, float _fMaxSpeed);
 	bool CheckAndSetHitState();
 	bool CheckAndSetAttackState();
 	
@@ -410,6 +433,7 @@ private:
 	void AttackDone(eAttackType _eBoneType);
 
 private:
+	std::shared_ptr<GameEngineCollision> MonsterCollision;
 	std::shared_ptr<GameEngineCollision> PatrolCollision;
 	Monster_HitInteraction Sword;
 	Monster_HitInteraction Shield;
@@ -431,6 +455,7 @@ private:
 	static constexpr float MIN_ROT_ANGLE = 3.0f;
 	static constexpr float MAX_ROTSPEED_TO_TARGET = 510.0f;
 	static constexpr float MIN_ROTSPEED_TO_TARGET = 150.0f;
+	
 
 	LothricKn_Debug Debug;
 	

@@ -67,6 +67,14 @@ enum class PlayerState
 	Big_Shield_block,
 	Parring_Attack, 
 	Attack_Block, 
+	Sit_Down,
+	Stand_Up, 
+	ladder_Fast_Down_Start,
+	ladder_Fast_Down,
+	ladder_Fast_Down_Stop,
+	fail,
+	landing,
+	StaminaCheck
 };
 
 // Ό³Έν :
@@ -92,7 +100,7 @@ public:
 
 	float4 BoneWorldPos(int _BoneIndex);
 	void CameraRotation(float Delta);
-
+	bool FrontStabCheck(const float4& _WPos, float _RotY) const;
 	std::shared_ptr<Weapon> GetWeapon()
 	{
 		return Weapon_Actor;
@@ -101,6 +109,8 @@ public:
 	{
 		return Shield_Actor;
 	}
+
+
 	std::shared_ptr<GameEngineActor> Actor_test_02;
 
 	float4 CameraDir = {};
@@ -121,6 +131,12 @@ public:
 	bool GetHit(const HitParameter& _Para);
 	bool GetHitToShield(const HitParameter& _Para);
 
+	
+	int GetPotion() const
+	{
+		return Potion;
+	}
+
 
 protected:
 	void Start() override;
@@ -129,11 +145,14 @@ protected:
 	
 
 private:
-
+	bool tyu = false;
+	int Potion = 5;
 	GameEngineSoundPlayer Sound; 
 
 	float Poise_Time = 0.0f;
-	float Stamina = 0.0f;
+	//float Stamina = 100.0f;
+	float Hp = 100.0f;
+
 
 	float4 MoveDir;
 	GameEngineState PlayerStates;
@@ -145,6 +164,7 @@ private:
 
 	std::shared_ptr<GameEngineCollision> Player_Col;
 
+	std::shared_ptr<GameEngineCollision> Parring_Attack_Col;
 	std::shared_ptr<BoneSocketCollision> Body_Col;
 	std::shared_ptr<BoneSocketCollision> Shield_Col;
 	std::shared_ptr<BoneSocketCollision> Attack_Col;
@@ -167,13 +187,13 @@ private:
 	bool Rotation_Check_Y = false;
 	bool Rotation_Check_Y_Plus = false;
 	bool Rotation_Check_Y_Mus = false;
-
+	bool Parring_Check = false;
 	EventParameter Body_Event;
 	EventParameter Labber_Event;
 	EventParameter Labber_Middle_Event;
 	EventParameter Labber_Top_Event;
 	EventParameter Shield_Event;
-
+	EventParameter Parring_Event;
 
 
 	EventParameter Arround_Event;
@@ -187,7 +207,7 @@ private:
 
 	
 
-	float MonsterAngle;
+	float MonsterAngle = 0.0f;
 
 
 	bool Rock_On_Check = false;
@@ -200,7 +220,7 @@ private:
 	float MoveSpeed = 0.0f;
 	float DeltaTime = 0.0f;
 
-	bool testads = false;
+	
 
 	
 	float4 Player_Pos = {};
@@ -219,7 +239,7 @@ private:
 	int Number = 0;
 
 	std::vector<GameEngineActor*> Monster_Actor;
-
+	std::vector<GameEngineActor*> Parring_Monster_Actor;
 	
 
 	std::shared_ptr<CameraCapsule> Cameracapsule;
@@ -241,6 +261,9 @@ private:
 	float4 ASS = {};
 
 	float Monster_Degree = 0.0f;
+
+	std::shared_ptr<class ContentsHitRenderer> HitRenderer;
+	std::shared_ptr<class ContentsHitRenderer> StrikeRenderer;
 };
 
 

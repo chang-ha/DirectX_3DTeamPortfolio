@@ -25,7 +25,10 @@ enum class Enum_HollowSoldier_Lantern_State
 	Turn_Right_Twice,
 	AttackFail,
 	Parrying,
-	Hit,
+	Hit_Front,
+	Hit_Back,
+	Hit_Left,
+	Hit_Right,
 	HitToDeath,
 	BackAttackHit,
 	Death,
@@ -72,6 +75,11 @@ protected:
 	void StateUpdate(float _Delta);
 
 	void ChangeAttackState();
+
+	void ChangeHitState();
+
+	std::shared_ptr<GameEngineCollision> SwordCollision;
+	Monster_HitInteraction Sword;
 
 protected:
 	void State_Stay_Start();
@@ -140,8 +148,17 @@ protected:
 	void State_Parrying_Start();
 	void State_Parrying_Update(float _Delta);
 
-	void State_Hit_Start();
-	void State_Hit_Update(float _Delta);
+	void State_Hit_Front_Start();
+	void State_Hit_Front_Update(float _Delta);
+
+	void State_Hit_Back_Start();
+	void State_Hit_Back_Update(float _Delta);
+
+	void State_Hit_Left_Start();
+	void State_Hit_Left_Update(float _Delta);
+
+	void State_Hit_Right_Start();
+	void State_Hit_Right_Update(float _Delta);
 
 	void State_HitToDeath_Start();
 	void State_HitToDeath_Update(float _Delta);

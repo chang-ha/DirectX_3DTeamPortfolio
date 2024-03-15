@@ -13,6 +13,7 @@
 
 float GameEngineCamera::FreeRotSpeed = 360.0f;
 float GameEngineCamera::FreeSpeed = 100.0f;
+float GameEngineCamera::DynamicShadowDistance = 0.013f;
 
 GameEngineCamera::GameEngineCamera() 
 {
@@ -31,6 +32,7 @@ void GameEngineCamera::Start()
 
 	CameraBaseInfoValue.SizeX = GameEngineCore::MainWindow.GetScale().X;
 	CameraBaseInfoValue.SizeY = GameEngineCore::MainWindow.GetScale().Y;
+	CameraBaseInfoValue.DynamicShadowDistance = 0.013f;
 
 	GameEngineLevel* Level = GetLevel();
 
@@ -117,7 +119,7 @@ void GameEngineCamera::Start()
 		DeferredLightRenderUnit.ShaderResHelper.SetTexture("NormalTex", AllRenderTarget->GetTexture(3));
 		//DeferredLightRenderUnit.ShaderResHelper.SetTexture("DiffuseTexture", AllRenderTarget->GetTexture(1));
 		DeferredLightRenderUnit.ShaderResHelper.SetTexture("MaterialTexture", AllRenderTarget->GetTexture(5));
-		//DeferredLightRenderUnit.ShaderResHelper.SetConstantBufferLink("CameraBaseInfo", CameraBaseInfoValue);
+		DeferredLightRenderUnit.ShaderResHelper.SetConstantBufferLink("CameraBaseInfo", CameraBaseInfoValue);
 
 		DeferredLightRenderUnit.ShaderResHelper.SetSampler("POINTWRAP", "POINT");
 		DeferredLightRenderUnit.ShaderResHelper.SetSampler("LinearClamp", "LINEAR");
@@ -159,6 +161,8 @@ void GameEngineCamera::Start()
 
 void GameEngineCamera::Update(float _Delta)
 {
+	CameraBaseInfoValue.DynamicShadowDistance = DynamicShadowDistance;
+
 	GameEngineActor::Update(_Delta);
 
 	ScreenMousePos = GameEngineCore::MainWindow.GetMousePos();
@@ -487,6 +491,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 						{
 							continue;
 						}*/
+						
 
 						GameEngineRenderer* ParentRenderer = Unit->GetParentRenderer();
 
@@ -495,6 +500,11 @@ void GameEngineCamera::Render(float _DeltaTime)
 							MsgBoxAssert("랜더러가 존재하지 않는 유니티가 있습니다");
 							return;
 						}
+						if (Unit->IsUpdate() == false) 
+						{
+							continue;
+						}
+
 						//움직이지 않는 물체면
 						if (ParentRenderer->StaticValue == true)
 						{
@@ -553,6 +563,11 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 			for (std::shared_ptr<GameEngineLight> Light : Lights)
 			{
+				if (Light->LightDataValue.LightType != static_cast<int>(Enum_LightType::Directional) and InCamera(Light->Transform, Light->LightDataValue.PointLightRange) == false)
+				{
+					continue;
+				}
+
 				if (true == Light->IsShadow())
 				{
 					DeferredLightRenderUnit.ShaderResHelper.SetTexture("ShadowTex", Light->GetShadowTarget()->GetDepthTexture());
@@ -754,6 +769,9 @@ void GameEngineCamera::CameraUpdate(float _DeltaTime)
 		break;
 	}
 
+	CameraLightFrustum = CameraFrustum;
+	CameraLightFrustum.Far = Far * 0.3f;
+
 }
 
 
@@ -781,6 +799,34 @@ bool GameEngineCamera::InCamera(const GameEngineTransform& _Trans, MeshBaseInfo 
 	Result = CameraFrustum.Intersects(AABB);
 
 	
+	//Result = true;
+
+	return Result;
+}
+
+bool GameEngineCamera::InCamera(const GameEngineTransform& _Trans, float Scale)
+{
+	//UnitTransform.LocalPosition = _MeshBaseInfo.CenterPosition;
+	//UnitTransform.LocalScale = _MeshBaseInfo.BoundScaleBox;
+	//UnitTransform.LocalRotation = float4::ZERONULL;
+
+	UnitTransform.LocalCalculation(_Trans.GetWorldMatrix());
+	UnitTransform.WorldDecompos();
+
+	// 반지름 
+	//ColData.OBB.Extents = TransData.WorldScale.ToABS().Half().Float3;
+	//ColData.OBB.Center = TransData.WorldPosition.Float3;
+
+	DirectX::BoundingSphere AABB;
+	AABB.Center = UnitTransform.WorldPosition.Float3;
+	AABB.Radius = Scale;
+
+
+	bool Result;
+
+	Result = CameraFrustum.Intersects(AABB);
+
+
 	//Result = true;
 
 	return Result;

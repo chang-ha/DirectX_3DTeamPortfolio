@@ -32,6 +32,7 @@ float4 GaussianBlur(Texture2D _Tex, SamplerState _Sampler, float2 _Scale, float2
         CurUV.x = StartUV.x;
         CurUV.y += PixelSize.y;
     }
+    Result.a = 1.0f;
     
     return Result;
 }
