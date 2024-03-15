@@ -25,7 +25,8 @@ void Object_Desk::Start()
 		FBXRenderer->Transform.SetWorldPosition({ -800, -2500 , 2400 });*/
 	}
 
-	Transform.SetWorldPosition({ -9011, 2030 , -3678 });
+	//Transform.SetWorldPosition({ -9011, 2030 , -3678 });
+	Transform.SetWorldPosition({ -800, -2500 , 2400 });
 	Transform.SetWorldScale({ 100, 100 , 100 });
 	Transform.SetWorldRotation({ 0, 110 , 0 });
 

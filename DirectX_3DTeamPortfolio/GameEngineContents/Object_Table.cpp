@@ -15,8 +15,11 @@ void Object_Table::Start()
 {
 	FBXRenderer = CreateComponent<GameContentsFBXRenderer>(0);
 	FBXRenderer->SetFBXMesh("o001020.FBX", "FBX_Static");
-	FBXRenderer->Transform.SetWorldScale({ 100, 100 , 100 });
 	FBXRenderer->SetStatic();
+	Transform.SetWorldScale({ 100, 100 , 100 });
+
+	/*Capsule = CreateComponent<GameEnginePhysXCapsule>();
+	Capsule->PhysXComponentInit(100, 100);*/
 }
 
 void Object_Table::Update(float _Delta)

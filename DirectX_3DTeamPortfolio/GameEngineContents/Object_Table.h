@@ -21,19 +21,7 @@ protected:
 
 private:
 	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer;
-	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer1;
-	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer2;
-	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer3;
-	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer4;
-	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer5;
-	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer6;
-	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer7;
-	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer8;
-	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer9;
-	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer10;
-	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer11;
-	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer12;
-	
+	//std::shared_ptr<GameEnginePhysXCapsule> Capsule;
 	
 };
 
