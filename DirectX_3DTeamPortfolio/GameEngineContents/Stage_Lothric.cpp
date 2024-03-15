@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "WorldMap.h"
 #include <GameEngineCore\FogEffect.h>
+#include <GameEngineCore\DepthOfField.h>
 #include "FXAAEffect.h"
 #include "Monster_HollowSoldier.h"
 #include "Monster_LothricKn.h"
@@ -58,8 +59,8 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		// NewRenderer->GetShaderResHelper().SetTexture("NormalTexture", "BumpNormal.gif");
 		NewRenderer->Transform.SetLocalPosition({ 0.0f, -40000.0f, 0.0f });
 		NewRenderer->Transform.SetLocalScale({ 1000000.0f, 100.0f, 1000000.0f });
-		NewRenderer->RenderBaseInfoValue.BaseColor = float4(0.0f,0.0f,0.0f,1.0f);
-	}	
+		NewRenderer->RenderBaseInfoValue.BaseColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
+	}
 
 	if (nullptr == Boss_Object)
 	{
@@ -69,7 +70,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 
 	}
 
-	
+
 	// Light
 	if (nullptr == Light)
 	{
@@ -79,7 +80,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 
 		//Data.DifLightPower = 0.1f;
 		Data.AmbientLight = float4(0.05f, 0.05f, 0.025f, 1.0f);
-		Data.LightColor = float4(1.0f, 1.0f, 0.7f); 
+		Data.LightColor = float4(1.0f, 1.0f, 0.7f);
 		Data.LightPower = 10.0f;
 		Data.ForceLightPower = 0.25f;
 
@@ -112,14 +113,21 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	//}
 	// 
 
-	//
-	// Fog
+	// DepthOfField
 	{
-		std::shared_ptr<FogEffect> Effect = GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FogEffect>();
+		std::shared_ptr<DepthOfField> Effect = GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<DepthOfField>();
 		Effect->Init(GetMainCamera());
 	}
+	//
+	// Fog
+	/*{
+		std::shared_ptr<FogEffect> Effect = GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FogEffect>();
+		Effect->Init(GetMainCamera());
+	}*/
+
+
 	////FXAA
-		
+
 	GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FXAAEffect>();
 	GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<LUTEffect>();
 
@@ -131,8 +139,13 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		Player_Object = CreateActor<Player>(0, "Player");
 		// 볼드 위치
 		//Player_Object->Transform.SetWorldPosition({ -2800.f, -2500.f, 6700.f });
+		// 
 		// 계단 위치
-		Player_Object->Transform.SetWorldPosition({ -9910.0f, 2400.0f, -2894.0f });
+		//Player_Object->Transform.SetWorldPosition({ -9910.0f, 2328.0f, -2894.0f });
+		// 
+		// 시작 위치
+		Player_Object->Transform.SetLocalPosition({ -1400.0f, 5101.0f, -5331.0f });
+
 		Player_Object->Transform.SetWorldRotation({ 0.f, 165.f, 0.f });
 		Player_Object->SetTargeting(Boss_Object.get());
 		Boss_Object->SetTargeting(Player_Object.get());
@@ -142,24 +155,20 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		GameMap->Transform.SetWorldPosition({ -2900.f,-2500.f,6800.f });
 	}*/
 
-	
-
 	{
 		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
 	}
 
 	{
 		std::shared_ptr<Monster_LothricKn> Monster;
-		// Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster);
-	}
-
-	{
-		std::shared_ptr<Monster_LothricKn> Monster;
 		Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Lothric1");
-		Monster->SetWPosition(float4(-5443.0f, -876.f, 10681.f));		
+		Monster->SetWPosition(float4(-5443.0f, -876.f, 10681.f));
 		Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Lothric2");
 		Monster->SetWPosition(float4(-6276, -683, 13803));
 	}
+
+	// 몬스터 위치 셋팅
+	SetAllMonster();
 
 	std::shared_ptr<GameEngineCoreWindow> CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 
@@ -181,8 +190,7 @@ void Stage_Lothric::LevelEnd(GameEngineLevel* _NextLevel)
 
 void Stage_Lothric::Start()
 {
-	
-
+	IsDebug = false;
 	ContentLevel::Start();
 	GameEngineInput::AddInputObject(this);
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 0, 0, 0, 1 });
@@ -192,6 +200,8 @@ void Stage_Lothric::Start()
 void Stage_Lothric::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
+
+	float4 PPos = Player_Object->Transform.GetWorldPosition();
 
 	if (true == GameEngineInput::IsDown(VK_F6, this))
 	{
@@ -228,6 +238,186 @@ void Stage_Lothric::Release()
 	{
 		Light->Death();
 		Light = nullptr;
+	}
+}
+
+void Stage_Lothric::SetAllMonster()
+{
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -2738.0f, 4120.0f, -1457.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -3874.0f, 4118.0f, -1151.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -5730.0f, 3409.0f, -2575.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -6764.0f, 3400.0f, -3607.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -8496.0f, 2878.0f, -4483.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -9050.0f, 2033.0f, -4071.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -10210.0f, 2030.0f, -3207.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -11265.0f, 2891.0f, -4376.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -13050.0f, 2886.0f, -3783.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -14467.0f, 2893.0f, -4080.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -15491.0f, 2943.0f, -4392.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -14397.0f, 2277.0f, -2812.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -16297.0f, 2689.0f, -1427.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -15816.0f, 2683.0f, -472.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -17594.0f, 2834.0f, 1350.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -15476.0f, 2327.0f, 2870.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -11968.0f, 1924.0f, 3882.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -10196.0f, 984.0f, 4174.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -8623.0f, 907.0f, 3707.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -8546.0f, -683.0f, 3904.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -9154.0f, 542.0f, 5211.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -7885.0f, -538.0f, 5512.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -8476.0f, -548.0f, 7715.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -6396.0f, -624.0f, 8055.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -6433.0f, -750.0f, 10232.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -4026.0f, -1788.0f, 9562.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	AllMonsterOn();
+}
+
+void Stage_Lothric::AllMonsterOn()
+{
+
+	for (size_t i = 0; i < AllMonster.size(); i++)
+	{
+		AllMonster[i]->SetWorldPosition(AllMonster[i]->GetResponPos());
+		AllMonster[i]->On();
+	}
+}
+
+void Stage_Lothric::AllMonsterOff()
+{
+	for (size_t i = 0; i < AllMonster.size(); i++)
+	{
+		AllMonster[i]->Off();
 	}
 }
 
@@ -279,7 +469,7 @@ void Stage_Lothric::CreateObject()
 	{
 		std::shared_ptr<Object_CastleDoor> Object = CreateActor<Object_CastleDoor>(1);
 	}
-	
+
 	{
 		std::shared_ptr<Object_StartDoor> Object = CreateActor<Object_StartDoor>(1);
 	}
