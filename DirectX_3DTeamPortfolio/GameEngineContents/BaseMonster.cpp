@@ -281,11 +281,16 @@ float4 BaseMonster::GetBackStabPosition()
 
 float4 BaseMonster::GetFrontStabPosition()
 {
-	const float4 MyPos = Transform.GetWorldPosition();
-	const float4 MyRot = Transform.GetWorldRotationEuler();
-	const float4 DirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);
-	const float StabDist = W_SCALE * STAB_POS_RANGE;
-	const float4 RelativePos = DirVector * StabDist;
-	const float4 OtherPos = RelativePos + MyPos;
-	return OtherPos;
+	if (true == IsFlag(Enum_ActorFlag::Groggy))
+	{
+		const float4 MyPos = Transform.GetWorldPosition();
+		const float4 MyRot = Transform.GetWorldRotationEuler();
+		const float4 DirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);
+		const float StabDist = W_SCALE * STAB_POS_RANGE;
+		const float4 RelativePos = DirVector * StabDist;
+		const float4 OtherPos = RelativePos + MyPos;
+		return OtherPos;
+	}
+
+	return false;
 }
