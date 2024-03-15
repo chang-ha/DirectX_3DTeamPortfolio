@@ -26,7 +26,7 @@ void GameEnginePhysXLevel::RunSimulation(float _Delta)
 		return;
 	}
 
-	Scene->simulate(_Delta);
+	Scene->simulate(1.f/60.f);
 	Scene->fetchResults(true);
 }
 
