@@ -613,7 +613,7 @@ void Monster_HollowSoldier_Lantern::State_Scout_Update(float _Delta)
 		{
 
 		};
-	if (true == RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, RecognizeParameter))
+	if (true == RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Player, RecognizeParameter))
 	{
 		FindTarget();
 		ChangeState(Enum_HollowSoldier_Lantern_State::AwakeHollows);

@@ -459,7 +459,7 @@ void Monster_HollowSoldier_Spear::State_Idle1_Update(float _Delta)
 	
 	if (false == IsTargeting())
 	{
-		if (true == RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, RecognizeParameter))
+		if (true == RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Player, RecognizeParameter))
 		{
 			FindTarget();
 			ChangeState(Enum_HollowSoldier_Spear_State::Idle1ToIdle2);
@@ -644,7 +644,7 @@ void Monster_HollowSoldier_Spear::State_Scout_Update(float _Delta)
 		{
 
 		};
-	if (true == RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, RecognizeParameter))
+	if (true == RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Player, RecognizeParameter))
 	{
 		FindTarget();
 		ChangeState(Enum_HollowSoldier_Spear_State::Idle1ToIdle2);

@@ -368,7 +368,7 @@ void Monster_Hollow_NonFirstAttack::NonFindTarget(float _Delta)
 		{
 
 		};
-	if (true == RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, RecognizeParameter))
+	if (true == RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Player, RecognizeParameter))
 	{
 		FindTarget();
 	}

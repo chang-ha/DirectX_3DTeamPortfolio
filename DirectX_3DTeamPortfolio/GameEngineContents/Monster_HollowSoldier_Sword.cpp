@@ -639,7 +639,7 @@ void Monster_HollowSoldier_Sword::State_Scout_Update(float _Delta)
 		{
 			
 		};
-	if (true == RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Dummy, RecognizeParameter))
+	if (true == RecognizeCollision->CollisionEvent(Enum_CollisionOrder::Player, RecognizeParameter))
 	{
 		//ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 		FindTarget();

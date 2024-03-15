@@ -591,7 +591,7 @@ void Monster_Hollow::FindTarget()
 
 	std::shared_ptr<GameEngineActor> OtherActor;
 
-	RecognizeCollision->Collision(Enum_CollisionOrder::Dummy, [&OtherActor](std::vector<GameEngineCollision*>& _Other)
+	RecognizeCollision->Collision(Enum_CollisionOrder::Player, [&OtherActor](std::vector<GameEngineCollision*>& _Other)
 		{
 			for (GameEngineCollision* OtherCol : _Other)
 			{
