@@ -45,8 +45,9 @@ void Player_HitInteraction::CollisionToBody(Enum_CollisionOrder _Order, int _iSt
 
 				const Enum_DirectionXZ_Quat eDir = ContentsMath::ReturnXZDirectionToVector(Other_Forward, DirVec);
 
-				//RecordCollision(pActor.get());
+				
 				pActor->GetHit({ pParent, _iStiffness, eDir });
+				RecordCollision(pActor.get());
 				
 			}
 		};
@@ -84,9 +85,10 @@ void Player_HitInteraction::CollisionToShield(Enum_CollisionOrder _Order, int _i
 				}
 				
 
-				RecordCollision(pActor.get());
+				
 
 				pActor->GetHitToShield({ pParent, _iStiffness });
+				RecordCollision(pActor.get());
 			}
 		};
 
