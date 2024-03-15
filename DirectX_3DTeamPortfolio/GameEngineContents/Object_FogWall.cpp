@@ -27,13 +27,27 @@ void Object_FogWall::Start()
 
 	if (nullptr == DetectCollision)
 	{
-
+		// 해당 콜리전과 충돌 시 플레이어가 상호작용 가능
 	}
+
+	GameEngineInput::AddInputObject(this);
 }
 
 void Object_FogWall::Update(float _Delta)
 {
+	if (false == DetectCollision->Collision(Enum_CollisionOrder::Player_Body))
+	{
+		return;
+	}
 
+	if (true == GameEngineInput::IsDown('E', this))
+	{
+		// // 플레이어 애니메이션 쪽에서 하기
+		// // 들어가는 애니메이션 시작 시 
+		// GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Fog_Wall);
+		// // 들어가는 애니메이션 끝날 시
+		// GameEnginePhysX::PopSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Fog_Wall);
+	}
 }
 
 void Object_FogWall::Release()
