@@ -4,6 +4,7 @@
 #include "ContentsFireRenderer.h"
 #include "ContentsLight.h"
 #include "ContentsAlphaSpriteRenderer.h"
+#include "ContentsHitRenderer.h"
 
 
 Object_CandleHuman::Object_CandleHuman()
@@ -39,7 +40,10 @@ void Object_CandleHuman::Start()
 		FireRender->CreateAnimation("CandleFire", "CandleFire2.dds", 0.0666f, -1, -1);
 		FireRender->ChangeAnimation("CandleFire");
 
+		/*std::shared_ptr<ContentsHitRenderer> Render = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
 
+		Render->Transform.SetLocalPosition({ -1.5f,90.f,87.f });
+		Render->SetAutoScaleRatio({ 0.15f, 0.15f, 0.15f });*/
 
 		GameEngineLevel* Level = GetLevel();
 		Light = Level->CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Point");

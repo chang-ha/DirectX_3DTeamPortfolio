@@ -173,7 +173,6 @@ void BaseActor::DebugFlag() const
 	bool TwoHandValue = IsFlag(Enum_ActorFlag::TwoHand);
 	bool FrontStabValue = IsFlag(Enum_ActorFlag::FrontStab);
 	bool BackStabValue = IsFlag(Enum_ActorFlag::BackStab);
-	int a = 0;
 }
 
 float4x4& BaseActor::GetBoneMatrixToIndex(int _Index)

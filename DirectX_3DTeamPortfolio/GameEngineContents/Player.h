@@ -100,7 +100,7 @@ public:
 
 	float4 BoneWorldPos(int _BoneIndex);
 	void CameraRotation(float Delta);
-
+	bool FrontStabCheck(const float4& _WPos, float _RotY) const;
 	std::shared_ptr<Weapon> GetWeapon()
 	{
 		return Weapon_Actor;
@@ -109,6 +109,8 @@ public:
 	{
 		return Shield_Actor;
 	}
+
+
 	std::shared_ptr<GameEngineActor> Actor_test_02;
 
 	float4 CameraDir = {};
@@ -129,15 +131,11 @@ public:
 	bool GetHit(const HitParameter& _Para);
 	bool GetHitToShield(const HitParameter& _Para);
 
-	float GetStamina()
+	
+	int GetPotion() const
 	{
-		return Stamina;
+		return Potion;
 	}
-	float GetHp()
-	{
-		return Hp;
-	}
-
 
 
 protected:
@@ -147,11 +145,12 @@ protected:
 	
 
 private:
-
+	bool tyu = false;
+	int Potion = 5;
 	GameEngineSoundPlayer Sound; 
 
 	float Poise_Time = 0.0f;
-	float Stamina = 100.0f;
+	//float Stamina = 100.0f;
 	float Hp = 100.0f;
 
 
@@ -208,7 +207,7 @@ private:
 
 	
 
-	float MonsterAngle;
+	float MonsterAngle = 0.0f;
 
 
 	bool Rock_On_Check = false;
@@ -262,6 +261,9 @@ private:
 	float4 ASS = {};
 
 	float Monster_Degree = 0.0f;
+
+	std::shared_ptr<class ContentsHitRenderer> HitRenderer;
+	std::shared_ptr<class ContentsHitRenderer> StrikeRenderer;
 };
 
 

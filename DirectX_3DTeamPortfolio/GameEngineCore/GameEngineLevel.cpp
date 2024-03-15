@@ -69,8 +69,6 @@ void GameEngineLevel::AllUpdate(float _Delta)
 			_Actor->AllUpdate(_Delta * TimeScale);
 		}
 	}
-
-	int a = 0;
 }
 
 void GameEngineLevel::Render(float _Delta)

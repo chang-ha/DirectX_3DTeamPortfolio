@@ -1,6 +1,10 @@
 #pragma once
 #include "BaseActor.h"
 #include "Monster_HitInteraction.h"
+
+#define STAT_COOLDOWN 1.f
+#define HIT_COOLDOWN 0.5f
+
 // Ό³Έν :
 class Boss_State_GUI : public GameEngineGUIWindow
 {
@@ -71,7 +75,8 @@ enum Enum_TargetDis
 	Dis_Close = 1,
 	Dis_Middle = 2,
 	Dis_Long = 3,
-	Dis_Far = 4
+	Dis_Far = 4,
+	Dis_OutOfRange = 5,
 };
 
 enum Enum_TargetDeg
@@ -123,7 +128,27 @@ struct AI_State
 class Vordt_HitCollision
 {
 	friend class Boss_Vordt;
-	std::shared_ptr<BoneSocketCollision> BossCollision;
+	std::shared_ptr<BoneSocketCollision> BodyCollision;
+	std::shared_ptr<BoneSocketCollision> L_Claf_Collision;
+	std::shared_ptr<BoneSocketCollision> L_ClafWist1_Collision;
+	std::shared_ptr<BoneSocketCollision> L_Toe_Collision;
+	std::shared_ptr<BoneSocketCollision> L_Foot_Collision;
+	std::shared_ptr<BoneSocketCollision> L_UpArmTwist_Collision;
+	std::shared_ptr<BoneSocketCollision> L_ForeArm_Collision;
+	std::shared_ptr<BoneSocketCollision> L_Hand_Collision;
+	std::shared_ptr<BoneSocketCollision> R_Claf_Collision;
+	std::shared_ptr<BoneSocketCollision> R_ClafWist1_Collision;
+	std::shared_ptr<BoneSocketCollision> R_Toe_Collision;
+	std::shared_ptr<BoneSocketCollision> R_Foot_Collision;
+	std::shared_ptr<BoneSocketCollision> R_UpArmTwist_Collision;
+	std::shared_ptr<BoneSocketCollision> R_ForeArm_Collision;
+	std::shared_ptr<BoneSocketCollision> R_Hand_Collision;
+	std::shared_ptr<BoneSocketCollision> Neck_Collision;
+	std::shared_ptr<BoneSocketCollision> Throw_Collision;
+
+	void Off();
+	void On();
+	void Release();
 };
 
 class Vordt_AttackCollision
@@ -139,6 +164,7 @@ class Vordt_AttackCollision
 	std::shared_ptr<BoneSocketCollision> R_HandCollision;
 
 	void ResetRecord();
+	void Release();
 };
 
 class Boss_Vordt : public BaseActor
@@ -171,21 +197,24 @@ private:
 	Vordt_HitCollision mHitCollision;
 	// AttackCollision
 	Vordt_AttackCollision mAttackCollision;
-
 	void CollisionUpdate();
 
+	bool AI_Off = false;
 	std::shared_ptr<Boss_State_GUI> GUI = nullptr;
 
 	void FrameEventInit();
 	void StateInit();
-	float4 BoneWorldPos(int _BoneIndex);
 
 	static constexpr float Distance_Standard = 500.f;
 	static constexpr float Degree_Standard = 60.f;
-	float Stat_CoolDown = 1.f;
+	float Stat_CoolDown = STAT_COOLDOWN;
 
-	void TargetStateUpdate();
+	float Hit_CoolDown = 0.f;
+	int HitSoune_Count = 1;
+	void HitUpdate(float _Delta);
+
 	TargetState mTargetState;
+	void TargetStateUpdate();
 
 	Enum_Boss_Phase mBoss_Phase = Enum_Boss_Phase::Phase_1;
 	int Rush_Combo_Count = 0;
