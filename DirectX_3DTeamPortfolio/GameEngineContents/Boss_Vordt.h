@@ -75,7 +75,8 @@ enum Enum_TargetDis
 	Dis_Close = 1,
 	Dis_Middle = 2,
 	Dis_Long = 3,
-	Dis_Far = 4
+	Dis_Far = 4,
+	Dis_OutOfRange = 5,
 };
 
 enum Enum_TargetDeg

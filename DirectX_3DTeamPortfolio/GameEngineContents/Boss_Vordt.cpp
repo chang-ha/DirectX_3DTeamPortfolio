@@ -494,19 +494,19 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	BSCol_TransitionParameter ColParameter;
 	if (nullptr == mHitCollision.BodyCollision)
 	{
-		ColParameter.S = float4(500.f, 500.f, 500.f);
+		ColParameter.S = float4(400.f, 400.f, 400.f);
 		ColParameter.R = float4(0.f);
 		ColParameter.T = float4(0.f, 0.f, 0.f);
 
 		mHitCollision.BodyCollision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, 21, ColParameter, "Hit_Collision");
 		mHitCollision.BodyCollision->SetCollisionType(ColType::SPHERE3D);
-		mHitCollision.BodyCollision->On();
+		mHitCollision.BodyCollision->Off();
 	}
 
 	// AttackCollision
 	if (nullptr == mAttackCollision.WeaponCollision)
 	{
-		ColParameter.S = float4(100.f, 100.f, 500.f);
+		ColParameter.S = float4(150.f, 150.f, 500.f);
 		ColParameter.R = float4(170.f);
 		ColParameter.T = float4(0.f, 0.f, 1.55f);
 
@@ -551,8 +551,8 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::Boss_Vordt));
 
 	Stat.SetHp(BOSS_HP);
-	Stat.SetAtt(1);
-	Stat.SetSouls(10000);
+	Stat.SetAtt(10);
+	Stat.SetSouls(3000);
 	Stat.SetPoise(100);
 }
 
@@ -704,9 +704,9 @@ void Boss_Vordt::TargetStateUpdate()
 	{
 		ICurTargetDis = Enum_TargetDis::Dis_Attach;
 	}
-	else if (Enum_TargetDis::Dis_Far < ICurTargetDis)
+	else if (Enum_TargetDis::Dis_OutOfRange < ICurTargetDis)
 	{
-		ICurTargetDis = Enum_TargetDis::Dis_Far;
+		ICurTargetDis = Enum_TargetDis::Dis_OutOfRange;
 	}
 
 	if (Enum_TargetDeg:: Deg_Front > ICurTargetAngle)
