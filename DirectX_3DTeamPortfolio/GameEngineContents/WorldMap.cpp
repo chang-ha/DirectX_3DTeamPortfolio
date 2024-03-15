@@ -58,7 +58,7 @@ void WorldMap::Start()
 		TriMesh2->Transform.SetLocalRotation({ 0.0f, 0.0f, 0.0f });
 		TriMesh2->PhysXComponentInit("World2.FBX0" , &FilterData);
 
-		SkyRenderer = CreateComponent<GameContentsFBXRenderer>();
+		SkyRenderer = CreateComponent<GameContentsFBXRenderer>(-1);
 		SkyRenderer->SetFBXMesh("WorldSky.FBX", "FBX_Static_Alpha", RenderPath::Alpha);
 		//SkyRenderer->RenderBaseInfoValue.TEXCOORDMult = 1.0f;
 
