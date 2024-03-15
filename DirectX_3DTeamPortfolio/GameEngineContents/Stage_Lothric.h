@@ -29,6 +29,12 @@ private:
 	std::shared_ptr<class Player> Player_Object;
 	std::shared_ptr<class WorldMap> Map_Lothric;
 
+	std::vector<std::shared_ptr<class BaseMonster>> AllMonster;
+
+	void SetAllMonster();
+	void AllMonsterOn();
+	void AllMonsterOff();
+
 	void CreateObject();
 };
 

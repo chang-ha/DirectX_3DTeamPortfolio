@@ -52,12 +52,12 @@ float4 PatrolPath::GetNextPath(const float4& _ActorPos)
 
 bool PatrolPath::IsArrive(const float4& _ActorPos) const
 {
-	float4 PathPos = Paths.at(CurIndex);
+	float4 TargetPos = Paths.at(CurIndex);
 	float4 ActorPos = _ActorPos;
-	PathPos.Y = 0.0f;
+	TargetPos.Y = 0.0f;
 	ActorPos.Y = 0.0f;
 
-	const float4 Dist = DirectX::XMVector2LengthEst((ActorPos - PathPos).DirectXVector);
+	const float4 Dist = DirectX::XMVector2LengthEst((ActorPos - TargetPos).DirectXVector);
 	return (Dist.X < CognizanceRange);
 }
 

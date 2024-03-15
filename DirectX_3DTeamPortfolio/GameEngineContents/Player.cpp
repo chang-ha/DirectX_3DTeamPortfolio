@@ -242,7 +242,7 @@ void Player::Start()
 
 	MainRenderer->SetRootMotion("ladder_Up_Stop_Left");
 	MainRenderer->SetRootMotion("ladder_Up_Stop_Right");
-
+	//MainRenderer->SetRootMotion("Parri");
 
 	
 
@@ -328,6 +328,7 @@ void Player::Start()
 
 		ColParameter.R = 0.0f;
 		ColParameter.S = { 60.f, 120.f, 40.f };
+		//ColParameter.S = { 300.f, 300.f, 300.f };
 		ColParameter.T = { 0.f, 0.8f, 0.f };
 
 		Body_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Body, 0, ColParameter, "Player_Body");
@@ -353,8 +354,16 @@ void Player::Start()
 	{
 		Shield_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Shield, 18);
 		Shield_Col->SetCollisionType(ColType::SPHERE3D);
-		Shield_Col->Transform.SetLocalScale({ 70.f,70.f, 50.f });
+		Shield_Col->Transform.SetLocalScale({ 100.f,100.f, 100.f });
 		Shield_Col->Off();
+	}
+
+
+	{
+		Parring_Attack_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Parring_Arround);
+		Parring_Attack_Col->SetCollisionType(ColType::SPHERE3D);
+		Parring_Attack_Col->Transform.SetLocalScale({ 300.f,300.f, 300.f });
+
 	}
 
 	Stat.SetHp(100);
@@ -579,23 +588,7 @@ void Player::Start()
 		};
 
 
-	Shield_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
-		{
-
-			
-		};
-
-	Shield_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
-		{
-
-
-
-		};
-
-	Shield_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
-		{
-
-		};
+	
 
 
 	Labber_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
@@ -759,6 +752,45 @@ void Player::Start()
 
 void Player::Update(float _Delta)
 {
+
+
+
+	Parring_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+			Parring_Monster_Actor.push_back(col->GetActor());
+		};
+
+	Parring_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+
+
+			const std::shared_ptr<BaseActor>& pActor = col->GetActor()->GetDynamic_Cast_This<BaseActor>();
+			const float4 WRot = Transform.GetWorldRotationEuler();
+			const float4 WPos = Transform.GetWorldPosition();
+			bool CheckFrontStab = pActor->FrontStabCheck(WPos, WRot.Y);
+
+				if (GameEngineInput::IsDown('E', this))
+				{
+					pActor->DebugFlag();
+
+					if (pActor->IsFlag(Enum_ActorFlag::FrontStab) == true)
+					{
+						PlayerStates.ChangeState(PlayerState::Parring_Attack);
+						const float4 StabPos = pActor->GetFrontStabPosition();
+						Transform.SetWorldPosition(StabPos + float4::UP * 150.0f);
+						Transform.SetWorldRotation(WRot);
+						pActor->Damage(3000);
+						pActor->SetHit(true);
+						pActor->SetFlag(Enum_ActorFlag::FrontStab, true);
+					}
+				}
+			
+		};
+
+	Parring_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+			
+		};
 	BaseActor::Update(_Delta);
 
 	// 시간 
@@ -789,7 +821,8 @@ void Player::Update(float _Delta)
 	Body_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack, Body_Event);
 	Body_Col->CollisionEvent(Enum_CollisionOrder::LadderBot, Labber_Event);
 	Body_Col->CollisionEvent(Enum_CollisionOrder::LadderTop, Labber_Event);
-	
+	Parring_Attack_Col->CollisionEvent(Enum_CollisionOrder::Monster_Body, Parring_Event);
+
 	if (Body_Col->Collision(Enum_CollisionOrder::LadderTop))
 	{
 		if (GameEngineInput::IsDown('E', this))
@@ -798,9 +831,13 @@ void Player::Update(float _Delta)
 			PlayerStates.ChangeState(PlayerState::ladder_Down_Start);
 		}
 	}
+	
 
-
-
+	if (true == IsFlag(Enum_ActorFlag::Block_Shield))
+	{
+		PlayerStates.ChangeState(PlayerState::Attack_Block);
+	}
+	
 	// 일단 두자 
 	if (Rock_on_Time_Check == true)
 	{
@@ -813,7 +850,7 @@ void Player::Update(float _Delta)
 		Stat.SetPoise(100);
 	}
 
-	if (StateValue != PlayerState::StaminaCheck || StateValue != PlayerState::Parrying)
+	if (StateValue != PlayerState::StaminaCheck || StateValue != PlayerState::Parrying || StateValue != PlayerState::Shield_Idle)
 	{
 		if (Stamina <= 100)
 		{
@@ -1014,6 +1051,28 @@ void Player::Update(float _Delta)
 
 	PlayerStates.Update(_Delta);
 
+
+
+	std::function StabCollisionEvent = [=](std::vector<GameEngineCollision*>& _Other)
+		{
+
+
+
+			for (GameEngineCollision* pCol : _Other)
+			{
+				
+			}
+		};
+
+	if (GameEngineInput::IsPress(VK_LBUTTON, this))
+	{
+		int a = 0;
+	}
+
+
+
+
+	
 
 }
 
@@ -1274,7 +1333,7 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 	Stat.AddPoise(-Stiffness);
 	Stat.AddHp(-AttackerAtt);
 
-	Hp = Stat.GetHp();
+	Hp = (float)Stat.GetHp();
 
 
 	return true;
@@ -1290,10 +1349,10 @@ bool Player::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 		return false;
 	}
 
-	if (true == Hit.IsHit())
+	/*if (true == Hit.IsHit())
 	{
 		return false;
-	}
+	}*/
 
 	BaseActor* pAttacker = _Para.pAttacker;
 

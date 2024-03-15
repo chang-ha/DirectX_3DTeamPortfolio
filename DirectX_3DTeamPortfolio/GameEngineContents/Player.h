@@ -165,6 +165,7 @@ private:
 
 	std::shared_ptr<GameEngineCollision> Player_Col;
 
+	std::shared_ptr<GameEngineCollision> Parring_Attack_Col;
 	std::shared_ptr<BoneSocketCollision> Body_Col;
 	std::shared_ptr<BoneSocketCollision> Shield_Col;
 	std::shared_ptr<BoneSocketCollision> Attack_Col;
@@ -187,13 +188,13 @@ private:
 	bool Rotation_Check_Y = false;
 	bool Rotation_Check_Y_Plus = false;
 	bool Rotation_Check_Y_Mus = false;
-
+	bool Parring_Check = false;
 	EventParameter Body_Event;
 	EventParameter Labber_Event;
 	EventParameter Labber_Middle_Event;
 	EventParameter Labber_Top_Event;
 	EventParameter Shield_Event;
-
+	EventParameter Parring_Event;
 
 
 	EventParameter Arround_Event;
@@ -220,7 +221,7 @@ private:
 	float MoveSpeed = 0.0f;
 	float DeltaTime = 0.0f;
 
-	bool testads = false;
+	
 
 	
 	float4 Player_Pos = {};
@@ -239,7 +240,7 @@ private:
 	int Number = 0;
 
 	std::vector<GameEngineActor*> Monster_Actor;
-
+	std::vector<GameEngineActor*> Parring_Monster_Actor;
 	
 
 	std::shared_ptr<CameraCapsule> Cameracapsule;

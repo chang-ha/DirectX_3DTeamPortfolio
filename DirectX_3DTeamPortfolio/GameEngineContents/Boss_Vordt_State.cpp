@@ -283,42 +283,42 @@ void Boss_Vordt::FrameEventInit()
 	{
 		MainRenderer->SetFrameEvent("Hit_Down_001_Right", 36, [&](GameContentsFBXRenderer* _Renderer)
 			{
-				BodyCollision->On();
-				HeadCollision->On();
-				WeaponCollision->On();
+				mAttackCollision.BodyCollision->On();
+				mAttackCollision.HeadCollision->On();
+				mAttackCollision.WeaponCollision->On();
 			});
 
 		MainRenderer->SetFrameEvent("Hit_Down_001_Right", 39, [&](GameContentsFBXRenderer* _Renderer)
 			{
-				BodyCollision->Off();
-				HeadCollision->Off();
-				WeaponCollision->Off();
+				mAttackCollision.BodyCollision->Off();
+				mAttackCollision.HeadCollision->Off();
+				mAttackCollision.WeaponCollision->Off();
 			});
 
 		MainRenderer->SetFrameEvent("Hit_Down_001_Left", 37, [&](GameContentsFBXRenderer* _Renderer)
 			{
-				BodyCollision->On();
-				HeadCollision->On();
-				WeaponCollision->On();
+				mAttackCollision.BodyCollision->On();
+				mAttackCollision.HeadCollision->On();
+				mAttackCollision.WeaponCollision->On();
 			});
 
 		MainRenderer->SetFrameEvent("Hit_Down_001_Left", 40, [&](GameContentsFBXRenderer* _Renderer)
 			{
-				BodyCollision->Off();
-				HeadCollision->Off();
-				WeaponCollision->Off();
+				mAttackCollision.BodyCollision->Off();
+				mAttackCollision.HeadCollision->Off();
+				mAttackCollision.WeaponCollision->Off();
 			});
 
 		MainRenderer->SetFrameEvent("Sweep&Sweep_Right", 26, [&](GameContentsFBXRenderer* _Renderer)
 			{
-				BodyCollision->On();
-				WeaponCollision->On();
+				mAttackCollision.BodyCollision->On();
+				mAttackCollision.WeaponCollision->On();
 			});
 
 		MainRenderer->SetFrameEvent("Sweep&Sweep_Right", 36, [&](GameContentsFBXRenderer* _Renderer)
 			{
-				BodyCollision->Off();
-				WeaponCollision->Off();
+				mAttackCollision.BodyCollision->Off();
+				mAttackCollision.WeaponCollision->Off();
 			});
 	}
 
@@ -1366,7 +1366,7 @@ void Boss_Vordt::Howling_Update(float _Delta)
 
 void Boss_Vordt::Howling_End()
 {
-
+	mAttackCollision.ResetRecord();
 }
 
 void Boss_Vordt::Idle_Start()
@@ -1592,7 +1592,13 @@ void Boss_Vordt::Death_Start()
 {
 	MainRenderer->ChangeAnimation("Death", true);
 	// 그로기에서 죽으면 Death_Groggy
-	// MainRenderer->ChangeAnimation("Death_Groggy", true);
+// 	if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+// 	{
+// 		MainRenderer->ChangeAnimation("Death_Groggy", true);
+// 	}
+// 	else
+// 	{
+// 	}
 }
 
 void Boss_Vordt::Death_Update(float _Delta)
@@ -1634,7 +1640,7 @@ void Boss_Vordt::Combo1_Step1_Update(float _Delta)
 
 void Boss_Vordt::Combo1_Step1_End()
 {
-
+	mAttackCollision.ResetRecord();
 }
 
 
@@ -1650,7 +1656,7 @@ void Boss_Vordt::Combo1_Step2_Update(float _Delta)
 
 void Boss_Vordt::Combo1_Step2_End()
 {
-
+	mAttackCollision.ResetRecord();
 }
 
 void Boss_Vordt::Combo1_Step3_Start()
@@ -1665,7 +1671,7 @@ void Boss_Vordt::Combo1_Step3_Update(float _Delta)
 
 void Boss_Vordt::Combo1_Step3_End()
 {
-
+	mAttackCollision.ResetRecord();
 }
 
 
@@ -1681,7 +1687,7 @@ void Boss_Vordt::Combo2_Step1_Update(float _Delta)
 
 void Boss_Vordt::Combo2_Step1_End()
 {
-
+	mAttackCollision.ResetRecord();
 }
 
 void Boss_Vordt::Combo2_Step2_Start()
@@ -1696,7 +1702,7 @@ void Boss_Vordt::Combo2_Step2_Update(float _Delta)
 
 void Boss_Vordt::Combo2_Step2_End()
 {
-
+	mAttackCollision.ResetRecord();
 }
 
 void Boss_Vordt::Sweap_Twice_Right_Start()
@@ -1711,7 +1717,7 @@ void Boss_Vordt::Sweap_Twice_Right_Update(float _Delta)
 
 void Boss_Vordt::Sweap_Twice_Right_End()
 {
-
+	mAttackCollision.ResetRecord();
 }
 
 void Boss_Vordt::Sweap_Twice_Left_Start()
@@ -1726,7 +1732,7 @@ void Boss_Vordt::Sweap_Twice_Left_Update(float _Delta)
 
 void Boss_Vordt::Sweap_Twice_Left_End()
 {
-
+	mAttackCollision.ResetRecord();
 }
 
 void Boss_Vordt::Hit_Down_001_Front_Start()
@@ -1741,7 +1747,7 @@ void Boss_Vordt::Hit_Down_001_Front_Update(float _Delta)
 
 void Boss_Vordt::Hit_Down_001_Front_End()
 {
-
+	mAttackCollision.ResetRecord();
 }
 
 void Boss_Vordt::Hit_Down_001_Right_Start()
@@ -1756,7 +1762,7 @@ void Boss_Vordt::Hit_Down_001_Right_Update(float _Delta)
 
 void Boss_Vordt::Hit_Down_001_Right_End()
 {
-
+	mAttackCollision.ResetRecord();
 }
 
 void Boss_Vordt::Hit_Down_001_Left_Start()
@@ -1771,7 +1777,7 @@ void Boss_Vordt::Hit_Down_001_Left_Update(float _Delta)
 
 void Boss_Vordt::Hit_Down_001_Left_End()
 {
-
+	mAttackCollision.ResetRecord();
 }
 
 void Boss_Vordt::Hit_Down_004_Start()
@@ -1786,7 +1792,7 @@ void Boss_Vordt::Hit_Down_004_Update(float _Delta)
 
 void Boss_Vordt::Hit_Down_004_End()
 {
-
+	mAttackCollision.ResetRecord();
 }
 
 void Boss_Vordt::Hit_Down_005_Start()
@@ -1801,7 +1807,7 @@ void Boss_Vordt::Hit_Down_005_Update(float _Delta)
 
 void Boss_Vordt::Hit_Down_005_End()
 {
-
+	mAttackCollision.ResetRecord();
 }
 
 void Boss_Vordt::Hit_Down_006_Start()
@@ -1816,7 +1822,7 @@ void Boss_Vordt::Hit_Down_006_Update(float _Delta)
 
 void Boss_Vordt::Hit_Down_006_End()
 {
-
+	mAttackCollision.ResetRecord();
 }
 
 void Boss_Vordt::Thrust_Start()
@@ -1831,7 +1837,7 @@ void Boss_Vordt::Thrust_Update(float _Delta)
 
 void Boss_Vordt::Thrust_End()
 {
-
+	mAttackCollision.ResetRecord();
 }
 
 // Sweep_002 is faster than Sweep_001
@@ -1847,7 +1853,7 @@ void Boss_Vordt::Sweep_001_Update(float _Delta)
 
 void Boss_Vordt::Sweep_001_End()
 {
-
+	mAttackCollision.ResetRecord();
 }
 
 void Boss_Vordt::Sweep_002_Start()
@@ -1862,7 +1868,7 @@ void Boss_Vordt::Sweep_002_Update(float _Delta)
 
 void Boss_Vordt::Sweep_002_End()
 {
-
+	mAttackCollision.ResetRecord();
 }
 
 // Rush_Attack_002 is faster than Rush_Attack_001
@@ -1879,7 +1885,7 @@ void Boss_Vordt::Rush_Attack_001_Update(float _Delta)
 
 void Boss_Vordt::Rush_Attack_001_End()
 {
-
+	mAttackCollision.ResetRecord();
 }
 
 void Boss_Vordt::Rush_Attack_002_Start()
@@ -1894,7 +1900,7 @@ void Boss_Vordt::Rush_Attack_002_Update(float _Delta)
 
 void Boss_Vordt::Rush_Attack_002_End()
 {
-
+	mAttackCollision.ResetRecord();
 }
 
 void Boss_Vordt::Rush_Turn_Start()
@@ -1909,7 +1915,7 @@ void Boss_Vordt::Rush_Turn_Update(float _Delta)
 
 void Boss_Vordt::Rush_Turn_End()
 {
-
+	mAttackCollision.ResetRecord();
 }
 
 void Boss_Vordt::Rush_Hit_Turn_Start()
@@ -1926,6 +1932,8 @@ void Boss_Vordt::Rush_Hit_Turn_Update(float _Delta)
 
 void Boss_Vordt::Rush_Hit_Turn_End()
 {
+	mAttackCollision.ResetRecord();
+
 	if (3 == Rush_Combo_Count)
 	{
 		Rush_Combo_Count = 0;
@@ -1946,5 +1954,5 @@ void Boss_Vordt::Rush_Hit_Turn_Rush_Update(float _Delta)
 
 void Boss_Vordt::Rush_Hit_Turn_Rush_End()
 {
-
+	mAttackCollision.ResetRecord();
 }

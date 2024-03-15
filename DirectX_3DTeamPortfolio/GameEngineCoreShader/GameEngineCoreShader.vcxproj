@@ -30,6 +30,7 @@
     <FxCompile Include="DebugLineShader.fx" />
     <FxCompile Include="DeferredLightRender.fx" />
     <FxCompile Include="DeferredMergeRender.fx" />
+    <FxCompile Include="DepthOfField.fx" />
     <FxCompile Include="FadePostEffect.fx" />
     <FxCompile Include="FBXAnimation.fx" />
     <FxCompile Include="FBXAnimationColorShader.fx" />

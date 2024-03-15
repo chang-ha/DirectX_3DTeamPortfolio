@@ -120,6 +120,27 @@ struct AI_State
 	float CurCoolDown = 0.f;
 };
 
+class Vordt_HitCollision
+{
+	friend class Boss_Vordt;
+	std::shared_ptr<BoneSocketCollision> BossCollision;
+};
+
+class Vordt_AttackCollision
+{
+	friend class Boss_Vordt;
+	Monster_HitInteraction mBodyHitInteraction;
+	std::shared_ptr<BoneSocketCollision> BodyCollision;
+	Monster_HitInteraction mHeadHitInteraction;
+	std::shared_ptr<BoneSocketCollision> HeadCollision;
+	Monster_HitInteraction mWeaponHitInteraction;
+	std::shared_ptr<BoneSocketCollision> WeaponCollision;
+	Monster_HitInteraction mHandHitInteraction;
+	std::shared_ptr<BoneSocketCollision> R_HandCollision;
+
+	void ResetRecord();
+};
+
 class Boss_Vordt : public BaseActor
 {
 	friend Boss_State_GUI;
@@ -142,18 +163,14 @@ protected:
 	void Update(float _Delta) override;
 	void Release() override;
 
+	bool GetHit(const HitParameter& _Para = HitParameter()) override;
+	bool GetHitToShield(const HitParameter& _Para = HitParameter()) override;
+
 private:
 	// HitCollision
-	std::shared_ptr<BoneSocketCollision> BossCollision;
+	Vordt_HitCollision mHitCollision;
 	// AttackCollision
-	Monster_HitInteraction mBodyHitInteraction;
-	std::shared_ptr<BoneSocketCollision> BodyCollision;
-	Monster_HitInteraction mHeadHitInteraction;
-	std::shared_ptr<BoneSocketCollision> HeadCollision;
-	Monster_HitInteraction mWeaponHitInteraction;
-	std::shared_ptr<BoneSocketCollision> WeaponCollision;
-	Monster_HitInteraction mHandHitInteraction;
-	std::shared_ptr<BoneSocketCollision> R_HandCollision;
+	Vordt_AttackCollision mAttackCollision;
 
 	void CollisionUpdate();
 
@@ -165,11 +182,14 @@ private:
 
 	static constexpr float Distance_Standard = 500.f;
 	static constexpr float Degree_Standard = 60.f;
+	float Stat_CoolDown = 1.f;
 
 	void TargetStateUpdate();
 	TargetState mTargetState;
+
 	Enum_Boss_Phase mBoss_Phase = Enum_Boss_Phase::Phase_1;
 	int Rush_Combo_Count = 0;
+	void PhaseChangeCheck();
 
 	bool IsAwake = false;
 
@@ -177,8 +197,9 @@ private:
 	Enum_JumpTableFlag AI_Attack();
 	Enum_JumpTableFlag AI_Combo();
 	Enum_JumpTableFlag AI_Dodge();
-	bool ChangeAI_State(Enum_BossState _State);
 	std::map<Enum_BossState, AI_State> AI_States;
+	bool ChangeAI_State(Enum_BossState _State);
+	void AIUpdate(float _Delta);
 
 	// State
 	////////////////////////// Move & Others

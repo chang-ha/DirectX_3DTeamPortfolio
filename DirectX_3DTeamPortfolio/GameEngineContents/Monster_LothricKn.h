@@ -9,7 +9,9 @@ enum class Enum_LothricKn_State
 	None,
 	Debug,
 	Sleep,
+	Idle_Standing,
 	Idle_Standing1,
+	Idle_Sit,
 	Idle_Gaurding,
 	L_Side_Step, // L == Left
 	R_Side_Step, // R == Right
@@ -30,7 +32,6 @@ enum class Enum_LothricKn_State
 	R_Turn,
 	L_TurnTwice,
 	R_TurnTwice,
-	Idle_Sit,
 	SitUp,
 	DH_Hold,
 	DH_UnHold,
@@ -80,6 +81,13 @@ enum class Enum_LothricKn_State
 	F_Stab_Death_End,
 };
 
+enum class Enum_Lothric_IdleType
+{
+	Standing,
+	Sit,
+	None,
+};
+
 // Ό³Έν :
 class Monster_LothricKn : public BaseMonster
 {
@@ -113,13 +121,6 @@ class Monster_LothricKn : public BaseMonster
 		Head = 82,
 	};
 
-	enum class Enum_IdleType
-	{
-		Standing,
-		Sit,
-		None,
-	};
-
 	enum class eCombatState
 	{
 		Normal,
@@ -148,6 +149,9 @@ public:
 	Monster_LothricKn& operator=(Monster_LothricKn&& _Other) noexcept = delete;
 
 	void WakeUp() override;
+	void Reset() override;
+
+	void SetIdleType(Enum_Lothric_IdleType _Type);
 
 protected:
 	void Start() override;
@@ -162,13 +166,16 @@ protected:
 	void OnWeaponMask();
 
 private:
-
 	void CreateFSM();
+
+	void ChangeIdleState(Enum_Lothric_IdleType _Type);
 
 	// Start
 	void Start_Debug(GameEngineState* _State);
 	void StartSleep(GameEngineState* _State);
+	void Start_Idle_Standing(GameEngineState* _State);
 	void Start_Idle_Standing1(GameEngineState* _State);
+	void Start_Idle_Sit(GameEngineState* _State);
 	void Start_Idle_Gaurding(GameEngineState* _State);
 	void Start_Patrol(GameEngineState* _State);
 	void Start_Combo_Att_11(GameEngineState* _State);
@@ -189,7 +196,6 @@ private:
 	void Start_F_Step(GameEngineState* _State);
 	void Start_B_Step(GameEngineState* _State);
 	void Start_Run(GameEngineState* _State);
-	void Start_Idle_Sit(GameEngineState* _State);
 	void Start_SitUp(GameEngineState* _State);
 	void Start_DH_Hold(GameEngineState* _State);
 	void Start_DH_UnHold(GameEngineState* _State);
@@ -241,7 +247,9 @@ private:
 	
 		// Update  G_Run
 	void Update_Debug(float _DeltaTime, GameEngineState* _State);
+	void Update_Idle_Standing(float _DeltaTime, GameEngineState* _State);
 	void Update_Idle_Standing1(float _DeltaTime, GameEngineState* _State);
+	void Update_Idle_Sit(float _DeltaTime, GameEngineState* _State);
 	void Update_Idle_Gaurding(float _DeltaTime, GameEngineState* _State);
 	void Update_Patrol(float _DeltaTime, GameEngineState* _State);
 	void Update_Combo_Att_11(float _DeltaTime, GameEngineState* _State);
@@ -262,7 +270,6 @@ private:
 	void Update_F_Step(float _DeltaTime, GameEngineState* _State);
 	void Update_B_Step(float _DeltaTime, GameEngineState* _State);
 	void Update_Run(float _DeltaTime, GameEngineState* _State);
-	void Update_Idle_Sit(float _DeltaTime, GameEngineState* _State);
 	void Update_SitUp(float _DeltaTime, GameEngineState* _State);
 	void Update_DH_Hold(float _DeltaTime, GameEngineState* _State);
 	void Update_DH_UnHold(float _DeltaTime, GameEngineState* _State);
@@ -305,7 +312,10 @@ private:
 	// End
 	void EndSleep(GameEngineState* _State);
 
-	void End_Idle_Gaurding(float _DeltaTime, GameEngineState* _State);
+	void End_Idle_Standing(GameEngineState* _State);
+	void End_Idle_Standing1(GameEngineState* _State) {}
+	void End_Idle_Gaurding(GameEngineState* _State);
+	void End_Idle_Sit(GameEngineState* _State);
 	void End_Combo_Att_11(GameEngineState* _State);
 	void End_Combo_Att_12(GameEngineState* _State);
 	void End_Combo_Att_13(GameEngineState* _State);
@@ -324,7 +334,6 @@ private:
 	void End_F_Step(GameEngineState* _State);
 	void End_B_Step(GameEngineState* _State);
 	void End_Run(GameEngineState* _State);
-	void End_Idle_Sit(GameEngineState* _State);
 	void End_SitUp(GameEngineState* _State);
 	void End_DH_Hold(GameEngineState* _State);
 	void End_DH_UnHold(GameEngineState* _State);
@@ -347,8 +356,32 @@ private:
 	void End_G_Run(GameEngineState* _State);
 	void End_G_Att_Bash(GameEngineState* _State);
 
-	void End_F_Stab(GameEngineState* _State);
+	void End_F_Hit_W(GameEngineState* _State);
+	void End_B_Hit_W(GameEngineState* _State);
+	void End_R_Hit_W(GameEngineState* _State);
+	void End_L_Hit_W(GameEngineState* _State);
+	void End_F_Hit(GameEngineState* _State);
+	void End_B_Hit(GameEngineState* _State);
+	void End_R_Hit(GameEngineState* _State);
+	void End_L_Hit(GameEngineState* _State);
+	void End_G_F_Hit_W(GameEngineState* _State);
+	void End_G_F_Hit_W_PushBack(GameEngineState* _State);
+	void End_G_F_Hit(GameEngineState* _State);
+	void End_G_F_Hit_PushBack(GameEngineState* _State);
+	void End_G_F_Hit_S_PushBack(GameEngineState* _State);
+	void End_Block_Shield(GameEngineState* _State);
+	void End_G_Break(GameEngineState* _State);
+	void End_Break_Down(GameEngineState* _State);
+	void End_F_Death(GameEngineState* _State);
+	void End_F_Death_End(GameEngineState* _State);
+	void End_F_Death_B(GameEngineState* _State);
+	void End_F_Death_B_End(GameEngineState* _State);
 	void End_B_Stab(GameEngineState* _State);
+	void End_B_Stab_Death(GameEngineState* _State);
+	void End_B_Stab_Death_End(GameEngineState* _State);
+	void End_F_Stab(GameEngineState* _State);
+	void End_F_Stab_Death(GameEngineState* _State);
+	void End_F_Stab_Death_End(GameEngineState* _State);
 
 	// State Func
 	bool IsFrame(int _StartFrame, int _EndFrame = -1) const;
@@ -414,7 +447,7 @@ private:
 	Monster_HitInteraction Sword;
 	Monster_HitInteraction Shield;
 
-	Enum_IdleType IdleType = Enum_IdleType::None;
+	Enum_Lothric_IdleType IdleType = Enum_Lothric_IdleType::None;
 	eCombatState CombatState = eCombatState::None;
 
 	int AttackRecord = 0;
@@ -431,7 +464,6 @@ private:
 	static constexpr float MIN_ROT_ANGLE = 3.0f;
 	static constexpr float MAX_ROTSPEED_TO_TARGET = 510.0f;
 	static constexpr float MIN_ROTSPEED_TO_TARGET = 150.0f;
-	
 
 	LothricKn_Debug Debug;
 	
