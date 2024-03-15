@@ -353,7 +353,7 @@ void Player::Start()
 		Arround_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Arround);
 		Arround_Col->SetCollisionType(ColType::SPHERE3D);
 		Arround_Col->Transform.SetLocalScale({ 2000.f,2000.f, 2000.f});
-		//Arround_Col->Off();
+		Arround_Col->Off();
 	}
 
 	{
@@ -373,7 +373,7 @@ void Player::Start()
 		Parring_Attack_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Parring_Arround);
 		Parring_Attack_Col->SetCollisionType(ColType::SPHERE3D);
 		Parring_Attack_Col->Transform.SetLocalScale({ 300.f,300.f, 300.f });
-		//Parring_Attack_Col->Off();
+		Parring_Attack_Col->Off();
 	}
 
 	Stat.SetHp(100);
