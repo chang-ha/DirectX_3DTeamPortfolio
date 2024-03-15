@@ -215,6 +215,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="CameraCapsule.cpp" />
+    <ClCompile Include="ContentsFogWallRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ContentsHitRenderer.cpp">
       <SubType>
       </SubType>
@@ -224,6 +228,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Object_CandleHuman2.cpp" />
+    <ClCompile Include="Object_FogWall.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Object_HumanTree1.cpp" />
     <ClCompile Include="Object_HumanTree2.cpp" />
     <ClCompile Include="Object_HumanTree3.cpp" />
@@ -548,6 +556,10 @@
     </ClInclude>
     <ClInclude Include="BossHpBar.h" />
     <ClInclude Include="CameraCapsule.h" />
+    <ClInclude Include="ContentsFogWallRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ContentsHitRenderer.h">
       <SubType>
       </SubType>
@@ -557,6 +569,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Object_CandleHuman2.h" />
+    <ClInclude Include="Object_FogWall.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Object_HumanTree1.h" />
     <ClInclude Include="Object_HumanTree2.h" />
     <ClInclude Include="Object_HumanTree3.h" />

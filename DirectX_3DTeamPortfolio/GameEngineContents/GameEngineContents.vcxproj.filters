@@ -100,9 +100,6 @@
     <ClCompile Include="Player_State.cpp">
       <Filter>Actor\Player</Filter>
     </ClCompile>
-    <ClCompile Include="TestObject.cpp">
-      <Filter>Resource</Filter>
-    </ClCompile>
     <ClCompile Include="TestObject_Shader.cpp">
       <Filter>Resource</Filter>
     </ClCompile>
@@ -379,6 +376,12 @@
     <ClCompile Include="ContentsHitRenderer.cpp">
       <Filter>Resource\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="ContentsFogWallRenderer.cpp">
+      <Filter>Resource\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_FogWall.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -478,9 +481,6 @@
       <Filter>Net\Packet</Filter>
     </ClInclude>
     <ClInclude Include="TestObject_Shader.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="TestObject.h">
       <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="TreeWindow.h">
@@ -752,6 +752,12 @@
     </ClInclude>
     <ClInclude Include="ContentsHitRenderer.h">
       <Filter>Resource\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsFogWallRenderer.h">
+      <Filter>Resource\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_FogWall.h">
+      <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
