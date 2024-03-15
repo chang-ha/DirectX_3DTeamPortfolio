@@ -10,7 +10,7 @@
 
 #include "ContentsHitRenderer.h"
 #define Frame 0.033f
-#define cdcdc 0.05f
+
 Player* Player::Main_Player;
 
 Player::Player()
@@ -36,7 +36,9 @@ void Player::Start()
 
 	
 	Capsule = CreateComponent<GameEnginePhysXCapsule>(Enum_CollisionOrder::Player);
-	
+	Capsule->PhysXComponentInit(50.0f, 50.0f);
+	Capsule->SetPositioningComponent();
+
 	Cameracapsule = GetLevel()->CreateActor<CameraCapsule>(0,"Camera");
 
 
@@ -315,7 +317,7 @@ void Player::Start()
 	{
 
 		ColParameter.R = 0.0f;
-		ColParameter.S = { 20.f, 80.f, 20.f };
+		ColParameter.S = { 20.f, 110.f, 20.f };
 		ColParameter.T = { 0.f, 0.5f, 0.f };
 
 		Attack_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Attack, Bone_index_01, ColParameter,"Player_Weapon");
@@ -329,7 +331,7 @@ void Player::Start()
 	{
 
 		ColParameter.R = 0.0f;
-		ColParameter.S = { 60.f, 120.f, 40.f };
+		ColParameter.S = { 50.f, 120.f, 40.f };
 		//ColParameter.S = { 300.f, 300.f, 300.f };
 		ColParameter.T = { 0.f, 0.8f, 0.f };
 
@@ -350,13 +352,18 @@ void Player::Start()
 		Arround_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Arround);
 		Arround_Col->SetCollisionType(ColType::SPHERE3D);
 		Arround_Col->Transform.SetLocalScale({ 2000.f,2000.f, 2000.f});
-		Arround_Col->Off();
+		//Arround_Col->Off();
 	}
 
 	{
-		Shield_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Shield, 18);
+		ColParameter.R = 0.0f;
+		ColParameter.S = { 80.f, 80.f, 80.f };
+		//ColParameter.S = { 300.f, 300.f, 300.f };
+		ColParameter.T = { 0.0f, 0.0f, 0.0f };
+
+		Shield_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Shield, 18, ColParameter);
 		Shield_Col->SetCollisionType(ColType::SPHERE3D);
-		Shield_Col->Transform.SetLocalScale({ 100.f,100.f, 100.f });
+		//Shield_Col->Transform.SetLocalScale({ 80.f,80.f, 80.f });
 		Shield_Col->Off();
 	}
 
@@ -365,7 +372,7 @@ void Player::Start()
 		Parring_Attack_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Parring_Arround);
 		Parring_Attack_Col->SetCollisionType(ColType::SPHERE3D);
 		Parring_Attack_Col->Transform.SetLocalScale({ 300.f,300.f, 300.f });
-
+		Parring_Attack_Col->Off();
 	}
 
 	Stat.SetHp(100);
@@ -423,7 +430,7 @@ void Player::Start()
 
 			Monster_Degree = Angle_.X * GameEngineMath::R2D;
 
-			Shield_Col->Off();
+			
 
 			if (0.0f <= RotationDir.Y)
 			{
@@ -778,9 +785,9 @@ void Player::Update(float _Delta)
 
 				if (GameEngineInput::IsDown('E', this))
 				{
-					pActor->DebugFlag();
+					//pActor->DebugFlag();
 
-					if (pActor->IsFlag(Enum_ActorFlag::FrontStab) == true)
+					if (pActor->IsFlag(Enum_ActorFlag::Groggy) == true)
 					{
 						PlayerStates.ChangeState(PlayerState::Parring_Attack);
 						const float4 StabPos = pActor->GetFrontStabPosition();
@@ -859,9 +866,9 @@ void Player::Update(float _Delta)
 
 	if (StateValue != PlayerState::StaminaCheck || StateValue != PlayerState::Parrying || StateValue != PlayerState::Shield_Idle)
 	{
-		if (Stamina <= 100)
+		if (Stamina < 100)
 		{
-			Stamina += _Delta * 50;
+			Stamina += _Delta * 10;
 		}
 	}
 
@@ -901,10 +908,10 @@ void Player::Update(float _Delta)
 	}
 
 
-	if (Capsule->GetLinearVelocity_f().Y <= -1200)
+	/*if (Capsule->GetLinearVelocity_f().Y <= -1200)
 	{
 		PlayerStates.ChangeState(PlayerState::fail);
-	}
+	}*/
 
 
 	
@@ -1103,10 +1110,7 @@ void Player::LevelStart(GameEngineLevel* _PrevLevel)
 		}
 	}
 
-
-
-	Capsule->PhysXComponentInit(50.0f, 50.0f);
-	Capsule->SetPositioningComponent();
+	
 
 	Capsule->SetFiltering(Enum_CollisionOrder::Player, Enum_CollisionOrder::Camera);
 	Capsule->SetFiltering(Enum_CollisionOrder::Player, Enum_CollisionOrder::Big_Camera);
@@ -1335,6 +1339,10 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 		return false;
 	}
 
+	/*if (true == Hit.IsHit())
+	{
+		return false;
+	}*/
 	BaseActor* pAttacker = _Para.pAttacker;
 
 
@@ -1344,7 +1352,8 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 	Stat.AddPoise(-Stiffness);
 	Stat.AddHp(-AttackerAtt);
 
-	Hp = Stat.GetHp();
+	//Hit.SetHit(true);
+	
 
 
 	return true;
@@ -1406,7 +1415,7 @@ bool Player::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 
 		//const int FinalDamage = -10;
 		//Stat.AddHp(FinalDamage);
-		
+		//Hit.SetHit(true);
 
 		return true;
 	}

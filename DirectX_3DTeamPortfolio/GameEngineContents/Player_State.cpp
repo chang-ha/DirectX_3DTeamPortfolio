@@ -17,6 +17,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				//Camera_Pos_X = Player_Pos.X;
+				Sword.ResetRecord();
 				MainRenderer->ChangeAnimation("Idle");
 				StateValue = PlayerState::Idle;
 			};
@@ -755,9 +756,10 @@ void Player::Player_State()
 
 	NewPara.Start = [=](class GameEngineState* _Parent)
 		{
+			Sword.ResetRecord();
 			MainRenderer->ChangeAnimation("Attack_01");
 			StateValue = PlayerState::StaminaCheck;
-			Stamina -= 15;
+			Stamina -= 20;
 		};
 
 
@@ -853,9 +855,10 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Sword.ResetRecord();
 				MainRenderer->ChangeAnimation("Attack_02");
 				StateValue = PlayerState::StaminaCheck;
-				Stamina -= 15;
+				Stamina -= 20;
 			};
 
 
@@ -953,9 +956,10 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Sword.ResetRecord();
 				MainRenderer->ChangeAnimation("Attack_03");
 				StateValue = PlayerState::StaminaCheck;
-				Stamina -= 15;
+				Stamina -= 20;
 			};
 
 
@@ -1052,6 +1056,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Sword.ResetRecord();
 				MainRenderer->ChangeAnimation("Attack_04");
 				StateValue = PlayerState::StaminaCheck;
 				Stamina -= 15;
@@ -1485,9 +1490,10 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Shield_Col->On();
 				MainRenderer->ChangeAnimation("Shield_Idle");
 				StateValue = PlayerState::Shield_Idle;
-				Shield_Col->On();
+				
 			};
 
 
@@ -1495,16 +1501,11 @@ void Player::Player_State()
 			{
 				if (Shield_Col->Collision(Enum_CollisionOrder::MonsterAttack))
 				{
-					Body_Col->Off(); 
 					PlayerStates.ChangeState(PlayerState::Weak_Shield_block);
 					return; 
 				}
 				
-				/*if (Shield_Col->Collision(Enum_CollisionOrder::MonsterAttack))
-				{
-					PlayerStates.ChangeState(PlayerState::Weak_Shield_block);
-					return;
-				}*/
+				
 
 				if (true == GameEngineInput::IsUp(VK_RBUTTON, this))
 				{
@@ -2514,8 +2515,8 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				MainRenderer->ChangeAnimation("Weak_Shield_block");
-				StateValue = PlayerState::StaminaCheck;
+				MainRenderer->ChangeAnimation("Weak_Shield_block",true);
+				StateValue = PlayerState::Shield_Idle;
 
 				Shield_Col->On(); 
 			};
@@ -2523,9 +2524,16 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+				if (Shield_Col->Collision(Enum_CollisionOrder::MonsterAttack))
+				{
+					PlayerStates.ChangeState(PlayerState::Weak_Shield_block);
+					return;
+				}
+
+
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-					//Shield_Col->Off();
+				
 					
 					PlayerStates.ChangeState(PlayerState::Shield_Idle);
 					return;
@@ -2551,7 +2559,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Middle_Shield_block");
-				StateValue = PlayerState::StaminaCheck;
+				StateValue = PlayerState::Shield_Idle;
 				Shield_Col->On();
 			};
 
@@ -2585,7 +2593,7 @@ void Player::Player_State()
 			{
 				Shield_Col->On();
 				MainRenderer->ChangeAnimation("Big_Shield_block");
-				StateValue = PlayerState::StaminaCheck;
+				StateValue = PlayerState::Shield_Idle;
 
 			};
 
