@@ -23,6 +23,6 @@ void ContentsHitRenderer::Start()
 		_Render->Off();
 		});
 
-	Off();
+	//Off();
 }
 

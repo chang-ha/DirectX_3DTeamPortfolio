@@ -145,6 +145,7 @@ protected:
 	
 
 private:
+	bool tyu = false;
 	int Potion = 5;
 	GameEngineSoundPlayer Sound; 
 

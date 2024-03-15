@@ -93,9 +93,9 @@ public:
 	inline void AddPoise(int _Value) { Poise += _Value; }
 	inline int GetPoise() const { return Poise; }
 
-	inline void SetStamina(int _Value) { Stamina = _Value; }
-	inline void AddStamina(int _Value) { Stamina += _Value; }
-	inline int  GetStamina() const { return Stamina; }
+	inline void SetStamina(float _Value) { Stamina = _Value; }
+	inline void AddStamina(float _Value) { Stamina += _Value; }
+	inline float  GetStamina() const { return Stamina; }
 
 
 
@@ -104,7 +104,7 @@ private:
 	int Att = 0; // 공격력
 	int Souls = 0; // 소울량
 	int Poise = 0; // 강인도
-	int Stamina = 0; // 지구력 
+	float Stamina = 0; // 지구력 
 };
 
 class HitStruct

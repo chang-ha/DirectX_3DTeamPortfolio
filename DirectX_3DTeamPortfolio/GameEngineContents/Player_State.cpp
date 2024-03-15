@@ -114,10 +114,11 @@ void Player::Player_State()
 
 				if (GameEngineInput::IsPress(VK_LBUTTON, this))
 				{
+					Sword.ResetRecord();
 					_Parent->ChangeState(PlayerState::Attack_01);
 					return;
 				}
-				if (GameEngineInput::IsPress(VK_RBUTTON, this))
+				if (GameEngineInput::IsPress(VK_RBUTTON, this) && Stat.GetStamina() > 0)
 				{
 					_Parent->ChangeState(PlayerState::Shield_Idle);
 					return;
@@ -268,7 +269,7 @@ void Player::Player_State()
 					return;
 				}
 		
-				else if (GameEngineInput::IsPress(VK_RBUTTON, this))
+				else if (GameEngineInput::IsPress(VK_RBUTTON, this) && Stat.GetStamina() > 0)
 				{
 					Rotation_Check_X = false;
 					_Parent->ChangeState(PlayerState::Shield_Idle);
@@ -277,12 +278,14 @@ void Player::Player_State()
 				else if (true == GameEngineInput::IsPress(VK_LBUTTON, this) && Rotation_Check_X == true && Stat.GetStamina() > 0)
 				{
 					Rotation_Check_X = false;
+					Sword.ResetRecord();
 					_Parent->ChangeState(PlayerState::Attack_01);
 					return;
 				}
 				else if (true == GameEngineInput::IsPress(VK_LBUTTON, this) && Rotation_Check_X == true && Rock_On_Check == true && Stat.GetStamina() > 0)
 				{
 					Rotation_Check_X = false;
+					Sword.ResetRecord();
 					_Parent->ChangeState(PlayerState::Attack_01);
 					return;
 				}
@@ -458,7 +461,7 @@ void Player::Player_State()
 					return;
 				}
 
-				if (GameEngineInput::IsPress(VK_RBUTTON, this) && Rotation_Check_X == true )
+				if (GameEngineInput::IsPress(VK_RBUTTON, this) && Rotation_Check_X == true && Stat.GetStamina() > 0)
 				{
 					_Parent->ChangeState(PlayerState::Shield_Idle);
 					return;
@@ -522,6 +525,7 @@ void Player::Player_State()
 
 				if (true == GameEngineInput::IsPress(VK_LBUTTON, this) && Stat.GetStamina() > 0)
 				{
+					Sword.ResetRecord();
 					_Parent->ChangeState(PlayerState::Attack_01);
 					return;
 				}
@@ -808,6 +812,7 @@ void Player::Player_State()
 
 				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 20 && Stat.GetStamina() > 0)
 				{
+					Sword.ResetRecord();
 					Attack_Check = false;
 					PlayerStates.ChangeState(PlayerState::Attack_02);
 					return;
@@ -910,6 +915,7 @@ void Player::Player_State()
 				{
 
 					Attack_Check = false;
+					Sword.ResetRecord();
 					PlayerStates.ChangeState(PlayerState::Attack_03);
 					return;
 				}
@@ -1010,6 +1016,7 @@ void Player::Player_State()
 				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 20 && Stat.GetStamina() > 0)
 				{
 					Attack_Check = false;
+					Sword.ResetRecord();
 					PlayerStates.ChangeState(PlayerState::Attack_04);
 					return;
 				}
@@ -1109,6 +1116,7 @@ void Player::Player_State()
 				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 30 && Stat.GetStamina() > 0)
 				{
 					Attack_Check = false;
+					Sword.ResetRecord();
 					PlayerStates.ChangeState(PlayerState::Attack_01);
 					return;
 				}
@@ -1504,11 +1512,7 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				if (Shield_Col->Collision(Enum_CollisionOrder::MonsterAttack))
-				{
-					PlayerStates.ChangeState(PlayerState::Weak_Shield_block);
-					return; 
-				}
+				
 				
 				
 
@@ -2549,17 +2553,9 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				if (Shield_Col->Collision(Enum_CollisionOrder::MonsterAttack))
-				{
-					PlayerStates.ChangeState(PlayerState::Weak_Shield_block);
-					return;
-				}
-
-
-				if (MainRenderer->IsCurAnimationEnd())
-				{
 				
-					
+				if (MainRenderer->IsCurAnimationEnd() && Stat.GetStamina() > 0)
+				{				
 					PlayerStates.ChangeState(PlayerState::Shield_Idle);
 					return;
 				};
@@ -2593,8 +2589,6 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-
-					//Shield_Col->Off();
 					PlayerStates.ChangeState(PlayerState::Shield_Idle);
 					return;
 				};
@@ -2616,7 +2610,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				Shield_Col->On();
+				Shield_Col->Off();
 				MainRenderer->ChangeAnimation("Big_Shield_block");
 				StateValue = PlayerState::Shield_Idle;
 
@@ -2625,7 +2619,7 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				if (MainRenderer->IsCurAnimationEnd())
+				if (MainRenderer->IsCurAnimationEnd() && Stat.GetStamina() > 0)
 				{
 					PlayerStates.ChangeState(PlayerState::Shield_Idle);
 					return;
@@ -2929,7 +2923,7 @@ void Player::SoundFrameEvent()
 		{
 			GameEngineSound::Sound3DPlay("swing-sword-large.wav", BoneWorldPos(0), 0.3f);
 		});
-
+	
 	// shield
 
 	MainRenderer->SetFrameEvent("Shield_Idle", 1, [&](GameContentsFBXRenderer* _Renderer)
