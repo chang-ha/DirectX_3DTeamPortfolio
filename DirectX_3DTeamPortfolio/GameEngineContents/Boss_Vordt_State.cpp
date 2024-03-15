@@ -2,10 +2,10 @@
 #include "Boss_Vordt.h"
 #include "BoneSocketCollision.h"
 
-#define JUMP_COOLDOWN 3.f
-#define NORMAL_ATTACK_COOLDOWN 5.f
-#define COMBO_COOLDOWN1 60.f
-#define COMBO_COOLDOWN2 120.f
+#define JUMP_COOLDOWN 2.f
+#define NORMAL_ATTACK_COOLDOWN 7.f
+#define COMBO_COOLDOWN1 20.f
+#define COMBO_COOLDOWN2 50.f
 
 void Boss_Vordt::FrameEventInit()
 {
@@ -853,7 +853,7 @@ void Boss_Vordt::StateInit()
 		AI_States[Enum_BossState::Sweep_002] = AI_State(NORMAL_ATTACK_COOLDOWN);
 		AI_States[Enum_BossState::Rush_Attack_001] = AI_State(NORMAL_ATTACK_COOLDOWN);
 		AI_States[Enum_BossState::Rush_Attack_002] = AI_State(NORMAL_ATTACK_COOLDOWN);
-		AI_States[Enum_BossState::Rush_Turn] = AI_State(NORMAL_ATTACK_COOLDOWN);
+		AI_States[Enum_BossState::Rush_Turn] = AI_State(0.f);
 		AI_States[Enum_BossState::Rush_Hit_Turn] = AI_State(COMBO_COOLDOWN2);
 		AI_States[Enum_BossState::Rush_Hit_Turn_Rush] = AI_State(COMBO_COOLDOWN2);
 	}
@@ -1039,21 +1039,20 @@ Enum_JumpTableFlag Boss_Vordt::AI_Attack()
 		{
 		case Enum_RotDir::Left:
 		{
-			if (true == ChangeAI_State(Enum_BossState::Hit_Down_001_Left))
-			{
-				return Enum_JumpTableFlag::StopJumpTable;
-			}
-
 			if (true == ChangeAI_State(Enum_BossState::Hit_Down_005))
 			{
 				return Enum_JumpTableFlag::StopJumpTable;
 			}
 
+			if (true == ChangeAI_State(Enum_BossState::Sweap_Twice_Left))
+			{
+				return Enum_JumpTableFlag::StopJumpTable;
+			}
 			break;
 		}
 		case Enum_RotDir::Right :
 		{
-			if (true == ChangeAI_State(Enum_BossState::Hit_Down_001_Right))
+			if (true == ChangeAI_State(Enum_BossState::Sweap_Twice_Right))
 			{
 				return Enum_JumpTableFlag::StopJumpTable;
 			}
@@ -1083,20 +1082,21 @@ Enum_JumpTableFlag Boss_Vordt::AI_Attack()
 		{
 		case Left:
 		{
-			if (true == ChangeAI_State(Enum_BossState::Sweap_Twice_Left))
-			{
-				return Enum_JumpTableFlag::StopJumpTable;
-			}
-			break;
-		}
-		case Right:
-		{
-			if (true == ChangeAI_State(Enum_BossState::Hit_Down_004))
+			if (true == ChangeAI_State(Enum_BossState::Hit_Down_001_Left))
 			{
 				return Enum_JumpTableFlag::StopJumpTable;
 			}
 
-			if (true == ChangeAI_State(Enum_BossState::Sweap_Twice_Right))
+			break;
+		}
+		case Right:
+		{
+			if (true == ChangeAI_State(Enum_BossState::Hit_Down_001_Right))
+			{
+				return Enum_JumpTableFlag::StopJumpTable;
+			}
+
+			if (true == ChangeAI_State(Enum_BossState::Hit_Down_004))
 			{
 				return Enum_JumpTableFlag::StopJumpTable;
 			}
@@ -1115,6 +1115,11 @@ Enum_JumpTableFlag Boss_Vordt::AI_Attack()
 	if (Enum_TargetDeg::Deg_Side < tDeg && true == ChangeAI_State(Enum_BossState::Rush_Turn))
 	{
 		return Enum_JumpTableFlag::StopJumpTable;
+	}
+
+	if (Enum_TargetDeg::Deg_Front < tDeg)
+	{
+		return Enum_JumpTableFlag::Default;
 	}
 
 	if (Enum_TargetDis::Dis_Close >= tDis)
@@ -1139,7 +1144,7 @@ Enum_JumpTableFlag Boss_Vordt::AI_Attack()
 		}
 	}
 
-	if (Enum_TargetDeg::Deg_Front < tDeg || Enum_TargetDis::Dis_Close < tDis)
+	if (Enum_TargetDis::Dis_Close < tDis)
 	{
 		return Enum_JumpTableFlag::Default;
 	}
@@ -1304,7 +1309,7 @@ Enum_JumpTableFlag Boss_Vordt::AI_Dodge()
 	int tDis = mTargetState.mTargetDis;
 	int tDeg = mTargetState.mTargetDeg;
 
-	if (Enum_TargetDis::Dis_Close < tDis)
+	if (Enum_TargetDis::Dis_Middle < tDis)
 	{
 		return Enum_JumpTableFlag::Default;
 	}
