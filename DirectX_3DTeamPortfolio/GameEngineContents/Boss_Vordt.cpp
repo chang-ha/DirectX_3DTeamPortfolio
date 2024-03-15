@@ -619,6 +619,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	if (nullptr == RockOnCollision)
 	{
 		RockOnCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster);
+		RockOnCollision->Transform.SetWorldScale({1.f, 1.f, 1.f});
 	}
 
 	//////// Socket Collision
