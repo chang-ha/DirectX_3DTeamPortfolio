@@ -40,14 +40,6 @@ void AddSouls::Update(float _Delta)
 	{
 		AddSouls::ChangeState(SoulsActor::Appear);
 	}
-	if (GameEngineInput::IsDown('2', this))
-	{
-		AddSouls::ChangeState(SoulsActor::Add);
-	}
-	if (GameEngineInput::IsDown('3', this))
-	{
-		AddSouls::ChangeState(SoulsActor::Sum);
-	}
 
 	StateUpdate(_Delta);
 	// 폰트 실시간반영

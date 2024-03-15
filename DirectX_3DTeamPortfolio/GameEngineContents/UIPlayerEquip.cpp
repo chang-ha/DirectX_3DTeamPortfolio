@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "UIPlayerEquip.h"
 
+#include "Player.h"
+
 UIPlayerEquip::UIPlayerEquip()
 {
 }
@@ -70,6 +72,13 @@ void UIPlayerEquip::Start()
 	}
 
 	GameEngineInput::AddInputObject(this);
+}
+
+void UIPlayerEquip::SetParent(Player* _Object)
+{
+	MaxEsteCheck = _Object;
+	MaxEsteCount = MaxEsteCheck->Main_Player->GetPotion();
+
 }
 
 void UIPlayerEquip::Update(float _Delta)

@@ -20,6 +20,8 @@ public:
 
 	UIEquipFrame* FindFrame(Enum_EquipType _Type);
 
+	void SetParent(class Player* _Object);
+
 protected:
 	void Start() override;
 	void Update(float _Delta);
@@ -44,11 +46,13 @@ private:
 	UIEquipFrame* EsteFrame = nullptr;
 	std::shared_ptr<class GameEngineUIRenderer> EsteFont;
 	std::shared_ptr<class GameEngineUIRenderer> EsteCount;
-	int MaxEsteCount = 5;
+	int MaxEsteCount = 0; // 5;
 	int CurEsteCount = 5;
 	double StandardEste = 0;
 	std::string CurEste = "";
 
 	float4 FixPos = 0.0f;
+
+	Player* MaxEsteCheck = nullptr;
 };
 

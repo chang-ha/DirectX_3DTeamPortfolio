@@ -44,13 +44,13 @@ void AppearTextures::Update(float _Delta)
 	//	TextureTime = 0.0f;
 	//}
 
-	if (GameEngineInput::IsDown('1', this))
-	{
-		Lit->On();
-		LitBack->On();
-		LitBack->GetColorData().MulColor.A = 0.8f;
-		LitBack->SetImageScale(ImageScale * 2.1f);
-	}
+	//if (GameEngineInput::IsDown('1', this))
+	//{
+	//	Lit->On();
+	//	LitBack->On();
+	//	LitBack->GetColorData().MulColor.A = 0.8f;
+	//	LitBack->SetImageScale(ImageScale * 2.1f);
+	//}
 
 	StateUpdate(_Delta);
 }

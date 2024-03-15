@@ -80,7 +80,8 @@ void MainUIActor::Start()
 	GameEngineInput::AddInputObject(this);
 
 	GetLevel()->CreateActor<UIPlayerGaugeBar>();
-	GetLevel()->CreateActor<UIPlayerEquip>();
+	
+	//GetLevel()->CreateActor<UIPlayerEquip>();
 
 	GetLevel()->CreateActor<AddSouls>();
 
@@ -114,4 +115,11 @@ void MainUIActor::CreateBossUI(Boss_Vordt* _pBoss)
 	BossHpObject->SetParent(_pBoss);
 	BossHpObject.get();
 
+}
+
+void MainUIActor::CheckEsteUI(Player* _pPlayer)
+{
+	EsteUI = GetLevel()->CreateActor<UIPlayerEquip>(Enum_UpdateOrder::UI);
+
+	EsteUI->SetParent(_pPlayer);
 }
