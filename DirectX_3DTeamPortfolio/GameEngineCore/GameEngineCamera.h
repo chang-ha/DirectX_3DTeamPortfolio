@@ -22,7 +22,7 @@ struct CameraBaseInfo
 {
 	float SizeX = 0.0f;
 	float SizeY = 0.0f;
-	float Temp0;
+	float DynamicShadowDistance = 0.0f;
 	float Temp1;
 };
 
@@ -39,6 +39,7 @@ class GameEngineCamera : public GameEngineActor, public DebugObject
 public:
 	static float FreeRotSpeed;
 	static float FreeSpeed;
+	static float DynamicShadowDistance;
 
 
 	// constrcuter destructer
