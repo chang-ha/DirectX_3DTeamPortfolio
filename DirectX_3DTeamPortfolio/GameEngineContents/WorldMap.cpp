@@ -35,8 +35,8 @@ void WorldMap::Start()
 
 		FilterData.word0 = static_cast<int>(Enum_CollisionOrder::Map);
 		FilterData.word0 = static_cast<int>(Enum_CollisionOrder::Player);
-		FilterData.word1 = static_cast<int>(Enum_CollisionOrder::Camera);		
-		FilterData.word2 = static_cast<int>(Enum_CollisionOrder::Big_Camera);
+		FilterData.word0 = static_cast<int>(Enum_CollisionOrder::Camera);		
+		FilterData.word0 = static_cast<int>(Enum_CollisionOrder::Big_Camera);
 		
 
 

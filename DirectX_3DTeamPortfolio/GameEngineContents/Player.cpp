@@ -346,14 +346,13 @@ void Player::Start()
 		Player_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player);
 		Player_Col->SetCollisionType(ColType::SPHERE3D);
 		Player_Col->Transform.SetLocalScale({ 10.f,10.f, 10.f });
-
 	}
 
 	{
 		Arround_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Arround);
 		Arround_Col->SetCollisionType(ColType::SPHERE3D);
 		Arround_Col->Transform.SetLocalScale({ 2000.f,2000.f, 2000.f});
-		Arround_Col->Off();
+		//Arround_Col->Off();
 	}
 
 	{
@@ -373,7 +372,7 @@ void Player::Start()
 		Parring_Attack_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Parring_Arround);
 		Parring_Attack_Col->SetCollisionType(ColType::SPHERE3D);
 		Parring_Attack_Col->Transform.SetLocalScale({ 300.f,300.f, 300.f });
-		Parring_Attack_Col->Off();
+		//Parring_Attack_Col->Off();
 	}
 
 	Stat.SetHp(100);
@@ -762,15 +761,14 @@ void Player::Start()
 
 	HitRenderer = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
 	StrikeRenderer =CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
-	//HitRenderer->Transform.AddLocalPosition({ 0.0f,20.0f,20.f});
+	HitRenderer->Transform.AddLocalPosition({ 0.0f,20.0f,20.f});
 
 
 }
 
 void Player::Update(float _Delta)
 {
-
-
+	
 
 	Parring_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
@@ -943,6 +941,7 @@ void Player::Update(float _Delta)
 		Shield_Actor->Transform.SetWorldPosition(Data.Pos + float4{ Capsule->GetWorldPosition().x, Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
 	}
 
+	HitRenderer->Transform.SetWorldPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y,Capsule->GetWorldPosition().z });
 
 	if (Capsule->GetLinearVelocity_f().Y <= -1200)
 	{
@@ -1102,14 +1101,18 @@ void Player::Update(float _Delta)
 	PlayerStates.Update(_Delta);
 
 
-
+	if (GameEngineInput::IsPress('0', this))
+	{
+		int a = 0;
+		//HitRenderer->On();
+		MainRenderer->ChangeAnimation("Death", true);
+	}
 	
 	
 	if (GameEngineInput::IsPress(VK_LBUTTON, this))
 	{
-		int a = 0;
 		HitRenderer->On();
-		HitRenderer->ChangeAnimation("Hit", true);		
+		StrikeRenderer->ChangeAnimation("Hit", true);
 	}
 
 
@@ -1210,8 +1213,8 @@ void Player::CameraRotation(float Delta)
 
 
 
-		Camera_Pos_X += Lerp.X * 20;
-		Player_Pos.X -= Lerp.X * 20;
+		Camera_Pos_X += Lerp.X * 10;
+		Player_Pos.X -= Lerp.X * 10;
 
 		if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
 		{
@@ -1227,8 +1230,8 @@ void Player::CameraRotation(float Delta)
 		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta);
 		//Cur_Camera_Pos.Normalize();
 
-		Camera_Pos_X -= Lerp.X * 20;
-		Player_Pos.X += Lerp.X * 20;
+		Camera_Pos_X -= Lerp.X * 10;
+		Player_Pos.X += Lerp.X * 10;
 
 
 

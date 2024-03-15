@@ -365,19 +365,36 @@ void Player::Player_State()
 
 				if (true == GameEngineInput::IsPress('W', this) && true == GameEngineInput::IsPress('A', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
-					Capsule->MoveForce({ float4{-1.0f, 0.0f,1.0f,} * Speed }, Capsule->GetDir());
+
+					float4 Dir = { -1.0f, 0.0f,1.0f };
+
+					Dir.Normalize();
+
+					Capsule->MoveForce({ Dir * Speed }, Capsule->GetDir());
 				}
 				else if (true == GameEngineInput::IsPress('W', this) && true == GameEngineInput::IsPress('D', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
-					Capsule->MoveForce({ float4{1.0f, 0.0f,1.0f,} *Speed }, Capsule->GetDir());
+					float4 Dir = { 1.0f, 0.0f,1.0f };
+
+					Dir.Normalize();
+
+					Capsule->MoveForce({ Dir * Speed }, Capsule->GetDir());
 				}
 				else if (true == GameEngineInput::IsPress('S', this) && true == GameEngineInput::IsPress('A', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
-					Capsule->MoveForce({ float4{-1.0f, 0.0f,-1.0f,} *Speed }, Capsule->GetDir());
+					float4 Dir = { -1.0f, 0.0f,-1.0f };
+
+					Dir.Normalize();
+
+					Capsule->MoveForce({ Dir * Speed }, Capsule->GetDir());
 				}
 				else if (true == GameEngineInput::IsPress('S', this) && true == GameEngineInput::IsPress('D', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
-					Capsule->MoveForce({ float4{1.0f, 0.0f,-1.0f,} *Speed }, Capsule->GetDir());
+					float4 Dir = { 1.0f, 0.0f,-1.0f };
+
+					Dir.Normalize();
+
+					Capsule->MoveForce({ Dir * Speed }, Capsule->GetDir());
 				}
 
 
