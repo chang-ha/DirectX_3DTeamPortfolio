@@ -32,7 +32,6 @@ void ContentsActorInitial::Init()
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Death, Enum_ActorFlagBit::Death));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Parrying, Enum_ActorFlagBit::Parrying));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Guarding, Enum_ActorFlagBit::Guarding));
-	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Hit, Enum_ActorFlagBit::Hit));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::HyperArmor, Enum_ActorFlagBit::HyperArmor));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Block_Shield, Enum_ActorFlagBit::Block_Shield));
 	BaseActor::FlagIndex.insert(std::make_pair(Enum_ActorFlag::Guard_Break, Enum_ActorFlagBit::Guard_Break));
@@ -167,7 +166,6 @@ void BaseActor::DebugFlag() const
 	bool DeathValue = IsFlag(Enum_ActorFlag::Death);
 	bool ParryingValue = IsFlag(Enum_ActorFlag::Parrying);
 	bool GuardingValue = IsFlag(Enum_ActorFlag::Guarding);
-	bool HitValue = IsFlag(Enum_ActorFlag::Hit);
 	bool HyperArmorValue = IsFlag(Enum_ActorFlag::HyperArmor);
 	bool Block_ShieldValue = IsFlag(Enum_ActorFlag::Block_Shield);
 	bool Guard_BreakValue = IsFlag(Enum_ActorFlag::Guard_Break);
