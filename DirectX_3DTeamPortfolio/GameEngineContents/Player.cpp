@@ -762,7 +762,7 @@ void Player::Start()
 
 	HitRenderer = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
 	StrikeRenderer =CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
-	HitRenderer->Transform.AddLocalPosition({ 0.0f,20.0f,20.f});
+	//HitRenderer->Transform.AddLocalPosition({ 0.0f,20.0f,20.f});
 
 
 }
@@ -857,6 +857,7 @@ void Player::Update(float _Delta)
 		Sword.CollisionToShield(Enum_CollisionOrder::Monster_Shield, 0);
 	}
 
+	
 	
 
 
@@ -954,14 +955,19 @@ void Player::Update(float _Delta)
 		Shield_Actor->Transform.SetWorldPosition(Data.Pos + float4{ Capsule->GetWorldPosition().x, Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
 	}
 
-	HitRenderer->Transform.SetWorldPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y,Capsule->GetWorldPosition().z });
+	//HitRenderer->Transform.SetWorldPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y,Capsule->GetWorldPosition().z });
 
 	if (Capsule->GetLinearVelocity_f().Y <= -1600)
 	{
 		PlayerStates.ChangeState(PlayerState::fail);
 	}
 
-
+	if (Attack_Col->Collision(Enum_CollisionOrder::Monster_Body))
+	{
+		StrikeRenderer->On(); 
+		StrikeRenderer->ChangeAnimation("Hit");
+		StrikeRenderer->Transform.SetWorldPosition({ Weapon_Actor->Transform.GetWorldPosition()});
+	}
 	
 
 
@@ -1114,19 +1120,19 @@ void Player::Update(float _Delta)
 	PlayerStates.Update(_Delta);
 
 
-	if (GameEngineInput::IsPress('0', this))
-	{
-		int a = 0;
-		//HitRenderer->On();
-		MainRenderer->ChangeAnimation("Death", true);
-	}
-	
-	
-	if (GameEngineInput::IsPress(VK_LBUTTON, this))
-	{
-		HitRenderer->On();
-		StrikeRenderer->ChangeAnimation("Hit", true);
-	}
+	//if (GameEngineInput::IsPress('0', this))
+	//{
+	//	int a = 0;
+	//	//HitRenderer->On();
+	//	MainRenderer->ChangeAnimation("Death", true);
+	//}
+	//
+	//
+	//if (GameEngineInput::IsPress(VK_LBUTTON, this))
+	//{
+	//	HitRenderer->On();
+	//	StrikeRenderer->ChangeAnimation("Hit", true);
+	//}
 
 
 
