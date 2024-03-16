@@ -57,6 +57,6 @@ void DepthOfField::EffectProcess(float _DeltaTime)
 	DepthOfFieldUnit.Render();
 	DepthOfFieldUnit.ShaderResHelper.AllShaderResourcesReset();
 
-
-	EffectTarget->Copy(0, ResultTarget, 0);
+	EffectTarget->Clear(0);
+	EffectTarget->Merge(0, ResultTarget, 0);
 }

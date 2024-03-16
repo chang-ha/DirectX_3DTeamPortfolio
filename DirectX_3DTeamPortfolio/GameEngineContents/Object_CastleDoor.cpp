@@ -24,6 +24,9 @@ void Object_CastleDoor::Start()
 		FBXRenderer->Transform.AddWorldRotation({ 0, -25 , 0 });
 		FBXRenderer->Transform.SetWorldPosition({ -800, -2500 , 2400 });*/
 	}
+	Box = CreateComponent<GameEnginePhysXBox>();
+	Box->PhysXComponentInit(100, 250,20);
+
 
 	Transform.SetWorldPosition({ -6950, -860 , 14530 });
 	Transform.SetWorldScale({ 100, 100 , 100 });

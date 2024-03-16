@@ -50,6 +50,7 @@ void Monster_LothricKn::Start()
 
 	// Anmation
 	MainRenderer->SetFBXMesh("c1280.fbx", "FBX_Animation");
+	MainRenderer->RenderBaseInfoValue.DiffuseTexMult = 3.0f;
 	
 	MainRenderer->CreateFBXAnimation("Idle_Standing", "c1280_000000.fbx");
 	MainRenderer->CreateFBXAnimation("Idle_Standing1", "c1280_000020.fbx");

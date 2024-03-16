@@ -75,6 +75,7 @@ void FogEffect::EffectProcess(float _DeltaTime)
 	EffectUnit.Render();
 	EffectUnit.ShaderResHelper.AllShaderResourcesReset();
 
-	EffectTarget->Copy(0, ResultTarget, 0);
+	EffectTarget->Clear(0);
+	EffectTarget->Merge(0, ResultTarget, 0);
 }
 

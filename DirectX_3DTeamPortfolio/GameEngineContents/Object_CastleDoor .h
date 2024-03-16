@@ -21,6 +21,7 @@ protected:
 
 private:
 	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer;
+	std::shared_ptr<GameEnginePhysXBox> Box;
 	
 };
 

@@ -58,6 +58,9 @@ void Object_CandleHuman::Start()
 
 		Light->SetLightData(Data);
 	}
+
+	Box = CreateComponent<GameEnginePhysXBox>();
+	Box->PhysXComponentInit(50, 50, 50);
 }
 
 void Object_CandleHuman::Update(float _Delta)
