@@ -45,5 +45,6 @@ cbuffer RenderBaseInfo : register(b11)
     float DiffuseTexMult;
     float Def3;
     float Def4;
+    float4 ForceSpecularColor;
 };
 

@@ -26,7 +26,7 @@ struct LightData
     float DifLightPower = 1.0f;
     float SpcLightPower = 2.0f;
     float AmbLightPower = 1.0f;
-    float SpcPow = 50.0f;
+    float SpcPow = 15.0f;
     int LightType = 0;
     float PointLightRange = 500.0f;
     float LightPower = 1.0f;

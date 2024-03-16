@@ -42,6 +42,7 @@ struct RenderBaseInfo
 	float DiffuseTexMult = 1.0f;
 	float Def3;
 	float Def4;
+	float4 ForceSpecularColor = { 0.06f,0.06f,0.04f,1.0f };
 };
 
 // 설명 : GameEngineRenderer에게 Order는 랜더링 되는 순서를 의미합니다.
