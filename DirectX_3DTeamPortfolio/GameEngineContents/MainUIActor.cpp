@@ -77,18 +77,18 @@ void MainUIActor::Start()
 
 void MainUIActor::Update(float _Delta)
 {
-	if (GameEngineInput::IsDown('=', this))
-	{
-		PlayerValue::GetValue()->AddHp(50);
-		PlayerValue::GetValue()->AddMp(10);
-		PlayerValue::GetValue()->AddStamina(20);
-	}
-	if (GameEngineInput::IsDown('-', this))
-	{
-		PlayerValue::GetValue()->SubHp(50);
-		PlayerValue::GetValue()->SubMp(30);
-		PlayerValue::GetValue()->SubStamina(40);
-	}
+	//if (GameEngineInput::IsDown('=', this))
+	//{
+	//	PlayerValue::GetValue()->AddHp(50);
+	//	PlayerValue::GetValue()->AddMp(10);
+	//	PlayerValue::GetValue()->AddStamina(20);
+	//}
+	//if (GameEngineInput::IsDown('-', this))
+	//{
+	//	PlayerValue::GetValue()->SubHp(50);
+	//	PlayerValue::GetValue()->SubMp(30);
+	//	PlayerValue::GetValue()->SubStamina(40);
+	//}
 
 	if (GameEngineInput::IsDown('B', this))
 	{

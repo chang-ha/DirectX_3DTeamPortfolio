@@ -76,25 +76,15 @@ void UIPlayerEquip::Start()
 
 void UIPlayerEquip::SetParent(Player* _Object)
 {
-	MaxEsteCheck = _Object;
-	MaxEsteCount = MaxEsteCheck->Main_Player->GetPotion();
-
+	EsteCheck = _Object;
+	MaxEsteCount = EsteCheck->Get_Max_Potion();
+	CurEsteCount = EsteCheck->GetPotion();
 }
 
 void UIPlayerEquip::Update(float _Delta)
 {
 
-	if (GameEngineInput::IsDown('0', this))
-	{
-		CurEsteCount++;
-	}
-
-	if (GameEngineInput::IsDown('-', this))
-	{
-		CurEsteCount--;
-	}
-
-	EsteCount->SetText(GlobalValue::OptimusFont, std::to_string(CurEsteCount), 20.0f, float4{ 1, 1, 1, 1, }, FW1_CENTER);
+	EsteCount->SetText(GlobalValue::OptimusFont, std::to_string(EsteCheck->GetPotion()), 20.0f, float4{ 1, 1, 1, 1, }, FW1_CENTER);
 	ChangeEsteImage();
 }
 
@@ -102,17 +92,17 @@ void UIPlayerEquip::ChangeEsteImage()
 {
 	StandardEste = ceil(MaxEsteCount / 3.0f);
 
-	if (StandardEste >= CurEsteCount && CurEsteCount > 0)
+	if (StandardEste >= EsteCheck->GetPotion() && EsteCheck->GetPotion() > 0)
 	{
 		Este->SetSprite("EsteBottl_S.Png");
 		return;
 	}
-	else if ((StandardEste * 2) >= CurEsteCount && CurEsteCount > StandardEste)
+	else if ((StandardEste * 2) >= EsteCheck->GetPotion() && EsteCheck->GetPotion() > StandardEste)
 	{
 		Este->SetSprite("EsteBottl_M.Png");
 		return;
 	}
-	else if (CurEsteCount <= 0)
+	else if (EsteCheck->GetPotion() <= 0)
 	{
 		Este->SetSprite("EsteBottle_Empty.Png");
 		return;

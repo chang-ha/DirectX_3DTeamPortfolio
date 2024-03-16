@@ -30,7 +30,7 @@ protected:
 
 private:
 	// 플레이어에게서 받아올 값
-	Player* MaxEsteCheck = nullptr;
+	Player* EsteCheck = nullptr;
 
 	std::map<Enum_EquipType, class UIEquipFrame*> EquipMent;
 
@@ -50,7 +50,7 @@ private:
 	std::shared_ptr<class GameEngineUIRenderer> EsteFont;
 	std::shared_ptr<class GameEngineUIRenderer> EsteCount;
 	int MaxEsteCount = 0; // 5;
-	int CurEsteCount = 5;
+	int CurEsteCount = 0; // 5;
 	double StandardEste = 0;
 
 	// EquipFrame 중심 위치값
