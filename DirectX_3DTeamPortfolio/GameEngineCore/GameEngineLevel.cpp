@@ -15,6 +15,7 @@ GameEngineLevel::GameEngineLevel()
 	// Main
 	{
 		std::shared_ptr<GameEngineCamera> NewCamera = CreateCamera(INT_MIN, ECAMERAORDER::Main);
+		NewCamera->ShadowValue = true;
 		GameEngineInput::AddInputObject(NewCamera.get());
 
 	}

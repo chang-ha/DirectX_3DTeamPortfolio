@@ -43,7 +43,7 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout DeferrdOut _Result)
    // _Result.WorldPosColor = _Input.WorldPOSITION;
     
     
-    _Result.SpcColor = float4(1.f, 1.f, 1.f, 1.f);
+    _Result.SpcColor = float4(0.05f, 0.05f, 0.05f, 1.f);
     
     
     

@@ -616,6 +616,11 @@ std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetFBXMesh(std::s
 	std::shared_ptr<GameEngineTexture> SpcTex;
 	std::string MaterialOrigin = _Material.data();
 
+	/*if ("o001020_woodentable_a.dds" == MatData.DifTextureName)
+	{
+		int a = 0;
+	}*/
+
 
 	if (Unit->ShaderResHelper.IsTexture("NormalTexture"))
 	{

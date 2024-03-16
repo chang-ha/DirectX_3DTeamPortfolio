@@ -143,7 +143,7 @@ void LightGUI::LightEditor(GameEngineLevel* _Level)
 		ImGui::SliderFloat("AmbLightPower", &Data.AmbLightPower, 0.0f, 5.0f);
 
 
-		ImGui::SliderFloat("SpcPow", &Data.SpcPow, 0.0f, 12.0f);
+		ImGui::SliderFloat("SpcPow", &Data.SpcPow, 0.0f, 200.0f);
 
 
 		ImGui::SliderFloat("ForceLightPower", &Data.ForceLightPower, 0.0f, 2.0f);

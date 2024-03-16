@@ -67,7 +67,8 @@ PSOutput ContentsDeferredMergeRender_PS(PixelOutPut _Input)
     float3 SpecularColor = SpecularTex.Sample(POINTClamp, _Input.TEXCOORD.xy).rgb;
     float3 HBAOTexColor = HBAOTex.Sample(LINEARClamp, _Input.TEXCOORD.xy).rgb;
     
-    SpecularColor = SpecularColor * 6.0;
+    //SpecularColor = SpecularColor /** 6.0*/;
+    SpecularColor.xyz = pow(SpecularColor.xyz, 2.2f);
     
     SpcLight.xyz *= SpecularColor;
     PointSpcLight.xyz *= SpecularColor;
@@ -75,7 +76,7 @@ PSOutput ContentsDeferredMergeRender_PS(PixelOutPut _Input)
     //Result.xyz = PBR.xyz;
     
     // 그림자 적용받는 다이렉션
-    Result.Light.xyz = DifColor.xyz * (DifLight.xyz + SpcLight.xyz);
+    Result.Light.xyz = (DifColor.xyz * DifLight.xyz) + SpcLight.xyz;
 
     
     if (0.0f < Shadow.x)
@@ -85,10 +86,10 @@ PSOutput ContentsDeferredMergeRender_PS(PixelOutPut _Input)
     }
     
     // 적용안받는 포인트
-    Result.Light.xyz += DifColor.xyz * (PointDifLight.xyz + PointSpcLight.xyz);
+    Result.Light.xyz += (DifColor.xyz * PointDifLight.xyz) + PointSpcLight.xyz;
     
     //앰비언트
-    Result.Light.xyz += DifColor.xyz * float3(0.15f, 0.15f, 0.10f);
+    Result.Light.xyz += DifColor.xyz * float3(0.15f, 0.15f, 0.1f);
     
     
     
