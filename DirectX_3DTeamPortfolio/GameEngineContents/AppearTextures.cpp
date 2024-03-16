@@ -17,14 +17,15 @@ void AppearTextures::Start()
 	Lit = CreateComponent<GameEngineUIRenderer>();
 	Lit->SetSprite("Lit.Png");
 	Lit->AutoSpriteSizeOn();
+	Lit->SetAutoScaleRatio(2.0f);
 	Lit->Off();
 
 	LitBack = CreateComponent<GameEngineUIRenderer>();
 	LitBack->SetSprite("LitBack.Png");
 	ImageScale = LitBack->GetSprite()->GetSpriteData(0).GetScale();
 	LitBack->AutoSpriteSizeOff();
-	LitBack->SetImageScale(ImageScale);
-	LitBack->GetColorData().MulColor.A = 0.7f;
+	LitBack->SetImageScale(ImageScale * 2.1f);
+	LitBack->GetColorData().MulColor.A = 0.8f;
 	LitBack->Off();
 
 	GameEngineInput::AddInputObject(this);
@@ -43,13 +44,13 @@ void AppearTextures::Update(float _Delta)
 	//	TextureTime = 0.0f;
 	//}
 
-	if (GameEngineInput::IsDown('1', this))
-	{
-		Lit->On();
-		LitBack->On();
-		LitBack->GetColorData().MulColor.A = 0.7f;
-		LitBack->SetImageScale(ImageScale);
-	}
+	//if (GameEngineInput::IsDown('1', this))
+	//{
+	//	Lit->On();
+	//	LitBack->On();
+	//	LitBack->GetColorData().MulColor.A = 0.8f;
+	//	LitBack->SetImageScale(ImageScale * 2.1f);
+	//}
 
 	StateUpdate(_Delta);
 }
@@ -105,6 +106,23 @@ void AppearTextures::OffUpdate(float _Delta)
 {
 	if (GameEngineInput::IsDown('2', this))
 	{
+		Lit->SetSprite("Lit.Png");
+		LitBack->SetSprite("LitBack.Png");
+		ChangeState(TextureActor::Appear);
+		return;
+	}
+	if (GameEngineInput::IsDown('3', this))
+	{
+		Lit->SetSprite("TargetDestroyed.Png");
+		LitBack->SetSprite("TargetDestroyedBack.Png");
+		ChangeState(TextureActor::Appear);
+		return;
+	}
+
+	if (GameEngineInput::IsDown('4', this))
+	{
+		Lit->SetSprite("YouDied.Png");
+		LitBack->SetSprite("YouDied.Png");
 		ChangeState(TextureActor::Appear);
 		return;
 	}
@@ -113,6 +131,11 @@ void AppearTextures::OffUpdate(float _Delta)
 void AppearTextures::AppearStart()
 {
 	//if () 이미지 정하기?
+	Lit->SetAutoScaleRatio(2.0f);
+
+	LitBack->SetImageScale(ImageScale * 2.1f);
+	LitBack->GetColorData().MulColor.A = 0.8f;
+
 	Lit->On();
 	LitBack->On();
 }

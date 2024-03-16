@@ -382,6 +382,12 @@
     <ClCompile Include="Object_FogWall.cpp">
       <Filter>Object</Filter>
     </ClCompile>
+    <ClCompile Include="NewBossUI.cpp">
+      <Filter>Actor\UI\Monster\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="UIActor.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -758,6 +764,12 @@
     </ClInclude>
     <ClInclude Include="Object_FogWall.h">
       <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="NewBossUI.h">
+      <Filter>Actor\UI\Monster\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="UIActor.h">
+      <Filter>Actor\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -34,6 +34,9 @@ private:
 	std::shared_ptr<class FadePostEffect> FadeEffect;
 	std::shared_ptr<class Player> PlayerObject;
 	std::shared_ptr<class PlayMap> Map;
+
+	std::shared_ptr<class Boss_Vordt> Boss_Object = nullptr;
 	std::shared_ptr<class MainUIActor> MainUI;
+	std::shared_ptr<class UIActor> ActorUI;
 };
 

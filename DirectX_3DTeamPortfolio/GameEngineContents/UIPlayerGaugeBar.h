@@ -24,8 +24,8 @@ public:
 	UIPlayerGaugeBar& operator = (const UIPlayerGaugeBar& _Other) = delete;
 	UIPlayerGaugeBar& operator = (UIPlayerGaugeBar&& _Other) noexcept = delete;
 
-	UIUnit* CreateBarActor(Enum_BarType _Type, float _TotalSize);
-	//void CreateBarActor(Enum_BarType _Type);
+	void Init(class Player* _PlayerObject);
+	UIUnit* CreateBarActor(Enum_BarType _Type, float _TotalSize, Player* _PlayerObject);
 	UIUnit* FindBar(Enum_BarType _Type);
 
 	void FindAndSetGauge(Enum_BarType _Type, float _Value);
@@ -37,6 +37,7 @@ protected:
 	void Release() override;
 
 private:
+	Player* pPlayer = nullptr;
 	std::map<Enum_BarType, class UIUnit*> GaugeBars;
 
 	UIUnit* HpBar = nullptr;

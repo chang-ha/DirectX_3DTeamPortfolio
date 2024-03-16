@@ -40,16 +40,15 @@ void AddSouls::Update(float _Delta)
 	{
 		AddSouls::ChangeState(SoulsActor::Appear);
 	}
-	if (GameEngineInput::IsDown('2', this))
-	{
-		AddSouls::ChangeState(SoulsActor::Add);
-	}
-	if (GameEngineInput::IsDown('3', this))
-	{
-		AddSouls::ChangeState(SoulsActor::Sum);
-	}
 
 	StateUpdate(_Delta);
+	// 폰트 실시간반영
+	FontUpdate();
+}
+
+void AddSouls::FontUpdate()
+{
+	AddSoul->SetText(GlobalValue::OptimusFont, "+" + std::to_string(SoulAdd), FontSize, float4{ 1,0,0,1 }, FW1_RIGHT);
 }
 
 void AddSouls::ChangeState(SoulsActor _State)
@@ -90,40 +89,54 @@ void AddSouls::StateUpdate(float _Delta)
 	}
 }
 
+// 나타나서 크기가 커지는 곳
 void AddSouls::AppearStart()
 {
 	AddSoul->On();
-	AddSoul->Transform.SetLocalPosition({ WindowScale.X - 30.0f , -WindowScale.Y + 130.0f });
+	AddSoul->Transform.SetLocalPosition({ WindowScale.X - 30.0f , -WindowScale.Y + 125.0f });
+	
 	SoulAdd += 100;
-	AddSoul->SetText(GlobalValue::OptimusFont,"+"+std::to_string(SoulAdd), 14.0f, float4{1,0,0,1}, FW1_RIGHT);
+	AddSoul->SetText(GlobalValue::OptimusFont,"+"+std::to_string(SoulAdd), FontSize, float4{1,0,0,1}, FW1_RIGHT);
+	FontTime = 0.0f;
 }
 
 void AddSouls::AppearUpdate(float _Delta)
 {
-	AddSoul->Transform.AddLocalPosition({ 0.0f, -20.0f * _Delta });
-	CurTime += _Delta;
-	if (CurTime >= LimitTime)
+	FontTime += _Delta;
+	FontSize += 10 * _Delta;
+
+	if (FontTime >= FontSizeTime)
 	{
-		CurTime = 0.0f;
 		AddSouls::ChangeState(SoulsActor::Add);
-		AddSoul->Off();
+		return;
 	}
 }
 
+// 크기가 줄어들고 나서 내려가는 곳
 void AddSouls::AddStart()
 {
-	Souls += SoulAdd;
-	SumSouls->SetText(GlobalValue::OptimusFont, std::to_string(Souls), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
+	FontTime = 0.0f;
 }
 
 void AddSouls::AddUpdate(float _Delta)
 {
+	FontTime += _Delta;
+	FontSize -= 10 * _Delta;
 
+	AddSoul->Transform.AddLocalPosition({ 0.0f, -50.0f * _Delta });
+
+	if (FontTime >= FontSizeTime)
+	{
+		AddSouls::ChangeState(SoulsActor::Sum);
+		AddSoul->Off();
+	}
 }
 
+// 내려온 소울이 합쳐지는 곳
 void AddSouls::SumStart()
 {
-
+	Souls += SoulAdd;
+	SumSouls->SetText(GlobalValue::OptimusFont, std::to_string(Souls), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
 }
 
 void AddSouls::SumUpdate(float _Delta)

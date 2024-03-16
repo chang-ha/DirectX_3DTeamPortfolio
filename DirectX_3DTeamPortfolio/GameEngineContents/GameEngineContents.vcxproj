@@ -227,6 +227,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="NewBossUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Object_CandleHuman2.cpp" />
     <ClCompile Include="Object_FogWall.cpp">
       <SubType>
@@ -498,6 +502,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UIActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UIEquipFrame.cpp">
       <SubType>
       </SubType>
@@ -565,6 +573,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="LothricKn_Debug.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="NewBossUI.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -836,6 +848,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TurnSpeedFrameEvent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UIActor.h">
       <SubType>
       </SubType>
     </ClInclude>
