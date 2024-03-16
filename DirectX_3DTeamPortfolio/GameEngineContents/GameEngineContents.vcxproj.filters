@@ -376,6 +376,12 @@
     <ClCompile Include="ContentsHitRenderer.cpp">
       <Filter>Resource\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="ContentsFogWallRenderer.cpp">
+      <Filter>Resource\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_FogWall.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
     <ClCompile Include="NewBossUI.cpp">
       <Filter>Actor\UI\Monster\Boss</Filter>
     </ClCompile>
@@ -752,6 +758,12 @@
     </ClInclude>
     <ClInclude Include="ContentsHitRenderer.h">
       <Filter>Resource\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsFogWallRenderer.h">
+      <Filter>Resource\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_FogWall.h">
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="NewBossUI.h">
       <Filter>Actor\UI\Monster\Boss</Filter>

@@ -127,6 +127,12 @@ void ContentResources::ContentResourcesInit()
 		Mat->SetPixelShader("ContentsFireMesh_PS");
 	}
 
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("FogWall");
+		Mat->SetVertexShader("ContentsFogWallMesh_VS");
+		Mat->SetPixelShader("ContentsFogWallMesh_PS");
+	}
+
 
 
 

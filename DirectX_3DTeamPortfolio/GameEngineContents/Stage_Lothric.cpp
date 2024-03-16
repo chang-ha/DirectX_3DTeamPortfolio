@@ -10,6 +10,7 @@
 #include "Monster_HollowSoldier.h"
 #include "Monster_LothricKn.h"
 #include "LUTEffect.h"
+#include "Object_FogWall.h"
 
 #include "Monster_LothricKn.h"
 
@@ -156,6 +157,12 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 
 	{
 		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
+	}
+
+	{
+		FogWall = CreateActor< Object_FogWall>();
+		FogWall->Transform.SetWorldPosition({ -3125, -2100.f, 7070.f });
+		FogWall->Transform.SetWorldRotation({ 0.f,152.f });
 	}
 
 	CreateObject();

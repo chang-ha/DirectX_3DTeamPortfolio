@@ -91,6 +91,9 @@
       <Filter>PostEffect</Filter>
     </FxCompile>
     <FxCompile Include="TargetMergeShadow.fx" />
+    <FxCompile Include="ContentsFogWallMesh.fx">
+      <Filter>MeshShader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BloomCombine.fx">

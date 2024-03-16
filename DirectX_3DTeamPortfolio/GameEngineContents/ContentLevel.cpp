@@ -109,5 +109,13 @@ void ContentsCollisionCallBack::onContact(const physx::PxContactPairHeader& pair
 				Player::Main_Player->testaaa = true;
 			}
 		}
+
+		if (thisFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Player))
+		{
+			if ((CollisionFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Fog_Wall)))
+			{
+				int a = 0;
+			}
+		}
 	}
 }

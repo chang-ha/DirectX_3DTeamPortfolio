@@ -87,7 +87,7 @@ void Player_HitInteraction::CollisionToShield(Enum_CollisionOrder _Order, int _i
 
 				
 
-				pActor->GetHitToShield({ pParent, _iStiffness });
+				pActor->GetHitToShield({ pParent, _iStiffness, });
 				RecordCollision(pActor.get());
 			}
 		};

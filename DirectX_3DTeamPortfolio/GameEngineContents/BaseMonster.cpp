@@ -223,23 +223,28 @@ static constexpr float STAB_ANGLE = 45.0f;
 
 bool BaseMonster::FrontStabCheck(const float4& _WPos, float _RotY) const
 {
-	const float4 MyPos = Transform.GetWorldPosition();
-	const float4 MyRot = Transform.GetWorldRotationEuler();
-	const float4 MyXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);
-	const float4 OtherXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, _RotY);
+	if (true == IsFlag(Enum_ActorFlag::Groggy))
+	{
+		const float4 MyPos = Transform.GetWorldPosition();
+		const float4 MyRot = Transform.GetWorldRotationEuler();
+		const float4 MyXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);
+		const float4 OtherXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, _RotY);
 
-	// Y PosCheck << Y 높이 체크 해야됨
+		// Y PosCheck << Y 높이 체크 해야됨
 
-	float4 VectorToOther = MyPos - _WPos;
-	VectorToOther.Y = 0;
+		float4 VectorToOther = MyPos - _WPos;
+		VectorToOther.Y = 0;
 
-	const float Dist = ContentsMath::GetVector3Length(VectorToOther).X;
-	const float Dot = float4::DotProduct3D(MyXZDirVector, OtherXZDirVector);
-	const float Deg = ContentsMath::DotNormalizeReturnDeg(Dot);
+		const float Dist = ContentsMath::GetVector3Length(VectorToOther).X;
+		const float Dot = float4::DotProduct3D(MyXZDirVector, OtherXZDirVector);
+		const float Deg = ContentsMath::DotNormalizeReturnDeg(Dot);
 
-	bool RangeCheck = (Dist < STAB_RECOGNITION_RANGE * W_SCALE);
-	bool DirCheck = (Deg < STAB_ANGLE);
-	return (RangeCheck && DirCheck);
+		bool RangeCheck = (Dist < STAB_RECOGNITION_RANGE * W_SCALE);
+		bool DirCheck = (Deg < STAB_ANGLE);
+		return (RangeCheck && DirCheck);
+	}
+
+	return false;
 }
 
 bool BaseMonster::BackStabCheck(const float4& _WPos, float _RotY) const
