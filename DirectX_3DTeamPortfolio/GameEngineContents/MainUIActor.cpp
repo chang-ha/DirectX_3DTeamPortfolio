@@ -104,7 +104,6 @@ void MainUIActor::Update(float _Delta)
 		}
 	}
 
-	float4 MousePos = GameEngineCore::MainWindow.GetMousePos();
 
 }
 

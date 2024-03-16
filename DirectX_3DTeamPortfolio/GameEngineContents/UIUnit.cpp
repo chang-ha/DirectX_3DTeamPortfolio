@@ -51,7 +51,7 @@ void UIUnit::Update(float _Delta)
 	}
 	if (Type == Enum_BarType::Stamina)
 	{
-		PlayerGaugeValue = PlayerValue::GetValue()->GetStamina();
+		PlayerGaugeValue = static_cast<float>(pPlayer->GetStamina());
 	}
 
 	if (PlayerGaugeValue == RenderGauge)

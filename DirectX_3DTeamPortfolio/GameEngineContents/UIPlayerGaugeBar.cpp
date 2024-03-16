@@ -32,9 +32,9 @@ void UIPlayerGaugeBar::Init(Player* _PlayerObject)
 
 	pPlayer = _PlayerObject;
 
-	const float MaxHp = static_cast<float>(pPlayer->GetHp());
+	const float MaxHp = static_cast<float>(pPlayer->Get_Max_Hp());
 	const float MaxMp = PlayerValue::GetValue()->GetMaxMp();
-	const float MaxStamina = PlayerValue::GetValue()->GetMaxStamina();
+	const float MaxStamina = static_cast<float>(pPlayer->Get_Max_Stamina());
 
 	HpBar = CreateBarActor(Enum_BarType::Hp, MaxHp, pPlayer);
 	MpBar = CreateBarActor(Enum_BarType::Mp, MaxMp, pPlayer);
