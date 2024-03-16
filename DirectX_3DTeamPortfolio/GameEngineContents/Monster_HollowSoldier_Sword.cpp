@@ -49,6 +49,11 @@ void Monster_HollowSoldier_Sword::Update(float _Delta)
 	
 }
 
+void Monster_HollowSoldier_Sword::WakeUp()
+{
+	ChangeState(Enum_HollowSoldier_Sword_State::Scout);
+}
+
 void Monster_HollowSoldier_Sword::ChangeState(Enum_HollowSoldier_Sword_State _State)
 {
 	if (_State != SoldierState)
@@ -455,10 +460,10 @@ void Monster_HollowSoldier_Sword::State_Idle1_Update(float _Delta)
 	StateTime += _Delta;
 
 	// 트리거 발동시
-	if (StateTime >= 10.0f)
+	/*if (StateTime >= 10.0f)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Scout);
-	}
+	}*/
 
 }
 

@@ -57,6 +57,8 @@ public:
 		ChangeState(Enum_HollowSoldier_Lantern_State::Stay);
 	}
 
+	void WakeUp() override;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
