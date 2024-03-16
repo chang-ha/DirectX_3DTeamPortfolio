@@ -60,6 +60,13 @@ enum Enum_RotDir
 	Right = 1,
 };
 
+enum Enum_Player_Hit
+{
+	weak,
+	Middle,
+	Strong,
+};
+
 namespace std
 {
 	template<>
@@ -93,9 +100,8 @@ public:
 
 	inline void SetStamina(float _Value) { Stamina = _Value; }
 	inline void AddStamina(float _Value) { Stamina += _Value; }
-	inline float  GetStamina() const { return Stamina; }
-
-
+	inline float GetStamina() const { return Stamina; }
+	
 
 private:
 	int Hp = 0; // 체력
@@ -242,7 +248,7 @@ public:
 	}
 
 	void Off() override
-	{
+	{ 
 		GameEngineActor::Off();
 		Capsule->Off();
 	}
@@ -300,6 +306,7 @@ public:
 	std::string_view GetMaterialSoundName(int _Index) { return MaterialSound.GetSound(_Index); }
 	std::vector<int> GetMaterialSoundKeys() { return MaterialSound.GetKeys(); }
 	bool IsContainMaterialType(int _Key) { return MaterialSound.IsKeyContain(_Key); }
+
 
 	// CollisionEvent 
 	// 캐릭터간 충돌시 상대방의 수치를 바꿔주기위한 상호작용 인터페이스입니다.
@@ -386,6 +393,8 @@ protected:
 
 	int CenterBodyIndex = -1; // FrameEvent에서 사용할 DummyPoly Center Body를 등록해주세요
 	
+	float Reduce_Stamina = 0;
+
 private:
 	static std::unordered_map<Enum_ActorFlag, Enum_ActorFlagBit> FlagIndex; // 플레그를 매핑해놓은 구조체입니다. 에디터와 연계 가능합니다.
 	MaterialSoundStruct MaterialSound;
@@ -414,6 +423,11 @@ public:
 	{
 		return RotDir;
 	}
+	inline Enum_Player_Hit Get_Hit_Type() const
+	{
+		return Hit_Type;
+	}
+
 	
 	float4 GetTargetPos()
 	{
@@ -462,10 +476,11 @@ private:
 	const float RotMinAngle = 5.f;
 	Enum_RotDir RotDir = Enum_RotDir::Not_Rot;
 
+	
 	void CalcuTargetAngle();
 
 protected:
 	JumpTableManager mJumpTableManager;
-
+	Enum_Player_Hit Hit_Type = Enum_Player_Hit::weak;
 };
 

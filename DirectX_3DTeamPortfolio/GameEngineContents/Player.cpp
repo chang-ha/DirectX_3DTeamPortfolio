@@ -377,6 +377,7 @@ void Player::Start()
 
 	Stat.SetHp(100);
 	Stat.SetAtt(20);
+	Stat.SetPoise(100);
 	Stat.SetStamina(100.0f); 
 	Sword.Init(this, Attack_Col.get());
 	
@@ -782,7 +783,7 @@ void Player::Update(float _Delta)
 			
 			
 
-				if (GameEngineInput::IsDown('E', this))
+				if (GameEngineInput::IsDown(VK_LBUTTON, this))
 				{
 					
 					const std::shared_ptr<BaseActor>& pActor = col->GetActor()->GetDynamic_Cast_This<BaseActor>();
@@ -849,7 +850,6 @@ void Player::Update(float _Delta)
 	if (tyu == false)
 	{
 		Sword.CollisionToBody(Enum_CollisionOrder::Monster_Body, 0);
-		//Body_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack, Body_Event);
 	}
 
 	if (tyu == false)
@@ -1371,7 +1371,29 @@ void Player::CameraRotation(float Delta)
 
 bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 {
-	
+	tyu = true;
+
+	Poise_Time = 0;
+
+	if (nullptr == _Para.pAttacker)
+	{
+		MsgBoxAssert("공격자를 모르고 사용할 수 없는 기능입니다.");
+		return false;
+	}
+
+	/*if (true == Hit.IsHit())
+	{
+		return false;
+	}*/
+	BaseActor* pAttacker = _Para.pAttacker;
+
+
+	const int AttackerAtt = pAttacker->GetAtt();
+	const int Stiffness = _Para.iStiffness;
+
+	Stat.AddPoise(-Stiffness);
+	Stat.AddHp(-AttackerAtt);
+
 
 
 	if (Stat.GetPoise() <= 0)
@@ -1449,28 +1471,6 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 
 
 
-	tyu = true; 
-
-	Poise_Time = 0; 
-
-	if (nullptr == _Para.pAttacker)
-	{
-		MsgBoxAssert("공격자를 모르고 사용할 수 없는 기능입니다.");
-		return false;
-	}
-
-	/*if (true == Hit.IsHit())
-	{
-		return false;
-	}*/
-	BaseActor* pAttacker = _Para.pAttacker;
-
-
-	const int AttackerAtt = pAttacker->GetAtt();
-	const int Stiffness = _Para.iStiffness;
-
-	Stat.AddPoise(-Stiffness);
-	Stat.AddHp(-AttackerAtt);
 
 	//Hit.SetHit(true);
 	
@@ -1500,10 +1500,13 @@ bool Player::FrontStabCheck(const float4& _WPos, float _RotY) const
 	return (RangeCheck && DirCheck);
 }
 
-bool Player::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
+bool Player::GetHitToShield(const HitParameter& _Para)
 {
 	tyu = true;
 	Poise_Time = 0;
+
+
+	
 
 
 	if (nullptr == _Para.pAttacker)
@@ -1519,10 +1522,11 @@ bool Player::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 
 	BaseActor* pAttacker = _Para.pAttacker;
 
+	
+
 	// 패링상태
 	if (StateValue == PlayerState::Parrying)
 	{		
-	
 		pAttacker->SetHit(true);
 		pAttacker->SetFlag(Enum_ActorFlag::Break_Posture, true);
 		return true;
@@ -1532,29 +1536,23 @@ bool Player::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 	if (StateValue == PlayerState::Shield_Idle)
 	{
 	
-
-
-
 		const int AttackerAtt = pAttacker->GetAtt();
 		const int Stiffness = _Para.iStiffness;
 
-		Stat.AddPoise(-Stiffness);
-		//Stat.AddStamina(-AttackerAtt);
-		Stat.AddStamina(-20.0f);
+		//Stat.AddStamina();
 
-		if (Stat.GetPoise() > 70)
+		if (pAttacker->Get_Hit_Type() == Enum_Player_Hit::weak)
 		{
 			PlayerStates.ChangeState(PlayerState::Weak_Shield_block);
 		}
-		else if (Stat.GetPoise() > 50)
+		else if (pAttacker->Get_Hit_Type() == Enum_Player_Hit::Middle)
 		{
 			PlayerStates.ChangeState(PlayerState::Middle_Shield_block);
 		}
-		else if (Stat.GetPoise() < 0)
+		else if (pAttacker->Get_Hit_Type() == Enum_Player_Hit::Strong)
 		{
 			PlayerStates.ChangeState(PlayerState::Big_Shield_block);
 		}
-
 		else if (0 >= Stat.GetStamina())
 		{
 			PlayerStates.ChangeState(PlayerState::Big_Shield_block);

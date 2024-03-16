@@ -131,6 +131,12 @@ public:
 	bool GetHit(const HitParameter& _Para);
 	bool GetHitToShield(const HitParameter& _Para);
 
+
+
+	float GetStatmina() const
+	{
+		return Stat.GetStamina();
+	}
 	
 	int GetPotion() const
 	{
