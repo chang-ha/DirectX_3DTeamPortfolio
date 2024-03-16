@@ -112,11 +112,8 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 		MainUI = CreateActor<MainUIActor>(Enum_UpdateOrder::UI);
 		MainUI->CreateBossUI(Boss_Object.get());
-		MainUI->CheckEsteUI(PlayerObject.get());
-		//std::shared_ptr<MonsterHpBar> Test = CreateActor<MonsterHpBar>();
+		MainUI->CreateAndCheckEsteUI(PlayerObject.get());
 	}
-
-	
 
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 1, 1, 1, 1 });
 

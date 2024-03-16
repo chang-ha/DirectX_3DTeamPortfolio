@@ -29,6 +29,9 @@ protected:
 	void Release() override;
 
 private:
+	// 플레이어에게서 받아올 값
+	Player* MaxEsteCheck = nullptr;
+
 	std::map<Enum_EquipType, class UIEquipFrame*> EquipMent;
 
 	UIEquipFrame* MagicFrame = nullptr;
@@ -49,10 +52,8 @@ private:
 	int MaxEsteCount = 0; // 5;
 	int CurEsteCount = 5;
 	double StandardEste = 0;
-	std::string CurEste = "";
 
+	// EquipFrame 중심 위치값
 	float4 FixPos = 0.0f;
-
-	Player* MaxEsteCheck = nullptr;
 };
 

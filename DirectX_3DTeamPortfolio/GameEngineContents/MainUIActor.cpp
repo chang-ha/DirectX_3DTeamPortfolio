@@ -72,16 +72,9 @@ void MainUIActor::Start()
 		PlayerIcon->Transform.SetLocalPosition({ -WindowScale.X + 60.0f, 400.0f });
 	}
 
-
-	/*{
-		GetLevel()->CreateActor<BossHpBar>();
-	}*/
-
 	GameEngineInput::AddInputObject(this);
 
 	GetLevel()->CreateActor<UIPlayerGaugeBar>();
-	
-	//GetLevel()->CreateActor<UIPlayerEquip>();
 
 	GetLevel()->CreateActor<AddSouls>();
 
@@ -113,11 +106,9 @@ void MainUIActor::CreateBossUI(Boss_Vordt* _pBoss)
 	BossHpObject = GetLevel()->CreateActor<BossHpBar>(Enum_UpdateOrder::UI);
 
 	BossHpObject->SetParent(_pBoss);
-	BossHpObject.get();
-
 }
 
-void MainUIActor::CheckEsteUI(Player* _pPlayer)
+void MainUIActor::CreateAndCheckEsteUI(Player* _pPlayer)
 {
 	EsteUI = GetLevel()->CreateActor<UIPlayerEquip>(Enum_UpdateOrder::UI);
 
