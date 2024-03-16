@@ -39,6 +39,7 @@ void Mesh_PS_Update(inout PixelOutPut _Input, inout DeferrdOut _Result)
     Color.w = 1.0f;
     
     _Result.DifColor = Color;
+    _Result.DifColor.xyz *= DiffuseTexMult;
     _Result.PosColor = _Input.VIEWPOSITION;
    // _Result.WorldPosColor = _Input.WorldPOSITION;
     

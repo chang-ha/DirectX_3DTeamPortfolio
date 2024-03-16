@@ -227,7 +227,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
             
             
             
-                    if (fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.00001f))
+                    if (fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.000001f))
                     {
             
                         shadow += 1.0f;
@@ -249,7 +249,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
             {
                 float fShadowDepth = ShadowTex.Sample(LINEARClamp, ShadowUV + offsets[i]).r;     
             if (
-                fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.00001f)
+                fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.000001f)
              )
                 {
                     if (LightProjection.z - fShadowDepth < DynamicShadowDistance || StaticShadow < 0.3f)
