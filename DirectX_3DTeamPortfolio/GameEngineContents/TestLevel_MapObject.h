@@ -45,6 +45,7 @@ private:
 	std::shared_ptr<class Object_Ladder5> Ladder5;
 	std::shared_ptr<class Object_Ladder6> Ladder6;
 	std::shared_ptr<class Object_Desk> Desk;
+	std::shared_ptr<class Player> PlayerA;
 
 
 	void CreateObject();
