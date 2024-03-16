@@ -298,10 +298,13 @@ public:
 	inline int* GetFlagPointer() { return &Flags; }
 	inline class GameEnginePhysXCapsule* GetPhysxCapsulePointer() { return Capsule.get(); }
 	inline int GetHp() const { return Stat.GetHp(); }
+	inline int GetStamina() const { return Stat.GetStamina(); }
 	inline int GetAtt() const { return Stat.GetAtt(); }
 	inline void Damage(int _Damage) { Stat.AddHp(-_Damage); }
 	inline int GetPoise() const { return Stat.GetPoise(); }
 	inline void SetHit(bool _Value) { Hit.SetHit(_Value); }
+
+
 	inline int GetCenterDPIndex() const { return CenterBodyIndex; }
 	std::string_view GetMaterialSoundName(int _Index) { return MaterialSound.GetSound(_Index); }
 	std::vector<int> GetMaterialSoundKeys() { return MaterialSound.GetKeys(); }

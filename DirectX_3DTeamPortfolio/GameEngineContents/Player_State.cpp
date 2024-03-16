@@ -1555,7 +1555,12 @@ void Player::Player_State()
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
 				
-				
+				if (Rock_On_Check == true)
+				{
+					Capsule->SetWorldRotation({ 0.0f,degree_X });
+					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+				}
+
 				
 
 				if (true == GameEngineInput::IsUp(VK_RBUTTON, this))
@@ -1617,7 +1622,12 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				
+
+				if (Rock_On_Check == true)
+				{
+					Capsule->SetWorldRotation({ 0.0f,degree_X });
+					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+				}
 
 				if (MainRenderer->GetCurAnimationFrame() < 14)
 				{

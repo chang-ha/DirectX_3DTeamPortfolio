@@ -375,10 +375,10 @@ void Player::Start()
 		//Parring_Attack_Col->Off();
 	}
 
-	Stat.SetHp(100);
+	Stat.SetHp(400);
 	Stat.SetAtt(20);
 	Stat.SetPoise(100);
-	Stat.SetStamina(100.0f); 
+	Stat.SetStamina(300.0f); 
 	Sword.Init(this, Attack_Col.get());
 	
 	MainRenderer->AddNotBlendBoneIndex(53);
