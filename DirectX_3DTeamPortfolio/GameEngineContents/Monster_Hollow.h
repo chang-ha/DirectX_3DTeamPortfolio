@@ -76,6 +76,7 @@ protected:
 	void CreateAnimation();
 	void SettingRootMotion();
 	void SettingSoundFrameEvent();
+	void SoundLoad();
 
 private:
 
