@@ -2,6 +2,8 @@
 #include "UIUnit.h"
 #include "PlayerValue.h"
 
+#include "Player.h"
+
 UIUnit::UIUnit()
 {
 
@@ -31,12 +33,17 @@ void UIUnit::Start()
 	LBarScale = L_Bar->GetSprite()->GetSpriteData(0).Texture->GetScale();
 }
 
+void UIUnit::SetParent(Player* _PlayerObject)
+{
+	pPlayer = _PlayerObject;
+}
+
 void UIUnit::Update(float _Delta)
 {
 	float PlayerGaugeValue = 0.0f;
 	if (Type == Enum_BarType::Hp)
 	{
-		PlayerGaugeValue = PlayerValue::GetValue()->GetHp();
+		PlayerGaugeValue = static_cast<float>(pPlayer->GetHp());
 	}
 	if (Type == Enum_BarType::Mp)
 	{
@@ -44,7 +51,7 @@ void UIUnit::Update(float _Delta)
 	}
 	if (Type == Enum_BarType::Stamina)
 	{
-		PlayerGaugeValue = PlayerValue::GetValue()->GetStamina();
+		PlayerGaugeValue = static_cast<float>(pPlayer->GetStamina());
 	}
 
 	if (PlayerGaugeValue == RenderGauge)
@@ -156,9 +163,4 @@ void UIUnit::SetGauge(float _Value)
 
 	GaugeBar->AutoSpriteSizeOn();
 	GaugeBar->SetAutoScaleRatio(float4(RenderGaugeRatio, 1.0f));
-}
-
-void UIUnit::Reset()
-{
-
 }

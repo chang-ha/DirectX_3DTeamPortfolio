@@ -55,6 +55,10 @@ private:
 	std::shared_ptr<class Object_Ladder6> Ladder6;
 	std::shared_ptr<class Object_Desk> Desk;
 
+	std::shared_ptr<class Object_FogWall> FogWall = nullptr;
+
+	std::shared_ptr<class MainUIActor> MainUI;
+
 	void SetAllMonster();
 	void AllMonsterOn();
 	void AllMonsterOff();

@@ -25,6 +25,7 @@
     <FxCompile Include="BloomBright.fx" />
     <FxCompile Include="ContentsAnimationMesh.fx" />
     <FxCompile Include="ContentsDeferredLightRenderer.fx" />
+    <FxCompile Include="ContentsFogWallMesh.fx" />
     <FxCompile Include="ContentsStaticAlphaMesh.fx" />
     <FxCompile Include="ContentsStaticMesh.fx" />
     <FxCompile Include="ContentsStaticMesh_NorX_SpcX.fx" />

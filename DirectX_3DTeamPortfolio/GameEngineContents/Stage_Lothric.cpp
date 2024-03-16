@@ -10,6 +10,7 @@
 #include "Monster_HollowSoldier.h"
 #include "Monster_LothricKn.h"
 #include "LUTEffect.h"
+#include "Object_FogWall.h"
 
 #include "Monster_LothricKn.h"
 
@@ -38,6 +39,9 @@
 #include "Object_CandleHuman.h"
 #include "Object_Torchlight.h"
 #include "Object_CandleHuman2.h"
+
+//UI
+#include "MainUIActor.h"
 
 Stage_Lothric::Stage_Lothric()
 {
@@ -158,6 +162,12 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
 	}
 
+	{
+		FogWall = CreateActor< Object_FogWall>();
+		FogWall->Transform.SetWorldPosition({ -3125, -2100.f, 7070.f });
+		FogWall->Transform.SetWorldRotation({ 0.f,152.f });
+	}
+
 	CreateObject();
 
 	{
@@ -181,6 +191,28 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		CoreWindow->AddDebugRenderTarget(4, "DeferredTarget", GetMainCamera()->GetCameraDeferredTarget());
 		//CoreWindow->AddDebugRenderTarget(5, "LightTarget", Light->GetShadowTarget());
 		//CoreWindow->AddDebugRenderTarget(3, "HBAO", GetMainCamera()->GetCameraHBAOTarget());
+	}
+
+	{
+		if (nullptr == GameEngineSprite::Find("Dark.png"))
+		{
+			GameEngineDirectory Dir;
+			Dir.MoveParentToExistsChild("ContentsResources");
+			Dir.MoveChild("ContentsResources");
+			Dir.MoveChild("UITexture");
+			std::vector<GameEngineFile> Files = Dir.GetAllFile();
+			for (GameEngineFile& pFiles : Files)
+			{
+				GameEngineTexture::Load(pFiles.GetStringPath());
+				GameEngineSprite::CreateSingle(pFiles.GetFileName());
+			}
+		}
+
+
+		MainUI = CreateActor<MainUIActor>(Enum_UpdateOrder::UI);
+		MainUI->CreateBossUI(Boss_Object.get());
+		MainUI->CreateAndCheckEsteUI(Player_Object.get());
+		MainUI->CreateAndCheckPlayerGaugeBar(Player_Object.get());
 	}
 }
 

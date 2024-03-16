@@ -2,8 +2,11 @@
 #include "UIPlayerGaugeBar.h"
 #include "PlayerValue.h"
 
+#include "Player.h"
+
 UIPlayerGaugeBar::UIPlayerGaugeBar()
 {
+	GameEngineInput::AddInputObject(this);
 }
 
 UIPlayerGaugeBar::~UIPlayerGaugeBar()
@@ -16,16 +19,29 @@ UIPlayerGaugeBar::~UIPlayerGaugeBar()
 
 void UIPlayerGaugeBar::Start()
 {
-	float MaxHp = PlayerValue::GetValue()->GetMaxHp();
-	float MaxMp = PlayerValue::GetValue()->GetMaxMp();
-	float MaxStamina = PlayerValue::GetValue()->GetMaxStamina();
 
+}
 
-	HpBar = CreateBarActor(Enum_BarType::Hp, MaxHp);
-	MpBar = CreateBarActor(Enum_BarType::Mp, MaxMp);
-	StaminaBar = CreateBarActor(Enum_BarType::Stamina, MaxStamina);
-	
-	GameEngineInput::AddInputObject(this);
+void UIPlayerGaugeBar::Init(Player* _PlayerObject)
+{
+	if (nullptr == _PlayerObject)
+	{
+		MsgBoxAssert("존재하지 않는 플레이어 주소입니다.");
+		return;
+	}
+
+	pPlayer = _PlayerObject;
+
+	const float MaxHp = static_cast<float>(pPlayer->Get_Max_Hp());
+	const float MaxMp = PlayerValue::GetValue()->GetMaxMp();
+	const float MaxStamina = static_cast<float>(pPlayer->Get_Max_Stamina());
+
+	HpBar = CreateBarActor(Enum_BarType::Hp, MaxHp, pPlayer);
+	MpBar = CreateBarActor(Enum_BarType::Mp, MaxMp, pPlayer);
+	StaminaBar = CreateBarActor(Enum_BarType::Stamina, MaxStamina, pPlayer);
+
+	// 확인용
+	// float Hp = PlayerObject->Main_Player->GetHp();
 }
 
 void UIPlayerGaugeBar::Update(float _Delta)
@@ -53,9 +69,10 @@ void UIPlayerGaugeBar::Release()
 
 #define BarGap 16.0f
 
-UIUnit* UIPlayerGaugeBar::CreateBarActor(Enum_BarType _Type, float _TotalSize)
+UIUnit* UIPlayerGaugeBar::CreateBarActor(Enum_BarType _Type, float _TotalSize, Player* _PlayerObject)
 {
-	std::shared_ptr<UIUnit> UIBarUnit = GetLevel()->CreateActor<UIUnit>();
+	std::shared_ptr<UIUnit> UIBarUnit = GetLevel()->CreateActor<UIUnit>(Enum_UpdateOrder::UI);
+	UIBarUnit->SetParent(_PlayerObject);
 
 	UIUnit* pBars = UIBarUnit.get();
 
@@ -63,10 +80,11 @@ UIUnit* UIPlayerGaugeBar::CreateBarActor(Enum_BarType _Type, float _TotalSize)
 	size_t GaugeBarSize = GaugeBars.size();
 
 	// Pos
-	float4 WindowScale = GameEngineCore::MainWindow.GetScale().Half();
+	const float4 HScale = GameEngineCore::MainWindow.GetScale().Half();
+	const float4 BarOrder_StartPos = float4(0.0f, -BarGap * static_cast<float>(GaugeBarSize - 1));
+	const float4 BarPos = First_Bar_Pos - HScale.X + BarOrder_StartPos;
 
-	float4 Pos = First_Bar_Pos -WindowScale.X + float4(0.0f, - BarGap * (GaugeBarSize - 1));
-	UIBarUnit->Transform.SetWorldPosition(Pos);
+	UIBarUnit->Transform.SetWorldPosition(BarPos);
 	UIBarUnit->SetBarType(_Type);
 	UIBarUnit->SetBarSprite(_Type);
 	UIBarUnit->SetTotalGauge(_TotalSize);

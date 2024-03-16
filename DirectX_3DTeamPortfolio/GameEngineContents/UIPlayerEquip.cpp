@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "UIPlayerEquip.h"
 
+#include "Player.h"
+
 UIPlayerEquip::UIPlayerEquip()
 {
 }
@@ -54,13 +56,13 @@ void UIPlayerEquip::Start()
 		float EstePosY =  Este->GetSprite()->GetSpriteData(0).GetScale().hY();
 
 		EsteFont = CreateComponent<GameEngineUIRenderer>();
-		EsteFont->SetText(GlobalValue::OptimusFont, "에스트 병", 14.0f, float4{ 1, 1, 1, 1, }, FW1_CENTER);
+		EsteFont->SetText(GlobalValue::OptimusFont, "에스트 병", 18.0f, float4{ 1, 1, 1, 1, }, FW1_CENTER);
 		EsteFont->On();
 		EsteFont->Transform.SetLocalPosition({ EsteFrame->Transform.GetWorldPosition().X,
 			EsteFrame->Transform.GetWorldPosition().Y - EstePosY * ImgaeRatio });
 
 		EsteCount = CreateComponent<GameEngineUIRenderer>();
-		EsteCount->SetText(GlobalValue::OptimusFont, std::to_string(CurEsteCount), 15.0f, float4{1, 1, 1, 1,}, FW1_CENTER);
+		EsteCount->SetText(GlobalValue::OptimusFont, std::to_string(CurEsteCount), 20.0f, float4{1, 1, 1, 1,}, FW1_CENTER);
 		EsteCount->On();
 		EsteCount->Transform.SetLocalPosition({ EsteFrame->Transform.GetWorldPosition().X + 30.0f,
 			EsteFrame->Transform.GetWorldPosition().Y - 30.0f });
@@ -70,6 +72,13 @@ void UIPlayerEquip::Start()
 	}
 
 	GameEngineInput::AddInputObject(this);
+}
+
+void UIPlayerEquip::SetParent(Player* _Object)
+{
+	MaxEsteCheck = _Object;
+	MaxEsteCount = MaxEsteCheck->Main_Player->GetPotion();
+
 }
 
 void UIPlayerEquip::Update(float _Delta)
@@ -85,7 +94,7 @@ void UIPlayerEquip::Update(float _Delta)
 		CurEsteCount--;
 	}
 
-	EsteCount->SetText(GlobalValue::OptimusFont, std::to_string(CurEsteCount), 15.0f, float4{ 1, 1, 1, 1, }, FW1_CENTER);
+	EsteCount->SetText(GlobalValue::OptimusFont, std::to_string(CurEsteCount), 20.0f, float4{ 1, 1, 1, 1, }, FW1_CENTER);
 	ChangeEsteImage();
 }
 

@@ -2,6 +2,8 @@
 #include "BossHpBar.h"
 #include <algorithm>
 
+#include "Boss_Vordt.h"
+
 BossHpBar::BossHpBar()
 {
 
@@ -12,46 +14,48 @@ BossHpBar::~BossHpBar()
 
 }
 
-#define BossHpBarPos {45.0f, -250.0f}
-#define BossHpPos {-300.0f, -250.0f}
-#define DamagePos {390.0f, -210.0f}
+#define BossHpPos {-400.0f, -230.0f}
+#define DamagePos {390.0f, -200.0f}
 
-#define ImageXScale 690.0f
-#define BackBarYScale 17.0f
-#define HpBarScale 11.0f
+#define ImageXScale 800.0f
+#define BackBarYScale 18.0f
+#define HpBarYScale 11.0f
+
+#define DamageFontScale 18.0f
 
 void BossHpBar::Start()
 {
-	Boss_HpBar = CreateComponent<GameEngineUIRenderer>();
-	Boss_HpBar->SetSprite("BossBar.Png");
-	Boss_HpBar->SetImageScale({ ImageXScale, BackBarYScale });
-	Boss_HpBar->Transform.SetLocalPosition(BossHpBarPos);
+	Boss_HpBackBar = CreateComponent<GameEngineUIRenderer>();
+	Boss_HpBackBar->SetSprite("BossBar.Png");
+	Boss_HpBackBar->SetImageScale({ ImageXScale, BackBarYScale });
+	Boss_HpBackBar->Transform.SetLocalPosition(BossHpPos);
+	Boss_HpBackBar->SetPivotType(PivotType::Left);
 
 	Boss_DamageBar = CreateComponent<GameEngineUIRenderer>();
 	Boss_DamageBar->SetSprite("DamageBar.Png");
 	Boss_DamageBar->AutoSpriteSizeOff();
-	Boss_DamageBar->SetImageScale({ ImageXScale, HpBarScale });
+	Boss_DamageBar->SetImageScale({ ImageXScale, HpBarYScale });
 	Boss_DamageBar->Transform.SetLocalPosition(BossHpPos);
 	Boss_DamageBar->SetPivotType(PivotType::Left);
 
-	Boss_Hp = CreateComponent<GameEngineUIRenderer>();
-	Boss_Hp->SetSprite("BossHp.Png");
-	Boss_Hp->AutoSpriteSizeOff();
-	Boss_Hp->SetImageScale({ (BossCurHp / BossHp) * ImageXScale, HpBarScale });
-	Boss_Hp->SetPivotType(PivotType::Left);
-	Boss_Hp->Transform.SetLocalPosition(BossHpPos);
+	Boss_HpBar = CreateComponent<GameEngineUIRenderer>();
+	Boss_HpBar->SetSprite("BossHp.Png");
+	Boss_HpBar->AutoSpriteSizeOff();
+	//Boss_HpBar->SetImageScale({ (BossCurHp / BossHp) * ImageXScale, HpBarYScale });
+	Boss_HpBar->SetPivotType(PivotType::Left);
+	Boss_HpBar->Transform.SetLocalPosition(BossHpPos);
 
 	// GetBossName();
 	Boss_Name = CreateComponent<GameEngineUIRenderer>();
-	Boss_Name->SetText(GlobalValue::OptimusFont, "차가운 골짜기의 볼드", 14.0f, float4{ 1,1,1,1 }, FW1_LEFT);
+	Boss_Name->SetText(GlobalValue::OptimusFont, "차가운 골짜기의 볼드", 20.0f, float4{ 1,1,1,1 }, FW1_LEFT);
 	//Boss_Name->Off();
-	Boss_Name->Transform.SetLocalPosition({ Boss_Hp->Transform.GetLocalPosition().X + 5.0f,
-	Boss_Hp->Transform.GetLocalPosition().Y + 40.0f });
+	Boss_Name->Transform.SetLocalPosition({ Boss_HpBar->Transform.GetLocalPosition().X + 5.0f,
+	Boss_HpBar->Transform.GetLocalPosition().Y + 40.0f });
 	
 	BossPrevHp = BossCurHp;
 	{
 		BossDamageFont = CreateComponent<GameEngineUIRenderer>();
-		BossDamageFont->SetText(GlobalValue::OptimusFont, "0", 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
+		BossDamageFont->SetText(GlobalValue::OptimusFont, "0", DamageFontScale, float4{ 1,1,1,1 }, FW1_RIGHT);
 		BossDamageFont->Transform.SetLocalPosition(DamagePos);
 		BossDamageFont->Off();
 	}
@@ -73,7 +77,7 @@ void BossHpBar::Update(float _Delta)
 	}
 	if (GameEngineInput::IsDown('6', this))
 	{
-		ChangeState(BossHpActor::Appear);
+		ChangeState(eHpState::Appear);
 	}
 	if (GameEngineInput::IsDown('7', this))
 	{
@@ -90,13 +94,28 @@ void BossHpBar::Update(float _Delta)
 		BossCurHp -= Damage;
 
 		BossDamageFont->On();
-		BossDamageFont->SetText(GlobalValue::OptimusFont, std::to_string(Damage), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
+		BossDamageFont->SetText(GlobalValue::OptimusFont, std::to_string(Damage), DamageFontScale, float4{ 1,1,1,1 }, FW1_RIGHT);
 
 		Dam = true;
 	}
+
 	BossHpBarUpdate();
 
+	// 보스 상태? 어웨이크 되면 UI 뜨게하려고?
+	//Boss_Object->Get
+
 	StateUpdate(_Delta);
+	int a = 0;
+}
+
+void BossHpBar::SetParent(class Boss_Vordt* _Object)
+{ 
+	Boss_Object = _Object;
+
+	BossHp = static_cast<float>(Boss_Object->GetHp());
+	BossCurHp = BossHp;
+
+	Boss_HpBar->SetImageScale({ (BossCurHp / BossHp) * ImageXScale, HpBarYScale });
 }
 
 void BossHpBar::BossHpBarUpdate()
@@ -104,16 +123,16 @@ void BossHpBar::BossHpBarUpdate()
 	if (BossCurHp <= 0.0f)
 	{
 		Boss_DamageBar->Transform.SetLocalPosition({
-		Boss_Hp->Transform.GetLocalPosition().X, Boss_Hp->Transform.GetLocalPosition().Y });
-		Boss_Hp->SetImageScale({ (0.0f / BossHp) * ImageXScale, HpBarScale });
+		Boss_HpBar->Transform.GetLocalPosition().X, Boss_HpBar->Transform.GetLocalPosition().Y });
+		Boss_HpBar->SetImageScale({ (0.0f / BossHp) * ImageXScale, HpBarYScale });
 		return;
 	}
 
 	if (BossCurHp > 0.0f)
 	{
 		Boss_DamageBar->Transform.SetLocalPosition({
-		Boss_Hp->Transform.GetLocalPosition().X, Boss_Hp->Transform.GetLocalPosition().Y });
-		Boss_Hp->SetImageScale({ (BossCurHp / BossHp) * ImageXScale, HpBarScale });
+		Boss_HpBar->Transform.GetLocalPosition().X, Boss_HpBar->Transform.GetLocalPosition().Y });
+		Boss_HpBar->SetImageScale({ (BossCurHp / BossHp) * ImageXScale, HpBarYScale });
 	}
 }
 
@@ -121,43 +140,47 @@ void BossHpBar::DamageCal()
 {
 	if (BossCurHp <= 0.0f)
 	{
-		Boss_DamageBar->SetImageScale({ (0.0f / BossHp) * ImageXScale, HpBarScale });
+		Boss_DamageBar->SetImageScale({ (0.0f / BossHp) * ImageXScale, HpBarYScale });
 		return;
 	}
 
 	if (BossCurHp > 0.0f)
 	{
-		Boss_DamageBar->SetImageScale({ (BossCurHp / BossHp) * ImageXScale, HpBarScale });
+		Boss_DamageBar->SetImageScale({ (BossCurHp / BossHp) * ImageXScale, HpBarYScale });
 	}
 }
 
 void BossHpBar::Release()
 {
-	Death();
+	Boss_HpBackBar = nullptr;
+	Boss_DamageBar = nullptr;
+	Boss_HpBar = nullptr;
+	Boss_Name = nullptr;
+	BossDamageFont = nullptr;
 }
 
-void BossHpBar::ChangeState(BossHpActor _State)
+void BossHpBar::ChangeState(eHpState _State)
 {
 	if (_State != BHpActor)
 	{
 		switch (_State)
 		{
-		case BossHpActor::Off:
+		case eHpState::Off:
 			OffStart();
 			break;
-		case BossHpActor::Appear:
+		case eHpState::Appear:
 			AppearStart();
 			break;
-		case BossHpActor::Add:
+		case eHpState::Add:
 			AddStart();
 			break;
-		case BossHpActor::None:
+		case eHpState::None:
 		default:
 			MsgBoxAssert("없는 상태로 BossHpBar의 상태를 바꾸려 했습니다.");
 			break;
 		}
 	}
-
+	
 	BHpActor = _State;
 }
 
@@ -165,13 +188,13 @@ void BossHpBar::StateUpdate(float _Delta)
 {
 	switch (BHpActor)
 	{
-	case BossHpActor::Off:
+	case eHpState::Off:
 		return OffUpdate(_Delta);
-	case BossHpActor::Appear:
+	case eHpState::Appear:
 		return AppearUpdate(_Delta);
-	case BossHpActor::Add:
+	case eHpState::Add:
 		return AddUpdate(_Delta);
-	case BossHpActor::None:
+	case eHpState::None:
 	default:
 		break;
 	}
@@ -194,7 +217,7 @@ void BossHpBar::OffUpdate(float _Delta)
 		return;
 	}
 
-	ChangeState(BossHpActor::Appear);
+	ChangeState(eHpState::Appear);
 }
 
 void BossHpBar::AppearStart()
@@ -214,13 +237,13 @@ void BossHpBar::AppearStart()
 
 void BossHpBar::AppearUpdate(float _Delta)
 {
-	BossDamageFont->SetText(GlobalValue::OptimusFont, std::to_string(Damage), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
+	BossDamageFont->SetText(GlobalValue::OptimusFont, std::to_string(Damage), DamageFontScale, float4{ 1,1,1,1 }, FW1_RIGHT);
 
 	if (Dam == true)
 	{
 		if (BossCurHp != BossPrevHp)
 		{
-			ChangeState(BossHpActor::Add);
+			ChangeState(eHpState::Add);
 			return;
 		}
 
@@ -231,7 +254,7 @@ void BossHpBar::AppearUpdate(float _Delta)
 				DamageCal();
 				Dam = false;
 				CurTime = 0;
-				ChangeState(BossHpActor::Off);
+				ChangeState(eHpState::Off);
 				return;
 			}
 		}
@@ -248,7 +271,7 @@ void BossHpBar::AddStart()
 
 void BossHpBar::AddUpdate(float _Delta)
 {
-	BossDamageFont->SetText(GlobalValue::OptimusFont, std::to_string(SumDam), 14.0f, float4{ 1,1,1,1 }, FW1_RIGHT);
+	BossDamageFont->SetText(GlobalValue::OptimusFont, std::to_string(SumDam), DamageFontScale, float4{ 1,1,1,1 }, FW1_RIGHT);
 	CurTime += _Delta;
 	{
 		if (CurTime >= Time)
@@ -257,7 +280,7 @@ void BossHpBar::AddUpdate(float _Delta)
 			DamageCal();
 			Dam = false;
 			CurTime = 0;
-			ChangeState(BossHpActor::Off);
+			ChangeState(eHpState::Off);
 			return;
 		}
 	}

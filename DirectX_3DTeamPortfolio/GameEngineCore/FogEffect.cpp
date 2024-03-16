@@ -22,19 +22,19 @@ void FogEffect::Init(std::shared_ptr<GameEngineCamera> _Camera)
 
 void FogEffect::Load()
 {
-	/*GameEngineDirectory Dir;
+	GameEngineDirectory Dir;
 	Dir.MoveParentToExistsChild("ContentsResources");
 	Dir.MoveChild("ContentsResources");
 	Dir.MoveChild("Effect");
 	Dir.MoveChild("Fog");
-	std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".png" }, true);
+	std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".png" , ".dds"}, true);
 
 	for (size_t i = 0; i < Files.size(); i++)
 	{
 		std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Load(Files[i].GetStringPath());
 
 		
-	}*/
+	}
 }
 
 

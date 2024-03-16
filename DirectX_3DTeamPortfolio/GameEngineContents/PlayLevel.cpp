@@ -79,8 +79,8 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 		GameMap2->Transform.SetWorldPosition({ 0.0f,000.0f,-2000.3f });*/
 		
-		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
-		GameMap->SetTargeting(Object.get());
+		PlayerObject = CreateActor<Player>(0, "Player");
+		GameMap->SetTargeting(PlayerObject.get());
 		
 		
 
@@ -91,7 +91,8 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 		
 	}
 	
-	
+	Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
+	Boss_Object->Transform.SetWorldPosition({ 0.0f,000.0f,-1000.3f });
 
 	{
 		if (nullptr == GameEngineSprite::Find("Dark.png"))
@@ -109,12 +110,11 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 		}
 
 
-		MainUI = CreateActor<MainUIActor>();
-
-		//std::shared_ptr<MonsterHpBar> Test = CreateActor<MonsterHpBar>();
+		MainUI = CreateActor<MainUIActor>(Enum_UpdateOrder::UI);
+		MainUI->CreateBossUI(Boss_Object.get());
+		MainUI->CreateAndCheckEsteUI(PlayerObject.get());
+		MainUI->CreateAndCheckPlayerGaugeBar(PlayerObject.get());
 	}
-
-	
 
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 1, 1, 1, 1 });
 

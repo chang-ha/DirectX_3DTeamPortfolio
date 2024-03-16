@@ -39,6 +39,8 @@ protected:
 	void AddUpdate(float _Delta);
 	void SumUpdate(float _Delta);
 
+	void FontUpdate();
+
 private:
 	float4 WindowScale = float4::ZERO;
 	std::shared_ptr<GameEngineUIRenderer> SoulsBack;
@@ -50,8 +52,9 @@ private:
 	int Souls = 0;
 	int SoulAdd = 0;
 
-	float CurTime = 0.0f;
-	float LimitTime = 1.0f;
+	float FontTime = 0.0f;
+	float FontSizeTime = 0.3f;
+	float FontSize = 14.0f;
 
 	SoulsActor SoulState = SoulsActor::None;
 };

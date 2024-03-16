@@ -48,7 +48,6 @@ void ContentsFireRenderer::Start()
 
 	Unit->Camerapushback(DefalutRenderPathValue);
 
-	Unit->ShaderResHelper.SetConstantBufferLink("FireInfo", FireInfoValue);
 
 
 	Unit->ShaderResHelper.SetTexture("DiffuseTexture", GameEngineTexture::Find("fire02.png"));
