@@ -899,6 +899,7 @@ void Player::Update(float _Delta)
 	if (StateValue != PlayerState::StaminaCheck)
 	{
 		if (Stat.GetStamina() < 100)
+
 		{
 			Stat.AddStamina(_Delta * 10);
 		}
@@ -1230,7 +1231,7 @@ void Player::CameraRotation(float Delta)
 
 		if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
 		{
-			Capsule->AddWorldRotation({ 0.0f,-Lerp.X * 20,0.0f });
+			Capsule->AddWorldRotation({ 0.0f,-Lerp.X * 10,0.0f });
 
 		}
 	}
@@ -1249,7 +1250,7 @@ void Player::CameraRotation(float Delta)
 
 		if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
 		{
-			Capsule->AddWorldRotation({ 0.0f, Lerp.X * 20, 0.0f });
+			Capsule->AddWorldRotation({ 0.0f, Lerp.X * 10, 0.0f });
 		}
 	}
 
