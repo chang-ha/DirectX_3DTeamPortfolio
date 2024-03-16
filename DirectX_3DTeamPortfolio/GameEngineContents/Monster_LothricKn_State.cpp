@@ -2450,11 +2450,13 @@ void Monster_LothricKn::EndSleep(GameEngineState* _State)
 
 void Monster_LothricKn::End_Idle_Standing(GameEngineState* _State)
 {
+	OnWeaponMask();
 	SetCombatMode(eCombatState::Normal);
 }
 
 void Monster_LothricKn::End_Idle_Sit(GameEngineState* _State)
 {
+	OnWeaponMask();
 	SetCombatMode(eCombatState::Normal);
 }
 

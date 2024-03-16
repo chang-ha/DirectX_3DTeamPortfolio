@@ -274,7 +274,7 @@ void Monster_LothricKn::Start()
 	MainRenderer->SetRootMotion("F_Stab_Death");
 
 	// Default 5000.0f 
-	const float RootMoveRatio = W_SCALE * 0.033f;
+	const float RootMoveRatio = W_SCALE * 0.01f; 
 	MainRenderer->SetAllRootMotionMoveRatio(RootMoveRatio, RootMoveRatio, RootMoveRatio);
 
 	// DummyData
