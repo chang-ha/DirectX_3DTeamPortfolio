@@ -19,7 +19,8 @@ void Object_Table::Start()
 	Transform.SetWorldScale({ 100, 100 , 100 });
 
 	Box = CreateComponent<GameEnginePhysXBox>();
-	Box->PhysXComponentInit(50, 50,140);
+	Box->PhysXComponentInit(50, 50, 140);
+	Box->SetFiltering(Enum_CollisionOrder::Map);
 }
 
 void Object_Table::Update(float _Delta)
