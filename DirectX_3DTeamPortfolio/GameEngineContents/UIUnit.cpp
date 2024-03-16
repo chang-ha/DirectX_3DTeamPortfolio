@@ -35,8 +35,7 @@ void UIUnit::Start()
 
 void UIUnit::SetParent(Player* _PlayerObject)
 {
-	PlayerObject = _PlayerObject;
-	Hp = PlayerObject->Main_Player->GetHp();
+	pPlayer = _PlayerObject;
 }
 
 void UIUnit::Update(float _Delta)
@@ -44,9 +43,7 @@ void UIUnit::Update(float _Delta)
 	float PlayerGaugeValue = 0.0f;
 	if (Type == Enum_BarType::Hp)
 	{
-		//PlayerGaugeValue = PlayerValue::GetValue()->GetHp();
-
-		PlayerGaugeValue = Hp;
+		PlayerGaugeValue = static_cast<float>(pPlayer->GetHp());
 	}
 	if (Type == Enum_BarType::Mp)
 	{
@@ -166,9 +163,4 @@ void UIUnit::SetGauge(float _Value)
 
 	GaugeBar->AutoSpriteSizeOn();
 	GaugeBar->SetAutoScaleRatio(float4(RenderGaugeRatio, 1.0f));
-}
-
-void UIUnit::Reset()
-{
-
 }

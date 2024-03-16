@@ -79,8 +79,8 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 		GameMap2->Transform.SetWorldPosition({ 0.0f,000.0f,-2000.3f });*/
 		
-		std::shared_ptr<Player> Object = CreateActor<Player>(0, "Player");
-		GameMap->SetTargeting(Object.get());
+		PlayerObject = CreateActor<Player>(0, "Player");
+		GameMap->SetTargeting(PlayerObject.get());
 		
 		
 

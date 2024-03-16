@@ -117,6 +117,12 @@ void MainUIActor::CreateAndCheckEsteUI(Player* _pPlayer)
 
 void MainUIActor::CreateAndCheckPlayerGaugeBar(Player* _pPlayer)
 {
+	if (nullptr == _pPlayer)
+	{
+		MsgBoxAssert("플레이어 포인터를 사용하고 있습니다.");
+		return;
+	}
+
 	PlayerGaugeBar = GetLevel()->CreateActor<UIPlayerGaugeBar>();
-	PlayerGaugeBar->SetParent(_pPlayer);
+	PlayerGaugeBar->Init(_pPlayer);
 }
