@@ -37,5 +37,6 @@ private:
 
 	std::shared_ptr<class Boss_Vordt> Boss_Object = nullptr;
 	std::shared_ptr<class MainUIActor> MainUI;
+	std::shared_ptr<class UIActor> ActorUI;
 };
 

@@ -16,10 +16,10 @@ public:
 	MainUIActor& operator = (MainUIActor&& _Other) noexcept = delete;
 
 	void CreateBossUI(class Boss_Vordt* _pBoss);
-
 	void CreateAndCheckEsteUI(class Player* _pPlayer);
-
 	void CreateAndCheckPlayerGaugeBar(class Player* _pPlayer);
+
+	void AllUIActorReset();
 
 protected:
 	void Start() override;
@@ -29,7 +29,7 @@ protected:
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 private:
-	std::shared_ptr<class BossHpBar> BossHpObject = nullptr;
+	std::shared_ptr<class NewBossUI> BossHpObject = nullptr;
 	std::shared_ptr<class UIPlayerEquip> EsteUI = nullptr;
 	std::shared_ptr<class UIPlayerGaugeBar> PlayerGaugeBar = nullptr;
 

@@ -100,9 +100,6 @@
     <ClCompile Include="Player_State.cpp">
       <Filter>Actor\Player</Filter>
     </ClCompile>
-    <ClCompile Include="TestObject.cpp">
-      <Filter>Resource</Filter>
-    </ClCompile>
     <ClCompile Include="TestObject_Shader.cpp">
       <Filter>Resource</Filter>
     </ClCompile>
@@ -382,6 +379,9 @@
     <ClCompile Include="NewBossUI.cpp">
       <Filter>Actor\UI\Monster\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="UIActor.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -481,9 +481,6 @@
       <Filter>Net\Packet</Filter>
     </ClInclude>
     <ClInclude Include="TestObject_Shader.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="TestObject.h">
       <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="TreeWindow.h">
@@ -758,6 +755,9 @@
     </ClInclude>
     <ClInclude Include="NewBossUI.h">
       <Filter>Actor\UI\Monster\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="UIActor.h">
+      <Filter>Actor\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

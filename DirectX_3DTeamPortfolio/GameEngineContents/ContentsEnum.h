@@ -14,6 +14,12 @@ enum class Enum_RenderOrder
 	Play,
 	Monster,
 	Effect,
+
+	UI = 600, //UI Start
+	UI_BackBar,
+	UI_BackGauge,
+	UI_StatGauge,
+	UI_Font = 699, //UI End
 };
 
 enum class Enum_CollisionOrder
