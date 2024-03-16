@@ -23,5 +23,6 @@ private:
 	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer;
 	std::shared_ptr<class ContentsAlphaSpriteRenderer> FireRender;
 	std::shared_ptr<class ContentsLight> Light;
+	std::shared_ptr<GameEnginePhysXBox> Box;
 };
 

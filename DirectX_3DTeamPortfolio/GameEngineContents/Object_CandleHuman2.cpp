@@ -23,6 +23,9 @@ void Object_CandleHuman2::Start()
 		
 		FBXRenderer->RenderBaseInfoValue.IsNormal = -1;
 	}
+
+	Box = CreateComponent<GameEnginePhysXBox>();
+	Box->PhysXComponentInit(50, 50, 50);
 }
 
 void Object_CandleHuman2::Update(float _Delta)
