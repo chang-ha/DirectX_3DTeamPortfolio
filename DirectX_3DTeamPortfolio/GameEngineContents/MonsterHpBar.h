@@ -50,13 +50,20 @@ private:
 
 	float MonsterPrevHp = 0.0f;
 	float MonsterCurHp = 100.0f;
-	float MosnterHp = 100.0f;
+	float MonsterHp = 100.0f;
 	int MonsterSoul = 100;
 
 	float CurTime = 0.0f;
-	float LitmitTime = 1.5f;
+	float LimitTime = 1.5f;
 
+	GameEngineRandom DamRan;
+	int DamageRandom = 0;
+	int Damage = 0;
+	int SumDam = 0;
+	bool Dam = false;
 
+	void DamageCal();
+	void MonsterBarUpdate();
 
 };
 
