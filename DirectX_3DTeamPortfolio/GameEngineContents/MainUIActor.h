@@ -19,6 +19,8 @@ public:
 
 	void CreateAndCheckEsteUI(class Player* _pPlayer);
 
+	void CreateAndCheckPlayerGaugeBar(class Player* _pPlayer);
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -29,7 +31,7 @@ protected:
 private:
 	std::shared_ptr<class BossHpBar> BossHpObject = nullptr;
 	std::shared_ptr<class UIPlayerEquip> EsteUI = nullptr;
-
+	std::shared_ptr<class UIPlayerGaugeBar> PlayerGaugeBar = nullptr;
 
 	//// PlayerIcon
 	std::shared_ptr<GameEngineUIRenderer> PlayerIcon;

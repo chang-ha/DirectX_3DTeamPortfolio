@@ -36,12 +36,17 @@ public:
 
 	void SetBarSprite(Enum_BarType _Type);
 
+	void SetParent(class Player* _PlayerObject);
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
 
 private:
+	Player* PlayerObject = nullptr;
+	int Hp = 0;
+
 	float PixelGauge = 0.0f;
 
 	float RenderTotalGauge = 0.0f;

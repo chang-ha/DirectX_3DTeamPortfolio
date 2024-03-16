@@ -2,6 +2,8 @@
 #include "UIPlayerGaugeBar.h"
 #include "PlayerValue.h"
 
+#include "Player.h"
+
 UIPlayerGaugeBar::UIPlayerGaugeBar()
 {
 }
@@ -16,16 +18,25 @@ UIPlayerGaugeBar::~UIPlayerGaugeBar()
 
 void UIPlayerGaugeBar::Start()
 {
-	float MaxHp = PlayerValue::GetValue()->GetMaxHp();
+	//float MaxHp = PlayerValue::GetValue()->GetMaxHp();
+	float MaxHp = PlayerObject->Main_Player->GetHp();
+
 	float MaxMp = PlayerValue::GetValue()->GetMaxMp();
 	float MaxStamina = PlayerValue::GetValue()->GetMaxStamina();
 
 
-	HpBar = CreateBarActor(Enum_BarType::Hp, MaxHp);
-	MpBar = CreateBarActor(Enum_BarType::Mp, MaxMp);
-	StaminaBar = CreateBarActor(Enum_BarType::Stamina, MaxStamina);
+	HpBar = CreateBarActor(Enum_BarType::Hp, MaxHp, PlayerObject->Main_Player);
+	MpBar = CreateBarActor(Enum_BarType::Mp, MaxMp, PlayerObject);
+	StaminaBar = CreateBarActor(Enum_BarType::Stamina, MaxStamina, PlayerObject);
 	
 	GameEngineInput::AddInputObject(this);
+}
+
+void UIPlayerGaugeBar::SetParent(Player* _PlayerObject)
+{
+	PlayerObject = _PlayerObject;
+
+	float Hp = PlayerObject->Main_Player->GetHp();
 }
 
 void UIPlayerGaugeBar::Update(float _Delta)
@@ -53,9 +64,10 @@ void UIPlayerGaugeBar::Release()
 
 #define BarGap 16.0f
 
-UIUnit* UIPlayerGaugeBar::CreateBarActor(Enum_BarType _Type, float _TotalSize)
+UIUnit* UIPlayerGaugeBar::CreateBarActor(Enum_BarType _Type, float _TotalSize, Player* _PlayerObject)
 {
 	std::shared_ptr<UIUnit> UIBarUnit = GetLevel()->CreateActor<UIUnit>();
+	UIBarUnit->SetParent(_PlayerObject);
 
 	UIUnit* pBars = UIBarUnit.get();
 

@@ -74,7 +74,7 @@ void MainUIActor::Start()
 
 	GameEngineInput::AddInputObject(this);
 
-	GetLevel()->CreateActor<UIPlayerGaugeBar>();
+	//GetLevel()->CreateActor<UIPlayerGaugeBar>();
 
 	GetLevel()->CreateActor<AddSouls>();
 
@@ -113,4 +113,10 @@ void MainUIActor::CreateAndCheckEsteUI(Player* _pPlayer)
 	EsteUI = GetLevel()->CreateActor<UIPlayerEquip>(Enum_UpdateOrder::UI);
 
 	EsteUI->SetParent(_pPlayer);
+}
+
+void MainUIActor::CreateAndCheckPlayerGaugeBar(Player* _pPlayer)
+{
+	PlayerGaugeBar = GetLevel()->CreateActor<UIPlayerGaugeBar>();
+	PlayerGaugeBar->SetParent(_pPlayer);
 }
