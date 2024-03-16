@@ -306,7 +306,6 @@ private:
 	void Update_F_Stab(float _DeltaTime, GameEngineState* _State);
 	void Update_F_Stab_Death(float _DeltaTime, GameEngineState* _State);
 	void Update_F_Stab_Death_End(float _DeltaTime, GameEngineState* _State);
-	
 
 
 	// End

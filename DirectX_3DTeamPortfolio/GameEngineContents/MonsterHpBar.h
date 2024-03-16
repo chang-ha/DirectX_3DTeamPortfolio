@@ -63,7 +63,7 @@ private:
 	bool Dam = false;
 
 	void DamageCal();
-	void MonsterBarUpdate();
+	void BarUpdate();
 
 };
 

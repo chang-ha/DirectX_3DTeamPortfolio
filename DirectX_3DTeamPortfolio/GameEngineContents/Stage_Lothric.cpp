@@ -208,7 +208,6 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 			}
 		}
 
-
 		MainUI = CreateActor<MainUIActor>(Enum_UpdateOrder::UI);
 		MainUI->CreateBossUI(Boss_Object.get());
 		MainUI->CreateAndCheckEsteUI(Player_Object.get());

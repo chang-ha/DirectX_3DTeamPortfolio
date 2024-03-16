@@ -18,7 +18,7 @@ void BaseMonster::Start()
 {
 	BaseActor::Start();
 
-	MonsterUI = GetLevel()->CreateActor<MonsterHpBar>();
+	MonsterUI = GetLevel()->CreateActor<MonsterHpBar>(Enum_UpdateOrder::UI);
 }
 
 void BaseMonster::Update(float _Delta)

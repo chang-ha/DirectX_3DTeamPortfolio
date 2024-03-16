@@ -39,6 +39,7 @@ void MonsterHpBar::Start()
 	Monster_HpBackBar->Transform.SetLocalPosition({ -100.0f, 200.0f });
 	Monster_HpBackBar->SetPivotType(PivotType::Left);
 	Monster_HpBackBar->SetBillboardOn();
+	Monster_HpBackBar->Off();
 
 	Monster_DamageBar = CreateComponent<GameEngineSpriteRenderer>();
 	Monster_DamageBar->SetSprite("MonsterDamageBar.Png");
@@ -73,7 +74,18 @@ void MonsterHpBar::Start()
 
 void MonsterHpBar::Update(float _Delta)
 {
-	MonsterBarUpdate();
+	if (false)
+	{
+		float4 RenderLPos = Monster_HpBackBar->Transform.GetLocalPosition();
+		float4 RenderWPos = Monster_HpBackBar->Transform.GetWorldPosition();
+		float4 LPos = Transform.GetLocalPosition();
+		float4 WPos = Transform.GetWorldPosition();
+		float4 ActorLPos = Parent->Transform.GetLocalPosition();
+		float4 ActorWPos = Parent->Transform.GetWorldPosition();
+		int a = 0;
+	}
+
+	BarUpdate();
 	StateUpdate(_Delta);
 
 	if (GameEngineInput::IsDown('5', this))
@@ -93,20 +105,20 @@ void MonsterHpBar::Update(float _Delta)
 	}
 }
 
-void MonsterHpBar::MonsterBarUpdate()
+void MonsterHpBar::BarUpdate()
 {
 	if (MonsterCurHp <= 0.0f)
 	{
-		Monster_DamageBar->Transform.SetLocalPosition({
-		Monster_HpBar->Transform.GetLocalPosition().X, Monster_HpBar->Transform.GetLocalPosition().Y });
+		// Monster_DamageBar->Transform.SetLocalPosition({
+		// Monster_HpBar->Transform.GetLocalPosition().X, Monster_HpBar->Transform.GetLocalPosition().Y });
 		Monster_HpBar->SetImageScale({ (0.0f / MonsterHp) * ImageXScale, HpBarYScale });
 		return;
 	}
 
 	if (MonsterCurHp > 0.0f)
 	{
-		Monster_DamageBar->Transform.SetLocalPosition({
-		Monster_HpBar->Transform.GetLocalPosition().X, Monster_HpBar->Transform.GetLocalPosition().Y });
+		// Monster_DamageBar->Transform.SetLocalPosition({
+		// Monster_HpBar->Transform.GetLocalPosition().X, Monster_HpBar->Transform.GetLocalPosition().Y });
 		Monster_HpBar->SetImageScale({ (MonsterCurHp / MonsterHp) * ImageXScale, HpBarYScale });
 	}
 }
