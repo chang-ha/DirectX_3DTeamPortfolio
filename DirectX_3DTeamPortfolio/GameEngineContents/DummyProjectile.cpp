@@ -73,6 +73,8 @@ void DummyProjectile::Start()
 			AttackCollision();
 		};
 
+	
+
 	MainState.CreateState(eState::Ready, RState);
 	MainState.CreateState(eState::Active, AState);
 
