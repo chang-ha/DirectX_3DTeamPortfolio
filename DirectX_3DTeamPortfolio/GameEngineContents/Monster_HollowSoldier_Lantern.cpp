@@ -716,11 +716,6 @@ void Monster_HollowSoldier_Lantern::State_AwakeHollows_Update(float _Delta)
 		
 	}
 
-	if (MainRenderer->GetCurAnimationFrame() >= 80)
-	{
-		AwakeCollision->Off();
-	}
-
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
 	{
 
