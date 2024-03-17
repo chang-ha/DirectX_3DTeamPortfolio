@@ -16,6 +16,8 @@
 #include "Monster_HollowSoldier.h"
 #include "Monster_HollowSoldier_Spear.h"
 #include "DummyActor.h"
+#include "Monster_Hollow_RaggedRobes.h"
+
 PlayLevel::PlayLevel()
 {
 }
@@ -71,8 +73,8 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 	
 	{
-		std::shared_ptr<Monster_LothricKn> GameMap = CreateActor<Monster_LothricKn>(0);
-
+		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(0);
+		//std::shared_ptr<Monster_Hollow_RaggedRobes> Monster = CreateActor<Monster_Hollow_RaggedRobes>(0);
 		//GameMap->Transform.SetWorldPosition({ 0.0f,000.0f,-1000.3f });
 
 		/*std::shared_ptr<Monster_HollowSoldier_Spear> GameMap2 = CreateActor<Monster_HollowSoldier_Spear>(0, "WorldMap");
@@ -80,11 +82,11 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 		GameMap2->Transform.SetWorldPosition({ 0.0f,000.0f,-2000.3f });*/
 		
 		PlayerObject = CreateActor<Player>(0, "Player");
-		GameMap->SetTargeting(PlayerObject.get());
+		Monster->SetTargeting(PlayerObject.get());
 		
 		
-
-
+	
+		
 		// 시작위치
 		//PlayerObject->Transform.SetLocalPosition({ -1400.0f, 5101.0f, -5331.0f });
 

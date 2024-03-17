@@ -60,6 +60,7 @@ void NewBossUI::Update(float _Delta)
 	ValidityCheck();
 
 	BarState.Update(_Delta);
+	FontState.Update(_Delta);
 }
 
 void NewBossUI::Release() 
@@ -94,18 +95,14 @@ void NewBossUI::Awake()
 
 	if (pBoss)
 	{
-		int CurHp = pBoss->GetHp();
-		if (CurHp <= 0)
-		{
-			BarState.ChangeState(eBarState::ZERO_HP);
-			return;
-		}
-
+		const int CurHp = pBoss->GetHp();
 		BossHp = CurHp;
+		FontBossHp = CurHp;
 		SetHPGauge(CurHp);
 	}
 
 	BarState.ChangeState(eBarState::Active_Idle);
+	FontState.ChangeState(eFontState::Idle);
 }
 
 void NewBossUI::BossDamage(int _Damgae)
@@ -118,6 +115,7 @@ void NewBossUI::BossDamage(int _Damgae)
 
 void NewBossUI::InitState()
 {
+	// Bar State
 	CreateStateParameter BarIdleState;
 	BarIdleState.Start = std::bind(&NewBossUI::Start_Bar_Idle, this, std::placeholders::_1);
 	BarIdleState.Stay = std::bind(&NewBossUI::Update_Bar_Idle, this, std::placeholders::_1, std::placeholders::_2);
@@ -132,6 +130,23 @@ void NewBossUI::InitState()
 	BarState.CreateState(eBarState::Active_Idle, BarIdleState);
 	BarState.CreateState(eBarState::Active_Hit, BarHitState);
 	BarState.CreateState(eBarState::ZERO_HP, BarEndState);
+
+	// Font State
+	CreateStateParameter FontDelayState;
+	FontDelayState.Stay = std::bind(&NewBossUI::Update_Font_Delay, this, std::placeholders::_1, std::placeholders::_2);
+
+	CreateStateParameter FontIdleState;
+	FontIdleState.Start = std::bind(&NewBossUI::Start_Font_Idle, this, std::placeholders::_1);
+	FontIdleState.Stay = std::bind(&NewBossUI::Update_Font_Idle, this, std::placeholders::_1, std::placeholders::_2);
+
+	CreateStateParameter FontShowMsgState;
+	FontShowMsgState.Start = std::bind(&NewBossUI::Start_Font_ShowMsg, this, std::placeholders::_1);
+	FontShowMsgState.Stay = std::bind(&NewBossUI::Update_Font_ShowMsg, this, std::placeholders::_1, std::placeholders::_2);
+	FontShowMsgState.End = std::bind(&NewBossUI::End_Font_ShowMsg, this, std::placeholders::_1);
+
+	FontState.CreateState(eFontState::Delay, FontDelayState);
+	FontState.CreateState(eFontState::Idle, FontIdleState);
+	FontState.CreateState(eFontState::ShowMsg, FontShowMsgState);
 }
 
 // BarState_Start
@@ -223,88 +238,90 @@ void NewBossUI::SetHPGauge(int _BossHp)
 	}
 }
 
-//void NewBossUI::OffStart()
-//{
-//	BossDamageFont->Off();
-//}
-//
-//void NewBossUI::OffUpdate(float _Delta)
-//{
-//	if (BossCurHp <= 0.0f)
-//	{
-//		return;
-//	}
-//
-//	if (BossCurHp == BossPrevHp)
-//	{
-//		return;
-//	}
-//
-//	ChangeState(eHpState::Appear);
-//}
-//
-//void NewBossUI::AppearStart()
-//{
-//	BossDamageFont->On();
-//
-//	DamRan.SetSeed(time(nullptr));
-//	DamageRandom = (DamRan.RandomInt(50, 100));
-//	Damage = DamageRandom;
-//
-//	BossCurHp -= Damage;
-//	BossPrevHp = BossCurHp;
-//
-//	SumDam = Damage;
-//	Dam = true;
-//}
-//
-//void NewBossUI::AppearUpdate(float _Delta)
-//{
-//	BossDamageFont->SetText(GlobalValue::OptimusFont, std::to_string(Damage), DamageFontScale, float4{ 1,1,1,1 }, FW1_RIGHT);
-//
-//	if (Dam == true)
-//	{
-//		if (BossCurHp != BossPrevHp)
-//		{
-//			ChangeState(eHpState::Add);
-//			return;
-//		}
-//
-//		CurTime += _Delta;
-//		{
-//			if (CurTime >= Time)
-//			{
-//				DamageCal();
-//				Dam = false;
-//				CurTime = 0;
-//				ChangeState(eHpState::Off);
-//				return;
-//			}
-//		}
-//	}
-//}
-//
-//void NewBossUI::AddStart()
-//{
-//	SumDam += Damage;
-//
-//	BossCurHp -= Damage;
-//	BossPrevHp = BossCurHp;
-//}
-//
-//void NewBossUI::AddUpdate(float _Delta)
-//{
-//	BossDamageFont->SetText(GlobalValue::OptimusFont, std::to_string(SumDam), DamageFontScale, float4{ 1,1,1,1 }, FW1_RIGHT);
-//	CurTime += _Delta;
-//	{
-//		if (CurTime >= Time)
-//		{
-//			SumDam = 0;
-//			DamageCal();
-//			Dam = false;
-//			CurTime = 0;
-//			ChangeState(eHpState::Off);
-//			return;
-//		}
-//	}
-//}
+
+// Font_Start
+void NewBossUI::Start_Font_Idle(GameEngineState* _Parent)
+{
+	if (nullptr != BossDamageFont)
+	{
+		BossDamageFont->Off();
+	}
+
+	const int CurHp = pBoss->GetHp();
+	FontBossHp = CurHp;
+}
+
+void NewBossUI::Start_Font_ShowMsg(GameEngineState* _Parent)
+{
+	if (nullptr != BossDamageFont)
+	{
+		BossDamageFont->On();
+	}
+
+	KeepStateTime = 1.0f;
+}
+
+// Font_Update
+void NewBossUI::Update_Font_Delay(float _Delta, GameEngineState* _Parent)
+{
+	if (_Parent->GetStateTime() > 0.5f)
+	{
+		FontState.ChangeState(eFontState::Idle);
+		return;
+	}
+}
+
+void NewBossUI::Update_Font_Idle(float _Delta, GameEngineState* _Parent)
+{
+	int CurHp = pBoss->GetHp();
+	if (CurHp != FontBossHp)
+	{
+		AddAndPrintDamageMsg(CurHp);
+		FontState.ChangeState(eFontState::ShowMsg);
+		return;
+	}
+}
+
+void NewBossUI::Update_Font_ShowMsg(float _Delta, GameEngineState* _Parent)
+{
+	int CurHp = pBoss->GetHp();
+	if (CurHp != FontBossHp)
+	{
+		AddAndPrintDamageMsg(CurHp);
+		KeepStateTime = 1.0f;
+	}
+	else
+	{
+		KeepStateTime -= _Delta;
+	}
+
+	if (KeepStateTime <= 0.0f)
+	{
+		FontState.ChangeState(eFontState::Delay);
+	}
+}
+
+// Font_End
+void NewBossUI::End_Font_ShowMsg(GameEngineState* _Parent)
+{
+	if (BossDamageFont)
+	{
+		BossDamageFont->Off();
+	}
+
+	FontRenderDamage = 0;
+}
+
+void NewBossUI::AddAndPrintDamageMsg(int _CurBossHp)
+{
+	if (nullptr == BossDamageFont)
+	{
+
+	}
+
+	const int DamageInt = FontBossHp - _CurBossHp;
+	FontRenderDamage += DamageInt;
+	BossDamageFont->ChangeText(std::to_string(FontRenderDamage));
+
+	FontBossHp = _CurBossHp;
+}

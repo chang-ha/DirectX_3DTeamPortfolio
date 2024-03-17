@@ -279,7 +279,7 @@ void Player::Start()
 	//MainRenderer->SetRootMotion("landing");
 
 	// 중력 x 
-
+	
 	//MainRenderer->SetRootMotionGravityFlag("ladder_Fast_Down_Start", true);
 
 	MainRenderer->SetRootMotionGravityFlag("ladder_Fast_Down", true);
@@ -325,7 +325,7 @@ void Player::Start()
 	{
 
 		ColParameter.R = 0.0f;
-		ColParameter.S = { 20.f, 110.f, 20.f };
+		ColParameter.S = { 20.f, 130.f, 20.f };
 		ColParameter.T = { 0.f, 0.5f, 0.f };
 
 		Attack_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Attack, Bone_index_01, ColParameter,"Player_Weapon");
@@ -339,12 +339,12 @@ void Player::Start()
 	{
 
 		ColParameter.R = 0.0f;
-		ColParameter.S = { 50.f, 120.f, 40.f };
+		ColParameter.S = { 50.f, 120.f, 60.f };
 		//ColParameter.S = { 300.f, 300.f, 300.f };
 		ColParameter.T = { 0.f, 0.8f, 0.f };
 
 		Body_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Body, 0, ColParameter, "Player_Body");
-		Body_Col->SetCollisionType(ColType::AABBBOX3D);
+		Body_Col->SetCollisionType(ColType::OBBBOX3D);
 		//Body_Col->Transform.SetLocalScale({ 100.f,120.f, 30.f });
 		Body_Col->On();
 
@@ -418,194 +418,72 @@ void Player::Start()
 	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Camera);
 	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Big_Camera);
 
+
+	
 	Body_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
-
-			float4 TargetPos = col->GetActor()->Transform.GetWorldPosition(); 
-			float4 MyPos = Actor_test->Transform.GetWorldPosition();
 			
-			// Y축 고려 X
-			TargetPos.Y = MyPos.Y = 0.f;
-
-			float4 FrontVector = float4(0.f, 0.f, -1.f, 0.f);
-			FrontVector.VectorRotationToDegY(Capsule->GetDir());
-
-			float4 LocationVector = (TargetPos - MyPos).NormalizeReturn();
-
-			float4 Angle_ = DirectX::XMVector3AngleBetweenNormals(FrontVector.DirectXVector, LocationVector.DirectXVector);
-
-			float4 RotationDir = DirectX::XMVector3Cross(FrontVector.DirectXVector, LocationVector.DirectXVector);
-
-			Monster_Degree = Angle_.X * GameEngineMath::R2D;
-
-			
-
-			if (0.0f <= RotationDir.Y)
-			{
-
-			}
-			else
-			{
-				Monster_Degree *= -1.f;
-			}
-
-
-			if (Stat.GetPoise() <= 0)
-			{
-				if (Monster_Degree >= 135)
-				{
-					if (Monster_Degree <= 180)
-					{
-						PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);
-					}
-				}
-				if (Monster_Degree >= -180)
-				{
-					if (Monster_Degree < -135)
-					{
-						PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);
-					}
-				}
-
-				if (Monster_Degree <= 135)
-				{
-					if (Monster_Degree > 45)
-					{
-						//Collision_Up_drop();
-
-						PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);
-
-					}
-				}
-
-				if (Monster_Degree <= 45)
-				{
-					if (Monster_Degree > -45)
-					{
-						//Collision_Down_drop();
-						PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);
-
-					}
-				}
-				if (Monster_Degree >= -135)
-				{
-					if (Monster_Degree < -45)
-					{
-						//Collision_Right_drop();
-						PlayerStates.ChangeState(PlayerState::Backward_Big_Hit);
-					}
-				}
-			}
-
-			else if (Stat.GetPoise() > 50)
-			{
-				if (Monster_Degree >= 135)
-				{
-					if (Monster_Degree <= 180)
-					{
-						PlayerStates.ChangeState(PlayerState::Forward_Hit);
-					}
-				}
-				if (Monster_Degree >= -180)
-				{
-					if (Monster_Degree < -135)
-					{
-						PlayerStates.ChangeState(PlayerState::Forward_Hit);
-					}
-				}
-
-				if (Monster_Degree <= 135)
-				{
-					if (Monster_Degree > 45)
-					{
-						//Collision_Up_drop();
-
-						PlayerStates.ChangeState(PlayerState::Right_Hit);
-
-					}
-				}
-
-				if (Monster_Degree <= 45)
-				{
-					if (Monster_Degree > -45)
-					{
-						//Collision_Down_drop();
-						PlayerStates.ChangeState(PlayerState::Backward_Hit);
-
-					}
-				}
-				if (Monster_Degree >= -135)
-				{
-					if (Monster_Degree < -45)
-					{
-						//Collision_Right_drop();
-						PlayerStates.ChangeState(PlayerState::Left_Hit);
-					}
-				}
-			}
-
-			else if (Stat.GetPoise() < 50)
-			{
-				if (Monster_Degree >= 135)
-				{
-					if (Monster_Degree <= 180)
-					{
-						PlayerStates.ChangeState(PlayerState::Forward_Middle_Hit);
-					}
-				}
-				if (Monster_Degree >= -180)
-				{
-					if (Monster_Degree < -135)
-					{
-						PlayerStates.ChangeState(PlayerState::Forward_Middle_Hit);
-					}
-				}
-
-				if (Monster_Degree <= 135)
-				{
-					if (Monster_Degree > 45)
-					{
-						//Collision_Up_drop();
-
-						PlayerStates.ChangeState(PlayerState::Right_Middle_Hit);
-
-					}
-				}
-
-				if (Monster_Degree <= 45)
-				{
-					if (Monster_Degree > -45)
-					{
-						//Collision_Down_drop();
-						PlayerStates.ChangeState(PlayerState::Backward_Middle_Hit);
-
-					}
-				}
-				if (Monster_Degree >= -135)
-				{
-					if (Monster_Degree < -45)
-					{
-						//Collision_Right_drop();
-						PlayerStates.ChangeState(PlayerState::Left_Middle_Hit);
-					}
-				}
-			}
-
-			
+				
 		};
 
 	Body_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
+			std::shared_ptr<ContentsHitRenderer> HitRenderer = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
+			HitRenderer->On();
+			HitRenderer->Transform.SetWorldPosition({ col->Transform.GetWorldPosition() });
 
+			
 		};
 
 	Body_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
+		
 
 		};
 
 
-	
+	Shield_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+			
+				
+			
+		};
+
+	Shield_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+			std::shared_ptr<ContentsHitRenderer> HitRenderer = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
+			HitRenderer->On();
+			HitRenderer->Transform.SetWorldPosition({ Shield_Actor->Transform.GetWorldPosition() });
+		};
+
+	Shield_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+
+
+		};
+
+
+	Attack_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+			
+		};
+
+	Attack_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+			
+		
+			StrikeRenderer->On();
+			StrikeRenderer->ChangeAnimation("Hit");
+			StrikeRenderer->Transform.SetWorldPosition({ Weapon_Actor->Transform.GetWorldPosition() });
+			
+						
+		};
+
+	Attack_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+
+
+		};
 
 
 	Labber_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
@@ -622,36 +500,6 @@ void Player::Start()
 				{
 
 
-					float4 TargetPos = col->Transform.GetWorldPosition();
-					float4 MyPos = Actor_test->Transform.GetWorldPosition();
-
-					// Y축 고려 X
-					TargetPos.Y = MyPos.Y = 0.f;
-
-					float4 FrontVector = float4(0.f, 0.f, -1.f, 0.f);
-					FrontVector.VectorRotationToDegY(Capsule->GetDir());
-
-					float4 LocationVector = (TargetPos - MyPos).NormalizeReturn();
-
-					float4 Angle_ = DirectX::XMVector3AngleBetweenNormals(FrontVector.DirectXVector, LocationVector.DirectXVector);
-
-					float4 RotationDir = DirectX::XMVector3Cross(FrontVector.DirectXVector, LocationVector.DirectXVector);
-
-					Labber_Angle = Angle_.X * GameEngineMath::R2D;
-
-					if (0.0f <= RotationDir.Y)
-					{
-
-					}
-					else
-					{
-						Labber_Angle *= -1.f;
-					}
-
-					
-
-					//Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
-					Capsule->SetWorldRotation({ 0.0f, -Labber_Angle,0.0f });
 					Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
 					Capsule->GravityOff(); 
 					//Capsule->MoveForce(float4{ 0.0f,500.0f,0.0f,Labber_Angle });
@@ -708,17 +556,7 @@ void Player::Start()
 			{
 				if (GameEngineInput::IsDown('E', this))
 				{
-					float4 TargetPos = col->Transform.GetWorldPosition();
-					float4 MyPos = Actor_test->Transform.GetWorldPosition();
-
-					float4 Dir = MyPos-TargetPos;
-					float4 Monster = { 0,0,-1 };
-					float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
-					float radian = atan2(Dir.X, Dir.Z) - atan2(Monster.X, Monster.Z);
-					Labber_Angle = float(radian * (180.0 / 3.141592));
-
-					//Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
-					Capsule->SetWorldRotation({ 0.0f,Labber_Angle,0.0f });
+					
 					Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
 					Capsule->GravityOff();
 					//MainRenderer->SetRootMotionMode(")
@@ -762,12 +600,15 @@ void Player::Start()
 			}		
 		};
 
-	//SoundFrameEvent();
+	SoundFrameEvent();
 	Shield_Col->Off();
 	Attack_Col->Off(); 
 
 
 	HitRenderer = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
+	
+
+
 	StrikeRenderer =CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
 	//HitRenderer->Transform.AddLocalPosition({ 0.0f,20.0f,20.f});
 
@@ -780,6 +621,7 @@ void Player::Update(float _Delta)
 
 	FaceLight->Transform.SetLocalPosition(Transform.GetWorldPosition() + revolution);
 
+
 	Parring_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
 			Parring_Monster_Actor.push_back(col->GetActor());
@@ -789,9 +631,6 @@ void Player::Update(float _Delta)
 		{
 
 			
-			
-			
-
 				if (GameEngineInput::IsDown(VK_LBUTTON, this))
 				{
 					
@@ -850,11 +689,35 @@ void Player::Update(float _Delta)
 
 	// 충돌 
 
-
-	/*if (Shield_Col->Collision(Enum_CollisionOrder::MonsterAttack))
+	if (Shield_Col->Collision(Enum_CollisionOrder::MonsterAttack))
 	{
-		PlayerStates.ChangeState(PlayerState::Weak_Shield_block);
-	}*/
+	
+	}
+
+	else if (Body_Col->Collision(Enum_CollisionOrder::MonsterAttack))
+	{
+		
+	}
+
+	if (Attack_Col->Collision(Enum_CollisionOrder::Monster_Shield))
+	{
+		StrikeRenderer->On();
+		StrikeRenderer->ChangeAnimation("Hit");
+		StrikeRenderer->Transform.SetWorldPosition({ Attack_Col->Transform.GetWorldPosition().X,Attack_Col->Transform.GetWorldPosition().Y,Attack_Col->Transform.GetWorldPosition().Z });
+	}
+	else if (Attack_Col->Collision(Enum_CollisionOrder::Monster_Body))
+	{
+		StrikeRenderer->On();
+		StrikeRenderer->ChangeAnimation("Hit");
+		StrikeRenderer->Transform.SetWorldPosition({ Attack_Col->Transform.GetWorldPosition().X,Attack_Col->Transform.GetWorldPosition().Y+30.0f,Attack_Col->Transform.GetWorldPosition().Z });
+	}
+
+
+	//Attack_Col->CollisionEvent(Enum_CollisionOrder::Monster_Body, Attack_Event);
+	//Attack_Col->CollisionEvent(Enum_CollisionOrder::Monster_Shield, Attack_Event);
+	//Body_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack, Body_Event);
+	//Shield_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack, Shield_Event);
+
 
 	if (tyu == false)
 	{
@@ -867,17 +730,30 @@ void Player::Update(float _Delta)
 	}
 
 	
-	
+
+
+	/*if (Attack_Col->Collision(Enum_CollisionOrder::Monster_Body))
+	{
+		HitRenderer->On();
+		HitRenderer->ChangeAnimation("Hit");
+		HitRenderer->Transform.SetWorldPosition({ Weapon_Actor->Transform.GetWorldPosition()});
+
+	}*/
 
 
 	//
 
+	
 
 
 	Arround_Col->CollisionEvent(Enum_CollisionOrder::Monster, Arround_Event);
 	Body_Col->CollisionEvent(Enum_CollisionOrder::LadderBot, Labber_Event);
 	Body_Col->CollisionEvent(Enum_CollisionOrder::LadderTop, Labber_Event);
 	Parring_Attack_Col->CollisionEvent(Enum_CollisionOrder::Monster_Body, Parring_Event);
+
+
+
+
 
 	if (Body_Col->Collision(Enum_CollisionOrder::LadderTop))
 	{
@@ -908,10 +784,10 @@ void Player::Update(float _Delta)
 	// 스태미나 
 	if (StateValue != PlayerState::StaminaCheck)
 	{
-		if (Stat.GetStamina() < 100)
+		if (Stat.GetStamina() < 300)
 
 		{
-			Stat.AddStamina(_Delta * 10);
+			Stat.AddStamina(_Delta * 100);
 		}
 	}
 	else if (StateValue != PlayerState::Parrying)
@@ -966,19 +842,17 @@ void Player::Update(float _Delta)
 
 	//HitRenderer->Transform.SetWorldPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y,Capsule->GetWorldPosition().z });
 
-	if (Capsule->GetLinearVelocity_f().Y <= -1600)
+	if (Capsule->GetLinearVelocity_f().Y <= -2200)
 	{
 		PlayerStates.ChangeState(PlayerState::fail);
 	}
 
-	if (Attack_Col->Collision(Enum_CollisionOrder::Monster_Body))
-	{
-		StrikeRenderer->On(); 
-		StrikeRenderer->ChangeAnimation("Hit");
-		StrikeRenderer->Transform.SetWorldPosition({ Weapon_Actor->Transform.GetWorldPosition()});
-	}
-	
-
+	//if (Attack_Col->Collision(Enum_CollisionOrder::Monster_Body))
+	//{
+	//	StrikeRenderer->On(); 
+	//	StrikeRenderer->ChangeAnimation("Hit");
+	//	StrikeRenderer->Transform.SetWorldPosition({ Weapon_Actor->Transform.GetWorldPosition()});
+	//}
 
 	// 각도 계산 
 	{
@@ -1068,7 +942,6 @@ void Player::Update(float _Delta)
 		{
 			float Check = abs(Transform.GetWorldPosition().Z -Monster_Actor[MonsterAngles[i]]->Transform.GetWorldPosition().Z);
 
-
 			if (i > 0)
 			{
 				if (Check < Monser_Dir)
@@ -1099,7 +972,7 @@ void Player::Update(float _Delta)
 		Rock_on_Time_Check = false;
 
 		Rock_On_Check = false;
-		Camera_Pos_Y = 0;
+		Camera_Pos_Y = 20.0f;
 		Player_Pos.X = degree_X;
 	}
 
@@ -1166,12 +1039,17 @@ void Player::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	
-
-	Capsule->SetFiltering(Enum_CollisionOrder::Player, Enum_CollisionOrder::Camera);
 	Capsule->SetFiltering(Enum_CollisionOrder::Player, Enum_CollisionOrder::Big_Camera);
+	Capsule->SetFiltering(Enum_CollisionOrder::Player, Enum_CollisionOrder::Camera);
+	
 
 	//Capsule->SetFiltering(Enum_CollisionOrder::Monster);
-	//GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Big_Camera);
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Camera);
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Camera);
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Big_Camera);
+	
+
 
 }
 
@@ -1278,42 +1156,50 @@ void Player::CameraRotation(float Delta)
 
 
 
-	
-
-	if (testa == true)
+	if (testa == false && testaa == true)
 	{
+		int a = 0;
+	}
+	else if (testa ==true && testaa == true)
+	{ 
 
 
 		//if (abs(Actor_test->Transform.GetWorldPosition().Z - Actor_test_02->Transform.GetWorldPosition().Z) >= 50)
-		{
+
+		
 			//float4 sadasd = float4::LerpClamp(Actor_test_02->Transform.GetWorldPosition(),Actor_test->Transform.GetWorldPosition(), Delta);
 			Actor_test_02->Transform.SetWorldPosition(sadasd);
-		}
 	}
-
-
-	if (testaa == false)
+	else if (testaa == false && testa == false)
 	{
-		
+
 		if (abs(Actor_test_02->Transform.GetLocalPosition().Z) < abs(250))
 		{
 			//float4 sadasd = float4::LerpClamp(Actor_test->Transform.GetWorldPosition(), Actor_test_02->Transform.GetWorldPosition(), Delta);
 			//sadasd.Normalize();
 			Actor_test_02->Transform.SetWorldPosition(sadassd);
-		}
-		
+		}		
 	}
 
+	
 	// 다음 프레임에 콜리전이 충돌한 포지션이면 멈춰 
 
 
 
-
+	/*if (testa == true)
+	{
+		testaa = true;
+	}
+	else
+	{
+		testaa = false;
+	}*/
 
 
 	testaa = false;
 	testa = false;
 
+	
 
 	
 
@@ -1386,6 +1272,12 @@ void Player::CameraRotation(float Delta)
 
 bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 {
+
+	HitRenderer->On();
+	HitRenderer->ChangeAnimation("Hit");
+	HitRenderer->Transform.SetWorldPosition({ Body_Col->Transform.GetWorldPosition().X,Body_Col->Transform.GetWorldPosition().Y + 50.0f,Body_Col->Transform.GetWorldPosition().Z });
+
+
 	tyu = true;
 
 	Poise_Time = 0;
@@ -1520,8 +1412,11 @@ bool Player::GetHitToShield(const HitParameter& _Para)
 	tyu = true;
 	Poise_Time = 0;
 
+	HitRenderer->On();
+	HitRenderer->ChangeAnimation("Hit");
+	HitRenderer->Transform.SetWorldPosition({ Shield_Col->Transform.GetWorldPosition().X,Shield_Col->Transform.GetWorldPosition().Y,Shield_Col->Transform.GetWorldPosition().Z });
 
-	
+
 
 
 	if (nullptr == _Para.pAttacker)
@@ -1529,6 +1424,7 @@ bool Player::GetHitToShield(const HitParameter& _Para)
 		MsgBoxAssert("공격자의 포인터를 모르고 사용할 수 없는 기능입니다.");
 		return false;
 	}
+
 
 	/*if (true == Hit.IsHit())
 	{

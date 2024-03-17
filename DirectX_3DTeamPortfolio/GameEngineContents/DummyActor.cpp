@@ -79,6 +79,8 @@ void DummyActor::Start()
 	ControlInput.SetPointer(this);
 	CameraControler.Init(this);
 
+	Stat.SetAtt(10);
+
 	Transform.SetLocalPosition(float4(0, 100.0f, 0));
 
 	Off();

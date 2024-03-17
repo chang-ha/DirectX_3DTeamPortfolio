@@ -12,7 +12,6 @@
 #include "LUTEffect.h"
 #include "Object_FogWall.h"
 
-#include "Monster_LothricKn.h"
 
 //오브젝트 헤더
 #include "Object_Ladder1.h"
@@ -39,6 +38,14 @@
 #include "Object_CandleHuman.h"
 #include "Object_Torchlight.h"
 #include "Object_CandleHuman2.h"
+#include "Monster_LothricKn.h"
+#include "Monster_Hollow_RaggedRobes.h"
+#include "Monster_HollowSoldier_Lantern.h"
+#include "Monster_Hollow_Unarmed.h"
+#include "Monster_HollowSoldier_RoundShield.h"
+#include "Monster_HollowSoldier_Spear.h"
+#include "Monster_HollowSoldier_Sword.h"
+#include "EventCol.h"
 
 //UI
 #include "MainUIActor.h"
@@ -148,12 +155,12 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		//Player_Object->SetWorldPosition({ -2800.f, -1500.f, 6700.f });
 		// 
 		// 계단 위치
-		Player_Object->SetWorldPosition({ -9910.0f, 2328.0f, -2894.0f });
+		//Player_Object->SetWorldPosition({ -9910.0f, 2328.0f, -2894.0f });
 		// 
 		// 시작 위치
-		//Player_Object->Transform.SetLocalPosition({ -1400.0f, 5101.0f, -5331.0f });
+		Player_Object->SetWorldPosition({ -1400.0f, 5101.0f, -5331.0f });
 
-		Player_Object->SetWorldRotation({ 0.f, 165.f, 0.f });
+		Player_Object->SetWorldRotation({ 0.f, 0.f, 0.f });
 		Player_Object->SetTargeting(Boss_Object.get());
 		Boss_Object->SetTargeting(Player_Object.get());
 	}
@@ -183,6 +190,8 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	// 몬스터 위치 셋팅
 	SetAllMonster();
 
+	SetAllEvCol();
+
 	std::shared_ptr<GameEngineCoreWindow> CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 
 	if (nullptr != CoreWindow)
@@ -210,6 +219,18 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 			}
 		}
 
+		if (nullptr == GameEngineSprite::Find("DarkSoulsIII_Main_Menu_Theme.wav"))
+		{
+			GameEngineDirectory Dir;
+			Dir.MoveParentToExistsChild("ContentsResources");
+			Dir.MoveChild("ContentsResources\\Sound\\UI");
+
+			std::vector<GameEngineFile> Files = Dir.GetAllFile();
+			for (GameEngineFile& pFiles : Files)
+			{
+				GameEngineSound::SoundLoad(pFiles.GetStringPath());
+			}
+		}
 
 		MainUI = CreateActor<MainUIActor>(Enum_UpdateOrder::UI);
 		MainUI->CreateBossUI(Boss_Object.get());
@@ -235,6 +256,8 @@ void Stage_Lothric::Start()
 void Stage_Lothric::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
+
+	EvColUpdate();
 
 	float4 PPos = Player_Object->Transform.GetWorldPosition();
 
@@ -428,177 +451,211 @@ void Stage_Lothric::Release()
 void Stage_Lothric::SetAllMonster()
 {
 
+	////// Area0
+	// 0
 	{
-		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn_Test");
-		Monster->SetResponPos({ -2738.0f, 4120.0f, -1457.0f });
-		Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
-		AllMonster.push_back(Monster);
-	}
-
-	{
-		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn1");
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_Hollow_RaggedRobes>(Enum_UpdateOrder::Monster, "Monster_Hollow_RaggedRobes");
 		Monster->SetResponPos({ -3874.0f, 4118.0f, -1151.0f });
-		Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
 		AllMonster.push_back(Monster);
 	}
 
+	// 1
 	{
-		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn2");
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_Hollow_RaggedRobes>(Enum_UpdateOrder::Monster, "Monster_Hollow_RaggedRobes");
 		Monster->SetResponPos({ -5730.0f, 3409.0f, -2575.0f });
-		Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
 		AllMonster.push_back(Monster);
 	}
 
+	// 2
 	{
-		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn3");
-		Monster->SetResponPos({ -6764.0f, 3400.0f, -3607.0f });
-		Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_Hollow_Unarmed>(Enum_UpdateOrder::Monster, "Monster_Hollow_Unarmed");
+		Monster->SetResponPos({ -6684.0f, 3405.0f, -3450.0f });
+		//Monster->SetResponRotation({ 0.0f, 90.0f, 0.0f });
 		AllMonster.push_back(Monster);
 	}
 
+	// 3
 	{
-		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn4");
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_Lantern>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_Lantern");
+		Monster->SetResponPos({ -6330.0f, 3400.0f, -3088.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	////// Area1
+	// 4
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_Sword>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_Sword");
 		Monster->SetResponPos({ -8496.0f, 2878.0f, -4483.0f });
-		Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
 		AllMonster.push_back(Monster);
 	}
 
-	{
-		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn5");
-		Monster->SetResponPos({ -9050.0f, 2033.0f, -4071.0f });
-		Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
-		AllMonster.push_back(Monster);
-	}
+	// 지하실 내부
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_RoundShield>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_RoundShield");
+	//	Monster->SetResponPos({ -9050.0f, 2033.0f, -4071.0f });
+	//	//Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
+	//	AllMonster.push_back(Monster);
+	//}
 
+	////// Area2
+	// 5
 	{
-		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn6");
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_Spear>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_Spear");
 		Monster->SetResponPos({ -10210.0f, 2030.0f, -3207.0f });
-		Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
 		AllMonster.push_back(Monster);
 	}
 
+	// 6
 	{
-		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn7");
-		Monster->SetResponPos({ -11265.0f, 2891.0f, -4376.0f });
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_Hollow_RaggedRobes>(Enum_UpdateOrder::Monster, "Monster_Hollow_RaggedRobes");
+		Monster->SetResponPos({ -11925.0f, 2892.0f, -4067.0f });
 		AllMonster.push_back(Monster);
 	}
 
+	// 7
 	{
-		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn8");
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_Hollow_Unarmed>(Enum_UpdateOrder::Monster, "Monster_Hollow_Unarmed");
+		Monster->SetResponPos({ -12531.0f, 2892.0f, -4134.0f });
+		AllMonster.push_back(Monster);
+	}
+
+	// 8
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_Lantern>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_Lantern");
 		Monster->SetResponPos({ -13050.0f, 2886.0f, -3783.0f });
 		AllMonster.push_back(Monster);
 	}
 
+	// 9
 	{
-		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn9");
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_Sword>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_Sword");
 		Monster->SetResponPos({ -14467.0f, 2893.0f, -4080.0f });
 		AllMonster.push_back(Monster);
 	}
 
+	// 10
 	{
-		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn10");
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_RoundShield>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_RoundShield");
 		Monster->SetResponPos({ -15491.0f, 2943.0f, -4392.0f });
 		AllMonster.push_back(Monster);
 	}
 
+	// 11
 	{
-		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn11");
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_RoundShield>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_RoundShield");
 		Monster->SetResponPos({ -14397.0f, 2277.0f, -2812.0f });
 		AllMonster.push_back(Monster);
 	}
 
+	// 12
 	{
-		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_Spear>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_Spear");
 		Monster->SetResponPos({ -16297.0f, 2689.0f, -1427.0f });
 		AllMonster.push_back(Monster);
 	}
 
+	// 13
 	{
-		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_Hollow_RaggedRobes>(Enum_UpdateOrder::Monster, "Monster_Hollow_RaggedRobes");
 		Monster->SetResponPos({ -15816.0f, 2683.0f, -472.0f });
 		AllMonster.push_back(Monster);
 	}
 
+	// 14
 	{
-		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_Sword>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_Sword");
 		Monster->SetResponPos({ -17594.0f, 2834.0f, 1350.0f });
 		AllMonster.push_back(Monster);
 	}
 
+	// 15
 	{
-		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_RoundShield>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_RoundShield");
 		Monster->SetResponPos({ -15476.0f, 2327.0f, 2870.0f });
 		AllMonster.push_back(Monster);
 	}
 
+	// 16
 	{
-		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_RoundShield>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_RoundShield");
 		Monster->SetResponPos({ -11968.0f, 1924.0f, 3882.0f });
 		AllMonster.push_back(Monster);
 	}
 
+	// 17
 	{
-		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_RoundShield>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_RoundShield");
 		Monster->SetResponPos({ -10196.0f, 984.0f, 4174.0f });
 		AllMonster.push_back(Monster);
 	}
 
+	// 18
 	{
-		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_RoundShield>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_RoundShield");
 		Monster->SetResponPos({ -8623.0f, 907.0f, 3707.0f });
 		AllMonster.push_back(Monster);
 	}
 
+	// 19
 	{
-		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_Spear>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_Spear");
 		Monster->SetResponPos({ -8546.0f, -683.0f, 3904.0f });
 		AllMonster.push_back(Monster);
 	}
 
+	// 20
 	{
-		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_RoundShield>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_RoundShield");
 		Monster->SetResponPos({ -9154.0f, 542.0f, 5211.0f });
 		AllMonster.push_back(Monster);
 	}
 
+	// 21
 	{
-		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_Sword>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_Sword");
 		Monster->SetResponPos({ -7885.0f, -538.0f, 5512.0f });
 		AllMonster.push_back(Monster);
 	}
 
+	// 22
 	{
 		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
 		Monster->SetResponPos({ -8476.0f, -548.0f, 7715.0f });
 		AllMonster.push_back(Monster);
 	}
 
+	// 23
 	{
 		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
 		Monster->SetResponPos({ -6396.0f, -624.0f, 8055.0f });
 		AllMonster.push_back(Monster);
 	}
 
+	// 24
 	{
 		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
 		Monster->SetResponPos({ -6433.0f, -750.0f, 10232.0f });
 		AllMonster.push_back(Monster);
 	}
 
+	// 25
 	{
 		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
 		Monster->SetResponPos({ -4026.0f, -1788.0f, 9562.0f });
 		AllMonster.push_back(Monster);
 	}
 
-	AllMonsterOn();
+	// 테스트
+	//AllMonsterOn();
+	// 실적용
+	AllMonsterOff();
 }
 
 void Stage_Lothric::AllMonsterOn()
 {
-
 	for (size_t i = 0; i < AllMonster.size(); i++)
 	{
+		AllMonster[i]->SetWorldRotation(AllMonster[i]->GetResponRot());
 		AllMonster[i]->SetWorldPosition(AllMonster[i]->GetResponPos());
 		AllMonster[i]->On();
 	}
@@ -608,9 +665,123 @@ void Stage_Lothric::AllMonsterOff()
 {
 	for (size_t i = 0; i < AllMonster.size(); i++)
 	{
+		AllMonster[i]->SetWorldRotation(AllMonster[i]->GetResponRot());
+		AllMonster[i]->SetWorldPosition(AllMonster[i]->GetResponPos());
 		AllMonster[i]->Off();
 	}
 }
+
+void Stage_Lothric::SetAllEvCol()
+{
+	{
+		std::shared_ptr<EventCol> EventCollision = CreateActor<EventCol>(Enum_UpdateOrder::Player, "EventCollision");
+		EventCollision->SetWorldPosition({ -1300.0f, 5101.0f, -5000.0f });
+		EventCollision->SetWorldScale({ 200.0f, 200.0f, 200.0f });
+
+		EventCollision->Event = [=]()
+			{
+				// AllMonsterOff();
+				Area0_On();
+				return;
+			};
+
+		AllEvCol.push_back(EventCollision);
+	}
+
+	{
+		std::shared_ptr<EventCol> EventCollision = CreateActor<EventCol>(Enum_UpdateOrder::Player, "EventCollision");
+		EventCollision->SetWorldPosition({ -8167.0f, 2934.0f, -3950.0f });
+		EventCollision->SetWorldScale({ 400.0f, 400.0f, 400.0f });
+
+		EventCollision->Event = [=]()
+			{
+				AllMonsterOff();
+				Area1_On();
+				return;
+			};
+
+		AllEvCol.push_back(EventCollision);
+	}
+
+	{
+		std::shared_ptr<EventCol> EventCollision = CreateActor<EventCol>(Enum_UpdateOrder::Player, "EventCollision");
+		EventCollision->SetWorldPosition({ -9172.0f, 2039.0f, -3144.0f });
+		EventCollision->SetWorldScale({ 400.0f, 400.0f, 400.0f });
+
+		EventCollision->Event = [=]()
+			{
+				AllMonsterOff();
+				Area2_On();
+				return;
+			};
+
+		AllEvCol.push_back(EventCollision);
+	}
+	{
+		std::shared_ptr<EventCol> EventCollision = CreateActor<EventCol>(Enum_UpdateOrder::Player, "EventCollision");
+		EventCollision->SetWorldPosition({ -16535.0f, 2836.0f, 691.0f });
+		EventCollision->SetWorldScale({ 400.0f, 400.0f, 400.0f });
+
+		EventCollision->Event = [=]()
+			{
+				AllMonsterOff();
+				Area3_On();
+				return;
+			};
+
+		AllEvCol.push_back(EventCollision);
+	}
+}
+
+void Stage_Lothric::EvColUpdate()
+{
+	for (size_t i = 0; i < AllEvCol.size(); i++)
+	{
+		if (true == AllEvCol[i]->Collision(Enum_CollisionOrder::Player_Body))
+		{
+			AllEvCol[i]->Event();
+			AllEvCol[i]->Off();
+		}
+	}
+}
+
+void Stage_Lothric::Area0_On()
+{
+	for (size_t i = 0; i < 4; i++)
+	{
+		AllMonster[i]->On();
+	}
+
+	AllMonster[3]->WakeUp();
+}
+
+void Stage_Lothric::Area1_On()
+{
+	for (size_t i = 4; i < 5; i++)
+	{
+		AllMonster[i]->On();
+		//AllMonster[i]->WakeUp();
+	}
+}
+
+void Stage_Lothric::Area2_On()
+{
+	for (size_t i = 5; i < 14; i++)
+	{
+		AllMonster[i]->On();
+		AllMonster[i]->WakeUp();
+	}
+}
+
+void Stage_Lothric::Area3_On()
+{
+	for (size_t i = 14; i < 18; i++)
+	{
+		AllMonster[i]->On();
+		AllMonster[i]->WakeUp();
+	}
+}
+
 
 void Stage_Lothric::CreateObject()
 {

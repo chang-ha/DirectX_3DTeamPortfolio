@@ -1,16 +1,16 @@
 #pragma once
+#include "UIActor.h"
 
-enum struct MonsterHpActor
+class MonsterHpBar : public UIActor
 {
-	None,
-	Off,
-	Appear,
-	Add,
-};
+	enum struct eState
+	{
+		None,
+		Awake,
+		Idle,
+		Off,
+	};
 
-#include <GameEngineCore/GameEngineActor.h>
-class MonsterHpBar : public GameEngineActor
-{
 public:
 	// constructer destructer
 	MonsterHpBar();
@@ -22,48 +22,61 @@ public:
 	MonsterHpBar& operator = (const MonsterHpBar& _Other) = delete;
 	MonsterHpBar& operator = (MonsterHpBar&& _Other) noexcept = delete;
 
-	void ChangeState(MonsterHpActor _State);
-	void StateUpdate(float _Delta);
+	void InitUIPosition(class BaseMonster* pOwner, const float4* _pHeadBonePos);
+
 
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
-
 	void Release() override;
 
-	void OffStart();
-	void OffUpdate(float _Delta);
+	void Reset() override {}
 
-	void AppearStart();
-	void AppearUpdate(float _Delta);
+	// Location 
+	void PositionUpdate();
 
-	void AddStart();
-	void AddUpdate(float _Delta);
+	// State
+	void InitState();
+
+	// Start
+	void Start_Awake(GameEngineState* _Parent);
+	void Start_Off(GameEngineState* _Parent);
+
+	// Update
+	void Update_Idle(float _Delta, GameEngineState* _Parent);
+	void Update_Off(float _Delta, GameEngineState* _Parent);
+
+	void RendererOn();
+	void RendererOff();
+
+	void SetDamageGauge();
+	void SetHPGauge();
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> Monster_HpBackBar;
-	std::shared_ptr<GameEngineSpriteRenderer> Monster_HpBar;
-	std::shared_ptr<GameEngineSpriteRenderer> Monster_DamageBar;
+	class BaseMonster* pOwner = nullptr;
 
-	std::shared_ptr<GameEngineSpriteRenderer> MonsterDamageFont;
-	MonsterHpActor MHpActor = MonsterHpActor::Off;
+	std::shared_ptr<GameEngineSpriteRenderer> BackBarRenderer;
+	std::shared_ptr<GameEngineSpriteRenderer> HpBarRenderer;
+	std::shared_ptr<GameEngineSpriteRenderer> DamageBarRenderer;
 
-	float MonsterPrevHp = 0.0f;
-	float MonsterCurHp = 100.0f;
-	float MonsterHp = 100.0f;
-	int MonsterSoul = 100;
 
-	float CurTime = 0.0f;
-	float LimitTime = 1.5f;
+	// Poisition Init Var
+	bool RenderValue = false;
+	bool InitValue = false;
 
-	GameEngineRandom DamRan;
-	int DamageRandom = 0;
-	int Damage = 0;
-	int SumDam = 0;
-	bool Dam = false;
+	const float4* BonePosPointer = nullptr;
 
-	void DamageCal();
-	void MonsterBarUpdate();
+	static constexpr float HeightDist = 50.0f;
+
+	// State
+	GameEngineState MainState;
+
+	float BackBarScale = 0.0f;
+	int MaxHp = 0;
+	int RenderHp = 0;
+	int DamgeRenderHp = 0;
+
+	float OffTime = 0.0f;
+	float DamageRenderTime = 0.0f;
 
 };
-

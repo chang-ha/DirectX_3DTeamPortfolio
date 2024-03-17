@@ -1,10 +1,11 @@
 #include "PreCompile.h"
 #include "MonsterHpBar.h"
 
-#include "BaseActor.h"
+#include "BaseMonster.h"
 
 MonsterHpBar::MonsterHpBar()
 {
+	GameEngineInput::AddInputObject(this);
 }
 
 MonsterHpBar::~MonsterHpBar()
@@ -25,7 +26,7 @@ void MonsterHpBar::Start()
 		Dir.MoveChild("ContentsResources");
 		Dir.MoveChild("UITexture");
 		Dir.MoveChild("Monster");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".png" });
 		for (GameEngineFile& pFiles : Files)
 		{
 			GameEngineTexture::Load(pFiles.GetStringPath());
@@ -33,221 +34,198 @@ void MonsterHpBar::Start()
 		}
 	}
 
-	Monster_HpBackBar = CreateComponent<GameEngineSpriteRenderer>();
-	Monster_HpBackBar->SetSprite("MonsterBar.Png");
-	Monster_HpBackBar->SetImageScale({ ImageXScale, BackBarYScale });
-	Monster_HpBackBar->Transform.SetLocalPosition({ -100.0f, 200.0f });
-	Monster_HpBackBar->SetPivotType(PivotType::Left);
-	Monster_HpBackBar->SetBillboardOn();
+	BackBarRenderer = CreateComponent<GameEngineSpriteRenderer>(Enum_RenderOrder::UI_BackBar);
+	BackBarRenderer->SetSprite("MonsterBar.Png");
+	BackBarRenderer->GetImageTransform().SetLocalScale({ ImageXScale, BackBarYScale });
+	BackBarRenderer->SetBillboardOn();
 
-	Monster_DamageBar = CreateComponent<GameEngineSpriteRenderer>();
-	Monster_DamageBar->SetSprite("MonsterDamageBar.Png");
-	Monster_DamageBar->SetImageScale({ (MonsterCurHp / MonsterHp) * ImageXScale, HpBarYScale });
-	Monster_DamageBar->Transform.SetLocalPosition({ -100.0f, 200.0f });
-	Monster_DamageBar->SetPivotType(PivotType::Left);
-	Monster_DamageBar->SetBillboardOn();
+	BackBarScale = ImageXScale;
 
-	Monster_HpBar = CreateComponent<GameEngineSpriteRenderer>();
-	Monster_HpBar->SetSprite("MonsterHp.Png");
-	//Monster_HpBar->SetImageScale({ (MonsterCurHp / MosnterHp) });
-	Monster_HpBar->SetImageScale({ (MonsterCurHp / MonsterHp) * ImageXScale, HpBarYScale });
-	Monster_HpBar->Transform.SetLocalPosition({ -100.0f, 200.0f });
-	Monster_HpBar->SetPivotType(PivotType::Left);
-	Monster_HpBar->SetBillboardOn();
+	DamageBarRenderer = CreateComponent<GameEngineSpriteRenderer>(Enum_RenderOrder::UI_BackGauge);
+	DamageBarRenderer->SetSprite("MonsterDamageBar.Png");
+	DamageBarRenderer->GetImageTransform().SetLocalScale({ ImageXScale, HpBarYScale });
+	DamageBarRenderer->SetBillboardOn();
 
-	MonsterPrevHp = MonsterCurHp;
+	HpBarRenderer = CreateComponent<GameEngineSpriteRenderer>(Enum_RenderOrder::UI_StatGauge);
+	HpBarRenderer->SetSprite("MonsterHp.Png");
+	HpBarRenderer->GetImageTransform().SetLocalScale({ ImageXScale, HpBarYScale });
+	HpBarRenderer->SetBillboardOn();
 
+	InitState();
+}
+
+void MonsterHpBar::InitUIPosition(BaseMonster* _pOwner, const float4* _pHeadBonePos)
+{
+	if (nullptr == _pHeadBonePos || nullptr == _pOwner)
 	{
-		MonsterDamageFont = CreateComponent<GameEngineSpriteRenderer>();
-		MonsterDamageFont->SetText(GlobalValue::OptimusFont, "0", 15.0f, float4{ 1,0,0,1 }, FW1_LEFT);
-		MonsterDamageFont->Transform.SetLocalPosition(DamagePos);
-		MonsterDamageFont->SetBillboardOn();
-		MonsterDamageFont->Off();
+		MsgBoxAssert("존재하지 않는 값이 들어왔습니다.");
+		return;
 	}
 
-	/*BaseActor* pActor;
-	pActor->GetHp();*/
+	pOwner = _pOwner;
+	BonePosPointer = _pHeadBonePos;
+	RenderHp = MaxHp = _pOwner->GetHp();
 
-	GameEngineInput::AddInputObject(this);
+	MainState.ChangeState(eState::Off);
 }
 
 void MonsterHpBar::Update(float _Delta)
 {
-	MonsterBarUpdate();
-	StateUpdate(_Delta);
-
-	if (GameEngineInput::IsDown('5', this))
+	MainState.Update(_Delta);
+	if (true == RenderValue)
 	{
-		DamRan.SetSeed(time(nullptr));
-		DamageRandom = (DamRan.RandomInt(20, 50));
-
-		Damage = DamageRandom;
-
-		MonsterPrevHp = MonsterCurHp;
-		MonsterCurHp -= Damage;
-	}
-
-	if (GameEngineInput::IsDown('6', this))
-	{
-		ChangeState(MonsterHpActor::Appear);
+		PositionUpdate();
 	}
 }
 
-void MonsterHpBar::MonsterBarUpdate()
+void MonsterHpBar::PositionUpdate()
 {
-	if (MonsterCurHp <= 0.0f)
+	if (nullptr == pOwner)
 	{
-		Monster_DamageBar->Transform.SetLocalPosition({
-		Monster_HpBar->Transform.GetLocalPosition().X, Monster_HpBar->Transform.GetLocalPosition().Y });
-		Monster_HpBar->SetImageScale({ (0.0f / MonsterHp) * ImageXScale, HpBarYScale });
+		MsgBoxAssert("오너를 지정해주지 않았습니다");
 		return;
 	}
 
-	if (MonsterCurHp > 0.0f)
-	{
-		Monster_DamageBar->Transform.SetLocalPosition({
-		Monster_HpBar->Transform.GetLocalPosition().X, Monster_HpBar->Transform.GetLocalPosition().Y });
-		Monster_HpBar->SetImageScale({ (MonsterCurHp / MonsterHp) * ImageXScale, HpBarYScale });
-	}
-}
+	const float Height = 200.0f;
+	const float4 MonsterWPos = pOwner->Transform.GetWorldPosition();
+	float4 UIWPos = MonsterWPos;
+	UIWPos.Y += Height;
 
-void MonsterHpBar::ChangeState(MonsterHpActor _State)
-{
-	if (_State != MHpActor)
-	{
-		switch (_State)
-		{
-		case MonsterHpActor::Off:
-			OffStart();
-			break;
-		case MonsterHpActor::Appear:
-			AppearStart();
-			break;
-		case MonsterHpActor::Add:
-			AddStart();
-			break;
-		case MonsterHpActor::None:
-		default:
-			MsgBoxAssert("없는 상태로 MonsterHpBar의 상태를 바꾸려 했습니다.");
-			break;
-		}
-	}
-
-	MHpActor = _State;
-}
-
-void MonsterHpBar::StateUpdate(float _Delta)
-{
-	switch (MHpActor)
-	{
-	case MonsterHpActor::Off:
-		return OffUpdate(_Delta);
-	case MonsterHpActor::Appear:
-		return AppearUpdate(_Delta);
-	case MonsterHpActor::Add:
-		return AddUpdate(_Delta);
-	case MonsterHpActor::None:
-	default:
-		break;
-	}
-}
-
-void MonsterHpBar::OffStart()
-{
-	MonsterDamageFont->Off();
-}
-void MonsterHpBar::OffUpdate(float _Delta)
-{
-	if (MonsterCurHp <= 0.0f)
-	{
-		return;
-	}
-
-	if (MonsterCurHp == MonsterPrevHp)
-	{
-		return;
-	}
-
-	ChangeState(MonsterHpActor::Appear);
-}
-void MonsterHpBar::AppearStart()
-{
-	MonsterDamageFont->On();
-
-	DamRan.SetSeed(time(nullptr));
-	DamageRandom = (DamRan.RandomInt(20, 50));
-	Damage = DamageRandom;
-
-	MonsterCurHp -= Damage;
-	MonsterPrevHp = MonsterCurHp;
-
-	SumDam = Damage;
-	Dam = true;
-}
-void MonsterHpBar::AppearUpdate(float _Delta)
-{
-	MonsterDamageFont->SetText(GlobalValue::OptimusFont, std::to_string(Damage), 15.0f, float4{1,0,0,1}, FW1_LEFT);
-
-	if (Dam == true)
-	{
-		if (MonsterCurHp != MonsterPrevHp)
-		{
-			ChangeState(MonsterHpActor::Add);
-			return;
-		}
-
-		CurTime += _Delta;
-		{
-			if (CurTime >= LimitTime)
-			{
-				DamageCal();
-				Dam = false;
-				CurTime = 0;
-				ChangeState(MonsterHpActor::Off);
-				return;
-			}
-		}
-	}
-}
-void MonsterHpBar::AddStart()
-{
-	SumDam += Damage;
-
-	MonsterCurHp -= Damage;
-	MonsterPrevHp = MonsterCurHp;
-}
-void MonsterHpBar::AddUpdate(float _Delta)
-{
-	MonsterDamageFont->SetText(GlobalValue::OptimusFont, std::to_string(SumDam), 15.0f, float4{ 1,0,0,1 }, FW1_LEFT);
-	CurTime += _Delta;
-	{
-		if (CurTime >= LimitTime)
-		{
-			SumDam = 0;
-			DamageCal();
-			Dam = false;
-			CurTime = 0;
-			ChangeState(MonsterHpActor::Off);
-			return;
-		}
-	}
-}
-
-void MonsterHpBar::DamageCal()
-{
-	if (MonsterCurHp <= 0.0f)
-	{
-		Monster_DamageBar->SetImageScale({ (0.0f / MonsterHp) * ImageXScale, HpBarYScale });
-		return;
-	}
-
-	if (MonsterCurHp > 0.0f)
-	{
-		Monster_DamageBar->SetImageScale({ (0.0f / MonsterHp) * ImageXScale, HpBarYScale });
-	}
+	Transform.SetWorldPosition(UIWPos);
 }
 
 void MonsterHpBar::Release()
 {
-	
+	pOwner = nullptr;
+	BonePosPointer = nullptr;
+	BackBarRenderer = nullptr;
+	HpBarRenderer = nullptr;
+	DamageBarRenderer = nullptr;
+}
+
+void MonsterHpBar::InitState()
+{
+	// Bar State
+	CreateStateParameter AwakeState;
+	AwakeState.Start = std::bind(&MonsterHpBar::Start_Awake, this, std::placeholders::_1);
+
+	CreateStateParameter IdleState;
+	IdleState.Stay = std::bind(&MonsterHpBar::Update_Idle, this, std::placeholders::_1, std::placeholders::_2);
+
+	CreateStateParameter OffState;
+	OffState.Start = std::bind(&MonsterHpBar::Start_Off, this, std::placeholders::_1);
+	OffState.Stay = std::bind(&MonsterHpBar::Update_Off, this, std::placeholders::_1, std::placeholders::_2);
+
+	MainState.CreateState(eState::Awake, AwakeState);
+	MainState.CreateState(eState::Idle, IdleState);
+	MainState.CreateState(eState::Off, OffState);
+}
+
+static constexpr float MAX_OFF_TIME = 8.0f;
+static constexpr float MAX_DAMAGE_RENDER_TIME = 0.8f;
+
+// State_Start
+void MonsterHpBar::Start_Awake(GameEngineState* _Parent)
+{
+	RendererOn();
+
+	OffTime = MAX_OFF_TIME;
+	DamageRenderTime = MAX_DAMAGE_RENDER_TIME;
+
+	SetHPGauge();
+
+	_Parent->ChangeState(eState::Idle);
+}
+
+
+void MonsterHpBar::Start_Off(GameEngineState* _Parent)
+{
+	RendererOff();
+
+	DamgeRenderHp = RenderHp;
+	SetDamageGauge();
+}
+
+// State Update
+void MonsterHpBar::Update_Idle(float _Delta, GameEngineState* _Parent)
+{
+	const int CurHp = pOwner->GetHp();
+	if (CurHp != RenderHp)
+	{
+		DamgeRenderHp = RenderHp;
+		RenderHp = CurHp;
+
+		OffTime = MAX_OFF_TIME;
+		DamageRenderTime = MAX_DAMAGE_RENDER_TIME;
+
+		SetHPGauge();
+		SetDamageGauge();
+	}
+
+	OffTime -= _Delta;
+	if (OffTime <= 0.0f)
+	{
+		_Parent->ChangeState(eState::Off);
+		return;
+	}
+
+	DamageRenderTime -= _Delta;
+	if (DamageRenderTime <= 0.0f)
+	{
+		DamgeRenderHp = RenderHp;
+		SetDamageGauge();
+	}
+}
+
+void MonsterHpBar::Update_Off(float _Delta, GameEngineState* _Parent)
+{
+	if (pOwner)
+	{
+		const int CurHp = pOwner->GetHp();
+		if (CurHp != RenderHp)
+		{
+			RenderHp = CurHp;
+			_Parent->ChangeState(eState::Awake);
+			return;
+		}
+	}
+}
+
+// State_Func
+void MonsterHpBar::RendererOn()
+{
+	RenderValue = true;
+	BackBarRenderer->On();
+	HpBarRenderer->On();
+	DamageBarRenderer->On();
+}
+
+void MonsterHpBar::RendererOff()
+{
+	RenderValue = false;
+	BackBarRenderer->Off();
+	HpBarRenderer->Off();
+	DamageBarRenderer->Off();
+}
+
+void MonsterHpBar::SetDamageGauge()
+{
+	if (DamageBarRenderer)
+	{
+		float GaugeRatio = static_cast<float>(DamgeRenderHp) / static_cast<float>(MaxHp);
+		GaugeRatio = std::clamp(GaugeRatio, 0.0f, 1.0f);
+		const float RenderScale = GaugeRatio * ImageXScale;
+		DamageBarRenderer->GetImageTransform().SetLocalScale({ RenderScale , HpBarYScale });
+	}
+}
+
+void MonsterHpBar::SetHPGauge()
+{
+	if (HpBarRenderer)
+	{
+		float GaugeRatio = static_cast<float>(RenderHp) / static_cast<float>(MaxHp);
+		GaugeRatio = std::clamp(GaugeRatio, 0.0f,1.0f);
+		const float RenderScale = GaugeRatio * ImageXScale;
+		HpBarRenderer->GetImageTransform().SetLocalScale({ RenderScale , HpBarYScale });
+	}
 }

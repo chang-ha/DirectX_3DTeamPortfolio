@@ -36,12 +36,24 @@ void Monster_Hollow_NonFirstAttack::Start()
 	//Sword.On();
 	
 	ChangeState(Enum_Hollow_State::Pray1);
+
+	CreateMonsterUI(0);
 }
 
 void Monster_Hollow_NonFirstAttack::Update(float _Delta)
 {
 	Monster_Hollow::Update(_Delta);
 	StateUpdate(_Delta);
+}
+
+void Monster_Hollow_NonFirstAttack::Release()
+{
+	Monster_Hollow::Release();
+}
+
+void Monster_Hollow_NonFirstAttack::LevelStart(class GameEngineLevel* _NextLevel)
+{
+	Monster_Hollow::LevelStart(_NextLevel);
 }
 
 void Monster_Hollow_NonFirstAttack::ChangeState(Enum_Hollow_State _State)
@@ -322,7 +334,7 @@ void Monster_Hollow_NonFirstAttack::ChangeHitState()
 		}
 
 		Enum_DirectionXZ_Quat HitDir = Hit.GetHitDir();
-		BodyCollision->Off();
+		//BodyCollision->Off();
 
 		switch (HitDir)
 		{
@@ -400,6 +412,7 @@ void Monster_Hollow_NonFirstAttack::State_Pray1_Update(float _Delta)
 	if (false)
 	{
 		ChangeState(Enum_Hollow_State::PrayToBeScared1);
+		return;
 	}
 
 	CheckAwake();
@@ -408,6 +421,7 @@ void Monster_Hollow_NonFirstAttack::State_Pray1_Update(float _Delta)
 	if (AwakeValue == true)
 	{
 		ChangeState(Enum_Hollow_State::PrayToIdle1);
+		return;
 	}
 
 	// Test
@@ -432,6 +446,7 @@ void Monster_Hollow_NonFirstAttack::State_Pray2_Update(float _Delta)
 	if (false)
 	{
 		ChangeState(Enum_Hollow_State::PrayToBeScared2);
+		return;
 	}
 
 	CheckAwake();
@@ -440,6 +455,7 @@ void Monster_Hollow_NonFirstAttack::State_Pray2_Update(float _Delta)
 	if (AwakeValue == true)
 	{
 		ChangeState(Enum_Hollow_State::PrayToIdle2);
+		return;
 	}
 }
 
@@ -461,6 +477,7 @@ void Monster_Hollow_NonFirstAttack::State_Pray3_Update(float _Delta)
 	if (false)
 	{
 		ChangeState(Enum_Hollow_State::PrayToBeScared3);
+		return;
 	}
 
 	CheckAwake();
@@ -469,6 +486,7 @@ void Monster_Hollow_NonFirstAttack::State_Pray3_Update(float _Delta)
 	if (AwakeValue == true)
 	{
 		ChangeState(Enum_Hollow_State::PrayToIdle3);
+		return;
 	}
 }
 
@@ -499,6 +517,7 @@ void Monster_Hollow_NonFirstAttack::State_PrayToBeScared1_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End) - 1)
 	{
 		ChangeState(Enum_Hollow_State::BeScared);
+		return;
 	}
 }
 
@@ -513,6 +532,7 @@ void Monster_Hollow_NonFirstAttack::State_PrayToBeScared2_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End) - 1)
 	{
 		ChangeState(Enum_Hollow_State::BeScared);
+		return;
 	}
 }
 
@@ -527,6 +547,7 @@ void Monster_Hollow_NonFirstAttack::State_PrayToBeScared3_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End) - 1)
 	{
 		ChangeState(Enum_Hollow_State::BeScared);
+		return;
 	}
 }
 
@@ -549,6 +570,7 @@ void Monster_Hollow_NonFirstAttack::State_BeScared_Update(float _Delta)
 	if (false)
 	{
 		ChangeState(Enum_Hollow_State::BeScaredToIdle);
+		return;
 	}
 
 	// Test
@@ -557,6 +579,7 @@ void Monster_Hollow_NonFirstAttack::State_BeScared_Update(float _Delta)
 	{
 		StateTime = 0.0f;
 		ChangeState(Enum_Hollow_State::BeScaredToIdle);
+		return;
 	}
 }
 
@@ -587,6 +610,8 @@ void Monster_Hollow_NonFirstAttack::State_PrayToIdle1_Update(float _Delta)
 {
 	NonFindTarget(_Delta);
 
+	ChangeHitState();
+
 	// Pray 마다 무기 꺼내는 프레임 다름 수정 필요.
 	if (MainRenderer->GetCurAnimationFrame() >= 31)
 	{
@@ -596,6 +621,7 @@ void Monster_Hollow_NonFirstAttack::State_PrayToIdle1_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
 	{
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
@@ -607,6 +633,8 @@ void Monster_Hollow_NonFirstAttack::State_PrayToIdle2_Update(float _Delta)
 {
 	NonFindTarget(_Delta);
 
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 37)
 	{
 		MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
@@ -615,6 +643,7 @@ void Monster_Hollow_NonFirstAttack::State_PrayToIdle2_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
 	{
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
@@ -626,10 +655,13 @@ void Monster_Hollow_NonFirstAttack::State_PrayToIdle3_Update(float _Delta)
 {
 	NonFindTarget(_Delta);
 
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
 	{
 		MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
@@ -641,6 +673,8 @@ void Monster_Hollow_NonFirstAttack::State_BeScaredToIdle_Update(float _Delta)
 {
 	NonFindTarget(_Delta);
 
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 39)
 	{
 		MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
@@ -649,6 +683,7 @@ void Monster_Hollow_NonFirstAttack::State_BeScaredToIdle_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
 	{
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
@@ -674,10 +709,12 @@ void Monster_Hollow_NonFirstAttack::State_Idle_Update(float _Delta)
 		if (Enum_RotDir::Left == GetRotDir_e())
 		{
 			ChangeState(Enum_Hollow_State::Turn_Left2);
+			return;
 		}
 		else
 		{
 			ChangeState(Enum_Hollow_State::Turn_Right2);
+			return;
 		}
 	}
 	else if (AbsTargetAngle > 150.0f)
@@ -686,10 +723,12 @@ void Monster_Hollow_NonFirstAttack::State_Idle_Update(float _Delta)
 		if (Enum_RotDir::Left == GetRotDir_e())
 		{
 			ChangeState(Enum_Hollow_State::Turn_Left_Twice2);
+			return;
 		}
 		else
 		{
 			ChangeState(Enum_Hollow_State::Turn_Right_Twice2);
+			return;
 		}
 	}
 	else if (AbsTargetAngle < 80.0f)
@@ -719,11 +758,13 @@ void Monster_Hollow_NonFirstAttack::State_Idle_Update(float _Delta)
 			//RunToSting
 			StateTime = 0.0f;
 			ChangeState(Enum_Hollow_State::Run);
+			return;
 		}
 		else if (GetTargetDistance_e() == Enum_TargetDist::Medium)
 		{
 			StateTime = 0.0f;
 			ChangeState(Enum_Hollow_State::Walk_Front);
+			return;
 		}
 		else
 		{
@@ -765,10 +806,12 @@ void Monster_Hollow_NonFirstAttack::State_Walk_Front_Update(float _Delta)
 		{
 			// Idle로 넘어갈지 바로 Run으로 넘어갈지 조사해야할듯..
 			ChangeState(Enum_Hollow_State::Run);
+			return;
 		}
 		else
 		{
 			ChangeState(Enum_Hollow_State::Idle);
+			return;
 		}
 	}
 
@@ -802,6 +845,7 @@ void Monster_Hollow_NonFirstAttack::State_Walk_Back_Update(float _Delta)
 	{
 		WalkTime = 0.0f;
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
@@ -825,6 +869,7 @@ void Monster_Hollow_NonFirstAttack::State_Walk_Left_Update(float _Delta)
 	{
 		WalkTime = 0.0f;
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
@@ -848,6 +893,7 @@ void Monster_Hollow_NonFirstAttack::State_Walk_Right_Update(float _Delta)
 	{
 		WalkTime = 0.0f;
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
@@ -873,10 +919,12 @@ void Monster_Hollow_NonFirstAttack::State_Run_Update(float _Delta)
 		if (GetTargetDistance_e() == Enum_TargetDist::Melee)
 		{
 			ChangeState(Enum_Hollow_State::RH_RunToSlash);
+			return;
 		}
 		else if (GetTargetDistance_e() == Enum_TargetDist::Close)
 		{
 			ChangeState(Enum_Hollow_State::Idle);
+			return;
 		}
 	}
 }
@@ -897,6 +945,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_VerticalSlash_Update(float _Delta)
 		if (true == Sword.GetBlock())
 		{
 			ChangeState(Enum_Hollow_State::AttackFail);
+			return;
 		}
 		else
 		{
@@ -914,6 +963,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_VerticalSlash_Update(float _Delta)
 	{
 		Sword.ResetRecord();
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
@@ -933,6 +983,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_HorizontalSlash_Update(float _Delta
 		if (true == Sword.GetBlock())
 		{
 			ChangeState(Enum_Hollow_State::AttackFail);
+			return;
 		}
 		else
 		{
@@ -950,6 +1001,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_HorizontalSlash_Update(float _Delta
 	{
 		Sword.ResetRecord();
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
@@ -969,6 +1021,7 @@ void Monster_Hollow_NonFirstAttack::State_TH_VerticalSlash_Update(float _Delta)
 		if (true == Sword.GetBlock())
 		{
 			ChangeState(Enum_Hollow_State::AttackFail);
+			return;
 		}
 		else
 		{
@@ -986,6 +1039,7 @@ void Monster_Hollow_NonFirstAttack::State_TH_VerticalSlash_Update(float _Delta)
 	{
 		Sword.ResetRecord();
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
@@ -1006,6 +1060,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 		if (true == Sword.GetBlock())
 		{
 			ChangeState(Enum_Hollow_State::AttackFail);
+			return;
 		}
 		else
 		{
@@ -1033,6 +1088,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 		if (true == Sword.GetBlock())
 		{
 			ChangeState(Enum_Hollow_State::AttackFail);
+			return;
 		}
 		else
 		{
@@ -1060,6 +1116,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 		if (true == Sword.GetBlock())
 		{
 			ChangeState(Enum_Hollow_State::AttackFail);
+			return;
 		}
 		else
 		{
@@ -1087,6 +1144,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 		if (true == Sword.GetBlock())
 		{
 			ChangeState(Enum_Hollow_State::AttackFail);
+			return;
 		}
 		else
 		{
@@ -1114,6 +1172,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 		if (true == Sword.GetBlock())
 		{
 			ChangeState(Enum_Hollow_State::AttackFail);
+			return;
 		}
 		else
 		{
@@ -1141,6 +1200,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 		if (true == Sword.GetBlock())
 		{
 			ChangeState(Enum_Hollow_State::AttackFail);
+			return;
 		}
 		else
 		{
@@ -1158,6 +1218,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 	{
 		Sword.ResetRecord();
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
@@ -1177,6 +1238,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_RunToSlash_Update(float _Delta)
 		if (true == Sword.GetBlock())
 		{
 			ChangeState(Enum_Hollow_State::AttackFail);
+			return;
 		}
 		else
 		{
@@ -1194,6 +1256,7 @@ void Monster_Hollow_NonFirstAttack::State_RH_RunToSlash_Update(float _Delta)
 	{
 		Sword.ResetRecord();
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
@@ -1208,6 +1271,7 @@ void Monster_Hollow_NonFirstAttack::State_Turn_Left2_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 35)
 	{
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
@@ -1222,6 +1286,7 @@ void Monster_Hollow_NonFirstAttack::State_Turn_Right2_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 35)
 	{
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
@@ -1236,6 +1301,7 @@ void Monster_Hollow_NonFirstAttack::State_Turn_Left_Twice2_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 38)
 	{
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
@@ -1250,20 +1316,25 @@ void Monster_Hollow_NonFirstAttack::State_Turn_Right_Twice2_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 38)
 	{
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
 void Monster_Hollow_NonFirstAttack::State_AttackFail_Start()
 {
+	Hit.SetHit(false);
 	Sword.Off();
 	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_AttackFail");
 }
 void Monster_Hollow_NonFirstAttack::State_AttackFail_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 40)
 	{
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
@@ -1275,9 +1346,12 @@ void Monster_Hollow_NonFirstAttack::State_Parrying_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_Parrying_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 64)
 	{
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
@@ -1293,52 +1367,67 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Front_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_Hit_Front_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 46)
 	{
-		BodyCollision->On();
+		//BodyCollision->On();
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
 void Monster_Hollow_NonFirstAttack::State_Hit_Back_Start()
 {
 	Hit.SetHit(false);
+	MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
 	MainRenderer->ChangeAnimation("c1100_Hit_Back");
 }
 void Monster_Hollow_NonFirstAttack::State_Hit_Back_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 46)
 	{
-		BodyCollision->On();
+		//BodyCollision->On();
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
 void Monster_Hollow_NonFirstAttack::State_Hit_Left_Start()
 {
 	Hit.SetHit(false);
+	MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
 	MainRenderer->ChangeAnimation("c1100_Hit_Left");
 }
 void Monster_Hollow_NonFirstAttack::State_Hit_Left_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 46)
 	{
-		BodyCollision->On();
+		//BodyCollision->On();
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
 void Monster_Hollow_NonFirstAttack::State_Hit_Right_Start()
 {
 	Hit.SetHit(false);
+	MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
 	MainRenderer->ChangeAnimation("c1100_Hit_Right");
 }
 void Monster_Hollow_NonFirstAttack::State_Hit_Right_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 46)
 	{
-		BodyCollision->On();
+		//BodyCollision->On();
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
@@ -1357,6 +1446,7 @@ void Monster_Hollow_NonFirstAttack::State_HitToDeath_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
 	{
 		ChangeState(Enum_Hollow_State::Death);
+		return;
 	}
 }
 
@@ -1371,12 +1461,14 @@ void Monster_Hollow_NonFirstAttack::State_BackAttackHit_Update(float _Delta)
 		if (MainRenderer->GetCurAnimationFrame() >= 80)
 		{
 			ChangeState(Enum_Hollow_State::BackAttackDeath);
+			return;
 		}
 	}
 
 	if (MainRenderer->GetCurAnimationFrame() >= 167)
 	{
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 
@@ -1400,11 +1492,13 @@ void Monster_Hollow_NonFirstAttack::State_AfterGuardBreakHit_Update(float _Delta
 		if (MainRenderer->GetCurAnimationFrame() >= 140)
 		{
 			ChangeState(Enum_Hollow_State::AfterGuardBreakDeath);
+			return;
 		}
 	}
 	if (MainRenderer->GetCurAnimationFrame() >= 194)
 	{
 		ChangeState(Enum_Hollow_State::Idle);
+		return;
 	}
 }
 

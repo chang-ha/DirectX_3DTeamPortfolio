@@ -223,6 +223,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EventCol.cpp" />
     <ClCompile Include="LothricKn_Debug.cpp">
       <SubType>
       </SubType>
@@ -572,6 +573,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EventCol.h" />
     <ClInclude Include="LothricKn_Debug.h">
       <SubType>
       </SubType>
