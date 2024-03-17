@@ -83,6 +83,8 @@ public:
 		ChangeState(Enum_HollowSoldier_Sword_State::Scout);
 	}
 
+	void WakeUp() override;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

@@ -63,7 +63,7 @@ public:
 	Monster_Hollow(Monster_Hollow && _Other) noexcept = delete;
 	Monster_Hollow& operator=(const Monster_Hollow & _Other) = delete;
 	Monster_Hollow& operator=(Monster_Hollow && _Other) noexcept = delete;
-
+	
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -76,6 +76,7 @@ protected:
 	void CreateAnimation();
 	void SettingRootMotion();
 	void SettingSoundFrameEvent();
+	void SoundLoad();
 
 private:
 

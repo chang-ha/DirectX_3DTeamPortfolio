@@ -43,12 +43,17 @@ void Monster_HollowSoldier_RoundShield::Start()
 	Sword.Init(this, SwordCollision.get());
 	Sword.On();
 
-	//ChangeState(Enum_HollowSoldier_RoundShield_State::Idle1);
+	ChangeState(Enum_HollowSoldier_RoundShield_State::Idle1);
 }
 void Monster_HollowSoldier_RoundShield::Update(float _Delta)
 {
 	Monster_Hollow::Update(_Delta);
 	StateUpdate(_Delta);
+}
+
+void Monster_HollowSoldier_RoundShield::WakeUp()
+{
+	ChangeState(Enum_HollowSoldier_RoundShield_State::Scout);
 }
 
 void Monster_HollowSoldier_RoundShield::ChangeState(Enum_HollowSoldier_RoundShield_State _State)
@@ -472,10 +477,10 @@ void Monster_HollowSoldier_RoundShield::State_Idle1_Update(float _Delta)
 	StateTime += _Delta;
 
 	// 트리거 발동시
-	if (StateTime >= 5.0f)
+	/*if (StateTime >= 5.0f)
 	{
 		ChangeState(Enum_HollowSoldier_RoundShield_State::Scout);
-	}
+	}*/
 }
 
 void Monster_HollowSoldier_RoundShield::State_Idle2_Start()

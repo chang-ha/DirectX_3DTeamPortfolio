@@ -41,11 +41,18 @@ void Monster_HollowSoldier_Spear::Start()
 
 	Spear.Init(this, SpearCollision.get());
 	Spear.On();
+
+	ChangeState(Enum_HollowSoldier_Spear_State::Idle1);
 }
 void Monster_HollowSoldier_Spear::Update(float _Delta)
 {
 	Monster_Hollow::Update(_Delta);
 	StateUpdate(_Delta);
+}
+
+void Monster_HollowSoldier_Spear::WakeUp()
+{
+	ChangeState(Enum_HollowSoldier_Spear_State::Scout);
 }
 
 void Monster_HollowSoldier_Spear::ChangeState(Enum_HollowSoldier_Spear_State _State)
@@ -469,10 +476,10 @@ void Monster_HollowSoldier_Spear::State_Idle1_Update(float _Delta)
 	// test
 	StateTime += _Delta;
 	//if(false)
-	if (StateTime >= 5.0f)
+	/*if (StateTime >= 5.0f)
 	{
 		ChangeState(Enum_HollowSoldier_Spear_State::Scout);
-	}
+	}*/
 }
 
 void Monster_HollowSoldier_Spear::State_Idle2_Start()
