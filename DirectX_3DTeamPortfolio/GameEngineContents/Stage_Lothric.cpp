@@ -208,6 +208,19 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 			}
 		}
 
+		if (nullptr == GameEngineSprite::Find("DarkSoulsIII_Main_Menu_Theme.wav"))
+		{
+			GameEngineDirectory Dir;
+			Dir.MoveParentToExistsChild("ContentsResources");
+			Dir.MoveChild("ContentsResources\\Sound\\UI");
+
+			std::vector<GameEngineFile> Files = Dir.GetAllFile();
+			for (GameEngineFile& pFiles : Files)
+			{
+				GameEngineSound::SoundLoad(pFiles.GetStringPath());
+			}
+		}
+
 		MainUI = CreateActor<MainUIActor>(Enum_UpdateOrder::UI);
 		MainUI->CreateBossUI(Boss_Object.get());
 		MainUI->CreateAndCheckEsteUI(Player_Object.get());
