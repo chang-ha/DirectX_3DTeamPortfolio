@@ -33,7 +33,7 @@ struct LightData
     float ForceLightPower = 0.5f; //GI텍스쳐용 강제 라이트 
     float constantAttenuation = 1.0f;
     float linearAttenuation = 0.003f;
-    float quadraticAttenuation = 0.00006f;
+    float quadraticAttenuation = 0.00003f;
     float Def1;
 };
 

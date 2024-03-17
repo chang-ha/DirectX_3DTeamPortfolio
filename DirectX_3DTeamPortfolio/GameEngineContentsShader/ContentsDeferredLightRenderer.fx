@@ -103,7 +103,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
     {
         float Distance = length(LightDataValue.ViewLightPos.xyz - Pos.xyz);
         
-        if (Distance >= LightDataValue.PointLightRange * 2.0f)
+        if (Distance >= LightDataValue.PointLightRange * 2.5f)
         {
             clip(-1);
         }
