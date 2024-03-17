@@ -46,7 +46,7 @@ void Object_bonfire::Start()
 	
 
 	GameEngineLevel* Level = GetLevel();
-	Light = Level->CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Point");
+	Light = Level->CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "BonFirePoint");
 	Light->SetLightType(Enum_LightType::Point);
 
 	//Light->IsDebugValue = true;

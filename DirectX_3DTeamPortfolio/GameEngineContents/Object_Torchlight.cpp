@@ -26,7 +26,9 @@ void Object_Torchlight::Start()
 	{
 		FireRender = CreateComponent<ContentsFireRenderer>(Enum_RenderOrder::Effect);
 		FireRender->SetBillboardOn();
-		FireRender->SetName("Fire");
+		static int num = 0;
+		num++;
+		FireRender->SetName("Fire_" + std::to_string(num));
 		FireRender->Transform.SetLocalScale({ 70.f, 80.0f, 100.0f });
 		
 		float4 FirePos = { -4.0f, 41.0f, 83.0f };
@@ -34,7 +36,7 @@ void Object_Torchlight::Start()
 	
 
 		GameEngineLevel* Level = GetLevel();
-		Light = Level->CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "PointFire");
+		Light = Level->CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Torchlight_" + std::to_string(num));
 		Light->SetLightType(Enum_LightType::Point);
 
 		//Light->IsDebugValue = true;
