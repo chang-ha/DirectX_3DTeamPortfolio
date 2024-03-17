@@ -18,9 +18,9 @@ void Monster_Hollow::Start()
 	//MainRenderer->SetFBXMesh("c1100.fbx", "FBXAnimationTexture");
 	MainRenderer->SetFBXMesh("c1100.fbx", "FBX_Animation");
 
-	Capsule = CreateComponent<GameEnginePhysXCapsule>();
+	/*Capsule = CreateComponent<GameEnginePhysXCapsule>();
 	Capsule->PhysXComponentInit(100.0f, 50.0f);
-	Capsule->SetPositioningComponent();
+	Capsule->SetPositioningComponent();*/
 	
 
 	CreateAnimation();
@@ -52,7 +52,7 @@ void Monster_Hollow::Start()
 	AttackRangeCollision->Transform.SetLocalPosition(float4(0, 100, 0));
 	AttackRangeCollision->Transform.SetWorldScale(float4(300, 300, 300));*/
 
-	BodyCollision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, Enum_Hollow_BoneType::Spine, { float4(100.0f, 100.0f, 100.0f), float4::ZERONULL, float4::ZERO }, "Spine");
+	BodyCollision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, Enum_Hollow_BoneType::Spine, { float4(150.0f, 150.0f, 150.0f), float4::ZERONULL, float4::ZERO }, "Spine");
 	
 	BodyCollision->On();
 

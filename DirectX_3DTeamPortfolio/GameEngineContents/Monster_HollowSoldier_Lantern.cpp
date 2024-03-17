@@ -696,7 +696,7 @@ void Monster_HollowSoldier_Lantern::State_AwakeHollows_Update(float _Delta)
 
 	if (AwakeCollision->IsUpdate() == true)
 	{
-		AwakeCollision->Transform.AddWorldScale(float4(_Delta * 100.0f, _Delta * 100.0f, _Delta * 100.0f));
+		AwakeCollision->Transform.AddWorldScale(float4(_Delta * 500.0f, _Delta * 500.0f, _Delta * 500.0f));
 	}
 
 	/*if (MainRenderer->GetCurAnimationFrame() >= 80)
