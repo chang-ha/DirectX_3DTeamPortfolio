@@ -1,16 +1,16 @@
 #pragma once
+#include "UIActor.h"
 
-enum struct MonsterHpActor
+class MonsterHpBar : public UIActor
 {
-	None,
-	Off,
-	Appear,
-	Add,
-};
+	enum struct eState
+	{
+		None,
+		Awake,
+		Idle,
+		Off,
+	};
 
-#include <GameEngineCore/GameEngineActor.h>
-class MonsterHpBar : public GameEngineActor
-{
 public:
 	// constructer destructer
 	MonsterHpBar();
@@ -30,21 +30,27 @@ protected:
 	void Update(float _Delta) override;
 	void Release() override;
 
+	void Reset() override {}
+
 	// Location 
 	void PositionUpdate();
 
 	// State
-	void ChangeState(MonsterHpActor _State);
-	void StateUpdate(float _Delta);
+	void InitState();
 
-	void OffStart();
-	void OffUpdate(float _Delta);
+	// Start
+	void Start_Awake(GameEngineState* _Parent);
+	void Start_Off(GameEngineState* _Parent);
 
-	void AppearStart();
-	void AppearUpdate(float _Delta);
+	// Update
+	void Update_Idle(float _Delta, GameEngineState* _Parent);
+	void Update_Off(float _Delta, GameEngineState* _Parent);
 
-	void AddStart();
-	void AddUpdate(float _Delta);
+	void RendererOn();
+	void RendererOff();
+
+	void SetDamageGauge();
+	void SetHPGauge();
 
 private:
 	class BaseMonster* pOwner = nullptr;
@@ -52,32 +58,25 @@ private:
 	std::shared_ptr<GameEngineSpriteRenderer> BackBarRenderer;
 	std::shared_ptr<GameEngineSpriteRenderer> HpBarRenderer;
 	std::shared_ptr<GameEngineSpriteRenderer> DamageBarRenderer;
-	std::shared_ptr<GameEngineSpriteRenderer> DamageFontRenderer;
-	MonsterHpActor MHpActor = MonsterHpActor::Off;
 
-	float MonsterPrevHp = 0.0f;
-	float MonsterCurHp = 100.0f;
-	float MonsterHp = 100.0f;
-	int MonsterSoul = 100;
-
-	float CurTime = 0.0f;
-	float LimitTime = 1.5f;
-
-	GameEngineRandom DamRan;
-	int DamageRandom = 0;
-	int Damage = 0;
-	int SumDam = 0;
-	bool Dam = false;
 
 	// Poisition Init Var
+	bool RenderValue = false;
 	bool InitValue = false;
 
 	const float4* BonePosPointer = nullptr;
-	// 컴파일 타입 어셜션?
+
 	static constexpr float HeightDist = 50.0f;
 
-	void DamageCal();
-	void BarUpdate();
+	// State
+	GameEngineState MainState;
+
+	float BackBarScale = 0.0f;
+	int MaxHp = 0;
+	int RenderHp = 0;
+	int DamgeRenderHp = 0;
+
+	float OffTime = 0.0f;
+	float DamageRenderTime = 0.0f;
 
 };
-

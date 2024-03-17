@@ -21,6 +21,8 @@ void Monster_HollowSoldier_Crossbow::Start()
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::Shoes);
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::SmallLeatherVest);
 	MeshOnOffSwitch(Enum_Hollow_MeshIndex::Pants);
+
+	CreateMonsterUI(0);
 }
 void Monster_HollowSoldier_Crossbow::Update(float _Delta)
 {
