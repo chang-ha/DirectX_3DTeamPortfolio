@@ -1862,7 +1862,7 @@ void Player::Player_State()
 
 
 
-						if (Actor_test->Transform.GetWorldRotationEuler().X >= 0)
+						if (Actor_test->Transform.GetWorldRotationEuler().X > 20)
 						{
 
 							Rotation_Check_Y_Plus = false;
@@ -1877,7 +1877,7 @@ void Player::Player_State()
 
 						Actor_test->Transform.AddLocalRotation({ -2.0f,0.0f });
 
-						if (Actor_test->Transform.GetWorldRotationEuler().X <= 0)
+						if (Actor_test->Transform.GetWorldRotationEuler().X < 20)
 						{
 							Rotation_Check_Y_Mus = false;
 							Rotation_Check_Y_Plus = false;

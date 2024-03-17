@@ -60,6 +60,9 @@ void Monster_Hollow::Start()
 	MonsterCollision->SetCollisionType(ColType::SPHERE3D);
 	MonsterCollision->Transform.SetWorldScale(float4(1.0f, 1.0f, 1.0f));
 
+
+	// UISetting
+	//CreateMonsterUI(0);
 }
 
 void Monster_Hollow::Update(float _Delta)
