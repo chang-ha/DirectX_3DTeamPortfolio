@@ -447,7 +447,6 @@ void Stage_Lothric::SetAllMonster()
 	{
 		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_Hollow_RaggedRobes>(Enum_UpdateOrder::Monster, "Monster_Hollow_RaggedRobes");
 		Monster->SetResponPos({ -5730.0f, 3409.0f, -2575.0f });
-		Monster->SetResponRotation({ 0.0f, 1.0f, 0.0f });
 		AllMonster.push_back(Monster);
 	}
 
