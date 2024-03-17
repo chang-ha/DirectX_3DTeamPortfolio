@@ -366,7 +366,7 @@ void Monster_Hollow_NonFirstAttack::CheckAwake()
 	EventParameter AwakeParameter;
 	AwakeParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
 		{
-			_Other->Off();
+			//_Other->Off();
 			AwakeValue = true;
 		};
 
