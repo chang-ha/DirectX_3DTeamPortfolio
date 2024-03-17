@@ -339,12 +339,12 @@ void Player::Start()
 	{
 
 		ColParameter.R = 0.0f;
-		ColParameter.S = { 50.f, 120.f, 40.f };
+		ColParameter.S = { 50.f, 120.f, 60.f };
 		//ColParameter.S = { 300.f, 300.f, 300.f };
 		ColParameter.T = { 0.f, 0.8f, 0.f };
 
 		Body_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Body, 0, ColParameter, "Player_Body");
-		Body_Col->SetCollisionType(ColType::AABBBOX3D);
+		Body_Col->SetCollisionType(ColType::OBBBOX3D);
 		//Body_Col->Transform.SetLocalScale({ 100.f,120.f, 30.f });
 		Body_Col->On();
 
@@ -422,17 +422,15 @@ void Player::Start()
 	
 	Body_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
-			if (AttackCheck == false)
-			{
-				std::shared_ptr<ContentsHitRenderer> HitRenderer = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
-				HitRenderer->On();
-				HitRenderer->Transform.SetWorldPosition({ col->Transform.GetWorldPosition() });
-				AttackCheck = true;
-			}
+			
+				
 		};
 
 	Body_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
+			std::shared_ptr<ContentsHitRenderer> HitRenderer = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
+			HitRenderer->On();
+			HitRenderer->Transform.SetWorldPosition({ col->Transform.GetWorldPosition() });
 
 			
 		};
@@ -446,18 +444,16 @@ void Player::Start()
 
 	Shield_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
-			if (AttackCheck == false)
-			{
-				std::shared_ptr<ContentsHitRenderer> HitRenderer = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
-				HitRenderer->On();
-				HitRenderer->Transform.SetWorldPosition({ Shield_Actor->Transform.GetWorldPosition() });
-				AttackCheck = true;
-			}
+			
+				
+			
 		};
 
 	Shield_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
-			
+			std::shared_ptr<ContentsHitRenderer> HitRenderer = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
+			HitRenderer->On();
+			HitRenderer->Transform.SetWorldPosition({ Shield_Actor->Transform.GetWorldPosition() });
 		};
 
 	Shield_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
@@ -475,8 +471,9 @@ void Player::Start()
 	Attack_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
 			
-			std::shared_ptr<ContentsHitRenderer> HitRenderer = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
-			HitRenderer->On();
+		
+			StrikeRenderer->On();
+			StrikeRenderer->ChangeAnimation("Hit");
 			StrikeRenderer->Transform.SetWorldPosition({ Weapon_Actor->Transform.GetWorldPosition() });
 			
 						
@@ -608,11 +605,11 @@ void Player::Start()
 	Attack_Col->Off(); 
 
 
-	//HitRenderer = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
+	HitRenderer = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
 	
 
 
-	//StrikeRenderer =CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
+	StrikeRenderer =CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
 	//HitRenderer->Transform.AddLocalPosition({ 0.0f,20.0f,20.f});
 
 
@@ -692,7 +689,34 @@ void Player::Update(float _Delta)
 
 	// 충돌 
 
+	if (Shield_Col->Collision(Enum_CollisionOrder::MonsterAttack))
+	{
 	
+	}
+
+	else if (Body_Col->Collision(Enum_CollisionOrder::MonsterAttack))
+	{
+		
+	}
+
+	if (Attack_Col->Collision(Enum_CollisionOrder::Monster_Shield))
+	{
+		StrikeRenderer->On();
+		StrikeRenderer->ChangeAnimation("Hit");
+		StrikeRenderer->Transform.SetWorldPosition({ Attack_Col->Transform.GetWorldPosition().X,Attack_Col->Transform.GetWorldPosition().Y,Attack_Col->Transform.GetWorldPosition().Z });
+	}
+	else if (Attack_Col->Collision(Enum_CollisionOrder::Monster_Body))
+	{
+		StrikeRenderer->On();
+		StrikeRenderer->ChangeAnimation("Hit");
+		StrikeRenderer->Transform.SetWorldPosition({ Attack_Col->Transform.GetWorldPosition().X,Attack_Col->Transform.GetWorldPosition().Y+30.0f,Attack_Col->Transform.GetWorldPosition().Z });
+	}
+
+
+	//Attack_Col->CollisionEvent(Enum_CollisionOrder::Monster_Body, Attack_Event);
+	//Attack_Col->CollisionEvent(Enum_CollisionOrder::Monster_Shield, Attack_Event);
+	//Body_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack, Body_Event);
+	//Shield_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack, Shield_Event);
 
 
 	if (tyu == false)
@@ -719,10 +743,7 @@ void Player::Update(float _Delta)
 
 	//
 
-	Attack_Col->CollisionEvent(Enum_CollisionOrder::Monster_Body, Attack_Event);
-	Attack_Col->CollisionEvent(Enum_CollisionOrder::Monster_Shield, Attack_Event);
-	//Body_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack,Body_Event);
-	//Shield_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack, Shield_Event);
+	
 
 
 	Arround_Col->CollisionEvent(Enum_CollisionOrder::Monster, Arround_Event);
@@ -1252,6 +1273,11 @@ void Player::CameraRotation(float Delta)
 bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 {
 
+	HitRenderer->On();
+	HitRenderer->ChangeAnimation("Hit");
+	HitRenderer->Transform.SetWorldPosition({ Body_Col->Transform.GetWorldPosition().X,Body_Col->Transform.GetWorldPosition().Y + 50.0f,Body_Col->Transform.GetWorldPosition().Z });
+
+
 	tyu = true;
 
 	Poise_Time = 0;
@@ -1386,19 +1412,19 @@ bool Player::GetHitToShield(const HitParameter& _Para)
 	tyu = true;
 	Poise_Time = 0;
 
-
-	
-	float4 Weapon = _Para.pAttacker->GetSocketCollision(71)->Transform.GetWorldPosition();
-
-	std::shared_ptr<ContentsHitRenderer> HitRenderer = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
 	HitRenderer->On();
-	HitRenderer->Transform.SetWorldPosition({ Weapon });
+	HitRenderer->ChangeAnimation("Hit");
+	HitRenderer->Transform.SetWorldPosition({ Shield_Col->Transform.GetWorldPosition().X,Shield_Col->Transform.GetWorldPosition().Y,Shield_Col->Transform.GetWorldPosition().Z });
+
+
+
 
 	if (nullptr == _Para.pAttacker)
 	{
 		MsgBoxAssert("공격자의 포인터를 모르고 사용할 수 없는 기능입니다.");
 		return false;
 	}
+
 
 	/*if (true == Hit.IsHit())
 	{

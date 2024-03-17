@@ -682,11 +682,20 @@ void Monster_HollowSoldier_RoundShield::State_Idle3ToIdle2_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Scout_Start()
 {
+	ScoutTime = 0.0f;
 	MainRenderer->ChangeAnimation("c1100_Scout");
 }
 void Monster_HollowSoldier_RoundShield::State_Scout_Update(float _Delta)
 {
 	ChangeHitState();
+
+	ScoutTime += _Delta;
+
+	if (ScoutTime >= 15.0f)
+	{
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Turn_Left_Twice1);
+		return;
+	}
 
 	EventParameter RecognizeParameter;
 	RecognizeParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
@@ -1498,7 +1507,8 @@ void Monster_HollowSoldier_RoundShield::State_Turn_Left_Twice1_Update(float _Del
 
 	if (MainRenderer->GetCurAnimationFrame() >= 38)
 	{
-		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle1);
+		//ChangeState(Enum_HollowSoldier_RoundShield_State::Idle1);
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Scout);
 		return;
 	}
 }
