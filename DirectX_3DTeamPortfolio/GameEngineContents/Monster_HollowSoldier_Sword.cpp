@@ -62,6 +62,7 @@ void Monster_HollowSoldier_Sword::LevelStart(class GameEngineLevel* _NextLevel)
 void Monster_HollowSoldier_Sword::WakeUp()
 {
 	ChangeState(Enum_HollowSoldier_Sword_State::Scout);
+	return;
 }
 
 void Monster_HollowSoldier_Sword::ChangeState(Enum_HollowSoldier_Sword_State _State)
@@ -513,10 +514,12 @@ void Monster_HollowSoldier_Sword::State_Idle2_Update(float _Delta)
 		if (Enum_RotDir::Left == GetRotDir_e())
 		{
 			ChangeState(Enum_HollowSoldier_Sword_State::Turn_Left2);
+			return;
 		}
 		else
 		{
 			ChangeState(Enum_HollowSoldier_Sword_State::Turn_Right2);
+			return;
 		}
 	}
 	else if (AbsTargetAngle > 150.0f)
@@ -525,10 +528,12 @@ void Monster_HollowSoldier_Sword::State_Idle2_Update(float _Delta)
 		if (Enum_RotDir::Left == GetRotDir_e())
 		{
 			ChangeState(Enum_HollowSoldier_Sword_State::Turn_Left_Twice2);
+			return;
 		}
 		else
 		{
 			ChangeState(Enum_HollowSoldier_Sword_State::Turn_Right_Twice2);
+			return;
 		}
 	}
 	else if (AbsTargetAngle < 80.0f)
@@ -570,11 +575,13 @@ void Monster_HollowSoldier_Sword::State_Idle2_Update(float _Delta)
 			//RunToSting
 			StateTime = 0.0;
 			ChangeState(Enum_HollowSoldier_Sword_State::Run);
+			return;
 		}
 		else if (GetTargetDistance_e() == Enum_TargetDist::Medium)
 		{
 			StateTime = 0.0f;
 			ChangeState(Enum_HollowSoldier_Sword_State::Walk_Front);
+			return;
 		}
 		else
 		{
@@ -606,6 +613,7 @@ void Monster_HollowSoldier_Sword::State_Idle2ToIdle1_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 39)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle1);
+		return;
 	}
 }
 
@@ -625,6 +633,7 @@ void Monster_HollowSoldier_Sword::State_Idle1ToIdle2_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 29)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+		return;
 	}
 }
 
@@ -648,6 +657,7 @@ void Monster_HollowSoldier_Sword::State_Scout_Update(float _Delta)
 	if (false)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+		return;
 	}
 
 
@@ -661,6 +671,7 @@ void Monster_HollowSoldier_Sword::State_Scout_Update(float _Delta)
 		//ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 		FindTarget();
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle1ToIdle2);
+		return;
 	}
 }
 
@@ -682,10 +693,12 @@ void Monster_HollowSoldier_Sword::State_Walk_Front_Update(float _Delta)
 		if (GetTargetDistance_e() == Enum_TargetDist::Long)
 		{
 			ChangeState(Enum_HollowSoldier_Sword_State::Run);
+			return;
 		}
 		else
 		{
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+			return;
 		}
 		
 	}
@@ -720,6 +733,7 @@ void Monster_HollowSoldier_Sword::State_Walk_Back_Update(float _Delta)
 	{
 		WalkTime = 0.0f;
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+		return;
 	}
 }
 
@@ -743,6 +757,7 @@ void Monster_HollowSoldier_Sword::State_Walk_Left_Update(float _Delta)
 	{
 		WalkTime = 0.0f;
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+		return;
 	}
 }
 
@@ -765,6 +780,7 @@ void Monster_HollowSoldier_Sword::State_Walk_Right_Update(float _Delta)
 	{
 		WalkTime = 0.0f;
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+		return;
 	}
 }
 
@@ -790,10 +806,12 @@ void Monster_HollowSoldier_Sword::State_Run_Update(float _Delta)
 		if (GetTargetDistance_e() == Enum_TargetDist::Melee)
 		{
 			ChangeState(Enum_HollowSoldier_Sword_State::RH_RunToSting);
+			return;
 		}
 		else if (GetTargetDistance_e() == Enum_TargetDist::Close)
 		{
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+			return;
 		}
 		
 	}
@@ -851,6 +869,7 @@ void Monster_HollowSoldier_Sword::State_RH_RunToSting_Update(float _Delta)
 		if (true == Sword.GetBlock())
 		{
 			ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+			return;
 		}
 		else
 		{
@@ -867,6 +886,7 @@ void Monster_HollowSoldier_Sword::State_RH_RunToSting_Update(float _Delta)
 	{
 		Sword.ResetRecord();
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+		return;
 	}
 }
 
@@ -892,6 +912,7 @@ void Monster_HollowSoldier_Sword::State_Attack1_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -909,6 +930,7 @@ void Monster_HollowSoldier_Sword::State_Attack1_Update(float _Delta)
 		{
 			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+			return;
 		}
 	}
 }
@@ -931,6 +953,7 @@ void Monster_HollowSoldier_Sword::State_Attack2_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -971,6 +994,7 @@ void Monster_HollowSoldier_Sword::State_Attack2_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -988,6 +1012,7 @@ void Monster_HollowSoldier_Sword::State_Attack2_Update(float _Delta)
 		{
 			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+			return;
 		}
 	}
 }
@@ -1010,6 +1035,7 @@ void Monster_HollowSoldier_Sword::State_Attack3_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -1050,6 +1076,7 @@ void Monster_HollowSoldier_Sword::State_Attack3_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -1091,6 +1118,7 @@ void Monster_HollowSoldier_Sword::State_Attack3_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -1108,6 +1136,7 @@ void Monster_HollowSoldier_Sword::State_Attack3_Update(float _Delta)
 		{
 			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+			return;
 		}
 	}
 }
@@ -1176,6 +1205,7 @@ void Monster_HollowSoldier_Sword::State_Attack5_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -1215,6 +1245,7 @@ void Monster_HollowSoldier_Sword::State_Attack5_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -1256,6 +1287,7 @@ void Monster_HollowSoldier_Sword::State_Attack5_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -1273,6 +1305,7 @@ void Monster_HollowSoldier_Sword::State_Attack5_Update(float _Delta)
 		{
 			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+			return;
 		}
 	}
 }
@@ -1295,6 +1328,7 @@ void Monster_HollowSoldier_Sword::State_Attack6_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -1336,6 +1370,7 @@ void Monster_HollowSoldier_Sword::State_Attack6_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -1363,6 +1398,7 @@ void Monster_HollowSoldier_Sword::State_Attack6_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -1380,6 +1416,7 @@ void Monster_HollowSoldier_Sword::State_Attack6_Update(float _Delta)
 		{
 			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+			return;
 		}
 	}
 }
@@ -1402,6 +1439,7 @@ void Monster_HollowSoldier_Sword::State_Attack7_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -1443,6 +1481,7 @@ void Monster_HollowSoldier_Sword::State_Attack7_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -1470,6 +1509,7 @@ void Monster_HollowSoldier_Sword::State_Attack7_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -1511,6 +1551,7 @@ void Monster_HollowSoldier_Sword::State_Attack7_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -1528,6 +1569,7 @@ void Monster_HollowSoldier_Sword::State_Attack7_Update(float _Delta)
 		{
 			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+			return;
 		}
 	}
 }
@@ -1551,6 +1593,7 @@ void Monster_HollowSoldier_Sword::State_Attack8_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -1592,6 +1635,7 @@ void Monster_HollowSoldier_Sword::State_Attack8_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -1609,6 +1653,7 @@ void Monster_HollowSoldier_Sword::State_Attack8_Update(float _Delta)
 		{
 			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+			return;
 		}
 	}
 }
@@ -1631,6 +1676,7 @@ void Monster_HollowSoldier_Sword::State_Attack9_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -1658,6 +1704,7 @@ void Monster_HollowSoldier_Sword::State_Attack9_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -1675,6 +1722,7 @@ void Monster_HollowSoldier_Sword::State_Attack9_Update(float _Delta)
 		{
 			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+			return;
 		}
 	}
 }
@@ -1697,6 +1745,7 @@ void Monster_HollowSoldier_Sword::State_Attack10_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -1724,6 +1773,7 @@ void Monster_HollowSoldier_Sword::State_Attack10_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -1764,6 +1814,7 @@ void Monster_HollowSoldier_Sword::State_Attack10_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -1781,6 +1832,7 @@ void Monster_HollowSoldier_Sword::State_Attack10_Update(float _Delta)
 		{
 			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+			return;
 		}
 	}
 }
@@ -1803,6 +1855,7 @@ void Monster_HollowSoldier_Sword::State_Attack11_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -1820,6 +1873,7 @@ void Monster_HollowSoldier_Sword::State_Attack11_Update(float _Delta)
 		{
 			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+			return;
 		}
 	}
 }
@@ -1887,6 +1941,7 @@ void Monster_HollowSoldier_Sword::State_Attack13_Update(float _Delta)
 			if (true == Sword.GetBlock())
 			{
 				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
 			}
 			else
 			{
@@ -1904,6 +1959,7 @@ void Monster_HollowSoldier_Sword::State_Attack13_Update(float _Delta)
 		{
 			Sword.ResetRecord();
 			ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+			return;
 		}
 	}
 }
@@ -1919,6 +1975,7 @@ void Monster_HollowSoldier_Sword::State_Turn_Left2_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 35)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+		return;
 	}
 }
 
@@ -1933,6 +1990,7 @@ void Monster_HollowSoldier_Sword::State_Turn_Right2_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 35)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+		return;
 	}
 }
 
@@ -1947,6 +2005,7 @@ void Monster_HollowSoldier_Sword::State_Turn_Left_Twice2_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 38)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+		return;
 	}
 }
 
@@ -1961,6 +2020,7 @@ void Monster_HollowSoldier_Sword::State_Turn_Right_Twice2_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 38)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+		return;
 	}
 }
 
@@ -1975,6 +2035,7 @@ void Monster_HollowSoldier_Sword::State_Turn_Left1_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 35)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle1);
+		return;
 	}
 }
 
@@ -1989,6 +2050,7 @@ void Monster_HollowSoldier_Sword::State_Turn_Right1_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 35)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle1);
+		return;
 	}
 }
 
@@ -2003,6 +2065,7 @@ void Monster_HollowSoldier_Sword::State_Turn_Left_Twice1_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 38)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle1);
+		return;
 	}
 }
 
@@ -2017,11 +2080,13 @@ void Monster_HollowSoldier_Sword::State_Turn_Right_Twice1_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 38)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle1);
+		return;
 	}
 }
 
 void Monster_HollowSoldier_Sword::State_AttackFail_Start() 
 {
+	Hit.SetHit(false);
 	Sword.Off();
 	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_AttackFail");
@@ -2034,6 +2099,7 @@ void Monster_HollowSoldier_Sword::State_AttackFail_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 40)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+		return;
 	}
 }
 
@@ -2050,6 +2116,7 @@ void Monster_HollowSoldier_Sword::State_Parrying_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 64)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+		return;
 	}
 }
 
@@ -2066,6 +2133,7 @@ void Monster_HollowSoldier_Sword::State_Hit_Front_Update(float _Delta)
 	{
 		//BodyCollision->On();
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+		return;
 	}
 }
 
@@ -2082,6 +2150,7 @@ void Monster_HollowSoldier_Sword::State_Hit_Back_Update(float _Delta)
 	{
 		//BodyCollision->On();
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+		return;
 	}
 }
 
@@ -2098,6 +2167,7 @@ void Monster_HollowSoldier_Sword::State_Hit_Left_Update(float _Delta)
 	{
 		//BodyCollision->On();
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+		return;
 	}
 }
 
@@ -2114,6 +2184,7 @@ void Monster_HollowSoldier_Sword::State_Hit_Right_Update(float _Delta)
 	{
 		//BodyCollision->On();
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+		return;
 	}
 }
 
@@ -2132,6 +2203,7 @@ void Monster_HollowSoldier_Sword::State_HitToDeath_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Death);
+		return;
 	}
 }
 
@@ -2147,12 +2219,14 @@ void Monster_HollowSoldier_Sword::State_BackAttackHit_Update(float _Delta)
 		if (MainRenderer->GetCurAnimationFrame() >= 80)
 		{
 			ChangeState(Enum_HollowSoldier_Sword_State::BackAttackDeath);
+			return;
 		}
 	}
 
 	if (MainRenderer->GetCurAnimationFrame() >= 167)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+		return;
 	}
 }
 
@@ -2177,12 +2251,14 @@ void Monster_HollowSoldier_Sword::State_AfterGuardBreakHit_Update(float _Delta)
 		if (MainRenderer->GetCurAnimationFrame() >= 140)
 		{
 			ChangeState(Enum_HollowSoldier_Sword_State::AfterGuardBreakDeath);
+			return;
 		}
 	}
 
 	if (MainRenderer->GetCurAnimationFrame() >= 194)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+		return;
 	}
 }
 
