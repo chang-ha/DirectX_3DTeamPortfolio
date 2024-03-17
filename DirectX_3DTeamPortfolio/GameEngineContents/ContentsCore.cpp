@@ -40,6 +40,8 @@ void ContentsCore::Start()
 	TreeGUIWindow = GameEngineGUI::CreateGUIWindow<TreeWindow>("TreeWindow");
 	TreeGUIWindow->On();
 
+
+	GameEngineSound::SetGlobalVolume(0.04f);
 	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
 	GameEngineCore::CreateLevel<Stage_Lothric>("Stage_Lothric");
 	//GameEngineCore::CreateLevel<TestLevel_Boss>("TestLevel_Boss");
@@ -49,7 +51,7 @@ void ContentsCore::Start()
 	// GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
 	//GameEngineCore::CreateLevel<TestLevel_MapObject>("TestLevel_MapObject");
 	//GameEngineCore::CreateLevel<TestLevel_ObjectTest>("TestLevel_ObjectTest");
-	GameEngineCore::ChangeLevel("Stage_Lothric");
+	GameEngineCore::ChangeLevel("TitleLevel");
 	
 
 	GameEnginePhysX::PushSkipCollisionPair(3, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Big_Camera, Enum_CollisionOrder::Camera);

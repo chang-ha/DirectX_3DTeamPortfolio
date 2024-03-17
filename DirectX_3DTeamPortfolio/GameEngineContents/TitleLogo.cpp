@@ -115,8 +115,7 @@ void TitleLogo::Update(float _Delta)
 
 	if (FontScale >= 25.0f)
 	{
-		FontRender->Off();
-		GameEngineCore::ChangeLevel("PlayLevel");
+		GameEngineCore::ChangeLevel("Stage_Lothric");
 	}
 }
 
