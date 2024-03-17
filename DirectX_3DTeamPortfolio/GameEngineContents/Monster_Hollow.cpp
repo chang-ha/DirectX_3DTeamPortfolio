@@ -415,10 +415,12 @@ bool Monster_Hollow::IsTargetInAngle(float _fAngle) const
 
 void Monster_Hollow::RotToTarget(float _Delta)
 {
-	const float fRotDir = BaseActor::GetRotDir_f();
+	/*const float fRotDir = BaseActor::GetRotDir_f();
 	const float RotAngle = fRotDir * 300.0f * _Delta;
 
-	Capsule->AddWorldRotation(float4(0.0f, RotAngle, 0.0f));
+	Capsule->AddWorldRotation(float4(0.0f, RotAngle, 0.0f));*/
+
+	BaseActor::RotToTarget(_Delta, 150.0f, 500.0f);
 }
 
 
@@ -1059,7 +1061,7 @@ void Monster_Hollow::SettingSoundFrameEvent()
 	MainRenderer->SetFrameEvent("c1100_TH_VerticalSlash", 8, [&](GameContentsFBXRenderer* _Renderer)
 		{
 			//110006100
-			GameEngineSound::Sound3DPlay("c11006100.wav", Transform.GetWorldPosition());
+			GameEngineSound::Sound3DPlay("c110006100.wav", Transform.GetWorldPosition());
 		});
 
 	MainRenderer->SetFrameEvent("c1100_TH_VerticalSlash", 14, [&](GameContentsFBXRenderer* _Renderer)

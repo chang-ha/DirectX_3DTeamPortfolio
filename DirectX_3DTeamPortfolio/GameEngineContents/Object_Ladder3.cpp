@@ -37,10 +37,10 @@ void Object_Ladder3::Start()
 
 	CollisionBody = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::LabberMiddle);
 	CollisionBody->SetCollisionType(ColType::AABBBOX3D);
-	CollisionBody->Transform.SetLocalPosition({ 0.0f, 2.0f, 0 });
+	CollisionBody->Transform.SetLocalPosition({ 0.0f, 1.8f, 0 });
 	CollisionBody->Transform.SetLocalScale(float4(1.0f, 4.5f, 1));
 
-	Transform.SetWorldPosition({ -16410, 2440 , -3480 });
+	Transform.SetWorldPosition({ -16420, 2440 , -3450 });
 	Transform.SetWorldScale({ 100, 100 , 100 });
 	Transform.SetWorldRotation({ 0, 180 , 0 });
 }
@@ -48,4 +48,11 @@ void Object_Ladder3::Start()
 void Object_Ladder3::Update(float _Delta)
 {
 
+}
+
+float4 Object_Ladder3::GetRotation()
+{
+	float4 Result;
+	Transform.GetWorldRotationEuler();
+	return Result;
 }

@@ -14,7 +14,7 @@ public:
 	Object_Ladder2& operator=(const Object_Ladder2& _Other) = delete;
 	Object_Ladder2& operator=(Object_Ladder2&& _Other) noexcept = delete;
 
-	
+	float4 GetRotation();
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
