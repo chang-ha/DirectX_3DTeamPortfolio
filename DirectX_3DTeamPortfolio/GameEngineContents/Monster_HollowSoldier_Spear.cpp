@@ -418,7 +418,7 @@ void Monster_HollowSoldier_Spear::ChangeHitState()
 		}
 
 		Enum_DirectionXZ_Quat HitDir = Hit.GetHitDir();
-		BodyCollision->Off();
+		//BodyCollision->Off();
 		Hit.SetHit(false);
 
 		switch (HitDir)
@@ -452,6 +452,8 @@ void Monster_HollowSoldier_Spear::State_Idle1_Start()
 }
 void Monster_HollowSoldier_Spear::State_Idle1_Update(float _Delta)
 {
+	ChangeHitState();
+
 	// 트리거 발동시
 	if (false)
 	{
@@ -488,6 +490,7 @@ void Monster_HollowSoldier_Spear::State_Idle2_Start()
 }
 void Monster_HollowSoldier_Spear::State_Idle2_Update(float _Delta)
 {
+	ChangeHitState();
 
 	// 아마 상시로?
 	if (true)
@@ -590,6 +593,8 @@ void Monster_HollowSoldier_Spear::State_Idle2ToIdle1_Start()
 }
 void Monster_HollowSoldier_Spear::State_Idle2ToIdle1_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 39)
 	{
 		ChangeState(Enum_HollowSoldier_Spear_State::Idle1);
@@ -602,6 +607,8 @@ void Monster_HollowSoldier_Spear::State_Idle1ToIdle2_Start()
 }
 void Monster_HollowSoldier_Spear::State_Idle1ToIdle2_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 29)
 	{
 		ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
@@ -646,6 +653,8 @@ void Monster_HollowSoldier_Spear::State_Scout_Start()
 }
 void Monster_HollowSoldier_Spear::State_Scout_Update(float _Delta)
 {
+	ChangeHitState();
+
 	EventParameter RecognizeParameter;
 	RecognizeParameter.Enter = [&](class GameEngineCollision* _This, class GameEngineCollision* _Other)
 		{
@@ -1261,6 +1270,8 @@ void Monster_HollowSoldier_Spear::State_Turn_Left2_Start()
 }
 void Monster_HollowSoldier_Spear::State_Turn_Left2_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 35)
 	{
 		ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
@@ -1273,6 +1284,8 @@ void Monster_HollowSoldier_Spear::State_Turn_Right2_Start()
 }
 void Monster_HollowSoldier_Spear::State_Turn_Right2_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 35)
 	{
 		ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
@@ -1285,6 +1298,8 @@ void Monster_HollowSoldier_Spear::State_Turn_Left_Twice2_Start()
 }
 void Monster_HollowSoldier_Spear::State_Turn_Left_Twice2_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 38)
 	{
 		ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
@@ -1297,6 +1312,8 @@ void Monster_HollowSoldier_Spear::State_Turn_Right_Twice2_Start()
 }
 void Monster_HollowSoldier_Spear::State_Turn_Right_Twice2_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 38)
 	{
 		ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
@@ -1309,6 +1326,8 @@ void Monster_HollowSoldier_Spear::State_Turn_Left1_Start()
 }
 void Monster_HollowSoldier_Spear::State_Turn_Left1_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 35)
 	{
 		ChangeState(Enum_HollowSoldier_Spear_State::Idle1);
@@ -1321,6 +1340,8 @@ void Monster_HollowSoldier_Spear::State_Turn_Right1_Start()
 }
 void Monster_HollowSoldier_Spear::State_Turn_Right1_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 35)
 	{
 		ChangeState(Enum_HollowSoldier_Spear_State::Idle1);
@@ -1333,6 +1354,8 @@ void Monster_HollowSoldier_Spear::State_Turn_Left_Twice1_Start()
 }
 void Monster_HollowSoldier_Spear::State_Turn_Left_Twice1_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 38)
 	{
 		ChangeState(Enum_HollowSoldier_Spear_State::Idle1);
@@ -1345,6 +1368,8 @@ void Monster_HollowSoldier_Spear::State_Turn_Right_Twice1_Start()
 }
 void Monster_HollowSoldier_Spear::State_Turn_Right_Twice1_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 38)
 	{
 		ChangeState(Enum_HollowSoldier_Spear_State::Idle1);
@@ -1423,6 +1448,9 @@ void Monster_HollowSoldier_Spear::State_Guard_Start()
 }
 void Monster_HollowSoldier_Spear::State_Guard_Update(float _Delta)
 {
+	SetFlag(Enum_ActorFlag::Guarding, true);
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 25)
 	{
 		ChangeState(Enum_HollowSoldier_Spear_State::Idle3);
@@ -1437,6 +1465,9 @@ void Monster_HollowSoldier_Spear::State_GuardBreak_Start()
 }
 void Monster_HollowSoldier_Spear::State_GuardBreak_Update(float _Delta)
 {
+	SetFlag(Enum_ActorFlag::Guarding, false);
+	ChangeHitState();
+
 	if(MainRenderer->GetCurAnimationFrame() >= 92)
 	{
 		ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
@@ -1451,6 +1482,9 @@ void Monster_HollowSoldier_Spear::State_AttackFail_Start()
 }
 void Monster_HollowSoldier_Spear::State_AttackFail_Update(float _Delta)
 {
+	SetFlag(Enum_ActorFlag::Guarding, false);
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 40)
 	{
 		ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
@@ -1465,6 +1499,9 @@ void Monster_HollowSoldier_Spear::State_Parrying_Start()
 }
 void Monster_HollowSoldier_Spear::State_Parrying_Update(float _Delta)
 {
+	SetFlag(Enum_ActorFlag::Guarding, false);
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 64)
 	{
 		ChangeState(Enum_HollowSoldier_Spear_State::Idle2);
@@ -1478,6 +1515,8 @@ void Monster_HollowSoldier_Spear::State_Hit_Front_Start()
 }
 void Monster_HollowSoldier_Spear::State_Hit_Front_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 46)
 	{
 		// BodyCollision->On();
@@ -1492,6 +1531,8 @@ void Monster_HollowSoldier_Spear::State_Hit_Back_Start()
 }
 void Monster_HollowSoldier_Spear::State_Hit_Back_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 46)
 	{
 		// BodyCollision->On();
@@ -1506,6 +1547,8 @@ void Monster_HollowSoldier_Spear::State_Hit_Left_Start()
 }
 void Monster_HollowSoldier_Spear::State_Hit_Left_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 46)
 	{
 		// BodyCollision->On();
@@ -1520,6 +1563,8 @@ void Monster_HollowSoldier_Spear::State_Hit_Right_Start()
 }
 void Monster_HollowSoldier_Spear::State_Hit_Right_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 46)
 	{
 		// BodyCollision->On();

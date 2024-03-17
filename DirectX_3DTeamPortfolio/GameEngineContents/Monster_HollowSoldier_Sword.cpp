@@ -418,7 +418,7 @@ void Monster_HollowSoldier_Sword::ChangeHitState()
 		}
 		
 		Enum_DirectionXZ_Quat HitDir = Hit.GetHitDir();
-		BodyCollision->Off();
+		//BodyCollision->Off();
 
 		switch (HitDir)
 		{
@@ -451,13 +451,15 @@ void Monster_HollowSoldier_Sword::State_Idle1_Start()
 }
 void Monster_HollowSoldier_Sword::State_Idle1_Update(float _Delta)
 {
+	ChangeHitState();
+
 	/*StateTime += _Delta;
 	if (StateTime >= 3.0f)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Scout);
 	}*/
 
-	StateTime += _Delta;
+	//StateTime += _Delta;
 
 	// 트리거 발동시
 	/*if (StateTime >= 10.0f)
@@ -1607,6 +1609,8 @@ void Monster_HollowSoldier_Sword::State_Attack9_Start()
 }
 void Monster_HollowSoldier_Sword::State_Attack9_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (CheckAnimationName("c1100_RH_TwinSlash"))
 	{
 		if (MainRenderer->GetCurAnimationFrame() >= 13 && MainRenderer->GetCurAnimationFrame() <= 16)
@@ -2015,6 +2019,8 @@ void Monster_HollowSoldier_Sword::State_AttackFail_Start()
 }
 void Monster_HollowSoldier_Sword::State_AttackFail_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 40)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
@@ -2029,6 +2035,8 @@ void Monster_HollowSoldier_Sword::State_Parrying_Start()
 }
 void Monster_HollowSoldier_Sword::State_Parrying_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 64)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
@@ -2042,9 +2050,11 @@ void Monster_HollowSoldier_Sword::State_Hit_Front_Start()
 }
 void Monster_HollowSoldier_Sword::State_Hit_Front_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 46)
 	{
-		BodyCollision->On();
+		//BodyCollision->On();
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 	}
 }
@@ -2056,9 +2066,11 @@ void Monster_HollowSoldier_Sword::State_Hit_Back_Start()
 }
 void Monster_HollowSoldier_Sword::State_Hit_Back_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 46)
 	{
-		BodyCollision->On();
+		//BodyCollision->On();
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 	}
 }
@@ -2070,9 +2082,11 @@ void Monster_HollowSoldier_Sword::State_Hit_Left_Start()
 }
 void Monster_HollowSoldier_Sword::State_Hit_Left_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 46)
 	{
-		BodyCollision->On();
+		//BodyCollision->On();
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 	}
 }
@@ -2084,9 +2098,11 @@ void Monster_HollowSoldier_Sword::State_Hit_Right_Start()
 }
 void Monster_HollowSoldier_Sword::State_Hit_Right_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 46)
 	{
-		BodyCollision->On();
+		//BodyCollision->On();
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 	}
 }

@@ -322,7 +322,7 @@ void Monster_Hollow_NonFirstAttack::ChangeHitState()
 		}
 
 		Enum_DirectionXZ_Quat HitDir = Hit.GetHitDir();
-		BodyCollision->Off();
+		//BodyCollision->Off();
 
 		switch (HitDir)
 		{
@@ -587,6 +587,8 @@ void Monster_Hollow_NonFirstAttack::State_PrayToIdle1_Update(float _Delta)
 {
 	NonFindTarget(_Delta);
 
+	ChangeHitState();
+
 	// Pray 마다 무기 꺼내는 프레임 다름 수정 필요.
 	if (MainRenderer->GetCurAnimationFrame() >= 31)
 	{
@@ -607,6 +609,8 @@ void Monster_Hollow_NonFirstAttack::State_PrayToIdle2_Update(float _Delta)
 {
 	NonFindTarget(_Delta);
 
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 37)
 	{
 		MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
@@ -626,6 +630,8 @@ void Monster_Hollow_NonFirstAttack::State_PrayToIdle3_Update(float _Delta)
 {
 	NonFindTarget(_Delta);
 
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
 	{
 		MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
@@ -640,6 +646,8 @@ void Monster_Hollow_NonFirstAttack::State_BeScaredToIdle_Start()
 void Monster_Hollow_NonFirstAttack::State_BeScaredToIdle_Update(float _Delta)
 {
 	NonFindTarget(_Delta);
+
+	ChangeHitState();
 
 	if (MainRenderer->GetCurAnimationFrame() >= 39)
 	{
@@ -1261,6 +1269,8 @@ void Monster_Hollow_NonFirstAttack::State_AttackFail_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_AttackFail_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 40)
 	{
 		ChangeState(Enum_Hollow_State::Idle);
@@ -1275,6 +1285,8 @@ void Monster_Hollow_NonFirstAttack::State_Parrying_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_Parrying_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 64)
 	{
 		ChangeState(Enum_Hollow_State::Idle);
@@ -1293,9 +1305,11 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Front_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_Hit_Front_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 46)
 	{
-		BodyCollision->On();
+		//BodyCollision->On();
 		ChangeState(Enum_Hollow_State::Idle);
 	}
 }
@@ -1307,9 +1321,11 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Back_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_Hit_Back_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 46)
 	{
-		BodyCollision->On();
+		//BodyCollision->On();
 		ChangeState(Enum_Hollow_State::Idle);
 	}
 }
@@ -1321,9 +1337,11 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Left_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_Hit_Left_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 46)
 	{
-		BodyCollision->On();
+		//BodyCollision->On();
 		ChangeState(Enum_Hollow_State::Idle);
 	}
 }
@@ -1335,9 +1353,11 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Right_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_Hit_Right_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 46)
 	{
-		BodyCollision->On();
+		//BodyCollision->On();
 		ChangeState(Enum_Hollow_State::Idle);
 	}
 }
