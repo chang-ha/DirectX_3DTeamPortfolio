@@ -63,6 +63,10 @@ Stage_Lothric::~Stage_Lothric()
 void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	{
+		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
+	}
+
+	{
 		std::shared_ptr<GameEngineActor> Ground = CreateActor<GameEngineActor>(0);
 		std::shared_ptr<GameEngineRenderer> NewRenderer = Ground->CreateComponent<GameEngineRenderer>();
 		NewRenderer->SetMesh("Box");
@@ -160,14 +164,12 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		Player_Object->SetTargeting(Boss_Object.get());
 		Boss_Object->SetTargeting(Player_Object.get());
 	}
-	/*{
+	{
 		std::shared_ptr<Monster_HollowSoldier> GameMap = CreateActor<Monster_HollowSoldier>(0 );
 		GameMap->Transform.SetWorldPosition({ -2900.f,-2500.f,6800.f });
-	}*/
-
-	{
-		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
 	}
+
+	
 
 	{
 		FogWall = CreateActor< Object_FogWall>();
@@ -802,10 +804,7 @@ void Stage_Lothric::CreateObject()
 		Object->Transform.SetWorldPosition({ -16547, 3372 , 2144 });
 		VBonfire.push_back(Object);
 	}
-	{
-		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
-		VBonfire.push_back(Object);
-	}
+
 
 
 	//사다리
@@ -1423,7 +1422,7 @@ void Stage_Lothric::CreateObject()
 	{
 		std::shared_ptr<Object_HumanTree5> Object = CreateActor<Object_HumanTree5>(1);
 		Object->Transform.AddWorldRotation({ 0, -60 , 0 });
-		Object->Transform.SetWorldPosition({ 3515, 4130 , -744 });
+		Object->Transform.SetWorldPosition({ -3515, 4130 , -744 });
 		VHumanTree5.push_back(Object);
 	}
 	{

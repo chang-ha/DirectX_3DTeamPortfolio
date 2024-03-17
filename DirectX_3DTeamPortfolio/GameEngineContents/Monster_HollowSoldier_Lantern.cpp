@@ -117,6 +117,9 @@ void Monster_HollowSoldier_Lantern::ChangeState(Enum_HollowSoldier_Lantern_State
 		case Enum_HollowSoldier_Lantern_State::RH_RunToSlash:
 			State_RH_RunToSlash_Start();
 			break;
+		case Enum_HollowSoldier_Lantern_State::Scout_Turn_Left_Twice:
+			State_Scout_Turn_Left_Twice_Start();
+			break;
 		case Enum_HollowSoldier_Lantern_State::Turn_Left:
 			State_Turn_Left_Start();
 			break;
@@ -195,6 +198,8 @@ void Monster_HollowSoldier_Lantern::StateUpdate(float _Delta)
 		return State_Run_Update(_Delta);
 	case Enum_HollowSoldier_Lantern_State::Scout:
 		return State_Scout_Update(_Delta);
+	case Enum_HollowSoldier_Lantern_State::Scout_Turn_Left_Twice:
+		return State_Scout_Turn_Left_Twice_Update(_Delta);
 	case Enum_HollowSoldier_Lantern_State::AwakeHollows:
 		return State_AwakeHollows_Update(_Delta);
 	case Enum_HollowSoldier_Lantern_State::RH_VerticalSlash:
@@ -631,6 +636,7 @@ void Monster_HollowSoldier_Lantern::State_Run_Update(float _Delta)
 
 void Monster_HollowSoldier_Lantern::State_Scout_Start()
 {
+	ScoutTime = 0.0f;
 	MainRenderer->ChangeAnimation("c1100_Lantern_Scout");
 }
 void Monster_HollowSoldier_Lantern::State_Scout_Update(float _Delta)
@@ -642,6 +648,13 @@ void Monster_HollowSoldier_Lantern::State_Scout_Update(float _Delta)
 	{
 		ChangeState(Enum_HollowSoldier_Lantern_State::AwakeHollows);
 		return;
+	}
+
+	ScoutTime += _Delta;
+
+	if (ScoutTime >= 15.0f)
+	{
+		ChangeState(Enum_HollowSoldier_Lantern_State::Scout_Turn_Left_Twice);
 	}
 
 	//ChangeAttackState();
@@ -1028,6 +1041,21 @@ void Monster_HollowSoldier_Lantern::State_RH_RunToSlash_Update(float _Delta)
 	{
 		Sword.ResetRecord();
 		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
+		return;
+	}
+}
+
+void Monster_HollowSoldier_Lantern::State_Scout_Turn_Left_Twice_Start()
+{
+	MainRenderer->ChangeAnimation("c1100_Turn_Left_Twice");
+}
+void Monster_HollowSoldier_Lantern::State_Scout_Turn_Left_Twice_Update(float _Delta)
+{
+	ChangeHitState();
+
+	if (MainRenderer->GetCurAnimationFrame() >= 38)
+	{
+		ChangeState(Enum_HollowSoldier_Lantern_State::Scout);
 		return;
 	}
 }
