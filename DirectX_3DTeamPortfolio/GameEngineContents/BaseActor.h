@@ -298,7 +298,7 @@ public:
 	inline int* GetFlagPointer() { return &Flags; }
 	inline class GameEnginePhysXCapsule* GetPhysxCapsulePointer() { return Capsule.get(); }
 	inline int GetHp() const { return Stat.GetHp(); }
-	inline int GetStamina() const { return Stat.GetStamina(); }
+	inline float GetStamina() const { return Stat.GetStamina(); }
 	inline int GetAtt() const { return Stat.GetAtt(); }
 	inline void Damage(int _Damage) { Stat.AddHp(-_Damage); }
 	inline int GetPoise() const { return Stat.GetPoise(); }
