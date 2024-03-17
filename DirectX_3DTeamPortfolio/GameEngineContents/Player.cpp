@@ -1163,12 +1163,16 @@ void Player::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	
-
-	Capsule->SetFiltering(Enum_CollisionOrder::Player, Enum_CollisionOrder::Camera);
 	Capsule->SetFiltering(Enum_CollisionOrder::Player, Enum_CollisionOrder::Big_Camera);
+	Capsule->SetFiltering(Enum_CollisionOrder::Player, Enum_CollisionOrder::Camera);
+	
 
 	//Capsule->SetFiltering(Enum_CollisionOrder::Monster);
-	//GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Big_Camera);
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Camera);
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Camera);
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Big_Camera);
+
 
 }
 
