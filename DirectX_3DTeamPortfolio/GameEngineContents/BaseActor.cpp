@@ -93,7 +93,7 @@ void BaseActor::SetWorldRotation(const float4& _Rot)
 {
 	if (false == Capsule->IsInit())
 	{
-		MsgBoxAssert("PhysX 충돌체가 존재하지 않습니다.");
+		Transform.SetWorldRotation(_Rot);
 	}
 
 	Capsule->SetWorldRotation(_Rot);
