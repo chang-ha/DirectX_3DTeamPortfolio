@@ -1469,7 +1469,7 @@ void Monster_HollowSoldier_RoundShield::State_Turn_Right_Twice2_Update(float _De
 
 void Monster_HollowSoldier_RoundShield::State_Turn_Left1_Start()
 {
-	MainRenderer->ChangeAnimation("c1100_Turn_Left1");
+	MainRenderer->ChangeAnimation("c1100_Turn_Left");
 }
 void Monster_HollowSoldier_RoundShield::State_Turn_Left1_Update(float _Delta)
 {
@@ -1484,7 +1484,7 @@ void Monster_HollowSoldier_RoundShield::State_Turn_Left1_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Turn_Right1_Start()
 {
-	MainRenderer->ChangeAnimation("c1100_Turn_Right1");
+	MainRenderer->ChangeAnimation("c1100_Turn_Right");
 }
 void Monster_HollowSoldier_RoundShield::State_Turn_Right1_Update(float _Delta)
 {
@@ -1499,7 +1499,7 @@ void Monster_HollowSoldier_RoundShield::State_Turn_Right1_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Turn_Left_Twice1_Start()
 {
-	MainRenderer->ChangeAnimation("c1100_Turn_Left_Twice1");
+	MainRenderer->ChangeAnimation("c1100_Turn_Left_Twice");
 }
 void Monster_HollowSoldier_RoundShield::State_Turn_Left_Twice1_Update(float _Delta)
 {
@@ -1515,7 +1515,7 @@ void Monster_HollowSoldier_RoundShield::State_Turn_Left_Twice1_Update(float _Del
 
 void Monster_HollowSoldier_RoundShield::State_Turn_Right_Twice1_Start()
 {
-	MainRenderer->ChangeAnimation("c1100_Turn_Right_Twice1");
+	MainRenderer->ChangeAnimation("c1100_Turn_Right_Twice");
 }
 void Monster_HollowSoldier_RoundShield::State_Turn_Right_Twice1_Update(float _Delta)
 {
