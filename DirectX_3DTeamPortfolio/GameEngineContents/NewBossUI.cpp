@@ -309,7 +309,7 @@ void NewBossUI::End_Font_ShowMsg(GameEngineState* _Parent)
 		BossDamageFont->Off();
 	}
 
-	FontRenderDamage = 0.0f;
+	FontRenderDamage = 0;
 }
 
 void NewBossUI::AddAndPrintDamageMsg(int _CurBossHp)

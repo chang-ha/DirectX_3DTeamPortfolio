@@ -34,19 +34,19 @@ void MonsterHpBar::Start()
 		}
 	}
 
-	BackBarRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	BackBarRenderer = CreateComponent<GameEngineSpriteRenderer>(Enum_RenderOrder::UI_BackBar);
 	BackBarRenderer->SetSprite("MonsterBar.Png");
 	BackBarRenderer->SetImageScale({ ImageXScale, BackBarYScale });
 	BackBarRenderer->SetPivotType(PivotType::Left);
 	BackBarRenderer->SetBillboardOn();
 
-	DamageBarRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	DamageBarRenderer = CreateComponent<GameEngineSpriteRenderer>(Enum_RenderOrder::UI_BackGauge);
 	DamageBarRenderer->SetSprite("MonsterDamageBar.Png");
 	DamageBarRenderer->SetImageScale({ (MonsterCurHp / MonsterHp) * ImageXScale, HpBarYScale });
 	DamageBarRenderer->SetPivotType(PivotType::Left);
 	DamageBarRenderer->SetBillboardOn();
 
-	HpBarRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	HpBarRenderer = CreateComponent<GameEngineSpriteRenderer>(Enum_RenderOrder::UI_StatGauge);
 	HpBarRenderer->SetSprite("MonsterHp.Png");
 	//Monster_HpBar->SetImageScale({ (MonsterCurHp / MosnterHp) });
 	HpBarRenderer->SetImageScale({ (MonsterCurHp / MonsterHp) * ImageXScale, HpBarYScale });
@@ -56,7 +56,7 @@ void MonsterHpBar::Start()
 	MonsterPrevHp = MonsterCurHp;
 
 	{
-		DamageFontRenderer = CreateComponent<GameEngineSpriteRenderer>();
+		DamageFontRenderer = CreateComponent<GameEngineSpriteRenderer>(Enum_RenderOrder::UI_Font);
 		DamageFontRenderer->SetText(GlobalValue::OptimusFont, "0", 15.0f, float4{ 1,0,0,1 }, FW1_LEFT);
 		DamageFontRenderer->Transform.SetLocalPosition(DamagePos);
 		DamageFontRenderer->SetBillboardOn();
@@ -83,7 +83,7 @@ void MonsterHpBar::Update(float _Delta)
 {
 	PositionUpdate();
 
-	MonsterBarUpdate();
+	BarUpdate();
 	StateUpdate(_Delta);
 
 	if (GameEngineInput::IsDown('5', this))
@@ -119,7 +119,7 @@ void MonsterHpBar::PositionUpdate()
 	Transform.SetWorldPosition(UIWPos);
 }
 
-void MonsterHpBar::MonsterBarUpdate()
+void MonsterHpBar::BarUpdate()
 {
 	if (MonsterCurHp <= 0.0f)
 	{
