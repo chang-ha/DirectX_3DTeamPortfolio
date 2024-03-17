@@ -1056,7 +1056,7 @@ void Monster_Hollow::SettingSoundFrameEvent()
 	MainRenderer->SetFrameEvent("c1100_TH_VerticalSlash", 8, [&](GameContentsFBXRenderer* _Renderer)
 		{
 			//110006100
-			GameEngineSound::Sound3DPlay("c11006100.wav", Transform.GetWorldPosition());
+			GameEngineSound::Sound3DPlay("c110006100.wav", Transform.GetWorldPosition());
 		});
 
 	MainRenderer->SetFrameEvent("c1100_TH_VerticalSlash", 14, [&](GameContentsFBXRenderer* _Renderer)
