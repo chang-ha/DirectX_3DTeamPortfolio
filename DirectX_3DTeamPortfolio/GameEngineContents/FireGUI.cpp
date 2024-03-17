@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "FireGUI.h"
 #include "ContentsFireRenderer.h"
+#include "ContentsFogWallRenderer.h"
 
 FireGUI::FireGUI() 
 {
@@ -124,6 +125,9 @@ void FireGUI::FireEditor(float _DeltaTime)
 		ImGui::Text("");
 	}
 
+
+	ImGui::Text("Fire");
+
 	if (ContentsFireRenderer::MainFire != nullptr)
 	{
 		FireInfo Info = ContentsFireRenderer::MainFire->FireInfoValue;
@@ -152,6 +156,37 @@ void FireGUI::FireEditor(float _DeltaTime)
 
 		
 			ContentsFireRenderer::MainFire->FireInfoValue = Info;
+	}
+
+	ImGui::Text("FogWall");
+
+	if (ContentsFogWallRenderer::MainFogWall != nullptr)
+	{
+		FogWallInfo Info = ContentsFogWallRenderer::MainFogWall->FogWallInfoValue;
+
+		bool callback = false;
+
+
+		ImGui::SliderFloat("TimeScale", &ContentsFogWallRenderer::MainFogWall->TimeScale, 0.0f, 5.0f);
+		callback = ImGui::SliderFloat("scrollSpeeds1", &Info.scrollSpeeds1, 0.0f, 5.0f);
+		callback = ImGui::SliderFloat("scrollSpeeds2", &Info.scrollSpeeds2, 0.0f, 5.0f);
+		callback = ImGui::SliderFloat("scrollSpeeds3", &Info.scrollSpeeds3, 0.0f, 5.0f);
+		callback = ImGui::SliderFloat("scales1", &Info.scales1, 0.0f, 5.0f);
+		callback = ImGui::SliderFloat("scales2", &Info.scales2, 0.0f, 5.0f);
+		callback = ImGui::SliderFloat("scales3", &Info.scales3, 0.0f, 5.0f);
+
+
+		callback = ImGui::SliderFloat3("distortion1", &Info.distortion1.X, -0.0f, 1.0f);
+		callback = ImGui::SliderFloat3("distortion2", &Info.distortion2.X, -0.0f, 1.0f);
+		callback = ImGui::SliderFloat3("distortion3", &Info.distortion3.X, -0.0f, 1.0f);
+
+		callback = ImGui::SliderFloat("distortionScale", &Info.distortionScale, 0.0f, 5.0f);
+		callback = ImGui::SliderFloat("distortionBias", &Info.distortionBias, 0.0f, 5.0f);
+		callback = ImGui::SliderFloat("perturbscale", &Info.perturbscale, 0.0f, 5.0f);
+		callback = ImGui::SliderFloat("AlphaScale", &Info.AlphaScale, 0.0f, 5.0f);
+
+
 		
+		ContentsFogWallRenderer::MainFogWall->FogWallInfoValue = Info;
 	}
 }

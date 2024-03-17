@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "ContentsEnum.h"
 #include "math.h"
+#include "ContentsLight.h"
 
 // 서버용
 #include "GameEngineNetWindow.h"
@@ -42,7 +43,13 @@ void Player::Start()
 
 	Cameracapsule = GetLevel()->CreateActor<CameraCapsule>(0,"Camera");
 
+	FaceLight = GetLevel()->CreateActor< ContentsLight>(Enum_UpdateOrder::Light, "FaceLight");
+	FaceLight->SetLightType(Enum_LightType::Point);
 
+	LightData Data = FaceLight->GetLightData();
+
+	Data.quadraticAttenuation = 0.0001f;
+	Data.LightPower = 3.f;
 
 
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(0);
@@ -346,7 +353,6 @@ void Player::Start()
 		Player_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player);
 		Player_Col->SetCollisionType(ColType::SPHERE3D);
 		Player_Col->Transform.SetLocalScale({ 10.f,10.f, 10.f });
-
 	}
 
 	{
@@ -376,9 +382,10 @@ void Player::Start()
 		//Parring_Attack_Col->Off();
 	}
 
-	Stat.SetHp(100);
+	Stat.SetHp(400);
 	Stat.SetAtt(20);
-	Stat.SetStamina(100); 
+	Stat.SetPoise(100);
+	Stat.SetStamina(300.0f); 
 	Sword.Init(this, Attack_Col.get());
 	
 	MainRenderer->AddNotBlendBoneIndex(53);
@@ -769,8 +776,9 @@ void Player::Start()
 
 void Player::Update(float _Delta)
 {
+	float4 revolution = float4::VectorRotationToDegY(float4{ 0.0f, 150.0f, 50.0f }, Transform.GetWorldRotationEuler().Y);
 
-
+	FaceLight->Transform.SetLocalPosition(Transform.GetWorldPosition() + revolution);
 
 	Parring_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
@@ -784,7 +792,7 @@ void Player::Update(float _Delta)
 			
 			
 
-				if (GameEngineInput::IsDown('E', this))
+				if (GameEngineInput::IsDown(VK_LBUTTON, this))
 				{
 					
 					const std::shared_ptr<BaseActor>& pActor = col->GetActor()->GetDynamic_Cast_This<BaseActor>();
@@ -851,7 +859,6 @@ void Player::Update(float _Delta)
 	if (tyu == false)
 	{
 		Sword.CollisionToBody(Enum_CollisionOrder::Monster_Body, 0);
-		//Body_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack, Body_Event);
 	}
 
 	if (tyu == false)
@@ -859,6 +866,7 @@ void Player::Update(float _Delta)
 		Sword.CollisionToShield(Enum_CollisionOrder::Monster_Shield, 0);
 	}
 
+	
 	
 
 
@@ -898,12 +906,25 @@ void Player::Update(float _Delta)
 		Stat.SetPoise(100);
 	}
 	// 스태미나 
-	if (StateValue != PlayerState::StaminaCheck || StateValue != PlayerState::Parrying || StateValue != PlayerState::Shield_Idle)
+	if (StateValue != PlayerState::StaminaCheck)
+	{
+		if (Stat.GetStamina() < 100)
+
+		{
+			Stat.AddStamina(_Delta * 10);
+		}
+	}
+	else if (StateValue != PlayerState::Parrying)
 	{
 		if (Stat.GetStamina() < 100)
 		{
-			//int Stamina = _Delta * 10;
-
+			Stat.AddStamina(_Delta * 10);
+		}
+	}
+	else if (StateValue != PlayerState::Shield_Idle)
+	{
+		if (Stat.GetStamina() < 100)
+		{
 			Stat.AddStamina(_Delta * 10);
 		}
 	}
@@ -943,13 +964,19 @@ void Player::Update(float _Delta)
 		Shield_Actor->Transform.SetWorldPosition(Data.Pos + float4{ Capsule->GetWorldPosition().x, Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
 	}
 
+	//HitRenderer->Transform.SetWorldPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y,Capsule->GetWorldPosition().z });
 
-	if (Capsule->GetLinearVelocity_f().Y <= -1200)
+	if (Capsule->GetLinearVelocity_f().Y <= -1600)
 	{
 		PlayerStates.ChangeState(PlayerState::fail);
 	}
 
-
+	if (Attack_Col->Collision(Enum_CollisionOrder::Monster_Body))
+	{
+		StrikeRenderer->On(); 
+		StrikeRenderer->ChangeAnimation("Hit");
+		StrikeRenderer->Transform.SetWorldPosition({ Weapon_Actor->Transform.GetWorldPosition()});
+	}
 	
 
 
@@ -1102,15 +1129,19 @@ void Player::Update(float _Delta)
 	PlayerStates.Update(_Delta);
 
 
-
-	
-	
-	if (GameEngineInput::IsPress(VK_LBUTTON, this))
-	{
-		int a = 0;
-		HitRenderer->On();
-		HitRenderer->ChangeAnimation("Hit", true);		
-	}
+	//if (GameEngineInput::IsPress('0', this))
+	//{
+	//	int a = 0;
+	//	//HitRenderer->On();
+	//	MainRenderer->ChangeAnimation("Death", true);
+	//}
+	//
+	//
+	//if (GameEngineInput::IsPress(VK_LBUTTON, this))
+	//{
+	//	HitRenderer->On();
+	//	StrikeRenderer->ChangeAnimation("Hit", true);
+	//}
 
 
 
@@ -1210,12 +1241,12 @@ void Player::CameraRotation(float Delta)
 
 
 
-		Camera_Pos_X += Lerp.X * 20;
-		Player_Pos.X -= Lerp.X * 20;
+		Camera_Pos_X += Lerp.X * 10;
+		Player_Pos.X -= Lerp.X * 10;
 
 		if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
 		{
-			Capsule->AddWorldRotation({ 0.0f,-Lerp.X * 20,0.0f });
+			Capsule->AddWorldRotation({ 0.0f,-Lerp.X * 10,0.0f });
 
 		}
 	}
@@ -1227,14 +1258,14 @@ void Player::CameraRotation(float Delta)
 		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta);
 		//Cur_Camera_Pos.Normalize();
 
-		Camera_Pos_X -= Lerp.X * 20;
-		Player_Pos.X += Lerp.X * 20;
+		Camera_Pos_X -= Lerp.X * 10;
+		Player_Pos.X += Lerp.X * 10;
 
 
 
 		if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
 		{
-			Capsule->AddWorldRotation({ 0.0f, Lerp.X * 20, 0.0f });
+			Capsule->AddWorldRotation({ 0.0f, Lerp.X * 10, 0.0f });
 		}
 	}
 
@@ -1355,7 +1386,29 @@ void Player::CameraRotation(float Delta)
 
 bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 {
-	
+	tyu = true;
+
+	Poise_Time = 0;
+
+	if (nullptr == _Para.pAttacker)
+	{
+		MsgBoxAssert("공격자를 모르고 사용할 수 없는 기능입니다.");
+		return false;
+	}
+
+	/*if (true == Hit.IsHit())
+	{
+		return false;
+	}*/
+	BaseActor* pAttacker = _Para.pAttacker;
+
+
+	const int AttackerAtt = pAttacker->GetAtt();
+	const int Stiffness = _Para.iStiffness;
+
+	Stat.AddPoise(-Stiffness);
+	Stat.AddHp(-AttackerAtt);
+
 
 
 	if (Stat.GetPoise() <= 0)
@@ -1433,28 +1486,6 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 
 
 
-	tyu = true; 
-
-	Poise_Time = 0; 
-
-	if (nullptr == _Para.pAttacker)
-	{
-		MsgBoxAssert("공격자를 모르고 사용할 수 없는 기능입니다.");
-		return false;
-	}
-
-	/*if (true == Hit.IsHit())
-	{
-		return false;
-	}*/
-	BaseActor* pAttacker = _Para.pAttacker;
-
-
-	const int AttackerAtt = pAttacker->GetAtt();
-	const int Stiffness = _Para.iStiffness;
-
-	Stat.AddPoise(-Stiffness);
-	Stat.AddHp(-AttackerAtt);
 
 	//Hit.SetHit(true);
 	
@@ -1484,10 +1515,13 @@ bool Player::FrontStabCheck(const float4& _WPos, float _RotY) const
 	return (RangeCheck && DirCheck);
 }
 
-bool Player::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
+bool Player::GetHitToShield(const HitParameter& _Para)
 {
 	tyu = true;
 	Poise_Time = 0;
+
+
+	
 
 
 	if (nullptr == _Para.pAttacker)
@@ -1503,10 +1537,11 @@ bool Player::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 
 	BaseActor* pAttacker = _Para.pAttacker;
 
+	
+
 	// 패링상태
 	if (StateValue == PlayerState::Parrying)
 	{		
-	
 		pAttacker->SetHit(true);
 		pAttacker->SetFlag(Enum_ActorFlag::Break_Posture, true);
 		return true;
@@ -1516,29 +1551,23 @@ bool Player::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 	if (StateValue == PlayerState::Shield_Idle)
 	{
 	
-
-
-
 		const int AttackerAtt = pAttacker->GetAtt();
 		const int Stiffness = _Para.iStiffness;
 
-		Stat.AddPoise(-Stiffness);
-		//Stat.AddStamina(-AttackerAtt);
-		Stat.AddStamina(-AttackerAtt);
+		//Stat.AddStamina();
 
-		if (Stat.GetPoise() > 70)
+		if (pAttacker->Get_Hit_Type() == Enum_Player_Hit::weak)
 		{
 			PlayerStates.ChangeState(PlayerState::Weak_Shield_block);
 		}
-		else if (Stat.GetPoise() > 50)
+		else if (pAttacker->Get_Hit_Type() == Enum_Player_Hit::Middle)
 		{
 			PlayerStates.ChangeState(PlayerState::Middle_Shield_block);
 		}
-		else if (Stat.GetPoise() < 0)
+		else if (pAttacker->Get_Hit_Type() == Enum_Player_Hit::Strong)
 		{
 			PlayerStates.ChangeState(PlayerState::Big_Shield_block);
 		}
-
 		else if (0 >= Stat.GetStamina())
 		{
 			PlayerStates.ChangeState(PlayerState::Big_Shield_block);

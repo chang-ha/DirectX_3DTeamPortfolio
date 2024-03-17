@@ -131,11 +131,27 @@ public:
 	bool GetHit(const HitParameter& _Para);
 	bool GetHitToShield(const HitParameter& _Para);
 
+
+
+	
 	
 	int GetPotion() const
 	{
 		return Potion;
 	}
+	int Get_Max_Hp()
+	{
+		return Max_Hp;
+	}
+	int Get_Max_Potion()
+	{
+		return Max_Potion;
+	}
+	int Get_Max_Stamina()
+	{
+		return Max_Stamina;
+	}
+
 
 
 protected:
@@ -146,12 +162,22 @@ protected:
 
 private:
 	bool tyu = false;
+
+	// ui 가 요구한것 
+
 	int Potion = 5;
+	int Max_Potion = 5;
+	int Max_Hp = 400.0f;
+	int Max_Mp = 200.0f;
+	int Mana = 200.0f;
+	float Max_Stamina = 300.0f;
+	
+
+
 	GameEngineSoundPlayer Sound; 
 
 	float Poise_Time = 0.0f;
 	//float Stamina = 100.0f;
-	float Hp = 100.0f;
 
 
 	float4 MoveDir;
@@ -264,6 +290,7 @@ private:
 
 	std::shared_ptr<class ContentsHitRenderer> HitRenderer;
 	std::shared_ptr<class ContentsHitRenderer> StrikeRenderer;
+	std::shared_ptr<class ContentsLight> FaceLight;
 };
 
 

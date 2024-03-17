@@ -5,6 +5,7 @@
 
 #include "BoneSocketCollision.h"
 
+static constexpr int LOTHRIC_KNIGHT_HP = 326;
 
 Monster_LothricKn::Monster_LothricKn() 
 {
@@ -49,9 +50,10 @@ void Monster_LothricKn::Start()
 
 	// Anmation
 	MainRenderer->SetFBXMesh("c1280.fbx", "FBX_Animation");
+	MainRenderer->RenderBaseInfoValue.DiffuseTexMult = 3.0f;
 	
-	MainRenderer->CreateFBXAnimation("Idle_Standing1", "c1280_000000.fbx");
-	MainRenderer->CreateFBXAnimation("Idle_Standing2", "c1280_000020.fbx");
+	MainRenderer->CreateFBXAnimation("Idle_Standing", "c1280_000000.fbx");
+	MainRenderer->CreateFBXAnimation("Idle_Standing1", "c1280_000020.fbx");
 	MainRenderer->CreateFBXAnimation("Idle_Gaurding", "c1280_000030.fbx");
 	MainRenderer->CreateFBXAnimation("Idle_Aiming", "c1280_000040.fbx");
 	MainRenderer->CreateFBXAnimation("Idle_Sit", "c1280_000700.fbx");
@@ -132,8 +134,8 @@ void Monster_LothricKn::Start()
 	MainRenderer->CreateFBXAnimation("F_Stab_Death", "c1280_011011.fbx");
 	MainRenderer->CreateFBXAnimation("F_Stab_Death_End", "c1280_011012.fbx");
 
+	MainRenderer->SetBlendTime("Idle_Standing", 7);
 	MainRenderer->SetBlendTime("Idle_Standing1", 7);
-	MainRenderer->SetBlendTime("Idle_Standing2", 7);
 	MainRenderer->SetBlendTime("Idle_Gaurding", 7);
 	MainRenderer->SetBlendTime("Idle_Aiming", 7);
 	MainRenderer->SetBlendTime("Idle_Sit", 7);
@@ -212,8 +214,8 @@ void Monster_LothricKn::Start()
 
 
 	MainRenderer->SetRootMotionComponent(Capsule.get());
+	MainRenderer->SetRootMotion("Idle_Standing");
 	MainRenderer->SetRootMotion("Idle_Standing1");
-	MainRenderer->SetRootMotion("Idle_Standing2");
 	MainRenderer->SetRootMotion("Idle_Gaurding");
 	MainRenderer->SetRootMotion("Idle_Aiming");
 	MainRenderer->SetRootMotion("Idle_Sit");
@@ -272,6 +274,10 @@ void Monster_LothricKn::Start()
 	MainRenderer->SetRootMotion("F_Stab");
 	MainRenderer->SetRootMotion("F_Stab_Death");
 
+	// Default 5000.0f 
+	const float RootMoveRatio = W_SCALE * 0.01f; 
+	MainRenderer->SetAllRootMotionMoveRatio(RootMoveRatio, RootMoveRatio, RootMoveRatio);
+
 	// DummyData
 	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::LothricKn));
 	SetCenterBodyDPIndex(220);
@@ -280,7 +286,7 @@ void Monster_LothricKn::Start()
 	MaskReset();
 
 	// Stat
-	Stat.SetHp(326); // Official Hp
+	Stat.SetHp(LOTHRIC_KNIGHT_HP); // Official Hp
 	Stat.SetAtt(1);
 
 	// Collision
@@ -362,15 +368,67 @@ void Monster_LothricKn::Update(float _Delta)
 	}
 }
 
-
 void Monster_LothricKn::Release()
 {
+	MonsterCollision = nullptr;
 	PatrolCollision = nullptr;
 	Sword.Release();
+	Shield.Release();
 
 	BaseMonster::Release();
 }
 
+void Monster_LothricKn::WakeUp()
+{
+	On();
+	ChangeIdleState(IdleType);
+}
+
+void Monster_LothricKn::Reset()
+{
+	Off();
+	Sword.ResetRecord();
+	Shield.ResetRecord();
+
+	Stat.SetHp(LOTHRIC_KNIGHT_HP);
+	Stat.SetPoise(MAX_POISE);
+
+	Hit.SetHit(false);
+	Hit.SetInvincible(false);
+
+	MaskReset();
+
+	SetFlagNull();
+	SetTargeting(nullptr);
+}
+
+void Monster_LothricKn::SetIdleType(Enum_Lothric_IdleType _Type)
+{
+	if (Enum_Lothric_IdleType::None == _Type)
+	{
+		MsgBoxAssert("해당 타입으로 세팅할 수 없습니다");
+		return;
+	}
+
+	IdleType = _Type;
+}
+
+void Monster_LothricKn::ChangeIdleState(Enum_Lothric_IdleType _Type)
+{
+	switch (_Type)
+	{
+	case Enum_Lothric_IdleType::Standing:
+		MainState.ChangeState(Enum_LothricKn_State::Idle_Standing);
+		break;
+	case Enum_Lothric_IdleType::Sit:
+		MainState.ChangeState(Enum_LothricKn_State::Idle_Sit);
+		break;
+	case Enum_Lothric_IdleType::None:
+		break;
+	default:
+		break;
+	}
+}
 
 void Monster_LothricKn::MaskReset()
 {
@@ -425,6 +483,8 @@ bool Monster_LothricKn::FindAndSetTarget(Enum_CollisionOrder _Order)
 		return false;
 	}
 
+	PatrolCollision->On();
+
 	std::shared_ptr<GameEngineActor> pActor;
 	
 	PatrolCollision->Collision(_Order, [&pActor](std::vector<GameEngineCollision*>& _Other)
@@ -459,11 +519,6 @@ bool Monster_LothricKn::FindAndSetTarget(Enum_CollisionOrder _Order)
 
 	return false;
 };
-
-void Monster_LothricKn::WakeUp() 
-{
-	MainState.ChangeState(Enum_LothricKn_State::Patrol);
-}
 
 float Monster_LothricKn::ConvertDistance_eTof(Enum_TargetDist _eTDist) const
 {

@@ -42,8 +42,9 @@ cbuffer RenderBaseInfo : register(b11)
     float TEXCOORDMult;
     float Roughness;
     float Metalic;
-    float Def2;
+    float DiffuseTexMult;
     float Def3;
     float Def4;
+    float4 ForceSpecularColor;
 };
 

@@ -39,9 +39,10 @@ struct RenderBaseInfo
 	float TEXCOORDMult = 0.0001f; // 맵용 gi 텍스쳐용
 	float Roughness = -1.0f; //0.0f밑이면 스펙큘러 텍스쳐에서 샘플링해서 사용된다.
 	float Metalic = -1.0f; //0.0f밑이면 스펙큘러 텍스쳐에서 샘플링해서 사용된다.
-	float Def2;
+	float DiffuseTexMult = 1.0f;
 	float Def3;
 	float Def4;
+	float4 ForceSpecularColor = { 0.06f,0.06f,0.04f,1.0f };
 };
 
 // 설명 : GameEngineRenderer에게 Order는 랜더링 되는 순서를 의미합니다.

@@ -2,7 +2,12 @@
 
 #define PI 3.14159265358979323846264338327950288419716939937510f
 
-float4 CalSpacularLightContents(float4 _Pos, float4 _Normal, LightData _Data/*, float3 _SpecColor*/)
+float3 Fresnel(float3 EyeDir, float3 HalfVec, float3 F0)
+{
+    return F0 + (1.0f - F0) * pow(1.0f - max(dot(EyeDir, HalfVec), 0.0f), 5.0f);
+}
+
+float4 CalSpacularLightContents(float4 _Pos, float4 _Normal, LightData _Data, float3 _SpecColor)
 {
     // 0~1
     float4 ResultRatio = 0.0f;
@@ -20,20 +25,22 @@ float4 CalSpacularLightContents(float4 _Pos, float4 _Normal, LightData _Data/*, 
     }
     else
     {
-        // point , spot
+        // point 
         L.xyz = normalize(_Data.ViewLightPos.xyz - _Pos.xyz);
     }
     float3 EyeL = normalize(_Data.CameraPosition.xyz - _Pos.xyz);
-    
-    
+    float3 H = normalize(L + EyeL);
+    float fresnelTerm = Fresnel(EyeL, H, _SpecColor);
     
     //นÝป็ บคลอ Reflection()
     float3 ReflectionN = normalize(2.0f * _Normal.xyz * dot(L.xyz, N.xyz) - L.xyz);
     
     
-    float Result = max(0.0f, dot(ReflectionN.xyz, EyeL.xyz));
+    float specAngle = max(0.0f, dot(ReflectionN.xyz, EyeL.xyz));
+    //float specPowerGradient = lerp(_Data.SpcPow + 15.0f, _Data.SpcPow, specAngle);
+    //float Fresnel = pow(1.0f - specAngle, 5.0f);
     
-    ResultRatio.xyzw = pow(Result, _Data.SpcPow);
+    ResultRatio.xyzw = pow(specAngle, _Data.SpcPow) * fresnelTerm;
     
     
     return ResultRatio * _Data.LightColor * _Data.SpcLightPower * _Data.LightPower;

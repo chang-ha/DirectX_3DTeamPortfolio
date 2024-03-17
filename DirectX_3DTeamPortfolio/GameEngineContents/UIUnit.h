@@ -27,8 +27,6 @@ public:
 
 	void SetTotalGauge(float _Value);
 
-	void Reset();
-
 	void SetBarType(Enum_BarType _Type)
 	{
 		Type = _Type;
@@ -36,16 +34,19 @@ public:
 
 	void SetBarSprite(Enum_BarType _Type);
 
+	void SetParent(class Player* _PlayerObject);
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
 
 private:
+	Player* pPlayer = nullptr;
+
 	float PixelGauge = 0.0f;
 
 	float RenderTotalGauge = 0.0f;
-
 	float RenderGauge = 0.0f;
 	float RenderSpeed = 200.0f;
 

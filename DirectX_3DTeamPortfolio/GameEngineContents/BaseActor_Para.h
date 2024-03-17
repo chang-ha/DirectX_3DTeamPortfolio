@@ -19,7 +19,6 @@ public:
 	class BaseActor* pAttacker = nullptr; // 공격상대
 	Enum_DirectionXZ_Quat eDir = Enum_DirectionXZ_Quat::Center; // 맞는 DIR
 	int iStiffness = 0; // 경직도
-
 };
 
 class BSCol_TransitionParameter

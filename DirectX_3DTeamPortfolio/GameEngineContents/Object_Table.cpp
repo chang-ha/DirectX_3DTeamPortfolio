@@ -18,8 +18,9 @@ void Object_Table::Start()
 	FBXRenderer->SetStatic();
 	Transform.SetWorldScale({ 100, 100 , 100 });
 
-	/*Capsule = CreateComponent<GameEnginePhysXCapsule>();
-	Capsule->PhysXComponentInit(100, 100);*/
+	Box = CreateComponent<GameEnginePhysXBox>();
+	Box->PhysXComponentInit(50, 50, 140);
+	Box->SetFiltering(Enum_CollisionOrder::Map);
 }
 
 void Object_Table::Update(float _Delta)

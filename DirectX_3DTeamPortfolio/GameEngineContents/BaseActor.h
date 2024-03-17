@@ -22,7 +22,6 @@ enum class Enum_ActorFlag
 	Death,
 	Parrying,
 	Guarding,
-	Hit,
 	HyperArmor,
 	Block_Shield,
 	Guard_Break,
@@ -44,7 +43,6 @@ enum class Enum_ActorFlagBit
 	Death = (1 << 1),
 	Parrying = (1 << 2),
 	Guarding = (1 << 3),
-	Hit = (1 << 10),
 	HyperArmor = (1 << 11),
 	Block_Shield = (1 << 12), // 방패에 막힘
 	Guard_Break = (1 <<  13), // 가드 브레이크
@@ -60,6 +58,13 @@ enum Enum_RotDir
 	Not_Rot = 0,
 	Left = -1,
 	Right = 1,
+};
+
+enum Enum_Player_Hit
+{
+	weak,
+	Middle,
+	Strong,
 };
 
 namespace std
@@ -95,16 +100,15 @@ public:
 
 	inline void SetStamina(float _Value) { Stamina = _Value; }
 	inline void AddStamina(float _Value) { Stamina += _Value; }
-	inline float  GetStamina() const { return Stamina; }
-
-
+	inline float GetStamina() const { return Stamina; }
+	
 
 private:
 	int Hp = 0; // 체력
 	int Att = 0; // 공격력
 	int Souls = 0; // 소울량
 	int Poise = 0; // 강인도
-	float Stamina = 0; // 지구력 
+	float Stamina = 0.0f; // 지구력 
 };
 
 class HitStruct
@@ -244,7 +248,7 @@ public:
 	}
 
 	void Off() override
-	{
+	{ 
 		GameEngineActor::Off();
 		Capsule->Off();
 	}
@@ -254,9 +258,6 @@ public:
 		GameEngineActor::OnOffSwitch();
 		IsUpdate() ? Capsule->On() : Capsule->Off();
 	}
-
-	void SetWorldPosition(const float4& _Pos);
-	void SetWorldRotation(const float4& _Rot);
 
 	// ID
 	// 애니메이션 프레임 이벤트를 사용하려면 필수로 등록해줘야하는 자신의 고유 ID입니다.
@@ -273,6 +274,12 @@ public:
 	float GetWDirection() const;
 	void SetWPosition(const float4& _wPos);
 
+	void SetWorldPosition(const float4& _Pos);
+	void SetWorldRotation(const float4& _Rot);
+
+	// 로직 리셋
+	virtual void Reset() {} 
+
 	// Flag
 	// 상대방의 행동을 지정해주려면 Flag 즉, 상대방의 State 변수를 바꿔주는 것이 효율적일 것 같아서 구현했습니다.
 	// 상대방의 State에 관련된 Flag Bit를 바꿔 그 Flag에 맞는 상태를 구현하는게 직접 State를 변경하는 것보다 더 낫다고 생각합니다. 
@@ -280,6 +287,7 @@ public:
 	void SetFlag(Enum_ActorFlag _Flag, bool _Value);
 	void AddFlag(Enum_ActorFlag _Flag);
 	void SubFlag(Enum_ActorFlag _Flag);
+	void SetFlagNull() { Flags = 0; }
 	void DebugFlag() const;
 
 	// Getter
@@ -290,14 +298,18 @@ public:
 	inline int* GetFlagPointer() { return &Flags; }
 	inline class GameEnginePhysXCapsule* GetPhysxCapsulePointer() { return Capsule.get(); }
 	inline int GetHp() const { return Stat.GetHp(); }
+	inline int GetStamina() const { return Stat.GetStamina(); }
 	inline int GetAtt() const { return Stat.GetAtt(); }
 	inline void Damage(int _Damage) { Stat.AddHp(-_Damage); }
 	inline int GetPoise() const { return Stat.GetPoise(); }
 	inline void SetHit(bool _Value) { Hit.SetHit(_Value); }
+
+
 	inline int GetCenterDPIndex() const { return CenterBodyIndex; }
 	std::string_view GetMaterialSoundName(int _Index) { return MaterialSound.GetSound(_Index); }
 	std::vector<int> GetMaterialSoundKeys() { return MaterialSound.GetKeys(); }
 	bool IsContainMaterialType(int _Key) { return MaterialSound.IsKeyContain(_Key); }
+
 
 	// CollisionEvent 
 	// 캐릭터간 충돌시 상대방의 수치를 바꿔주기위한 상호작용 인터페이스입니다.
@@ -372,6 +384,7 @@ private:
 
 protected:
 	static constexpr float W_SCALE = 100.0f; // 모두의 스케일
+	static constexpr int MAX_POISE = 100; // 강직도 세팅
 
 	std::shared_ptr<GameContentsFBXRenderer> MainRenderer;
 	std::shared_ptr<class GameEnginePhysXCapsule> Capsule;
@@ -383,6 +396,8 @@ protected:
 
 	int CenterBodyIndex = -1; // FrameEvent에서 사용할 DummyPoly Center Body를 등록해주세요
 	
+	float Reduce_Stamina = 0;
+
 private:
 	static std::unordered_map<Enum_ActorFlag, Enum_ActorFlagBit> FlagIndex; // 플레그를 매핑해놓은 구조체입니다. 에디터와 연계 가능합니다.
 	MaterialSoundStruct MaterialSound;
@@ -411,6 +426,11 @@ public:
 	{
 		return RotDir;
 	}
+	inline Enum_Player_Hit Get_Hit_Type() const
+	{
+		return Hit_Type;
+	}
+
 	
 	float4 GetTargetPos()
 	{
@@ -459,10 +479,11 @@ private:
 	const float RotMinAngle = 5.f;
 	Enum_RotDir RotDir = Enum_RotDir::Not_Rot;
 
+	
 	void CalcuTargetAngle();
 
 protected:
 	JumpTableManager mJumpTableManager;
-
+	Enum_Player_Hit Hit_Type = Enum_Player_Hit::weak;
 };
 

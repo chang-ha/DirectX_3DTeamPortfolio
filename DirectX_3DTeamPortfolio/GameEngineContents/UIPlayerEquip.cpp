@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "UIPlayerEquip.h"
 
+#include "Player.h"
+
 UIPlayerEquip::UIPlayerEquip()
 {
 }
@@ -54,13 +56,13 @@ void UIPlayerEquip::Start()
 		float EstePosY =  Este->GetSprite()->GetSpriteData(0).GetScale().hY();
 
 		EsteFont = CreateComponent<GameEngineUIRenderer>();
-		EsteFont->SetText(GlobalValue::OptimusFont, "에스트 병", 14.0f, float4{ 1, 1, 1, 1, }, FW1_CENTER);
+		EsteFont->SetText(GlobalValue::OptimusFont, "에스트 병", 18.0f, float4{ 1, 1, 1, 1, }, FW1_CENTER);
 		EsteFont->On();
 		EsteFont->Transform.SetLocalPosition({ EsteFrame->Transform.GetWorldPosition().X,
 			EsteFrame->Transform.GetWorldPosition().Y - EstePosY * ImgaeRatio });
 
 		EsteCount = CreateComponent<GameEngineUIRenderer>();
-		EsteCount->SetText(GlobalValue::OptimusFont, std::to_string(CurEsteCount), 15.0f, float4{1, 1, 1, 1,}, FW1_CENTER);
+		EsteCount->SetText(GlobalValue::OptimusFont, std::to_string(CurEsteCount), 20.0f, float4{1, 1, 1, 1,}, FW1_CENTER);
 		EsteCount->On();
 		EsteCount->Transform.SetLocalPosition({ EsteFrame->Transform.GetWorldPosition().X + 30.0f,
 			EsteFrame->Transform.GetWorldPosition().Y - 30.0f });
@@ -72,20 +74,17 @@ void UIPlayerEquip::Start()
 	GameEngineInput::AddInputObject(this);
 }
 
+void UIPlayerEquip::SetParent(Player* _Object)
+{
+	EsteCheck = _Object;
+	MaxEsteCount = EsteCheck->Get_Max_Potion();
+	CurEsteCount = EsteCheck->GetPotion();
+}
+
 void UIPlayerEquip::Update(float _Delta)
 {
 
-	if (GameEngineInput::IsDown('0', this))
-	{
-		CurEsteCount++;
-	}
-
-	if (GameEngineInput::IsDown('-', this))
-	{
-		CurEsteCount--;
-	}
-
-	EsteCount->SetText(GlobalValue::OptimusFont, std::to_string(CurEsteCount), 15.0f, float4{ 1, 1, 1, 1, }, FW1_CENTER);
+	EsteCount->SetText(GlobalValue::OptimusFont, std::to_string(EsteCheck->GetPotion()), 20.0f, float4{ 1, 1, 1, 1, }, FW1_CENTER);
 	ChangeEsteImage();
 }
 
@@ -93,17 +92,17 @@ void UIPlayerEquip::ChangeEsteImage()
 {
 	StandardEste = ceil(MaxEsteCount / 3.0f);
 
-	if (StandardEste >= CurEsteCount && CurEsteCount > 0)
+	if (StandardEste >= EsteCheck->GetPotion() && EsteCheck->GetPotion() > 0)
 	{
 		Este->SetSprite("EsteBottl_S.Png");
 		return;
 	}
-	else if ((StandardEste * 2) >= CurEsteCount && CurEsteCount > StandardEste)
+	else if ((StandardEste * 2) >= EsteCheck->GetPotion() && EsteCheck->GetPotion() > StandardEste)
 	{
 		Este->SetSprite("EsteBottl_M.Png");
 		return;
 	}
-	else if (CurEsteCount <= 0)
+	else if (EsteCheck->GetPotion() <= 0)
 	{
 		Este->SetSprite("EsteBottle_Empty.Png");
 		return;

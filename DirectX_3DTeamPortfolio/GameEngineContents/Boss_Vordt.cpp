@@ -615,6 +615,13 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 	StateInit();
 
+	// RockOnCollision
+	if (nullptr == RockOnCollision)
+	{
+		RockOnCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster);
+		RockOnCollision->Transform.SetWorldScale({1.f, 1.f, 1.f});
+	}
+
 	//////// Socket Collision
 	// HitCollision
 	BSCol_TransitionParameter ColParameter;
@@ -852,11 +859,6 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::Boss_Vordt));
 
-	Stat.SetHp(BOSS_HP);
-	Stat.SetAtt(0);
-	Stat.SetSouls(3000);
-	Stat.SetPoise(100);
-
 	Off();
 }
 
@@ -886,7 +888,12 @@ void Boss_Vordt::Start()
 		Capsule = CreateComponent<GameEnginePhysXCapsule>();
 		Capsule->PhysXComponentInit(320.0f, 5.0f);
 		Capsule->SetPositioningComponent();
+		Capsule->SetFiltering(Enum_CollisionOrder::Monster);
 	}
+
+	Stat.SetHp(BOSS_HP);
+	Stat.SetAtt(1);
+	Stat.SetSouls(10000);
 }
 
 void Boss_Vordt::Update(float _Delta)

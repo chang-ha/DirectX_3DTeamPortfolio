@@ -35,8 +35,8 @@ void WorldMap::Start()
 
 		FilterData.word0 = static_cast<int>(Enum_CollisionOrder::Map);
 		FilterData.word0 = static_cast<int>(Enum_CollisionOrder::Player);
-		FilterData.word1 = static_cast<int>(Enum_CollisionOrder::Camera);		
-		FilterData.word2 = static_cast<int>(Enum_CollisionOrder::Big_Camera);
+		FilterData.word0 = static_cast<int>(Enum_CollisionOrder::Camera);		
+		FilterData.word0 = static_cast<int>(Enum_CollisionOrder::Big_Camera);
 		
 
 
@@ -60,6 +60,7 @@ void WorldMap::Start()
 
 		SkyRenderer = CreateComponent<GameContentsFBXRenderer>(-1);
 		SkyRenderer->SetFBXMesh("WorldSky.FBX", "FBX_Static_Alpha", RenderPath::Alpha);
+		SkyRenderer->Transform.SetLocalRotation({ 0.0f,-135.0f });
 		//SkyRenderer->RenderBaseInfoValue.TEXCOORDMult = 1.0f;
 
 		BackGroundRenderer = CreateComponent<GameContentsFBXRenderer>();

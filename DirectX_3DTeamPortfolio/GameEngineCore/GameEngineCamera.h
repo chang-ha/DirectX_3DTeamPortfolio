@@ -272,5 +272,6 @@ private:
 	CameraBaseInfo  CameraBaseInfoValue;
 
 	bool StaticRenderInitValue = true;
+	bool ShadowValue = false;
 };
 

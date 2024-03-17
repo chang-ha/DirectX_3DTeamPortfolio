@@ -27,6 +27,7 @@ void Object_CandleHuman::Start()
 		FBXRenderer->SetStatic();
 
 		FBXRenderer->RenderBaseInfoValue.IsNormal = -1;
+		FBXRenderer->RenderBaseInfoValue.ForceSpecularColor = { 0.45f,0.35f,0.0f,1.0f };
 
 	}
 	{
@@ -58,6 +59,9 @@ void Object_CandleHuman::Start()
 
 		Light->SetLightData(Data);
 	}
+
+	Box = CreateComponent<GameEnginePhysXBox>();
+	Box->PhysXComponentInit(50, 50, 50);
 }
 
 void Object_CandleHuman::Update(float _Delta)

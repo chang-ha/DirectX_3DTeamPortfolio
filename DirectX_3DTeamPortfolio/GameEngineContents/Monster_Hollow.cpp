@@ -136,7 +136,9 @@ void Monster_Hollow::CreateAnimation()
 	MainRenderer->CreateFBXAnimation("c1100_Death", "c1100_Death.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_BurnToDeath", "c1100_BurnToDeath.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_BackAttackHit", "c1100_BackAttackHit.FBX", { Inter, false });
+	MainRenderer->CreateFBXAnimation("c1100_BackAttackDeath", "c1100_BackAttackDeath.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_AfterGuardBreakHit", "c1100_AfterGuardBreakHit.FBX", { Inter, false });
+	MainRenderer->CreateFBXAnimation("c1100_AfterGuardBreakDeath", "c1100_AfterGuardBreakDeath.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_PrayToBeScared1", "c1100_PrayToBeScared1.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_PrayToBeScared2", "c1100_PrayToBeScared2.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_PrayToBeScared3", "c1100_PrayToBeScared3.FBX", { Inter, false });
@@ -345,6 +347,235 @@ void Monster_Hollow::SettingRootMotion()
 	MainRenderer->SetRootMotion("c1100_Lantern_Turn_Right_Twice");
 }
 
+void Monster_Hollow::SettingSoundFrameEvent()
+{
+	MainRenderer->SetFrameEvent("c1100_Idle1", 26, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			// float4 자리에 Spine Bone Position 넣을것.
+			//GameEngineSound::Sound3DPlay("c110008000.wav", float4);
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Idle2", 18, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//GameEngineSound::Sound3DPlay("c110008000.wav", float4);
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Idle3", 17, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//GameEngineSound::Sound3DPlay("c110008000.wav", float4);
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Pray1", 46, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//GameEngineSound::Sound3DPlay("c110008008.wav", float4);
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Pray2", 49, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//GameEngineSound::Sound3DPlay("c110008008.wav", float4);
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Pray3", 19, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//GameEngineSound::Sound3DPlay("c110008008.wav", float4);
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Idle2ToIdle1", 19, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Idle2ToIdle1", 24, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001c
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Idle1ToIdle2", 9, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Idle1ToIdle2", 14, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001c
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Idle2ToIdle3", 4, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001c
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Idle3ToIdle2", 6, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Idle3ToIdle2", 14, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001c
+		});
+
+	MainRenderer->SetFrameEvent("c1100_PrayToIdle1", 18, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001
+		});
+
+	MainRenderer->SetFrameEvent("c1100_PrayToIdle1", 26, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110006100
+		});
+
+	MainRenderer->SetFrameEvent("c1100_PrayToIdle1", 40, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001c
+		});
+
+	MainRenderer->SetFrameEvent("c1100_PrayToIdle2", 32, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110006100
+		});
+
+	MainRenderer->SetFrameEvent("c1100_PrayToIdle2", 32, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001c
+		});
+
+	MainRenderer->SetFrameEvent("c1100_PrayToIdle3", 25, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001c
+		});
+
+	MainRenderer->SetFrameEvent("c1100_PrayToIdle3", 40, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110006100
+		});
+
+	MainRenderer->SetFrameEvent("c1100_PrayToIdle3", 42, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001c
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Front", 3, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110008000
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Front", 8, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Front", 32, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Back", 3, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110008000
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Back", 5, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Back", 23, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Left", 3, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110008000
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Left", 21, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Left", 39, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Right", 3, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110008000
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Right", 10, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Right", 32, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Front3", 3, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110008004
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Front3", 8, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Front3", 32, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Back3", 3, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110008004
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Back3", 4, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Back3", 27, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Left3", 3, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110008004
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Left3", 20, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Left3", 39, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Right3", 3, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110008000
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Right3", 12, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001
+		});
+
+	MainRenderer->SetFrameEvent("c1100_Walk_Right3", 32, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			//110001001
+		});
+}
+
 void Monster_Hollow::FindTarget()
 {
 	if (true == IsTargeting())
@@ -360,7 +591,7 @@ void Monster_Hollow::FindTarget()
 
 	std::shared_ptr<GameEngineActor> OtherActor;
 
-	RecognizeCollision->Collision(Enum_CollisionOrder::Dummy, [&OtherActor](std::vector<GameEngineCollision*>& _Other)
+	RecognizeCollision->Collision(Enum_CollisionOrder::Player, [&OtherActor](std::vector<GameEngineCollision*>& _Other)
 		{
 			for (GameEngineCollision* OtherCol : _Other)
 			{

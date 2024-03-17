@@ -20,6 +20,8 @@ public:
 
 	UIEquipFrame* FindFrame(Enum_EquipType _Type);
 
+	void SetParent(class Player* _Object);
+
 protected:
 	void Start() override;
 	void Update(float _Delta);
@@ -27,6 +29,9 @@ protected:
 	void Release() override;
 
 private:
+	// 플레이어에게서 받아올 값
+	Player* EsteCheck = nullptr;
+
 	std::map<Enum_EquipType, class UIEquipFrame*> EquipMent;
 
 	UIEquipFrame* MagicFrame = nullptr;
@@ -44,11 +49,11 @@ private:
 	UIEquipFrame* EsteFrame = nullptr;
 	std::shared_ptr<class GameEngineUIRenderer> EsteFont;
 	std::shared_ptr<class GameEngineUIRenderer> EsteCount;
-	int MaxEsteCount = 5;
-	int CurEsteCount = 5;
+	int MaxEsteCount = 0; // 5;
+	int CurEsteCount = 0; // 5;
 	double StandardEste = 0;
-	std::string CurEste = "";
 
+	// EquipFrame 중심 위치값
 	float4 FixPos = 0.0f;
 };
 
