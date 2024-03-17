@@ -412,10 +412,12 @@ bool Monster_Hollow::IsTargetInAngle(float _fAngle) const
 
 void Monster_Hollow::RotToTarget(float _Delta)
 {
-	const float fRotDir = BaseActor::GetRotDir_f();
+	/*const float fRotDir = BaseActor::GetRotDir_f();
 	const float RotAngle = fRotDir * 300.0f * _Delta;
 
-	Capsule->AddWorldRotation(float4(0.0f, RotAngle, 0.0f));
+	Capsule->AddWorldRotation(float4(0.0f, RotAngle, 0.0f));*/
+
+	BaseActor::RotToTarget(_Delta, 150.0f, 500.0f);
 }
 
 
