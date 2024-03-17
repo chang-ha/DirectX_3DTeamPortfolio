@@ -56,6 +56,10 @@ Stage_Lothric::~Stage_Lothric()
 void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	{
+		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
+	}
+
+	{
 		std::shared_ptr<GameEngineActor> Ground = CreateActor<GameEngineActor>(0);
 		std::shared_ptr<GameEngineRenderer> NewRenderer = Ground->CreateComponent<GameEngineRenderer>();
 		NewRenderer->SetMesh("Box");
@@ -153,14 +157,12 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		Player_Object->SetTargeting(Boss_Object.get());
 		Boss_Object->SetTargeting(Player_Object.get());
 	}
-	/*{
+	{
 		std::shared_ptr<Monster_HollowSoldier> GameMap = CreateActor<Monster_HollowSoldier>(0 );
 		GameMap->Transform.SetWorldPosition({ -2900.f,-2500.f,6800.f });
-	}*/
-
-	{
-		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
 	}
+
+	
 
 	{
 		FogWall = CreateActor< Object_FogWall>();
