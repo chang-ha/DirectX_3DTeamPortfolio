@@ -70,7 +70,8 @@ void BaseActor::Update(float _Delta)
 	}
 	CalcuTargetAngle();
 	mJumpTableManager.Update();
-}
+	Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z);
+}%
 
 void BaseActor::Release()
 {
