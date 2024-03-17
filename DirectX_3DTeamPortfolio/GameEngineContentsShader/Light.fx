@@ -37,6 +37,7 @@ float4 CalSpacularLightContents(float4 _Pos, float4 _Normal, LightData _Data, fl
     
     
     float specAngle = max(0.0f, dot(ReflectionN.xyz, EyeL.xyz));
+    //float specPowerGradient = lerp(_Data.SpcPow + 15.0f, _Data.SpcPow, specAngle);
     //float Fresnel = pow(1.0f - specAngle, 5.0f);
     
     ResultRatio.xyzw = pow(specAngle, _Data.SpcPow) * fresnelTerm;

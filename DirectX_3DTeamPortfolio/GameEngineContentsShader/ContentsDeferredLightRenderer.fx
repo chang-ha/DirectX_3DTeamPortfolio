@@ -103,7 +103,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
     {
         float Distance = length(LightDataValue.ViewLightPos.xyz - Pos.xyz);
         
-        if (Distance >= LightDataValue.PointLightRange * 1.7f)
+        if (Distance >= LightDataValue.PointLightRange * 2.0f)
         {
             clip(-1);
         }
@@ -230,7 +230,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
             
             
             
-                    if (fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.000001f))
+                    if (fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.001f))
                     {
             
                         shadow += 1.0f;
@@ -252,7 +252,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
             {
                 float fShadowDepth = ShadowTex.Sample(LINEARClamp, ShadowUV + offsets[i]).r;     
             if (
-                fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.000001f)
+                fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.001f)
              )
                 {
                     if (LightProjection.z - fShadowDepth < DynamicShadowDistance || StaticShadow < 0.3f)

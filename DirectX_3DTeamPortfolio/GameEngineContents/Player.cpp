@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "ContentsEnum.h"
 #include "math.h"
+#include "ContentsLight.h"
 
 // ¼­¹ö¿ë
 #include "GameEngineNetWindow.h"
@@ -42,7 +43,13 @@ void Player::Start()
 
 	Cameracapsule = GetLevel()->CreateActor<CameraCapsule>(0,"Camera");
 
+	FaceLight = GetLevel()->CreateActor< ContentsLight>(Enum_UpdateOrder::Light, "FaceLight");
+	FaceLight->SetLightType(Enum_LightType::Point);
 
+	LightData Data = FaceLight->GetLightData();
+
+	Data.quadraticAttenuation = 0.0001f;
+	Data.LightPower = 3.f;
 
 
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(0);
@@ -769,7 +776,9 @@ void Player::Start()
 
 void Player::Update(float _Delta)
 {
-	
+	float4 revolution = float4::VectorRotationToDegY(float4{ 0.0f, 150.0f, 50.0f }, Transform.GetWorldRotationEuler().Y);
+
+	FaceLight->Transform.SetLocalPosition(Transform.GetWorldPosition() + revolution);
 
 	Parring_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{

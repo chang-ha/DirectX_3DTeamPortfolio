@@ -28,12 +28,12 @@ struct LightData
     float AmbLightPower = 1.0f;
     float SpcPow = 15.0f;
     int LightType = 0;
-    float PointLightRange = 500.0f;
+    float PointLightRange = 800.0f;
     float LightPower = 1.0f;
     float ForceLightPower = 0.5f; //GI텍스쳐용 강제 라이트 
     float constantAttenuation = 1.0f;
     float linearAttenuation = 0.003f;
-    float quadraticAttenuation = 0.00003f;
+    float quadraticAttenuation = 0.00006f;
     float Def1;
 };
 
