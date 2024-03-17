@@ -72,6 +72,11 @@ void Monster_Hollow::Release()
 	BaseMonster::Release();
 }
 
+void Monster_Hollow::LevelStart(class GameEngineLevel* _NextLevel)
+{
+	BaseMonster::LevelStart(_NextLevel);
+}
+
 void Monster_Hollow::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 

@@ -61,7 +61,6 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
-
 	// Mesh
 	template<typename EnumType>
 	void MeshOnOffSwitch(EnumType _MeshIndex)
@@ -93,11 +92,11 @@ protected:
 	// 타겟 범윈 정의
 	Enum_TargetAngle GetTargetAngle_e(float _fFrontAngle, float _fSideAngle) const
 	{
-		if (false == IsTargeting())
-		{
-			MsgBoxAssert("타겟이 존재하지 않는데 변수를 가져오려 했습니다.");
-			return Enum_TargetAngle::None;
-		}
+		//if (false == IsTargeting())
+		//{
+		//	MsgBoxAssert("타겟이 존재하지 않는데 변수를 가져오려 했습니다.");
+		//	return Enum_TargetAngle::None;
+		//}
 
 		const float AbsTargetAngle = std::fabs(BaseActor::GetTargetAngle());
 
@@ -137,11 +136,11 @@ protected:
 	// 타겟 거리 정의
 	Enum_TargetDist GetTargetDistance_e(float _fCloseRange, float _fmeleeRange, float _fMediumRange) const
 	{
-		if (false == IsTargeting())
-		{
-			MsgBoxAssert("타겟이 존재하지 않는데 변수를 가져오려 했습니다.");
-			return Enum_TargetDist::None;
-		}
+		//if (false == IsTargeting())
+		//{
+		//	MsgBoxAssert("타겟이 존재하지 않는데 변수를 가져오려 했습니다.");
+		//	return Enum_TargetDist::None;
+		//}
 
 		const float AbsTargetDist = std::fabs(BaseActor::GetTargetDistance());
 
@@ -187,6 +186,9 @@ protected:
 	bool BackStabCheck(const float4& _WPos, float _RotY) const override;
 	float4 GetBackStabPosition() override;
 	float4 GetFrontStabPosition() override;
+
+	// UI
+	void CreateMonsterUI(int _BoneHeadIndex);
 
 protected:
 	std::unique_ptr<class PatrolPath> PatrolPaths;

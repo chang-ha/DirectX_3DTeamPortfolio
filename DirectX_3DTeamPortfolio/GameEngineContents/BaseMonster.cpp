@@ -18,7 +18,10 @@ void BaseMonster::Start()
 {
 	BaseActor::Start();
 
-	MonsterUI = GetLevel()->CreateActor<MonsterHpBar>();
+	// Physx Component
+	Capsule = CreateComponent<GameEnginePhysXCapsule>();
+	Capsule->PhysXComponentInit(50.0f, 50.0f);
+	Capsule->SetPositioningComponent();
 }
 
 void BaseMonster::Update(float _Delta)
@@ -298,4 +301,19 @@ float4 BaseMonster::GetFrontStabPosition()
 	}
 
 	return false;
+}
+
+void BaseMonster::CreateMonsterUI(int _BoneHeadIndex)
+{
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다. Bone행렬을 참조할 수 없습니다.");
+		return;
+	}
+
+	const std::vector<AnimationBoneData>& BoneDatas = MainRenderer->GetBoneDatas();
+	const AnimationBoneData& Data = BoneDatas.at(_BoneHeadIndex);
+
+	MonsterUI = GetLevel()->CreateActor<MonsterHpBar>(Enum_UpdateOrder::UI);
+	MonsterUI->InitUIPosition(this, &Data.Pos);
 }

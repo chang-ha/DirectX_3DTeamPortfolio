@@ -8,7 +8,7 @@ static constexpr float MIN_TIME_STEPSTATE = 0.5f;
 static constexpr float MAX_TIME_STEPSTATE = 2.0f;
 static constexpr float MAX_AGGRO_TIME = 8.0f;
 
-// #define SELECT_ENEMY_TO_PLAYER
+#define SELECT_ENEMY_TO_PLAYER
 #ifdef SELECT_ENEMY_TO_PLAYER
 #define TARGET_ORDER Enum_CollisionOrder::Player
 #else

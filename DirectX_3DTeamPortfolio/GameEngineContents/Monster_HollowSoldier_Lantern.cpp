@@ -47,6 +47,14 @@ void Monster_HollowSoldier_Lantern::Update(float _Delta)
 	Monster_Hollow::Update(_Delta);
 	StateUpdate(_Delta);
 }
+void Monster_HollowSoldier_Lantern::Release()
+{
+	Monster_Hollow::Release();
+}
+void Monster_HollowSoldier_Lantern::LevelStart(class GameEngineLevel* _NextLevel)
+{
+	Monster_Hollow::LevelStart(_NextLevel);
+}
 
 void Monster_HollowSoldier_Lantern::WakeUp()
 {
@@ -302,7 +310,7 @@ void Monster_HollowSoldier_Lantern::ChangeHitState()
 		}
 
 		Enum_DirectionXZ_Quat HitDir = Hit.GetHitDir();
-		BodyCollision->Off();
+		//BodyCollision->Off();
 
 		switch (HitDir)
 		{
@@ -336,6 +344,9 @@ void Monster_HollowSoldier_Lantern::State_Stay_Start()
 void Monster_HollowSoldier_Lantern::State_Stay_Update(float _Delta)
 {
 	StateTime += _Delta;
+
+	ChangeHitState();
+
 	// 트리거 발동시
 	if (false)
 	{
@@ -355,6 +366,7 @@ void Monster_HollowSoldier_Lantern::State_Idle_Start()
 }
 void Monster_HollowSoldier_Lantern::State_Idle_Update(float _Delta)
 {
+	ChangeHitState();
 	// 여기서부터는 공격
 	StateTime += _Delta;
 
@@ -605,6 +617,8 @@ void Monster_HollowSoldier_Lantern::State_Scout_Start()
 }
 void Monster_HollowSoldier_Lantern::State_Scout_Update(float _Delta)
 {
+	ChangeHitState();
+
 	// 플레이어 인식시
 	if (false)
 	{
@@ -1046,6 +1060,8 @@ void Monster_HollowSoldier_Lantern::State_AttackFail_Start()
 }
 void Monster_HollowSoldier_Lantern::State_AttackFail_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 40)
 	{
 		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
@@ -1060,6 +1076,8 @@ void Monster_HollowSoldier_Lantern::State_Parrying_Start()
 }
 void Monster_HollowSoldier_Lantern::State_Parrying_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 64)
 	{
 		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
@@ -1073,9 +1091,11 @@ void Monster_HollowSoldier_Lantern::State_Hit_Front_Start()
 }
 void Monster_HollowSoldier_Lantern::State_Hit_Front_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 46)
 	{
-		BodyCollision->On();
+		//BodyCollision->On();
 		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
 	}
 }
@@ -1087,9 +1107,11 @@ void Monster_HollowSoldier_Lantern::State_Hit_Back_Start()
 }
 void Monster_HollowSoldier_Lantern::State_Hit_Back_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 46)
 	{
-		BodyCollision->On();
+		//BodyCollision->On();
 		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
 	}
 }
@@ -1101,9 +1123,11 @@ void Monster_HollowSoldier_Lantern::State_Hit_Left_Start()
 }
 void Monster_HollowSoldier_Lantern::State_Hit_Left_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 46)
 	{
-		BodyCollision->On();
+		//BodyCollision->On();
 		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
 	}
 }
@@ -1115,9 +1139,11 @@ void Monster_HollowSoldier_Lantern::State_Hit_Right_Start()
 }
 void Monster_HollowSoldier_Lantern::State_Hit_Right_Update(float _Delta)
 {
+	ChangeHitState();
+
 	if (MainRenderer->GetCurAnimationFrame() >= 46)
 	{
-		BodyCollision->On();
+		//BodyCollision->On();
 		ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
 	}
 }
