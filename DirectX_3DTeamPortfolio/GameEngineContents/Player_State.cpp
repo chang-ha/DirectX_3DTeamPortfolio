@@ -221,7 +221,7 @@ void Player::Player_State()
 					return;
 				}
 
-				else if (GameEngineInput::IsPress('D', this) && GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check_X == true && Rock_On_Check == true && Stat.GetStamina() > 0)
+				else if (GameEngineInput::IsPress('D', this) && GameEngineInput::IsPress(VK_SPACE, this) && Rotation_Check_X == true  && Stat.GetStamina() > 0)
 				{
 					Rotation_Check_X = false;
 					PlayerStates.ChangeState(PlayerState::Roll_Right);
@@ -332,7 +332,7 @@ void Player::Player_State()
 
 				else if (true == GameEngineInput::IsPress('S', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
-					//MainRenderer->ChangeAnimation("Walk_Forward");
+					MainRenderer->ChangeAnimation("Walk_Behind");
 					//Capsule->MoveForce({ float4::BACKWARD * Speed }, Capsule->GetDir());
 					//Capsule->SetWorldRotation({ 0.0f,180.0f,0.0f });
 				}
@@ -390,7 +390,6 @@ void Player::Player_State()
 
 				if (true == GameEngineInput::IsPress('W', this) && true == GameEngineInput::IsPress('A', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
-
 					float4 Dir = { -1.0f, 0.0f,1.0f };
 
 					Dir.Normalize();
@@ -467,21 +466,21 @@ void Player::Player_State()
 					Capsule->MoveForce({ float4::RIGHT * Speed }, degree_X);
 				}
 
-				if (GameEngineInput::IsUp('A', this) )
+				else if (GameEngineInput::IsUp('A', this) )
 				{
 					Rotation_Check_X = false;
 					MainRenderer->ChangeAnimation("Left_Stop");
 					PlayerStates.ChangeState(PlayerState::Move_Stop);
 					return;
 				}
-				if (GameEngineInput::IsUp('D', this) )
+				else if (GameEngineInput::IsUp('D', this) )
 				{
 					Rotation_Check_X = false;
 					MainRenderer->ChangeAnimation("Right_Stop");
 					PlayerStates.ChangeState(PlayerState::Move_Stop);
 					return;
 				}
-				if (GameEngineInput::IsUp('W', this) )
+				else if (GameEngineInput::IsUp('W', this) )
 				{
 					//Camera_Pos_X = Player_Pos.X;
 					Rotation_Check_X = false;
@@ -489,7 +488,7 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Move_Stop);
 					return;
 				}
-				if (GameEngineInput::IsUp('S', this))
+				else if (GameEngineInput::IsUp('S', this))
 				{
 					Rotation_Check_X = false;
 					MainRenderer->ChangeAnimation("Behind_Stop");
@@ -578,6 +577,57 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
+
+				if (true == GameEngineInput::IsPress('W', this) && true == GameEngineInput::IsPress('A', this))
+				{
+					float4 Dir = { -1.0f, 0.0f,1.0f };
+
+					Dir.Normalize();
+
+					Capsule->MoveForce({ Dir * Speed }, Capsule->GetDir());
+
+					PlayerStates.ChangeState(PlayerState::Move);
+
+					return;
+				}
+				else if (true == GameEngineInput::IsPress('W', this) && true == GameEngineInput::IsPress('D', this))
+				{
+					float4 Dir = { 1.0f, 0.0f,1.0f };
+
+					Dir.Normalize();
+
+					Capsule->MoveForce({ Dir * Speed }, Capsule->GetDir());
+
+					PlayerStates.ChangeState(PlayerState::Move);
+
+					return;
+				}
+				else if (true == GameEngineInput::IsPress('S', this) && true == GameEngineInput::IsPress('A', this))
+				{
+					float4 Dir = { -1.0f, 0.0f,-1.0f };
+
+					Dir.Normalize();
+
+					Capsule->MoveForce({ Dir * Speed }, Capsule->GetDir());
+
+					PlayerStates.ChangeState(PlayerState::Move);
+
+					return;
+				}
+				else if (true == GameEngineInput::IsPress('S', this) && true == GameEngineInput::IsPress('D', this))
+				{
+					float4 Dir = { 1.0f, 0.0f,-1.0f };
+
+					Dir.Normalize();
+
+					Capsule->MoveForce({ Dir * Speed }, Capsule->GetDir());
+					PlayerStates.ChangeState(PlayerState::Move);
+
+					return; 
+				}
+
+
+
 				else if (GameEngineInput::IsPress('A', this))
 				{
 					
@@ -764,7 +814,7 @@ void Player::Player_State()
 		{
 			Rotation_Check_X = true;
 			MainRenderer->ChangeAnimation("Run");
-			StateValue = PlayerState::StaminaCheck;
+			StateValue = PlayerState::Run;
 		};
 
 
@@ -778,7 +828,7 @@ void Player::Player_State()
 
 			if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SHIFT, this))
 			{
-				Capsule->MoveForce({ float4::FORWARD * Speed * 1.5 });
+				Capsule->MoveForce({ float4::FORWARD * Speed * 1.5 }, Capsule->GetDir());
 			}
 
 			if (GameEngineInput::IsUp('W', this))

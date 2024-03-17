@@ -76,9 +76,14 @@ public:
 		ChangeState(Enum_HollowSoldier_Spear_State::Idle1);
 	}
 
+	void WakeUp() override;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
+	void Release() override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 private:
 	float StateTime = 0.0f;

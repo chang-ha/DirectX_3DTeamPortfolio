@@ -157,7 +157,7 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override {}
+	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 	// Mask
@@ -306,7 +306,6 @@ private:
 	void Update_F_Stab(float _DeltaTime, GameEngineState* _State);
 	void Update_F_Stab_Death(float _DeltaTime, GameEngineState* _State);
 	void Update_F_Stab_Death_End(float _DeltaTime, GameEngineState* _State);
-	
 
 
 	// End

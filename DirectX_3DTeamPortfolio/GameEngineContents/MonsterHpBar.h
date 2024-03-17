@@ -22,14 +22,20 @@ public:
 	MonsterHpBar& operator = (const MonsterHpBar& _Other) = delete;
 	MonsterHpBar& operator = (MonsterHpBar&& _Other) noexcept = delete;
 
-	void ChangeState(MonsterHpActor _State);
-	void StateUpdate(float _Delta);
+	void InitUIPosition(class BaseMonster* pOwner, const float4* _pHeadBonePos);
+
 
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
-
 	void Release() override;
+
+	// Location 
+	void PositionUpdate();
+
+	// State
+	void ChangeState(MonsterHpActor _State);
+	void StateUpdate(float _Delta);
 
 	void OffStart();
 	void OffUpdate(float _Delta);
@@ -41,11 +47,12 @@ protected:
 	void AddUpdate(float _Delta);
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> Monster_HpBackBar;
-	std::shared_ptr<GameEngineSpriteRenderer> Monster_HpBar;
-	std::shared_ptr<GameEngineSpriteRenderer> Monster_DamageBar;
+	class BaseMonster* pOwner = nullptr;
 
-	std::shared_ptr<GameEngineSpriteRenderer> MonsterDamageFont;
+	std::shared_ptr<GameEngineSpriteRenderer> BackBarRenderer;
+	std::shared_ptr<GameEngineSpriteRenderer> HpBarRenderer;
+	std::shared_ptr<GameEngineSpriteRenderer> DamageBarRenderer;
+	std::shared_ptr<GameEngineSpriteRenderer> DamageFontRenderer;
 	MonsterHpActor MHpActor = MonsterHpActor::Off;
 
 	float MonsterPrevHp = 0.0f;
@@ -62,8 +69,15 @@ private:
 	int SumDam = 0;
 	bool Dam = false;
 
+	// Poisition Init Var
+	bool InitValue = false;
+
+	const float4* BonePosPointer = nullptr;
+	// 컴파일 타입 어셜션?
+	static constexpr float HeightDist = 50.0f;
+
 	void DamageCal();
-	void MonsterBarUpdate();
+	void BarUpdate();
 
 };
 

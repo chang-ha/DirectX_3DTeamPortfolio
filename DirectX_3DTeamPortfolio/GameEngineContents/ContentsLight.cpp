@@ -26,6 +26,7 @@ void ContentsLight::Update(float _DeltaTime)
 		}
 		else
 		{
+			//GameEngineLevel::IsDebug = true;
 			Transform.SetWorldScale(float4(50.f, 50.f, 50.f));
 			GameEngineDebug::DrawSphere2D(Transform, float4::GREEN, GetLevel()->GetMainCamera().get());
 		}

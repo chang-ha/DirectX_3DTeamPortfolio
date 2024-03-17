@@ -39,6 +39,7 @@ Texture2D ShadowTex : register(t2);
 Texture2D DiffuseTexture : register(t3);
 Texture2D MaterialTexture : register(t4);
 Texture2D ShadowStaticTex : register(t5);
+Texture2D SpecularTex : register(t6);
 SamplerState POINTWRAP : register(s0);
 SamplerState LINEARClamp : register(s1);
 SamplerComparisonState CompareSampler : register(s2);
@@ -67,7 +68,9 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
     float4 Pos = PositionTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     float4 Normal = NormalTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     float4 Albedo = DiffuseTexture.Sample(POINTWRAP, _Input.TEXCOORD.xy);
+    //float4 Specular = DiffuseTexture.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     float4 Material = MaterialTexture.Sample(POINTWRAP, _Input.TEXCOORD.xy);
+    float4 Specular = SpecularTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     Albedo.xyz = pow(Albedo.xyz, 2.2f); //gamma
     Normal.w = 1.0f;
     Pos.w = 1.0f;
@@ -100,7 +103,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
     {
         float Distance = length(LightDataValue.ViewLightPos.xyz - Pos.xyz);
         
-        if (Distance >= LightDataValue.PointLightRange * 1.7f)
+        if (Distance >= LightDataValue.PointLightRange * 2.5f)
         {
             clip(-1);
         }
@@ -126,7 +129,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
     
     Result.DifLight.w = 1.0f;
     
-    SpacularRatio = CalSpacularLightContents(Pos, Normal, LightDataValue) * LightPower;
+    SpacularRatio = CalSpacularLightContents(Pos, Normal, LightDataValue, Specular.xyz) * LightPower;
     SpacularRatio.w = 1.0f;
     
     //Result.PBRLight = CalSpacularLightContentsBRDF(Pos, Normal, Albedo.xyz, Metalic, Roughness, LightDataValue) * LightPower;
@@ -227,7 +230,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
             
             
             
-                    if (fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.00005f))
+                    if (fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.00001f))
                     {
             
                         shadow += 1.0f;
@@ -249,7 +252,7 @@ DeferredRenderOutPut ContentsDeferredLightRender_PS(PixelOutPut _Input)
             {
                 float fShadowDepth = ShadowTex.Sample(LINEARClamp, ShadowUV + offsets[i]).r;     
             if (
-                fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.00005f)
+                fShadowDepth >= 0.0f && LightProjection.z >= (fShadowDepth + 0.00001f)
              )
                 {
                     if (LightProjection.z - fShadowDepth < DynamicShadowDistance || StaticShadow < 0.3f)

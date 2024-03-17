@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "ContentsEnum.h"
 #include "math.h"
+#include "ContentsLight.h"
 
 // 서버용
 #include "GameEngineNetWindow.h"
@@ -42,7 +43,13 @@ void Player::Start()
 
 	Cameracapsule = GetLevel()->CreateActor<CameraCapsule>(0,"Camera");
 
+	FaceLight = GetLevel()->CreateActor< ContentsLight>(Enum_UpdateOrder::Light, "FaceLight");
+	FaceLight->SetLightType(Enum_LightType::Point);
 
+	LightData Data = FaceLight->GetLightData();
+
+	Data.quadraticAttenuation = 0.0001f;
+	Data.LightPower = 3.f;
 
 
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(0);
@@ -272,7 +279,7 @@ void Player::Start()
 	//MainRenderer->SetRootMotion("landing");
 
 	// 중력 x 
-
+	
 	//MainRenderer->SetRootMotionGravityFlag("ladder_Fast_Down_Start", true);
 
 	MainRenderer->SetRootMotionGravityFlag("ladder_Fast_Down", true);
@@ -318,7 +325,7 @@ void Player::Start()
 	{
 
 		ColParameter.R = 0.0f;
-		ColParameter.S = { 20.f, 110.f, 20.f };
+		ColParameter.S = { 20.f, 170.f, 20.f };
 		ColParameter.T = { 0.f, 0.5f, 0.f };
 
 		Attack_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Attack, Bone_index_01, ColParameter,"Player_Weapon");
@@ -769,7 +776,10 @@ void Player::Start()
 
 void Player::Update(float _Delta)
 {
-	
+	float4 revolution = float4::VectorRotationToDegY(float4{ 0.0f, 150.0f, 50.0f }, Transform.GetWorldRotationEuler().Y);
+
+	FaceLight->Transform.SetLocalPosition(Transform.GetWorldPosition() + revolution);
+
 
 	Parring_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
@@ -780,9 +790,6 @@ void Player::Update(float _Delta)
 		{
 
 			
-			
-			
-
 				if (GameEngineInput::IsDown(VK_LBUTTON, this))
 				{
 					
@@ -899,10 +906,10 @@ void Player::Update(float _Delta)
 	// 스태미나 
 	if (StateValue != PlayerState::StaminaCheck)
 	{
-		if (Stat.GetStamina() < 100)
+		if (Stat.GetStamina() < 300)
 
 		{
-			Stat.AddStamina(_Delta * 10);
+			Stat.AddStamina(_Delta * 100);
 		}
 	}
 	else if (StateValue != PlayerState::Parrying)
@@ -957,7 +964,7 @@ void Player::Update(float _Delta)
 
 	//HitRenderer->Transform.SetWorldPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y,Capsule->GetWorldPosition().z });
 
-	if (Capsule->GetLinearVelocity_f().Y <= -1600)
+	if (Capsule->GetLinearVelocity_f().Y <= -2200)
 	{
 		PlayerStates.ChangeState(PlayerState::fail);
 	}
@@ -1059,7 +1066,6 @@ void Player::Update(float _Delta)
 		{
 			float Check = abs(Transform.GetWorldPosition().Z -Monster_Actor[MonsterAngles[i]]->Transform.GetWorldPosition().Z);
 
-
 			if (i > 0)
 			{
 				if (Check < Monser_Dir)
@@ -1157,12 +1163,17 @@ void Player::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	
-
-	Capsule->SetFiltering(Enum_CollisionOrder::Player, Enum_CollisionOrder::Camera);
 	Capsule->SetFiltering(Enum_CollisionOrder::Player, Enum_CollisionOrder::Big_Camera);
+	Capsule->SetFiltering(Enum_CollisionOrder::Player, Enum_CollisionOrder::Camera);
+	
 
 	//Capsule->SetFiltering(Enum_CollisionOrder::Monster);
-	//GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Big_Camera);
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Camera);
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Camera);
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Big_Camera);
+	
+
 
 }
 
@@ -1269,42 +1280,50 @@ void Player::CameraRotation(float Delta)
 
 
 
-	
-
-	if (testa == true)
+	if (testa == false && testaa == true)
 	{
+		int a = 0;
+	}
+	else if (testa ==true && testaa == true)
+	{ 
 
 
 		//if (abs(Actor_test->Transform.GetWorldPosition().Z - Actor_test_02->Transform.GetWorldPosition().Z) >= 50)
-		{
+
+		
 			//float4 sadasd = float4::LerpClamp(Actor_test_02->Transform.GetWorldPosition(),Actor_test->Transform.GetWorldPosition(), Delta);
 			Actor_test_02->Transform.SetWorldPosition(sadasd);
-		}
 	}
-
-
-	if (testaa == false)
+	else if (testaa == false && testa == false)
 	{
-		
+
 		if (abs(Actor_test_02->Transform.GetLocalPosition().Z) < abs(250))
 		{
 			//float4 sadasd = float4::LerpClamp(Actor_test->Transform.GetWorldPosition(), Actor_test_02->Transform.GetWorldPosition(), Delta);
 			//sadasd.Normalize();
 			Actor_test_02->Transform.SetWorldPosition(sadassd);
-		}
-		
+		}		
 	}
 
+	
 	// 다음 프레임에 콜리전이 충돌한 포지션이면 멈춰 
 
 
 
-
+	/*if (testa == true)
+	{
+		testaa = true;
+	}
+	else
+	{
+		testaa = false;
+	}*/
 
 
 	testaa = false;
 	testa = false;
 
+	
 
 	
 
