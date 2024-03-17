@@ -155,7 +155,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		// 시작 위치
 		Player_Object->SetWorldPosition({ -1400.0f, 5101.0f, -5331.0f });
 
-		Player_Object->SetWorldRotation({ 0.f, 165.f, 0.f });
+		Player_Object->SetWorldRotation({ 0.f, 0.f, 0.f });
 		Player_Object->SetTargeting(Boss_Object.get());
 		Boss_Object->SetTargeting(Player_Object.get());
 	}
@@ -433,29 +433,29 @@ void Stage_Lothric::SetAllMonster()
 {
 
 	{
-		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier");
-		Monster->SetResponPos({ -2738.0f, 4120.0f, -1457.0f });
-		//Monster->SetIdleType();
-		AllMonster.push_back(Monster);
-	}
-
-	{
 		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_Hollow_RaggedRobes>(Enum_UpdateOrder::Monster, "Monster_Hollow_RaggedRobes");
 		Monster->SetResponPos({ -3874.0f, 4118.0f, -1151.0f });
-		//Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
 		AllMonster.push_back(Monster);
 	}
 
 	{
 		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_Hollow_RaggedRobes>(Enum_UpdateOrder::Monster, "Monster_Hollow_RaggedRobes");
 		Monster->SetResponPos({ -5730.0f, 3409.0f, -2575.0f });
-		//Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
+		AllMonster.push_back(Monster);
+	}
+
+	{
+		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_Hollow_Unarmed>(Enum_UpdateOrder::Monster, "Monster_Hollow_Unarmed");
+		Monster->SetResponPos({ -6684.0f, 3405.0f, -3450.0f });
+		Monster->SetWorldRotation({ 0.0f, 90.0f, 0.0f });
 		AllMonster.push_back(Monster);
 	}
 
 	{
 		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_Lantern>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_Lantern");
-		Monster->SetResponPos({ -6964.0f, 3420.0f, -3607.0f });
+		Monster->SetResponPos({ -6330.0f, 3400.0f, -3088.0f });
+		Monster->SetWorldRotation({0.0f, 180.0f, 0.0f});
+		Monster->WakeUp();
 		//Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
 		AllMonster.push_back(Monster);
 	}
