@@ -62,7 +62,7 @@ void Monster_Hollow::Start()
 
 
 	// UISetting
-	CreateMonsterUI(0);
+	//CreateMonsterUI(0);
 }
 
 void Monster_Hollow::Update(float _Delta)

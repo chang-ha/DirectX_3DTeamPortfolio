@@ -43,6 +43,8 @@ void Monster_HollowSoldier_Spear::Start()
 	Spear.On();
 
 	ChangeState(Enum_HollowSoldier_Spear_State::Idle1);
+
+	CreateMonsterUI(0);
 }
 void Monster_HollowSoldier_Spear::Update(float _Delta)
 {

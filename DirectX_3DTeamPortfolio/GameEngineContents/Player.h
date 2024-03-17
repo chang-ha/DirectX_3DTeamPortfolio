@@ -171,7 +171,7 @@ private:
 	int Max_Mp = 200;
 	int Mana = 200;
 
-	float Max_Stamina = 300.0f;
+	int Max_Stamina = 300;
 	float Poise_Time = 0.0f;
 
 
