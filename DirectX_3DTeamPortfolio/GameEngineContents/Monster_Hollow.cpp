@@ -18,9 +18,9 @@ void Monster_Hollow::Start()
 	//MainRenderer->SetFBXMesh("c1100.fbx", "FBXAnimationTexture");
 	MainRenderer->SetFBXMesh("c1100.fbx", "FBX_Animation");
 
-	Capsule = CreateComponent<GameEnginePhysXCapsule>();
+	/*Capsule = CreateComponent<GameEnginePhysXCapsule>();
 	Capsule->PhysXComponentInit(100.0f, 50.0f);
-	Capsule->SetPositioningComponent();
+	Capsule->SetPositioningComponent();*/
 	
 
 	CreateAnimation();
