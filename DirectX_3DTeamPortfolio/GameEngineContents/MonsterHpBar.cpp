@@ -50,6 +50,7 @@ void MonsterHpBar::Start()
 	HpBarRenderer->SetSprite("MonsterHp.Png");
 	HpBarRenderer->GetImageTransform().SetLocalScale({ ImageXScale, HpBarYScale });
 	HpBarRenderer->SetBillboardOn();
+	HpBarRenderer->SetPivotType(PivotType::Left);
 
 	InitState();
 }
