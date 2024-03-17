@@ -573,6 +573,15 @@ std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetFBXMesh(std::s
 
 	FindFBXMesh->Initialize();
 
+	std::shared_ptr<GameEngineMesh> Mesh = FindFBXMesh->GetGameEngineMesh(_RenderUnitInfoIndex, _SubSetIndex);
+
+	const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(_RenderUnitInfoIndex, _SubSetIndex);
+
+	/*if ("m30_00_sky_05_a.dds" == MatData.DifTextureName)
+	{
+		int a = 0;
+		return nullptr;
+	}*/
 
 	if (true == RenderUnits.empty())
 	{
@@ -592,7 +601,6 @@ std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetFBXMesh(std::s
 	}
 
 	std::shared_ptr<GameEngineRenderUnit> Unit = RenderUnits[_RenderUnitInfoIndex][_SubSetIndex];
-	std::shared_ptr<GameEngineMesh> Mesh = FindFBXMesh->GetGameEngineMesh(_RenderUnitInfoIndex, _SubSetIndex);
 
 	Unit->SetMesh(Mesh);
 
@@ -611,15 +619,11 @@ std::shared_ptr<GameEngineRenderUnit> GameContentsFBXRenderer::SetFBXMesh(std::s
 		Unit->RenderUnitBaseInfoValue.IsAnimation = 0;
 	}
 	
-	const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(_RenderUnitInfoIndex, _SubSetIndex);
 	std::shared_ptr<GameEngineTexture> NorTex;
 	std::shared_ptr<GameEngineTexture> SpcTex;
 	std::string MaterialOrigin = _Material.data();
 
-	/*if ("o001020_woodentable_a.dds" == MatData.DifTextureName)
-	{
-		int a = 0;
-	}*/
+	
 
 
 	if (Unit->ShaderResHelper.IsTexture("NormalTexture"))
