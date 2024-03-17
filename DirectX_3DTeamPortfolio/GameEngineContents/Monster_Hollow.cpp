@@ -58,6 +58,8 @@ void Monster_Hollow::Start()
 
 	MonsterCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster);
 	MonsterCollision->SetCollisionType(ColType::SPHERE3D);
+	MonsterCollision->SetCollisionColor(float4::WHITE);
+	MonsterCollision->Transform.SetLocalPosition(float4(0.0f, 150.0f, 0.0f));
 	MonsterCollision->Transform.SetWorldScale(float4(1.0f, 1.0f, 1.0f));
 
 
