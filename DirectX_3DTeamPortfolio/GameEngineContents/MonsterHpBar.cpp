@@ -1,10 +1,11 @@
 #include "PreCompile.h"
 #include "MonsterHpBar.h"
 
-#include "BaseActor.h"
+#include "BaseMonster.h"
 
 MonsterHpBar::MonsterHpBar()
 {
+	GameEngineInput::AddInputObject(this);
 }
 
 MonsterHpBar::~MonsterHpBar()
@@ -25,7 +26,7 @@ void MonsterHpBar::Start()
 		Dir.MoveChild("ContentsResources");
 		Dir.MoveChild("UITexture");
 		Dir.MoveChild("Monster");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".png" });
 		for (GameEngineFile& pFiles : Files)
 		{
 			GameEngineTexture::Load(pFiles.GetStringPath());
@@ -33,46 +34,55 @@ void MonsterHpBar::Start()
 		}
 	}
 
-	Monster_HpBackBar = CreateComponent<GameEngineSpriteRenderer>();
-	Monster_HpBackBar->SetSprite("MonsterBar.Png");
-	Monster_HpBackBar->SetImageScale({ ImageXScale, BackBarYScale });
-	Monster_HpBackBar->Transform.SetLocalPosition({ -100.0f, 200.0f });
-	Monster_HpBackBar->SetPivotType(PivotType::Left);
-	Monster_HpBackBar->SetBillboardOn();
+	BackBarRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	BackBarRenderer->SetSprite("MonsterBar.Png");
+	BackBarRenderer->SetImageScale({ ImageXScale, BackBarYScale });
+	BackBarRenderer->SetPivotType(PivotType::Left);
+	BackBarRenderer->SetBillboardOn();
 
-	Monster_DamageBar = CreateComponent<GameEngineSpriteRenderer>();
-	Monster_DamageBar->SetSprite("MonsterDamageBar.Png");
-	Monster_DamageBar->SetImageScale({ (MonsterCurHp / MonsterHp) * ImageXScale, HpBarYScale });
-	Monster_DamageBar->Transform.SetLocalPosition({ -100.0f, 200.0f });
-	Monster_DamageBar->SetPivotType(PivotType::Left);
-	Monster_DamageBar->SetBillboardOn();
+	DamageBarRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	DamageBarRenderer->SetSprite("MonsterDamageBar.Png");
+	DamageBarRenderer->SetImageScale({ (MonsterCurHp / MonsterHp) * ImageXScale, HpBarYScale });
+	DamageBarRenderer->SetPivotType(PivotType::Left);
+	DamageBarRenderer->SetBillboardOn();
 
-	Monster_HpBar = CreateComponent<GameEngineSpriteRenderer>();
-	Monster_HpBar->SetSprite("MonsterHp.Png");
+	HpBarRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	HpBarRenderer->SetSprite("MonsterHp.Png");
 	//Monster_HpBar->SetImageScale({ (MonsterCurHp / MosnterHp) });
-	Monster_HpBar->SetImageScale({ (MonsterCurHp / MonsterHp) * ImageXScale, HpBarYScale });
-	Monster_HpBar->Transform.SetLocalPosition({ -100.0f, 200.0f });
-	Monster_HpBar->SetPivotType(PivotType::Left);
-	Monster_HpBar->SetBillboardOn();
+	HpBarRenderer->SetImageScale({ (MonsterCurHp / MonsterHp) * ImageXScale, HpBarYScale });
+	HpBarRenderer->SetPivotType(PivotType::Left);
+	HpBarRenderer->SetBillboardOn();
 
 	MonsterPrevHp = MonsterCurHp;
 
 	{
-		MonsterDamageFont = CreateComponent<GameEngineSpriteRenderer>();
-		MonsterDamageFont->SetText(GlobalValue::OptimusFont, "0", 15.0f, float4{ 1,0,0,1 }, FW1_LEFT);
-		MonsterDamageFont->Transform.SetLocalPosition(DamagePos);
-		MonsterDamageFont->SetBillboardOn();
-		MonsterDamageFont->Off();
+		DamageFontRenderer = CreateComponent<GameEngineSpriteRenderer>();
+		DamageFontRenderer->SetText(GlobalValue::OptimusFont, "0", 15.0f, float4{ 1,0,0,1 }, FW1_LEFT);
+		DamageFontRenderer->Transform.SetLocalPosition(DamagePos);
+		DamageFontRenderer->SetBillboardOn();
+		DamageFontRenderer->Off();
 	}
 
 	/*BaseActor* pActor;
 	pActor->GetHp();*/
+}
 
-	GameEngineInput::AddInputObject(this);
+void MonsterHpBar::InitUIPosition(BaseMonster* _pOwner, const float4* _pHeadBonePos)
+{
+	if (nullptr == _pHeadBonePos || nullptr == _pOwner)
+	{
+		MsgBoxAssert("존재하지 않는 값이 들어왔습니다.");
+		return;
+	}
+
+	pOwner = _pOwner;
+	BonePosPointer = _pHeadBonePos;
 }
 
 void MonsterHpBar::Update(float _Delta)
 {
+	PositionUpdate();
+
 	MonsterBarUpdate();
 	StateUpdate(_Delta);
 
@@ -93,21 +103,37 @@ void MonsterHpBar::Update(float _Delta)
 	}
 }
 
+void MonsterHpBar::PositionUpdate()
+{
+	if (nullptr == pOwner)
+	{
+		MsgBoxAssert("오너를 지정해주지 않았습니다");
+		return;
+	}
+
+	const float Height = 200.0f;
+	const float4 MonsterWPos = pOwner->Transform.GetWorldPosition();
+	float4 UIWPos = MonsterWPos;
+	UIWPos.Y += Height;
+
+	Transform.SetWorldPosition(UIWPos);
+}
+
 void MonsterHpBar::MonsterBarUpdate()
 {
 	if (MonsterCurHp <= 0.0f)
 	{
-		Monster_DamageBar->Transform.SetLocalPosition({
-		Monster_HpBar->Transform.GetLocalPosition().X, Monster_HpBar->Transform.GetLocalPosition().Y });
-		Monster_HpBar->SetImageScale({ (0.0f / MonsterHp) * ImageXScale, HpBarYScale });
+		DamageBarRenderer->Transform.SetLocalPosition({
+		HpBarRenderer->Transform.GetLocalPosition().X, HpBarRenderer->Transform.GetLocalPosition().Y });
+		HpBarRenderer->SetImageScale({ (0.0f / MonsterHp) * ImageXScale, HpBarYScale });
 		return;
 	}
 
 	if (MonsterCurHp > 0.0f)
 	{
-		Monster_DamageBar->Transform.SetLocalPosition({
-		Monster_HpBar->Transform.GetLocalPosition().X, Monster_HpBar->Transform.GetLocalPosition().Y });
-		Monster_HpBar->SetImageScale({ (MonsterCurHp / MonsterHp) * ImageXScale, HpBarYScale });
+		DamageBarRenderer->Transform.SetLocalPosition({
+		HpBarRenderer->Transform.GetLocalPosition().X, HpBarRenderer->Transform.GetLocalPosition().Y });
+		HpBarRenderer->SetImageScale({ (MonsterCurHp / MonsterHp) * ImageXScale, HpBarYScale });
 	}
 }
 
@@ -154,7 +180,7 @@ void MonsterHpBar::StateUpdate(float _Delta)
 
 void MonsterHpBar::OffStart()
 {
-	MonsterDamageFont->Off();
+	DamageFontRenderer->Off();
 }
 void MonsterHpBar::OffUpdate(float _Delta)
 {
@@ -172,7 +198,7 @@ void MonsterHpBar::OffUpdate(float _Delta)
 }
 void MonsterHpBar::AppearStart()
 {
-	MonsterDamageFont->On();
+	DamageFontRenderer->On();
 
 	DamRan.SetSeed(time(nullptr));
 	DamageRandom = (DamRan.RandomInt(20, 50));
@@ -186,7 +212,7 @@ void MonsterHpBar::AppearStart()
 }
 void MonsterHpBar::AppearUpdate(float _Delta)
 {
-	MonsterDamageFont->SetText(GlobalValue::OptimusFont, std::to_string(Damage), 15.0f, float4{1,0,0,1}, FW1_LEFT);
+	DamageFontRenderer->SetText(GlobalValue::OptimusFont, std::to_string(Damage), 15.0f, float4{1,0,0,1}, FW1_LEFT);
 
 	if (Dam == true)
 	{
@@ -218,7 +244,7 @@ void MonsterHpBar::AddStart()
 }
 void MonsterHpBar::AddUpdate(float _Delta)
 {
-	MonsterDamageFont->SetText(GlobalValue::OptimusFont, std::to_string(SumDam), 15.0f, float4{ 1,0,0,1 }, FW1_LEFT);
+	DamageFontRenderer->SetText(GlobalValue::OptimusFont, std::to_string(SumDam), 15.0f, float4{ 1,0,0,1 }, FW1_LEFT);
 	CurTime += _Delta;
 	{
 		if (CurTime >= LimitTime)
@@ -237,17 +263,22 @@ void MonsterHpBar::DamageCal()
 {
 	if (MonsterCurHp <= 0.0f)
 	{
-		Monster_DamageBar->SetImageScale({ (0.0f / MonsterHp) * ImageXScale, HpBarYScale });
+		DamageBarRenderer->SetImageScale({ (0.0f / MonsterHp) * ImageXScale, HpBarYScale });
 		return;
 	}
 
 	if (MonsterCurHp > 0.0f)
 	{
-		Monster_DamageBar->SetImageScale({ (0.0f / MonsterHp) * ImageXScale, HpBarYScale });
+		DamageBarRenderer->SetImageScale({ (0.0f / MonsterHp) * ImageXScale, HpBarYScale });
 	}
 }
 
 void MonsterHpBar::Release()
 {
-	
+	pOwner = nullptr;
+	BonePosPointer = nullptr;
+	BackBarRenderer = nullptr;
+	HpBarRenderer = nullptr;
+	DamageBarRenderer = nullptr;
+	DamageFontRenderer = nullptr;
 }
