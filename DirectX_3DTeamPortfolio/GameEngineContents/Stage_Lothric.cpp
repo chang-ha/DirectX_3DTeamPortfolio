@@ -784,10 +784,7 @@ void Stage_Lothric::CreateObject()
 		Object->Transform.SetWorldPosition({ -16547, 3372 , 2144 });
 		VBonfire.push_back(Object);
 	}
-	{
-		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
-		VBonfire.push_back(Object);
-	}
+
 
 
 	//사다리
@@ -1405,7 +1402,7 @@ void Stage_Lothric::CreateObject()
 	{
 		std::shared_ptr<Object_HumanTree5> Object = CreateActor<Object_HumanTree5>(1);
 		Object->Transform.AddWorldRotation({ 0, -60 , 0 });
-		Object->Transform.SetWorldPosition({ 3515, 4130 , -744 });
+		Object->Transform.SetWorldPosition({ -3515, 4130 , -744 });
 		VHumanTree5.push_back(Object);
 	}
 	{
