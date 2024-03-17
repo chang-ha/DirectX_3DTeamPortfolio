@@ -3066,6 +3066,75 @@ void Player::SoundFrameEvent()
 			GameEngineSound::Sound3DPlay("EST-drink.wav", BoneWorldPos(0), 1.0f);
 		});
 
+	// hit
+
+	MainRenderer->SetFrameEvent("Hit_right", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("p_damage2.wav", BoneWorldPos(0), 0.8f);
+		});
+
+	MainRenderer->SetFrameEvent("Hit_Left", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("p_damage2.wav", BoneWorldPos(0), 0.8f);
+		});
+
+	MainRenderer->SetFrameEvent("Hit_Forward", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("p_damage2.wav", BoneWorldPos(0), 0.8f);
+		});
+
+	MainRenderer->SetFrameEvent("Hit_Behind", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("p_damage2.wav", BoneWorldPos(0), 0.8f);
+		});
+
+	MainRenderer->SetFrameEvent("Middle_Hit_Left", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("p_damage2.wav", BoneWorldPos(0), 0.8f);
+		});
+
+	MainRenderer->SetFrameEvent("Middle_Hit_Right", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("p_damage2.wav", BoneWorldPos(0), 0.8f);
+		});
+
+	MainRenderer->SetFrameEvent("Middle_Hit_Forward", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("p_damage2.wav", BoneWorldPos(0), 0.8f);
+		});
+
+	MainRenderer->SetFrameEvent("Middle_Hit_Behind", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("p_damage2.wav", BoneWorldPos(0), 0.8f);
+		});
+
+	MainRenderer->SetFrameEvent("String_Hit_Forward", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("p_damage2.wav", BoneWorldPos(0), 0.8f);
+		});
+
+
+
+	MainRenderer->SetFrameEvent("Weak_Shield_block", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("shield-iron2.wav", BoneWorldPos(0), 0.8f);
+		});
+
+	MainRenderer->SetFrameEvent("Middle_Shield_block", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("shield-iron2.wav", BoneWorldPos(0), 0.8f);
+		});
+	MainRenderer->SetFrameEvent("Big_Shield_block", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("shield-iron2.wav", BoneWorldPos(0), 0.8f);
+		});
+
+
+	/*MainRenderer->SetFrameEvent("Big_Shield_block", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("shield-iron2.wav", BoneWorldPos(0), 0.8f);
+		});*/
+
 	
 }
 

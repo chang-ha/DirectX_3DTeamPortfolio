@@ -167,9 +167,9 @@ private:
 
 	int Potion = 5;
 	int Max_Potion = 5;
-	int Max_Hp = 400.0f;
-	int Max_Mp = 200.0f;
-	int Mana = 200.0f;
+	int Max_Hp = 400;
+	int Max_Mp = 200;
+	int Mana = 200;
 
 	float Max_Stamina = 300.0f;
 	float Poise_Time = 0.0f;
@@ -216,6 +216,7 @@ private:
 	bool Rotation_Check_Y_Mus = false;
 	bool Parring_Check = false;
 	EventParameter Body_Event;
+	//EventParameter Shield_Event;
 	EventParameter Attack_Event;
 	EventParameter Labber_Event;
 	EventParameter Labber_Middle_Event;
@@ -296,7 +297,7 @@ private:
 
 	float Rock_on_X = 20.0f;
 
-
+	bool AttackCheck = false;
 };
 
 

@@ -422,14 +422,19 @@ void Player::Start()
 	
 	Body_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
-			HitRenderer->On();
-			HitRenderer->ChangeAnimation("Hit");
-			HitRenderer->Transform.SetWorldPosition({ col->Transform.GetWorldPosition()});
+			if (AttackCheck == false)
+			{
+				std::shared_ptr<ContentsHitRenderer> HitRenderer = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
+				HitRenderer->On();
+				HitRenderer->Transform.SetWorldPosition({ col->Transform.GetWorldPosition() });
+				AttackCheck = true;
+			}
 		};
 
 	Body_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
 
+			
 		};
 
 	Body_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
@@ -439,16 +444,42 @@ void Player::Start()
 		};
 
 
+	Shield_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+			if (AttackCheck == false)
+			{
+				std::shared_ptr<ContentsHitRenderer> HitRenderer = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
+				HitRenderer->On();
+				HitRenderer->Transform.SetWorldPosition({ Shield_Actor->Transform.GetWorldPosition() });
+				AttackCheck = true;
+			}
+		};
+
+	Shield_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+			
+		};
+
+	Shield_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+
+
+		};
+
+
 	Attack_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
-			StrikeRenderer->On();
-			StrikeRenderer->ChangeAnimation("Hit");
-			StrikeRenderer->Transform.SetWorldPosition({ Weapon_Actor->Transform.GetWorldPosition()});
+			
 		};
 
 	Attack_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
-
+			
+			std::shared_ptr<ContentsHitRenderer> HitRenderer = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
+			HitRenderer->On();
+			StrikeRenderer->Transform.SetWorldPosition({ Weapon_Actor->Transform.GetWorldPosition() });
+			
+						
 		};
 
 	Attack_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
@@ -472,36 +503,6 @@ void Player::Start()
 				{
 
 
-					float4 TargetPos = col->Transform.GetWorldPosition();
-					float4 MyPos = Actor_test->Transform.GetWorldPosition();
-
-					// Y축 고려 X
-					TargetPos.Y = MyPos.Y = 0.f;
-
-					float4 FrontVector = float4(0.f, 0.f, -1.f, 0.f);
-					FrontVector.VectorRotationToDegY(Capsule->GetDir());
-
-					float4 LocationVector = (TargetPos - MyPos).NormalizeReturn();
-
-					float4 Angle_ = DirectX::XMVector3AngleBetweenNormals(FrontVector.DirectXVector, LocationVector.DirectXVector);
-
-					float4 RotationDir = DirectX::XMVector3Cross(FrontVector.DirectXVector, LocationVector.DirectXVector);
-
-					Labber_Angle = Angle_.X * GameEngineMath::R2D;
-
-					if (0.0f <= RotationDir.Y)
-					{
-
-					}
-					else
-					{
-						Labber_Angle *= -1.f;
-					}
-
-					
-
-					//Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
-					Capsule->SetWorldRotation({ 0.0f, -Labber_Angle,0.0f });
 					Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
 					Capsule->GravityOff(); 
 					//Capsule->MoveForce(float4{ 0.0f,500.0f,0.0f,Labber_Angle });
@@ -558,17 +559,7 @@ void Player::Start()
 			{
 				if (GameEngineInput::IsDown('E', this))
 				{
-					float4 TargetPos = col->Transform.GetWorldPosition();
-					float4 MyPos = Actor_test->Transform.GetWorldPosition();
-
-					float4 Dir = MyPos-TargetPos;
-					float4 Monster = { 0,0,-1 };
-					float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
-					float radian = atan2(Dir.X, Dir.Z) - atan2(Monster.X, Monster.Z);
-					Labber_Angle = float(radian * (180.0 / 3.141592));
-
-					//Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
-					Capsule->SetWorldRotation({ 0.0f,Labber_Angle,0.0f });
+					
 					Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
 					Capsule->GravityOff();
 					//MainRenderer->SetRootMotionMode(")
@@ -612,13 +603,16 @@ void Player::Start()
 			}		
 		};
 
-	//SoundFrameEvent();
+	SoundFrameEvent();
 	Shield_Col->Off();
 	Attack_Col->Off(); 
 
 
-	HitRenderer = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
-	StrikeRenderer =CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
+	//HitRenderer = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
+	
+
+
+	//StrikeRenderer =CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
 	//HitRenderer->Transform.AddLocalPosition({ 0.0f,20.0f,20.f});
 
 
@@ -698,7 +692,7 @@ void Player::Update(float _Delta)
 
 	// 충돌 
 
-
+	
 
 
 	if (tyu == false)
@@ -714,23 +708,31 @@ void Player::Update(float _Delta)
 	
 
 
-	if (Attack_Col->Collision(Enum_CollisionOrder::Monster_Body))
+	/*if (Attack_Col->Collision(Enum_CollisionOrder::Monster_Body))
 	{
 		HitRenderer->On();
 		HitRenderer->ChangeAnimation("Hit");
 		HitRenderer->Transform.SetWorldPosition({ Weapon_Actor->Transform.GetWorldPosition()});
 
-	}
+	}*/
 
 
 	//
 
-	Attack_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack, Attack_Event);
-	Body_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack,Body_Event);
+	Attack_Col->CollisionEvent(Enum_CollisionOrder::Monster_Body, Attack_Event);
+	Attack_Col->CollisionEvent(Enum_CollisionOrder::Monster_Shield, Attack_Event);
+	//Body_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack,Body_Event);
+	//Shield_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack, Shield_Event);
+
+
 	Arround_Col->CollisionEvent(Enum_CollisionOrder::Monster, Arround_Event);
 	Body_Col->CollisionEvent(Enum_CollisionOrder::LadderBot, Labber_Event);
 	Body_Col->CollisionEvent(Enum_CollisionOrder::LadderTop, Labber_Event);
 	Parring_Attack_Col->CollisionEvent(Enum_CollisionOrder::Monster_Body, Parring_Event);
+
+
+
+
 
 	if (Body_Col->Collision(Enum_CollisionOrder::LadderTop))
 	{
@@ -1250,11 +1252,6 @@ void Player::CameraRotation(float Delta)
 bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 {
 
-
-
-
-
-
 	tyu = true;
 
 	Poise_Time = 0;
@@ -1391,7 +1388,11 @@ bool Player::GetHitToShield(const HitParameter& _Para)
 
 
 	
+	float4 Weapon = _Para.pAttacker->GetSocketCollision(71)->Transform.GetWorldPosition();
 
+	std::shared_ptr<ContentsHitRenderer> HitRenderer = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
+	HitRenderer->On();
+	HitRenderer->Transform.SetWorldPosition({ Weapon });
 
 	if (nullptr == _Para.pAttacker)
 	{
