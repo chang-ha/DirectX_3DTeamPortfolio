@@ -16,8 +16,7 @@ public:
 
 	void CollisionOn();
 	void CollisionOff();
-
-	
+	float4 GetRotation();
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
