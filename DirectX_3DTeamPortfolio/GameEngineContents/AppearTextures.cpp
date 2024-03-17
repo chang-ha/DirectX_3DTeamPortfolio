@@ -115,6 +115,7 @@ void AppearTextures::OffUpdate(float _Delta)
 	{
 		Lit->SetSprite("TargetDestroyed.Png");
 		LitBack->SetSprite("TargetDestroyedBack.Png");
+		GameEngineSound::SoundPlay("Destroyed_Sound_Effect.wav");
 		ChangeState(TextureActor::Appear);
 		return;
 	}

@@ -14,10 +14,9 @@ class NewBossUI : public UIActor
 	enum struct eFontState
 	{
 		None,
-		Awake,
+		Delay,
 		Idle,
-		Hit,
-		End,
+		ShowMsg,
 	};
 
 public:
@@ -63,6 +62,18 @@ private:
 	void SetDamageGauge(int _BossHp);
 	void SetHPGauge(int _BossHp);
 
+	// State_Font
+	void Start_Font_Idle(GameEngineState* _Parent);
+	void Start_Font_ShowMsg(GameEngineState* _Parent);
+
+	void Update_Font_Delay(float _Delta, GameEngineState* _Parent);
+	void Update_Font_Idle(float _Delta, GameEngineState* _Parent);
+	void Update_Font_ShowMsg(float _Delta, GameEngineState* _Parent);
+
+	void End_Font_ShowMsg(GameEngineState* _Parent);
+
+	void AddAndPrintDamageMsg(int _CurBossHp);
+
 private:
 	class Boss_Vordt* pBoss = nullptr;
 
@@ -75,7 +86,14 @@ private:
 	GameEngineState BarState;
 	GameEngineState FontState;
 
+	// Bar
 	int BossMaxHp = 0;
 	int BossHp = 0;
-	
+
+	// Font
+	int FontBossHp = 0;
+	int FontRenderDamage = 0;
+
+	float KeepStateTime = 1.0f;
+
 };
