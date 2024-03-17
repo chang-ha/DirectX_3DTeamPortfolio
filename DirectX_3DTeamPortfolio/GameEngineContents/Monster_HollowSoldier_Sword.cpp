@@ -49,6 +49,16 @@ void Monster_HollowSoldier_Sword::Update(float _Delta)
 	
 }
 
+void Monster_HollowSoldier_Sword::Release()
+{
+	Monster_Hollow::Release();
+}
+
+void Monster_HollowSoldier_Sword::LevelStart(class GameEngineLevel* _NextLevel)
+{
+	Monster_Hollow::LevelStart(_NextLevel);
+}
+
 void Monster_HollowSoldier_Sword::WakeUp()
 {
 	ChangeState(Enum_HollowSoldier_Sword_State::Scout);

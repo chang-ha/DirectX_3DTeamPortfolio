@@ -50,6 +50,14 @@ void Monster_HollowSoldier_RoundShield::Update(float _Delta)
 	Monster_Hollow::Update(_Delta);
 	StateUpdate(_Delta);
 }
+void Monster_HollowSoldier_RoundShield::Release()
+{
+	Monster_Hollow::Release();
+}
+void Monster_HollowSoldier_RoundShield::LevelStart(class GameEngineLevel* _NextLevel)
+{
+	Monster_Hollow::LevelStart(_NextLevel);
+}
 
 void Monster_HollowSoldier_RoundShield::WakeUp()
 {

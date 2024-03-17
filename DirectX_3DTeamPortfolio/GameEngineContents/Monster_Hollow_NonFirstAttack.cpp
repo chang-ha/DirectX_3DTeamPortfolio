@@ -44,6 +44,16 @@ void Monster_Hollow_NonFirstAttack::Update(float _Delta)
 	StateUpdate(_Delta);
 }
 
+void Monster_Hollow_NonFirstAttack::Release()
+{
+	Monster_Hollow::Release();
+}
+
+void Monster_Hollow_NonFirstAttack::LevelStart(class GameEngineLevel* _NextLevel)
+{
+	Monster_Hollow::LevelStart(_NextLevel);
+}
+
 void Monster_Hollow_NonFirstAttack::ChangeState(Enum_Hollow_State _State)
 {
 	if (_State != HollowState)

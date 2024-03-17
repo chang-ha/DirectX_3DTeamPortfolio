@@ -47,6 +47,14 @@ void Monster_HollowSoldier_Lantern::Update(float _Delta)
 	Monster_Hollow::Update(_Delta);
 	StateUpdate(_Delta);
 }
+void Monster_HollowSoldier_Lantern::Release()
+{
+	Monster_Hollow::Release();
+}
+void Monster_HollowSoldier_Lantern::LevelStart(class GameEngineLevel* _NextLevel)
+{
+	Monster_Hollow::LevelStart(_NextLevel);
+}
 
 void Monster_HollowSoldier_Lantern::WakeUp()
 {
