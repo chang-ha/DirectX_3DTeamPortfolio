@@ -678,7 +678,7 @@ void Stage_Lothric::SetAllEvCol()
 
 		EventCollision->Event = [=]()
 			{
-				// AllMonsterOff();
+				AllMonsterOff();
 				Area0_On();
 				return;
 			};
@@ -758,7 +758,7 @@ void Stage_Lothric::Area1_On()
 	for (size_t i = 4; i < 5; i++)
 	{
 		AllMonster[i]->On();
-		//AllMonster[i]->WakeUp();
+		AllMonster[i]->WakeUp();
 	}
 }
 
