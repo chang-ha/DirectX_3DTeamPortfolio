@@ -46,8 +46,11 @@ void Object_CandleHuman::Start()
 		Render->Transform.SetLocalPosition({ -1.5f,90.f,87.f });
 		Render->SetAutoScaleRatio({ 0.15f, 0.15f, 0.15f });*/
 
+		static int num = 0;
+		num++;
+
 		GameEngineLevel* Level = GetLevel();
-		Light = Level->CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "Point");
+		Light = Level->CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "CandlePoint_" + std::to_string(num));
 		Light->SetLightType(Enum_LightType::Point);
 
 		//Light->IsDebugValue = true;
