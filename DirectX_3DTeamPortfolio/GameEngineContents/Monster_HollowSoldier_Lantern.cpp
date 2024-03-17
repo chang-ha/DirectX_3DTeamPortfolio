@@ -30,7 +30,7 @@ void Monster_HollowSoldier_Lantern::Start()
 	AwakeCollision->SetCollisionType(ColType::SPHERE3D);
 	AwakeCollision->SetCollisionColor(float4::BLACK);
 	AwakeCollision->Transform.SetLocalPosition(float4(0, 100, 0));
-	AwakeCollision->Transform.SetWorldScale(float4(100, 100, 100));
+	AwakeCollision->Transform.SetWorldScale(float4(1000.0f, 1000.0f, 1000.0f));
 	AwakeCollision->Off();
 
 	//																										 62 4 7 / 0.16 0.0 0.015
@@ -696,7 +696,7 @@ void Monster_HollowSoldier_Lantern::State_AwakeHollows_Update(float _Delta)
 
 	if (AwakeCollision->IsUpdate() == true)
 	{
-		AwakeCollision->Transform.AddWorldScale(float4(_Delta * 500.0f, _Delta * 500.0f, _Delta * 500.0f));
+		//AwakeCollision->Transform.AddWorldScale(float4(_Delta * 500.0f, _Delta * 500.0f, _Delta * 500.0f));
 	}
 
 	/*if (MainRenderer->GetCurAnimationFrame() >= 80)
@@ -706,6 +706,20 @@ void Monster_HollowSoldier_Lantern::State_AwakeHollows_Update(float _Delta)
 			AwakeCollision->Off();
 		}
 	}*/
+
+	if (MainRenderer->GetCurAnimationFrame() >= 80)
+	{
+		if (AwakeCollision->IsUpdate() == true)
+		{
+			AwakeCollision->Off();
+		}
+		
+	}
+
+	if (MainRenderer->GetCurAnimationFrame() >= 80)
+	{
+		AwakeCollision->Off();
+	}
 
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
 	{
