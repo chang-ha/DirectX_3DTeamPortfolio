@@ -31,6 +31,17 @@ void BaseMonster::Release()
 	BaseActor::Release();
 }
 
+void BaseMonster::LevelStart(class GameEngineLevel* _NextLevel) 
+{
+	if (nullptr == Capsule)
+	{
+		// Physx Component
+		Capsule = CreateComponent<GameEnginePhysXCapsule>();
+		Capsule->PhysXComponentInit(50.0f, 50.0f);
+		Capsule->SetPositioningComponent();
+	}
+}
+
 bool BaseMonster::CheckAnimationName(std::string _AnimationName)
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
