@@ -19,6 +19,7 @@ enum class Enum_HollowSoldier_Lantern_State
 	TH_VerticalSlash,
 	RH_ComboAttack,
 	RH_RunToSlash,
+	Scout_Turn_Left_Twice,
 	Turn_Left,
 	Turn_Right,
 	Turn_Left_Twice,
@@ -72,6 +73,8 @@ private:
 
 	float WalkToChangeTime = 0.0f;
 	float WalkTime = 0.0f;
+
+	float ScoutTime = 0.0f;
 
 	bool AwakeValue = false;
 
@@ -137,6 +140,9 @@ protected:
 
 	void State_RH_RunToSlash_Start();
 	void State_RH_RunToSlash_Update(float _Delta);
+
+	void State_Scout_Turn_Left_Twice_Start();
+	void State_Scout_Turn_Left_Twice_Update(float _Delta);
 
 	void State_Turn_Left_Start();
 	void State_Turn_Left_Update(float _Delta);

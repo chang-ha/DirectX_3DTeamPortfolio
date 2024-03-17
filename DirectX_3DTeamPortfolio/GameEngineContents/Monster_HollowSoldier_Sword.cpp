@@ -639,8 +639,9 @@ void Monster_HollowSoldier_Sword::State_Idle1ToIdle2_Update(float _Delta)
 
 void Monster_HollowSoldier_Sword::State_Scout_Start()
 {
-	MainRenderer->ChangeAnimation("c1100_Scout");
+	ScoutTime = 0.0f;
 	StateTime = 0.0f;
+	MainRenderer->ChangeAnimation("c1100_Scout");
 }
 void Monster_HollowSoldier_Sword::State_Scout_Update(float _Delta)
 {
@@ -653,10 +654,18 @@ void Monster_HollowSoldier_Sword::State_Scout_Update(float _Delta)
 
 	ChangeHitState();
 
+	ScoutTime += _Delta;
+
 	// 플레이어 인식시
 	if (false)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
+		return;
+	}
+
+	if (ScoutTime >= 15.0f)
+	{
+		ChangeState(Enum_HollowSoldier_Sword_State::Turn_Left_Twice1);
 		return;
 	}
 
@@ -2064,7 +2073,8 @@ void Monster_HollowSoldier_Sword::State_Turn_Left_Twice1_Update(float _Delta)
 
 	if (MainRenderer->GetCurAnimationFrame() >= 38)
 	{
-		ChangeState(Enum_HollowSoldier_Sword_State::Idle1);
+		//ChangeState(Enum_HollowSoldier_Sword_State::Idle1);
+		ChangeState(Enum_HollowSoldier_Sword_State::Scout);
 		return;
 	}
 }
