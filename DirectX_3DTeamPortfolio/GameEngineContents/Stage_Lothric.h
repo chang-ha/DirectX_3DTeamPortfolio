@@ -67,7 +67,10 @@ private:
 	void SetAllEvCol();
 	void EvColUpdate();
 
+	void Area0_On();
 	void Area1_On();
+	void Area2_On();
+	void Area3_On();
 
 	void CreateObject();
 };
