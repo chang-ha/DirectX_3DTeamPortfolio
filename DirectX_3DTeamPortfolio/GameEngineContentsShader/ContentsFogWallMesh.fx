@@ -41,7 +41,7 @@ struct PixelOutPut
     float2 TEXCOORD1 : TEXCOORD1;
     float2 TEXCOORD2 : TEXCOORD2;
     float2 TEXCOORD3 : TEXCOORD3;
-    //float4 VIEWPOSITION : POSITION;
+    float4 VIEWPOSITION : POSITION;
     //float4 WorldPOSITION : POSITION1;
     //float4 VIEWNORMAL : NORMAL;
     //float4 VIEWTANGENT : TANGENT;
@@ -56,6 +56,9 @@ PixelOutPut ContentsFogWallMesh_VS(GameEngineVertex3D _Input)
     
     Result.POSITION = mul(_Input.POSITION, WorldViewProjectionMatrix);
     Result.TEXCOORD = _Input.TEXCOORD;
+    
+    Result.VIEWPOSITION = mul(_Input.POSITION, WorldViewMatrix);
+    Result.VIEWPOSITION.w = 1.0f;
     
     // 노이즈 텍스쳐의 좌표를 크기 및 윗방향 스크롤 속도 값을 이용하여 계산합니다.
     
@@ -126,10 +129,11 @@ PixelOut ContentsFogWallMesh_PS(PixelOutPut _Input)
     
     FogColor = saturate(FogColor);
     
-    FogColor.a = 0.9f + (0.1f * FogColor.x);
+    FogColor.a = 0.8f + (0.2f * FogColor.x);
     
     
     Result.DifColor = FogColor;
+    Result.PosColor = _Input.VIEWPOSITION;
     
   
     return Result;

@@ -82,7 +82,7 @@ void Object_Torchlight::Update(float _Delta)
 
 	LightData Data = Light->GetLightData();
 
-	Data.LightPower = 2.5f + (7.5f * FinalLightPower);
+	Data.LightPower = 5.0f + (5.0f * FinalLightPower);
 
 	Light->SetLightData(Data);
 }

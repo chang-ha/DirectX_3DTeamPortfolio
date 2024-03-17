@@ -290,6 +290,9 @@ private:
 
 	std::shared_ptr<class ContentsHitRenderer> HitRenderer;
 	std::shared_ptr<class ContentsHitRenderer> StrikeRenderer;
+	std::shared_ptr<class ContentsLight> FaceLight;
+
+	int TimeFrame = 0;
 };
 
 

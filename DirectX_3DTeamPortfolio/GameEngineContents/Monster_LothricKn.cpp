@@ -43,13 +43,9 @@ void Monster_LothricKn::Start()
 	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E8001, "c128008001.wav");
 	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E8500, "c128008500.wav");
 
-	// Physx Component
-	Capsule = CreateComponent<GameEnginePhysXCapsule>();
-	Capsule->PhysXComponentInit(100.0f, 50.0f);
-	Capsule->SetPositioningComponent();
-
 	// Anmation
 	MainRenderer->SetFBXMesh("c1280.fbx", "FBX_Animation");
+	MainRenderer->RenderBaseInfoValue.DiffuseTexMult = 3.0f;
 	
 	MainRenderer->CreateFBXAnimation("Idle_Standing", "c1280_000000.fbx");
 	MainRenderer->CreateFBXAnimation("Idle_Standing1", "c1280_000020.fbx");
@@ -286,7 +282,7 @@ void Monster_LothricKn::Start()
 
 	// Stat
 	Stat.SetHp(LOTHRIC_KNIGHT_HP); // Official Hp
-	Stat.SetAtt(1);
+	Stat.SetAtt(36);
 
 	// Collision
 	const float PatrolSize = 5.0f * W_SCALE;
@@ -340,6 +336,10 @@ void Monster_LothricKn::Start()
 
 	CreateFSM();
 
+	// UISetting
+	CreateMonsterUI(0);
+
+	// Transform Reset
 	Transform.SetLocalScale(float4(1.0f, 1.0f, 1.0f));
 }
 
@@ -375,6 +375,11 @@ void Monster_LothricKn::Release()
 	Shield.Release();
 
 	BaseMonster::Release();
+}
+
+void Monster_LothricKn::LevelStart(class GameEngineLevel* _NextLevel)
+{
+	BaseMonster::LevelStart(_NextLevel);
 }
 
 void Monster_LothricKn::WakeUp()
