@@ -117,6 +117,9 @@ void Monster_HollowSoldier_Lantern::ChangeState(Enum_HollowSoldier_Lantern_State
 		case Enum_HollowSoldier_Lantern_State::RH_RunToSlash:
 			State_RH_RunToSlash_Start();
 			break;
+		case Enum_HollowSoldier_Lantern_State::Scout_Turn_Left_Twice:
+			State_Scout_Turn_Left_Twice_Start();
+			break;
 		case Enum_HollowSoldier_Lantern_State::Turn_Left:
 			State_Turn_Left_Start();
 			break;
@@ -195,6 +198,8 @@ void Monster_HollowSoldier_Lantern::StateUpdate(float _Delta)
 		return State_Run_Update(_Delta);
 	case Enum_HollowSoldier_Lantern_State::Scout:
 		return State_Scout_Update(_Delta);
+	case Enum_HollowSoldier_Lantern_State::Scout_Turn_Left_Twice:
+		return State_Scout_Turn_Left_Twice_Update(_Delta);
 	case Enum_HollowSoldier_Lantern_State::AwakeHollows:
 		return State_AwakeHollows_Update(_Delta);
 	case Enum_HollowSoldier_Lantern_State::RH_VerticalSlash:
@@ -649,7 +654,7 @@ void Monster_HollowSoldier_Lantern::State_Scout_Update(float _Delta)
 
 	if (ScoutTime >= 15.0f)
 	{
-		ChangeState(Enum_HollowSoldier_Lantern_State::Turn_Left_Twice);
+		ChangeState(Enum_HollowSoldier_Lantern_State::Scout_Turn_Left_Twice);
 	}
 
 	//ChangeAttackState();
