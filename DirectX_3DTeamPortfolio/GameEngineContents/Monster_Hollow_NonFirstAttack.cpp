@@ -36,6 +36,8 @@ void Monster_Hollow_NonFirstAttack::Start()
 	//Sword.On();
 	
 	ChangeState(Enum_Hollow_State::Pray1);
+
+	CreateMonsterUI(0);
 }
 
 void Monster_Hollow_NonFirstAttack::Update(float _Delta)
