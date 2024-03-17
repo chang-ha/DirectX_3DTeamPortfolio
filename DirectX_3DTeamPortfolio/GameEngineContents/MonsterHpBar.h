@@ -77,7 +77,7 @@ private:
 	static constexpr float HeightDist = 50.0f;
 
 	void DamageCal();
-	void MonsterBarUpdate();
+	void BarUpdate();
 
 };
 

@@ -30,5 +30,7 @@ private:
 	std::shared_ptr<class GameEngineSpriteRenderer> DarkBack;
 
 	std::shared_ptr<class TitleLogo> Title_Logo = nullptr;
+
+	GameEngineSoundPlayer BGMPlayer;
 };
 
