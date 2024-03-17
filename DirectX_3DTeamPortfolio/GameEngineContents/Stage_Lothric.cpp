@@ -450,7 +450,7 @@ void Stage_Lothric::SetAllMonster()
 	{
 		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_Hollow_Unarmed>(Enum_UpdateOrder::Monster, "Monster_Hollow_Unarmed");
 		Monster->SetResponPos({ -6684.0f, 3405.0f, -3450.0f });
-		//Monster->SetResponRotation({ 0.0f, 90.0f, 0.0f });
+		Monster->SetResponRotation({ 0.0f,180.0f,0.0f });
 		AllMonster.push_back(Monster);
 	}
 
@@ -635,7 +635,7 @@ void Stage_Lothric::AllMonsterOn()
 {
 	for (size_t i = 0; i < AllMonster.size(); i++)
 	{
-		AllMonster[i]->SetWorldRotation(AllMonster[i]->GetResponRot());
+		AllMonster[i]->Transform.SetWorldRotation(AllMonster[i]->GetResponRot());
 		AllMonster[i]->SetWorldPosition(AllMonster[i]->GetResponPos());
 		AllMonster[i]->On();
 	}
@@ -645,7 +645,7 @@ void Stage_Lothric::AllMonsterOff()
 {
 	for (size_t i = 0; i < AllMonster.size(); i++)
 	{
-		AllMonster[i]->SetWorldRotation(AllMonster[i]->GetResponRot());
+		AllMonster[i]->Transform.SetWorldRotation(AllMonster[i]->GetResponRot());
 		AllMonster[i]->SetWorldPosition(AllMonster[i]->GetResponPos());
 		AllMonster[i]->Off();
 	}
