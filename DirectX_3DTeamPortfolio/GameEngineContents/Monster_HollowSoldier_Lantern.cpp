@@ -40,12 +40,17 @@ void Monster_HollowSoldier_Lantern::Start()
 	Sword.Init(this, SwordCollision.get());
 	Sword.On();
 
-	ChangeState(Enum_HollowSoldier_Lantern_State::Idle);
+	ChangeState(Enum_HollowSoldier_Lantern_State::Stay);
 }
 void Monster_HollowSoldier_Lantern::Update(float _Delta)
 {
 	Monster_Hollow::Update(_Delta);
 	StateUpdate(_Delta);
+}
+
+void Monster_HollowSoldier_Lantern::WakeUp()
+{
+	ChangeState(Enum_HollowSoldier_Lantern_State::Scout);
 }
 
 void Monster_HollowSoldier_Lantern::ChangeState(Enum_HollowSoldier_Lantern_State _State)
@@ -337,11 +342,11 @@ void Monster_HollowSoldier_Lantern::State_Stay_Update(float _Delta)
 		ChangeState(Enum_HollowSoldier_Lantern_State::Scout);
 	}
 
-	if (StateTime >= 5.0f)
+	/*if (StateTime >= 5.0f)
 	{
 		StateTime = 0.0f;
 		ChangeState(Enum_HollowSoldier_Lantern_State::Scout);
-	}
+	}*/
 }
 
 void Monster_HollowSoldier_Lantern::State_Idle_Start()
