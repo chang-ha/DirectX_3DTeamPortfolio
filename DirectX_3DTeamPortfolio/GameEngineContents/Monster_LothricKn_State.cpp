@@ -3048,7 +3048,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToGMovementTable(Enum_TargetDist
 		}
 	}
 
-	const int iModeChance = ContentsRandom::RandomInt(0, 5);
+	const int iModeChance = ContentsRandom::RandomInt(0, 15);
 	bool ModeChanceCheck = (5 == iModeChance);
 	if (ModeChanceCheck)
 	{
@@ -3373,6 +3373,8 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToHitTable()
 	bool bHit = (true == Hit.IsHit());
 	if (bHit)
 	{
+		Hit.SetHit(false);
+
 		if (true == IsFlag(Enum_ActorFlag::FrontStab))
 		{
 			return Enum_LothricKn_State::F_Stab;
