@@ -30,6 +30,7 @@ private:
 	std::shared_ptr<class WorldMap> Map_Lothric;
 
 	std::vector<std::shared_ptr<class BaseMonster>> AllMonster;
+	std::vector<std::shared_ptr<class EventCol>> AllEvCol;
 
 	//오브젝트
 	std::vector<std::shared_ptr<class Object_bonfire>> VBonfire;
@@ -62,6 +63,9 @@ private:
 	void SetAllMonster();
 	void AllMonsterOn();
 	void AllMonsterOff();
+
+	void SetAllEvCol();
+	void EvColUpdate();
 
 	void CreateObject();
 };

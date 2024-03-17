@@ -388,6 +388,9 @@
     <ClCompile Include="Object_bonfire.cpp">
       <Filter>Object</Filter>
     </ClCompile>
+    <ClCompile Include="EventCol.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -770,6 +773,9 @@
     </ClInclude>
     <ClInclude Include="UIActor.h">
       <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="EventCol.h">
+      <Filter>Actor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

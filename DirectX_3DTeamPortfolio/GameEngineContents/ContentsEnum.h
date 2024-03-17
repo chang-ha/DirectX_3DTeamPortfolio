@@ -46,4 +46,5 @@ enum class Enum_CollisionOrder
 	Player_Arround = (1 << 18),
 	Parring_Arround = (1 << 19),
 	Fog_Wall = (1 << 20),
+	EventCol = (1 << 21),
 };

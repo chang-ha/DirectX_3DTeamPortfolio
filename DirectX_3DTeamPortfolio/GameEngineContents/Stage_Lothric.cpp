@@ -45,6 +45,7 @@
 #include "Monster_HollowSoldier_RoundShield.h"
 #include "Monster_HollowSoldier_Spear.h"
 #include "Monster_HollowSoldier_Sword.h"
+#include "EventCol.h"
 
 //UI
 #include "MainUIActor.h"
@@ -187,6 +188,8 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	// 몬스터 위치 셋팅
 	SetAllMonster();
 
+	SetAllEvCol();
+
 	std::shared_ptr<GameEngineCoreWindow> CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 
 	if (nullptr != CoreWindow)
@@ -239,6 +242,8 @@ void Stage_Lothric::Start()
 void Stage_Lothric::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
+
+	EvColUpdate();
 
 	float4 PPos = Player_Object->Transform.GetWorldPosition();
 
@@ -467,12 +472,13 @@ void Stage_Lothric::SetAllMonster()
 		AllMonster.push_back(Monster);
 	}
 
-	{
-		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_RoundShield>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_RoundShield");
-		Monster->SetResponPos({ -9050.0f, 2033.0f, -4071.0f });
-		//Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
-		AllMonster.push_back(Monster);
-	}
+	// 지하실 내부
+	//{
+	//	std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_RoundShield>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_RoundShield");
+	//	Monster->SetResponPos({ -9050.0f, 2033.0f, -4071.0f });
+	//	//Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
+	//	AllMonster.push_back(Monster);
+	//}
 
 	{
 		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_Spear>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_Spear");
@@ -601,7 +607,7 @@ void Stage_Lothric::SetAllMonster()
 		AllMonster.push_back(Monster);
 	}
 
-	AllMonsterOn();
+	AllMonsterOff();
 }
 
 void Stage_Lothric::AllMonsterOn()
@@ -618,7 +624,36 @@ void Stage_Lothric::AllMonsterOff()
 {
 	for (size_t i = 0; i < AllMonster.size(); i++)
 	{
+		AllMonster[i]->SetWorldPosition(AllMonster[i]->GetResponPos());
 		AllMonster[i]->Off();
+	}
+}
+
+void Stage_Lothric::SetAllEvCol()
+{
+	std::shared_ptr<EventCol> EventCollision = CreateActor<EventCol>(Enum_UpdateOrder::Player, "EventCollision");
+	EventCollision->SetWorldPosition({ -1300.0f, 5101.0f, -5000.0f });
+	EventCollision->SetWorldScale({ 200.0f, 200.0f, 200.0f });
+
+	AllEvCol.push_back(EventCollision);
+
+	EventCollision->Event = [=]()
+		{
+			// 처음한번 실행.
+			AllMonsterOn();
+			return;
+		};
+}
+
+void Stage_Lothric::EvColUpdate()
+{
+	for (size_t i = 0; i < AllEvCol.size(); i++)
+	{
+		if (true == AllEvCol[i]->Collision(Enum_CollisionOrder::Player_Body))
+		{
+			AllEvCol[i]->Event();
+			AllEvCol[i]->Off();
+		}
 	}
 }
 
