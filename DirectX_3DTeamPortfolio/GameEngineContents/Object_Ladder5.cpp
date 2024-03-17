@@ -49,3 +49,9 @@ void Object_Ladder5::Update(float _Delta)
 {
 
 }
+
+float4 Object_Ladder5::GetRotation()
+{
+	float4 Result;
+	Transform.GetWorldRotationEuler();
+}

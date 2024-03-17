@@ -67,3 +67,9 @@ void Object_Ladder1::CollisionOff()
 {
 	CollisionFront->Off();
 }
+
+float4 Object_Ladder1::GetRotation()
+{
+	float4 Result;
+	Transform.GetWorldRotationEuler();
+}
