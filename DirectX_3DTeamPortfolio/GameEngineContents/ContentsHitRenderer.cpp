@@ -16,7 +16,7 @@ void ContentsHitRenderer::Start()
 	SetBillboardOn(); 
 	AutoSpriteSizeOn();
 
-	CreateAnimation("Hit", "Hit.dds", 0.0666f, -1, -1);
+	CreateAnimation("Hit", "Hit.dds", 0.0555f, -1, -1);
 
 	ChangeAnimation("Hit", true);
 

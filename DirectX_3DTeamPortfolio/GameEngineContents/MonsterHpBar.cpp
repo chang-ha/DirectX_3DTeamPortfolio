@@ -212,7 +212,8 @@ void MonsterHpBar::SetDamageGauge()
 {
 	if (DamageBarRenderer)
 	{
-		const float GaugeRatio = static_cast<float>(DamgeRenderHp) / static_cast<float>(MaxHp);
+		float GaugeRatio = static_cast<float>(DamgeRenderHp) / static_cast<float>(MaxHp);
+		GaugeRatio = std::clamp(GaugeRatio, 0.0f, 1.0f);
 		const float RenderScale = GaugeRatio * ImageXScale;
 		DamageBarRenderer->GetImageTransform().SetLocalScale({ RenderScale , HpBarYScale });
 	}
@@ -222,7 +223,8 @@ void MonsterHpBar::SetHPGauge()
 {
 	if (HpBarRenderer)
 	{
-		const float GaugeRatio = static_cast<float>(RenderHp) / static_cast<float>(MaxHp);
+		float GaugeRatio = static_cast<float>(RenderHp) / static_cast<float>(MaxHp);
+		GaugeRatio = std::clamp(GaugeRatio, 0.0f,1.0f);
 		const float RenderScale = GaugeRatio * ImageXScale;
 		HpBarRenderer->GetImageTransform().SetLocalScale({ RenderScale , HpBarYScale });
 	}

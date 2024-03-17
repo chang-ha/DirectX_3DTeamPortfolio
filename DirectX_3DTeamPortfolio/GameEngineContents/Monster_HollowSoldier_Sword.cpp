@@ -39,7 +39,7 @@ void Monster_HollowSoldier_Sword::Start()
 
 	ChangeState(Enum_HollowSoldier_Sword_State::Idle1);
 
-	
+	CreateMonsterUI(0);
 }
 void Monster_HollowSoldier_Sword::Update(float _Delta)
 {
