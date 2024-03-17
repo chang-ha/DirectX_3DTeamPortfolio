@@ -325,7 +325,7 @@ void Player::Start()
 	{
 
 		ColParameter.R = 0.0f;
-		ColParameter.S = { 20.f, 110.f, 20.f };
+		ColParameter.S = { 20.f, 170.f, 20.f };
 		ColParameter.T = { 0.f, 0.5f, 0.f };
 
 		Attack_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Attack, Bone_index_01, ColParameter,"Player_Weapon");
@@ -780,6 +780,7 @@ void Player::Update(float _Delta)
 
 	FaceLight->Transform.SetLocalPosition(Transform.GetWorldPosition() + revolution);
 
+
 	Parring_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
 			Parring_Monster_Actor.push_back(col->GetActor());
@@ -789,9 +790,6 @@ void Player::Update(float _Delta)
 		{
 
 			
-			
-			
-
 				if (GameEngineInput::IsDown(VK_LBUTTON, this))
 				{
 					
@@ -908,10 +906,10 @@ void Player::Update(float _Delta)
 	// 스태미나 
 	if (StateValue != PlayerState::StaminaCheck)
 	{
-		if (Stat.GetStamina() < 100)
+		if (Stat.GetStamina() < 300)
 
 		{
-			Stat.AddStamina(_Delta * 10);
+			Stat.AddStamina(_Delta * 100);
 		}
 	}
 	else if (StateValue != PlayerState::Parrying)
@@ -966,7 +964,7 @@ void Player::Update(float _Delta)
 
 	//HitRenderer->Transform.SetWorldPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y,Capsule->GetWorldPosition().z });
 
-	if (Capsule->GetLinearVelocity_f().Y <= -1600)
+	if (Capsule->GetLinearVelocity_f().Y <= -2500)
 	{
 		PlayerStates.ChangeState(PlayerState::fail);
 	}
@@ -1068,7 +1066,6 @@ void Player::Update(float _Delta)
 		{
 			float Check = abs(Transform.GetWorldPosition().Z -Monster_Actor[MonsterAngles[i]]->Transform.GetWorldPosition().Z);
 
-
 			if (i > 0)
 			{
 				if (Check < Monser_Dir)
@@ -1166,12 +1163,16 @@ void Player::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	
-
-	Capsule->SetFiltering(Enum_CollisionOrder::Player, Enum_CollisionOrder::Camera);
 	Capsule->SetFiltering(Enum_CollisionOrder::Player, Enum_CollisionOrder::Big_Camera);
+	Capsule->SetFiltering(Enum_CollisionOrder::Player, Enum_CollisionOrder::Camera);
+	
 
 	//Capsule->SetFiltering(Enum_CollisionOrder::Monster);
-	//GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Map);
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Big_Camera);
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Camera);
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Camera);
+	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Big_Camera);
+
 
 }
 
@@ -1285,22 +1286,28 @@ void Player::CameraRotation(float Delta)
 
 
 		//if (abs(Actor_test->Transform.GetWorldPosition().Z - Actor_test_02->Transform.GetWorldPosition().Z) >= 50)
+
+		//if(TimeFrame != 1)
 		{
 			//float4 sadasd = float4::LerpClamp(Actor_test_02->Transform.GetWorldPosition(),Actor_test->Transform.GetWorldPosition(), Delta);
 			Actor_test_02->Transform.SetWorldPosition(sadasd);
 		}
+
+		
+
 	}
 
 
 	if (testaa == false)
 	{
+		TimeFrame += 1;
 		
-		if (abs(Actor_test_02->Transform.GetLocalPosition().Z) < abs(250))
-		{
-			//float4 sadasd = float4::LerpClamp(Actor_test->Transform.GetWorldPosition(), Actor_test_02->Transform.GetWorldPosition(), Delta);
-			//sadasd.Normalize();
-			Actor_test_02->Transform.SetWorldPosition(sadassd);
-		}
+			if (abs(Actor_test_02->Transform.GetLocalPosition().Z) < abs(250))
+			{
+				//float4 sadasd = float4::LerpClamp(Actor_test->Transform.GetWorldPosition(), Actor_test_02->Transform.GetWorldPosition(), Delta);
+				//sadasd.Normalize();
+				Actor_test_02->Transform.SetWorldPosition(sadassd);
+			}
 		
 	}
 
