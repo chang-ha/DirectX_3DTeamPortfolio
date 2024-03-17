@@ -72,4 +72,5 @@ float4 Object_Ladder1::GetRotation()
 {
 	float4 Result;
 	Transform.GetWorldRotationEuler();
+	return Result;
 }
