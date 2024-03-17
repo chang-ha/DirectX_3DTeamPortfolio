@@ -390,7 +390,6 @@ void Monster_LothricKn::WakeUp()
 
 void Monster_LothricKn::Reset()
 {
-	Off();
 	Sword.ResetRecord();
 	Shield.ResetRecord();
 

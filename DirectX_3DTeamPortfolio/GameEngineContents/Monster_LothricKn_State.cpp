@@ -583,7 +583,7 @@ void Monster_LothricKn::Start_Break_Down(GameEngineState * _State)
 void Monster_LothricKn::Start_F_Death(GameEngineState * _State)
 {
 	OffAllCollision();
-	SetFlag(Enum_ActorFlag::Death, true);
+	DeathProcess();
 	MainRenderer->ChangeAnimation("F_Death");
 }
 
@@ -595,7 +595,7 @@ void Monster_LothricKn::Start_F_Death_End(GameEngineState * _State)
 void Monster_LothricKn::Start_F_Death_B(GameEngineState * _State)
 {
 	OffAllCollision();
-	SetFlag(Enum_ActorFlag::Death, true);
+	DeathProcess();
 	MainRenderer->ChangeAnimation("F_Death_B");
 }
 
@@ -799,7 +799,7 @@ void Monster_LothricKn::Update_Combo_Att_11(float _DeltaTime, GameEngineState* _
 
 	if (IsFrameOnce(20))
 	{
-		Sword.Off();
+		AttackDone(eAttackType::Sword);
 	}
 }
 
@@ -858,7 +858,7 @@ void Monster_LothricKn::Update_Combo_Att_12(float _DeltaTime, GameEngineState* _
 	}
 	if (IsFrameOnce(22))
 	{
-		Sword.Off();
+		AttackDone(eAttackType::Sword);
 	}
 }
 
@@ -908,7 +908,7 @@ void Monster_LothricKn::Update_Combo_Att_13(float _DeltaTime, GameEngineState* _
 	}
 	if (IsFrameOnce(23))
 	{
-		Sword.Off();
+		AttackDone(eAttackType::Sword);
 	}
 }
 
@@ -967,7 +967,7 @@ void Monster_LothricKn::Update_Combo_Att_21(float _DeltaTime, GameEngineState* _
 	}
 	if (IsFrameOnce(24))
 	{
-		Sword.Off();
+		AttackDone(eAttackType::Sword);
 	}
 }
 
@@ -1026,7 +1026,7 @@ void Monster_LothricKn::Update_Combo_Att_22(float _DeltaTime, GameEngineState* _
 	}
 	if (IsFrameOnce(25))
 	{
-		Sword.Off();
+		AttackDone(eAttackType::Sword);
 	}
 }
 
@@ -1076,7 +1076,7 @@ void Monster_LothricKn::Update_Combo_Att_23(float _DeltaTime, GameEngineState* _
 	}
 	if (IsFrameOnce(20))
 	{
-		Sword.Off();
+		AttackDone(eAttackType::Sword);
 	}
 }
 
@@ -1121,7 +1121,7 @@ void Monster_LothricKn::Update_RH_Att_HitDown(float _DeltaTime, GameEngineState*
 	}
 	if (IsFrameOnce(27))
 	{
-		Sword.Off();
+		AttackDone(eAttackType::Sword);
 	}
 }
 
@@ -1165,7 +1165,7 @@ void Monster_LothricKn::Update_LH_ShieldAttack(float _DeltaTime, GameEngineState
 	}
 	if (IsFrameOnce(20))
 	{
-		Shield.Off();
+		AttackDone(eAttackType::Shield);
 	}
 }
 
@@ -1215,7 +1215,7 @@ void Monster_LothricKn::Update_RH_Rear_Att(float _DeltaTime, GameEngineState* _S
 	}
 	if (IsFrameOnce(22))
 	{
-		Sword.Off();
+		AttackDone(eAttackType::Sword);
 	}
 }
 
@@ -1587,7 +1587,7 @@ void Monster_LothricKn::Update_DH_Stab_Att(float _DeltaTime, GameEngineState* _S
 	}
 	if (IsFrameOnce(21))
 	{
-		Sword.Off();
+		AttackDone(eAttackType::Sword);
 	}
 }
 
@@ -1628,7 +1628,7 @@ void Monster_LothricKn::Update_DH_Swing_Att(float _DeltaTime, GameEngineState* _
 	}
 	if (IsFrameOnce(19))
 	{
-		Sword.Off();
+		AttackDone(eAttackType::Sword);
 	}
 }
 
@@ -1908,7 +1908,7 @@ void Monster_LothricKn::Update_G_Att_Bash(float _DeltaTime, GameEngineState* _St
 	}
 	if (IsFrameOnce(32))
 	{
-		Shield.Off();
+		AttackDone(eAttackType::Shield);
 	}
 }
 
@@ -2285,7 +2285,7 @@ void Monster_LothricKn::Update_F_Death_B(float _DeltaTime, GameEngineState* _Sta
 {
 	if (IsFrameOnce(45))
 	{
-		SetFlag(Enum_ActorFlag::Death, true);
+		DeathProcess();
 	}
 
 	if (IsFrameOnce(50))
@@ -2354,7 +2354,7 @@ void Monster_LothricKn::Update_B_Stab_Death(float _DeltaTime, GameEngineState* _
 {
 	if (IsFrameOnce(50))
 	{
-		SetFlag(Enum_ActorFlag::Death, true);
+		DeathProcess();
 	}
 
 	if (IsFrameOnce(52))
@@ -2417,7 +2417,7 @@ void Monster_LothricKn::Update_F_Stab_Death(float _DeltaTime, GameEngineState* _
 {
 	if (IsFrameOnce(55))
 	{
-		SetFlag(Enum_ActorFlag::Death, true);
+		DeathProcess();
 	}
 
 	if (IsFrameOnce(64))
@@ -2463,52 +2463,52 @@ void Monster_LothricKn::End_Idle_Sit(GameEngineState* _State)
 void Monster_LothricKn::End_Idle_Gaurding(GameEngineState* _State)
 {
 	Debug.DebugOff();
-	Shield.Off();
+	AttackDone(eAttackType::Shield);
 }
 
 void Monster_LothricKn::End_Combo_Att_11(GameEngineState* _State)
 {
-	Sword.Off();
+	AttackDone(eAttackType::Sword);
 }
 
 void Monster_LothricKn::End_Combo_Att_12(GameEngineState* _State)
 {
-	Sword.Off();
+	AttackDone(eAttackType::Sword);
 }
 
 void Monster_LothricKn::End_Combo_Att_13(GameEngineState* _State)
 {
-	Sword.Off();
+	AttackDone(eAttackType::Sword);
 }
 
 void Monster_LothricKn::End_Combo_Att_21(GameEngineState* _State)
 {
-	Sword.Off();
+	AttackDone(eAttackType::Sword);
 }
 
 void Monster_LothricKn::End_Combo_Att_22(GameEngineState* _State)
 {
-	Sword.Off();
+	AttackDone(eAttackType::Sword);
 }
 
 void Monster_LothricKn::End_Combo_Att_23(GameEngineState* _State)
 {
-	Sword.Off();
+	AttackDone(eAttackType::Sword);
 }
 
 void Monster_LothricKn::End_RH_Att_HitDown(GameEngineState* _State)
 {
-	Sword.Off();
+	AttackDone(eAttackType::Sword);
 }
 
 void Monster_LothricKn::End_LH_ShieldAttack(GameEngineState* _State)
 {
-	Shield.Off();
+	AttackDone(eAttackType::Shield);
 }
 
 void Monster_LothricKn::End_RH_Rear_Att(GameEngineState* _State)
 {
-	Sword.Off();
+	AttackDone(eAttackType::Sword);
 }
 
 void Monster_LothricKn::End_L_Turn(GameEngineState* _State)
@@ -2558,7 +2558,7 @@ void Monster_LothricKn::End_Run(GameEngineState* _State)
 
 void Monster_LothricKn::End_SitUp(GameEngineState* _State)
 {
-
+	OnWeaponMask();
 }
 
 void Monster_LothricKn::End_DH_Hold(GameEngineState* _State)
@@ -2658,7 +2658,7 @@ void Monster_LothricKn::End_G_Run(GameEngineState* _State)
 
 void Monster_LothricKn::End_G_Att_Bash(GameEngineState* _State)
 {
-	Shield.Off();
+	AttackDone(eAttackType::Shield);
 }
 
 void Monster_LothricKn::End_F_Hit_W(GameEngineState* _State)
@@ -3049,20 +3049,8 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToGMovementTable(Enum_TargetDist
 	}
 
 	const int iModeChance = ContentsRandom::RandomInt(0, 15);
-	bool ModeChanceCheck = (5 == iModeChance);
-	if (ModeChanceCheck)
-	{
-		return Enum_LothricKn_State::G_Down;
-	}
-
-	const int iChance1 = ContentsRandom::RandomInt(0, 3);
-	enum eModeChance
-	{
-		Move,
-		NormalMode = 3,
-	};
-
-	if (eModeChance::NormalMode == iChance1)
+	bool bChangeMode = (0 == iModeChance);
+	if (bChangeMode)
 	{
 		return Enum_LothricKn_State::G_Down;
 	}
@@ -3237,8 +3225,8 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToGAttackTable(Enum_TargetDist _
 	{
 		if (Enum_TargetAngle::Front == _eTAngle)
 		{
-			const int iChance = ContentsRandom::RandomInt(0, 3);
-			if (1 == iChance)
+			const int iChance = ContentsRandom::RandomInt(0, 5);
+			if (0 == iChance)
 			{
 				return Enum_LothricKn_State::G_Att_Bash;
 			}
@@ -3393,6 +3381,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToHitTable()
 
 		if (true == Hit.IsGuardSuccesss())
 		{
+			Hit.SetGuardSuccesss(false);
 			return Enum_LothricKn_State::G_F_Hit_W;
 		}
 

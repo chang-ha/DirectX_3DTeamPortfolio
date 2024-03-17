@@ -56,6 +56,18 @@ bool BaseMonster::CheckAnimationName(std::string _AnimationName)
 	}
 }
 
+void BaseMonster::DeathProcess()
+{
+	if (nullptr != Capsule)
+	{
+		Capsule->Off();
+	}
+
+	SetFlagNull();
+	SetFlag(Enum_ActorFlag::Death, true);
+	OffAllCollision();
+}
+
 void BaseMonster::GravityOn()
 {
 	if (nullptr == Capsule)
