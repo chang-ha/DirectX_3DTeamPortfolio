@@ -802,10 +802,7 @@ void Stage_Lothric::CreateObject()
 		Object->Transform.SetWorldPosition({ -16547, 3372 , 2144 });
 		VBonfire.push_back(Object);
 	}
-	{
-		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
-		VBonfire.push_back(Object);
-	}
+
 
 
 	//사다리
