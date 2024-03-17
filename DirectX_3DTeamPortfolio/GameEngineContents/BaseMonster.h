@@ -58,9 +58,8 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
-
 
 	// Mesh
 	template<typename EnumType>
@@ -187,6 +186,9 @@ protected:
 	bool BackStabCheck(const float4& _WPos, float _RotY) const override;
 	float4 GetBackStabPosition() override;
 	float4 GetFrontStabPosition() override;
+
+	// UI
+	void CreateMonsterUI(int _BoneHeadIndex);
 
 protected:
 	std::unique_ptr<class PatrolPath> PatrolPaths;
