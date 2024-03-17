@@ -43,13 +43,13 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
 	GameEngineCore::CreateLevel<Stage_Lothric>("Stage_Lothric");
 	//GameEngineCore::CreateLevel<TestLevel_Boss>("TestLevel_Boss");
-	 GameEngineCore::CreateLevel<TestLevel_Monster>("TestLevel_Monster");
+	//GameEngineCore::CreateLevel<TestLevel_Monster>("TestLevel_Monster");
 	//GameEngineCore::CreateLevel<TestLevel_Shader>("TestLevel_Shader"); 
 	//GameEngineCore::CreateLevel<TestLevel_Map>("TestLevel_Map");
 	// GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
 	//GameEngineCore::CreateLevel<TestLevel_MapObject>("TestLevel_MapObject");
 	//GameEngineCore::CreateLevel<TestLevel_ObjectTest>("TestLevel_ObjectTest");
-	GameEngineCore::ChangeLevel("TestLevel_Monster");
+	GameEngineCore::ChangeLevel("Stage_Lothric");
 	
 
 	GameEnginePhysX::PushSkipCollisionPair(3, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Big_Camera, Enum_CollisionOrder::Camera);
