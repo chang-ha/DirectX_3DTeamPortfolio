@@ -341,6 +341,21 @@ void Boss_Vordt::FrameEventInit()
 				MainRenderer->SetRootMotionMode("Rush&Hit&Turn&Rush", Enum_RootMotionMode::StartDir);
 			});
 
+		MainRenderer->SetFrameEvent("Hit_004_Groggy", 55, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME * 2.f);
+			});
+
+		MainRenderer->SetFrameEvent("Hit_004_Groggy", 105, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME);
+			});
+
+		MainRenderer->SetAnimationChangeEvent("Hit_004_Groggy", [&]()
+			{
+				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME);
+			});
+
 		MainRenderer->SetFrameEvent("Combo1_Step1", 36, [&](GameContentsFBXRenderer* _Renderer)
 			{
 				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME * 1.5f);
@@ -511,30 +526,50 @@ void Boss_Vordt::StateInit()
 		mJumpTableManager.AddJumpTable("Turn_Left_Twice", 50, 65, std::bind(&Boss_Vordt::AI_MoveMent, this));
 		mJumpTableManager.AddJumpTable("Turn_Left_Twice", 49, 65, std::bind(&Boss_Vordt::AI_Dodge, this));
 
-		CreateStateParameter Hitten;
-		Hitten.Start = std::bind(&Boss_Vordt::Hitten_Start, this);
-		Hitten.Stay = std::bind(&Boss_Vordt::Hitten_Update, this, std::placeholders::_1);
-		Hitten.End = std::bind(&Boss_Vordt::Hitten_End, this);
+		CreateStateParameter Hitten_Front;
+		Hitten_Front.Start = std::bind(&Boss_Vordt::Hitten_Front_Start, this);
+		Hitten_Front.Stay = std::bind(&Boss_Vordt::Hitten_Front_Update, this, std::placeholders::_1);
+		Hitten_Front.End = std::bind(&Boss_Vordt::Hitten_Front_End, this);
 
 		mJumpTableManager.AddJumpTable("Hit_001", 38, 40, std::bind(&Boss_Vordt::AI_Combo, this));
 		mJumpTableManager.AddJumpTable("Hit_001", 38, 40, std::bind(&Boss_Vordt::AI_Attack, this));
 		mJumpTableManager.AddJumpTable("Hit_001", 39, 40, std::bind(&Boss_Vordt::AI_MoveMent, this));
 		mJumpTableManager.AddJumpTable("Hit_001", 38, 40, std::bind(&Boss_Vordt::AI_Dodge, this));
 
+		CreateStateParameter Hitten_Back;
+		Hitten_Back.Start = std::bind(&Boss_Vordt::Hitten_Back_Start, this);
+		Hitten_Back.Stay = std::bind(&Boss_Vordt::Hitten_Back_Update, this, std::placeholders::_1);
+		Hitten_Back.End = std::bind(&Boss_Vordt::Hitten_Back_End, this);
+
 		mJumpTableManager.AddJumpTable("Hit_002", 38, 40, std::bind(&Boss_Vordt::AI_Combo, this));
 		mJumpTableManager.AddJumpTable("Hit_002", 38, 40, std::bind(&Boss_Vordt::AI_Attack, this));
 		mJumpTableManager.AddJumpTable("Hit_002", 39, 40, std::bind(&Boss_Vordt::AI_MoveMent, this));
 		mJumpTableManager.AddJumpTable("Hit_002", 38, 40, std::bind(&Boss_Vordt::AI_Dodge, this));
+
+		CreateStateParameter Hitten_Right;
+		Hitten_Right.Start = std::bind(&Boss_Vordt::Hitten_Right_Start, this);
+		Hitten_Right.Stay = std::bind(&Boss_Vordt::Hitten_Right_Update, this, std::placeholders::_1);
+		Hitten_Right.End = std::bind(&Boss_Vordt::Hitten_Right_End, this);
 
 		mJumpTableManager.AddJumpTable("Hit_003_Right", 38, 40, std::bind(&Boss_Vordt::AI_Attack, this));
 		mJumpTableManager.AddJumpTable("Hit_003_Right", 39, 40, std::bind(&Boss_Vordt::AI_MoveMent, this));
 		mJumpTableManager.AddJumpTable("Hit_003_Right", 38, 40, std::bind(&Boss_Vordt::AI_Dodge, this));
 		mJumpTableManager.AddJumpTable("Hit_003_Right", 38, 40, std::bind(&Boss_Vordt::AI_Combo, this));
 
+		CreateStateParameter Hitten_Left;
+		Hitten_Left.Start = std::bind(&Boss_Vordt::Hitten_Left_Start, this);
+		Hitten_Left.Stay = std::bind(&Boss_Vordt::Hitten_Left_Update, this, std::placeholders::_1);
+		Hitten_Left.End = std::bind(&Boss_Vordt::Hitten_Left_End, this);
+
 		mJumpTableManager.AddJumpTable("Hit_003_Left", 38, 40, std::bind(&Boss_Vordt::AI_Combo, this));
 		mJumpTableManager.AddJumpTable("Hit_003_Left", 38, 40, std::bind(&Boss_Vordt::AI_Attack, this));
 		mJumpTableManager.AddJumpTable("Hit_003_Left", 39, 40, std::bind(&Boss_Vordt::AI_MoveMent, this));
 		mJumpTableManager.AddJumpTable("Hit_003_Left", 38, 40, std::bind(&Boss_Vordt::AI_Dodge, this));
+
+		CreateStateParameter Hitten_Groggy;
+		Hitten_Groggy.Start = std::bind(&Boss_Vordt::Hitten_Groggy_Start, this);
+		Hitten_Groggy.Stay = std::bind(&Boss_Vordt::Hitten_Groggy_Update, this, std::placeholders::_1);
+		Hitten_Groggy.End = std::bind(&Boss_Vordt::Hitten_Groggy_End, this);
 
 		mJumpTableManager.AddJumpTable("Hit_004_Groggy", 114, 120, std::bind(&Boss_Vordt::AI_Combo, this));
 		mJumpTableManager.AddJumpTable("Hit_004_Groggy", 114, 120, std::bind(&Boss_Vordt::AI_Attack, this));
@@ -554,6 +589,11 @@ void Boss_Vordt::StateInit()
 		Death.Start = std::bind(&Boss_Vordt::Death_Start, this);
 		Death.Stay = std::bind(&Boss_Vordt::Death_Update, this, std::placeholders::_1);
 		Death.End = std::bind(&Boss_Vordt::Death_End, this);
+
+		CreateStateParameter Death_Groggy;
+		Death_Groggy.Start = std::bind(&Boss_Vordt::Death_Groggy_Start, this);
+		Death_Groggy.Stay = std::bind(&Boss_Vordt::Death_Groggy_Update, this, std::placeholders::_1);
+		Death_Groggy.End = std::bind(&Boss_Vordt::Death_Groggy_End, this);
 
 		// mJumpTableManager.AddJumpTable("Death", 114, 120, std::bind(&Boss_Vordt::Distance, this));
 		// mJumpTableManager.AddJumpTable("Death_Groggy", 89, 105, std::bind(&Boss_Vordt::Distance, this));
@@ -788,9 +828,14 @@ void Boss_Vordt::StateInit()
 		MainState.CreateState(Enum_BossState::Turn_Left, Turn_Left, "Turn_Left");
 		MainState.CreateState(Enum_BossState::Turn_Right_Twice, Turn_Right_Twice, "Turn_Right_Twice");
 		MainState.CreateState(Enum_BossState::Turn_Left_Twice, Turn_Left_Twice, "Turn_Left_Twice");
-		MainState.CreateState(Enum_BossState::Hitten, Hitten, "Hitten");
+		MainState.CreateState(Enum_BossState::Hitten_Front, Hitten_Front, "Hitten_Front");
+		MainState.CreateState(Enum_BossState::Hitten_Back, Hitten_Back, "Hitten_Back");
+		MainState.CreateState(Enum_BossState::Hitten_Right, Hitten_Right, "Hitten_Right");
+		MainState.CreateState(Enum_BossState::Hitten_Left, Hitten_Left, "Hitten_Left");
+		MainState.CreateState(Enum_BossState::Hitten_Groggy, Hitten_Groggy, "Hitten_Groggy");
 		MainState.CreateState(Enum_BossState::Groggy, Groggy, "Groggy");
 		MainState.CreateState(Enum_BossState::Death, Death, "Death");
+		MainState.CreateState(Enum_BossState::Death_Groggy, Death_Groggy, "Death_Groggy");
 
 		// Attack
 		MainState.CreateState(Enum_BossState::Breath, Breath, "Breath");
@@ -817,7 +862,7 @@ void Boss_Vordt::StateInit()
 		MainState.CreateState(Enum_BossState::Rush_Hit_Turn_Rush, Rush_Hit_Turn_Rush, "Rush_Hit_Turn_Rush");
 
 		//// Start State
-		MainState.ChangeState(Enum_BossState::Howling);
+		MainState.ChangeState(Enum_BossState::Idle);
 
 		//// AI State
 		// Move & Others
@@ -834,7 +879,11 @@ void Boss_Vordt::StateInit()
 		AI_States[Enum_BossState::Turn_Left] = AI_State(0.f);
 		AI_States[Enum_BossState::Turn_Right_Twice] = AI_State(0.f);
 		AI_States[Enum_BossState::Turn_Left_Twice] = AI_State(0.f);
-		AI_States[Enum_BossState::Hitten] = AI_State(0.f);
+		AI_States[Enum_BossState::Hitten_Front] = AI_State(0.f);
+		AI_States[Enum_BossState::Hitten_Back] = AI_State(0.f);
+		AI_States[Enum_BossState::Hitten_Right] = AI_State(0.f);
+		AI_States[Enum_BossState::Hitten_Left] = AI_State(0.f);
+		AI_States[Enum_BossState::Hitten_Groggy] = AI_State(0.f);
 		AI_States[Enum_BossState::Groggy] = AI_State(0.f);
 		AI_States[Enum_BossState::Death] = AI_State(0.f);
 		AI_States[Enum_BossState::Breath] = AI_State(0.f);
@@ -1077,7 +1126,7 @@ Enum_JumpTableFlag Boss_Vordt::AI_Attack()
 			}
 			break;
 		}
-		case Enum_RotDir::Right :
+		case Enum_RotDir::Right:
 		{
 			if (true == ChangeAI_State(Enum_BossState::Sweap_Twice_Right))
 			{
@@ -1602,22 +1651,77 @@ void Boss_Vordt::Turn_Left_Twice_End()
 
 }
 
-void Boss_Vordt::Hitten_Start()
+void Boss_Vordt::Hitten_Front_Start()
 {
-	// 그로기 상태에 및 타격 위치 따라 다름
 	MainRenderer->ChangeAnimation("Hit_001", true);
-	// MainRenderer->ChangeAnimation("Hit_002");
-	// MainRenderer->ChangeAnimation("Hit_003_Left");
-	// MainRenderer->ChangeAnimation("Hit_003_Right");
-	// MainRenderer->ChangeAnimation("Hit_004_Groggy", true);
 }
 
-void Boss_Vordt::Hitten_Update(float _Delta)
+void Boss_Vordt::Hitten_Front_Update(float _Delta)
 {
 
 }
 
-void Boss_Vordt::Hitten_End()
+void Boss_Vordt::Hitten_Front_End()
+{
+
+}
+
+void Boss_Vordt::Hitten_Back_Start()
+{
+	MainRenderer->ChangeAnimation("Hit_002", true);
+}
+
+void Boss_Vordt::Hitten_Back_Update(float _Delta)
+{
+
+}
+
+void Boss_Vordt::Hitten_Back_End()
+{
+
+}
+
+void Boss_Vordt::Hitten_Right_Start()
+{
+	MainRenderer->ChangeAnimation("Hit_003_Right", true);
+}
+
+void Boss_Vordt::Hitten_Right_Update(float _Delta)
+{
+
+}
+
+void Boss_Vordt::Hitten_Right_End()
+{
+
+}
+
+void Boss_Vordt::Hitten_Left_Start()
+{
+	MainRenderer->ChangeAnimation("Hit_003_Left", true);
+}
+
+void Boss_Vordt::Hitten_Left_Update(float _Delta)
+{
+
+}
+
+void Boss_Vordt::Hitten_Left_End()
+{
+
+}
+
+void Boss_Vordt::Hitten_Groggy_Start()
+{
+	MainRenderer->ChangeAnimation("Hit_004_Groggy", true);
+}
+
+void Boss_Vordt::Hitten_Groggy_Update(float _Delta)
+{
+
+}
+
+void Boss_Vordt::Hitten_Groggy_End()
 {
 
 }
@@ -1640,14 +1744,6 @@ void Boss_Vordt::Groggy_End()
 void Boss_Vordt::Death_Start()
 {
 	MainRenderer->ChangeAnimation("Death", true);
-	// 그로기에서 죽으면 Death_Groggy
-// 	if (true == IsFlag(Enum_ActorFlag::Break_Posture))
-// 	{
-// 		MainRenderer->ChangeAnimation("Death_Groggy", true);
-// 	}
-// 	else
-// 	{
-// 	}
 }
 
 void Boss_Vordt::Death_Update(float _Delta)
@@ -1656,6 +1752,21 @@ void Boss_Vordt::Death_Update(float _Delta)
 }
 
 void Boss_Vordt::Death_End()
+{
+
+}
+
+void Boss_Vordt::Death_Groggy_Start()
+{
+	MainRenderer->ChangeAnimation("Death_Groggy", true);
+}
+
+void Boss_Vordt::Death_Groggy_Update(float _Delta)
+{
+
+}
+
+void Boss_Vordt::Death_Groggy_End()
 {
 
 }
