@@ -47,7 +47,22 @@ void TitleLevel::LevelStart(GameEngineLevel* _PrevLevel)
 		}
 	}
 
+	if (nullptr == GameEngineSprite::Find("DarkSoulsIII_Main_Menu_Theme.wav"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources\\Sound\\UI");
+
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pFiles : Files)
+		{
+			GameEngineSound::SoundLoad(pFiles.GetStringPath());
+		}
+	}
+
 	Title_Logo = CreateActor<TitleLogo>();
+
+	BGMPlayer = GameEngineSound::SoundPlay("DarkSoulsIII_Main_Menu_Theme.wav", 2);
 }
 
 void TitleLevel::LevelEnd(GameEngineLevel* _NextLevle)
@@ -70,6 +85,8 @@ void TitleLevel::TestClear()
 			GameEngineTexture::Release(pFiles.GetFileName());
 		}
 	}
+	
+	BGMPlayer.Stop();
 
 	if (nullptr != Title_Logo)
 	{

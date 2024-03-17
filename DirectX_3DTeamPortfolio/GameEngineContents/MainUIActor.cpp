@@ -103,8 +103,6 @@ void MainUIActor::Update(float _Delta)
 			BossHpObject->BossDamage(Damgae);
 		}
 	}
-
-
 }
 
 void MainUIActor::CreateBossUI(Boss_Vordt* _pBoss)
