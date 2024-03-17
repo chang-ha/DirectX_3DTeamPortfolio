@@ -19,9 +19,13 @@ void BaseMonster::Start()
 	BaseActor::Start();
 
 	// Physx Component
-	Capsule = CreateComponent<GameEnginePhysXCapsule>();
-	Capsule->PhysXComponentInit(50.0f, 50.0f);
-	Capsule->SetPositioningComponent();
+	if (nullptr == Capsule)
+	{
+		Capsule = CreateComponent<GameEnginePhysXCapsule>();
+		Capsule->PhysXComponentInit(50.0f, 50.0f);
+		Capsule->SetPositioningComponent();
+		Capsule->SetFiltering(Enum_CollisionOrder::Monster);
+	}
 }
 
 void BaseMonster::Update(float _Delta)
