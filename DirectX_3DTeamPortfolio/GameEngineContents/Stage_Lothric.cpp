@@ -612,7 +612,6 @@ void Stage_Lothric::SetAllMonster()
 
 void Stage_Lothric::AllMonsterOn()
 {
-
 	for (size_t i = 0; i < AllMonster.size(); i++)
 	{
 		AllMonster[i]->SetWorldPosition(AllMonster[i]->GetResponPos());
@@ -640,7 +639,8 @@ void Stage_Lothric::SetAllEvCol()
 	EventCollision->Event = [=]()
 		{
 			// 처음한번 실행.
-			AllMonsterOn();
+			AllMonsterOff();
+			Area1_On();
 			return;
 		};
 }
@@ -654,6 +654,14 @@ void Stage_Lothric::EvColUpdate()
 			AllEvCol[i]->Event();
 			AllEvCol[i]->Off();
 		}
+	}
+}
+
+void Stage_Lothric::Area1_On()
+{
+	for (size_t i = 0; i < 3; i++)
+	{
+		AllMonster[i]->On();
 	}
 }
 
