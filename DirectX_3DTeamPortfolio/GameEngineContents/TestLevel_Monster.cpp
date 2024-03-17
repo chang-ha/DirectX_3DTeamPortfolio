@@ -66,16 +66,16 @@ void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 	LothricKn->SetIdleType(Enum_Lothric_IdleType::Sit);
 	LothricKn->SetWPosition(float4(100.0f, 0.0f, 0.0f));
 
-	std::shared_ptr<Monster_LothricKn> LothricKn1 = CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn1");
-	LothricKn1->SetIdleType(Enum_Lothric_IdleType::Standing);
-	LothricKn1->SetWPosition(float4(300.0f, 0.0f, 0.0f));
+	//std::shared_ptr<Monster_LothricKn> LothricKn1 = CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn1");
+	//LothricKn1->SetIdleType(Enum_Lothric_IdleType::Standing);
+	//LothricKn1->SetWPosition(float4(300.0f, 0.0f, 0.0f));
 
 
-	std::shared_ptr<Monster_HollowSoldier_Sword> Hollow = CreateActor<Monster_HollowSoldier_Sword>(static_cast<int>(Enum_UpdateOrder::Monster), "Hollow");
-	Hollow->SetWPosition(float4(-400.0f, 0.0f, 0.0f));
+	// std::shared_ptr<Monster_HollowSoldier_Sword> Hollow = CreateActor<Monster_HollowSoldier_Sword>(static_cast<int>(Enum_UpdateOrder::Monster), "Hollow");
+	// Hollow->SetWPosition(float4(-400.0f, 0.0f, 0.0f));
 	//Hollow->Transform.SetWorldRotation(float4(0.0f, 180.0f, 0.0f));
 	//Hollow->Transform.SetWorldRotation(float4(0.0f, 90.0f, 0.0f));
-	Hollow->SetStateIdle1();
+	// Hollow->SetStateIdle1();
 
 	/*std::shared_ptr<Monster_Hollow_Unarmed> Unarmed = CreateActor<Monster_Hollow_Unarmed>(static_cast<int>(Enum_UpdateOrder::Monster), "Unarmed");
 	Unarmed->SetWPosition(float4(-200.0f, 0.0f, 0.0f));*/
