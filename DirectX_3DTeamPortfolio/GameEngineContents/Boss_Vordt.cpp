@@ -4,6 +4,8 @@
 #include "DS3DummyData.h"
 
 #define BOSS_HP 1328
+#define PHYSX_RADIUS 320.f
+#define PHYSX_HALFHEIGHT 5.f
 
 void Boss_State_GUI::Start()
 {
@@ -619,6 +621,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	if (nullptr == RockOnCollision)
 	{
 		RockOnCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster);
+		RockOnCollision->Transform.SetLocalPosition({ 0.f, PHYSX_RADIUS / 2.f + PHYSX_HALFHEIGHT, 0.f });
 		RockOnCollision->Transform.SetWorldScale({1.f, 1.f, 1.f});
 	}
 
@@ -859,7 +862,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::Boss_Vordt));
 
-	Off();
+	AI_Stop();
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
@@ -886,7 +889,7 @@ void Boss_Vordt::Start()
 	if (nullptr == Capsule)
 	{
 		Capsule = CreateComponent<GameEnginePhysXCapsule>();
-		Capsule->PhysXComponentInit(320.0f, 5.0f);
+		Capsule->PhysXComponentInit(PHYSX_RADIUS, PHYSX_HALFHEIGHT);
 		Capsule->SetPositioningComponent();
 		Capsule->SetFiltering(Enum_CollisionOrder::Monster);
 	}
@@ -906,6 +909,7 @@ void Boss_Vordt::Update(float _Delta)
 		MainRenderer->SwitchPause();
 	}
 
+	MostPrioritzedUpdate();
 	AIUpdate(_Delta);
 	TargetStateUpdate();
 	CollisionUpdate();
@@ -942,6 +946,18 @@ void Boss_Vordt::Release()
 	BaseActor::Release();
 }
 
+void Boss_Vordt::AI_Start()
+{
+	MainState.ChangeState(Enum_BossState::Howling);
+	AI_Off = false;
+}
+
+void Boss_Vordt::AI_Stop()
+{
+	MainState.ChangeState(Enum_BossState::Idle);
+	AI_Off = true;
+}
+
 bool Boss_Vordt::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 {
 	if (nullptr == _Para.pAttacker)
@@ -976,13 +992,8 @@ bool Boss_Vordt::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 		HitSoune_Count = 1;
 	}
 
-	Stat.AddPoise(-Stiffness);
-	if (0 >= Stat.GetPoise())
-	{
-		SetFlag(Enum_ActorFlag::Break_Posture, true);
-		Stat.SetPoise(100);
-	}
-
+	// Stat.AddPoise(-Stiffness);
+	Stat.AddPoise(-30);
 	Stat.AddHp(-AttackerAtt);
 	Hit.SetHit(true);
 	Hit.SetHitDir(_Para.eDir);
@@ -1065,6 +1076,8 @@ void Boss_Vordt::PhaseChangeCheck()
 	if (BOSS_HP * 0.6f > CurHp)
 	{
 		mBoss_Phase = Enum_Boss_Phase::Phase_2;
+		MainState.ChangeState(Enum_BossState::Howling);
+		mJumpTableManager.ClearJumpTable();
 	}
 }
 
@@ -1082,6 +1095,78 @@ void Boss_Vordt::HitUpdate(float _Delta)
 		SetHit(false);
 		Hit_CoolDown = HIT_COOLDOWN;
 	}
+}
+
+void Boss_Vordt::MostPrioritzedUpdate()
+{
+	GroggyCheck();
+	DeathCheck();
+}
+
+void Boss_Vordt::DeathCheck()
+{
+	if (Enum_BossState::Death == MainState.GetCurState() || Enum_BossState::Death_Groggy == MainState.GetCurState())
+	{
+		return;
+	}
+
+	if (0 <= GetHp())
+	{
+		return;
+	}
+
+	mJumpTableManager.ClearJumpTable();
+	MainState.ChangeState(Enum_BossState::Death);
+	Capsule->Off();
+	mHitCollision.Off();
+}
+
+void Boss_Vordt::GroggyCheck()
+{
+	if (0 < GetPoise())
+	{
+		return;
+	}
+
+	Enum_DirectionXZ_Quat Dir = Hit.GetHitDir();
+
+	if (Enum_DirectionXZ_Quat::Center == Dir)
+	{
+		Stat.SetPoise(100);
+		return;
+	}
+
+	if (2 <= Groggy_Count)
+	{
+		SetFlag(Enum_ActorFlag::Break_Posture, true);
+		MainState.ChangeState(Enum_BossState::Hitten_Groggy);
+		Groggy_Count = 0;
+	}
+	else
+	{
+		switch (Dir)
+		{
+		case Enum_DirectionXZ_Quat::F:
+			MainState.ChangeState(Enum_BossState::Hitten_Front);
+			break;
+		case Enum_DirectionXZ_Quat::R:
+			MainState.ChangeState(Enum_BossState::Hitten_Right);
+			break;
+		case Enum_DirectionXZ_Quat::B:
+			MainState.ChangeState(Enum_BossState::Hitten_Back);
+			break;
+		case Enum_DirectionXZ_Quat::L:
+			MainState.ChangeState(Enum_BossState::Hitten_Left);
+			break;
+		case Enum_DirectionXZ_Quat::Center:
+		default:
+			break;
+		}
+		++Groggy_Count;
+	}
+
+	mJumpTableManager.ClearJumpTable();
+	Stat.SetPoise(100);
 }
 
 void Boss_Vordt::AIUpdate(float _Delta)
