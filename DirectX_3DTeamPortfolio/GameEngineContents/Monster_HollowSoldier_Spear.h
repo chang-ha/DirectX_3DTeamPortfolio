@@ -76,6 +76,8 @@ public:
 		ChangeState(Enum_HollowSoldier_Spear_State::Idle1);
 	}
 
+	void WakeUp() override;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
