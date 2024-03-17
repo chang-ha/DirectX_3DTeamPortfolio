@@ -892,8 +892,9 @@ void Boss_Vordt::Start()
 	}
 
 	Stat.SetHp(BOSS_HP);
-	Stat.SetAtt(1);
-	Stat.SetSouls(10000);
+	Stat.SetAtt(0);
+	Stat.SetSouls(3000);
+	Stat.SetPoise(100);
 }
 
 void Boss_Vordt::Update(float _Delta)
