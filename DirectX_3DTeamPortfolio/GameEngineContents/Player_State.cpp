@@ -26,8 +26,8 @@ void Player::Player_State()
 			{
 				if (Rock_On_Check == true)
 				{
-					Capsule->SetWorldRotation({ 0.0f,degree_X });
-					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
 				}
 				
 			
@@ -513,8 +513,8 @@ void Player::Player_State()
 
 				if (Rock_On_Check == true)
 				{
-					Capsule->SetWorldRotation({ 0.0f,degree_X });
-					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X});
 				}
 
 			};
@@ -548,8 +548,8 @@ void Player::Player_State()
 
 				if (Rock_On_Check == true)
 				{
-					Capsule->SetWorldRotation({ 0.0f,degree_X });
-					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
 				}
 
 				if (GameEngineInput::IsPress(VK_CONTROL, this) && Stat.GetStamina() > 0)
@@ -881,8 +881,8 @@ void Player::Player_State()
 
 				if (Rock_On_Check == true)
 				{
-					Capsule->SetWorldRotation({ 0.0f,degree_X });
-					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
 				}
 
 
@@ -982,8 +982,8 @@ void Player::Player_State()
 
 				if (Rock_On_Check == true)
 				{
-					Capsule->SetWorldRotation({ 0.0f,degree_X });
-					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
 				}
 
 
@@ -1083,8 +1083,8 @@ void Player::Player_State()
 
 				if (Rock_On_Check == true)
 				{
-					Capsule->SetWorldRotation({ 0.0f,degree_X });
-					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
 				}
 
 
@@ -1184,8 +1184,8 @@ void Player::Player_State()
 				}
 				if (Rock_On_Check == true)
 				{
-					Capsule->SetWorldRotation({ 0.0f,degree_X });
-					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
 				}
 
 
@@ -1342,8 +1342,8 @@ void Player::Player_State()
 			
 				if (Rock_On_Check == true)
 				{
-					Capsule->SetWorldRotation({ 0.0f,degree_X });
-					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
 
 					if (MainRenderer->GetCurAnimationFrame() < 20)
 					{
@@ -1400,8 +1400,8 @@ void Player::Player_State()
 
 			    if (Rock_On_Check == true)
 				{
-					Capsule->SetWorldRotation({ 0.0f,degree_X });
-					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
 					if (MainRenderer->GetCurAnimationFrame() < 20)
 					{
 						Capsule->MoveForce({ float4::FORWARD * Speed }, degree_X);
@@ -1460,8 +1460,8 @@ void Player::Player_State()
 				if (Rock_On_Check == true)
 				{
 			
-					Capsule->SetWorldRotation({ 0.0f,degree_X });
-					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
 					if (MainRenderer->GetCurAnimationFrame() < 20)
 					{
 						Capsule->MoveForce({ float4::LEFT * Speed  });
@@ -1512,8 +1512,8 @@ void Player::Player_State()
 			{
 				if (Rock_On_Check == true)
 				{
-					Capsule->SetWorldRotation({ 0.0f,degree_X });
-					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
 					if (MainRenderer->GetCurAnimationFrame() < 20)
 					{
 						Capsule->MoveForce({ float4::RIGHT * Speed  });
@@ -1565,8 +1565,8 @@ void Player::Player_State()
 
 				if (Rock_On_Check == true)
 				{
-					Capsule->SetWorldRotation({ 0.0f,degree_X });
-					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
 
 					if (MainRenderer->GetCurAnimationFrame() < 10)
 					{
@@ -1607,8 +1607,8 @@ void Player::Player_State()
 				
 				if (Rock_On_Check == true)
 				{
-					Capsule->SetWorldRotation({ 0.0f,degree_X });
-					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
 				}
 
 				
@@ -1675,8 +1675,8 @@ void Player::Player_State()
 
 				if (Rock_On_Check == true)
 				{
-					Capsule->SetWorldRotation({ 0.0f,degree_X });
-					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
 				}
 
 				if (MainRenderer->GetCurAnimationFrame() < 14)
@@ -1839,17 +1839,17 @@ void Player::Player_State()
 
 					if (Rotation_Check_Y == false)
 					{
-						if (Actor_test->Transform.GetWorldRotationEuler().X == 0)
+						if (Actor_test->Transform.GetWorldRotationEuler().X == 20)
 						{
 							Rotation_Check_Y = true;
 						}
 
 
-						if (Actor_test->Transform.GetWorldRotationEuler().X < 0)
+						if (Actor_test->Transform.GetWorldRotationEuler().X < 20)
 						{
 							Rotation_Check_Y_Plus = true;
 						}
-						else if (Actor_test->Transform.GetWorldRotationEuler().X > 0)
+						else if (Actor_test->Transform.GetWorldRotationEuler().X > 20)
 						{
 							Rotation_Check_Y_Mus = true;
 						}
@@ -2214,8 +2214,8 @@ void Player::Player_State()
 
 				if (Rock_On_Check == true)
 				{
-					Capsule->SetWorldRotation({ 0.0f,degree_X });
-					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
 
 					if (MainRenderer->GetCurAnimationFrame() < 15)
 					{
@@ -2263,8 +2263,8 @@ void Player::Player_State()
 
 				if (Rock_On_Check == true)
 				{
-					Capsule->SetWorldRotation({ 0.0f,degree_X });
-					Actor_test->Transform.SetLocalRotation({ 0.0f,degree_X });
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
 
 					if (MainRenderer->GetCurAnimationFrame() < 15)
 					{
