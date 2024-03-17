@@ -519,6 +519,14 @@ void GameEngineSpriteRenderer::SetTextAlpha(float _AlphaValue /*= 1.0f*/, unsign
 	Unit.lock()->SetTextAlpha(_AlphaValue);
 }
 
+void GameEngineSpriteRenderer::BillboardUpdate(float4 _CameraRotation)
+{
+	
+	//ImageTransform.SetWorldRotation(_CameraRotation);
+	Transform.SetWorldRotation(_CameraRotation);
+	
+}
+
 
 void GameEngineSpriteRenderer::SetSampler(std::string_view _Name)
 {

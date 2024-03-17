@@ -242,6 +242,9 @@ public:
 	void SetTextColor(const float4& _Color = float4::RED, unsigned int _Index = 0);
 	void SetTextAlpha(float _AlphaValue = 1.0f, unsigned int _Index = 0);
 
+
+	void BillboardUpdate(float4 _CameraRotation) override;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

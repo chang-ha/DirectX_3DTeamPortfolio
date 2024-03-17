@@ -127,6 +127,8 @@ public:
 		StaticValue = true;
 	}
 
+	virtual void BillboardUpdate(float4 _CameraRotation);
+
 protected:
 	void Start();
 	void Update(float _Delta) override;
