@@ -119,7 +119,7 @@ void TestLevel_MapObject::Start()
 	Light->SetLightData(Data);
 
 	PlayerA = CreateActor<Player>(0, "Player");
-	PlayerA->SetWorldPosition({ -9910.0f, 2328.0f, -2894.0f });
+	PlayerA->SetWorldPosition({ -8930, 2030 , -4427 });
 }
 
 void TestLevel_MapObject::Update(float _Delta)
