@@ -279,7 +279,7 @@ void Player::Start()
 	//MainRenderer->SetRootMotion("landing");
 
 	// 중력 x 
-
+	
 	//MainRenderer->SetRootMotionGravityFlag("ladder_Fast_Down_Start", true);
 
 	MainRenderer->SetRootMotionGravityFlag("ladder_Fast_Down", true);
@@ -964,7 +964,7 @@ void Player::Update(float _Delta)
 
 	//HitRenderer->Transform.SetWorldPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y,Capsule->GetWorldPosition().z });
 
-	if (Capsule->GetLinearVelocity_f().Y <= -2500)
+	if (Capsule->GetLinearVelocity_f().Y <= -2200)
 	{
 		PlayerStates.ChangeState(PlayerState::fail);
 	}
@@ -1172,6 +1172,7 @@ void Player::LevelStart(GameEngineLevel* _PrevLevel)
 	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Camera);
 	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Camera);
 	GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Big_Camera);
+	
 
 
 }
@@ -1279,48 +1280,50 @@ void Player::CameraRotation(float Delta)
 
 
 
-	
-
-	if (testa == true)
+	if (testa == false && testaa == true)
 	{
+		int a = 0;
+	}
+	else if (testa ==true && testaa == true)
+	{ 
 
 
 		//if (abs(Actor_test->Transform.GetWorldPosition().Z - Actor_test_02->Transform.GetWorldPosition().Z) >= 50)
 
-		//if(TimeFrame != 1)
-		{
+		
 			//float4 sadasd = float4::LerpClamp(Actor_test_02->Transform.GetWorldPosition(),Actor_test->Transform.GetWorldPosition(), Delta);
 			Actor_test_02->Transform.SetWorldPosition(sadasd);
-		}
-
-		
-
 	}
-
-
-	if (testaa == false)
+	else if (testaa == false && testa == false)
 	{
-		TimeFrame += 1;
-		
-			if (abs(Actor_test_02->Transform.GetLocalPosition().Z) < abs(250))
-			{
-				//float4 sadasd = float4::LerpClamp(Actor_test->Transform.GetWorldPosition(), Actor_test_02->Transform.GetWorldPosition(), Delta);
-				//sadasd.Normalize();
-				Actor_test_02->Transform.SetWorldPosition(sadassd);
-			}
-		
+
+		if (abs(Actor_test_02->Transform.GetLocalPosition().Z) < abs(250))
+		{
+			//float4 sadasd = float4::LerpClamp(Actor_test->Transform.GetWorldPosition(), Actor_test_02->Transform.GetWorldPosition(), Delta);
+			//sadasd.Normalize();
+			Actor_test_02->Transform.SetWorldPosition(sadassd);
+		}		
 	}
 
+	
 	// 다음 프레임에 콜리전이 충돌한 포지션이면 멈춰 
 
 
 
-
+	/*if (testa == true)
+	{
+		testaa = true;
+	}
+	else
+	{
+		testaa = false;
+	}*/
 
 
 	testaa = false;
 	testa = false;
 
+	
 
 	
 
