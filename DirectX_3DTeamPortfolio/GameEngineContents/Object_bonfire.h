@@ -14,7 +14,9 @@ public:
 	Object_bonfire& operator=(const Object_bonfire& _Other) = delete;
 	Object_bonfire& operator=(Object_bonfire&& _Other) noexcept = delete;
 
-	
+	float4 GetPlayerRespawnPos() { return PlayerRespawnPos; };
+	void SetPlayerRespawnPos(float4 _Pos) { PlayerRespawnPos = _Pos; };
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -25,5 +27,8 @@ private:
 	std::shared_ptr<GameContentsFBXRenderer> FBXRenderer2;
 
 	std::shared_ptr<class ContentsLight> Light;
+
+	float4 PlayerRespawnPos;
+
 };
 

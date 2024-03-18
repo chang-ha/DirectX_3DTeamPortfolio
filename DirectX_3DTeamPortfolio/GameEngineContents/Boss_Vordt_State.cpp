@@ -1744,6 +1744,7 @@ void Boss_Vordt::Groggy_End()
 void Boss_Vordt::Death_Start()
 {
 	MainRenderer->ChangeAnimation("Death", true);
+	SetFlag(Enum_ActorFlag::Death, true);
 }
 
 void Boss_Vordt::Death_Update(float _Delta)

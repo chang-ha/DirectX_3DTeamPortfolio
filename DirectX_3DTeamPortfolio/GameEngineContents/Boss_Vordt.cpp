@@ -863,6 +863,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::Boss_Vordt));
 
 	AI_Stop();
+	DummyPolySoundOff();
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
@@ -994,6 +995,7 @@ bool Boss_Vordt::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 
 	// Stat.AddPoise(-Stiffness);
 	Stat.AddPoise(-15);
+	// Stat.AddHp(-BOSS_HP);
 	Stat.AddHp(-AttackerAtt);
 	Hit.SetHit(true);
 	Hit.SetHitDir(_Para.eDir);
@@ -1110,7 +1112,7 @@ void Boss_Vordt::DeathCheck()
 		return;
 	}
 
-	if (0 <= GetHp())
+	if (0 < GetHp())
 	{
 		return;
 	}
@@ -1119,7 +1121,6 @@ void Boss_Vordt::DeathCheck()
 	MainState.ChangeState(Enum_BossState::Death);
 	Capsule->Off();
 	mHitCollision.Off();
-	SetFlag(Enum_ActorFlag::Death, true);
 }
 
 void Boss_Vordt::GroggyCheck()

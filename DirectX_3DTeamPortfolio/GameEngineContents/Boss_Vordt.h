@@ -26,7 +26,7 @@ enum Enum_BossState
 {
 	// Move & Others
 	Null = 0,
-	Howling = (1 << 0),
+	Howling,
 	Idle,
 	Walk_Front,
 	Walk_Right,

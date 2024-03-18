@@ -148,7 +148,8 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	BossBGM = GameEngineSound::SoundPlay("1-06 Vordt Of The Boreal Valley.mp3", 100);
-	BossBGM.SetVolume(0.15f);
+	BossBGMVolume = BEGIN_BOSS_BGM_VOLUME;
+	BossBGM.SetVolume(BossBGMVolume);
 	BossBGM.Pause();
 
 	{
@@ -159,7 +160,10 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		FogWall->SetOutFunction([&]()
 			{
 				Boss_Object->AI_Start();
+				Boss_Object->DummyPolySoundOn();
 				MainUI->BossUIOn();
+				BossBGMVolume = BEGIN_BOSS_BGM_VOLUME;
+				BossBGM.SetVolume(BossBGMVolume);
 				BossBGM.Resume();
 			});
 	}
@@ -241,6 +245,7 @@ void Stage_Lothric::Update(float _Delta)
 	ContentLevel::Update(_Delta);
 
 	EvColUpdate();
+	BossBGMUpdate(_Delta);
 
 	float4 PPos = Player_Object->Transform.GetWorldPosition();
 
@@ -861,21 +866,25 @@ void Stage_Lothric::Area6_On()
 
 void Stage_Lothric::CreateObject()
 {
+	
 	//화톳불
 
 	{
 		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
 		Object->Transform.SetWorldPosition({ -3925, 4120 , -1961 });
+		Object->SetPlayerRespawnPos({ -3925, 4130 , -1911 });
 		VBonfire.push_back(Object);
 	}
 	{
 		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
 		Object->Transform.SetWorldPosition({ -1125, -2489 , 3232 });
+		Object->SetPlayerRespawnPos({ -1125, -2495 , 3180 });
 		VBonfire.push_back(Object);
 	}
 	{
 		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
 		Object->Transform.SetWorldPosition({ -16547, 3372 , 2144 });
+		Object->SetPlayerRespawnPos({ -16547, 3380 , 2100 });
 		VBonfire.push_back(Object);
 	}
 
@@ -1552,5 +1561,32 @@ void Stage_Lothric::CreateObject()
 		Object->Transform.SetWorldPosition({ -937, 4950 , -4734 });
 		Object->Transform.SetWorldRotation({ 0, 90 , 0 });
 		VSkeleton1.push_back(Object);
+	}
+}
+
+void Stage_Lothric::BossBGMUpdate(float _Delta)
+{
+	if (nullptr == Boss_Object)
+	{
+		return;
+	}
+
+	if (false == BossBGM.IsPlaying())
+	{
+		return;
+	}
+
+	if (false == Boss_Object->IsFlag(Enum_ActorFlag::Death))
+	{
+		return;
+	}
+
+	BossBGMVolume -= _Delta * 0.01f;
+	BossBGM.SetVolume(BossBGMVolume);
+
+	if (0.f >= BossBGMVolume)
+	{
+		BossBGMVolume = 0.f;
+		BossBGM.Stop();
 	}
 }

@@ -51,10 +51,10 @@ void Object_Ladder2::Update(float _Delta)
 
 }
 
-float4 Object_Ladder2::GetRotation()
-{
-	float4 Result;
-	Transform.GetWorldRotationEuler();
-
-	return Result;
-}
+//float4 Object_Ladder2::GetRotation()
+//{
+//	float4 Result;
+//	Transform.GetWorldRotationEuler();
+//
+//	return Result;
+//}

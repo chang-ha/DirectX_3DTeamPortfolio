@@ -1,7 +1,8 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include "Object_BaseLadder.h"
 
-class Object_Ladder4 : public GameEngineActor
+class Object_Ladder4 : public Object_BaseLadder
 {
 public:
 	// constrcuter destructer
@@ -14,7 +15,7 @@ public:
 	Object_Ladder4& operator=(const Object_Ladder4& _Other) = delete;
 	Object_Ladder4& operator=(Object_Ladder4&& _Other) noexcept = delete;
 
-	float4 GetRotation();
+	//float4 GetRotation();
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
