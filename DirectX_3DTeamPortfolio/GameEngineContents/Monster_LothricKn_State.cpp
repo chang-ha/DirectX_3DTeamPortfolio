@@ -28,6 +28,7 @@ bool Monster_LothricKn::IsFrame(int _StartFrame, int _EndFrame /*= -1*/) const
 			return true;
 		}
 
+
 		if (_EndFrame >= CurFrame)
 		{
 			return true;
@@ -46,6 +47,11 @@ bool Monster_LothricKn::IsFrameOnce(int _StartFrame)
 	}
 
 	return false;
+}
+
+bool Monster_LothricKn::IsFrameEnd()
+{
+	return MainRenderer->IsCurAnimationEnd();
 }
 
 void Monster_LothricKn::StateTimeSet(float _fMin, float _fMax)
@@ -99,6 +105,7 @@ void Monster_LothricKn::SetCombatMode(eCombatState _Combat)
 
 void Monster_LothricKn::CreateFSM()
 {
+	MainState.CreateState(Enum_LothricKn_State::None ,{               .Start = std::bind(&Monster_LothricKn::Start_None,this, std::placeholders::_1),  });
 	MainState.CreateState(Enum_LothricKn_State::Debug ,{              .Start = std::bind(&Monster_LothricKn::Start_Debug,this, std::placeholders::_1),              .Stay = std::bind(&Monster_LothricKn::Update_Debug,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::Idle_Standing ,{      .Start = std::bind(&Monster_LothricKn::Start_Idle_Standing,this, std::placeholders::_1),      .Stay = std::bind(&Monster_LothricKn::Update_Idle_Standing,this, std::placeholders::_1,std::placeholders::_2),        .End = std::bind(&Monster_LothricKn::End_Idle_Standing, this, std::placeholders::_1) });
 	MainState.CreateState(Enum_LothricKn_State::Idle_Standing1 ,{     .Start = std::bind(&Monster_LothricKn::Start_Idle_Standing1,this, std::placeholders::_1),     .Stay = std::bind(&Monster_LothricKn::Update_Idle_Standing1,this, std::placeholders::_1,std::placeholders::_2) });
@@ -177,6 +184,12 @@ void Monster_LothricKn::CreateFSM()
 void Monster_LothricKn::StartSleep(GameEngineState* _State)
 {
 	Off();
+}
+
+void Monster_LothricKn::Start_None(GameEngineState* _State)
+{
+	Enum_LothricKn_State FineState = GetStateToAggroTable();
+	_State->ChangeState(FineState);
 }
 
 void Monster_LothricKn::Start_Debug(GameEngineState* _State)
@@ -1914,6 +1927,13 @@ void Monster_LothricKn::Update_G_Att_Bash(float _DeltaTime, GameEngineState* _St
 
 void Monster_LothricKn::Update_Hit_W(float _DeltaTime, GameEngineState* _State)
 {
+	if (IsFrameEnd())
+	{
+		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
+		_State->ChangeState(FindMovementState);
+		return;
+	}
+
 	// Hit Logic
 	if (true == CheckAndSetHitState())
 	{
@@ -1962,6 +1982,12 @@ void Monster_LothricKn::Update_Hit(float _DeltaTime, GameEngineState* _State)
 
 	if (IsFrame(24))
 	{
+		Enum_LothricKn_State FindDodgeState = GetStateToDodgeTable();
+		if (Enum_LothricKn_State::None != FindDodgeState)
+		{
+			_State->ChangeState(FindDodgeState);
+		}
+
 		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
 		_State->ChangeState(FindMovementState);
 		return;

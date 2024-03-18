@@ -31,7 +31,6 @@ std::string_view GameContentsFBXAnimationInfo::GetAnimationName() const
 {
 	if (nullptr == Aniamtion)
 	{
-		MsgBoxAssert("애니메이션을 로드하지 않고 사용할 수 없는 기능입니다.");
 		return nullptr;
 	}
 
