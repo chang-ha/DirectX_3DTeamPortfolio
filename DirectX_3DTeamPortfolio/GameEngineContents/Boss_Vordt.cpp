@@ -886,9 +886,9 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 	if (nullptr == mAttackCollision.HeadCollision)
 	{
-		ColParameter.S = float4(150.f, 150.f, 150.f);
+		ColParameter.S = float4(200.f, 200.f, 200.f);
 		ColParameter.R = float4(0.f);
-		ColParameter.T = float4(0.f);
+		ColParameter.T = float4(0.f, 0.f, -0.5f);
 
 		mAttackCollision.HeadCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 76, ColParameter, "Head");
 		mAttackCollision.HeadCollision->SetCollisionType(ColType::SPHERE3D);
@@ -910,6 +910,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 	AI_Stop();
 	DummyPolySoundOff();
+	mHitCollision.Off();
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
