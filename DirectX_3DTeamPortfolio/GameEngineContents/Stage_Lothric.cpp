@@ -133,10 +133,10 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		// Player_Object->SetWorldPosition({ -2800.f, -2500.f, 6700.f });
 		// 
 		// 테스트 위치
-		Player_Object->SetWorldPosition({ -8011.0f, 907.0f, 3547.0f });
+		//Player_Object->SetWorldPosition({ -8011.0f, 907.0f, 3547.0f });
 		// 
 		// 시작 위치
-		//Player_Object->SetWorldPosition({ -1400.0f, 4945.0f, -5330.0f });
+		Player_Object->SetWorldPosition({ -1400.0f, 4945.0f, -5330.0f });
 		Player_Object->SetWorldRotation({ 0.f, 0.f, 0.f });
 		Player_Object->SetTargeting(Boss_Object.get());
 		Boss_Object->SetTargeting(Player_Object.get());
@@ -165,17 +165,6 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	CreateObject();
-
-	{
-		std::shared_ptr<Monster_LothricKn> Monster;
-		// Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Lothric1");
-		// Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
-		// Monster->WakeUp();
-		// Monster->SetWPosition(float4( -3874.0f, 4118.0f, -951.0f ));
-		// Monster->SetWPosition(float4(-5443.0f, -876.f, 10681.f));
-		Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Lothric2");
-		Monster->SetWPosition(float4(-6276, -683, 13803));
-	}
 
 	// 몬스터 위치 셋팅
 	SetAllMonster();
@@ -616,15 +605,14 @@ void Stage_Lothric::SetAllMonster()
 		AllMonster.push_back(Monster);
 	}
 
-	///////// Area6
 	// 22
 	{
-		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
-		Monster->SetResponPos({ -8476.0f, -548.0f, 7715.0f });
-		Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
+		std::shared_ptr<Monster_HollowSoldier_Sword> Monster = CreateActor<Monster_HollowSoldier_Sword>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_Sword");
+		Monster->SetResponPos({ -8473.0f, -541.0f, 7471.0f });
 		AllMonster.push_back(Monster);
 	}
 
+	///////// Area6
 	// 23
 	{
 		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
@@ -632,11 +620,10 @@ void Stage_Lothric::SetAllMonster()
 		Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
 		AllMonster.push_back(Monster);
 	}
-
 	// 24
 	{
 		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
-		Monster->SetResponPos({ -6433.0f, -750.0f, 10232.0f });
+		Monster->SetResponPos({ -6641.0f, -624.0f, 9742.0f });
 		Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
 		AllMonster.push_back(Monster);
 	}
@@ -644,14 +631,29 @@ void Stage_Lothric::SetAllMonster()
 	// 25
 	{
 		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -5414.0f, -1145.0f, 11328.0f });
+		Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
+		AllMonster.push_back(Monster);
+	}
+	// 26
+	{
+		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
 		Monster->SetResponPos({ -4026.0f, -1788.0f, 9562.0f });
-		Monster->SetIdleType(Enum_Lothric_IdleType::Standing);
+		Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
+		AllMonster.push_back(Monster);
+	}
+
+	// 27
+	{
+		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -6276.0f, -683.0f, 13803.0f });
+		Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
 		AllMonster.push_back(Monster);
 	}
 
 	// 테스트
 	//AllMonsterOn();
-	// 실적용
+	// 실제 적용
 	AllMonsterOff();
 }
 
@@ -753,7 +755,7 @@ void Stage_Lothric::SetAllEvCol()
 	{
 		std::shared_ptr<EventCol> EventCollision = CreateActor<EventCol>(Enum_UpdateOrder::Player, "EventCollision");
 		EventCollision->SetWorldPosition({ -8574.0f, -553.0f, 3194.0f });
-		EventCollision->SetWorldScale({ 600.0f, 600.0f, 600.0f });
+		EventCollision->SetWorldScale({ 700.0f, 700.0f, 700.0f });
 
 		EventCollision->Event = [=]()
 			{
@@ -841,7 +843,7 @@ void Stage_Lothric::Area4_On()
 
 void Stage_Lothric::Area5_On()
 {
-	for (size_t i = 19; i < 22; i++)
+	for (size_t i = 19; i < 23; i++)
 	{
 		AllMonster[i]->On();
 		AllMonster[i]->WakeUp();
@@ -850,19 +852,15 @@ void Stage_Lothric::Area5_On()
 
 void Stage_Lothric::Area6_On()
 {
-	for (size_t i = 22; i < 26; i++)
+	for (size_t i = 23; i < 28; i++)
 	{
 		AllMonster[i]->On();
 		AllMonster[i]->WakeUp();
 	}
 }
 
-
-
 void Stage_Lothric::CreateObject()
 {
-	//화톳불
-
 	//화톳불
 
 	{
