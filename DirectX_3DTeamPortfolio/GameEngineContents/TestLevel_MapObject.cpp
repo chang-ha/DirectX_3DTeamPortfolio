@@ -155,16 +155,19 @@ void TestLevel_MapObject::CreateObject()
 	{
 		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
 		Object->Transform.SetWorldPosition({ -3925, 4120 , -1961 });
+		Object->SetPlayerRespawnPos({ -3925, 4130 , -1911 });
 		VBonfire.push_back(Object);
 	}
 	{
 		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
 		Object->Transform.SetWorldPosition({ -1125, -2489 , 3232 });
+		Object->SetPlayerRespawnPos({ -1125, -2495 , 3180 });
 		VBonfire.push_back(Object);
 	}
 	{
 		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
 		Object->Transform.SetWorldPosition({ -16547, 3372 , 2144 });
+		Object->SetPlayerRespawnPos({ -16547, 3380 , 2100 });
 		VBonfire.push_back(Object);
 	}
 	/*{
