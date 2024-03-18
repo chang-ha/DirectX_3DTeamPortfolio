@@ -239,7 +239,7 @@ void Monster_Hollow::CreateAnimation()
 	MainRenderer->CreateFBXAnimation("c1100_Lantern_Turn_Left_Twice", "c1100_Lantern_Turn_Left_Twice.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_Lantern_Turn_Right_Twice", "c1100_Lantern_Turn_Right_Twice.FBX", { Inter, false });
 
-	MainRenderer->SetAllRootMotionMoveRatio(2.5f, 2.5f, 2.5f);
+	//MainRenderer->SetAllRootMotionMoveRatio(2.5f, 2.5f, 2.5f);
 }
 
 void Monster_Hollow::SettingRootMotion()
