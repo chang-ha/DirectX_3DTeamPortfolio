@@ -299,7 +299,7 @@ void Player::Start()
 	MainRenderer->SetRootMotionGravityFlag("ladder_Down_Right", true);
 	MainRenderer->SetRootMotionGravityFlag("ladder_Down_Start", true);
 
-
+	
 	
 	{
 		
@@ -499,22 +499,14 @@ void Player::Start()
 			
 			pActor->GetRotation(); 
 
-			if (Rabber_Collision_Check == false)
-			{
+			
 				if (GameEngineInput::IsDown('E', this))
 				{
 					Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
-					Capsule->SetWorldRotation({ pActor->GetRotation() });
-					
-					
+					Capsule->SetWorldRotation({ pActor->GetRotation() });					
 					Capsule->GravityOff(); 
-					PlayerStates.ChangeState(PlayerState::ladder_Up_Start);				
-					Rabber_Collision_Check = true;
+					PlayerStates.ChangeState(PlayerState::ladder_Up_Start);						
 				}
-			}
-			
-			
-
 		};
 
 
@@ -564,8 +556,7 @@ void Player::Start()
 
 		
 
-			if (Rabber_Collision_Check == false)
-			{
+			
 				if (GameEngineInput::IsDown('E', this))
 				{
 					Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
@@ -573,9 +564,8 @@ void Player::Start()
 					
 					Capsule->GravityOff();
 					PlayerStates.ChangeState(PlayerState::ladder_Down_Start);
-					Rabber_Collision_Check = true;
 				}
-			}
+			
 		};
 
 	Labber_Top_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
@@ -609,6 +599,7 @@ void Player::Update(float _Delta)
 
 	FaceLight->Transform.SetLocalPosition(Transform.GetWorldPosition() + revolution);
 
+	//MainRenderer->RenderBaseInfoValue
 
 	Parring_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
@@ -719,18 +710,9 @@ void Player::Update(float _Delta)
 	Parring_Attack_Col->CollisionEvent(Enum_CollisionOrder::Monster_Body, Parring_Event);
 
 
-	MainRenderer->GetColorData().PlusColor = { 255,255,255,255 };
-
-	if (Body_Col->Collision(Enum_CollisionOrder::LadderTop))
-	{
-		if (GameEngineInput::IsDown('E', this))
-		{
-			Body_Col->CollisionEvent(Enum_CollisionOrder::LadderTop, Labber_Event);
-			PlayerStates.ChangeState(PlayerState::ladder_Down_Start);
-		}
-	}
 	
 
+	
 	if (true == IsFlag(Enum_ActorFlag::Block_Shield))
 	{
 		PlayerStates.ChangeState(PlayerState::Attack_Block);
