@@ -161,6 +161,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		FogWall->SetOutFunction([&]()
 			{
 				Boss_Object->AI_Start();
+				MainUI->BossUIOn();
 				BossBGM.Resume();
 			});
 	}
