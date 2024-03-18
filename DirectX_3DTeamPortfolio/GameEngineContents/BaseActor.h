@@ -404,6 +404,31 @@ private:
 
 	int ActorID = EMPTY_ID;
 	int Flags = 0;
+
+	//DummyPolySound
+public:
+	inline const bool* GetDummyPolySoundPtr()
+	{
+		return &mDummyPolySoundSwitch;
+	}
+
+	inline void DummyPolySoundOn()
+	{
+		mDummyPolySoundSwitch = true;
+	}
+
+	inline void DummyPolySoundOff()
+	{
+		mDummyPolySoundSwitch = false;
+	}
+
+	inline void DummyPolySoundSwitch()
+	{
+		mDummyPolySoundSwitch = !mDummyPolySoundSwitch;
+	}
+
+private:
+	bool mDummyPolySoundSwitch = true;
 	
 // Targeting
 public:

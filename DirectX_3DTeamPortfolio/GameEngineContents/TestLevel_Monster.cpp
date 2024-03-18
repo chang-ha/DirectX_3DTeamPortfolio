@@ -49,7 +49,7 @@ void TestLevel_Monster::Start()
 	Scene->addActor(*groundPlane);
 
 	// CameraSetting
-	GetMainCamera()->GetCameraAllRenderTarget()->SetClearColor(float4::BLUE);
+	//GetMainCamera()->GetCameraAllRenderTarget()->SetClearColor(float4::BLUE);
 	GetMainCamera()->Transform.SetLocalPosition({0.0f, 0.0f, -200.0f});
 }
 
