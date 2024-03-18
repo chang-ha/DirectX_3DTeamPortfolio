@@ -60,6 +60,8 @@ private:
 
 	std::shared_ptr<class MainUIActor> MainUI;
 
+	GameEngineSoundPlayer BossBGM;
+
 	void SetAllMonster();
 	void AllMonsterOn();
 	void AllMonsterOff();
