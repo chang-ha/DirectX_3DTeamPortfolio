@@ -45,7 +45,7 @@ std::string FrameEventObject::GetTypeString() const
 		ReturnValue = "Transfrom";
 		break;
 	case Enum_FrameEventType::TurnSpeed:
-		ReturnValue = "TurnSpeed";
+		ReturnValue = "TurnAngle";
 		break;
 	default:
 		break;

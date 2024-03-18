@@ -171,6 +171,7 @@ private:
 	void ChangeIdleState(Enum_Lothric_IdleType _Type);
 
 	// Start
+	void Start_None(GameEngineState* _State);
 	void Start_Debug(GameEngineState* _State);
 	void StartSleep(GameEngineState* _State);
 	void Start_Idle_Standing(GameEngineState* _State);
@@ -385,6 +386,7 @@ private:
 	// State Func
 	bool IsFrame(int _StartFrame, int _EndFrame = -1) const;
 	bool IsFrameOnce(int _StartFrame);
+	bool IsFrameEnd();
 
 	void StateTimeSet(float _fMin, float _fMax);
 	void ResetStateTime();

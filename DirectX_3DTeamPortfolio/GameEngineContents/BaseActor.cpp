@@ -432,13 +432,10 @@ void BaseActor::RotToTarget(float _DeltaTime, float _fMinSpeed, float _fMaxSpeed
 
 	const float RotAngle = fRotDir * Speed * _DeltaTime;
 
-	if (nullptr == Capsule)
+	if (nullptr != Capsule)
 	{
-		MsgBoxAssert("피직스 컨포넌트가 존재하지 않습니다.");
-		return;
+		Capsule->AddWorldRotation(float4(0.0f, RotAngle, 0.0f));
 	}
-
-	Capsule->AddWorldRotation(float4(0.0f, RotAngle, 0.0f));
 }
 
 void JumpTableManager::AddJumpTable(std::string_view _AnimationName, JumpTableInfo _JumpTableInfo)

@@ -322,6 +322,12 @@ void Boss_Vordt::FrameEventInit()
 				Stat.SetAtt(BOSS_ATT * 5);
 				mAttackCollision.BodyCollision->Off();
 				mAttackCollision.WeaponCollision->Off();
+				mAttackCollision.ResetRecord();
+			});
+
+		MainRenderer->SetFrameEvent("Sweep&Sweep_Left", 35, [&](GameContentsFBXRenderer* _Renderer)
+			{
+				mAttackCollision.ResetRecord();
 			});
 	}
 
@@ -1795,6 +1801,7 @@ void Boss_Vordt::Combo1_Step1_Start()
 {
 	MainRenderer->ChangeAnimation("Combo1_Step1", true);
 	Stat.SetAtt(BOSS_ATT * 6);
+	Hit_Type = Enum_Player_Hit::Middle;
 }
 
 void Boss_Vordt::Combo1_Step1_Update(float _Delta)
@@ -1812,6 +1819,7 @@ void Boss_Vordt::Combo1_Step2_Start()
 {
 	MainRenderer->ChangeAnimation("Combo1_Step2", true);
 	Stat.SetAtt(BOSS_ATT * 6);
+	Hit_Type = Enum_Player_Hit::Middle;
 }
 
 void Boss_Vordt::Combo1_Step2_Update(float _Delta)
@@ -1828,6 +1836,7 @@ void Boss_Vordt::Combo1_Step3_Start()
 {
 	MainRenderer->ChangeAnimation("Combo1_Step3", true);
 	Stat.SetAtt(BOSS_ATT * 4);
+	Hit_Type = Enum_Player_Hit::Strong;
 }
 
 void Boss_Vordt::Combo1_Step3_Update(float _Delta)
@@ -1845,6 +1854,7 @@ void Boss_Vordt::Combo2_Step1_Start()
 {
 	MainRenderer->ChangeAnimation("Combo2_Step1", true);
 	Stat.SetAtt(BOSS_ATT * 5);
+	Hit_Type = Enum_Player_Hit::weak;
 }
 
 void Boss_Vordt::Combo2_Step1_Update(float _Delta)
@@ -1861,6 +1871,7 @@ void Boss_Vordt::Combo2_Step2_Start()
 {
 	MainRenderer->ChangeAnimation("Combo2_Step2", true);
 	Stat.SetAtt(BOSS_ATT * 3);
+	Hit_Type = Enum_Player_Hit::Middle;
 }
 
 void Boss_Vordt::Combo2_Step2_Update(float _Delta)
@@ -1876,6 +1887,7 @@ void Boss_Vordt::Combo2_Step2_End()
 void Boss_Vordt::Sweap_Twice_Right_Start()
 {
 	MainRenderer->ChangeAnimation("Sweep&Sweep_Right", true);
+	Hit_Type = Enum_Player_Hit::Middle;
 }
 
 void Boss_Vordt::Sweap_Twice_Right_Update(float _Delta)
@@ -1892,6 +1904,7 @@ void Boss_Vordt::Sweap_Twice_Left_Start()
 {
 	Stat.SetAtt(BOSS_ATT * 4);
 	MainRenderer->ChangeAnimation("Sweep&Sweep_Left", true);
+	Hit_Type = Enum_Player_Hit::Middle;
 }
 
 void Boss_Vordt::Sweap_Twice_Left_Update(float _Delta)
@@ -1908,6 +1921,7 @@ void Boss_Vordt::Hit_Down_001_Front_Start()
 {
 	Stat.SetAtt(BOSS_ATT * 6);
 	MainRenderer->ChangeAnimation("Hit_Down_001_Front", true);
+	Hit_Type = Enum_Player_Hit::Middle;
 }
 
 void Boss_Vordt::Hit_Down_001_Front_Update(float _Delta)
@@ -1924,6 +1938,7 @@ void Boss_Vordt::Hit_Down_001_Right_Start()
 {
 	Stat.SetAtt(BOSS_ATT * 6);
 	MainRenderer->ChangeAnimation("Hit_Down_001_Right", true);
+	Hit_Type = Enum_Player_Hit::Middle;
 }
 
 void Boss_Vordt::Hit_Down_001_Right_Update(float _Delta)
@@ -1940,6 +1955,7 @@ void Boss_Vordt::Hit_Down_001_Left_Start()
 {
 	Stat.SetAtt(BOSS_ATT * 6);
 	MainRenderer->ChangeAnimation("Hit_Down_001_Left", true);
+	Hit_Type = Enum_Player_Hit::Middle;
 }
 
 void Boss_Vordt::Hit_Down_001_Left_Update(float _Delta)
@@ -1956,6 +1972,7 @@ void Boss_Vordt::Hit_Down_004_Start()
 {
 	Stat.SetAtt(BOSS_ATT * 3);
 	MainRenderer->ChangeAnimation("Hit_Down_004", true);
+	Hit_Type = Enum_Player_Hit::weak;
 }
 
 void Boss_Vordt::Hit_Down_004_Update(float _Delta)
@@ -1972,6 +1989,7 @@ void Boss_Vordt::Hit_Down_005_Start()
 {
 	Stat.SetAtt(BOSS_ATT * 4);
 	MainRenderer->ChangeAnimation("Hit_Down_005", true);
+	Hit_Type = Enum_Player_Hit::weak;
 }
 
 void Boss_Vordt::Hit_Down_005_Update(float _Delta)
@@ -1988,6 +2006,7 @@ void Boss_Vordt::Hit_Down_006_Start()
 {
 	Stat.SetAtt(BOSS_ATT * 5);
 	MainRenderer->ChangeAnimation("Hit_Down_006", true);
+	Hit_Type = Enum_Player_Hit::Middle;
 }
 
 void Boss_Vordt::Hit_Down_006_Update(float _Delta)
@@ -2004,6 +2023,7 @@ void Boss_Vordt::Thrust_Start()
 {
 	Stat.SetAtt(BOSS_ATT * 2);
 	MainRenderer->ChangeAnimation("Thrust", true);
+	Hit_Type = Enum_Player_Hit::weak;
 }
 
 void Boss_Vordt::Thrust_Update(float _Delta)
@@ -2021,6 +2041,7 @@ void Boss_Vordt::Sweep_001_Start()
 {
 	Stat.SetAtt(BOSS_ATT * 7);
 	MainRenderer->ChangeAnimation("Sweep_001", true);
+	Hit_Type = Enum_Player_Hit::Strong;
 }
 
 void Boss_Vordt::Sweep_001_Update(float _Delta)
@@ -2037,6 +2058,7 @@ void Boss_Vordt::Sweep_002_Start()
 {
 	Stat.SetAtt(BOSS_ATT * 5);
 	MainRenderer->ChangeAnimation("Sweep_002", true);
+	Hit_Type = Enum_Player_Hit::weak;
 }
 
 void Boss_Vordt::Sweep_002_Update(float _Delta)
@@ -2054,7 +2076,7 @@ void Boss_Vordt::Rush_Attack_001_Start()
 {
 	Stat.SetAtt(BOSS_ATT * 7);
 	MainRenderer->ChangeAnimation("Rush_Attack", true);
-
+	Hit_Type = Enum_Player_Hit::Strong;  
 }
 
 void Boss_Vordt::Rush_Attack_001_Update(float _Delta)
@@ -2071,6 +2093,7 @@ void Boss_Vordt::Rush_Attack_002_Start()
 {
 	Stat.SetAtt(BOSS_ATT * 5);
 	MainRenderer->ChangeAnimation("Rush_Attack_002", true);
+	Hit_Type = Enum_Player_Hit::Middle;
 }
 
 void Boss_Vordt::Rush_Attack_002_Update(float _Delta)
@@ -2087,6 +2110,7 @@ void Boss_Vordt::Rush_Turn_Start()
 {
 	Stat.SetAtt(BOSS_ATT * 3);
 	MainRenderer->ChangeAnimation("Rush&Turn", true);
+	Hit_Type = Enum_Player_Hit::weak;
 }
 
 void Boss_Vordt::Rush_Turn_Update(float _Delta)
@@ -2104,6 +2128,7 @@ void Boss_Vordt::Rush_Hit_Turn_Start()
 	Stat.SetAtt(BOSS_ATT * 7);
 	++Rush_Combo_Count;
 	MainRenderer->ChangeAnimation("Rush&Hit&Turn", true);
+	Hit_Type = Enum_Player_Hit::Strong;
 	if (3 > Rush_Combo_Count)
 	{
 		AI_States[Enum_BossState::Rush_Hit_Turn].CurCoolDown = 0.f;
@@ -2131,6 +2156,7 @@ void Boss_Vordt::Rush_Hit_Turn_Rush_Start()
 	Stat.SetAtt(BOSS_ATT * 8);
 	MainRenderer->ChangeAnimation("Rush&Hit&Turn&Rush", true);
 	MainRenderer->SetRootMotionMode("Rush&Hit&Turn&Rush", Enum_RootMotionMode::RealTimeDir);
+	Hit_Type = Enum_Player_Hit::Strong;
 }
 
 void Boss_Vordt::Rush_Hit_Turn_Rush_Update(float _Delta)

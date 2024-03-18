@@ -140,13 +140,13 @@ void DummyProjectile::AttackCollision()
 
 				const Enum_DirectionXZ_Quat eDir = ContentsMath::ReturnXZDirectionToVector(Other_Forward, DirVec);
 
-				if (pActor->GetHitToShield({ pParent, 100 }))
+				if (pActor->GetHitToShield({ pParent, 10 }))
 				{
 					MainState.ChangeState(eState::Ready); 
 					return;
 				}
 
-				if (pActor->GetHit({ pParent ,100 ,eDir }))
+				if (pActor->GetHit({ pParent ,10 ,eDir }))
 				{
 					MainState.ChangeState(eState::Ready);
 					return;
