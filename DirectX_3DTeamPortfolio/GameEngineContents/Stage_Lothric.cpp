@@ -155,6 +155,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		FogWall = CreateActor< Object_FogWall>();
 		FogWall->Transform.SetWorldPosition({ -3125, -2100.f, 7070.f });
 		FogWall->Transform.SetWorldRotation({ 0.f,152.f });
+		FogWall->GetBossPtr(Boss_Object);
 	}
 
 	CreateObject();
