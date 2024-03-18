@@ -67,6 +67,9 @@ enum Enum_Player_Hit
 	Strong,
 };
 
+
+
+
 namespace std
 {
 	template<>

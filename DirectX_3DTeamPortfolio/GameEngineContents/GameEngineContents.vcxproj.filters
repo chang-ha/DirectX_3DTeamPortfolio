@@ -391,6 +391,9 @@
     <ClCompile Include="EventCol.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
+    <ClCompile Include="Object_BaseLadder.cpp">
+      <Filter>Object\Ladder</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -776,6 +779,9 @@
     </ClInclude>
     <ClInclude Include="EventCol.h">
       <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_BaseLadder.h">
+      <Filter>Object\Ladder</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

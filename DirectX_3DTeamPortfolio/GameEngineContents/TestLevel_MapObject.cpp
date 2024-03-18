@@ -155,16 +155,19 @@ void TestLevel_MapObject::CreateObject()
 	{
 		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
 		Object->Transform.SetWorldPosition({ -3925, 4120 , -1961 });
+		Object->SetPlayerRespawnPos({ -3925, 4130 , -1911 });
 		VBonfire.push_back(Object);
 	}
 	{
 		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
 		Object->Transform.SetWorldPosition({ -1125, -2489 , 3232 });
+		Object->SetPlayerRespawnPos({ -1125, -2495 , 3180 });
 		VBonfire.push_back(Object);
 	}
 	{
 		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
 		Object->Transform.SetWorldPosition({ -16547, 3372 , 2144 });
+		Object->SetPlayerRespawnPos({ -16547, 3380 , 2100 });
 		VBonfire.push_back(Object);
 	}
 	/*{
@@ -435,6 +438,49 @@ void TestLevel_MapObject::CreateObject()
 		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
 		Object->Transform.SetWorldPosition({ -17056, 2754 , 2799 });
 		Object->Transform.SetWorldRotation({ 0, -30, 0 });
+		VTorchlight.push_back(Object);
+	}
+
+	//31
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -9502, 2217 , -2678 });
+		Object->Transform.SetWorldRotation({ 0, -90, 0 });
+		VTorchlight.push_back(Object);
+	}
+	//32
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -10008, 2217 , -3262 });
+		Object->Transform.SetWorldRotation({ 0, -30, 0 });
+		VTorchlight.push_back(Object);
+	}
+	//33
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -10950, 2419 , -3742 });
+		Object->Transform.SetWorldRotation({ 0, 10, 0 });
+		VTorchlight.push_back(Object);
+	}
+	//34
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -11538, 2217 , -3351 });
+		Object->Transform.SetWorldRotation({ 0, 0, 0 });
+		VTorchlight.push_back(Object);
+	}
+	//35
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -12234, 2217 , -3290 });
+		Object->Transform.SetWorldRotation({ 0, -90, 0 });
+		VTorchlight.push_back(Object);
+	}
+	//36
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -13833, 3151 , -1856 });
+		Object->Transform.SetWorldRotation({ 0, 60, 0 });
 		VTorchlight.push_back(Object);
 	}
 	//촛불동상
