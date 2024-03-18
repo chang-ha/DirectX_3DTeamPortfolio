@@ -74,6 +74,7 @@ void Monster_HollowSoldier_RoundShield::Reset()
 
 	Stat.SetHp(167);
 	Stat.SetPoise(100);
+	Stat.SetAtt(15);
 
 	Hit.SetHit(false);
 

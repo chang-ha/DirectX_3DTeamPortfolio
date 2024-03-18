@@ -24,7 +24,7 @@ void Monster_HollowSoldier_Lantern::Start()
 
 	// Status
 	Stat.SetHp(83);
-	Stat.SetAtt(1);
+	Stat.SetAtt(10);
 
 	AwakeCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster_Lantern);
 	AwakeCollision->SetCollisionType(ColType::SPHERE3D);
