@@ -863,6 +863,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::Boss_Vordt));
 
 	AI_Stop();
+	DummyPolySoundOff();
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
@@ -994,7 +995,7 @@ bool Boss_Vordt::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 
 	// Stat.AddPoise(-Stiffness);
 	Stat.AddPoise(-15);
-	Stat.AddHp(-AttackerAtt);
+	Stat.AddHp(-BOSS_HP);
 	Hit.SetHit(true);
 	Hit.SetHitDir(_Para.eDir);
 	return true;

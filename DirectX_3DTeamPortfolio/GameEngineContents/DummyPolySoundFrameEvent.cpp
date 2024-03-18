@@ -42,7 +42,10 @@ int DummyPolySoundFrameEvent::PlayEvent()
 
 	const float4x4& WorldMatrix = FbxRenderer->Transform.GetWorldMatrix();
 	float4 WDPPOS = DPT * (*pBoneMatrix) * WorldMatrix;
-	GameEngineSound::Sound3DPlay(SoundName, WDPPOS, 1.f, 0, 50.f, 8000.f);
+	if (true == *SoundPlaySwitch)
+	{
+		GameEngineSound::Sound3DPlay(SoundName, WDPPOS, 1.f, 0, 50.f, 8000.f);
+	}
 	return EVENT_DONE;
 }
 
@@ -61,6 +64,8 @@ void DummyPolySoundFrameEvent::Init()
 		MsgBoxAssert(GetTypeString() + "존재하지 않는 부모를 참조하려 했습니다.");
 		return;
 	}
+
+	SoundPlaySwitch = pActor->GetDummyPolySoundPtr();
 
 	std::string IDName = pActor->GetIDName();
 	const std::shared_ptr<DS3DummyData>& pRes = DS3DummyData::Find(IDName);
