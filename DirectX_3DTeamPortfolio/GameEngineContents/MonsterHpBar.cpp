@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "MonsterHpBar.h"
 
+#include "GaugeRenderer.h"
+
 #include "BaseMonster.h"
 
 // #define BAR_DEBUG

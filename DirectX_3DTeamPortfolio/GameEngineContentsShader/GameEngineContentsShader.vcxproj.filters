@@ -100,6 +100,9 @@
     <FxCompile Include="AllFadeEffect.fx">
       <Filter>UI</Filter>
     </FxCompile>
+    <FxCompile Include="GaugeShader.fx">
+      <Filter>UI</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BloomCombine.fx">
