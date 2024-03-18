@@ -993,7 +993,7 @@ bool Boss_Vordt::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 	}
 
 	// Stat.AddPoise(-Stiffness);
-	Stat.AddPoise(-30);
+	Stat.AddPoise(-15);
 	Stat.AddHp(-AttackerAtt);
 	Hit.SetHit(true);
 	Hit.SetHitDir(_Para.eDir);
@@ -1139,7 +1139,7 @@ void Boss_Vordt::GroggyCheck()
 
 	if (2 <= Groggy_Count)
 	{
-		SetFlag(Enum_ActorFlag::Break_Posture, true);
+		SetFlag(Enum_ActorFlag::Groggy, true);
 		MainState.ChangeState(Enum_BossState::Hitten_Groggy);
 		Groggy_Count = 0;
 	}
