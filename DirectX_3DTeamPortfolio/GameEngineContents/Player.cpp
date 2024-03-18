@@ -11,7 +11,7 @@
 
 #include "ContentsHitRenderer.h"
 #include "BaseMonster.cpp"
-
+#include "Object_BaseLadder.h"
 #define Frame 0.033f
 
 Player* Player::Main_Player;
@@ -429,6 +429,7 @@ void Player::Start()
 
 	Body_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
+
 			std::shared_ptr<ContentsHitRenderer> HitRenderer = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
 			HitRenderer->On();
 			HitRenderer->Transform.SetWorldPosition({ col->Transform.GetWorldPosition() });
@@ -494,16 +495,19 @@ void Player::Start()
 
 	Labber_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
+			std::shared_ptr<Object_BaseLadder> pActor = col->GetActor()->GetDynamic_Cast_This<Object_BaseLadder>();
+			
+			pActor->GetRotation(); 
 
 			if (Rabber_Collision_Check == false)
 			{
 				if (GameEngineInput::IsDown('E', this))
 				{
-
-
 					Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
+					Capsule->SetWorldRotation({ pActor->GetRotation() });
+					
+					
 					Capsule->GravityOff(); 
-					//Capsule->MoveForce(float4{ 0.0f,500.0f,0.0f,Labber_Angle });
 					PlayerStates.ChangeState(PlayerState::ladder_Up_Start);				
 					Rabber_Collision_Check = true;
 				}
@@ -553,15 +557,21 @@ void Player::Start()
 
 	Labber_Top_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
+
+			std::shared_ptr<Object_BaseLadder> pActor = col->GetActor()->GetDynamic_Cast_This<Object_BaseLadder>();
+
+			pActor->GetRotation();
+
+		
+
 			if (Rabber_Collision_Check == false)
 			{
 				if (GameEngineInput::IsDown('E', this))
 				{
-					
 					Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
+					Capsule->SetWorldRotation({ pActor->GetRotation() });
+					
 					Capsule->GravityOff();
-					//MainRenderer->SetRootMotionMode(")
-					//Capsule->MoveForce(float4{ 0.0f,500.0f,0.0f,Labber_Angle });
 					PlayerStates.ChangeState(PlayerState::ladder_Down_Start);
 					Rabber_Collision_Check = true;
 				}
@@ -770,6 +780,7 @@ void Player::Update(float _Delta)
 
 	if (GameEngineInput::IsDown('H', this))
 	{
+		Capsule->GravityOn();
 		PlayerStates.ChangeState(PlayerState::Idle);
 	}
 
