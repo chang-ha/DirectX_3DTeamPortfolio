@@ -21,9 +21,9 @@ MonsterHpBar::~MonsterHpBar()
 {
 }
 
-#define ImageXScale 100.0f
-#define BackBarYScale 12.0f
-#define HpBarYScale 6.0f
+#define ImageXScale 60.0f
+#define BackBarYScale 6.0f
+#define HpBarYScale 2.0f
 #define DamagePos {-100.0f, 190.0f}
 
 void MonsterHpBar::Start()
@@ -59,7 +59,6 @@ void MonsterHpBar::Start()
 	HpBarRenderer->SetSprite("MonsterHp.Png");
 	HpBarRenderer->GetImageTransform().SetLocalScale({ ImageXScale, HpBarYScale });
 	HpBarRenderer->SetBillboardOn();
-	HpBarRenderer->SetPivotType(PivotType::Left);
 
 	InitState();
 }
