@@ -39,9 +39,14 @@ enum Enum_BossState
 	Turn_Left,
 	Turn_Right_Twice,
 	Turn_Left_Twice,
-	Hitten,
+	Hitten_Front,
+	Hitten_Back,
+	Hitten_Right,
+	Hitten_Left,
+	Hitten_Groggy,
 	Groggy,
 	Death,
+	Death_Groggy,
 
 	// Attack
 	Breath,
@@ -181,6 +186,9 @@ public:
 	Boss_Vordt& operator=(const Boss_Vordt& _Other) = delete;
 	Boss_Vordt& operator=(Boss_Vordt&& _Other) noexcept = delete;
 
+	void AI_Start();
+	void AI_Stop();
+
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
@@ -220,6 +228,7 @@ private:
 
 	Enum_Boss_Phase mBoss_Phase = Enum_Boss_Phase::Phase_1;
 	int Rush_Combo_Count = 0;
+	int Groggy_Count = 0;
 	void PhaseChangeCheck();
 
 	bool IsAwake = false;
@@ -231,6 +240,10 @@ private:
 	std::map<Enum_BossState, AI_State> AI_States;
 	bool ChangeAI_State(Enum_BossState _State);
 	void AIUpdate(float _Delta);
+
+	void MostPrioritzedUpdate();
+	void DeathCheck();
+	void GroggyCheck();
 
 	// State
 	////////////////////////// Move & Others
@@ -293,9 +306,25 @@ private:
 	void Turn_Left_Twice_End();
 
 	// Hitten
-	void Hitten_Start();
-	void Hitten_Update(float _Delta);
-	void Hitten_End();
+	void Hitten_Front_Start();
+	void Hitten_Front_Update(float _Delta);
+	void Hitten_Front_End();
+
+	void Hitten_Back_Start();
+	void Hitten_Back_Update(float _Delta);
+	void Hitten_Back_End();
+
+	void Hitten_Right_Start();
+	void Hitten_Right_Update(float _Delta);
+	void Hitten_Right_End();
+
+	void Hitten_Left_Start();
+	void Hitten_Left_Update(float _Delta);
+	void Hitten_Left_End();
+
+	void Hitten_Groggy_Start();
+	void Hitten_Groggy_Update(float _Delta);
+	void Hitten_Groggy_End();
 
 	// Groggy
 	void Groggy_Start();
@@ -306,6 +335,10 @@ private:
 	void Death_Start();
 	void Death_Update(float _Delta);
 	void Death_End();
+
+	void Death_Groggy_Start();
+	void Death_Groggy_Update(float _Delta);
+	void Death_Groggy_End();
 
 	////////////////////////// Attack
 
