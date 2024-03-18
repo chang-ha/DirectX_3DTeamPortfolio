@@ -18,7 +18,7 @@ void Monster_Hollow_NonFirstAttack::Start()
 	//MainRenderer->ChangeAnimation("c1100_PrayToIdle3");
 
 	// Status
-	//Stat.SetHp(68);
+	Stat.SetHp(68);
 	//Stat.SetHp(500);
 	Stat.SetAtt(1);
 
