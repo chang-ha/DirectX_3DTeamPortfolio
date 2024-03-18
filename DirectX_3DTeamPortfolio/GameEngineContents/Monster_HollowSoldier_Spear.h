@@ -78,6 +78,8 @@ public:
 
 	void WakeUp() override;
 
+	void Reset() override;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

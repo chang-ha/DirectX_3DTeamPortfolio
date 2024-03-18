@@ -87,6 +87,18 @@ void Monster_Hollow::LevelEnd(class GameEngineLevel* _NextLevel)
 
 }
 
+void Monster_Hollow::DeathFunc()
+{
+	DeathValue = true;
+	if (nullptr != Capsule)
+	{
+		Capsule->Off();
+	}
+	SetFlag(Enum_ActorFlag::Death, true);
+	OffAllCollision();
+	MonsterCollision->Off();
+}
+
 void Monster_Hollow::CreateAnimation()
 {
 	const float Inter = 0.0f;

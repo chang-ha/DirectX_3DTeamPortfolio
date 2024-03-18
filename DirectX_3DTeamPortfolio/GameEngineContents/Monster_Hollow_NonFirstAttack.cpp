@@ -19,7 +19,8 @@ void Monster_Hollow_NonFirstAttack::Start()
 
 	// Status
 	Stat.SetHp(68);
-	Stat.SetAtt(1);
+	//Stat.SetHp(500);
+	Stat.SetAtt(10);
 
 	CheckLanternCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster_FindLantern);
 	CheckLanternCollision->SetCollisionType(ColType::SPHERE3D);
@@ -54,6 +55,27 @@ void Monster_Hollow_NonFirstAttack::Release()
 void Monster_Hollow_NonFirstAttack::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	Monster_Hollow::LevelStart(_NextLevel);
+}
+
+void Monster_Hollow_NonFirstAttack::Reset()
+{
+	DeathValue = false;
+
+	Sword.ResetRecord();
+
+	Stat.SetHp(68);
+
+	Hit.SetHit(false);
+
+	//MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
+	SetFlagNull();
+	SetTargeting(nullptr);
+
+	RecognizeCollision->On();
+	BodyCollision->On();
+	MonsterCollision->On();
+
+	ChangeState(Enum_Hollow_State::Pray1);
 }
 
 void Monster_Hollow_NonFirstAttack::ChangeState(Enum_Hollow_State _State)
@@ -339,18 +361,23 @@ void Monster_Hollow_NonFirstAttack::ChangeHitState()
 		switch (HitDir)
 		{
 		case Enum_DirectionXZ_Quat::F:
+			HollowState = Enum_Hollow_State::Max;
 			ChangeState(Enum_Hollow_State::Hit_Front);
 			break;
 		case Enum_DirectionXZ_Quat::R:
+			HollowState = Enum_Hollow_State::Max;
 			ChangeState(Enum_Hollow_State::Hit_Right);
 			break;
 		case Enum_DirectionXZ_Quat::B:
+			HollowState = Enum_Hollow_State::Max;
 			ChangeState(Enum_Hollow_State::Hit_Back);
 			break;
 		case Enum_DirectionXZ_Quat::L:
+			HollowState = Enum_Hollow_State::Max;
 			ChangeState(Enum_Hollow_State::Hit_Left);
 			break;
 		default:
+			HollowState = Enum_Hollow_State::Max;
 			ChangeState(Enum_Hollow_State::Hit_Front);
 			break;
 		}
@@ -1341,6 +1368,7 @@ void Monster_Hollow_NonFirstAttack::State_AttackFail_Update(float _Delta)
 void Monster_Hollow_NonFirstAttack::State_Parrying_Start()
 {
 	Hit.SetHit(false);
+	Sword.Off();
 	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Parrying");
 }
@@ -1360,6 +1388,8 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Front_Start()
 	Hit.SetHit(false);
 	// 무기가 없는 상태일때 맞았을때 꺼내야됨
 	MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
+	Sword.Off();
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Hit_Front");
 
 	// 이 전에 있던 State가 Pray 또는 BeScared일때
@@ -1381,6 +1411,8 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Back_Start()
 {
 	Hit.SetHit(false);
 	MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
+	Sword.Off();
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Hit_Back");
 }
 void Monster_Hollow_NonFirstAttack::State_Hit_Back_Update(float _Delta)
@@ -1399,6 +1431,8 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Left_Start()
 {
 	Hit.SetHit(false);
 	MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
+	Sword.Off();
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Hit_Left");
 }
 void Monster_Hollow_NonFirstAttack::State_Hit_Left_Update(float _Delta)
@@ -1417,6 +1451,8 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Right_Start()
 {
 	Hit.SetHit(false);
 	MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
+	Sword.Off();
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Hit_Right");
 }
 void Monster_Hollow_NonFirstAttack::State_Hit_Right_Update(float _Delta)
@@ -1433,6 +1469,8 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Right_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_HitToDeath_Start()
 {
+	Sword.Off();
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_HitToDeath");
 }
 void Monster_Hollow_NonFirstAttack::State_HitToDeath_Update(float _Delta)
@@ -1478,7 +1516,13 @@ void Monster_Hollow_NonFirstAttack::State_BackAttackDeath_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_BackAttackDeath_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 56)
+	{
+		if (DeathValue == false)
+		{
+			DeathFunc();
+		}
+	}
 }
 
 void Monster_Hollow_NonFirstAttack::State_AfterGuardBreakHit_Start()
@@ -1508,11 +1552,19 @@ void Monster_Hollow_NonFirstAttack::State_AfterGuardBreakDeath_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_AfterGuardBreakDeath_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 63)
+	{
+		if (DeathValue == false)
+		{
+			DeathFunc();
+		}
+	}
 }
 
 void Monster_Hollow_NonFirstAttack::State_Death_Start()
 {
+	DeathFunc();
+
 	MainRenderer->ChangeAnimation("c1100_Death");
 }
 void Monster_Hollow_NonFirstAttack::State_Death_Update(float _Delta)
