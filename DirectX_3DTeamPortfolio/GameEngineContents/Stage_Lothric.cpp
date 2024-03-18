@@ -455,7 +455,7 @@ void Stage_Lothric::SetAllMonster()
 	{
 		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_Hollow_Unarmed>(Enum_UpdateOrder::Monster, "Monster_Hollow_Unarmed");
 		Monster->SetResponPos({ -6684.0f, 3405.0f, -3450.0f });
-		Monster->SetResponRotation({ 0.0f,180.0f,0.0f });
+		//Monster->SetResponRotation({ 0.0f,180.0f,0.0f });
 		AllMonster.push_back(Monster);
 	}
 
@@ -546,6 +546,7 @@ void Stage_Lothric::SetAllMonster()
 		AllMonster.push_back(Monster);
 	}
 
+	///////// Area3
 	// 14
 	{
 		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_Sword>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_Sword");
@@ -567,20 +568,21 @@ void Stage_Lothric::SetAllMonster()
 		AllMonster.push_back(Monster);
 	}
 
+	///////// Area4
 	// 17
 	{
 		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_RoundShield>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_RoundShield");
-		Monster->SetResponPos({ -10196.0f, 984.0f, 4174.0f });
+		Monster->SetResponPos({ -10100.0f, 984.0f, 4174.0f });
 		AllMonster.push_back(Monster);
 	}
-
 	// 18
 	{
 		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_RoundShield>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_RoundShield");
-		Monster->SetResponPos({ -8623.0f, 907.0f, 3707.0f });
+		Monster->SetResponPos({ -8011.0f, 907.0f, 3547.0f });
 		AllMonster.push_back(Monster);
 	}
 
+	////////// Area5
 	// 19
 	{
 		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_Spear>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_Spear");
@@ -595,6 +597,7 @@ void Stage_Lothric::SetAllMonster()
 		AllMonster.push_back(Monster);
 	}
 
+	///////// Area5
 	// 21
 	{
 		std::shared_ptr<BaseMonster> Monster = CreateActor<Monster_HollowSoldier_Sword>(Enum_UpdateOrder::Monster, "Monster_HollowSoldier_Sword");
@@ -640,7 +643,7 @@ void Stage_Lothric::AllMonsterOn()
 {
 	for (size_t i = 0; i < AllMonster.size(); i++)
 	{
-		AllMonster[i]->Transform.SetWorldRotation(AllMonster[i]->GetResponRot());
+		//AllMonster[i]->Transform.SetWorldRotation(AllMonster[i]->GetResponRot());
 		AllMonster[i]->SetWorldPosition(AllMonster[i]->GetResponPos());
 		AllMonster[i]->On();
 	}
@@ -650,7 +653,7 @@ void Stage_Lothric::AllMonsterOff()
 {
 	for (size_t i = 0; i < AllMonster.size(); i++)
 	{
-		AllMonster[i]->Transform.SetWorldRotation(AllMonster[i]->GetResponRot());
+		//AllMonster[i]->Transform.SetWorldRotation(AllMonster[i]->GetResponRot());
 		AllMonster[i]->SetWorldPosition(AllMonster[i]->GetResponPos());
 		AllMonster[i]->Off();
 	}
@@ -716,6 +719,20 @@ void Stage_Lothric::SetAllEvCol()
 
 		AllEvCol.push_back(EventCollision);
 	}
+	{
+		std::shared_ptr<EventCol> EventCollision = CreateActor<EventCol>(Enum_UpdateOrder::Player, "EventCollision");
+		EventCollision->SetWorldPosition({ -10708.0f, 1890.0f, 4230.0f });
+		EventCollision->SetWorldScale({ 600.0f, 600.0f, 600.0f });
+
+		EventCollision->Event = [=]()
+			{
+				AllMonsterOff();
+				Area4_On();
+				return;
+			};
+
+		AllEvCol.push_back(EventCollision);
+	}
 }
 
 void Stage_Lothric::EvColUpdate()
@@ -760,7 +777,16 @@ void Stage_Lothric::Area2_On()
 
 void Stage_Lothric::Area3_On()
 {
-	for (size_t i = 14; i < 18; i++)
+	for (size_t i = 14; i < 17; i++)
+	{
+		AllMonster[i]->On();
+		AllMonster[i]->WakeUp();
+	}
+}
+
+void Stage_Lothric::Area4_On()
+{
+	for (size_t i = 17; i < 19; i++)
 	{
 		AllMonster[i]->On();
 		AllMonster[i]->WakeUp();
