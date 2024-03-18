@@ -62,9 +62,6 @@ Stage_Lothric::~Stage_Lothric()
 
 void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	{
-		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
-	}
 
 	{
 		std::shared_ptr<GameEngineActor> Ground = CreateActor<GameEngineActor>(0);
@@ -231,6 +228,10 @@ void Stage_Lothric::Start()
 	GameEngineInput::AddInputObject(this);
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 0, 0, 0, 1 });
 	
+	{
+		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
+	}
+
 }
 
 void Stage_Lothric::Update(float _Delta)
