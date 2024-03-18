@@ -55,7 +55,6 @@ void Object_Ladder1::Start()
 
 void Object_Ladder1::Update(float _Delta)
 {
-
 }
 
 void Object_Ladder1::CollisionOn()
@@ -68,9 +67,9 @@ void Object_Ladder1::CollisionOff()
 	CollisionFront->Off();
 }
 
-float4 Object_Ladder1::GetRotation()
-{
-	float4 Result;
-	Transform.GetWorldRotationEuler();
-	return Result;
-}
+//float4 Object_Ladder1::GetRotation()
+//{
+//	float4 Result;
+//	Transform.GetWorldRotationEuler();
+//	return Result;
+//}
