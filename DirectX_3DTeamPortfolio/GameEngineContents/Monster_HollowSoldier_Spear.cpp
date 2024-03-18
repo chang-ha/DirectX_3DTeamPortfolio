@@ -1653,11 +1653,21 @@ void Monster_HollowSoldier_Spear::State_Hit_Right_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_HitToDeath_Start()
 {
-	MainRenderer->ChangeAnimation("c1100_HtiToDeath");
+	MainRenderer->ChangeAnimation("c1100_HitToDeath");
 }
 void Monster_HollowSoldier_Spear::State_HitToDeath_Update(float _Delta)
 {
-	
+	if (MainRenderer->GetCurAnimationFrame() >= 58)
+	{
+		MeshOff(Enum_Hollow_MeshIndex::Spear);
+		MeshOff(Enum_Hollow_MeshIndex::WoodShield);
+	}
+
+	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Death);
+		return;
+	}
 }
 
 void Monster_HollowSoldier_Spear::State_BackAttackHit_Start()
