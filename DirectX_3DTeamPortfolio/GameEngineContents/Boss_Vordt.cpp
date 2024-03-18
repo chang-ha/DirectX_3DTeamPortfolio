@@ -1119,7 +1119,6 @@ void Boss_Vordt::DeathCheck()
 	MainState.ChangeState(Enum_BossState::Death);
 	Capsule->Off();
 	mHitCollision.Off();
-	SetFlag(Enum_ActorFlag::Death, true);
 }
 
 void Boss_Vordt::GroggyCheck()
