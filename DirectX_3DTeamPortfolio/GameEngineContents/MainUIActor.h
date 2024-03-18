@@ -21,6 +21,8 @@ public:
 
 	void AllUIActorReset();
 
+	void BossUIOn();
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
