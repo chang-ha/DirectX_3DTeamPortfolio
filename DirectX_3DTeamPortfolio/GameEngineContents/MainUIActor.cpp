@@ -124,3 +124,11 @@ void MainUIActor::AllUIActorReset()
 		UI->Reset();
 	}
 }
+
+void MainUIActor::BossUIOn()
+{
+	if (BossHpObject)
+	{
+		BossHpObject->Awake();
+	}
+}

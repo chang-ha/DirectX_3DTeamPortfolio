@@ -80,7 +80,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	if (nullptr == Boss_Object)
 	{
 		Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
-		Boss_Object->SetWorldPosition({ -1000.f, -2500.f, 3000.f });
+		Boss_Object->SetWorldPosition({ -1100.f, -2500.f, 3000.f });
 		Boss_Object->SetWorldRotation({ 0.f, -30.f, 0.f });
 	}
 
@@ -132,7 +132,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		Player_Object = CreateActor<Player>(0, "Player");
 		// 볼드 위치
-		//Player_Object->SetWorldPosition({ -2800.f, -1500.f, 6700.f });
+		// Player_Object->SetWorldPosition({ -2800.f, -2500.f, 6700.f });
 		// 
 		// 계단 위치
 		//Player_Object->SetWorldPosition({ -9910.0f, 2328.0f, -2894.0f });
@@ -149,13 +149,21 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		GameMap->Transform.SetWorldPosition({ -2900.f,-2500.f,6800.f });
 	}
 
-	
+	BossBGM = GameEngineSound::SoundPlay("1-06 Vordt Of The Boreal Valley.mp3", 100);
+	BossBGM.SetVolume(0.15f);
+	BossBGM.Pause();
 
 	{
-		FogWall = CreateActor< Object_FogWall>();
+		FogWall = CreateActor<Object_FogWall>();
 		FogWall->Transform.SetWorldPosition({ -3125, -2100.f, 7070.f });
 		FogWall->Transform.SetWorldRotation({ 0.f,152.f });
-		FogWall->GetBossPtr(Boss_Object);
+
+		FogWall->SetOutFunction([&]()
+			{
+				Boss_Object->AI_Start();
+				MainUI->BossUIOn();
+				BossBGM.Resume();
+			});
 	}
 
 	CreateObject();
