@@ -78,6 +78,9 @@ protected:
 	void SettingSoundFrameEvent();
 	void SoundLoad();
 
+	bool DeathValue = false;
+	void DeathFunc();
+
 private:
 
 protected:

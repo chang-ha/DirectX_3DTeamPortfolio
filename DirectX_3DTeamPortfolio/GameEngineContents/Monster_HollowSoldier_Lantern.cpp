@@ -65,6 +65,29 @@ void Monster_HollowSoldier_Lantern::WakeUp()
 	ChangeState(Enum_HollowSoldier_Lantern_State::Scout);
 }
 
+void Monster_HollowSoldier_Lantern::Reset()
+{
+	DeathValue = false;
+
+	Sword.ResetRecord();
+
+	Stat.SetHp(83);
+
+	Hit.SetHit(false);
+
+	MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
+	MeshOn(Enum_Hollow_MeshIndex::Lantern);
+
+	SetFlagNull();
+	SetTargeting(nullptr);
+
+	RecognizeCollision->On();
+	BodyCollision->On();
+	MonsterCollision->On();
+
+	ChangeState(Enum_HollowSoldier_Lantern_State::Stay);
+}
+
 void Monster_HollowSoldier_Lantern::ChangeState(Enum_HollowSoldier_Lantern_State _State)
 {
 	if (_State != LanternState)
@@ -1301,7 +1324,13 @@ void Monster_HollowSoldier_Lantern::State_BackAttackDeath_Start()
 }
 void Monster_HollowSoldier_Lantern::State_BackAttackDeath_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 56)
+	{
+		if (DeathValue == false)
+		{
+			DeathFunc();
+		}
+	}
 }
 
 void Monster_HollowSoldier_Lantern::State_AfterGuardBreakHit_Start()
@@ -1332,11 +1361,19 @@ void Monster_HollowSoldier_Lantern::State_AfterGuardBreakDeath_Start()
 }
 void Monster_HollowSoldier_Lantern::State_AfterGuardBreakDeath_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 63)
+	{
+		if (DeathValue == false)
+		{
+			DeathFunc();
+		}
+	}
 }
 
 void Monster_HollowSoldier_Lantern::State_Death_Start()
 {
+	DeathFunc();
+
 	MainRenderer->ChangeAnimation("c1100_Death");
 }
 void Monster_HollowSoldier_Lantern::State_Death_Update(float _Delta)

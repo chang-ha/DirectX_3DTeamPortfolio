@@ -77,6 +77,8 @@ public:
 		//PrevState = Enum_Hollow_State::Pray3;
 		ChangeState(Enum_Hollow_State::Pray3);
 	}
+	
+	void Reset() override;
 
 protected:
 	void Start() override;

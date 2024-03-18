@@ -19,7 +19,7 @@ void Monster_Hollow_NonFirstAttack::Start()
 
 	// Status
 	//Stat.SetHp(68);
-	Stat.SetHp(500);
+	//Stat.SetHp(500);
 	Stat.SetAtt(1);
 
 	CheckLanternCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster_FindLantern);
@@ -55,6 +55,27 @@ void Monster_Hollow_NonFirstAttack::Release()
 void Monster_Hollow_NonFirstAttack::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	Monster_Hollow::LevelStart(_NextLevel);
+}
+
+void Monster_Hollow_NonFirstAttack::Reset()
+{
+	DeathValue = false;
+
+	Sword.ResetRecord();
+
+	Stat.SetHp(68);
+
+	Hit.SetHit(false);
+
+	//MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
+	SetFlagNull();
+	SetTargeting(nullptr);
+
+	RecognizeCollision->On();
+	BodyCollision->On();
+	MonsterCollision->On();
+
+	ChangeState(Enum_Hollow_State::Pray1);
 }
 
 void Monster_Hollow_NonFirstAttack::ChangeState(Enum_Hollow_State _State)
@@ -1495,7 +1516,13 @@ void Monster_Hollow_NonFirstAttack::State_BackAttackDeath_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_BackAttackDeath_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 56)
+	{
+		if (DeathValue == false)
+		{
+			DeathFunc();
+		}
+	}
 }
 
 void Monster_Hollow_NonFirstAttack::State_AfterGuardBreakHit_Start()
@@ -1525,11 +1552,19 @@ void Monster_Hollow_NonFirstAttack::State_AfterGuardBreakDeath_Start()
 }
 void Monster_Hollow_NonFirstAttack::State_AfterGuardBreakDeath_Update(float _Delta)
 {
-
+	if (MainRenderer->GetCurAnimationFrame() >= 63)
+	{
+		if (DeathValue == false)
+		{
+			DeathFunc();
+		}
+	}
 }
 
 void Monster_Hollow_NonFirstAttack::State_Death_Start()
 {
+	DeathFunc();
+
 	MainRenderer->ChangeAnimation("c1100_Death");
 }
 void Monster_Hollow_NonFirstAttack::State_Death_Update(float _Delta)
