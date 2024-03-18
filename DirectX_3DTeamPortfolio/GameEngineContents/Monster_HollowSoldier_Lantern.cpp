@@ -622,6 +622,11 @@ void Monster_HollowSoldier_Lantern::State_Run_Update(float _Delta)
 
 	if (false == IsTargetInAngle(3.0f))
 	{
+		RotToTarget(_Delta);
+	}
+
+	if (WalkTime >= WalkToChangeTime)
+	{
 		WalkTime = 0.0f;
 		if (GetTargetDistance_e() == Enum_TargetDist::Melee)
 		{
