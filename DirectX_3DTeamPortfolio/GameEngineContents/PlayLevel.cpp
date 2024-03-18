@@ -95,7 +95,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	
 	Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
 	Boss_Object->Transform.SetWorldPosition({ 0.0f,000.0f,-1000.3f });
-
+	Boss_Object->GetSouls();
 	{
 		if (nullptr == GameEngineSprite::Find("Dark.png"))
 		{
