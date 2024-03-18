@@ -1759,6 +1759,8 @@ void Boss_Vordt::Death_End()
 void Boss_Vordt::Death_Groggy_Start()
 {
 	MainRenderer->ChangeAnimation("Death_Groggy", true);
+	SetFlag(Enum_ActorFlag::Death, true);
+	mHitCollision.Off();
 }
 
 void Boss_Vordt::Death_Groggy_Update(float _Delta)
