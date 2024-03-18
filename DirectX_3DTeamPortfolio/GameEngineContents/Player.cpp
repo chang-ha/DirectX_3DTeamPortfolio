@@ -502,8 +502,9 @@ void Player::Start()
 			
 				if (GameEngineInput::IsDown('E', this))
 				{
+					float4 Dir = { 0,180,0 };
 					Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
-					Capsule->SetWorldRotation({ pActor->GetRotation() });					
+					Capsule->SetWorldRotation( pActor->GetRotation() + Dir);
 					Capsule->GravityOff(); 
 					PlayerStates.ChangeState(PlayerState::ladder_Up_Start);						
 				}
@@ -560,7 +561,7 @@ void Player::Start()
 				if (GameEngineInput::IsDown('E', this))
 				{
 					Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
-					Capsule->SetWorldRotation({ -pActor->GetRotation()});
+					Capsule->SetWorldRotation({ pActor->GetRotation()});
 					
 					Capsule->GravityOff();
 					PlayerStates.ChangeState(PlayerState::ladder_Down_Start);
