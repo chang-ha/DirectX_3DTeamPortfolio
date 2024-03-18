@@ -32,8 +32,6 @@ void Monster_Hollow_NonFirstAttack::Start()
 	SwordCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_Hollow_BoneType::Sword, { float4(62.0f, 4.0f, 7.0f), float4::ZERONULL, float4(0.16f, 0.0f, 0.015f) });
 	SwordCollision->SetCollisionType(ColType::OBBBOX3D);
 
-	RecognizeCollision->Transform.SetLocalScale(float4(4000.0f, 4000.0f, 4000.0f));
-
 	Sword.Init(this, SwordCollision.get());
 	//Sword.On();
 	
