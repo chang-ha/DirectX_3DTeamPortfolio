@@ -383,7 +383,7 @@ void Player::Start()
 		//Parring_Attack_Col->Off();
 	}
 
-	Stat.SetHp(400);
+	Stat.SetHp(1);
 	Stat.SetAtt(60);
 	Stat.SetPoise(100);
 	Stat.SetStamina(300.0f); 
@@ -715,12 +715,11 @@ void Player::Update(float _Delta)
 
 	Arround_Col->CollisionEvent(Enum_CollisionOrder::Monster, Arround_Event);
 	Body_Col->CollisionEvent(Enum_CollisionOrder::LadderBot, Labber_Event);
-	Body_Col->CollisionEvent(Enum_CollisionOrder::LadderTop, Labber_Event);
+	Body_Col->CollisionEvent(Enum_CollisionOrder::LadderTop, Labber_Top_Event);
 	Parring_Attack_Col->CollisionEvent(Enum_CollisionOrder::Monster_Body, Parring_Event);
 
 
-
-
+	MainRenderer->GetColorData().PlusColor = { 255,255,255,255 };
 
 	if (Body_Col->Collision(Enum_CollisionOrder::LadderTop))
 	{
@@ -740,8 +739,10 @@ void Player::Update(float _Delta)
 	if (Stat.GetHp() <= 0)
 	{
 		PlayerStates.ChangeState(PlayerState::Death);
-		return; 
+
 	}
+
+	
 
 
 	
@@ -782,7 +783,7 @@ void Player::Update(float _Delta)
 	// 디버그용 
 	if (GameEngineInput::IsPress('N', this))
 	{
-		Capsule->MoveForce({ 0.0f,200.0f,0.0f },Capsule->GetDir());
+		Capsule->MoveForce({ 0.0f,500.0f,0.0f },Capsule->GetDir());
 	}
 
 	if (GameEngineInput::IsDown('H', this))
@@ -905,7 +906,11 @@ void Player::Update(float _Delta)
 
 	// 애니메이션 업데이트 
 
-	PlayerStates.Update(_Delta);
+	
+		PlayerStates.Update(_Delta);
+	
+
+	
 
 	if (GameEngineInput::IsDown(VK_F1, this))
 	{

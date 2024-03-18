@@ -12,7 +12,10 @@ public:
 	shield& operator=(const shield& _Other) = delete;
 	shield& operator=(shield&& _Other) noexcept = delete;
 
-
+	std::shared_ptr<GameContentsFBXRenderer> GetShield()
+	{
+		return Shield;
+	}
 protected:
 
 	void Start() override;

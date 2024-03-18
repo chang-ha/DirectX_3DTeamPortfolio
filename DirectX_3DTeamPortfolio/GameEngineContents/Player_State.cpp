@@ -2655,13 +2655,55 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				MainRenderer->ChangeAnimation("Death");			
+				StateValue = PlayerState::Death; 
+				MainRenderer->ChangeAnimation("Death");	
+				Body_Col->Off();
+				Attack_Col->Off();
+				Shield_Col->Off(); 
+				GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Monster);
+				
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+
+					if (MainRenderer->RenderBaseInfoValue.AlphaValue <= 254)
+					{
+
+						MainRenderer->RenderBaseInfoValue.BaseColorOnly = _DeltaTime;
+
+						Weapon_Actor->Getweapon()->RenderBaseInfoValue.AlphaValue += _DeltaTime;
+
+						Shield_Actor->GetShield()->RenderBaseInfoValue.AlphaValue += _DeltaTime;
+					}
+					else
+					{
+						Capsule->SetWorldPosition({ -1400.0f, 4945.0f, -5330.0f });
+						Capsule->SetWorldRotation({ 0.f, 0.f, 0.f });
+
+						Stat.SetHp(400);
+						Stat.SetStamina(300.0f);
+
+						Body_Col->On();
+						MainRenderer->RenderBaseInfoValue.AlphaValue = 0;
+
+						Weapon_Actor->Getweapon()->RenderBaseInfoValue.AlphaValue = 0;
+
+						Shield_Actor->GetShield()->RenderBaseInfoValue.AlphaValue = 0;
+
+						PlayerStates.ChangeState(PlayerState::Sit_Down);
+
+						GameEnginePhysX::PopSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Monster);
+						return; 
+			
+					}
+
+				}
+
+
 			};
 
 		PlayerStates.CreateState(PlayerState::Death, NewPara);
@@ -2828,6 +2870,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				StateValue = PlayerState::Sit_Down;
 				MainRenderer->ChangeAnimation("Sit_Down");
 			};
 
