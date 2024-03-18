@@ -205,10 +205,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="BossHpBar.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Boss_Vordt_State.cpp" />
     <ClCompile Include="BaseMonster.cpp">
       <SubType>
@@ -228,7 +224,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="NewBossUI.cpp">
+    <ClCompile Include="BossHpUI.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -563,7 +559,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="BossHpBar.h" />
     <ClInclude Include="CameraCapsule.h" />
     <ClInclude Include="ContentsFogWallRenderer.h">
       <SubType>
@@ -578,7 +573,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="NewBossUI.h">
+    <ClInclude Include="BossHpUI.h">
       <SubType>
       </SubType>
     </ClInclude>

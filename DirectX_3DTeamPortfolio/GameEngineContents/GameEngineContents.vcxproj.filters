@@ -238,9 +238,6 @@
     <ClCompile Include="AppearTextures.cpp">
       <Filter>Actor\UI\Textures</Filter>
     </ClCompile>
-    <ClCompile Include="BossHpBar.cpp">
-      <Filter>Actor\UI\Monster\Boss</Filter>
-    </ClCompile>
     <ClCompile Include="MonsterHpBar.cpp">
       <Filter>Actor\UI\Monster\Monster</Filter>
     </ClCompile>
@@ -379,7 +376,7 @@
     <ClCompile Include="Object_FogWall.cpp">
       <Filter>Object</Filter>
     </ClCompile>
-    <ClCompile Include="NewBossUI.cpp">
+    <ClCompile Include="BossHpUI.cpp">
       <Filter>Actor\UI\Monster\Boss</Filter>
     </ClCompile>
     <ClCompile Include="UIActor.cpp">
@@ -624,9 +621,6 @@
     <ClInclude Include="AppearTextures.h">
       <Filter>Actor\UI\Textures</Filter>
     </ClInclude>
-    <ClInclude Include="BossHpBar.h">
-      <Filter>Actor\UI\Monster\Boss</Filter>
-    </ClInclude>
     <ClInclude Include="MonsterHpBar.h">
       <Filter>Actor\UI\Monster\Monster</Filter>
     </ClInclude>
@@ -768,7 +762,7 @@
     <ClInclude Include="Object_FogWall.h">
       <Filter>Object</Filter>
     </ClInclude>
-    <ClInclude Include="NewBossUI.h">
+    <ClInclude Include="BossHpUI.h">
       <Filter>Actor\UI\Monster\Boss</Filter>
     </ClInclude>
     <ClInclude Include="UIActor.h">
