@@ -50,6 +50,9 @@
 //UI
 #include "MainUIActor.h"
 
+// Effect
+#include "AllFadeEffect.h"
+
 Stage_Lothric::Stage_Lothric()
 {
 
@@ -170,10 +173,10 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 
 	{
 		std::shared_ptr<Monster_LothricKn> Monster;
-		// Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Lothric1");
-		// Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
-		// Monster->WakeUp();
-		// Monster->SetWPosition(float4( -3874.0f, 4118.0f, -951.0f ));
+		Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Lothric1");
+		Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
+		Monster->WakeUp();
+		Monster->SetWPosition(float4( -3874.0f, 4118.0f, -951.0f ));
 		// Monster->SetWPosition(float4(-5443.0f, -876.f, 10681.f));
 		Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Lothric2");
 		Monster->SetWPosition(float4(-6276, -683, 13803));
@@ -229,6 +232,11 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		MainUI->CreateAndCheckEsteUI(Player_Object.get());
 		MainUI->CreateAndCheckPlayerGaugeBar(Player_Object.get());
 	}
+
+
+	// Effect
+	FadeObject->FadeIn();
+	FadeObject->On();
 }
 
 void Stage_Lothric::LevelEnd(GameEngineLevel* _NextLevel)

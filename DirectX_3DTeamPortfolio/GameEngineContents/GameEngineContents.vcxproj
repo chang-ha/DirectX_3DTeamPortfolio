@@ -171,6 +171,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="AllFadeEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="AnimationInfoGUI.cpp">
       <SubType>
       </SubType>
@@ -522,6 +526,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddSouls.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="AllFadeEffect.h">
       <SubType>
       </SubType>
     </ClInclude>

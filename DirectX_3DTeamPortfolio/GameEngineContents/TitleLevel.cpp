@@ -3,9 +3,11 @@
 
 #include "TitleLogo.h"
 
+#include "AllFadeEffect.h"
+
 TitleLevel::TitleLevel()
 {
-	GameEngineInput::AddInputObject(this);
+
 }
 
 TitleLevel::~TitleLevel()
@@ -25,6 +27,8 @@ void TitleLevel::Start()
 
 void TitleLevel::Update(float _Delta)
 {
+	ContentLevel::Update(_Delta);
+
 	if (GameEngineInput::IsDown('H', this))
 	{
 		TestClear();
@@ -62,6 +66,11 @@ void TitleLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 	Title_Logo = CreateActor<TitleLogo>();
 
+	// Effect
+	FadeObject->FadeIn();
+	FadeObject->On();
+
+	// Sound
 	BGMPlayer = GameEngineSound::SoundPlay("DarkSoulsIII_Main_Menu_Theme.wav", 2);
 	BGMPlayer.SetVolume(0.8f);
 }
