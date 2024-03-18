@@ -3,6 +3,15 @@
 
 #include "BaseMonster.h"
 
+#define BAR_DEBUG
+#ifdef BAR_DEBUG
+#define DEBUGON true
+#else
+#define DEBUGON false
+#endif // DEBUG
+
+
+
 MonsterHpBar::MonsterHpBar()
 {
 	GameEngineInput::AddInputObject(this);
@@ -50,6 +59,7 @@ void MonsterHpBar::Start()
 	HpBarRenderer->SetSprite("MonsterHp.Png");
 	HpBarRenderer->GetImageTransform().SetLocalScale({ ImageXScale, HpBarYScale });
 	HpBarRenderer->SetBillboardOn();
+	HpBarRenderer->SetPivotType(PivotType::Left);
 
 	InitState();
 }
@@ -66,7 +76,14 @@ void MonsterHpBar::InitUIPosition(BaseMonster* _pOwner, const float4* _pHeadBone
 	BonePosPointer = _pHeadBonePos;
 	RenderHp = MaxHp = _pOwner->GetHp();
 
-	MainState.ChangeState(eState::Off);
+	if (bool Debug = DEBUGON)
+	{
+		MainState.ChangeState(eState::Awake);
+	}
+	else
+	{
+		MainState.ChangeState(eState::Off);
+	}
 }
 
 void MonsterHpBar::Update(float _Delta)
@@ -86,10 +103,9 @@ void MonsterHpBar::PositionUpdate()
 		return;
 	}
 
-	const float Height = 200.0f;
-	const float4 MonsterWPos = pOwner->Transform.GetWorldPosition();
-	float4 UIWPos = MonsterWPos;
-	UIWPos.Y += Height;
+	const float4x4& ActorWMatrix = pOwner->Transform.GetWorldMatrix();
+	const float4 BoneWPos = (*BonePosPointer) *ActorWMatrix;
+	const float4 UIWPos = BoneWPos + float4(0.0f, HeightDist);
 
 	Transform.SetWorldPosition(UIWPos);
 }
@@ -165,8 +181,11 @@ void MonsterHpBar::Update_Idle(float _Delta, GameEngineState* _Parent)
 	OffTime -= _Delta;
 	if (OffTime <= 0.0f)
 	{
-		_Parent->ChangeState(eState::Off);
-		return;
+		if (!DEBUGON)
+		{
+			_Parent->ChangeState(eState::Off);
+			return;
+		}
 	}
 
 	DamageRenderTime -= _Delta;

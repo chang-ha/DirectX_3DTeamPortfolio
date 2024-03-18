@@ -15,15 +15,22 @@ public:
 	Object_FogWall& operator=(const Object_FogWall& _Other) = delete;
 	Object_FogWall& operator=(Object_FogWall&& _Other) noexcept = delete;
 
+	void GetBossPtr(std::shared_ptr<class BaseActor> _BossPtr)
+	{
+		BossPtr = _BossPtr;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
 
 private:
-
 	std::shared_ptr<class ContentsFogWallRenderer> FogWallRenderer = nullptr;
+
 	std::shared_ptr<GameEnginePhysXBox> WallCollision = nullptr;
 	std::shared_ptr<GameEngineCollision> DetectCollision = nullptr;
+
+	std::shared_ptr<class BaseActor> BossPtr = nullptr;
 };
 

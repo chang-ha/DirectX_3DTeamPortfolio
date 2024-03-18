@@ -49,6 +49,11 @@ void GameEngineRenderer::SetCameraOrder(int _Order)
 	SetViewCameraSelect(_Order);
 }
 
+void GameEngineRenderer::BillboardUpdate(float4 _CameraRotation)
+{
+	Transform.SetWorldRotation(_CameraRotation);
+}
+
 void GameEngineRenderer::Start()
 {
 	SetCameraOrder(ECAMERAORDER::Main);

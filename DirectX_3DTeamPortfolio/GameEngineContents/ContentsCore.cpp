@@ -41,7 +41,6 @@ void ContentsCore::Start()
 	TreeGUIWindow->On();
 
 
-	GameEngineSound::SetGlobalVolume(0.04f);
 	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
 	GameEngineCore::CreateLevel<Stage_Lothric>("Stage_Lothric");
 	//GameEngineCore::CreateLevel<TestLevel_Boss>("TestLevel_Boss");

@@ -465,7 +465,7 @@ void JumpTableManager::Update()
 
 	for (JumpTableInfo _CurTableInfo : RunJumpTable)
 	{
-		if (Enum_JumpTableFlag::StopJumpTable == _CurTableInfo.JumpTable())
+		if (true == IsClearJumpTable || Enum_JumpTableFlag::StopJumpTable == _CurTableInfo.JumpTable())
 		{
 			RunJumpTable.clear();
 			IsClearJumpTable = false;

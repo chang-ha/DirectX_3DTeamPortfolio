@@ -29,8 +29,8 @@ void Monster_HollowSoldier_Lantern::Start()
 	AwakeCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster_Lantern);
 	AwakeCollision->SetCollisionType(ColType::SPHERE3D);
 	AwakeCollision->SetCollisionColor(float4::BLACK);
-	AwakeCollision->Transform.SetLocalPosition(float4(0, 100, 0));
-	AwakeCollision->Transform.SetWorldScale(float4(1000.0f, 1000.0f, 1000.0f));
+	AwakeCollision->Transform.SetLocalPosition(float4(0.0f, 100.0f, 0.0f));
+	AwakeCollision->Transform.SetWorldScale(float4(3000.0f, 3000.0f, 3000.0f));
 	AwakeCollision->Off();
 
 	//																										 62 4 7 / 0.16 0.0 0.015
