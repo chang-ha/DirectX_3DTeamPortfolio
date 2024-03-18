@@ -5,8 +5,7 @@
 #include "UIPlayerGaugeBar.h"
 #include "UIEquipFrame.h"
 #include "UIPlayerEquip.h"
-#include "BossHpBar.h"
-#include "NewBossUI.h"
+#include "BossHpUI.h"
 
 #include "PlayerValue.h"
 #include "AddSouls.h"
@@ -113,7 +112,7 @@ void MainUIActor::CreateBossUI(Boss_Vordt* _pBoss)
 		return;
 	}
 
-	BossHpObject = GetLevel()->CreateActor<NewBossUI>(Enum_UpdateOrder::UI);
+	BossHpObject = GetLevel()->CreateActor<BossHpUI>(Enum_UpdateOrder::UI);
 	BossHpObject->SetParent(_pBoss);
 	BossHpObject->Off();
 }

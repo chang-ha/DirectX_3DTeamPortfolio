@@ -29,7 +29,7 @@ protected:
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 private:
-	std::shared_ptr<class NewBossUI> BossHpObject = nullptr;
+	std::shared_ptr<class BossHpUI> BossHpObject = nullptr;
 	std::shared_ptr<class UIPlayerEquip> EsteUI = nullptr;
 	std::shared_ptr<class UIPlayerGaugeBar> PlayerGaugeBar = nullptr;
 

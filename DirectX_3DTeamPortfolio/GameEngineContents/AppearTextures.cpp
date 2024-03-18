@@ -28,30 +28,17 @@ void AppearTextures::Start()
 	LitBack->GetColorData().MulColor.A = 0.8f;
 	LitBack->Off();
 
+	SoulImage = CreateComponent<GameEngineUIRenderer>();
+	SoulImage->SetSprite("BoldSoul.Png");
+	SoulImage->Transform.SetLocalPosition({ 0.0f, -250.0f });
+	SoulImage->AutoSpriteSizeOn();
+	SoulImage->Off();
+
 	GameEngineInput::AddInputObject(this);
 }
 
 void AppearTextures::Update(float _Delta)
 {
-	//LitBack->AddImageScale(70.0f * _Delta);
-	//LitBack->GetColorData().MulColor.A += 0.01f * _Delta;
-	//TextureTime += _Delta;
-	//
-	//if (TextureTime >= TextureLimitTime)
-	//{
-	//	Lit->Off();
-	//	LitBack->Off();
-	//	TextureTime = 0.0f;
-	//}
-
-	//if (GameEngineInput::IsDown('1', this))
-	//{
-	//	Lit->On();
-	//	LitBack->On();
-	//	LitBack->GetColorData().MulColor.A = 0.8f;
-	//	LitBack->SetImageScale(ImageScale * 2.1f);
-	//}
-
 	StateUpdate(_Delta);
 }
 
@@ -100,6 +87,8 @@ void AppearTextures::OffStart()
 {
 	Lit->Off();
 	LitBack->Off();
+
+	SoulImage->Off();
 }
 
 void AppearTextures::OffUpdate(float _Delta)
@@ -108,6 +97,8 @@ void AppearTextures::OffUpdate(float _Delta)
 	{
 		Lit->SetSprite("Lit.Png");
 		LitBack->SetSprite("LitBack.Png");
+		
+		GameEngineSound::SoundPlay("Bonfire_Sound_Effect_.wav");
 		ChangeState(TextureActor::Appear);
 		return;
 	}
@@ -139,6 +130,9 @@ void AppearTextures::AppearStart()
 
 	Lit->On();
 	LitBack->On();
+
+	SoulImage->On();
+	GameEngineSound::SoundPlay("Getting_an_Item_Sound_Effect.wav");
 }
 
 void AppearTextures::AppearUpdate(float _Delta)
