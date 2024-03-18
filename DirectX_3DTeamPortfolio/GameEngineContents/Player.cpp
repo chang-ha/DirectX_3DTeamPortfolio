@@ -1210,7 +1210,13 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 
 
 
-	if (Stat.GetPoise() <= 0)
+
+
+
+
+
+
+	if (Stat.GetPoise() <= 0 || pAttacker->Get_Hit_Type() == Enum_Player_Hit::Strong)
 	{
 		Enum_DirectionXZ_Quat Dir = Hit.GetHitDir();
 
@@ -1233,7 +1239,7 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 		}
 	}
 
-	else if (Stat.GetPoise() > 50)
+	else if (Stat.GetPoise() > 50 || pAttacker->Get_Hit_Type() == Enum_Player_Hit::weak)
 	{
 		Enum_DirectionXZ_Quat Dir = _Para.eDir;
 
@@ -1256,7 +1262,7 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 
 	}
 
-	else if (Stat.GetPoise() < 50)
+	else if (Stat.GetPoise() < 50 || pAttacker->Get_Hit_Type() == Enum_Player_Hit::Middle)
 	{
 
 		if (_Para.eDir == Enum_DirectionXZ_Quat::F)
@@ -1279,7 +1285,22 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 	}
 
 
-
+	if (pAttacker->Get_Hit_Type() == Enum_Player_Hit::weak)
+	{
+		PlayerStates.ChangeState(PlayerState::Weak_Shield_block);
+	}
+	else if (pAttacker->Get_Hit_Type() == Enum_Player_Hit::Middle)
+	{
+		PlayerStates.ChangeState(PlayerState::Middle_Shield_block);
+	}
+	else if (pAttacker->Get_Hit_Type() == Enum_Player_Hit::Strong)
+	{
+		PlayerStates.ChangeState(PlayerState::Big_Shield_block);
+	}
+	else if (0 >= Stat.GetStamina())
+	{
+		PlayerStates.ChangeState(PlayerState::Big_Shield_block);
+	}
 
 
 
