@@ -995,7 +995,8 @@ bool Boss_Vordt::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 
 	// Stat.AddPoise(-Stiffness);
 	Stat.AddPoise(-15);
-	Stat.AddHp(-BOSS_HP);
+	// Stat.AddHp(-BOSS_HP);
+	Stat.AddHp(-AttackerAtt);
 	Hit.SetHit(true);
 	Hit.SetHitDir(_Para.eDir);
 	return true;
@@ -1111,7 +1112,7 @@ void Boss_Vordt::DeathCheck()
 		return;
 	}
 
-	if (0 <= GetHp())
+	if (0 < GetHp())
 	{
 		return;
 	}
