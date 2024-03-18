@@ -13,11 +13,10 @@
 #include "Boss_Vordt.h"
 #include "Monster_HollowSoldier.h"
 #include "Monster_LothricKn.h"
-#include "Monster_HollowSoldier.h"
 #include "Monster_HollowSoldier_Spear.h"
 #include "DummyActor.h"
 #include "Monster_Hollow_RaggedRobes.h"
-
+#include "Monster_HollowSoldier_RoundShield.h"
 PlayLevel::PlayLevel()
 {
 }
@@ -73,7 +72,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 	
 	{
-		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(0);
+		std::shared_ptr<Monster_HollowSoldier_Spear> Monster = CreateActor<Monster_HollowSoldier_Spear>(0);
 		//std::shared_ptr<Monster_Hollow_RaggedRobes> Monster = CreateActor<Monster_Hollow_RaggedRobes>(0);
 		//GameMap->Transform.SetWorldPosition({ 0.0f,000.0f,-1000.3f });
 
@@ -82,7 +81,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 		GameMap2->Transform.SetWorldPosition({ 0.0f,000.0f,-2000.3f });*/
 		
 		PlayerObject = CreateActor<Player>(0, "Player");
-		Monster->SetTargeting(PlayerObject.get());
+		//Monster->SetTargeting(PlayerObject.get());
 		
 		
 	
@@ -93,8 +92,8 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 		
 	}
 	
-	Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
-	Boss_Object->Transform.SetWorldPosition({ 0.0f,000.0f,-1000.3f });
+	/*Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
+	Boss_Object->Transform.SetWorldPosition({ 0.0f,000.0f,-1000.3f });*/
 
 	{
 		if (nullptr == GameEngineSprite::Find("Dark.png"))
@@ -112,10 +111,10 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 		}
 
 
-		MainUI = CreateActor<MainUIActor>(Enum_UpdateOrder::UI);
+		/*MainUI = CreateActor<MainUIActor>(Enum_UpdateOrder::UI);
 		MainUI->CreateBossUI(Boss_Object.get());
 		MainUI->CreateAndCheckEsteUI(PlayerObject.get());
-		MainUI->CreateAndCheckPlayerGaugeBar(PlayerObject.get());
+		MainUI->CreateAndCheckPlayerGaugeBar(PlayerObject.get());*/
 	}
 
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 1, 1, 1, 1 });

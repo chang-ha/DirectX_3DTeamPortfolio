@@ -11,6 +11,7 @@
 
 #include "ContentsHitRenderer.h"
 #include "BaseMonster.cpp"
+
 #define Frame 0.033f
 
 Player* Player::Main_Player;
@@ -49,7 +50,7 @@ void Player::Start()
 	LightData Data = FaceLight->GetLightData();
 
 	Data.quadraticAttenuation = 0.0001f;
-	Data.LightPower = 3.f;
+	Data.LightPower = 5.f;
 
 
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(0);
@@ -574,31 +575,7 @@ void Player::Start()
 		};
 
 
-	Arround_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
-		{
-			
-			Monster_Actor.push_back(col->GetActor());
-			
-		};
-
-	Arround_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
-		{
-			
-		
-			Rock_on_Time_Check = true;
-
-		};
-
-	Arround_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
-		{
-			for (size_t i = 0; i < Monster_Actor.size(); i++) 
-			{
-				if (Monster_Actor[i] == col->GetActor())// ?? 이게 왜 되지?? 아니 개 위험한거 아닌가? 클래스 크기값 다르면 조지는데 망하면 다른걸로하지뭐 
-				{
-					Monster_Actor.erase(Monster_Actor.begin()+i);
-				}
-			}		
-		};
+	
 
 	SoundFrameEvent();
 
@@ -673,32 +650,12 @@ void Player::Update(float _Delta)
 	Delta_Time = _Delta;
 	Time += _Delta;
 
-	if (GameEngineInput::IsDown(VK_F1, this))
-	{
-		Cameratest = !Cameratest;
-	}
-
-	if (true == Cameratest)
-	{
-		int a = 0;
-	}
-	else if (false == Cameratest)
-	{
-		CameraRotation(_Delta);
-	}
+	
 
 
 	// 충돌 
 
-	if (Shield_Col->Collision(Enum_CollisionOrder::MonsterAttack))
-	{
-	
-	}
 
-	else if (Body_Col->Collision(Enum_CollisionOrder::MonsterAttack))
-	{
-		
-	}
 
 	if (Attack_Col->Collision(Enum_CollisionOrder::Monster_Shield))
 	{
@@ -798,9 +755,13 @@ void Player::Update(float _Delta)
 	{
 		Stat.SetHp(0);
 	}
-
-
 	
+	if (Stat.GetHp() > 100)
+	{
+		Stat.SetHp(100);
+	}
+
+
 	// 디버그용 
 	if (GameEngineInput::IsPress('N', this))
 	{
@@ -880,97 +841,24 @@ void Player::Update(float _Delta)
 
 	// 락온계산 
 
-	if (GameEngineInput::IsDown('Q', this) && Rock_On_Check == false && Rock_on_Time_Check ==true)
+	if (GameEngineInput::IsDown('Q', this) && Rock_On_Check == false)
 	{
-		for (size_t i = 0; i < Monster_Actor.size(); i++)
-		{
-
-			float MonsterAngle;
-			float4 TargetPos = Monster_Actor[i]->Transform.GetWorldPosition();
-			float4 MyPos = GetLevel()->GetMainCamera()->Transform.GetWorldPosition(); 
-
-			// Y축 고려 X
-			TargetPos.Y = MyPos.Y = 0.f;
-
-			float4 FrontVector = float4(0.f, 0.f, -1.f, 0.f);
-			FrontVector.VectorRotationToDegY(Cameracapsule->Capsule_02->GetDir());
-
-			float4 LocationVector = (TargetPos - MyPos).NormalizeReturn();
-
-			float4 Angle_ = DirectX::XMVector3AngleBetweenNormals(FrontVector.DirectXVector, LocationVector.DirectXVector);
-
-			float4 RotationDir = DirectX::XMVector3Cross(FrontVector.DirectXVector, LocationVector.DirectXVector);
-
-			MonsterAngle = Angle_.X * GameEngineMath::R2D;
-
-			if (0.0f <= RotationDir.Y)
-			{
-
-			}
-			else
-			{
-				MonsterAngle *= -1.f;
-			}
-
-
-
-
-			if (MonsterAngle >= 135)
-			{
-				if (MonsterAngle <= 180)
-				{
-					MonsterAngles.push_back(static_cast<int>(i));
-
-				}
-			}
-			if (MonsterAngle >= -180)
-			{
-				if (MonsterAngle < -135)
-				{
-					MonsterAngles.push_back(static_cast<int>(i));
-				}
-			}
-
-		}
-
-		for (int i = 0; i < static_cast<int>(MonsterAngles.size()); i++)
-		{
-			float Check = abs(Transform.GetWorldPosition().Z -Monster_Actor[MonsterAngles[i]]->Transform.GetWorldPosition().Z);
-
-			if (i > 0)
-			{
-				if (Check < Monser_Dir)
-				{
-					Monser_Dir = Check;
-
-					Number = i;
-				}
-			}
-			else
-			{
-				Monser_Dir = Check;
-				Number = 0;
-			}
-		}
-		if (MonsterAngles.size() != 0)
-		{
-			SetTargeting(Monster_Actor[MonsterAngles[Number]]);
-			PlayerStates.ChangeState(PlayerState::RockOn);
-		}
-
-
+		
+		Rock_On(Enum_CollisionOrder::Monster);
 	}
-	else if (GameEngineInput::IsDown('Q', this) && Rock_On_Check == true && Rock_on_Time_Check == true)
+	else if (GameEngineInput::IsDown('Q', this) && Rock_On_Check == true)
 	{
 		MonsterAngles.clear(); 
 		Rock_on_Time = 0;
 		Rock_on_Time_Check = false;
 
 		Rock_On_Check = false;
-		Camera_Pos_Y = 20.0f;
-		Player_Pos.X = degree_X;
+
+		Camera_Pos_Y = Actor_test->Transform.GetWorldRotationEuler().X;
+		Player_Pos.X = Actor_test->Transform.GetWorldRotationEuler().Y;
 	}
 
+	Cur_degree_X = degree_X;
 
 	if (GetTargetPointer() != nullptr)
 	{
@@ -979,8 +867,10 @@ void Player::Update(float _Delta)
 		float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
 		float radian = atan2(Dir.X, Dir.Z) - atan2(Monster.X, Monster.Z);
 		degree_X = float(radian * (180.0 / 3.141592));
+		
 	}
 
+	
 
 	if (GetTargetPointer() != nullptr)
 	{
@@ -988,15 +878,30 @@ void Player::Update(float _Delta)
 		float4 Monster = { 0,0,0,-1.0f };
 		float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
 		float radian = atan2(Dir.Y, Dir.Z) - atan2(Monster.Y, Monster.Z);
+
 		degree_Y = float(radian * (180.0 / 3.141592));
 	}
+	
+
 	
 
 	// 애니메이션 업데이트 
 
 	PlayerStates.Update(_Delta);
 
+	if (GameEngineInput::IsDown(VK_F1, this))
+	{
+		Cameratest = !Cameratest;
+	}
 
+	if (true == Cameratest)
+	{
+		int a = 0;
+	}
+	else if (false == Cameratest)
+	{
+		CameraRotation(_Delta);
+	}
 	//if (GameEngineInput::IsPress('0', this))
 	//{
 	//	int a = 0;
@@ -1300,6 +1205,9 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 
 	if (Stat.GetPoise() <= 0)
 	{
+		Enum_DirectionXZ_Quat Dir = Hit.GetHitDir();
+
+
 		if (_Para.eDir == Enum_DirectionXZ_Quat::F)
 		{		
 			PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);		
@@ -1320,20 +1228,21 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 
 	else if (Stat.GetPoise() > 50)
 	{
+		Enum_DirectionXZ_Quat Dir = _Para.eDir;
 
-		if (_Para.eDir == Enum_DirectionXZ_Quat::F)
+		if (Dir == Enum_DirectionXZ_Quat::F)
 		{
 			PlayerStates.ChangeState(PlayerState::Forward_Hit);
 		}
-		if (_Para.eDir == Enum_DirectionXZ_Quat::B)
+		if (Dir == Enum_DirectionXZ_Quat::B)
 		{
 			PlayerStates.ChangeState(PlayerState::Backward_Hit);
 		}
-		if (_Para.eDir == Enum_DirectionXZ_Quat::L)
+		if (Dir == Enum_DirectionXZ_Quat::L)
 		{
 			PlayerStates.ChangeState(PlayerState::Left_Hit);
 		}
-		if (_Para.eDir == Enum_DirectionXZ_Quat::R)
+		if (Dir == Enum_DirectionXZ_Quat::R)
 		{
 			PlayerStates.ChangeState(PlayerState::Right_Hit);
 		}
@@ -1400,6 +1309,94 @@ bool Player::FrontStabCheck(const float4& _WPos, float _RotY) const
 	bool RangeCheck = (Dist < STAB_RECOGNITION_RANGE * W_SCALE);
 	bool DirCheck = (Deg < STAB_ANGLE);
 	return (RangeCheck && DirCheck);
+}
+
+void Player::Rock_On(Enum_CollisionOrder _Order)
+{
+	std::function ColEvent = [=](std::vector<GameEngineCollision*> _Other)
+		{
+			
+			for (size_t i = 0; i < _Other.size(); i++)
+			{
+				
+				
+				float MonsterAngle;
+				float4 TargetPos = _Other[i]->Transform.GetWorldPosition();
+				float4 MyPos = GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
+
+				// Y축 고려 X
+				TargetPos.Y = MyPos.Y = 0.f;
+
+				float4 FrontVector = float4(0.f, 0.f, -1.f, 0.f);
+				FrontVector.VectorRotationToDegY(Cameracapsule->Capsule_02->GetDir());
+
+				float4 LocationVector = (TargetPos - MyPos).NormalizeReturn();
+
+				float4 Angle_ = DirectX::XMVector3AngleBetweenNormals(FrontVector.DirectXVector, LocationVector.DirectXVector);
+
+				float4 RotationDir = DirectX::XMVector3Cross(FrontVector.DirectXVector, LocationVector.DirectXVector);
+
+				MonsterAngle = Angle_.X * GameEngineMath::R2D;
+
+				if (0.0f <= RotationDir.Y)
+				{
+
+				}
+				else
+				{
+					MonsterAngle *= -1.f;
+				}
+
+
+
+
+				if (MonsterAngle >= 135)
+				{
+					if (MonsterAngle <= 180)
+					{
+						MonsterAngles.push_back(static_cast<int>(i));
+
+					}
+				}
+				if (MonsterAngle >= -180)
+				{
+					if (MonsterAngle < -135)
+					{
+						MonsterAngles.push_back(static_cast<int>(i));
+					}
+				}	
+			}
+
+
+			for (int i = 0; i < static_cast<int>(MonsterAngles.size()); i++)
+			{
+				float Check = abs(Transform.GetWorldPosition().Z - _Other[MonsterAngles[i]]->Transform.GetWorldPosition().Z);
+
+				if (i > 0)
+				{
+					if (Check < Monser_Dir)
+					{
+						Monser_Dir = Check;
+
+						Number = i;
+					}
+				}
+				else
+				{
+					Monser_Dir = Check;
+					Number = 0;
+				}			
+			}
+			if (MonsterAngles.size() != 0)
+			{
+				//std::shared_ptr<GameEngineActor> pActor = _Other[MonsterAngles[Number]]->GetActor(); 
+				SetTargeting(_Other[MonsterAngles[Number]]->GetActor());
+				PlayerStates.ChangeState(PlayerState::RockOn);
+			}
+		};
+
+
+	Arround_Col->Collision(_Order, ColEvent);
 }
 
 bool Player::GetHitToShield(const HitParameter& _Para)
