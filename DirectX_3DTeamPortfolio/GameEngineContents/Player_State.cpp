@@ -2009,6 +2009,12 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+				if (Rock_On_Check == true)
+				{
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
+				}
+
 				if (MainRenderer->IsCurAnimationEnd())
 				{
 					PlayerStates.ChangeState(PlayerState::Idle);
@@ -2036,6 +2042,13 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+
+				if (Rock_On_Check == true)
+				{
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
+				}
+
 				if (MainRenderer->IsCurAnimationEnd())
 				{
 					PlayerStates.ChangeState(PlayerState::Idle);
@@ -2062,6 +2075,13 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+
+				if (Rock_On_Check == true)
+				{
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
+				}
+
 				if (MainRenderer->IsCurAnimationEnd())
 				{
 					PlayerStates.ChangeState(PlayerState::Idle);
@@ -2088,6 +2108,13 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+
+				if (Rock_On_Check == true)
+				{
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
+				}
+
 				if (MainRenderer->IsCurAnimationEnd())
 				{
 					PlayerStates.ChangeState(PlayerState::Idle);
@@ -2119,13 +2146,20 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+
+				if (Rock_On_Check == true)
+				{
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
+				}
+
 				if (MainRenderer->IsCurAnimationEnd())
 				{
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
 
-				Capsule->SetWorldRotation({ 0.0f,degree_X });
+
 			};
 
 		PlayerStates.CreateState(PlayerState::Forward_Middle_Hit, NewPara);
@@ -2146,13 +2180,20 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+
+				if (Rock_On_Check == true)
+				{
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
+				}
+
 				if (MainRenderer->IsCurAnimationEnd())
 				{
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
 
-				Capsule->SetWorldRotation({ 0.0f,degree_X });
+		
 			};
 
 		PlayerStates.CreateState(PlayerState::Backward_Middle_Hit, NewPara);
@@ -2172,13 +2213,20 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+
+				if (Rock_On_Check == true)
+				{
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
+				}
+
 				if (MainRenderer->IsCurAnimationEnd())
 				{
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
 
-				Capsule->SetWorldRotation({ 0.0f,degree_X });
+			
 			};
 
 		PlayerStates.CreateState(PlayerState::Right_Middle_Hit, NewPara);
@@ -2199,13 +2247,18 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+				if (Rock_On_Check == true)
+				{
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
+				}
+
 				if (MainRenderer->IsCurAnimationEnd())
 				{
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
 
-				Capsule->SetWorldRotation({ 0.0f,degree_X });
 			};
 
 		PlayerStates.CreateState(PlayerState::Left_Middle_Hit, NewPara);

@@ -10,7 +10,6 @@
 #include "BoneSocketCollision.h"
 
 #include "ContentsHitRenderer.h"
-#include "BaseMonster.cpp"
 #include "Object_BaseLadder.h"
 #define Frame 0.033f
 
@@ -1302,26 +1301,7 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 	return true;
 }
 
-bool Player::FrontStabCheck(const float4& _WPos, float _RotY) const
-{
-	const float4 MyPos = Transform.GetWorldPosition();
-	const float4 MyRot = Transform.GetWorldRotationEuler();
-	const float4 MyXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot.Y);
-	const float4 OtherXZDirVector = float4::VectorRotationToDegY(float4::FORWARD, _RotY);
 
-	// Y PosCheck << Y 높이 체크 해야됨
-
-	float4 VectorToOther = MyPos - _WPos;
-	VectorToOther.Y = 0;
-
-	const float Dist = ContentsMath::GetVector3Length(VectorToOther).X;
-	const float Dot = float4::DotProduct3D(MyXZDirVector, OtherXZDirVector);
-	const float Deg = ContentsMath::DotNormalizeReturnDeg(Dot);
-
-	bool RangeCheck = (Dist < STAB_RECOGNITION_RANGE * W_SCALE);
-	bool DirCheck = (Deg < STAB_ANGLE);
-	return (RangeCheck && DirCheck);
-}
 
 void Player::Rock_On(Enum_CollisionOrder _Order)
 {

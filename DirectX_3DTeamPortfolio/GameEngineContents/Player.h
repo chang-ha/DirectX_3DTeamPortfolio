@@ -100,7 +100,6 @@ public:
 
 	float4 BoneWorldPos(int _BoneIndex);
 	void CameraRotation(float Delta);
-	bool FrontStabCheck(const float4& _WPos, float _RotY) const;
 	void Rock_On(Enum_CollisionOrder Order);
 	std::shared_ptr<Weapon> GetWeapon()
 	{
