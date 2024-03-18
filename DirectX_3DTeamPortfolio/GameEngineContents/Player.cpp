@@ -569,7 +569,7 @@ void Player::Start()
 				if (GameEngineInput::IsDown('E', this))
 				{
 					Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
-					Capsule->SetWorldRotation({ pActor->GetRotation() });
+					Capsule->SetWorldRotation({ -pActor->GetRotation()});
 					
 					Capsule->GravityOff();
 					PlayerStates.ChangeState(PlayerState::ladder_Down_Start);
@@ -661,11 +661,8 @@ void Player::Update(float _Delta)
 	Time += _Delta;
 
 	
-
-
+	
 	// 충돌 
-
-
 
 	if (Attack_Col->Collision(Enum_CollisionOrder::Monster_Shield))
 	{
@@ -677,8 +674,10 @@ void Player::Update(float _Delta)
 	{
 		StrikeRenderer->On();
 		StrikeRenderer->ChangeAnimation("Hit");
-		StrikeRenderer->Transform.SetWorldPosition({ Attack_Col->Transform.GetWorldPosition().X,Attack_Col->Transform.GetWorldPosition().Y+30.0f,Attack_Col->Transform.GetWorldPosition().Z });
+		StrikeRenderer->Transform.SetWorldPosition({ Attack_Col->Transform.GetWorldPosition().X,Attack_Col->Transform.GetWorldPosition().Y + 30.0f,Attack_Col->Transform.GetWorldPosition().Z });
 	}
+
+	
 
 
 	//Attack_Col->CollisionEvent(Enum_CollisionOrder::Monster_Body, Attack_Event);
@@ -737,6 +736,14 @@ void Player::Update(float _Delta)
 	{
 		PlayerStates.ChangeState(PlayerState::Attack_Block);
 	}
+
+	if (Stat.GetHp() <= 0)
+	{
+		PlayerStates.ChangeState(PlayerState::Death);
+		return; 
+	}
+
+
 	
 	// 일단 두자 
 	if (Rock_on_Time_Check == true)
@@ -766,9 +773,9 @@ void Player::Update(float _Delta)
 		Stat.SetHp(0);
 	}
 	
-	if (Stat.GetHp() > 100)
+	if (Stat.GetHp() > 400)
 	{
-		Stat.SetHp(100);
+		Stat.SetHp(400);
 	}
 
 
