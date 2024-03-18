@@ -388,7 +388,7 @@
     <ClCompile Include="EventCol.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
-    <ClCompile Include="UIGaugeRenderer.cpp">
+    <ClCompile Include="GaugeRenderer.cpp">
       <Filter>Resource\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="AllFadeEffect.cpp">
@@ -777,7 +777,7 @@
     <ClInclude Include="EventCol.h">
       <Filter>Actor</Filter>
     </ClInclude>
-    <ClInclude Include="UIGaugeRenderer.h">
+    <ClInclude Include="GaugeRenderer.h">
       <Filter>Resource\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="AllFadeEffect.h">

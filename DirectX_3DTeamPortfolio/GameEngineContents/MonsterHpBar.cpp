@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "MonsterHpBar.h"
 
+#include "GaugeRenderer.h"
+
 #include "BaseMonster.h"
 
 // #define BAR_DEBUG
@@ -59,7 +61,6 @@ void MonsterHpBar::Start()
 	HpBarRenderer->SetSprite("MonsterHp.Png");
 	HpBarRenderer->GetImageTransform().SetLocalScale({ ImageXScale, HpBarYScale });
 	HpBarRenderer->SetBillboardOn();
-	HpBarRenderer->SetPivotType(PivotType::Left);
 
 	InitState();
 }

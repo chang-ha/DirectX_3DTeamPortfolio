@@ -511,7 +511,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="UIGaugeRenderer.cpp">
+    <ClCompile Include="GaugeRenderer.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -868,7 +868,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="UIGaugeRenderer.h">
+    <ClInclude Include="GaugeRenderer.h">
       <SubType>
       </SubType>
     </ClInclude>
