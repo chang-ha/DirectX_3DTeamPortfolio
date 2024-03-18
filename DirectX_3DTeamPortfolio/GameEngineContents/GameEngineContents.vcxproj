@@ -507,6 +507,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UIGaugeRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UIPlayerEquip.cpp">
       <SubType>
       </SubType>
@@ -853,6 +857,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="UIEquipFrame.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UIGaugeRenderer.h">
       <SubType>
       </SubType>
     </ClInclude>

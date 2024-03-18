@@ -103,8 +103,10 @@ void MonsterHpBar::PositionUpdate()
 		return;
 	}
 
-	const float4x4& ActorWMatrix = pOwner->Transform.GetWorldMatrix();
-	const float4 BoneWPos = (*BonePosPointer) *ActorWMatrix;
+	const float4x4& ActorWMatrix = pOwner->GetFBXRenderer()->Transform.GetWorldMatrix();
+	float4 BoneLocalPos = (*BonePosPointer);
+	BoneLocalPos.W = 1.0f;
+	const float4 BoneWPos = BoneLocalPos *ActorWMatrix;
 	const float4 UIWPos = BoneWPos + float4(0.0f, HeightDist);
 
 	Transform.SetWorldPosition(UIWPos);

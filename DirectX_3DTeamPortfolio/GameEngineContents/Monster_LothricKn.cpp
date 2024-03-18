@@ -337,7 +337,7 @@ void Monster_LothricKn::Start()
 	CreateFSM();
 
 	// UISetting
-	CreateMonsterUI(82);
+	CreateMonsterUI(81);
 
 	// Transform Reset
 	Transform.SetLocalScale(float4(1.0f, 1.0f, 1.0f));
