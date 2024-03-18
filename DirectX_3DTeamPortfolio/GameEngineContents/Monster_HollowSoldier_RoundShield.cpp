@@ -893,7 +893,7 @@ void Monster_HollowSoldier_RoundShield::State_Run3_Update(float _Delta)
 	if(WalkTime >= WalkToChangeTime)
 	{
 		WalkTime = 0.0f;
-		if (GetTargetDistance_e() == Enum_TargetDist::Melee)
+		if (GetTargetDistance_e() == Enum_TargetDist::Close)
 		{
 			// RunToSting 없나? 조사해야함.
 			ChangeState(Enum_HollowSoldier_RoundShield_State::Idle3);
