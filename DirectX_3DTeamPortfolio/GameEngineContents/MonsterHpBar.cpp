@@ -3,12 +3,12 @@
 
 #include "BaseMonster.h"
 
-#define BAR_DEBUG
+// #define BAR_DEBUG
 #ifdef BAR_DEBUG
 #define DEBUGON true
 #else
 #define DEBUGON false
-#endif // DEBUG
+#endif
 
 
 

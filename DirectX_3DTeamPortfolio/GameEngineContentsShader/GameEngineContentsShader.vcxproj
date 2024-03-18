@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="AllFadeEffect.fx" />
     <FxCompile Include="BllboardHeader.fx" />
     <FxCompile Include="BllboardRender.fx" />
     <FxCompile Include="BloomBlur.fx" />

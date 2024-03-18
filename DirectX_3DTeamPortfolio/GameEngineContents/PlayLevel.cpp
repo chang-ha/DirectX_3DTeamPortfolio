@@ -18,6 +18,8 @@
 #include "DummyActor.h"
 #include "Monster_Hollow_RaggedRobes.h"
 
+#include "AllFadeEffect.h"
+
 PlayLevel::PlayLevel()
 {
 }
@@ -49,8 +51,6 @@ void PlayLevel::Update(float _Delta)
 
 void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	
-
 	/*{
 		std::shared_ptr<WorldMap> GameMap = CreateActor<WorldMap>(0, "WorldMap");
 	}*/
@@ -89,7 +89,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 		
 		// 시작위치
 		//PlayerObject->Transform.SetLocalPosition({ -1400.0f, 5101.0f, -5331.0f });
-
+		
 		
 	}
 	
@@ -132,6 +132,10 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 1, 1, 1, 1 });
+
+	// Effect
+	FadeObject->FadeIn();
+	FadeObject->On();
 
 	// Test Ground
 	physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
