@@ -434,18 +434,23 @@ void Monster_HollowSoldier_Spear::ChangeHitState()
 		switch (HitDir)
 		{
 		case Enum_DirectionXZ_Quat::F:
+			SpearState = Enum_HollowSoldier_Spear_State::Max;
 			ChangeState(Enum_HollowSoldier_Spear_State::Hit_Front);
 			break;
 		case Enum_DirectionXZ_Quat::R:
+			SpearState = Enum_HollowSoldier_Spear_State::Max;
 			ChangeState(Enum_HollowSoldier_Spear_State::Hit_Right);
 			break;
 		case Enum_DirectionXZ_Quat::B:
+			SpearState = Enum_HollowSoldier_Spear_State::Max;
 			ChangeState(Enum_HollowSoldier_Spear_State::Hit_Back);
 			break;
 		case Enum_DirectionXZ_Quat::L:
+			SpearState = Enum_HollowSoldier_Spear_State::Max;
 			ChangeState(Enum_HollowSoldier_Spear_State::Hit_Left);
 			break;
 		default:
+			SpearState = Enum_HollowSoldier_Spear_State::Max;
 			ChangeState(Enum_HollowSoldier_Spear_State::Hit_Front);
 			break;
 		}
@@ -1568,6 +1573,7 @@ void Monster_HollowSoldier_Spear::State_AttackFail_Update(float _Delta)
 void Monster_HollowSoldier_Spear::State_Parrying_Start()
 {
 	Hit.SetHit(false);
+	Spear.Off();
 	Spear.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Spear_Parrying");
 }
@@ -1586,6 +1592,8 @@ void Monster_HollowSoldier_Spear::State_Parrying_Update(float _Delta)
 void Monster_HollowSoldier_Spear::State_Hit_Front_Start()
 {
 	Hit.SetHit(false);
+	Spear.Off();
+	Spear.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Spear_Hit_Front");
 }
 void Monster_HollowSoldier_Spear::State_Hit_Front_Update(float _Delta)
@@ -1603,6 +1611,8 @@ void Monster_HollowSoldier_Spear::State_Hit_Front_Update(float _Delta)
 void Monster_HollowSoldier_Spear::State_Hit_Back_Start()
 {
 	Hit.SetHit(false);
+	Spear.Off();
+	Spear.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Spear_Hit_Back");
 }
 void Monster_HollowSoldier_Spear::State_Hit_Back_Update(float _Delta)
@@ -1620,6 +1630,8 @@ void Monster_HollowSoldier_Spear::State_Hit_Back_Update(float _Delta)
 void Monster_HollowSoldier_Spear::State_Hit_Left_Start()
 {
 	Hit.SetHit(false);
+	Spear.Off();
+	Spear.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Spear_Hit_Left");
 }
 void Monster_HollowSoldier_Spear::State_Hit_Left_Update(float _Delta)
@@ -1637,6 +1649,8 @@ void Monster_HollowSoldier_Spear::State_Hit_Left_Update(float _Delta)
 void Monster_HollowSoldier_Spear::State_Hit_Right_Start()
 {
 	Hit.SetHit(false);
+	Spear.Off();
+	Spear.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Spear_Hit_Right");
 }
 void Monster_HollowSoldier_Spear::State_Hit_Right_Update(float _Delta)
@@ -1653,6 +1667,8 @@ void Monster_HollowSoldier_Spear::State_Hit_Right_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_HitToDeath_Start()
 {
+	Spear.Off();
+	Spear.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_HitToDeath");
 }
 void Monster_HollowSoldier_Spear::State_HitToDeath_Update(float _Delta)

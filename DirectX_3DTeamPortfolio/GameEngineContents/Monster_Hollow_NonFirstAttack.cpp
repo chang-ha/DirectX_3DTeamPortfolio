@@ -18,7 +18,8 @@ void Monster_Hollow_NonFirstAttack::Start()
 	//MainRenderer->ChangeAnimation("c1100_PrayToIdle3");
 
 	// Status
-	Stat.SetHp(68);
+	//Stat.SetHp(68);
+	Stat.SetHp(500);
 	Stat.SetAtt(1);
 
 	CheckLanternCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster_FindLantern);
@@ -339,18 +340,23 @@ void Monster_Hollow_NonFirstAttack::ChangeHitState()
 		switch (HitDir)
 		{
 		case Enum_DirectionXZ_Quat::F:
+			HollowState = Enum_Hollow_State::Max;
 			ChangeState(Enum_Hollow_State::Hit_Front);
 			break;
 		case Enum_DirectionXZ_Quat::R:
+			HollowState = Enum_Hollow_State::Max;
 			ChangeState(Enum_Hollow_State::Hit_Right);
 			break;
 		case Enum_DirectionXZ_Quat::B:
+			HollowState = Enum_Hollow_State::Max;
 			ChangeState(Enum_Hollow_State::Hit_Back);
 			break;
 		case Enum_DirectionXZ_Quat::L:
+			HollowState = Enum_Hollow_State::Max;
 			ChangeState(Enum_Hollow_State::Hit_Left);
 			break;
 		default:
+			HollowState = Enum_Hollow_State::Max;
 			ChangeState(Enum_Hollow_State::Hit_Front);
 			break;
 		}
@@ -1341,6 +1347,7 @@ void Monster_Hollow_NonFirstAttack::State_AttackFail_Update(float _Delta)
 void Monster_Hollow_NonFirstAttack::State_Parrying_Start()
 {
 	Hit.SetHit(false);
+	Sword.Off();
 	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Parrying");
 }
@@ -1360,6 +1367,8 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Front_Start()
 	Hit.SetHit(false);
 	// 무기가 없는 상태일때 맞았을때 꺼내야됨
 	MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
+	Sword.Off();
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Hit_Front");
 
 	// 이 전에 있던 State가 Pray 또는 BeScared일때
@@ -1381,6 +1390,8 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Back_Start()
 {
 	Hit.SetHit(false);
 	MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
+	Sword.Off();
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Hit_Back");
 }
 void Monster_Hollow_NonFirstAttack::State_Hit_Back_Update(float _Delta)
@@ -1399,6 +1410,8 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Left_Start()
 {
 	Hit.SetHit(false);
 	MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
+	Sword.Off();
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Hit_Left");
 }
 void Monster_Hollow_NonFirstAttack::State_Hit_Left_Update(float _Delta)
@@ -1417,6 +1430,8 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Right_Start()
 {
 	Hit.SetHit(false);
 	MeshOn(Enum_Hollow_MeshIndex::BrokenSword);
+	Sword.Off();
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Hit_Right");
 }
 void Monster_Hollow_NonFirstAttack::State_Hit_Right_Update(float _Delta)
@@ -1433,6 +1448,8 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Right_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_HitToDeath_Start()
 {
+	Sword.Off();
+	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_HitToDeath");
 }
 void Monster_Hollow_NonFirstAttack::State_HitToDeath_Update(float _Delta)
