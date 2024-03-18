@@ -48,4 +48,5 @@ enum class Enum_CollisionOrder
 	Fog_Wall = (1 << 20),
 	EventCol = (1 << 21),
 	Monster_FindLantern = (1 << 22),
+	Bonfire = (1 < 23),
 };

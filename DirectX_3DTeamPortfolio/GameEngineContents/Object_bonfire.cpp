@@ -25,6 +25,12 @@ void Object_bonfire::Start()
 		//FBXRenderer->Transform.SetWorldRotation({ 0, 0 , 0 });
 	}
 
+	
+	Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Bonfire);
+	Col->SetCollisionType(ColType::AABBBOX3D);
+	Col->Transform.SetLocalPosition({ 0, 50 , 0 });
+	Col->Transform.SetWorldScale({100,100,100});
+	
 	//{
 	//	FBXRenderer1 = CreateComponent<GameContentsFBXRenderer>(0);
 	//	FBXRenderer1->SetFBXMesh("o000100.FBX", "FBX_Static");
