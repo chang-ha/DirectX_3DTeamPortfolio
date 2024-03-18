@@ -44,7 +44,7 @@ void Monster_Hollow::Start()
 	RecognizeCollision->SetCollisionType(ColType::SPHERE3D);
 	RecognizeCollision->SetCollisionColor(float4::BLACK);
 	RecognizeCollision->Transform.SetLocalPosition(float4(0.0f, 100.0f, 0.0f));
-	RecognizeCollision->Transform.SetWorldScale(float4(4000.0f, 4000.0f, 4000.0f));
+	RecognizeCollision->Transform.SetWorldScale(float4(600.0f, 600.0f, 600.0f));
 
 	/*AttackRangeCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
 	AttackRangeCollision->SetCollisionType(ColType::SPHERE3D);
