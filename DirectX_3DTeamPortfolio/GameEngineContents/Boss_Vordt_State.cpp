@@ -1465,7 +1465,7 @@ void Boss_Vordt::Howling_Start()
 
 void Boss_Vordt::Howling_Update(float _Delta)
 {
-
+	Stat.SetPoise(100);
 }
 
 void Boss_Vordt::Howling_End()
