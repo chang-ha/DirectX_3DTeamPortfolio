@@ -383,7 +383,7 @@ void Player::Start()
 		//Parring_Attack_Col->Off();
 	}
 
-	Stat.SetHp(1);
+	Stat.SetHp(400);
 	Stat.SetAtt(60);
 	Stat.SetPoise(100);
 	Stat.SetStamina(300.0f); 
@@ -599,11 +599,12 @@ void Player::Update(float _Delta)
 
 	FaceLight->Transform.SetLocalPosition(Transform.GetWorldPosition() + revolution);
 
-	//MainRenderer->RenderBaseInfoValue
+
+
 
 	Parring_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
-			Parring_Monster_Actor.push_back(col->GetActor());
+			
 		};
 
 	Parring_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)

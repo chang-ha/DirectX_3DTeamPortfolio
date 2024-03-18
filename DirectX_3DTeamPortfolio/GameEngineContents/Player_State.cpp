@@ -2670,17 +2670,8 @@ void Player::Player_State()
 				if (MainRenderer->IsCurAnimationEnd())
 				{
 
-					if (MainRenderer->RenderBaseInfoValue.AlphaValue <= 254)
-					{
-
-						MainRenderer->RenderBaseInfoValue.BaseColorOnly = _DeltaTime;
-
-						Weapon_Actor->Getweapon()->RenderBaseInfoValue.AlphaValue += _DeltaTime;
-
-						Shield_Actor->GetShield()->RenderBaseInfoValue.AlphaValue += _DeltaTime;
-					}
-					else
-					{
+					
+					
 						Capsule->SetWorldPosition({ -1400.0f, 4945.0f, -5330.0f });
 						Capsule->SetWorldRotation({ 0.f, 0.f, 0.f });
 
@@ -2688,18 +2679,15 @@ void Player::Player_State()
 						Stat.SetStamina(300.0f);
 
 						Body_Col->On();
-						MainRenderer->RenderBaseInfoValue.AlphaValue = 0;
+						
 
-						Weapon_Actor->Getweapon()->RenderBaseInfoValue.AlphaValue = 0;
-
-						Shield_Actor->GetShield()->RenderBaseInfoValue.AlphaValue = 0;
-
-						PlayerStates.ChangeState(PlayerState::Sit_Down);
-
+						
+						Rock_On_Check = false;
 						GameEnginePhysX::PopSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Monster);
+						PlayerStates.ChangeState(PlayerState::Sit_Down);
 						return; 
 			
-					}
+					
 
 				}
 
@@ -2872,6 +2860,8 @@ void Player::Player_State()
 			{
 				StateValue = PlayerState::Sit_Down;
 				MainRenderer->ChangeAnimation("Sit_Down");
+
+				MainRenderer->ChangeCurFrame(60);
 			};
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
