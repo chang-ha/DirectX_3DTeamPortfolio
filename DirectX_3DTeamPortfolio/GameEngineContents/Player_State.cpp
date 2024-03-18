@@ -307,7 +307,7 @@ void Player::Player_State()
 					_Parent->ChangeState(PlayerState::Attack_01);
 					return;
 				}
-				else if (true == GameEngineInput::IsPress(VK_LBUTTON, this) && Rotation_Check_X == true && Rock_On_Check == true && Stat.GetStamina() > 0)
+				else if (true == GameEngineInput::IsPress(VK_LBUTTON, this) &&  Rock_On_Check == true && Stat.GetStamina() > 0)
 				{
 					Rotation_Check_X = false;
 					Sword.ResetRecord();
@@ -495,14 +495,29 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Move_Stop);
 					return;
 				}
-				if (GameEngineInput::IsPress(VK_CONTROL, this) && Rotation_Check_X == true && Stat.GetStamina() > 0)
+				
+				if (GameEngineInput::IsPress(VK_CONTROL, this) && Rock_On_Check == true && Stat.GetStamina() > 0)
 				{
 					Rotation_Check_X = false;
 					_Parent->ChangeState(PlayerState::Parrying);
 					return;
 				}
 
-				if (GameEngineInput::IsPress(VK_RBUTTON, this) && Rotation_Check_X == true && Stat.GetStamina() > 0)
+				else if (GameEngineInput::IsPress(VK_CONTROL, this) && Rotation_Check_X == true && Stat.GetStamina() > 0)
+				{
+					Rotation_Check_X = false;
+					_Parent->ChangeState(PlayerState::Parrying);
+					return;
+				}
+
+
+				if (GameEngineInput::IsPress(VK_RBUTTON, this) && Rock_On_Check == true && Stat.GetStamina() > 0)
+				{
+					_Parent->ChangeState(PlayerState::Shield_Idle);
+					return;
+				}
+
+				else if (GameEngineInput::IsPress(VK_RBUTTON, this) && Rotation_Check_X == true && Stat.GetStamina() > 0)
 				{
 					_Parent->ChangeState(PlayerState::Shield_Idle);
 					return;
@@ -545,6 +560,8 @@ void Player::Player_State()
 			{
 				//Capsule->SetWorldRotation({ 0.0f,Capsule->GetDir()});
 
+
+				
 
 				if (Rock_On_Check == true)
 				{
@@ -1266,6 +1283,7 @@ void Player::Player_State()
 			{
 				MainRenderer->ChangeAnimation("Portion_Drink_01");
 				Potion -=1; 
+				Stat.AddHp(100.0f);
 				Weapon_Actor->Getweapon()->Off(); 
 			};
 
@@ -1333,7 +1351,7 @@ void Player::Player_State()
 			{
 				MainRenderer->ChangeAnimation("Roll_Behind");
 				StateValue = PlayerState::StaminaCheck;
-
+				Stat.AddStamina(-60.0f);
 			};
 
 
@@ -1391,6 +1409,7 @@ void Player::Player_State()
 			{
 				MainRenderer->ChangeAnimation("Roll_Forward");
 				StateValue = PlayerState::StaminaCheck;
+				Stat.AddStamina(-60.0f);
 			};
 
 
@@ -1451,6 +1470,7 @@ void Player::Player_State()
 			{
 				MainRenderer->ChangeAnimation("Roll_Right");
 				StateValue = PlayerState::StaminaCheck;
+				Stat.AddStamina(-60.0f);
 			};
 
 
@@ -1505,6 +1525,7 @@ void Player::Player_State()
 			{
 				MainRenderer->ChangeAnimation("Roll_Left");
 				StateValue = PlayerState::StaminaCheck;
+				Stat.AddStamina(-60.0f);
 			};
 
 
@@ -1557,6 +1578,7 @@ void Player::Player_State()
 			{
 				MainRenderer->ChangeAnimation("Back_Step");
 				StateValue = PlayerState::StaminaCheck;
+				Stat.AddStamina(-60.0f);
 			};
 
 
@@ -1753,7 +1775,7 @@ void Player::Player_State()
 
 					if (Rotation_Player_Plus == true)
 					{
-						Capsule->AddWorldRotation({ 0.0f,2.0f });
+						Capsule->AddWorldRotation({ 0.0f,200.0f *_DeltaTime});
 
 						if (GetTargetAngle() < 0)
 						{
@@ -1766,7 +1788,7 @@ void Player::Player_State()
 					else if (Rotation_Player_Mus == true)
 					{
 
-						Capsule->AddWorldRotation({ 0.0f,-2.0f });
+						Capsule->AddWorldRotation({ 0.0f,-200.0f * _DeltaTime });
 
 						if (GetTargetAngle() > 0)
 						{
@@ -1797,7 +1819,7 @@ void Player::Player_State()
 					{
 						if (degree_X > Actor_test->Transform.GetWorldRotationEuler().Y)
 						{
-							Actor_test->Transform.AddLocalRotation({ 0.0f, 5.0f });
+							Actor_test->Transform.AddLocalRotation({ 0.0f, 300.0f * _DeltaTime });
 						}
 
 
@@ -1815,7 +1837,7 @@ void Player::Player_State()
 
 						if (degree_X < Actor_test->Transform.GetWorldRotationEuler().Y)
 						{
-							Actor_test->Transform.AddLocalRotation({ 0.0f,-5.0f });
+							Actor_test->Transform.AddLocalRotation({ 0.0f,-300.0f * _DeltaTime });
 						}
 
 
@@ -1858,7 +1880,7 @@ void Player::Player_State()
 
 					if (Rotation_Check_Y_Plus == true)
 					{
-						Actor_test->Transform.AddLocalRotation({ 2.0f,0.0f });
+						Actor_test->Transform.AddLocalRotation({ 200.0f * _DeltaTime,0.0f });
 
 
 
@@ -1875,7 +1897,7 @@ void Player::Player_State()
 					else if (Rotation_Check_Y_Mus == true)
 					{
 
-						Actor_test->Transform.AddLocalRotation({ -2.0f,0.0f });
+						Actor_test->Transform.AddLocalRotation({ -200.0f * _DeltaTime,0.0f });
 
 						if (Actor_test->Transform.GetWorldRotationEuler().X < 20)
 						{
@@ -2648,7 +2670,7 @@ void Player::Player_State()
 			{
 				MainRenderer->ChangeAnimation("Weak_Shield_block",true);
 				StateValue = PlayerState::Shield_Idle;
-
+				Stat.AddStamina(-60.0f);
 				Shield_Col->On(); 
 			};
 
@@ -2683,6 +2705,7 @@ void Player::Player_State()
 			{
 				MainRenderer->ChangeAnimation("Middle_Shield_block");
 				StateValue = PlayerState::Shield_Idle;
+				Stat.AddStamina(-105.0f);
 				Shield_Col->On();
 			};
 
@@ -2715,7 +2738,7 @@ void Player::Player_State()
 				Shield_Col->Off();
 				MainRenderer->ChangeAnimation("Big_Shield_block");
 				StateValue = PlayerState::Shield_Idle;
-
+				Stat.SetStamina(0.0f); 
 			};
 
 

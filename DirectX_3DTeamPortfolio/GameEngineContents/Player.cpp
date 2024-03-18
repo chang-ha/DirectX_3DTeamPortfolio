@@ -383,7 +383,7 @@ void Player::Start()
 	}
 
 	Stat.SetHp(400);
-	Stat.SetAtt(20);
+	Stat.SetAtt(60);
 	Stat.SetPoise(100);
 	Stat.SetStamina(300.0f); 
 	Sword.Init(this, Attack_Col.get());
@@ -601,6 +601,7 @@ void Player::Start()
 		};
 
 	SoundFrameEvent();
+
 	Shield_Col->Off();
 	Attack_Col->Off(); 
 
@@ -782,28 +783,22 @@ void Player::Update(float _Delta)
 		Stat.SetPoise(100);
 	}
 	// 스태미나 
-	if (StateValue != PlayerState::StaminaCheck)
+	if (StateValue != PlayerState::StaminaCheck && StateValue != PlayerState::Parrying && StateValue != PlayerState::Shield_Idle && StateValue != PlayerState::Run)
 	{
 		if (Stat.GetStamina() < 300)
-
 		{
 			Stat.AddStamina(_Delta * 100);
 		}
 	}
-	else if (StateValue != PlayerState::Parrying)
+	if (Stat.GetStamina() <= 0)
 	{
-		if (Stat.GetStamina() < 100)
-		{
-			Stat.AddStamina(_Delta * 10);
-		}
+		Stat.SetStamina(0); 
 	}
-	else if (StateValue != PlayerState::Shield_Idle)
+	if (Stat.GetHp() <= 0)
 	{
-		if (Stat.GetStamina() < 100)
-		{
-			Stat.AddStamina(_Delta * 10);
-		}
+		Stat.SetHp(0);
 	}
+
 
 	
 	// 디버그용 
