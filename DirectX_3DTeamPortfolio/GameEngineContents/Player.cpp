@@ -1285,23 +1285,7 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 	}
 
 
-	if (pAttacker->Get_Hit_Type() == Enum_Player_Hit::weak)
-	{
-		PlayerStates.ChangeState(PlayerState::Weak_Shield_block);
-	}
-	else if (pAttacker->Get_Hit_Type() == Enum_Player_Hit::Middle)
-	{
-		PlayerStates.ChangeState(PlayerState::Middle_Shield_block);
-	}
-	else if (pAttacker->Get_Hit_Type() == Enum_Player_Hit::Strong)
-	{
-		PlayerStates.ChangeState(PlayerState::Big_Shield_block);
-	}
-	else if (0 >= Stat.GetStamina())
-	{
-		PlayerStates.ChangeState(PlayerState::Big_Shield_block);
-	}
-
+	
 
 
 
