@@ -74,6 +74,8 @@ private:
 	void Area2_On();
 	void Area3_On();
 	void Area4_On();
+	void Area5_On();
+	void Area6_On();
 
 	void CreateObject();
 };
