@@ -1283,7 +1283,7 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 
 	}
 
-	else if (Stat.GetPoise() < 50 || pAttacker->Get_Hit_Type() == Enum_Player_Hit::Down)
+	if (pAttacker->Get_Hit_Type() == Enum_Player_Hit::Down)
 	{
 		
 
