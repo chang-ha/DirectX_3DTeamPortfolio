@@ -82,5 +82,9 @@ private:
 
 	void CreateObject();
 	void BossBGMUpdate(float _Delta);
+
+	//// Thread Function
+	GameEngineThreadJobQueue LoadingThread;
+	void Loading();
 };
 
