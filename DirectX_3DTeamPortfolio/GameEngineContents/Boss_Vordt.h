@@ -26,7 +26,7 @@ enum Enum_BossState
 {
 	// Move & Others
 	Null = 0,
-	Howling = (1 << 0),
+	Howling,
 	Idle,
 	Walk_Front,
 	Walk_Right,
@@ -168,6 +168,7 @@ class Vordt_AttackCollision
 	Monster_HitInteraction mHandHitInteraction;
 	std::shared_ptr<BoneSocketCollision> R_HandCollision = nullptr;
 
+	void Off();
 	void ResetRecord();
 	void Release();
 };

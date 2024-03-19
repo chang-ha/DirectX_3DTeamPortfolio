@@ -13,7 +13,6 @@
 #include "Boss_Vordt.h"
 #include "Monster_HollowSoldier.h"
 #include "Monster_LothricKn.h"
-#include "Monster_HollowSoldier.h"
 #include "Monster_HollowSoldier_Spear.h"
 #include "DummyActor.h"
 #include "Monster_Hollow_RaggedRobes.h"
@@ -130,7 +129,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 		MainUI = CreateActor<MainUIActor>(Enum_UpdateOrder::UI);
 		// MainUI->CreateBossUI(Boss_Object.get());
 		MainUI->CreateAndCheckEsteUI(PlayerObject.get());
-		MainUI->CreateAndCheckPlayerGaugeBar(PlayerObject.get());
+		MainUI->CreateAndCheckPlayerGaugeBar(PlayerObject.get());*/
 	}
 
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 1, 1, 1, 1 });

@@ -26,12 +26,12 @@ void LothricKn_Debug::DebugOff()
 	IsDebugMode = false;
 }
 
-void LothricKn_Debug::OutPutChangeState(int _State)
+void LothricKn_Debug::OutPutChangeState(int _State ,std::string_view _AniName)
 {
 	if (_State != CurState)
 	{
 		CurState = _State;
-		ContentsDebug::OutputString("c1280 State Change", GetDebugString(_State));
+		ContentsDebug::OutputString("c1280 State Change", _AniName);
 	}
 	
 }

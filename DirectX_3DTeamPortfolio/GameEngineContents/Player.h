@@ -74,7 +74,9 @@ enum class PlayerState
 	ladder_Fast_Down_Stop,
 	fail,
 	landing,
-	StaminaCheck
+	StaminaCheck,
+	HitDown,
+
 };
 
 // Ό³Έν :
@@ -100,7 +102,7 @@ public:
 
 	float4 BoneWorldPos(int _BoneIndex);
 	void CameraRotation(float Delta);
-	bool FrontStabCheck(const float4& _WPos, float _RotY) const;
+	void Rock_On(Enum_CollisionOrder Order);
 	std::shared_ptr<Weapon> GetWeapon()
 	{
 		return Weapon_Actor;
@@ -295,8 +297,9 @@ private:
 	std::shared_ptr<class ContentsHitRenderer> StrikeRenderer;
 	std::shared_ptr<class ContentsLight> FaceLight;
 
-	float Rock_on_X = 20.0f;
-
+	float Rock_on_X = 0.0f;
+	float Cur_degree_X = 0.0f;
+	float Lerp_degree_X = 0.0f;
 	bool AttackCheck = false;
 };
 

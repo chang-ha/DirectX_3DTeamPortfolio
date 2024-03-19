@@ -4,7 +4,7 @@
 #include "DS3DummyData.h"
 
 #define BOSS_HP 1328
-#define PHYSX_RADIUS 320.f
+#define PHYSX_RADIUS 280.f
 #define PHYSX_HALFHEIGHT 5.f
 
 void Boss_State_GUI::Start()
@@ -419,6 +419,13 @@ void Vordt_HitCollision::Release()
 	}
 }
 
+void Vordt_AttackCollision::Off()
+{
+	BodyCollision->Off();
+	HeadCollision->Off();
+	WeaponCollision->Off();
+	R_HandCollision->Off();
+}
 
 void Vordt_AttackCollision::ResetRecord()
 {
@@ -525,7 +532,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->CreateFBXAnimation("Hit_Down_005", "Hit_Down_005.FBX", { ONE_FRAME_DTIME, false });
 		MainRenderer->CreateFBXAnimation("Hit_Down_006", "Hit_Down_006.FBX", { ONE_FRAME_DTIME, false });
 		MainRenderer->CreateFBXAnimation("Rush&Hit&Turn&Rush", "Rush&Hit&Turn&Rush.FBX", { ONE_FRAME_DTIME, false });
-		MainRenderer->CreateFBXAnimation("Rush&Hit&Turn", "Rush&Hit&Turn.FBX", { ONE_FRAME_DTIME, false });
+		MainRenderer->CreateFBXAnimation("Rush&Hit&Turn", "Rush&Hit&Turn.FBX", { ONE_FRAME_DTIME, true });
 		MainRenderer->CreateFBXAnimation("Rush&Turn", "Rush&Turn.FBX", { ONE_FRAME_DTIME, false });
 		MainRenderer->CreateFBXAnimation("Rush_Attack", "Rush_Attack.FBX", { ONE_FRAME_DTIME, false });
 		MainRenderer->CreateFBXAnimation("Rush_Attack_002", "Rush_Attack_002.FBX", { ONE_FRAME_DTIME, false });
@@ -540,7 +547,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 		FrameEventInit();
 
-		// Root Motion
+		//////// Root Motion
 		// Rotate to StartDir
 		MainRenderer->SetRootMotionComponent(Capsule.get());
 		MainRenderer->SetRootMotion("Breath");
@@ -589,7 +596,53 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->SetRootMotion("Rush&Hit&Turn", "", Enum_RootMotionMode::RealTimeDir);
 		MainRenderer->SetRootMotion("Rush&Hit&Turn&Rush", "", Enum_RootMotionMode::RealTimeDir); // 
 
-		MainRenderer->SetAllRootMotionMoveRatio(1.f, 1.f, 1.f);
+		MainRenderer->SetAllRootMotionMoveRatio(0.8f, 0.8f, 0.8f);
+
+		//////// Blend
+		MainRenderer->SetBlendTime("Breath", 10);
+		MainRenderer->SetBlendTime("Death", 2);
+		MainRenderer->SetBlendTime("Death_Groggy", 2);
+		MainRenderer->SetBlendTime("Hit_001", 1);
+		MainRenderer->SetBlendTime("Hit_002", 1);
+		MainRenderer->SetBlendTime("Hit_003_Left", 1);
+		MainRenderer->SetBlendTime("Hit_003_Right", 1);
+		MainRenderer->SetBlendTime("Hit_004_Groggy", 1);
+		MainRenderer->SetBlendTime("Hit_Groggy", 2);
+		MainRenderer->SetBlendTime("Howling", 7);
+		MainRenderer->SetBlendTime("Rush_Front", 10);
+		MainRenderer->SetBlendTime("Rush&Turn", 10);
+		MainRenderer->SetBlendTime("Turn_Left", 12);
+		MainRenderer->SetBlendTime("Turn_Left_Twice", 12);
+		MainRenderer->SetBlendTime("Turn_Right", 12);
+		MainRenderer->SetBlendTime("Turn_Right_Twice", 12);
+		MainRenderer->SetBlendTime("Idle", 7);
+		MainRenderer->SetBlendTime("Jump_Back", 7);
+		MainRenderer->SetBlendTime("Jump_Left", 7);
+		MainRenderer->SetBlendTime("Jump_Right", 7);
+		MainRenderer->SetBlendTime("Walk_Front", 15);
+		MainRenderer->SetBlendTime("Walk_Left", 15);
+		MainRenderer->SetBlendTime("Walk_Right", 15);
+		MainRenderer->SetBlendTime("Combo1_Step1", 10);
+		MainRenderer->SetBlendTime("Combo1_Step2", 10);
+		MainRenderer->SetBlendTime("Combo1_Step3", 10);
+		MainRenderer->SetBlendTime("Combo2_Step1", 10);
+		MainRenderer->SetBlendTime("Combo2_Step2", 10);
+		MainRenderer->SetBlendTime("Hit_Down_001_Front", 10);
+		MainRenderer->SetBlendTime("Hit_Down_001_Right", 10);
+		MainRenderer->SetBlendTime("Hit_Down_001_Left", 10);
+		MainRenderer->SetBlendTime("Hit_Down_004", 10);
+		MainRenderer->SetBlendTime("Hit_Down_005", 10);
+		MainRenderer->SetBlendTime("Hit_Down_006", 10);
+		MainRenderer->SetBlendTime("Thrust", 12);
+		MainRenderer->SetBlendTime("Sweep&Sweep_Left", 10);
+		MainRenderer->SetBlendTime("Sweep&Sweep_Right", 10);
+		MainRenderer->SetBlendTime("Sweep_001", 10);
+		MainRenderer->SetBlendTime("Sweep_002", 10);
+		MainRenderer->SetBlendTime("Rush_Attack", 10);
+		MainRenderer->SetBlendTime("Rush_Attack_002", 10);
+		MainRenderer->SetBlendTime("Rush&Hit&Turn", 10);
+		MainRenderer->SetBlendTime("Rush&Hit&Turn&Rush", 10);
+
 	}
 
 	if (nullptr == GameEngineGUI::FindGUIWindow<Boss_State_GUI>("Boss_State"))
@@ -621,7 +674,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	if (nullptr == RockOnCollision)
 	{
 		RockOnCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster);
-		RockOnCollision->Transform.SetLocalPosition({ 0.f, PHYSX_RADIUS / 2.f + PHYSX_HALFHEIGHT, 0.f });
+		// RockOnCollision->Transform.SetLocalPosition({ 0.f, PHYSX_RADIUS / 2.f + PHYSX_HALFHEIGHT, 0.f });
 		RockOnCollision->Transform.SetWorldScale({1.f, 1.f, 1.f});
 	}
 
@@ -840,9 +893,9 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 	if (nullptr == mAttackCollision.HeadCollision)
 	{
-		ColParameter.S = float4(150.f, 150.f, 150.f);
+		ColParameter.S = float4(200.f, 200.f, 200.f);
 		ColParameter.R = float4(0.f);
-		ColParameter.T = float4(0.f);
+		ColParameter.T = float4(0.f, 0.f, -0.5f);
 
 		mAttackCollision.HeadCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, 76, ColParameter, "Head");
 		mAttackCollision.HeadCollision->SetCollisionType(ColType::SPHERE3D);
@@ -863,6 +916,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::Boss_Vordt));
 
 	AI_Stop();
+	DummyPolySoundOff();
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
@@ -994,6 +1048,7 @@ bool Boss_Vordt::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 
 	// Stat.AddPoise(-Stiffness);
 	Stat.AddPoise(-15);
+	// Stat.AddHp(-BOSS_HP);
 	Stat.AddHp(-AttackerAtt);
 	Hit.SetHit(true);
 	Hit.SetHitDir(_Para.eDir);
@@ -1110,7 +1165,7 @@ void Boss_Vordt::DeathCheck()
 		return;
 	}
 
-	if (0 <= GetHp())
+	if (0 < GetHp())
 	{
 		return;
 	}
@@ -1119,7 +1174,6 @@ void Boss_Vordt::DeathCheck()
 	MainState.ChangeState(Enum_BossState::Death);
 	Capsule->Off();
 	mHitCollision.Off();
-	SetFlag(Enum_ActorFlag::Death, true);
 }
 
 void Boss_Vordt::GroggyCheck()

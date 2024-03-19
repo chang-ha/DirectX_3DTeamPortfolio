@@ -14,7 +14,7 @@ public:
 	LothricKn_Debug& operator=(const LothricKn_Debug& _Other) = delete;
 	LothricKn_Debug& operator=(LothricKn_Debug&& _Other) noexcept = delete;
 
-	void OutPutChangeState(int _State);
+	void OutPutChangeState(int _State, std::string_view _AniName);
 	bool IsDebug() const;
 	void DebugOn();
 	void DebugOff();
