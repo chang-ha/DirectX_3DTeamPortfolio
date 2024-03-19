@@ -168,6 +168,7 @@ class Vordt_AttackCollision
 	Monster_HitInteraction mHandHitInteraction;
 	std::shared_ptr<BoneSocketCollision> R_HandCollision = nullptr;
 
+	void Off();
 	void ResetRecord();
 	void Release();
 };

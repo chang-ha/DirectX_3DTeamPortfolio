@@ -419,6 +419,13 @@ void Vordt_HitCollision::Release()
 	}
 }
 
+void Vordt_AttackCollision::Off()
+{
+	BodyCollision->Off();
+	HeadCollision->Off();
+	WeaponCollision->Off();
+	R_HandCollision->Off();
+}
 
 void Vordt_AttackCollision::ResetRecord()
 {
