@@ -1,14 +1,16 @@
 #include "PreCompile.h"
 #include "MonsterHpBar.h"
 
+#include "GaugeRenderer.h"
+
 #include "BaseMonster.h"
 
-#define BAR_DEBUG
+// #define BAR_DEBUG
 #ifdef BAR_DEBUG
 #define DEBUGON true
 #else
 #define DEBUGON false
-#endif // DEBUG
+#endif
 
 
 
@@ -21,9 +23,9 @@ MonsterHpBar::~MonsterHpBar()
 {
 }
 
-#define ImageXScale 100.0f
-#define BackBarYScale 12.0f
-#define HpBarYScale 6.0f
+#define ImageXScale 60.0f
+#define BackBarYScale 6.0f
+#define HpBarYScale 2.0f
 #define DamagePos {-100.0f, 190.0f}
 
 void MonsterHpBar::Start()
@@ -59,7 +61,6 @@ void MonsterHpBar::Start()
 	HpBarRenderer->SetSprite("MonsterHp.Png");
 	HpBarRenderer->GetImageTransform().SetLocalScale({ ImageXScale, HpBarYScale });
 	HpBarRenderer->SetBillboardOn();
-	HpBarRenderer->SetPivotType(PivotType::Left);
 
 	InitState();
 }
@@ -103,8 +104,10 @@ void MonsterHpBar::PositionUpdate()
 		return;
 	}
 
-	const float4x4& ActorWMatrix = pOwner->Transform.GetWorldMatrix();
-	const float4 BoneWPos = (*BonePosPointer) *ActorWMatrix;
+	const float4x4& ActorWMatrix = pOwner->GetFBXRenderer()->Transform.GetWorldMatrix();
+	float4 BoneLocalPos = (*BonePosPointer);
+	BoneLocalPos.W = 1.0f;
+	const float4 BoneWPos = BoneLocalPos *ActorWMatrix;
 	const float4 UIWPos = BoneWPos + float4(0.0f, HeightDist);
 
 	Transform.SetWorldPosition(UIWPos);

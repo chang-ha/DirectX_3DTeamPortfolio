@@ -1,7 +1,7 @@
 #pragma once
 #include "UIActor.h"
 
-class NewBossUI : public UIActor
+class BossHpUI : public UIActor
 {
 	enum struct eBarState
 	{
@@ -21,14 +21,14 @@ class NewBossUI : public UIActor
 
 public:
 	// constructer destructer
-	NewBossUI();
-	~NewBossUI();
+	BossHpUI();
+	~BossHpUI();
 
 	// delete Function
-	NewBossUI(const NewBossUI& _Other) = delete;
-	NewBossUI(NewBossUI&& _Other) noexcept = delete;
-	NewBossUI& operator = (const NewBossUI& _Other) = delete;
-	NewBossUI& operator = (NewBossUI&& _Other) noexcept = delete;
+	BossHpUI(const BossHpUI& _Other) = delete;
+	BossHpUI(BossHpUI&& _Other) noexcept = delete;
+	BossHpUI& operator = (const BossHpUI& _Other) = delete;
+	BossHpUI& operator = (BossHpUI&& _Other) noexcept = delete;
 
 	void SetParent(class Boss_Vordt* _Object);
 

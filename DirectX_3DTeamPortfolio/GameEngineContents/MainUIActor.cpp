@@ -5,8 +5,7 @@
 #include "UIPlayerGaugeBar.h"
 #include "UIEquipFrame.h"
 #include "UIPlayerEquip.h"
-#include "BossHpBar.h"
-#include "NewBossUI.h"
+#include "BossHpUI.h"
 
 #include "PlayerValue.h"
 #include "AddSouls.h"
@@ -77,32 +76,7 @@ void MainUIActor::Start()
 
 void MainUIActor::Update(float _Delta)
 {
-	//if (GameEngineInput::IsDown('=', this))
-	//{
-	//	PlayerValue::GetValue()->AddHp(50);
-	//	PlayerValue::GetValue()->AddMp(10);
-	//	PlayerValue::GetValue()->AddStamina(20);
-	//}
-	//if (GameEngineInput::IsDown('-', this))
-	//{
-	//	PlayerValue::GetValue()->SubHp(50);
-	//	PlayerValue::GetValue()->SubMp(30);
-	//	PlayerValue::GetValue()->SubStamina(40);
-	//}
 
-	if (GameEngineInput::IsDown('B', this))
-	{
-		BossHpObject->Awake();
-	}
-
-	if (GameEngineInput::IsDown('V', this))
-	{
-		if (true == BossHpObject->IsUpdate())
-		{
-			const int Damgae = ContentsRandom::RandomInt(10, 50);
-			BossHpObject->BossDamage(Damgae);
-		}
-	}
 }
 
 void MainUIActor::CreateBossUI(Boss_Vordt* _pBoss)
@@ -113,7 +87,7 @@ void MainUIActor::CreateBossUI(Boss_Vordt* _pBoss)
 		return;
 	}
 
-	BossHpObject = GetLevel()->CreateActor<NewBossUI>(Enum_UpdateOrder::UI);
+	BossHpObject = GetLevel()->CreateActor<BossHpUI>(Enum_UpdateOrder::UI);
 	BossHpObject->SetParent(_pBoss);
 	BossHpObject->Off();
 }

@@ -47,9 +47,12 @@ protected:
 		}
 	}
 
+	std::shared_ptr<class AllFadeEffect> FadeObject;
+
 private:
 	void ChaseListener();
 	void DebugInput();
 	static ContentsCollisionCallBack  CollisionCallBack;
+
 	
 };

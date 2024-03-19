@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "AddSouls.h"
 
+#include "BaseMonster.h"
+
 AddSouls::AddSouls()
 {
 }

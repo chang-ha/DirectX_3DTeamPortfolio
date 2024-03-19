@@ -50,6 +50,9 @@
 //UI
 #include "MainUIActor.h"
 
+// Effect
+#include "AllFadeEffect.h"
+
 Stage_Lothric::Stage_Lothric()
 {
 
@@ -220,6 +223,11 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		MainUI->CreateAndCheckEsteUI(Player_Object.get());
 		MainUI->CreateAndCheckPlayerGaugeBar(Player_Object.get());
 	}
+
+
+	// Effect
+	FadeObject->FadeIn();
+	FadeObject->On();
 }
 
 void Stage_Lothric::LevelEnd(GameEngineLevel* _NextLevel)

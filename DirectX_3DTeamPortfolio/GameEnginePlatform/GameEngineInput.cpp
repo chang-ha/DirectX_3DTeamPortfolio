@@ -294,6 +294,22 @@ bool GameEngineInput::IsFree(int _Key, void* _Ptr)
 	return AllKeys[_Key].Free;
 }
 
+bool GameEngineInput::IsDownAnyKey()
+{
+	std::map<int, GameEngineKey>::iterator StartIter = AllKeys.begin();
+	std::map<int, GameEngineKey>::iterator EndIter = AllKeys.end();
+
+	for (; StartIter != EndIter; ++StartIter)
+	{
+		bool DownCheck = (*StartIter).second.Down;
+		if (DownCheck)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
 
 void GameEngineInput::AddInputObject(void* _Ptr)
 {

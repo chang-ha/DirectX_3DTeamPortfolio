@@ -16,6 +16,9 @@
     <Filter Include="BillBoard">
       <UniqueIdentifier>{9bdb89bf-ae87-4374-9056-7935ba2d5ebf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{4503bcf5-878c-403f-8e53-760ddd85ee4c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ContentsAnimationMesh.fx">
@@ -93,6 +96,12 @@
     <FxCompile Include="TargetMergeShadow.fx" />
     <FxCompile Include="ContentsFogWallMesh.fx">
       <Filter>MeshShader</Filter>
+    </FxCompile>
+    <FxCompile Include="AllFadeEffect.fx">
+      <Filter>UI</Filter>
+    </FxCompile>
+    <FxCompile Include="GaugeShader.fx">
+      <Filter>UI</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
