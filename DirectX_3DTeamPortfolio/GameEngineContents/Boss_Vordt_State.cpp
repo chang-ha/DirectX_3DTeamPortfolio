@@ -3,10 +3,10 @@
 #include "BoneSocketCollision.h"
 
 #define JUMP_COOLDOWN 2.f
-#define NORMAL_ATTACK_COOLDOWN 25.f
+#define NORMAL_ATTACK_COOLDOWN 15.f
 #define COMBO_COOLDOWN1 40.f
 #define COMBO_COOLDOWN2 50.f
-#define BOSS_ATT 5
+#define BOSS_ATT 7
 
 void Boss_Vordt::FrameEventInit()
 {
@@ -1801,7 +1801,7 @@ void Boss_Vordt::Combo1_Step1_Start()
 {
 	MainRenderer->ChangeAnimation("Combo1_Step1", true);
 	Stat.SetAtt(BOSS_ATT * 6);
-	Hit_Type = Enum_Player_Hit::Middle;
+	Hit_Type = Enum_Player_Hit::Down;
 }
 
 void Boss_Vordt::Combo1_Step1_Update(float _Delta)
@@ -1921,7 +1921,7 @@ void Boss_Vordt::Hit_Down_001_Front_Start()
 {
 	Stat.SetAtt(BOSS_ATT * 6);
 	MainRenderer->ChangeAnimation("Hit_Down_001_Front", true);
-	Hit_Type = Enum_Player_Hit::Middle;
+	Hit_Type = Enum_Player_Hit::Down;
 }
 
 void Boss_Vordt::Hit_Down_001_Front_Update(float _Delta)
@@ -1938,7 +1938,7 @@ void Boss_Vordt::Hit_Down_001_Right_Start()
 {
 	Stat.SetAtt(BOSS_ATT * 6);
 	MainRenderer->ChangeAnimation("Hit_Down_001_Right", true);
-	Hit_Type = Enum_Player_Hit::Middle;
+	Hit_Type = Enum_Player_Hit::Down;
 }
 
 void Boss_Vordt::Hit_Down_001_Right_Update(float _Delta)
@@ -1955,7 +1955,7 @@ void Boss_Vordt::Hit_Down_001_Left_Start()
 {
 	Stat.SetAtt(BOSS_ATT * 6);
 	MainRenderer->ChangeAnimation("Hit_Down_001_Left", true);
-	Hit_Type = Enum_Player_Hit::Middle;
+	Hit_Type = Enum_Player_Hit::Down;
 }
 
 void Boss_Vordt::Hit_Down_001_Left_Update(float _Delta)
@@ -1972,7 +1972,7 @@ void Boss_Vordt::Hit_Down_004_Start()
 {
 	Stat.SetAtt(BOSS_ATT * 3);
 	MainRenderer->ChangeAnimation("Hit_Down_004", true);
-	Hit_Type = Enum_Player_Hit::weak;
+	Hit_Type = Enum_Player_Hit::Down;
 }
 
 void Boss_Vordt::Hit_Down_004_Update(float _Delta)
@@ -1989,7 +1989,7 @@ void Boss_Vordt::Hit_Down_005_Start()
 {
 	Stat.SetAtt(BOSS_ATT * 4);
 	MainRenderer->ChangeAnimation("Hit_Down_005", true);
-	Hit_Type = Enum_Player_Hit::weak;
+	Hit_Type = Enum_Player_Hit::Down;
 }
 
 void Boss_Vordt::Hit_Down_005_Update(float _Delta)
