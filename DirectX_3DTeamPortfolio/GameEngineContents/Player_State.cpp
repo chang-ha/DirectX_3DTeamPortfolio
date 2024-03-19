@@ -2272,7 +2272,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				MainRenderer->ChangeAnimation("HitDown");
+				MainRenderer->ChangeAnimation("Hit_Down");
 				StateValue = PlayerState::HitDown;
 				Weapon_Actor->Getweapon()->On();
 				Body_Col->Off();
