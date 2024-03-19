@@ -118,7 +118,7 @@ void Monster_LothricKn::Start()
 	MainRenderer->CreateFBXAnimation("Res_B_Hit_W", "c1280_009001.fbx");
 	MainRenderer->CreateFBXAnimation("Res_R_Hit_W", "c1280_009002.fbx");
 	MainRenderer->CreateFBXAnimation("Res_L_Hit_W", "c1280_009003.fbx");
-	MainRenderer->CreateFBXAnimation("F_Death", "c1280_010000.fbx");
+	MainRenderer->CreateFBXAnimation("F_Death", "c1280_010000.fbx", {0.0f, false});
 	MainRenderer->CreateFBXAnimation("F_Death_End", "c1280_010001.fbx");
 	MainRenderer->CreateFBXAnimation("F_Death_B", "c1280_010030.fbx");
 	MainRenderer->CreateFBXAnimation("F_Death_B_End", "c1280_010031.fbx");
@@ -207,7 +207,6 @@ void Monster_LothricKn::Start()
 	MainRenderer->SetBlendTime("F_Stab_Death", 7);
 	MainRenderer->SetBlendTime("F_Stab_Death_End", 1);
 
-
 	MainRenderer->SetRootMotionComponent(Capsule.get());
 	MainRenderer->SetRootMotion("Idle_Standing");
 	MainRenderer->SetRootMotion("Idle_Standing1");
@@ -270,8 +269,22 @@ void Monster_LothricKn::Start()
 	MainRenderer->SetRootMotion("F_Stab_Death");
 
 	// Default 5000.0f 
-	const float RootMoveRatio = W_SCALE * 0.01f; 
-	MainRenderer->SetAllRootMotionMoveRatio(RootMoveRatio, RootMoveRatio, RootMoveRatio);
+	const float RootMoveRatio = W_SCALE * 0.033f;
+	const float F_RootMoveRatio = W_SCALE * 0.02f;
+	const float Step_F_RootMoveRatio = W_SCALE * 0.16f;
+	MainRenderer->SetRootMotionMoveRatio("F_Step", F_RootMoveRatio, F_RootMoveRatio, F_RootMoveRatio);
+	MainRenderer->SetRootMotionMoveRatio("B_Step", F_RootMoveRatio, F_RootMoveRatio, F_RootMoveRatio);
+	MainRenderer->SetRootMotionMoveRatio("L_Side_Step", RootMoveRatio, RootMoveRatio, RootMoveRatio);
+	MainRenderer->SetRootMotionMoveRatio("R_Side_Step", RootMoveRatio, RootMoveRatio, RootMoveRatio);
+	MainRenderer->SetRootMotionMoveRatio("G_F_Step", F_RootMoveRatio, F_RootMoveRatio, F_RootMoveRatio);
+	MainRenderer->SetRootMotionMoveRatio("G_B_Step", RootMoveRatio, RootMoveRatio, RootMoveRatio);
+	MainRenderer->SetRootMotionMoveRatio("G_L_Side_Step", RootMoveRatio, RootMoveRatio, RootMoveRatio);
+	MainRenderer->SetRootMotionMoveRatio("G_R_Side_Step", RootMoveRatio, RootMoveRatio, RootMoveRatio);
+	MainRenderer->SetRootMotionMoveRatio("DH_F_Step", F_RootMoveRatio, F_RootMoveRatio, F_RootMoveRatio);
+	MainRenderer->SetRootMotionMoveRatio("DH_B_Step", RootMoveRatio, RootMoveRatio, RootMoveRatio);
+	MainRenderer->SetRootMotionMoveRatio("DH_L_Side_Step", RootMoveRatio, RootMoveRatio, RootMoveRatio);
+	MainRenderer->SetRootMotionMoveRatio("DH_R_Side_Step", RootMoveRatio, RootMoveRatio, RootMoveRatio);
+	MainRenderer->SetRootMotionMoveRatio("Patrol", RootMoveRatio, RootMoveRatio, RootMoveRatio);
 
 	// DummyData
 	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::LothricKn));
@@ -285,7 +298,7 @@ void Monster_LothricKn::Start()
 	Stat.SetAtt(36);
 
 	// Collision
-	const float PatrolSize = 5.0f * W_SCALE;
+	const float PatrolSize = 30.0f * W_SCALE;
 
 	std::shared_ptr<GameEngineCollision> SwordCol = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, eBoneType::Sword, { float4(22,16,140), float4::ZERONULL, float4(0,0, 0.9f) }, "Sword");
 	std::shared_ptr<GameEngineCollision> ShieldCol = CreateSocketCollision(Enum_CollisionOrder::Monster_Shield, eBoneType::Shield, { float4(16,123,52), float4::ZERONULL, float4(0.04f, 0.24f, -0.2f) }, "Shield");
@@ -347,9 +360,17 @@ void Monster_LothricKn::Update(float _Delta)
 {
 	BaseMonster::Update(_Delta);
 
-	if (bool DebugOn = false)
+	if (bool DebugOn = true)
 	{
-		Debug.OutPutChangeState(GetCurStateInt());
+		if (MainRenderer->GetCurAnimation())
+		{
+			std::string_view AniName = MainRenderer->GetCurAnimation()->GetAnimationName();
+			if (!AniName.empty())
+			{
+				Debug.OutPutChangeState(GetCurStateInt(), AniName);
+			}
+		}
+
 
 		static bool s_bDrawValue = false;
 		if (GameEngineInput::IsDown('N', this))

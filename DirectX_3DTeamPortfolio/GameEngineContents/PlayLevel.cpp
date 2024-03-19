@@ -13,7 +13,6 @@
 #include "Boss_Vordt.h"
 #include "Monster_HollowSoldier.h"
 #include "Monster_LothricKn.h"
-#include "Monster_HollowSoldier.h"
 #include "Monster_HollowSoldier_Spear.h"
 #include "DummyActor.h"
 #include "Monster_Hollow_RaggedRobes.h"

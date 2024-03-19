@@ -49,5 +49,5 @@ private:
 	std::string SoundName;
 	float4 DPT = float4::ZERO; // DummyPoly Transition
 	float4x4* pBoneMatrix = nullptr;
-	bool* DummySoundSwitch = nullptr;
+	const bool* SoundPlaySwitch = nullptr;
 };

@@ -44,7 +44,7 @@ void Monster_Hollow::Start()
 	RecognizeCollision->SetCollisionType(ColType::SPHERE3D);
 	RecognizeCollision->SetCollisionColor(float4::BLACK);
 	RecognizeCollision->Transform.SetLocalPosition(float4(0.0f, 100.0f, 0.0f));
-	RecognizeCollision->Transform.SetWorldScale(float4(4000.0f, 4000.0f, 4000.0f));
+	RecognizeCollision->Transform.SetWorldScale(float4(3000.0f, 3000.0f, 3000.0f));
 
 	/*AttackRangeCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Detect);
 	AttackRangeCollision->SetCollisionType(ColType::SPHERE3D);
@@ -87,6 +87,18 @@ void Monster_Hollow::LevelEnd(class GameEngineLevel* _NextLevel)
 
 }
 
+void Monster_Hollow::DeathFunc()
+{
+	DeathValue = true;
+	if (nullptr != Capsule)
+	{
+		Capsule->Off();
+	}
+	SetFlag(Enum_ActorFlag::Death, true);
+	OffAllCollision();
+	MonsterCollision->Off();
+}
+
 void Monster_Hollow::CreateAnimation()
 {
 	const float Inter = 0.0f;
@@ -114,6 +126,7 @@ void Monster_Hollow::CreateAnimation()
 	MainRenderer->CreateFBXAnimation("c1100_Run", "c1100_Run.FBX", { Inter, true });
 	MainRenderer->CreateFBXAnimation("c1100_Run3", "c1100_Run3.FBX", { Inter, true });
 	MainRenderer->CreateFBXAnimation("c1100_Scout", "c1100_Scout.FBX", { Inter, true });
+	//MainRenderer->SetRootMotionMoveRatio("c1100_Scout", 3.0f, 3.0f, 3.0f);
 	MainRenderer->CreateFBXAnimation("c1100_RH_VerticalSlash", "c1100_RH_VerticalSlash.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_RH_HorizontalSlash", "c1100_RH_HorizontalSlash.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_RH_ChargingSting", "c1100_RH_ChargingSting.FBX", { Inter, false });
@@ -175,6 +188,7 @@ void Monster_Hollow::CreateAnimation()
 	MainRenderer->CreateFBXAnimation("c1100_Spear_Run2", "c1100_Spear_Run2.FBX", { Inter, true });
 	MainRenderer->CreateFBXAnimation("c1100_Spear_Run3", "c1100_Spear_Run3.FBX", { Inter, true });
 	MainRenderer->CreateFBXAnimation("c1100_Spear_Scout", "c1100_Spear_Scout.FBX", { Inter, true });
+	//MainRenderer->SetRootMotionMoveRatio("c1100_Spear_Scout", 3.0f, 3.0f, 3.0f);
 	MainRenderer->CreateFBXAnimation("c1100_Spear_Pike1", "c1100_Spear_Pike1.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_Spear_Pike2", "c1100_Spear_Pike2.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_Spear_StepAndPike", "c1100_Spear_StepAndPike.FBX", { Inter, false });
@@ -218,11 +232,14 @@ void Monster_Hollow::CreateAnimation()
 	MainRenderer->CreateFBXAnimation("c1100_Lantern_Walk_Right", "c1100_Lantern_Walk_Right.FBX", { Inter, true });
 	MainRenderer->CreateFBXAnimation("c1100_Lantern_Run", "c1100_Lantern_Run.FBX", { Inter, true });
 	MainRenderer->CreateFBXAnimation("c1100_Lantern_Scout", "c1100_Lantern_Scout.FBX", { Inter, true });
+	//MainRenderer->SetRootMotionMoveRatio("c1100_Lantern_Scout", 3.0f, 3.0f, 3.0f);
 	MainRenderer->CreateFBXAnimation("c1100_Lantern_AwakeHollows", "c1100_Lantern_AwakeHollows.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_Lantern_Turn_Left", "c1100_Lantern_Turn_Left.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_Lantern_Turn_Right", "c1100_Lantern_Turn_Right.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_Lantern_Turn_Left_Twice", "c1100_Lantern_Turn_Left_Twice.FBX", { Inter, false });
 	MainRenderer->CreateFBXAnimation("c1100_Lantern_Turn_Right_Twice", "c1100_Lantern_Turn_Right_Twice.FBX", { Inter, false });
+
+	//MainRenderer->SetAllRootMotionMoveRatio(2.5f, 2.5f, 2.5f);
 }
 
 void Monster_Hollow::SettingRootMotion()

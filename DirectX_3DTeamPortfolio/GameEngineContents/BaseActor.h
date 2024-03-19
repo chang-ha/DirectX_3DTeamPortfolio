@@ -65,7 +65,11 @@ enum Enum_Player_Hit
 	weak,
 	Middle,
 	Strong,
+	Down, 
 };
+
+
+
 
 namespace std
 {
@@ -83,6 +87,8 @@ namespace std
 class StatusStruct
 {
 public:
+	inline void SetMaxHp(int _Value) { MaxHp = _Value; }
+	inline int GetMaxHp() { return MaxHp; }
 	inline void SetHp(int _Value) { Hp = _Value; }
 	inline int GetHp() const { return Hp; }
 	inline void AddHp(int _Value) { Hp += _Value; }
@@ -104,6 +110,7 @@ public:
 	
 
 private:
+	int MaxHp = 1; // 최대 체력
 	int Hp = 1; // 체력
 	int Att = 0; // 공격력
 	int Souls = 0; // 소울량
@@ -405,6 +412,31 @@ private:
 
 	int ActorID = EMPTY_ID;
 	int Flags = 0;
+
+	//DummyPolySound
+public:
+	inline const bool* GetDummyPolySoundPtr()
+	{
+		return &mDummyPolySoundSwitch;
+	}
+
+	inline void DummyPolySoundOn()
+	{
+		mDummyPolySoundSwitch = true;
+	}
+
+	inline void DummyPolySoundOff()
+	{
+		mDummyPolySoundSwitch = false;
+	}
+
+	inline void DummyPolySoundSwitch()
+	{
+		mDummyPolySoundSwitch = !mDummyPolySoundSwitch;
+	}
+
+private:
+	bool mDummyPolySoundSwitch = true;
 	
 // Targeting
 public:

@@ -23,6 +23,7 @@ void Object_FogWall::Start()
 		WallCollision = CreateComponent<GameEnginePhysXBox>(Enum_CollisionOrder::Fog_Wall);
 		WallCollision->PhysXComponentInit(600.f, 1000.f, 3.f);
 		WallCollision->SetFiltering(Enum_CollisionOrder::Fog_Wall);
+		WallCollision->CollisionOff();
 	}
 
 	if (nullptr == InDetectCollision)
@@ -74,6 +75,7 @@ void Object_FogWall::Release()
 		OutDetectCollision = nullptr;
 	}
 }
+
 void Object_FogWall::OutDetect()
 {
 	if (false == OutDetectCollision->IsUpdate())
@@ -88,5 +90,5 @@ void Object_FogWall::OutDetect()
 
 	InDetectCollision->Off();
 	OutDetectCollision->Off();
-	Start_Boss();
+	Start_OutFunction();
 }
