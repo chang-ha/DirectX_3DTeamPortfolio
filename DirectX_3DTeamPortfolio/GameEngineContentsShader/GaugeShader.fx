@@ -20,7 +20,7 @@ PixelOutPut GaugeShader_VS(GameEngineVertex2D _Input)
     return Result;
 }
 
-cbuffer GaugeInfo : register(b3)
+cbuffer GaugeInfo : register(b5)
 {
     float Gauge;
     int FromLeft;

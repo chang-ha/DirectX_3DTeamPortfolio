@@ -1,11 +1,12 @@
 #include "PreCompile.h"
 #include "MainUIActor.h"
 
-#include "UIActor.h"
 #include "UIPlayerGaugeBar.h"
 #include "UIEquipFrame.h"
 #include "UIPlayerEquip.h"
 #include "BossHpUI.h"
+#include "UILoading.h"
+#include "UIAlert.h"
 
 #include "PlayerValue.h"
 #include "AddSouls.h"
@@ -24,14 +25,6 @@ MainUIActor::~MainUIActor()
 
 }
 
-void MainUIActor::LevelStart(GameEngineLevel* _PrevLevel)
-{
-
-}
-void MainUIActor::LevelEnd(GameEngineLevel* _NextLevel)
-{
-
-}
 
 void MainUIActor::Start()
 {
@@ -71,12 +64,20 @@ void MainUIActor::Start()
 	PlayerIcon->Transform.SetLocalPosition({ -HScale.X + 60.0f, 400.0f });
 
 	GetLevel()->CreateActor<AddSouls>();
-	GetLevel()->CreateActor<AppearTextures>();
 }
 
 void MainUIActor::Update(float _Delta)
 {
 
+}
+
+void MainUIActor::LevelEnd(GameEngineLevel* _NextLevel)
+{
+	std::vector<std::shared_ptr<UIAlert>> Alerts = GetLevel()->GetObjectGroupConvert<UIAlert>(Enum_UpdateOrder::UI);
+	for (std::shared_ptr<UIAlert>& AlertUnit : Alerts)
+	{
+		AlertUnit->Death();
+	}
 }
 
 void MainUIActor::CreateBossUI(Boss_Vordt* _pBoss)
@@ -130,5 +131,36 @@ void MainUIActor::BossUIOn()
 	if (BossHpObject)
 	{
 		BossHpObject->Awake();
+	}
+}
+
+void MainUIActor::CreateTextureAndThrowObjectPointer(class Player* _pPlayer, class Boss_Vordt* _pBoss)
+{
+	if (nullptr == _pPlayer || nullptr == _pBoss)
+	{
+		MsgBoxAssert("플레이어나 보스 포인터를 받지 못했습니다.");
+		return;
+	}
+	
+	Textures = GetLevel()->CreateActor<AppearTextures>(Enum_UpdateOrder::UI);
+	Textures->ReceivePointer(_pPlayer, _pBoss);
+
+}
+
+void MainUIActor::CallAlert(Enum_AlertType _Type)
+{
+	switch (_Type)
+	{
+	case Enum_AlertType::BoneLit:
+		GetLevel()->CreateActor<UIAlert>(Enum_UpdateOrder::UI);
+		break;
+	case Enum_AlertType::TargetDistory:
+		GetLevel()->CreateActor<UIAlert>(Enum_UpdateOrder::UI);
+		break;
+	case Enum_AlertType::YouDie:
+		GetLevel()->CreateActor<UIAlert>(Enum_UpdateOrder::UI);
+		break;
+	default:
+		break;
 	}
 }

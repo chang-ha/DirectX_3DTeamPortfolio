@@ -509,11 +509,31 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UIAlert.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UIAlert_BoneLit.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UIAlert_YouDie.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UIEquipFrame.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="GaugeRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UILoading.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UILocationAlert.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -867,11 +887,31 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="UIAlert.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UIAlert_BoneLit.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UIAlert_YouDie.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="UIEquipFrame.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="GaugeRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UILoading.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UILocationAlert.h">
       <SubType>
       </SubType>
     </ClInclude>

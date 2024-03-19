@@ -56,7 +56,7 @@ private:
 	class BaseMonster* pOwner = nullptr;
 
 	std::shared_ptr<GameEngineSpriteRenderer> BackBarRenderer;
-	std::shared_ptr<class GameEngineSpriteRenderer> HpBarRenderer;
+	std::shared_ptr<GameEngineSpriteRenderer> HpBarRenderer;
 	std::shared_ptr<GameEngineSpriteRenderer> DamageBarRenderer;
 
 

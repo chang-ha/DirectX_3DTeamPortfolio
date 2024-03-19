@@ -689,7 +689,7 @@ void Monster_HollowSoldier_Sword::State_Scout_Update(float _Delta)
 		return;
 	}
 
-	if (ScoutTime >= 15.0f)
+	if (ScoutTime >= 10.0f)
 	{
 		ChangeState(Enum_HollowSoldier_Sword_State::Turn_Left_Twice1);
 		return;

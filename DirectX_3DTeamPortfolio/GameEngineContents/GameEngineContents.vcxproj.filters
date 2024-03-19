@@ -398,6 +398,21 @@
     <ClCompile Include="Stage_Lothric_State.cpp">
       <Filter>Level</Filter>
     </ClCompile>
+    <ClCompile Include="UILoading.cpp">
+      <Filter>Actor\UI\Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="UILocationAlert.cpp">
+      <Filter>Actor\UI\Alert</Filter>
+    </ClCompile>
+    <ClCompile Include="UIAlert.cpp">
+      <Filter>Actor\UI\Alert</Filter>
+    </ClCompile>
+    <ClCompile Include="UIAlert_BoneLit.cpp">
+      <Filter>Actor\UI\Alert</Filter>
+    </ClCompile>
+    <ClCompile Include="UIAlert_YouDie.cpp">
+      <Filter>Actor\UI\Alert</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -788,6 +803,21 @@
       <Filter>Resource\Effect</Filter>
     </ClInclude>
     <ClInclude Include="Object_BaseLadder.h" />
+    <ClInclude Include="UILoading.h">
+      <Filter>Actor\UI\Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="UILocationAlert.h">
+      <Filter>Actor\UI\Alert</Filter>
+    </ClInclude>
+    <ClInclude Include="UIAlert.h">
+      <Filter>Actor\UI\Alert</Filter>
+    </ClInclude>
+    <ClInclude Include="UIAlert_BoneLit.h">
+      <Filter>Actor\UI\Alert</Filter>
+    </ClInclude>
+    <ClInclude Include="UIAlert_YouDie.h">
+      <Filter>Actor\UI\Alert</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -930,6 +960,12 @@
     </Filter>
     <Filter Include="Resource\Effect">
       <UniqueIdentifier>{91b5f8ad-696e-4515-bf86-7eb2f525002e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\Loading">
+      <UniqueIdentifier>{6b8c4b27-4d1e-4c3f-8340-fa3ba53d150c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\Alert">
+      <UniqueIdentifier>{d4681423-d968-4bb7-8953-b715013a589d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

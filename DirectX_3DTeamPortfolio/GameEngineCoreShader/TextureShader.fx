@@ -105,6 +105,13 @@ cbuffer ColorData : register(b1)
     float4 PlusColor; // 최종색상에 더한다.
     float4 MulColor; // 최종색상에 곱한다.
 };
+cbuffer GaugeInfo : register(b5)
+{
+    float GaugeRatio;
+    int GaugeOn;
+    int Temp0;
+    int Temp1;
+};
 
 Texture2D DiffuseTex : register(t0);
 Texture2D MaskTex : register(t1);
@@ -178,7 +185,13 @@ PixelOut TextureShader_PS(PixelOutPut _Input) : SV_Target0
         Color.a = (Color.x + Color.y + Color.z / 3.f);
     }
     
-    
+    if (0 < GaugeOn)
+    {
+        if (_Input.TEXCOORD.x > GaugeRatio)
+        {
+            clip(-1);
+        }
+    }
     
     if (0 < Target0)
     {
