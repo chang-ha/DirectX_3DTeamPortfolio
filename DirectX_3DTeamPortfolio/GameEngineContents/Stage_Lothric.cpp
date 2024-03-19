@@ -53,6 +53,7 @@
 // Effect
 #include "AllFadeEffect.h"
 
+bool Stage_Lothric::ResLoadingDone = false;
 Stage_Lothric::Stage_Lothric()
 {
 
@@ -793,6 +794,11 @@ void Stage_Lothric::SetAllEvCol()
 			};
 
 		AllEvCol.push_back(EventCollision);
+	}
+
+	for (Monster : AllMonster)
+	{
+		Monster->Reset();
 	}
 }
 

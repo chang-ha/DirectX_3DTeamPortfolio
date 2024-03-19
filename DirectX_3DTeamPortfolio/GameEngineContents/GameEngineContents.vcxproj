@@ -395,6 +395,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Stage_Lothric_State.cpp" />
     <ClCompile Include="SwitchFlagFrameEvent.cpp">
       <SubType>
       </SubType>
