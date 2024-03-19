@@ -1653,6 +1653,9 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Shield_Col->Off();
+				Attack_Col->Off();
+
 				StateValue = PlayerState::RockOn;
 				Rotation_Check_X = false;
 				Rotation_Check_X_Plus = false;
