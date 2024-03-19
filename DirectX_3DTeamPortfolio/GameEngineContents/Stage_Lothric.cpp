@@ -1624,7 +1624,7 @@ void Stage_Lothric::BossBGMUpdate(float _Delta)
 		return;
 	}
 
-	BossBGMVolume -= _Delta * 0.01f;
+	BossBGMVolume -= _Delta * 0.02f;
 	BossBGM.SetVolume(BossBGMVolume);
 
 	if (0.f >= BossBGMVolume)
