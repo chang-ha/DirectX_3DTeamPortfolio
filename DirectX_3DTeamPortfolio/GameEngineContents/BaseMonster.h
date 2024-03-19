@@ -42,6 +42,12 @@ public:
 	void GravityOn();
 	void GravityOff();
 
+	/// <summary>
+	/// 해당 인자로 정찰을 수행합니다. 정찰은 vector 컨테이너 순서대로 진행됩니다.
+	/// </summary>
+	/// <param name="_Paths">정찰 포인트</param>
+	/// <param name="_Index">정찰할 첫 지점</param>
+	/// <param name="_IsOneWay">왕복 기능</param>
 	void SetPatrolPath(const std::vector<float4>& _Paths, int _Index = 0, bool _IsOneWay = false);
 
 	// 리스폰 위치
