@@ -910,7 +910,6 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 	AI_Stop();
 	DummyPolySoundOff();
-	mHitCollision.Off();
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
