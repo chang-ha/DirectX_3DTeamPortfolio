@@ -28,11 +28,6 @@ void TitleLevel::Start()
 void TitleLevel::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
-
-	if (GameEngineInput::IsDown('H', this))
-	{
-		TestClear();
-	}
 }
 
 void TitleLevel::LevelStart(GameEngineLevel* _PrevLevel)
