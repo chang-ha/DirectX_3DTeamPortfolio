@@ -1,5 +1,4 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
 
 // Ό³Έν :
 class MainUIActor : public GameEngineActor
@@ -24,6 +23,8 @@ public:
 
 	void BossUIOn();
 
+	std::shared_ptr<class UILoading> GetUILoading() { return LoadingObject; }
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -36,6 +37,9 @@ private:
 	std::shared_ptr<class UIPlayerEquip> EsteUI = nullptr;
 	std::shared_ptr<class UIPlayerGaugeBar> PlayerGaugeBar = nullptr;
 	std::shared_ptr<class AppearTextures> Textures = nullptr;
+
+	// Loading
+	std::shared_ptr<class UILoading> LoadingObject = nullptr;
 
 	//// PlayerIcon
 	std::shared_ptr<GameEngineUIRenderer> PlayerIcon;

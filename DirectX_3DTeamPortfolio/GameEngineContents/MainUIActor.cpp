@@ -1,11 +1,11 @@
 #include "PreCompile.h"
 #include "MainUIActor.h"
 
-#include "UIActor.h"
 #include "UIPlayerGaugeBar.h"
 #include "UIEquipFrame.h"
 #include "UIPlayerEquip.h"
 #include "BossHpUI.h"
+#include "UILoading.h"
 
 #include "PlayerValue.h"
 #include "AddSouls.h"

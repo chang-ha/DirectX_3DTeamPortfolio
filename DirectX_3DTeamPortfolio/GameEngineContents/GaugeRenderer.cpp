@@ -86,5 +86,5 @@ void GaugeRenderer::BillboardUpdate(float4 _CameraRotation)
 void GaugeRenderer::SetGauge(float _Ratio)
 {
 	const float Ratio = std::clamp(_Ratio, 0.0f, 1.0f);
-	GaugeInfoValue.Gauge = Ratio;
+	GaugeInfoValue.GaugeRatio = Ratio;
 }

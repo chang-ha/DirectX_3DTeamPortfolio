@@ -1,13 +1,5 @@
 #pragma once
 
-struct GaugeInfo
-{
-	float Gauge = 1.0f;
-	int FromLeft = 0;
-	int Temp0 = 0;
-	int Temp1 = 0;
-};
-
 // Ό³Έν :
 class GaugeRenderer : public GameEngineRenderer
 {

@@ -66,7 +66,7 @@ Stage_Lothric::~Stage_Lothric()
 
 void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	LoadingThread.Work(std::bind(&Stage_Lothric::Loading, this));
+	LoadingThread.Work(std::bind(&Stage_Lothric::ResLoading, this));
 
 	{
 		std::shared_ptr<GameEngineActor> Ground = CreateActor<GameEngineActor>(0);
@@ -270,182 +270,6 @@ void Stage_Lothric::Update(float _Delta)
 		Player_Object->Off();
 	}
 
-}
-
-void Stage_Lothric::Release()
-{
-	if (nullptr != Boss_Object)
-	{
-		Boss_Object->Death();
-		Boss_Object = nullptr;
-	}
-
-	if (nullptr != Player_Object)
-	{
-		Player_Object->Death();
-		Player_Object = nullptr;
-	}
-
-	if (nullptr != Map_Lothric)
-	{
-		Map_Lothric->Death();
-		Map_Lothric = nullptr;
-	}
-
-	if (nullptr != Light)
-	{
-		Light->Death();
-		Light = nullptr;
-	}
-
-
-	//오브젝트 릴리즈
-	if (nullptr != BossDoor)
-	{
-		BossDoor->Death();
-		BossDoor = nullptr;
-	}
-	if (nullptr != CastleDoor)
-	{
-		CastleDoor->Death();
-		CastleDoor = nullptr;
-	}
-	if (nullptr != Ladder1)
-	{
-		Ladder1->Death();
-		Ladder1 = nullptr;
-	}
-	if (nullptr != Ladder2)
-	{
-		Ladder2->Death();
-		Ladder2 = nullptr;
-	}
-	if (nullptr != Ladder3)
-	{
-		Ladder3->Death();
-		Ladder3 = nullptr;
-	}
-	if (nullptr != Ladder4)
-	{
-		Ladder4->Death();
-		Ladder4 = nullptr;
-	}
-	if (nullptr != Ladder5)
-	{
-		Ladder5->Death();
-		Ladder5 = nullptr;
-	}
-	if (nullptr != Ladder6)
-	{
-		Ladder6->Death();
-		Ladder6 = nullptr;
-	}
-	if (nullptr != Desk)
-	{
-		Desk->Death();
-		Desk = nullptr;
-	}
-
-	if (true != VBonfire.empty())
-	{
-		for (size_t i = 0; i < VBonfire.size(); i++)
-		{
-			VBonfire[i]->Release();
-			VBonfire[i] = nullptr;
-		}
-	}
-
-	if (true != VTable.empty())
-	{
-		for (size_t i = 0; i < VTable.size(); i++)
-		{
-			VTable[i]->Release();
-			VTable[i] = nullptr;
-		}
-	}
-	if (true != VTorchlight.empty())
-	{
-		for (size_t i = 0; i < VTorchlight.size(); i++)
-		{
-			VTorchlight[i]->Release();
-			VTorchlight[i] = nullptr;
-		}
-	}
-	if (true != VSkeleton.empty())
-	{
-		for (size_t i = 0; i < VSkeleton.size(); i++)
-		{
-			VSkeleton[i]->Release();
-			VSkeleton[i] = nullptr;
-		}
-	}
-	if (true != VSkeleton1.empty())
-	{
-		for (size_t i = 0; i < VSkeleton1.size(); i++)
-		{
-			VSkeleton1[i]->Release();
-			VSkeleton1[i] = nullptr;
-		}
-	}
-	if (true != VHumanTree1.empty())
-	{
-		for (size_t i = 0; i < VHumanTree1.size(); i++)
-		{
-			VHumanTree1[i]->Release();
-			VHumanTree1[i] = nullptr;
-		}
-	}
-	if (true != VHumanTree2.empty())
-	{
-		for (size_t i = 0; i < VHumanTree2.size(); i++)
-		{
-			VHumanTree2[i]->Release();
-			VHumanTree2[i] = nullptr;
-		}
-	}
-	if (true != VHumanTree3.empty())
-	{
-		for (size_t i = 0; i < VHumanTree3.size(); i++)
-		{
-			VHumanTree3[i]->Release();
-			VHumanTree3[i] = nullptr;
-		}
-	}
-	if (true != VHumanTree4.empty())
-	{
-		for (size_t i = 0; i < VHumanTree4.size(); i++)
-		{
-			VHumanTree4[i]->Release();
-			VHumanTree4[i] = nullptr;
-		}
-	}
-	if (true != VHumanTree5.empty())
-	{
-		for (size_t i = 0; i < VHumanTree5.size(); i++)
-		{
-			VHumanTree5[i]->Release();
-			VHumanTree5[i] = nullptr;
-		}
-	}
-	if (true != VCandleHuman.empty())
-	{
-		for (size_t i = 0; i < VCandleHuman.size(); i++)
-		{
-			VCandleHuman[i]->Release();
-			VCandleHuman[i] = nullptr;
-		}
-	}
-	if (true != VCandleHuman2.empty())
-	{
-		for (size_t i = 0; i < VCandleHuman2.size(); i++)
-		{
-			VCandleHuman2[i]->Release();
-			VCandleHuman2[i] = nullptr;
-		}
-	}
-
-	
-	
 }
 
 
@@ -1645,7 +1469,7 @@ void Stage_Lothric::BossBGMUpdate(float _Delta)
 	}
 }
 
-void Stage_Lothric::Loading()
+void Stage_Lothric::ResLoading()
 {
 	int a = 0;
 }

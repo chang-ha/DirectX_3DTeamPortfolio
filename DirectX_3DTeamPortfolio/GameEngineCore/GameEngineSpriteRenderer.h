@@ -64,6 +64,14 @@ enum class MaskMode
 	DynamicMask, // 스크린좌표계인데 랜더러의 위치에 따라서 마스크 위치를 변경한다.
 };
 
+struct GaugeInfo
+{
+	float GaugeRatio = 1.0f;
+	int GaugeOn = 0;
+	int Temp0 = 0;
+	int Temp1 = 0;
+};
+
 struct SpriteRendererInfo
 {
 	int FlipLeft = 0;
@@ -234,6 +242,11 @@ public:
 		return ColorDataValue;
 	}
 
+	inline GaugeInfo& GetGaugeInfo()
+	{
+		return Gauge;
+	}
+
 	void SetMaskTexture(std::string_view _Texture, MaskMode _Mask = MaskMode::StaticMask);
 
 	void SetText(const std::string& _Font, const std::string& _Text, float _Scale = 20.0f, float4 Color = float4::RED, FW1_TEXT_FLAG Flag = FW1_LEFT);
@@ -264,6 +277,7 @@ private:
 
 	std::shared_ptr<GameEngineSprite> Sprite;
 	SpriteData CurSprite;
+	GaugeInfo Gauge;
 
 	std::shared_ptr<class GameEngineSampler> Sampler;
 
