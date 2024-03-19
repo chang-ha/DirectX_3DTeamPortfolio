@@ -873,7 +873,7 @@ void Player::Player_State()
 			Sword.ResetRecord();
 			MainRenderer->ChangeAnimation("Attack_01");
 			StateValue = PlayerState::StaminaCheck;
-
+			Capsule->SetWorldRotation({ Rock_on_X,Cameracapsule->Capsule_02->GetDir() });
 			Stat.AddStamina(-20);		
 		};
 
@@ -899,7 +899,7 @@ void Player::Player_State()
 					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
 					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
 				}
-
+				
 
 				if (MainRenderer->GetCurAnimationFrame() < 30)
 				{
@@ -974,6 +974,7 @@ void Player::Player_State()
 				Sword.ResetRecord();
 				MainRenderer->ChangeAnimation("Attack_02");
 				StateValue = PlayerState::StaminaCheck;
+				Capsule->SetWorldRotation({ Rock_on_X,Cameracapsule->Capsule_02->GetDir() });
 				Stat.AddStamina(-20);
 			};
 
@@ -1076,6 +1077,7 @@ void Player::Player_State()
 				Sword.ResetRecord();
 				MainRenderer->ChangeAnimation("Attack_03");
 				StateValue = PlayerState::StaminaCheck;
+				Capsule->SetWorldRotation({ Rock_on_X,Cameracapsule->Capsule_02->GetDir() });
 				Stat.AddStamina(-20);
 			};
 
@@ -1177,6 +1179,7 @@ void Player::Player_State()
 				Sword.ResetRecord();
 				MainRenderer->ChangeAnimation("Attack_04");
 				StateValue = PlayerState::StaminaCheck;
+				Capsule->SetWorldRotation({ Rock_on_X,Cameracapsule->Capsule_02->GetDir() });
 				Stat.AddStamina(-20);
 			};
 
@@ -1281,7 +1284,7 @@ void Player::Player_State()
 			{
 				MainRenderer->ChangeAnimation("Portion_Drink_01");
 				Potion -=1; 
-				Stat.AddHp(100.0f);
+				Stat.AddHp(100);
 				Weapon_Actor->Getweapon()->Off(); 
 			};
 
@@ -2241,7 +2244,6 @@ void Player::Player_State()
 				StateValue = PlayerState::Left_Middle_Hit;
 				Weapon_Actor->Getweapon()->On();
 				Shield_Col->Off();
-				Capsule->SetWorldRotation({ 0.0f,degree_X });
 			};
 
 
@@ -2264,7 +2266,38 @@ void Player::Player_State()
 		PlayerStates.CreateState(PlayerState::Left_Middle_Hit, NewPara);
 	}
 
+	{
 
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("HitDown");
+				StateValue = PlayerState::HitDown;
+				Weapon_Actor->Getweapon()->On();
+				Body_Col->Off();
+				Shield_Col->Off();
+			};
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+
+				if (Rock_On_Check == true)
+				{
+					Capsule->SetWorldRotation({ Rock_on_X,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
+				}
+
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					Body_Col->On();
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::HitDown, NewPara);
+	}
 
 	{
 		CreateStateParameter NewPara;
@@ -3025,6 +3058,8 @@ void Player::Player_State()
 		PlayerStates.CreateState(PlayerState::landing, NewPara);
 	}
 
+
+	
 
 
 

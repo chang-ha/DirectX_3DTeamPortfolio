@@ -74,7 +74,9 @@ enum class PlayerState
 	ladder_Fast_Down_Stop,
 	fail,
 	landing,
-	StaminaCheck
+	StaminaCheck,
+	HitDown,
+
 };
 
 // Ό³Έν :

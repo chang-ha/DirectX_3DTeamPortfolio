@@ -65,6 +65,7 @@ enum Enum_Player_Hit
 	weak,
 	Middle,
 	Strong,
+	Down, 
 };
 
 

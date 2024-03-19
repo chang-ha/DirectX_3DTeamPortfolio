@@ -174,7 +174,7 @@ void Player::Start()
 	MainRenderer->CreateFBXAnimation("ladder_Fast_Down_Start", "028000.FBX", { Frame, false });
 	MainRenderer->CreateFBXAnimation("ladder_Fast_Down", "028001.FBX", { Frame, false });
 
-
+	MainRenderer->CreateFBXAnimation("Hit_Down", "005900.FBX", { Frame, false });
 
 	MainRenderer->ChangeAnimation("Shield_Idle");
 	
@@ -1283,6 +1283,28 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 
 	}
 
+	else if (Stat.GetPoise() < 50 || pAttacker->Get_Hit_Type() == Enum_Player_Hit::Down)
+	{
+		
+
+		if (_Para.eDir == Enum_DirectionXZ_Quat::F)
+		{
+			PlayerStates.ChangeState(PlayerState::Forward_Middle_Hit);
+		}
+		if (_Para.eDir == Enum_DirectionXZ_Quat::B)
+		{
+			PlayerStates.ChangeState(PlayerState::Backward_Middle_Hit);
+		}
+		if (_Para.eDir == Enum_DirectionXZ_Quat::L)
+		{
+			PlayerStates.ChangeState(PlayerState::Left_Middle_Hit);
+		}
+		if (_Para.eDir == Enum_DirectionXZ_Quat::R)
+		{
+			PlayerStates.ChangeState(PlayerState::Right_Middle_Hit);
+		}
+
+	}
 
 	
 
@@ -1441,6 +1463,10 @@ bool Player::GetHitToShield(const HitParameter& _Para)
 			PlayerStates.ChangeState(PlayerState::Weak_Shield_block);
 		}
 		else if (pAttacker->Get_Hit_Type() == Enum_Player_Hit::Middle)
+		{
+			PlayerStates.ChangeState(PlayerState::Middle_Shield_block);
+		}
+		else if (pAttacker->Get_Hit_Type() == Enum_Player_Hit::Down)
 		{
 			PlayerStates.ChangeState(PlayerState::Middle_Shield_block);
 		}
