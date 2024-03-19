@@ -2245,6 +2245,11 @@ void Monster_HollowSoldier_Sword::State_HitToDeath_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 58)
 	{
 		MeshOff(Enum_Hollow_MeshIndex::Sword);
+
+		if (DeathValue == false)
+		{
+			DeathFunc();
+		}
 	}
 
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
@@ -2285,6 +2290,8 @@ void Monster_HollowSoldier_Sword::State_BackAttackDeath_Update(float _Delta)
 {
 	if (MainRenderer->GetCurAnimationFrame() >= 56)
 	{
+		MeshOff(Enum_Hollow_MeshIndex::Sword);
+
 		if (DeathValue == false)
 		{
 			DeathFunc();
@@ -2323,6 +2330,8 @@ void Monster_HollowSoldier_Sword::State_AfterGuardBreakDeath_Update(float _Delta
 {
 	if (MainRenderer->GetCurAnimationFrame() >= 63)
 	{
+		MeshOff(Enum_Hollow_MeshIndex::Sword);
+
 		if (DeathValue == false)
 		{
 			DeathFunc();
@@ -2332,8 +2341,6 @@ void Monster_HollowSoldier_Sword::State_AfterGuardBreakDeath_Update(float _Delta
 
 void Monster_HollowSoldier_Sword::State_Death_Start()
 {
-	DeathFunc();
-
 	MainRenderer->ChangeAnimation("c1100_Death");
 }
 void Monster_HollowSoldier_Sword::State_Death_Update(float _Delta) 
