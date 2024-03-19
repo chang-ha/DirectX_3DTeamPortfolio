@@ -2,6 +2,9 @@
 #include "AppearTextures.h"
 #include <GameEngineCore/GameEngineSpriteRenderer.h>
 
+#include "Player.h"
+#include "Boss_Vordt.h"
+
 AppearTextures::AppearTextures()
 {
 
@@ -35,6 +38,15 @@ void AppearTextures::Start()
 	SoulImage->Off();
 
 	GameEngineInput::AddInputObject(this);
+}
+
+void AppearTextures::ReceivePointer(Player* _pPlayer, Boss_Vordt* _pBoss)
+{
+	// 플레이어
+	PlayerObject = _pPlayer;
+
+	// 보스
+	BossObject = _pBoss;
 }
 
 void AppearTextures::Update(float _Delta)
@@ -93,6 +105,15 @@ void AppearTextures::OffStart()
 
 void AppearTextures::OffUpdate(float _Delta)
 {
+	if (BossObject->IsFlag(Enum_ActorFlag::Death))
+	{
+		Lit->SetSprite("Lit.Png");
+		LitBack->SetSprite("LitBack.Png");
+
+		GameEngineSound::SoundPlay("Bonfire_Sound_Effect_.wav");
+		ChangeState(TextureActor::Appear);
+	}
+
 	if (GameEngineInput::IsDown('2', this))
 	{
 		Lit->SetSprite("Lit.Png");

@@ -71,7 +71,6 @@ void MainUIActor::Start()
 	PlayerIcon->Transform.SetLocalPosition({ -HScale.X + 60.0f, 400.0f });
 
 	GetLevel()->CreateActor<AddSouls>();
-	GetLevel()->CreateActor<AppearTextures>();
 }
 
 void MainUIActor::Update(float _Delta)
@@ -131,4 +130,17 @@ void MainUIActor::BossUIOn()
 	{
 		BossHpObject->Awake();
 	}
+}
+
+void MainUIActor::CreateTextureAndThrowObjectPointer(class Player* _pPlayer, class Boss_Vordt* _pBoss)
+{
+	if (nullptr == _pPlayer || nullptr == _pBoss)
+	{
+		MsgBoxAssert("플레이어나 보스 포인터를 받지 못했습니다.");
+		return;
+	}
+	
+	Textures = GetLevel()->CreateActor<AppearTextures>(Enum_UpdateOrder::UI);
+	Textures->ReceivePointer(_pPlayer, _pBoss);
+
 }
