@@ -797,11 +797,6 @@ void Stage_Lothric::SetAllEvCol()
 
 		AllEvCol.push_back(EventCollision);
 	}
-
-	for (Monster : AllMonster)
-	{
-		Monster->Reset();
-	}
 }
 
 void Stage_Lothric::EvColUpdate()
