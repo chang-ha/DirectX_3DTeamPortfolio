@@ -45,7 +45,7 @@ void Monster_HollowSoldier_RoundShield::Start()
 
 	ChangeState(Enum_HollowSoldier_RoundShield_State::Idle1);
 
-	CreateMonsterUI(0);
+	CreateMonsterUI(73);
 }
 void Monster_HollowSoldier_RoundShield::Update(float _Delta)
 {

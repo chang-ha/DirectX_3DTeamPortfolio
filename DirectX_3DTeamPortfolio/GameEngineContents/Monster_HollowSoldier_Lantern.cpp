@@ -44,7 +44,7 @@ void Monster_HollowSoldier_Lantern::Start()
 
 	ChangeState(Enum_HollowSoldier_Lantern_State::Stay);
 
-	CreateMonsterUI(0);
+	CreateMonsterUI(73);
 }
 void Monster_HollowSoldier_Lantern::Update(float _Delta)
 {
