@@ -1,5 +1,13 @@
 #pragma once
 
+
+enum class Enum_AlertType
+{
+	BoneLit,
+	TargetDistory,
+	YouDie,
+};
+
 // 설명 :
 class MainUIActor : public GameEngineActor
 {
@@ -28,20 +36,24 @@ public:
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
-
-	void LevelStart(GameEngineLevel* _PrevLevel) override;
+	void LevelStart(GameEngineLevel* _PrevLevel) override {}
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
+
+	// 액터 생성
+	void CallAlert(Enum_AlertType _Type);
 
 private:
 	std::shared_ptr<class BossHpUI> BossHpObject = nullptr;
 	std::shared_ptr<class UIPlayerEquip> EsteUI = nullptr;
 	std::shared_ptr<class UIPlayerGaugeBar> PlayerGaugeBar = nullptr;
+	std::shared_ptr<class UILoading> LoadingObject = nullptr;
+
 	std::shared_ptr<class AppearTextures> Textures = nullptr;
 
-	// Loading
-	std::shared_ptr<class UILoading> LoadingObject = nullptr;
 
 	//// PlayerIcon
 	std::shared_ptr<GameEngineUIRenderer> PlayerIcon;
+
+
 };
 
