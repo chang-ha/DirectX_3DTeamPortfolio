@@ -26,29 +26,31 @@ void PatrolPath::ValidityCheck(std::string_view _MSG)
 	}
 }
 
-void PatrolPath::Init(const std::vector<float4>& _Paths, int _Index /*= 0*/)
+void PatrolPath::Init(const std::vector<float4>& _Paths, int _Index /*= 0*/, bool _IsOneWay /*= false*/)
 {
 	if (static_cast<int>(_Paths.size()) <= _Index)
 	{
 		CurIndex = 0;
 	}
-
-	Paths = _Paths;
-
-	ValidityCheck();
-}
-
-float4 PatrolPath::GetNextPath(const float4& _ActorPos)
-{
-	if (true == IsArrive(_ActorPos))
+	if (1 == _Paths.size())
 	{
-		ChangePath();
+		MsgBoxAssert("하나의 점으로 정찰을 진행할 수 없습니다.");
+		return;
 	}
 
-	ValidityCheck();
+	Paths = _Paths;
+	bOneWay = _IsOneWay;
 
+	ValidityCheck();
+}
+
+float4 PatrolPath::GetCurPath()
+{
+	ValidityCheck();
 	return Paths.at(CurIndex);
 }
+
+static constexpr float CognizanceRange = 20.0f;
 
 bool PatrolPath::IsArrive(const float4& _ActorPos) const
 {
@@ -57,16 +59,40 @@ bool PatrolPath::IsArrive(const float4& _ActorPos) const
 	TargetPos.Y = 0.0f;
 	ActorPos.Y = 0.0f;
 
-	const float4 Dist = DirectX::XMVector2LengthEst((ActorPos - TargetPos).DirectXVector);
-	return (Dist.X < CognizanceRange);
+	const float4 Dist = DirectX::XMVector3LengthEst((ActorPos - TargetPos).DirectXVector);
+	if (Dist.X < CognizanceRange)
+	{
+		return true;
+	}
+
+	return false;
 }
 
 void PatrolPath::ChangePath()
 {
-	++CurIndex;
-	int Size = static_cast<int>(Paths.size());
-	if (Size <= CurIndex)
+	CurIndex += iDir;
+
+	if (true == OverIndex())
 	{
-		CurIndex = 0;
+		if (true == bOneWay)
+		{
+			CurIndex = 0;
+		}
+		else
+		{
+			iDir *= -1;
+			CurIndex += iDir * 2;
+		}
 	}
+}
+
+bool PatrolPath::OverIndex()
+{
+	const int PathSize = static_cast<int>(Paths.size());
+	if (CurIndex < 0 || CurIndex >= PathSize)
+	{
+		return true;
+	}
+
+	return false;
 }

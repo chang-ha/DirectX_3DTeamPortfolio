@@ -2,7 +2,7 @@
 #include "Monster_LothricKn.h"
 
 #include "DummyActor.h"
-#include "ContentsMath.h"
+#include "PatrolPath.h"
 
 static constexpr float MIN_TIME_STEPSTATE = 0.5f;
 static constexpr float MAX_TIME_STEPSTATE = 2.0f;
@@ -112,6 +112,10 @@ void Monster_LothricKn::CreateFSM()
 	MainState.CreateState(Enum_LothricKn_State::Idle_Sit ,{	          .Start = std::bind(&Monster_LothricKn::Start_Idle_Sit,this, std::placeholders::_1),           .Stay = std::bind(&Monster_LothricKn::Update_Idle_Sit,this, std::placeholders::_1,std::placeholders::_2),             .End = std::bind(&Monster_LothricKn::End_Idle_Sit, this, std::placeholders::_1) });
 	MainState.CreateState(Enum_LothricKn_State::Sleep, {              .Start = std::bind(&Monster_LothricKn::StartSleep,this, std::placeholders::_1),                                                                                                                                     .End = std::bind(&Monster_LothricKn::EndSleep,this, std::placeholders::_1) });
 	MainState.CreateState(Enum_LothricKn_State::Patrol, {             .Start = std::bind(&Monster_LothricKn::Start_Patrol,this, std::placeholders::_1),             .Stay = std::bind(&Monster_LothricKn::Update_Patrol,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::Patrol_L_Turn, {      .Start = std::bind(&Monster_LothricKn::Start_Patrol_L_Turn,this, std::placeholders::_1),      .Stay = std::bind(&Monster_LothricKn::Update_Patrol_Turn,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::Patrol_R_Turn, {      .Start = std::bind(&Monster_LothricKn::Start_Patrol_R_Turn,this, std::placeholders::_1),      .Stay = std::bind(&Monster_LothricKn::Update_Patrol_Turn,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::Patrol_L_TurnTwice, { .Start = std::bind(&Monster_LothricKn::Start_Patrol_L_TurnTwice,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Patrol_Turn,this, std::placeholders::_1,std::placeholders::_2) });
+	MainState.CreateState(Enum_LothricKn_State::Patrol_R_TurnTwice, { .Start = std::bind(&Monster_LothricKn::Start_Patrol_R_TurnTwice,this, std::placeholders::_1), .Stay = std::bind(&Monster_LothricKn::Update_Patrol_Turn,this, std::placeholders::_1,std::placeholders::_2) });
 	MainState.CreateState(Enum_LothricKn_State::Combo_Att_11, {       .Start = std::bind(&Monster_LothricKn::Start_Combo_Att_11,this, std::placeholders::_1),       .Stay = std::bind(&Monster_LothricKn::Update_Combo_Att_11,this, std::placeholders::_1,std::placeholders::_2),         .End = std::bind(&Monster_LothricKn::End_Combo_Att_11, this, std::placeholders::_1) });
 	MainState.CreateState(Enum_LothricKn_State::Combo_Att_12, {       .Start = std::bind(&Monster_LothricKn::Start_Combo_Att_12,this, std::placeholders::_1),       .Stay = std::bind(&Monster_LothricKn::Update_Combo_Att_12,this, std::placeholders::_1,std::placeholders::_2),         .End = std::bind(&Monster_LothricKn::End_Combo_Att_12, this, std::placeholders::_1) });
 	MainState.CreateState(Enum_LothricKn_State::Combo_Att_13, {       .Start = std::bind(&Monster_LothricKn::Start_Combo_Att_13,this, std::placeholders::_1),       .Stay = std::bind(&Monster_LothricKn::Update_Combo_Att_13,this, std::placeholders::_1,std::placeholders::_2),         .End = std::bind(&Monster_LothricKn::End_Combo_Att_13, this, std::placeholders::_1) });
@@ -226,6 +230,26 @@ void Monster_LothricKn::Start_Patrol(GameEngineState* _State)
 	SetPatrolCollision(true);
 	SetCombatMode(eCombatState::Normal);
 	MainRenderer->ChangeAnimation("Patrol");
+}
+
+void Monster_LothricKn::Start_Patrol_L_Turn(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("L_Turn");
+}
+
+void Monster_LothricKn::Start_Patrol_R_Turn(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("R_Turn");
+}
+
+void Monster_LothricKn::Start_Patrol_L_TurnTwice(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("L_TurnTwice");
+}
+
+void Monster_LothricKn::Start_Patrol_R_TurnTwice(GameEngineState* _State)
+{
+	MainRenderer->ChangeAnimation("R_TurnTwice");
 }
 
 void Monster_LothricKn::Start_Combo_Att_11(GameEngineState* _State)
@@ -735,11 +759,6 @@ void Monster_LothricKn::Update_Idle_Gaurding(float _DeltaTime, GameEngineState* 
 
 void Monster_LothricKn::Update_Patrol(float _DeltaTime, GameEngineState* _State)
 {
-	if (true == CheckAndSetHitState())
-	{
-		return;
-	}
-
 	bool IsFindTarget = FindAndSetTarget(TARGET_ORDER);
 	if (IsFindTarget)
 	{
@@ -752,6 +771,53 @@ void Monster_LothricKn::Update_Patrol(float _DeltaTime, GameEngineState* _State)
 
 		Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
 		MainState.ChangeState(FindMovementState);
+		return;
+	}
+
+	if (nullptr == PathObject)
+	{
+		MsgBoxAssert("정찰할 길을 지정하지 않았는데 정찰하려 했습니다.");
+		return;
+	}
+
+	const float4 WPos = Transform.GetWorldPosition();
+	if (PathObject->IsArrive(WPos))
+	{
+		PathObject->ChangePath();
+	}
+
+	Enum_LothricKn_State FindState = GetStateToPatrolTable();
+	if (Enum_LothricKn_State::None != FindState)
+	{
+		MainState.ChangeState(FindState);
+		return;
+	}
+	else
+	{
+		RotToPatrolPath(_DeltaTime, 10.0f, 500.0f, 30.0f);
+	}
+}
+
+void Monster_LothricKn::Update_Patrol_Turn(float _DeltaTime, GameEngineState* _State)
+{
+	if (IsFrameEnd())
+	{
+		bool IsFindTarget = FindAndSetTarget(TARGET_ORDER);
+		if (IsFindTarget)
+		{
+			Enum_LothricKn_State FindDodgeState = GetStateToDodgeTable();
+			if (Enum_LothricKn_State::None != FindDodgeState)
+			{
+				MainState.ChangeState(FindDodgeState);
+				return;
+			}
+
+			Enum_LothricKn_State FindMovementState = GetStateToMovementTable();
+			MainState.ChangeState(FindMovementState);
+			return;
+		}
+
+		_State->ChangeState(Enum_LothricKn_State::Patrol);
 		return;
 	}
 }
@@ -3443,4 +3509,108 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToHitTable()
 	}
 
 	return Enum_LothricKn_State::None;
+}
+
+Enum_LothricKn_State Monster_LothricKn::GetStateToPatrolTable()
+{
+	const float4 MyPos = Transform.GetWorldPosition();
+	const float MyRot = Transform.GetWorldRotationEuler().Y;
+	const float4 PathPos = PathObject->GetCurPath();
+
+	float4 FrontVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot);
+	float4 TargetVector = PathPos - MyPos;
+	TargetVector.Y = 0.0f;
+	TargetVector.Normalize();
+
+	const float4 Angle = DirectX::XMVector3AngleBetweenNormalsEst(FrontVector.DirectXVector, TargetVector.DirectXVector);
+	const float Degree = Angle.X * GameEngineMath::R2D;
+	const float4 CrossResult = float4::Cross3D(FrontVector, TargetVector);
+
+	enum class eDir
+	{
+		Left,
+		Right,
+	};
+
+	eDir TurnDir;
+	if (CrossResult.Y < 0.0f)
+	{
+		TurnDir = eDir::Left;
+	}
+	else
+	{
+		TurnDir = eDir::Right;
+	}
+
+	if (Degree < 45.0f)
+	{
+		// 직진
+		return Enum_LothricKn_State::None;
+	}
+	else if (Degree >= 45.0f && Degree < 135.f)
+	{
+		if (eDir::Left == TurnDir)
+		{
+			return Enum_LothricKn_State::Patrol_L_Turn;
+		}
+		else
+		{
+			return Enum_LothricKn_State::Patrol_R_Turn;
+		}
+	}
+	else
+	{
+		if (eDir::Left == TurnDir)
+		{
+			return Enum_LothricKn_State::Patrol_L_TurnTwice;
+		}
+		else
+		{
+			return Enum_LothricKn_State::Patrol_R_TurnTwice;
+		}
+	}
+
+	return Enum_LothricKn_State::None;
+}
+
+void Monster_LothricKn::RotToPatrolPath(float _DeltaTime, float _fMinSpeed, float _fMaxSpeed, float _DeclinePoint /*= 45.0f*/)
+{
+	const float4 MyPos = Transform.GetWorldPosition();
+	const float MyRot = Transform.GetWorldRotationEuler().Y;
+	const float4 PathPos = PathObject->GetCurPath();
+
+	float4 FrontVector = float4::VectorRotationToDegY(float4::FORWARD, MyRot);
+	float4 TargetVector = PathPos - MyPos;
+	TargetVector.Y = 0.0f;
+	TargetVector.Normalize();
+
+	const float4 Angle = DirectX::XMVector3AngleBetweenNormalsEst(FrontVector.DirectXVector, TargetVector.DirectXVector);
+	const float Degree = Angle.X * GameEngineMath::R2D;
+	const float4 CrossResult = float4::Cross3D(FrontVector, TargetVector);
+
+	float Speed = _fMaxSpeed;
+
+	float fRotDir = 0.0f;
+	if (CrossResult.Y < 0.0f)
+	{
+		fRotDir = -1.0f;
+	}
+	else
+	{
+		fRotDir = 1.0f;
+	}
+
+	const float fAbsTargetAngle = Degree;
+	if (fAbsTargetAngle < _DeclinePoint)
+	{
+		const float Ratio = fAbsTargetAngle / _DeclinePoint;
+		Speed = std::lerp(_fMinSpeed, _fMaxSpeed, Ratio);
+	}
+
+	const float RotAngle = fRotDir * Speed * _DeltaTime;
+
+	if (nullptr != Capsule)
+	{
+		Capsule->AddWorldRotation(float4(0.0f, RotAngle, 0.0f));
+	}
 }
