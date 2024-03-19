@@ -36,6 +36,7 @@ void BaseMonster::Update(float _Delta)
 void BaseMonster::Release()
 {
 	BaseActor::Release();
+	PathObject = nullptr;
 }
 
 bool BaseMonster::CheckAnimationName(std::string _AnimationName)
@@ -90,14 +91,14 @@ void BaseMonster::GravityOff()
 	Capsule->GravityOff();
 }
 
-void BaseMonster::SetPatrolPath(const std::vector<float4>& _Paths, int _Index /*= 0*/)
+void BaseMonster::SetPatrolPath(const std::vector<float4>& _Paths, int _Index /*= 0*/, bool _IsOneWay /*= false*/)
 {
-	if (nullptr == PatrolPaths)
+	if (nullptr == PathObject)
 	{
-		PatrolPaths = std::make_unique<PatrolPath>();
+		PathObject = std::make_unique<PatrolPath>();
 	}
 
-	PatrolPaths->Init(_Paths, _Index);
+	PathObject->Init(_Paths, _Index, _IsOneWay);
 }
 
 float BaseMonster::ConvertDistance_eTof(Enum_TargetDist _eTDist) const

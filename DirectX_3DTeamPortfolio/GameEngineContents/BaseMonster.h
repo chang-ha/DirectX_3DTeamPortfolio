@@ -42,7 +42,7 @@ public:
 	void GravityOn();
 	void GravityOff();
 
-	void SetPatrolPath(const std::vector<float4>& _Paths, int _Index = 0);
+	void SetPatrolPath(const std::vector<float4>& _Paths, int _Index = 0, bool _IsOneWay = false);
 
 	// 리스폰 위치
 	void SetResponPos(const float4& _Pos)
@@ -64,6 +64,8 @@ public:
 	{
 		return ResponRot;
 	}
+
+	void DebugOn() { DebugValue = true; }
 
 protected:
 	void Start() override;
@@ -202,11 +204,13 @@ protected:
 	void CreateMonsterUI(int _BoneHeadIndex);
 
 protected:
-	std::unique_ptr<class PatrolPath> PatrolPaths;
+	std::unique_ptr<class PatrolPath> PathObject;
 
 	// 몬스터 리스폰 위치
 	float4 ResponPos = float4::ZERO;
 	float4 ResponRot = float4::ZERO;
+
+	bool DebugValue = false;
 
 private:
 	std::shared_ptr<class MonsterHpBar> MonsterUI;
