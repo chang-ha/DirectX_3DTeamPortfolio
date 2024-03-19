@@ -121,8 +121,8 @@ public:
 	bool testa = false;
 	bool testaa = false;
 	bool testaaa = false;
-	
-
+	bool Fog_Check = false;
+	bool Fog_Run_Check = false;
 	
 	float Camera_Pos_Y = 0.0f;
 	
@@ -192,7 +192,6 @@ private:
 	std::string BoneName;
 
 	std::shared_ptr<GameEngineCollision> Player_Col;
-
 	std::shared_ptr<GameEngineCollision> Parring_Attack_Col;
 	std::shared_ptr<BoneSocketCollision> Body_Col;
 	std::shared_ptr<BoneSocketCollision> Shield_Col;
@@ -259,7 +258,7 @@ private:
 	bool IsFreeCameraValue = false;
 	bool Cameratest = false;
 	bool Rock_OnOff = false;
-
+	
 
 	float Angle = 0.0f;
 	float Labber_Angle = 0.0f;

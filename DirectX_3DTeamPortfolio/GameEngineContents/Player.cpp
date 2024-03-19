@@ -83,8 +83,8 @@ void Player::Start()
 	MainRenderer->CreateFBXAnimation("String_Hit_Forward", "005300.FBX", { Frame, false }); //120
 	MainRenderer->CreateFBXAnimation("String_Hit_Behind", "005303.FBX", { Frame, false }); // 120
 	MainRenderer->CreateFBXAnimation("Run15", "017002.FBX", { Frame, true }); // ¿¡´Ï¸ÞÀÌ¼ÇÀÌ µ¹¾Æ°¨ 
-	MainRenderer->CreateFBXAnimation("Weak_Shield_block", "019200.FBX", { Frame, true }); 
-	MainRenderer->CreateFBXAnimation("Middle_Shield_block", "019210.FBX", { Frame, true });
+	MainRenderer->CreateFBXAnimation("Weak_Shield_block", "019200.FBX", { Frame, true });  //15~18
+	MainRenderer->CreateFBXAnimation("Middle_Shield_block", "019210.FBX", { Frame, true }); // 37
 	MainRenderer->CreateFBXAnimation("Slow_Walk_Forward", "020000.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Slow_Walk_Behind", "0200001.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Slow_Walk_Right", "0200002.FBX", { Frame, true });
@@ -133,7 +133,7 @@ void Player::Start()
 	MainRenderer->CreateFBXAnimation("Fighting_02", "080014.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Surren", "080700.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Surren_Up", "080702.FBX", { Frame, true });
-	MainRenderer->CreateFBXAnimation("Big_Shield_block", "019500.FBX", { Frame, true });
+	MainRenderer->CreateFBXAnimation("Big_Shield_block", "019500.FBX", { Frame, true }); //50
 
 	MainRenderer->CreateFBXAnimation("Left_Stop", "022102.FBX", { Frame, false }); // ¿ÞÂÊ ¸ØÃã 
 	MainRenderer->CreateFBXAnimation("Behind_Stop", "022101.FBX", { Frame, false }); // µÚ ¸ØÃã 
@@ -325,7 +325,7 @@ void Player::Start()
 	{
 
 		ColParameter.R = 0.0f;
-		ColParameter.S = { 20.f, 130.f, 20.f };
+		ColParameter.S = { 20.f, 120.f, 20.f };
 		ColParameter.T = { 0.f, 0.5f, 0.f };
 
 		Attack_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Attack, Bone_index_01, ColParameter,"Player_Weapon");
@@ -339,7 +339,7 @@ void Player::Start()
 	{
 
 		ColParameter.R = 0.0f;
-		ColParameter.S = { 50.f, 120.f, 60.f };
+		ColParameter.S = { 50.f, 130.f, 60.f };
 		//ColParameter.S = { 300.f, 300.f, 300.f };
 		ColParameter.T = { 0.f, 0.8f, 0.f };
 
@@ -349,6 +349,11 @@ void Player::Start()
 		Body_Col->On();
 
 	}
+
+
+
+
+
 	{
 		Player_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player);
 		Player_Col->SetCollisionType(ColType::SPHERE3D);
@@ -671,6 +676,34 @@ void Player::Update(float _Delta)
 
 	
 
+	if (Body_Col->Collision(Enum_CollisionOrder::Fog_Wall))
+	{
+		
+	}
+	
+	if (Fog_Check == true)
+	{
+		if (GameEngineInput::IsDown('E', this))
+		{
+			Fog_Run_Check = true;
+			GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Fog_Wall);
+			PlayerStates.ChangeState(PlayerState::Slow_Walk);
+
+		}
+	}
+
+	if (Fog_Check == false && Fog_Run_Check ==true)
+	{
+		PlayerStates.ChangeState(PlayerState::Idle);
+		GameEnginePhysX::PopSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Fog_Wall);
+		Fog_Run_Check = false;
+	}
+	
+	
+	
+	
+
+
 
 	//Attack_Col->CollisionEvent(Enum_CollisionOrder::Monster_Body, Attack_Event);
 	//Attack_Col->CollisionEvent(Enum_CollisionOrder::Monster_Shield, Attack_Event);
@@ -678,15 +711,10 @@ void Player::Update(float _Delta)
 	//Shield_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack, Shield_Event);
 
 
-	if (tyu == false)
-	{
+	
 		Sword.CollisionToBody(Enum_CollisionOrder::Monster_Body, 0);
-	}
-
-	if (tyu == false)
-	{
 		Sword.CollisionToShield(Enum_CollisionOrder::Monster_Shield, 0);
-	}
+	
 
 	
 
@@ -748,10 +776,13 @@ void Player::Update(float _Delta)
 			Stat.AddStamina(_Delta * 100);
 		}
 	}
-	if (Stat.GetStamina() <= 0)
+	if (Stat.GetStamina() < 0)
 	{
 		Stat.SetStamina(0); 
 	}
+
+
+
 	if (Stat.GetHp() <= 0)
 	{
 		Stat.SetHp(0);
@@ -774,12 +805,12 @@ void Player::Update(float _Delta)
 		Capsule->GravityOn();
 		PlayerStates.ChangeState(PlayerState::Idle);
 	}
-
-	float4 WorldMousePos = { Actor_test_02->Transform.GetWorldRotationEuler() };
+	
+	//float4 WorldMousePos = { };
 	float4 WorldMousePos2 = { degree_X };
 
-	OutputDebugStringA(WorldMousePos2.ToString("\n").c_str());
-	OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
+//	OutputDebugStringA(WorldMousePos2.ToString("\n").c_str());
+//	OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
 
 	
 
@@ -860,7 +891,26 @@ void Player::Update(float _Delta)
 		Player_Pos.X = Actor_test->Transform.GetWorldRotationEuler().Y;
 	}
 
-	Cur_degree_X = degree_X;
+	if (GetTargetPointer() != nullptr && Rock_On_Check == true)
+	{
+		std::shared_ptr<BaseActor> pActor = GetTargetPointer()->GetDynamic_Cast_This<BaseActor>();
+
+		if (pActor->GetHp() <= 0)
+		{
+			MonsterAngles.clear();
+			Rock_on_Time = 0;
+			Rock_on_Time_Check = false;
+
+			Rock_On_Check = false;
+
+			Camera_Pos_Y = Actor_test->Transform.GetWorldRotationEuler().X;
+			Player_Pos.X = Actor_test->Transform.GetWorldRotationEuler().Y;
+
+			SetTargeting(nullptr); 
+		}
+	}
+
+	
 
 	if (GetTargetPointer() != nullptr)
 	{
@@ -925,7 +975,7 @@ void Player::Update(float _Delta)
 
 
 	tyu = false;
-
+	Fog_Check = false;
 }
 
 void Player::LevelStart(GameEngineLevel* _PrevLevel)
@@ -1183,7 +1233,7 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 	HitRenderer->ChangeAnimation("Hit");
 	HitRenderer->Transform.SetWorldPosition({ Body_Col->Transform.GetWorldPosition().X,Body_Col->Transform.GetWorldPosition().Y + 50.0f,Body_Col->Transform.GetWorldPosition().Z });
 
-
+	Attack_Col->Off(); 
 	tyu = true;
 
 	Poise_Time = 0;
@@ -1401,11 +1451,13 @@ void Player::Rock_On(Enum_CollisionOrder _Order)
 					Number = 0;
 				}			
 			}
-			if (MonsterAngles.size() != 0)
+			if (MonsterAngles.size() != 0 )
 			{
 				//std::shared_ptr<GameEngineActor> pActor = _Other[MonsterAngles[Number]]->GetActor(); 
 				SetTargeting(_Other[MonsterAngles[Number]]->GetActor());
 				PlayerStates.ChangeState(PlayerState::RockOn);
+
+				MonsterAngles.clear();
 			}
 		};
 
@@ -1421,7 +1473,7 @@ bool Player::GetHitToShield(const HitParameter& _Para)
 	HitRenderer->On();
 	HitRenderer->ChangeAnimation("Hit");
 	HitRenderer->Transform.SetWorldPosition({ Shield_Col->Transform.GetWorldPosition().X,Shield_Col->Transform.GetWorldPosition().Y,Shield_Col->Transform.GetWorldPosition().Z });
-
+	Attack_Col->Off();
 
 
 

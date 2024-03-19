@@ -35,7 +35,7 @@ void CameraCapsule::LevelStart(GameEngineLevel* _PrevLevel)
 	Capsule->SetPositioningComponent();
 	Capsule->SetFiltering(Enum_CollisionOrder::Camera, Enum_CollisionOrder::Player);
 
-	Capsule_02->PhysXComponentInit(60.0f, 60.0f);
+	Capsule_02->PhysXComponentInit(70.0f, 70.0f);
 
 	Capsule_02->GravityOff();
 	Capsule_02->SetPositioningComponent();

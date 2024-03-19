@@ -102,7 +102,6 @@ void ContentsCollisionCallBack::onContact(const physx::PxContactPairHeader& pair
 		{
 			if ((CollisionFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Map)))
 			{
-				//Player::Main_Player->Actor_test_02->Transform.AddWorldPosition(-Player::Main_Player->CameraDir * 10);
 				Player::Main_Player->testa = true;
 			}		
 		}
@@ -111,8 +110,6 @@ void ContentsCollisionCallBack::onContact(const physx::PxContactPairHeader& pair
 		{
 			if ((CollisionFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Map)))
 			{
-				//testaa = true;
-				//Player::Main_Player->Actor_test_02->Transform.AddWorldPosition(Player::Main_Player->CameraDir * 10);
 				Player::Main_Player->testaa = true;
 			}
 		}
@@ -129,7 +126,7 @@ void ContentsCollisionCallBack::onContact(const physx::PxContactPairHeader& pair
 		{
 			if ((CollisionFilterdata.word0 & static_cast<int>(Enum_CollisionOrder::Fog_Wall)))
 			{
-				int a = 0;
+				Player::Main_Player->Fog_Check = true;
 			}
 		}
 	}
