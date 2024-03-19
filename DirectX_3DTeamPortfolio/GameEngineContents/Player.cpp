@@ -1289,19 +1289,19 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 
 		if (_Para.eDir == Enum_DirectionXZ_Quat::F)
 		{
-			PlayerStates.ChangeState(PlayerState::Forward_Middle_Hit);
+			PlayerStates.ChangeState(PlayerState::HitDown);
 		}
 		if (_Para.eDir == Enum_DirectionXZ_Quat::B)
 		{
-			PlayerStates.ChangeState(PlayerState::Backward_Middle_Hit);
+			PlayerStates.ChangeState(PlayerState::HitDown);
 		}
 		if (_Para.eDir == Enum_DirectionXZ_Quat::L)
 		{
-			PlayerStates.ChangeState(PlayerState::Left_Middle_Hit);
+			PlayerStates.ChangeState(PlayerState::HitDown);
 		}
 		if (_Para.eDir == Enum_DirectionXZ_Quat::R)
 		{
-			PlayerStates.ChangeState(PlayerState::Right_Middle_Hit);
+			PlayerStates.ChangeState(PlayerState::HitDown);
 		}
 
 	}
