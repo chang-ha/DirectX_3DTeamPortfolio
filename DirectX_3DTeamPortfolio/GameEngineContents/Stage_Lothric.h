@@ -125,6 +125,7 @@ private:
 	void End_End(GameEngineState* _Parent);
 
 	static bool ResLoadingDone;
+	static bool ResetLoadingDone;
 
 
 	//// Thread Function
