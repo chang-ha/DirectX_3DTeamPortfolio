@@ -47,8 +47,6 @@ private:
 	std::shared_ptr<GameEngineUIRenderer> AddSoul;
 	std::shared_ptr<GameEngineUIRenderer> SumSouls;
 
-	std::shared_ptr<GameEngineUIRenderer> TotalSouls;
-
 	int Souls = 0;
 	int SoulAdd = 0;
 

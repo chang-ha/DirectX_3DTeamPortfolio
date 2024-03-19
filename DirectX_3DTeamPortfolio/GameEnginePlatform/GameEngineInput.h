@@ -78,6 +78,7 @@ public:
 	static bool IsUp(int _Key, void* _Ptr);
 	static bool IsPress(int _Key, void* _Ptr);
 	static bool IsFree(int _Key, void* _Ptr);
+	static bool IsDownAnyKey();
 
 	static void AddInputObject(void* _Ptr);
 	static void IsOnlyInputObject(void* _Ptr);

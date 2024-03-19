@@ -1751,6 +1751,8 @@ void Boss_Vordt::Death_Start()
 {
 	MainRenderer->ChangeAnimation("Death", true);
 	SetFlag(Enum_ActorFlag::Death, true);
+	RockOnCollision->Off();
+	mAttackCollision.Off();
 }
 
 void Boss_Vordt::Death_Update(float _Delta)
@@ -1768,6 +1770,8 @@ void Boss_Vordt::Death_Groggy_Start()
 	MainRenderer->ChangeAnimation("Death_Groggy", true);
 	SetFlag(Enum_ActorFlag::Death, true);
 	mHitCollision.Off();
+	RockOnCollision->Off();
+	mAttackCollision.Off();
 }
 
 void Boss_Vordt::Death_Groggy_Update(float _Delta)

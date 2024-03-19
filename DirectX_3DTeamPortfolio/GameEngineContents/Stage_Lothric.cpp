@@ -50,6 +50,10 @@
 //UI
 #include "MainUIActor.h"
 
+// Effect
+#include "AllFadeEffect.h"
+
+bool Stage_Lothric::ResLoadingDone = false;
 Stage_Lothric::Stage_Lothric()
 {
 
@@ -62,6 +66,7 @@ Stage_Lothric::~Stage_Lothric()
 
 void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 {
+	LoadingThread.Work(std::bind(&Stage_Lothric::Loading, this));
 
 	{
 		std::shared_ptr<GameEngineActor> Ground = CreateActor<GameEngineActor>(0);
@@ -220,6 +225,11 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		MainUI->CreateAndCheckEsteUI(Player_Object.get());
 		MainUI->CreateAndCheckPlayerGaugeBar(Player_Object.get());
 	}
+
+
+	// Effect
+	FadeObject->FadeIn();
+	FadeObject->On();
 }
 
 void Stage_Lothric::LevelEnd(GameEngineLevel* _NextLevel)
@@ -234,6 +244,8 @@ void Stage_Lothric::Start()
 	GameEngineInput::AddInputObject(this);
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 0, 0, 0, 1 });
 	
+	LoadingThread.Initialize("LoadingThread", 1);
+
 	{
 		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
 	}
@@ -441,7 +453,6 @@ void Stage_Lothric::Release()
 //////////////////////////////////////// 몬스터 배치
 void Stage_Lothric::SetAllMonster()
 {
-
 	////// Area0
 	// 0
 	{
@@ -1624,7 +1635,7 @@ void Stage_Lothric::BossBGMUpdate(float _Delta)
 		return;
 	}
 
-	BossBGMVolume -= _Delta * 0.01f;
+	BossBGMVolume -= _Delta * 0.02f;
 	BossBGM.SetVolume(BossBGMVolume);
 
 	if (0.f >= BossBGMVolume)
@@ -1632,4 +1643,9 @@ void Stage_Lothric::BossBGMUpdate(float _Delta)
 		BossBGMVolume = 0.f;
 		BossBGM.Stop();
 	}
+}
+
+void Stage_Lothric::Loading()
+{
+	int a = 0;
 }

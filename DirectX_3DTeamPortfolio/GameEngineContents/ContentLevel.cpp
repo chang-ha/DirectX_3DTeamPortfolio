@@ -2,6 +2,9 @@
 #include "ContentLevel.h"
 #include "FXAAEffect.h"
 #include "Player.h"
+
+#include "AllFadeEffect.h"
+
 ContentsCollisionCallBack  ContentLevel::CollisionCallBack;
 
 ContentLevel::ContentLevel()
@@ -30,6 +33,9 @@ void ContentLevel::Start()
 	
 	PhysXLevelInit();
 	Scene->setSimulationEventCallback(&CollisionCallBack);
+
+	FadeObject = GetLevelRenderTarget()->CreateEffect<AllFadeEffect>();
+	FadeObject->Off();
 }
 
 void ContentLevel::Update(float _Delta)
@@ -37,6 +43,15 @@ void ContentLevel::Update(float _Delta)
 	DebugInput();
 	RunSimulation(_Delta);
 	ChaseListener();
+
+	if (GameEngineInput::IsDown('N',this))
+	{
+		FadeObject->FadeIn();
+	}
+	if (GameEngineInput::IsDown('M',this))
+	{
+		FadeObject->FadeOut();
+	}
 }
 
 void ContentLevel::Release()

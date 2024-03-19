@@ -310,6 +310,7 @@ public:
 	inline void Damage(int _Damage) { Stat.AddHp(-_Damage); }
 	inline int GetPoise() const { return Stat.GetPoise(); }
 	inline void SetHit(bool _Value) { Hit.SetHit(_Value); }
+	inline int GetSouls() const { return Stat.GetSouls(); }
 
 
 	inline int GetCenterDPIndex() const { return CenterBodyIndex; }

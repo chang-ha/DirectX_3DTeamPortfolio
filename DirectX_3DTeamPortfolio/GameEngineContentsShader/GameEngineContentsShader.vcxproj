@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="AllFadeEffect.fx" />
     <FxCompile Include="BllboardHeader.fx" />
     <FxCompile Include="BllboardRender.fx" />
     <FxCompile Include="BloomBlur.fx" />
@@ -33,6 +34,7 @@
     <FxCompile Include="Fog.fx" />
     <FxCompile Include="Function.fx" />
     <FxCompile Include="FXAA.fx" />
+    <FxCompile Include="GaugeShader.fx" />
     <FxCompile Include="Light.fx" />
     <FxCompile Include="LUT.fx" />
     <FxCompile Include="MeshBase.fx" />

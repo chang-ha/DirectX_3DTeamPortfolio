@@ -9,6 +9,8 @@
 #include "BaseActor.h"
 #include "DS3DummyData.h"
 #include "ContentsAlphaSpriteRenderer.h"
+#include "AllFadeEffect.h"
+#include "GaugeRenderer.h"
 
 ContentResources::ContentResources()
 {
@@ -267,6 +269,7 @@ void ContentResources::ContentResourcesInit()
 	}
 	//Effect
 	ContentsAlphaSpriteRenderer::Load();
+	AllFadeEffect::Load();
 
 	//Defferd
 
@@ -288,6 +291,7 @@ void ContentResources::ContentResourcesInit()
 
 
 	ContentsFireRenderer::Load();
+	GaugeRenderer::MaterialLoad();
 
 	{
 		GameEngineFont::Load("OptimusPrincepsSemiBold");

@@ -16,7 +16,9 @@
 #include "Monster_HollowSoldier_Spear.h"
 #include "DummyActor.h"
 #include "Monster_Hollow_RaggedRobes.h"
-#include "Monster_HollowSoldier_RoundShield.h"
+
+#include "AllFadeEffect.h"
+
 PlayLevel::PlayLevel()
 {
 }
@@ -48,8 +50,6 @@ void PlayLevel::Update(float _Delta)
 
 void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	
-
 	/*{
 		std::shared_ptr<WorldMap> GameMap = CreateActor<WorldMap>(0, "WorldMap");
 	}*/
@@ -72,7 +72,9 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 	
 	{
-		std::shared_ptr<Monster_HollowSoldier_Spear> Monster = CreateActor<Monster_HollowSoldier_Spear>(0);
+		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Lothric");
+		Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
+		Monster->WakeUp();
 		//std::shared_ptr<Monster_Hollow_RaggedRobes> Monster = CreateActor<Monster_Hollow_RaggedRobes>(0);
 		//GameMap->Transform.SetWorldPosition({ 0.0f,000.0f,-1000.3f });
 
@@ -81,19 +83,19 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 		GameMap2->Transform.SetWorldPosition({ 0.0f,000.0f,-2000.3f });*/
 		
 		PlayerObject = CreateActor<Player>(0, "Player");
-		//Monster->SetTargeting(PlayerObject.get());
+		// Monster->SetTargeting(PlayerObject.get());
 		
 		
 	
 		
 		// 시작위치
 		//PlayerObject->Transform.SetLocalPosition({ -1400.0f, 5101.0f, -5331.0f });
-
+		
 		
 	}
 	
-	/*Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
-	Boss_Object->Transform.SetWorldPosition({ 0.0f,000.0f,-1000.3f });*/
+	// Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
+	// Boss_Object->Transform.SetWorldPosition({ 0.0f,000.0f,-1000.3f });
 
 	{
 		if (nullptr == GameEngineSprite::Find("Dark.png"))
@@ -110,14 +112,31 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 			}
 		}
 
+		if (nullptr == GameEngineSprite::Find("DarkSoulsIII_Main_Menu_Theme.wav"))
+		{
+			GameEngineDirectory Dir;
+			Dir.MoveParentToExistsChild("ContentsResources");
+			Dir.MoveChild("ContentsResources\\Sound\\UI");
 
-		/*MainUI = CreateActor<MainUIActor>(Enum_UpdateOrder::UI);
-		MainUI->CreateBossUI(Boss_Object.get());
+			std::vector<GameEngineFile> Files = Dir.GetAllFile();
+			for (GameEngineFile& pFiles : Files)
+			{
+				GameEngineSound::SoundLoad(pFiles.GetStringPath());
+			}
+		}
+
+
+		MainUI = CreateActor<MainUIActor>(Enum_UpdateOrder::UI);
+		// MainUI->CreateBossUI(Boss_Object.get());
 		MainUI->CreateAndCheckEsteUI(PlayerObject.get());
-		MainUI->CreateAndCheckPlayerGaugeBar(PlayerObject.get());*/
+		MainUI->CreateAndCheckPlayerGaugeBar(PlayerObject.get());
 	}
 
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 1, 1, 1, 1 });
+
+	// Effect
+	FadeObject->FadeIn();
+	FadeObject->On();
 
 	// Test Ground
 	physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();

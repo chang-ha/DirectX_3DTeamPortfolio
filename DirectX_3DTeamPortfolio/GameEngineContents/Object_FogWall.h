@@ -1,6 +1,4 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
-
  
 class Object_FogWall : public GameEngineActor
 {

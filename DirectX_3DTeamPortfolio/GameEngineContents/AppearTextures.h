@@ -1,16 +1,17 @@
 #pragma once
 
-enum struct TextureActor
-{
-	None,
-	Off,
-	Appear,
-	Disappear,
-};
 
 #include <GameEngineCore/GameEngineActor.h>
 class AppearTextures : public GameEngineActor
 {
+	enum struct TextureActor
+	{
+		None,
+		Off,
+		Appear,
+		Disappear,
+	};
+
 public:
 	// constructer destructer
 	AppearTextures();
@@ -22,8 +23,6 @@ public:
 	AppearTextures& operator = (const AppearTextures& _Other) = delete;
 	AppearTextures& operator = (AppearTextures&& _Other) noexcept = delete;
 
-	void ChangeState(TextureActor _State);
-	void StateUpdate(float _Delta);
 
 protected:
 	void Start() override;
@@ -38,14 +37,17 @@ protected:
 	void DisappearStart();
 	void DisappearUpdate(float _Delta);
 
+	void ChangeState(TextureActor _State);
+	void StateUpdate(float _Delta);
+
 private:
 	std::shared_ptr<GameEngineUIRenderer> Lit;
 	std::shared_ptr<GameEngineUIRenderer> LitBack;
+	std::shared_ptr<GameEngineUIRenderer> SoulImage;
 	float4 ImageScale = float4::ZERO;
 
 	float TextureTime = 0.0f;
-	float TextureLimitTime = 1.5f;
-	//float TextureLimitTime = 4.0f;
+	float TextureLimitTime = 2.0f;
 
 	TextureActor TextActor = TextureActor::Off;
 };
