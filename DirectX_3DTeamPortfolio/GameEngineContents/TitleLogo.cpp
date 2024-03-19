@@ -101,7 +101,7 @@ void TitleLogo::Update(float _Delta)
 
 
 	if (DarkSouls_Logo->GetColorData().MulColor.A >= 1.0f && FontEnter == false &&
-		(GameEngineInput::IsDown(VK_RETURN, this) || GameEngineInput::IsDown(VK_SPACE, this)))
+		GameEngineInput::IsDownAnyKey() == true)
 	{
 		GameEngineSound::SoundPlay("GAMESTART.wav");
 		FontEnter = true;
