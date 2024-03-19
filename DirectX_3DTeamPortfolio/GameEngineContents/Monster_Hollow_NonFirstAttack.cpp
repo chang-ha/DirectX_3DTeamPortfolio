@@ -328,6 +328,7 @@ void Monster_Hollow_NonFirstAttack::ChangeAttackState()
 	case 9:
 	case 10:
 		ChangeState(Enum_Hollow_State::Walk_Front);
+		break;
 	default:
 		break;
 	}
