@@ -126,5 +126,9 @@ private:
 
 	static bool ResLoadingDone;
 
+
+	//// Thread Function
+	GameEngineThreadJobQueue LoadingThread;
+	void Loading();
 };
 
