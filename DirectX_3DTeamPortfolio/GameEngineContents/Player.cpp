@@ -76,14 +76,14 @@ void Player::Start()
 	MainRenderer->CreateFBXAnimation("Hit_Left", "005001.FBX", { Frame, false });
 	MainRenderer->CreateFBXAnimation("Hit_Forward", "005002.FBX", { Frame, false });
 	MainRenderer->CreateFBXAnimation("Hit_Behind", "005003.FBX", { Frame, false });
-	MainRenderer->CreateFBXAnimation("Middle_Hit_Left", "005100.FBX", { Frame, false });
-	MainRenderer->CreateFBXAnimation("Middle_Hit_Right", "005101.FBX", { Frame, false });
-	MainRenderer->CreateFBXAnimation("Middle_Hit_Forward", "005102.FBX", { Frame, false });
-	MainRenderer->CreateFBXAnimation("Middle_Hit_Behind", "005203.FBX", { Frame, false });
-	MainRenderer->CreateFBXAnimation("String_Hit_Forward", "005300.FBX", { Frame, false });
-	MainRenderer->CreateFBXAnimation("String_Hit_Behind", "005303.FBX", { Frame, false });
+	MainRenderer->CreateFBXAnimation("Middle_Hit_Left", "005100.FBX", { Frame, false }); //45
+	MainRenderer->CreateFBXAnimation("Middle_Hit_Right", "005101.FBX", { Frame, false }); //45
+	MainRenderer->CreateFBXAnimation("Middle_Hit_Forward", "005102.FBX", { Frame, false }); //40
+	MainRenderer->CreateFBXAnimation("Middle_Hit_Behind", "005203.FBX", { Frame, false }); //40
+	MainRenderer->CreateFBXAnimation("String_Hit_Forward", "005300.FBX", { Frame, false }); //120
+	MainRenderer->CreateFBXAnimation("String_Hit_Behind", "005303.FBX", { Frame, false }); // 120
 	MainRenderer->CreateFBXAnimation("Run15", "017002.FBX", { Frame, true }); // 에니메이션이 돌아감 
-	MainRenderer->CreateFBXAnimation("Weak_Shield_block", "019200.FBX", { Frame, true });
+	MainRenderer->CreateFBXAnimation("Weak_Shield_block", "019200.FBX", { Frame, true }); 
 	MainRenderer->CreateFBXAnimation("Middle_Shield_block", "019210.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Slow_Walk_Forward", "020000.FBX", { Frame, true });
 	MainRenderer->CreateFBXAnimation("Slow_Walk_Behind", "0200001.FBX", { Frame, true });
@@ -174,7 +174,7 @@ void Player::Start()
 	MainRenderer->CreateFBXAnimation("ladder_Fast_Down_Start", "028000.FBX", { Frame, false });
 	MainRenderer->CreateFBXAnimation("ladder_Fast_Down", "028001.FBX", { Frame, false });
 
-	MainRenderer->CreateFBXAnimation("Hit_Down", "005900.FBX", { Frame, false });
+	MainRenderer->CreateFBXAnimation("Hit_Down", "005900.FBX", { Frame, false }); //70
 
 	MainRenderer->ChangeAnimation("Shield_Idle");
 	

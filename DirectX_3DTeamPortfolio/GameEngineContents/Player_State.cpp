@@ -16,7 +16,9 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				//Camera_Pos_X = Player_Pos.X;
+				
+				Attack_Col->Off(); 
+				Body_Col->On();
 				Sword.ResetRecord();
 				MainRenderer->ChangeAnimation("Idle");
 				StateValue = PlayerState::Idle;
@@ -158,6 +160,11 @@ void Player::Player_State()
 				
 				if (Rotation_Check_X == false)
 				{
+					if (Angle == 0)
+					{
+						Rotation_Check_X = true;
+					}
+
 					if (Angle > 0)
 					{
 						Rotation_Check_X_Plus = true;
@@ -172,7 +179,7 @@ void Player::Player_State()
 						Capsule->AddWorldRotation({ 0.0f,10.0f });
 
 
-						if (Angle < 0)
+						if (Angle <= 0)
 						{
 
 							Rotation_Check_X_Plus = false;
@@ -183,14 +190,12 @@ void Player::Player_State()
 						}
 
 					}
-
-
-					if (Rotation_Check_X_Mus == true)
+					else if (Rotation_Check_X_Mus == true)
 					{
 						Capsule->AddWorldRotation({ 0.0f,-10.0f });
 
 
-						if (Angle > 0)
+						if (Angle >= 0)
 						{
 
 							Rotation_Check_X_Mus = false;
@@ -456,7 +461,7 @@ void Player::Player_State()
 				else if (true == GameEngineInput::IsPress('S', this) && Rock_On_Check == true)
 				{		
 					Capsule->MoveForce({ float4::BACKWARD * Speed }, degree_X);
-				}
+				}	
 				else if (true == GameEngineInput::IsPress('A', this) && Rock_On_Check == true)
 				{		
 					Capsule->MoveForce({ float4::LEFT * Speed }, degree_X);
@@ -593,7 +598,7 @@ void Player::Player_State()
 					return;
 				}
 
-				if (true == GameEngineInput::IsPress('W', this) && true == GameEngineInput::IsPress('A', this))
+				/*if (true == GameEngineInput::IsPress('W', this) && true == GameEngineInput::IsPress('A', this))
 				{
 					float4 Dir = { -1.0f, 0.0f,1.0f };
 
@@ -639,32 +644,32 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Move);
 
 					return; 
-				}
+				}*/
 
 
 
-				else if (GameEngineInput::IsPress('A', this))
+				if (GameEngineInput::IsPress('A', this))
 				{
 					
 					MainRenderer->ChangeAnimation("Walk_Left");
 					PlayerStates.ChangeState(PlayerState::Move);
 					return;
 				}
-				else if (GameEngineInput::IsPress('D', this))
+				if (GameEngineInput::IsPress('D', this))
 				{
 				
 					MainRenderer->ChangeAnimation("Walk_Right");
 					PlayerStates.ChangeState(PlayerState::Move);
 					return;
 				}
-				else if (GameEngineInput::IsPress('W', this))
+				if (GameEngineInput::IsPress('W', this))
 				{
 				
 					MainRenderer->ChangeAnimation("Walk_Forward");
 					PlayerStates.ChangeState(PlayerState::Move);
 					return;
 				}
-				else if (GameEngineInput::IsPress('S', this))
+				if (GameEngineInput::IsPress('S', this))
 				{
 				
 					MainRenderer->ChangeAnimation("Walk_Behind");
@@ -873,8 +878,9 @@ void Player::Player_State()
 			Sword.ResetRecord();
 			MainRenderer->ChangeAnimation("Attack_01");
 			StateValue = PlayerState::StaminaCheck;
-			Capsule->SetWorldRotation({ Rock_on_X,Cameracapsule->Capsule_02->GetDir() });
+			Capsule->SetWorldRotation({ Rock_on_X,Cameracapsule->Capsule_02->GetDir()});
 			Stat.AddStamina(-20);		
+			Attack_Check = false;
 		};
 
 
@@ -917,7 +923,7 @@ void Player::Player_State()
 					return;
 				}
 
-				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 20 && Stat.GetStamina() > 0)
+				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 15 && Stat.GetStamina() > 0)
 				{
 					Sword.ResetRecord();
 					Attack_Check = false;
@@ -925,11 +931,12 @@ void Player::Player_State()
 					return;
 				}
 
-				if (MainRenderer->GetCurAnimationFrame() > 20)
+				if (MainRenderer->GetCurAnimationFrame() > 15 && Attack_Check==false)
 				{
 					if (true == GameEngineInput::IsPress('W', this))
 					{
 						Attack_Col->Off();
+		
 						MainRenderer->ChangeAnimation("Walk_Forward");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -938,6 +945,7 @@ void Player::Player_State()
 					if (true == GameEngineInput::IsPress('S', this))
 					{
 						Attack_Col->Off();
+					
 						MainRenderer->ChangeAnimation("Walk_Behind");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -946,6 +954,7 @@ void Player::Player_State()
 					if (true == GameEngineInput::IsPress('A', this))
 					{
 						Attack_Col->Off();
+				
 						MainRenderer->ChangeAnimation("Walk_Left");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -954,6 +963,7 @@ void Player::Player_State()
 					if (true == GameEngineInput::IsPress('D', this))
 					{
 						Attack_Col->Off();
+						
 						MainRenderer->ChangeAnimation("Walk_Right");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -972,6 +982,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				Sword.ResetRecord();
+				Attack_Check = false;
 				MainRenderer->ChangeAnimation("Attack_02");
 				StateValue = PlayerState::StaminaCheck;
 				Capsule->SetWorldRotation({ Rock_on_X,Cameracapsule->Capsule_02->GetDir() });
@@ -1019,7 +1030,7 @@ void Player::Player_State()
 					return;
 				}
 
-				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 20 && Stat.GetStamina() > 0)
+				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 15 && Stat.GetStamina() > 0)
 				{
 
 					Attack_Check = false;
@@ -1028,11 +1039,12 @@ void Player::Player_State()
 					return;
 				}
 
-				if (MainRenderer->GetCurAnimationFrame() > 20)
+				if (MainRenderer->GetCurAnimationFrame() > 15 && Attack_Check ==false)
 				{
 					if (true == GameEngineInput::IsPress('W', this))
 					{
 						Attack_Col->Off();
+					
 						MainRenderer->ChangeAnimation("Walk_Forward");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -1041,6 +1053,7 @@ void Player::Player_State()
 					if (true == GameEngineInput::IsPress('S', this))
 					{
 						Attack_Col->Off();
+					
 						MainRenderer->ChangeAnimation("Walk_Behind");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -1049,6 +1062,7 @@ void Player::Player_State()
 					if (true == GameEngineInput::IsPress('A', this))
 					{
 						Attack_Col->Off();
+					
 						MainRenderer->ChangeAnimation("Walk_Left");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -1057,6 +1071,7 @@ void Player::Player_State()
 					if (true == GameEngineInput::IsPress('D', this))
 					{
 						Attack_Col->Off();
+						Rotation_Check_X = true;
 						MainRenderer->ChangeAnimation("Walk_Right");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -1075,6 +1090,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				Sword.ResetRecord();
+				Attack_Check = false;
 				MainRenderer->ChangeAnimation("Attack_03");
 				StateValue = PlayerState::StaminaCheck;
 				Capsule->SetWorldRotation({ Rock_on_X,Cameracapsule->Capsule_02->GetDir() });
@@ -1122,7 +1138,7 @@ void Player::Player_State()
 				}
 
 
-				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 20 && Stat.GetStamina() > 0)
+				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 15 && Stat.GetStamina() > 0)
 				{
 					Attack_Check = false;
 					Sword.ResetRecord();
@@ -1130,11 +1146,12 @@ void Player::Player_State()
 					return;
 				}
 
-				if (MainRenderer->GetCurAnimationFrame() > 20)
+				if (MainRenderer->GetCurAnimationFrame() > 15 && Attack_Check==false)
 				{
 					if (true == GameEngineInput::IsPress('W', this))
 					{
 						Attack_Col->Off();
+						
 						MainRenderer->ChangeAnimation("Walk_Forward");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -1143,6 +1160,7 @@ void Player::Player_State()
 					if (true == GameEngineInput::IsPress('S', this))
 					{
 						Attack_Col->Off();
+						
 						MainRenderer->ChangeAnimation("Walk_Behind");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -1151,6 +1169,7 @@ void Player::Player_State()
 					if (true == GameEngineInput::IsPress('A', this))
 					{
 						Attack_Col->Off();
+					
 						MainRenderer->ChangeAnimation("Walk_Left");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -1159,6 +1178,7 @@ void Player::Player_State()
 					if (true == GameEngineInput::IsPress('D', this))
 					{
 						Attack_Col->Off();
+					
 						MainRenderer->ChangeAnimation("Walk_Right");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -1177,6 +1197,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				Sword.ResetRecord();
+				Attack_Check = false;
 				MainRenderer->ChangeAnimation("Attack_04");
 				StateValue = PlayerState::StaminaCheck;
 				Capsule->SetWorldRotation({ Rock_on_X,Cameracapsule->Capsule_02->GetDir() });
@@ -1223,7 +1244,7 @@ void Player::Player_State()
 					return;
 				}
 
-				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 30 && Stat.GetStamina() > 0)
+				else if (Attack_Check == true && MainRenderer->GetCurAnimationFrame() > 25 && Stat.GetStamina() > 0)
 				{
 					Attack_Check = false;
 					Sword.ResetRecord();
@@ -1231,11 +1252,12 @@ void Player::Player_State()
 					return;
 				}
 
-				if (MainRenderer->GetCurAnimationFrame() > 20)
+				if (MainRenderer->GetCurAnimationFrame() > 20 && Attack_Check ==false)
 				{
 					if (true == GameEngineInput::IsPress('W', this))
 					{
 						Attack_Col->Off();
+					
 						MainRenderer->ChangeAnimation("Walk_Forward");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -1244,6 +1266,7 @@ void Player::Player_State()
 					if (true == GameEngineInput::IsPress('S', this))
 					{
 						Attack_Col->Off();
+					
 						MainRenderer->ChangeAnimation("Walk_Behind");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -1252,6 +1275,7 @@ void Player::Player_State()
 					if (true == GameEngineInput::IsPress('A', this))
 					{
 						Attack_Col->Off();
+					
 						MainRenderer->ChangeAnimation("Walk_Left");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -1260,6 +1284,7 @@ void Player::Player_State()
 					if (true == GameEngineInput::IsPress('D', this))
 					{
 						Attack_Col->Off();
+				
 						MainRenderer->ChangeAnimation("Walk_Right");
 						PlayerStates.ChangeState(PlayerState::Move);
 						return;
@@ -1393,7 +1418,7 @@ void Player::Player_State()
 
 
 
-				if (MainRenderer->GetCurAnimationFrame() > 30)
+				if (MainRenderer->GetCurAnimationFrame() > 20)
 				{
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
@@ -1447,7 +1472,7 @@ void Player::Player_State()
 				}
 
 
-				if (MainRenderer->GetCurAnimationFrame() > 30)
+				if (MainRenderer->GetCurAnimationFrame() > 20)
 				{
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
@@ -1509,7 +1534,7 @@ void Player::Player_State()
 				}
 
 
-				if (MainRenderer->GetCurAnimationFrame() > 30)
+				if (MainRenderer->GetCurAnimationFrame() > 23)
 				{
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
@@ -1562,7 +1587,7 @@ void Player::Player_State()
 
 
 
-				if (MainRenderer->GetCurAnimationFrame() > 30)
+				if (MainRenderer->GetCurAnimationFrame() > 23)
 				{
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
@@ -1715,7 +1740,6 @@ void Player::Player_State()
 
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-					StateValue = PlayerState::Idle;
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return; 
 				}
@@ -1751,13 +1775,6 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 		{
-
-
-
-
-
-
-
 
 				if((degree_X > 0 && Actor_test->Transform.GetWorldRotationEuler().Y > 0) || (degree_X < 0 && Actor_test->Transform.GetWorldRotationEuler().Y < 0))
 				{ 
@@ -2003,6 +2020,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Attack_Col->Off();
 				MainRenderer->ChangeAnimation("Hit_Forward",true);
 				Shield_Col->Off(); 
 				StateValue = PlayerState::Forward_Hit;
@@ -2024,7 +2042,45 @@ void Player::Player_State()
 					return;
 				}		
 
-				//Capsule->SetWorldRotation({ 0.0f,degree_X });
+				else if (MainRenderer->GetCurAnimationFrame() > 15)
+				{
+					if (true == GameEngineInput::IsPress('W', this))
+					{
+						Attack_Col->Off();
+
+						MainRenderer->ChangeAnimation("Walk_Forward");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('S', this))
+					{
+						Attack_Col->Off();
+
+						MainRenderer->ChangeAnimation("Walk_Behind");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('A', this))
+					{
+						Attack_Col->Off();
+
+						MainRenderer->ChangeAnimation("Walk_Left");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('D', this))
+					{
+						Attack_Col->Off();
+
+						MainRenderer->ChangeAnimation("Walk_Right");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+				}
 
 			};
 
@@ -2036,6 +2092,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Attack_Col->Off();
 				MainRenderer->ChangeAnimation("Hit_Behind", true);
 				StateValue = PlayerState::Backward_Hit;
 				Weapon_Actor->Getweapon()->On();
@@ -2058,6 +2115,45 @@ void Player::Player_State()
 					return;
 				}
 
+				else if (MainRenderer->GetCurAnimationFrame() > 15)
+				{
+					if (true == GameEngineInput::IsPress('W', this))
+					{
+						Attack_Col->Off();
+
+						MainRenderer->ChangeAnimation("Walk_Forward");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('S', this))
+					{
+						Attack_Col->Off();
+
+						MainRenderer->ChangeAnimation("Walk_Behind");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('A', this))
+					{
+						Attack_Col->Off();
+
+						MainRenderer->ChangeAnimation("Walk_Left");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('D', this))
+					{
+						Attack_Col->Off();
+
+						MainRenderer->ChangeAnimation("Walk_Right");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+				}
 				//Capsule->SetWorldRotation({ 0.0f,degree_X });
 			};
 
@@ -2069,6 +2165,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Attack_Col->Off();
 				MainRenderer->ChangeAnimation("Hit_right", true);
 				StateValue = PlayerState::Right_Hit;
 				Weapon_Actor->Getweapon()->On();
@@ -2091,6 +2188,46 @@ void Player::Player_State()
 					return;
 				}
 
+				else if (MainRenderer->GetCurAnimationFrame() > 15)
+				{
+					if (true == GameEngineInput::IsPress('W', this))
+					{
+						Attack_Col->Off();
+
+						MainRenderer->ChangeAnimation("Walk_Forward");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('S', this))
+					{
+						Attack_Col->Off();
+
+						MainRenderer->ChangeAnimation("Walk_Behind");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('A', this))
+					{
+						Attack_Col->Off();
+
+						MainRenderer->ChangeAnimation("Walk_Left");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('D', this))
+					{
+						Attack_Col->Off();
+
+						MainRenderer->ChangeAnimation("Walk_Right");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+				}
+
 				//Capsule->SetWorldRotation({ 0.0f,degree_X });
 			};
 
@@ -2102,6 +2239,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Attack_Col->Off();
 				MainRenderer->ChangeAnimation("Hit_Left", true);
 				StateValue = PlayerState::Left_Hit;
 				Weapon_Actor->Getweapon()->On();
@@ -2124,6 +2262,47 @@ void Player::Player_State()
 					return;
 				}
 
+				else if (MainRenderer->GetCurAnimationFrame() > 15)
+				{
+					if (true == GameEngineInput::IsPress('W', this))
+					{
+						Attack_Col->Off();
+
+						MainRenderer->ChangeAnimation("Walk_Forward");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('S', this))
+					{
+						Attack_Col->Off();
+
+						MainRenderer->ChangeAnimation("Walk_Behind");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('A', this))
+					{
+						Attack_Col->Off();
+
+						MainRenderer->ChangeAnimation("Walk_Left");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('D', this))
+					{
+						Attack_Col->Off();
+
+						MainRenderer->ChangeAnimation("Walk_Right");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+				}
+
+
 				//Capsule->SetWorldRotation({ 0.0f,degree_X });
 			};
 
@@ -2140,6 +2319,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Attack_Col->Off();
 				MainRenderer->ChangeAnimation("Middle_Hit_Forward", true);
 				StateValue = PlayerState::Forward_Middle_Hit;
 				Weapon_Actor->Getweapon()->On();
@@ -2162,6 +2342,45 @@ void Player::Player_State()
 					return;
 				}
 
+				else if (MainRenderer->GetCurAnimationFrame() > 30)
+				{
+					if (true == GameEngineInput::IsPress('W', this))
+					{
+						Attack_Col->Off();
+
+						MainRenderer->ChangeAnimation("Walk_Forward");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('S', this))
+					{
+						Attack_Col->Off();
+
+						MainRenderer->ChangeAnimation("Walk_Behind");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('A', this))
+					{
+						Attack_Col->Off();
+
+						MainRenderer->ChangeAnimation("Walk_Left");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('D', this))
+					{
+						
+
+						MainRenderer->ChangeAnimation("Walk_Right");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+				}
 
 			};
 
@@ -2174,6 +2393,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Attack_Col->Off();
 				MainRenderer->ChangeAnimation("Middle_Hit_Behind", true);
 				StateValue = PlayerState::Backward_Middle_Hit;
 				Weapon_Actor->Getweapon()->On();
@@ -2196,6 +2416,45 @@ void Player::Player_State()
 					return;
 				}
 
+				else if (MainRenderer->GetCurAnimationFrame() > 30)
+				{
+					if (true == GameEngineInput::IsPress('W', this))
+					{
+						
+
+						MainRenderer->ChangeAnimation("Walk_Forward");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('S', this))
+					{
+						
+
+						MainRenderer->ChangeAnimation("Walk_Behind");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('A', this))
+					{
+						
+
+						MainRenderer->ChangeAnimation("Walk_Left");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('D', this))
+					{
+						
+
+						MainRenderer->ChangeAnimation("Walk_Right");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+				}
 		
 			};
 
@@ -2207,6 +2466,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Attack_Col->Off();
 				MainRenderer->ChangeAnimation("Middle_Hit_Right", true);
 				StateValue = PlayerState::Right_Middle_Hit;
 				Weapon_Actor->Getweapon()->On();
@@ -2228,7 +2488,45 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
+				else if (MainRenderer->GetCurAnimationFrame() > 30)
+				{
+					if (true == GameEngineInput::IsPress('W', this))
+					{
+						
 
+						MainRenderer->ChangeAnimation("Walk_Forward");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('S', this))
+					{
+						
+
+						MainRenderer->ChangeAnimation("Walk_Behind");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('A', this))
+					{
+						
+
+						MainRenderer->ChangeAnimation("Walk_Left");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('D', this))
+					{
+						
+
+						MainRenderer->ChangeAnimation("Walk_Right");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+				}
 			
 			};
 
@@ -2240,6 +2538,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Attack_Col->Off();
 				MainRenderer->ChangeAnimation("Middle_Hit_Left", true);
 				StateValue = PlayerState::Left_Middle_Hit;
 				Weapon_Actor->Getweapon()->On();
@@ -2261,6 +2560,45 @@ void Player::Player_State()
 					return;
 				}
 
+				else if (MainRenderer->GetCurAnimationFrame() > 30)
+				{
+					if (true == GameEngineInput::IsPress('W', this))
+					{
+						
+
+						MainRenderer->ChangeAnimation("Walk_Forward");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('S', this))
+					{
+						
+
+						MainRenderer->ChangeAnimation("Walk_Behind");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('A', this))
+					{
+					
+
+						MainRenderer->ChangeAnimation("Walk_Left");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('D', this))
+					{
+					
+
+						MainRenderer->ChangeAnimation("Walk_Right");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+				}
 			};
 
 		PlayerStates.CreateState(PlayerState::Left_Middle_Hit, NewPara);
@@ -2272,6 +2610,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Attack_Col->Off();
 				MainRenderer->ChangeAnimation("Hit_Down");
 				StateValue = PlayerState::HitDown;
 				Weapon_Actor->Getweapon()->On();
@@ -2294,6 +2633,49 @@ void Player::Player_State()
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
+				if (MainRenderer->GetCurAnimationFrame() > 50)
+				{
+					Body_Col->On();
+				}
+
+				else if (MainRenderer->GetCurAnimationFrame() > 70)
+				{
+					if (true == GameEngineInput::IsPress('W', this))
+					{
+						
+
+						MainRenderer->ChangeAnimation("Walk_Forward");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('S', this))
+					{
+						
+
+						MainRenderer->ChangeAnimation("Walk_Behind");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('A', this))
+					{
+						
+						MainRenderer->ChangeAnimation("Walk_Left");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('D', this))
+					{
+						
+
+						MainRenderer->ChangeAnimation("Walk_Right");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+				}
 			};
 
 		PlayerStates.CreateState(PlayerState::HitDown, NewPara);
@@ -2304,6 +2686,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Attack_Col->Off();
 				MainRenderer->ChangeAnimation("String_Hit_Forward");
 				StateValue = PlayerState::Forward_Big_Hit;
 				Weapon_Actor->Getweapon()->On();
@@ -2314,13 +2697,7 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				if (MainRenderer->IsCurAnimationEnd())
-				{
-					Body_Col->On(); 
-					PlayerStates.ChangeState(PlayerState::Idle);
-					return;
-				}
-
+				
 				
 				
 
@@ -2343,8 +2720,58 @@ void Player::Player_State()
 					}
 				}
 
+				if (MainRenderer->GetCurAnimationFrame() > 70)
+				{
+					Body_Col->On();
+				}
+
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					Body_Col->On();
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
 
 
+				else if (MainRenderer->GetCurAnimationFrame() > 110)
+				{
+					if (true == GameEngineInput::IsPress('W', this))
+					{
+
+
+						MainRenderer->ChangeAnimation("Walk_Forward");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('S', this))
+					{
+
+
+						MainRenderer->ChangeAnimation("Walk_Behind");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('A', this))
+					{
+
+
+						MainRenderer->ChangeAnimation("Walk_Left");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('D', this))
+					{
+
+
+						MainRenderer->ChangeAnimation("Walk_Right");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+				}
 
 			};
 
@@ -2357,6 +2784,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				// 애니메이션 터짐
+				Attack_Col->Off();
 				MainRenderer->ChangeAnimation("String_Hit_Behind");
 				StateValue = PlayerState::Backward_Big_Hit;
 				Weapon_Actor->Getweapon()->On();
@@ -2367,12 +2795,7 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				if (MainRenderer->IsCurAnimationEnd())
-				{
-					Body_Col->On();
-					PlayerStates.ChangeState(PlayerState::Idle);
-					return;
-				}
+				
 
 				if (Rock_On_Check == true)
 				{
@@ -2393,6 +2816,57 @@ void Player::Player_State()
 					}
 				}
 
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					Body_Col->On();
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+
+				if (MainRenderer->GetCurAnimationFrame() > 70)
+				{
+					Body_Col->On();
+				}
+
+				else if (MainRenderer->GetCurAnimationFrame() > 110)
+				{
+					if (true == GameEngineInput::IsPress('W', this))
+					{
+
+
+						MainRenderer->ChangeAnimation("Walk_Forward");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('S', this))
+					{
+
+
+						MainRenderer->ChangeAnimation("Walk_Behind");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('A', this))
+					{
+
+
+						MainRenderer->ChangeAnimation("Walk_Left");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('D', this))
+					{
+
+
+						MainRenderer->ChangeAnimation("Walk_Right");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+				}
 				
 			};
 
