@@ -20,11 +20,12 @@ void CameraCapsule::Start()
 
 void CameraCapsule::Update(float _Delta)
 {
-	Capsule->SetWorldPosition({ GetLevel()->GetMainCamera()->Transform.GetWorldPosition() });
-	Capsule->SetWorldRotation({ GetLevel()->GetMainCamera()->Transform.GetWorldRotationEuler()});
+	Capsule->SetWorldPosition({ GetLevel()->GetMainCamera()->Transform.GetWorldPosition().X,GetLevel()->GetMainCamera()->Transform.GetWorldPosition().Y,GetLevel()->GetMainCamera()->Transform.GetWorldPosition().Z + 20.0f });
+	Capsule->SetWorldRotation({ GetLevel()->GetMainCamera()->Transform.GetWorldRotationEuler() });
 
-	Capsule_02->SetWorldPosition({GetLevel()->GetMainCamera()->Transform.GetWorldPosition().X,GetLevel()->GetMainCamera()->Transform.GetWorldPosition().Y - 40.0f ,GetLevel()->GetMainCamera()->Transform.GetWorldPosition().Z });
+	Capsule_02->SetWorldPosition({ GetLevel()->GetMainCamera()->Transform.GetWorldPosition().X,GetLevel()->GetMainCamera()->Transform.GetWorldPosition().Y - 30.0f ,GetLevel()->GetMainCamera()->Transform.GetWorldPosition().Z + 20.0f });
 	Capsule_02->SetWorldRotation({ GetLevel()->GetMainCamera()->Transform.GetWorldRotationEuler() });
+
 
 }
 
