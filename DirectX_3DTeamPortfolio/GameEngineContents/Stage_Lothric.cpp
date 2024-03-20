@@ -183,25 +183,8 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 
 	CreateObject();
 
-	if (bool TestMonster = false)
-	{
-		std::vector<float4> Path1
-		{
-			float4(-5443.f,-876.f, 10681.f),
-			float4(-6910.0f,-660.0f,13326.0f),
-		};
-
-		std::shared_ptr<Monster_LothricKn> LothricKn = CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn");
-		LothricKn->SetPatrolPath(Path1, 0);
-		LothricKn->SetIdleType(Enum_Lothric_IdleType::Patrol);
-		LothricKn->SetWPosition(float4(-5443.f, -876.f, 10681.f));
-		LothricKn->WakeUp();
-	}
-
-	// 몬스터 위치 셋팅
+	// 몬스터 셋팅
 	SetAllMonster();
-
-	SetAllEvCol();
 
 	std::shared_ptr<GameEngineCoreWindow> CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 
@@ -282,7 +265,6 @@ void Stage_Lothric::Update(float _Delta)
 
 	LevelState.Update(_Delta);
 
-	EvColUpdate();
 	BossBGMUpdate(_Delta);
 
 	float4 PPos = Player_Object->Transform.GetWorldPosition();
@@ -581,6 +563,7 @@ void Stage_Lothric::AllMonsterOff()
 	for (size_t i = 0; i < AllMonster.size(); i++)
 	{
 		//AllMonster[i]->Transform.SetWorldRotation(AllMonster[i]->GetResponRot());
+		AllMonster[i]->Reset();
 		AllMonster[i]->SetWorldPosition(AllMonster[i]->GetResponPos());
 		AllMonster[i]->Off();
 	}
@@ -691,15 +674,11 @@ void Stage_Lothric::SetAllEvCol()
 	}
 }
 
-void Stage_Lothric::EvColUpdate()
+void Stage_Lothric::AllEvColOn()
 {
 	for (size_t i = 0; i < AllEvCol.size(); i++)
 	{
-		if (true == AllEvCol[i]->Collision(Enum_CollisionOrder::Player_Body))
-		{
-			AllEvCol[i]->Event();
-			AllEvCol[i]->Off();
-		}
+		AllEvCol[i]->On();
 	}
 }
 
@@ -1634,7 +1613,9 @@ void Stage_Lothric::ResLoading()
 {
 	if (false == Stage_Lothric::ResLoadingDone)
 	{
-		
+		// 이벤트 충돌체 셋팅
+		SetAllEvCol();
+
 	}
 
 	Stage_Lothric::ResLoadingDone = true;
@@ -1643,5 +1624,9 @@ void Stage_Lothric::ResLoading()
 // Reset Loading
 void Stage_Lothric::ResetLoading()
 {
+	// 몬스터 끄고 이벤트 충돌체 켜고
+	AllMonsterOff();
+	AllEvColOn();
+
 	Stage_Lothric::ResetLoadingDone = true;
 }
