@@ -26,6 +26,7 @@
 #include "Object_CandleHuman.h"
 #include "Object_Torchlight.h"
 #include "Object_CandleHuman2.h"
+#include "Object_Box.h"
 
 
 //맵 헤더
@@ -118,8 +119,8 @@ void TestLevel_MapObject::Start()
 
 	Light->SetLightData(Data);
 
-	PlayerA = CreateActor<Player>(0, "Player");
-	PlayerA->SetWorldPosition({ -8930, 2030 , -4427 });
+	/*PlayerA = CreateActor<Player>(0, "Player");
+	PlayerA->SetWorldPosition({ -8930, 2030 , -4427 });*/
 }
 
 void TestLevel_MapObject::Update(float _Delta)
@@ -476,13 +477,7 @@ void TestLevel_MapObject::CreateObject()
 		Object->Transform.SetWorldRotation({ 0, -90, 0 });
 		VTorchlight.push_back(Object);
 	}
-	//36
-	{
-		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
-		Object->Transform.SetWorldPosition({ -13833, 3151 , -1856 });
-		Object->Transform.SetWorldRotation({ 0, 60, 0 });
-		VTorchlight.push_back(Object);
-	}
+	
 	//촛불동상
 	{
 		std::shared_ptr<Object_CandleHuman> Object = CreateActor<Object_CandleHuman>(1);
@@ -890,6 +885,29 @@ void TestLevel_MapObject::CreateObject()
 		Object->Transform.SetWorldPosition({ -937, 4950 , -4734 });
 		Object->Transform.SetWorldRotation({ 0, 90 , 0 });
 		VSkeleton1.push_back(Object);
+	}
+
+	//박스
+	//1
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -8419, 2900 , -5200 });
+		Object->Transform.SetWorldRotation({ 0, 0 , 0 });
+		VBox.push_back(Object);
+	}
+	//2
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -8519, 2900 , -5200 });
+		Object->Transform.SetWorldRotation({ 0, 60 , 0 });
+		VBox.push_back(Object);
+	}
+	//3
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -8469, 2992 , -5200 });
+		Object->Transform.SetWorldRotation({ 0, 60 , 0 });
+		VBox.push_back(Object);
 	}
 	//
 	//Object_BossDoor

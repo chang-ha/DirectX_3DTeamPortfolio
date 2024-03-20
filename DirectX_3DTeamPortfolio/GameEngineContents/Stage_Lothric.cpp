@@ -137,13 +137,13 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		// 볼드 위치
 		//Player_Object->SetWorldPosition({ -2800.f, -2500.f, 6700.f });
 		// 안개 테스트 위치 
-		// Player_Object->SetWorldPosition({ -3417.f, -2552.f, 7606.f });
+		Player_Object->SetWorldPosition({ -3417.f, -2552.f, 7606.f });
 
 		// 테스트 위치
 		//Player_Object->SetWorldPosition({ -8011.0f, 907.0f, 3547.0f });
 		// 
-		// 시작 위치
-		 Player_Object->SetWorldPosition({ -1400.0f, 4945.0f, -5330.0f });
+		//시작 위치
+		//Player_Object->SetWorldPosition({ -1400.0f, 4945.0f, -5330.0f });
 		Player_Object->SetWorldRotation({ 0.f, 0.f, 0.f });
 		Player_Object->SetTargeting(Boss_Object.get());
 		Boss_Object->SetTargeting(Player_Object.get());
@@ -488,23 +488,59 @@ void Stage_Lothric::SetAllMonster()
 	// 25
 	{
 		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
-		Monster->SetResponPos({ -5414.0f, -1145.0f, 11328.0f });
-		Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
-		AllMonster.push_back(Monster);
-	}
-	// 26
-	{
-		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
-		Monster->SetResponPos({ -4026.0f, -1788.0f, 9562.0f });
-		Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
+		Monster->SetResponPos({ -4986.0f, -1122.0f, 11500.0f });
+
+		std::vector<float4> Path1
+		{
+			{ -4528.0f, -1730.0f, 9810.0f },
+			{ -6372.0f, -957.0f, 12818.0f },
+		};
+		Monster->SetPatrolPath(Path1, 0);
+		Monster->SetIdleType(Enum_Lothric_IdleType::Patrol);
+
 		AllMonster.push_back(Monster);
 	}
 
+	// 26
+	{
+		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -4353.0f, -1792.0f, 9500.0f });
+
+		std::vector<float4> Path1
+		{
+			{ -3672.0f, -1789.0f, 9842.0f },
+			{ -5071.0f, -1792.0f, 9120.0f },
+		};
+		Monster->SetPatrolPath(Path1, 0);
+		Monster->SetIdleType(Enum_Lothric_IdleType::Patrol);
+
+		AllMonster.push_back(Monster);
+	}
 	// 27
 	{
 		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
-		Monster->SetResponPos({ -6276.0f, -683.0f, 13803.0f });
-		Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
+		Monster->SetResponPos({ -6556.0f, -960.0f, 13240.0f });
+		std::vector<float4> Path1
+		{
+			{ -8332.0f, -450.0f, 12420.0f },
+			{ -4800.0f, -625.0f, 14000.0f },
+		};
+		Monster->SetPatrolPath(Path1, 0);
+		Monster->SetIdleType(Enum_Lothric_IdleType::Patrol);
+		AllMonster.push_back(Monster);
+	}
+
+	// 28
+	{
+		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Monster_LothricKn");
+		Monster->SetResponPos({ -4496.0f, -625.0f, 14229.0f });
+		std::vector<float4> Path1
+		{
+			{ -4496.0f, -625.0f, 14229.0f },
+			{ -2883.0f, -626.0f, 11003.0f },
+		};
+		Monster->SetPatrolPath(Path1, 0);
+		Monster->SetIdleType(Enum_Lothric_IdleType::Patrol);
 		AllMonster.push_back(Monster);
 	}
 
@@ -709,7 +745,7 @@ void Stage_Lothric::Area5_On()
 
 void Stage_Lothric::Area6_On()
 {
-	for (size_t i = 23; i < 28; i++)
+	for (size_t i = 23; i < 29; i++)
 	{
 		AllMonster[i]->On();
 		AllMonster[i]->WakeUp();
@@ -1042,13 +1078,7 @@ void Stage_Lothric::CreateObject()
 		Object->Transform.SetWorldRotation({ 0, -90, 0 });
 		VTorchlight.push_back(Object);
 	}
-	//36
-	{
-		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
-		Object->Transform.SetWorldPosition({ -13833, 3151 , -1856 });
-		Object->Transform.SetWorldRotation({ 0, 60, 0 });
-		VTorchlight.push_back(Object);
-	}
+	
 	//촛불동상
 	{
 		std::shared_ptr<Object_CandleHuman> Object = CreateActor<Object_CandleHuman>(1);
