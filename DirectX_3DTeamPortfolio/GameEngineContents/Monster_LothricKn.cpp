@@ -298,7 +298,7 @@ void Monster_LothricKn::Start()
 	Stat.SetAtt(36);
 
 	// Collision
-	const float PatrolSize = 30.0f * W_SCALE;
+	const float PatrolSize = 25.0f * W_SCALE;
 
 	std::shared_ptr<GameEngineCollision> SwordCol = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, eBoneType::Sword, { float4(22,16,140), float4::ZERONULL, float4(0,0, 0.9f) }, "Sword");
 	std::shared_ptr<GameEngineCollision> ShieldCol = CreateSocketCollision(Enum_CollisionOrder::Monster_Shield, eBoneType::Shield, { float4(16,123,52), float4::ZERONULL, float4(0.04f, 0.24f, -0.2f) }, "Shield");
