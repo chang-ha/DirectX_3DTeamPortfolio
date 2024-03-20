@@ -413,6 +413,9 @@
     <ClCompile Include="UIAlert_YouDie.cpp">
       <Filter>Actor\UI\Alert</Filter>
     </ClCompile>
+    <ClCompile Include="Object_Box.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -817,6 +820,9 @@
     </ClInclude>
     <ClInclude Include="UIAlert_YouDie.h">
       <Filter>Actor\UI\Alert</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Box.h">
+      <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

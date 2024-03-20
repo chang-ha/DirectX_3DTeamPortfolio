@@ -233,6 +233,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Object_BaseLadder.cpp" />
+    <ClCompile Include="Object_Box.cpp" />
     <ClCompile Include="Object_CandleHuman2.cpp" />
     <ClCompile Include="Object_FogWall.cpp">
       <SubType>
@@ -612,6 +613,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Object_BaseLadder.h" />
+    <ClInclude Include="Object_Box.h" />
     <ClInclude Include="Object_CandleHuman2.h" />
     <ClInclude Include="Object_FogWall.h">
       <SubType>
