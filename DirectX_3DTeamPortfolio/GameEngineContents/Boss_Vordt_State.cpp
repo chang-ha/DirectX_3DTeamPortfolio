@@ -1293,7 +1293,7 @@ Enum_JumpTableFlag Boss_Vordt::AI_MoveMent()
 			break;
 		}
 
-		if (tDis >= Enum_TargetDis::Dis_Far && Enum_Boss_Phase::Phase_2 == mBoss_Phase)
+		if (tDis >= Enum_TargetDis::Dis_OutOfRange && Enum_Boss_Phase::Phase_2 == mBoss_Phase)
 		{
 			if (true == ChangeAI_State(Enum_BossState::Rush_Front))
 			{
