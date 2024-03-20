@@ -54,6 +54,8 @@ void Player::Start()
 	Data.quadraticAttenuation = 0.0001f;
 	Data.LightPower = 5.f;
 
+	FaceLight->SetLightData(Data);
+
 
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(0);
 	MainRenderer->Transform.SetLocalScale({ 100, 100, 100 });
