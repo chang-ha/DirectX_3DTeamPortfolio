@@ -1048,7 +1048,7 @@ bool Boss_Vordt::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 	}
 
 	// Stat.AddPoise(-Stiffness);
-	Stat.AddPoise(-15);
+	Stat.AddPoise(-20);
 	// Stat.AddHp(-BOSS_HP);
 	Stat.AddHp(-AttackerAtt);
 	Hit.SetHit(true);

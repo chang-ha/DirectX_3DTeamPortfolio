@@ -5,8 +5,8 @@
 #define JUMP_COOLDOWN 5.f
 #define NORMAL_ATTACK_COOLDOWN 15.f
 #define COMBO_COOLDOWN1 20.f
-#define COMBO_COOLDOWN2 50.f
-#define BOSS_ATT 7
+#define COMBO_COOLDOWN2 40.f
+#define BOSS_ATT 10
 
 void Boss_Vordt::FrameEventInit()
 {
@@ -537,50 +537,50 @@ void Boss_Vordt::StateInit()
 		Hitten_Front.Stay = std::bind(&Boss_Vordt::Hitten_Front_Update, this, std::placeholders::_1);
 		Hitten_Front.End = std::bind(&Boss_Vordt::Hitten_Front_End, this);
 
-		mJumpTableManager.AddJumpTable("Hit_001", 38, 40, std::bind(&Boss_Vordt::AI_Combo, this));
-		mJumpTableManager.AddJumpTable("Hit_001", 38, 40, std::bind(&Boss_Vordt::AI_Attack, this));
-		mJumpTableManager.AddJumpTable("Hit_001", 39, 40, std::bind(&Boss_Vordt::AI_MoveMent, this));
-		mJumpTableManager.AddJumpTable("Hit_001", 38, 40, std::bind(&Boss_Vordt::AI_Dodge, this));
+		mJumpTableManager.AddJumpTable("Hit_001", 35, 40, std::bind(&Boss_Vordt::AI_Combo, this));
+		mJumpTableManager.AddJumpTable("Hit_001", 35, 40, std::bind(&Boss_Vordt::AI_Attack, this));
+		mJumpTableManager.AddJumpTable("Hit_001", 36, 40, std::bind(&Boss_Vordt::AI_MoveMent, this));
+		mJumpTableManager.AddJumpTable("Hit_001", 35, 40, std::bind(&Boss_Vordt::AI_Dodge, this));
 
 		CreateStateParameter Hitten_Back;
 		Hitten_Back.Start = std::bind(&Boss_Vordt::Hitten_Back_Start, this);
 		Hitten_Back.Stay = std::bind(&Boss_Vordt::Hitten_Back_Update, this, std::placeholders::_1);
 		Hitten_Back.End = std::bind(&Boss_Vordt::Hitten_Back_End, this);
 
-		mJumpTableManager.AddJumpTable("Hit_002", 38, 40, std::bind(&Boss_Vordt::AI_Combo, this));
-		mJumpTableManager.AddJumpTable("Hit_002", 38, 40, std::bind(&Boss_Vordt::AI_Attack, this));
-		mJumpTableManager.AddJumpTable("Hit_002", 39, 40, std::bind(&Boss_Vordt::AI_MoveMent, this));
-		mJumpTableManager.AddJumpTable("Hit_002", 38, 40, std::bind(&Boss_Vordt::AI_Dodge, this));
+		mJumpTableManager.AddJumpTable("Hit_002", 35, 40, std::bind(&Boss_Vordt::AI_Combo, this));
+		mJumpTableManager.AddJumpTable("Hit_002", 35, 40, std::bind(&Boss_Vordt::AI_Attack, this));
+		mJumpTableManager.AddJumpTable("Hit_002", 36, 40, std::bind(&Boss_Vordt::AI_MoveMent, this));
+		mJumpTableManager.AddJumpTable("Hit_002", 35, 40, std::bind(&Boss_Vordt::AI_Dodge, this));
 
 		CreateStateParameter Hitten_Right;
 		Hitten_Right.Start = std::bind(&Boss_Vordt::Hitten_Right_Start, this);
 		Hitten_Right.Stay = std::bind(&Boss_Vordt::Hitten_Right_Update, this, std::placeholders::_1);
 		Hitten_Right.End = std::bind(&Boss_Vordt::Hitten_Right_End, this);
 
-		mJumpTableManager.AddJumpTable("Hit_003_Right", 38, 40, std::bind(&Boss_Vordt::AI_Attack, this));
-		mJumpTableManager.AddJumpTable("Hit_003_Right", 39, 40, std::bind(&Boss_Vordt::AI_MoveMent, this));
-		mJumpTableManager.AddJumpTable("Hit_003_Right", 38, 40, std::bind(&Boss_Vordt::AI_Dodge, this));
-		mJumpTableManager.AddJumpTable("Hit_003_Right", 38, 40, std::bind(&Boss_Vordt::AI_Combo, this));
+		mJumpTableManager.AddJumpTable("Hit_003_Right", 35, 40, std::bind(&Boss_Vordt::AI_Attack, this));
+		mJumpTableManager.AddJumpTable("Hit_003_Right", 36, 40, std::bind(&Boss_Vordt::AI_MoveMent, this));
+		mJumpTableManager.AddJumpTable("Hit_003_Right", 35, 40, std::bind(&Boss_Vordt::AI_Dodge, this));
+		mJumpTableManager.AddJumpTable("Hit_003_Right", 35, 40, std::bind(&Boss_Vordt::AI_Combo, this));
 
 		CreateStateParameter Hitten_Left;
 		Hitten_Left.Start = std::bind(&Boss_Vordt::Hitten_Left_Start, this);
 		Hitten_Left.Stay = std::bind(&Boss_Vordt::Hitten_Left_Update, this, std::placeholders::_1);
 		Hitten_Left.End = std::bind(&Boss_Vordt::Hitten_Left_End, this);
 
-		mJumpTableManager.AddJumpTable("Hit_003_Left", 38, 40, std::bind(&Boss_Vordt::AI_Combo, this));
-		mJumpTableManager.AddJumpTable("Hit_003_Left", 38, 40, std::bind(&Boss_Vordt::AI_Attack, this));
-		mJumpTableManager.AddJumpTable("Hit_003_Left", 39, 40, std::bind(&Boss_Vordt::AI_MoveMent, this));
-		mJumpTableManager.AddJumpTable("Hit_003_Left", 38, 40, std::bind(&Boss_Vordt::AI_Dodge, this));
+		mJumpTableManager.AddJumpTable("Hit_003_Left", 35, 40, std::bind(&Boss_Vordt::AI_Combo, this));
+		mJumpTableManager.AddJumpTable("Hit_003_Left", 35, 40, std::bind(&Boss_Vordt::AI_Attack, this));
+		mJumpTableManager.AddJumpTable("Hit_003_Left", 36, 40, std::bind(&Boss_Vordt::AI_MoveMent, this));
+		mJumpTableManager.AddJumpTable("Hit_003_Left", 35, 40, std::bind(&Boss_Vordt::AI_Dodge, this));
 
 		CreateStateParameter Hitten_Groggy;
 		Hitten_Groggy.Start = std::bind(&Boss_Vordt::Hitten_Groggy_Start, this);
 		Hitten_Groggy.Stay = std::bind(&Boss_Vordt::Hitten_Groggy_Update, this, std::placeholders::_1);
 		Hitten_Groggy.End = std::bind(&Boss_Vordt::Hitten_Groggy_End, this);
 
-		mJumpTableManager.AddJumpTable("Hit_004_Groggy", 114, 120, std::bind(&Boss_Vordt::AI_Combo, this));
-		mJumpTableManager.AddJumpTable("Hit_004_Groggy", 114, 120, std::bind(&Boss_Vordt::AI_Attack, this));
-		mJumpTableManager.AddJumpTable("Hit_004_Groggy", 115, 120, std::bind(&Boss_Vordt::AI_MoveMent, this));
-		mJumpTableManager.AddJumpTable("Hit_004_Groggy", 114, 120, std::bind(&Boss_Vordt::AI_Dodge, this));
+		mJumpTableManager.AddJumpTable("Hit_004_Groggy", 112, 120, std::bind(&Boss_Vordt::AI_Combo, this));
+		mJumpTableManager.AddJumpTable("Hit_004_Groggy", 112, 120, std::bind(&Boss_Vordt::AI_Attack, this));
+		mJumpTableManager.AddJumpTable("Hit_004_Groggy", 113, 120, std::bind(&Boss_Vordt::AI_MoveMent, this));
+		mJumpTableManager.AddJumpTable("Hit_004_Groggy", 112, 120, std::bind(&Boss_Vordt::AI_Dodge, this));
 
 		CreateStateParameter Groggy;
 		Groggy.Start = std::bind(&Boss_Vordt::Groggy_Start, this);
