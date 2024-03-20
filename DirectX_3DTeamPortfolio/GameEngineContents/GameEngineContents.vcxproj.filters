@@ -419,6 +419,12 @@
     <ClCompile Include="TriggerActor.cpp">
       <Filter>Actor\UI\Component</Filter>
     </ClCompile>
+    <ClCompile Include="Object_OakBarrel.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Shelf.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -829,6 +835,12 @@
     </ClInclude>
     <ClInclude Include="TriggerActor.h">
       <Filter>Actor\UI\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_OakBarrel.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Shelf.h">
+      <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
