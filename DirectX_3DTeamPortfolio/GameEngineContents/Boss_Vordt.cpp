@@ -597,6 +597,9 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->SetRootMotion("Rush&Hit&Turn&Rush", "", Enum_RootMotionMode::RealTimeDir); // 
 
 		MainRenderer->SetAllRootMotionMoveRatio(0.8f, 0.8f, 0.8f);
+		MainRenderer->SetRootMotionMoveRatio("Walk_Front", 0.8f, 0.8f, 2.5f);
+		MainRenderer->SetRootMotionMoveRatio("Walk_Left", 2.5f, 0.8f, 0.8f);
+		MainRenderer->SetRootMotionMoveRatio("Walk_Right", 2.5f, 0.8f, 0.8f);
 
 		//////// Blend
 		MainRenderer->SetBlendTime("Breath", 10);
@@ -915,7 +918,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 
 	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::Boss_Vordt));
 
-	// mHitCollision.Off();
+	mHitCollision.Off();
 	AI_Stop();
 	DummyPolySoundOff();
 }
@@ -959,11 +962,6 @@ void Boss_Vordt::Update(float _Delta)
 {
 	BaseActor::Update(_Delta);
 
-	if (true == GameEngineInput::IsDown('M', this))
-	{
-		MainRenderer->SwitchPause();
-	}
-
 	MostPrioritzedUpdate();
 	AIUpdate(_Delta);
 	TargetStateUpdate();
@@ -1005,14 +1003,14 @@ void Boss_Vordt::AI_Start()
 {
 	MainState.ChangeState(Enum_BossState::Howling);
 	AI_Off = false;
-	// mHitCollision.On();
+	mHitCollision.On();
 }
 
 void Boss_Vordt::AI_Stop()
 {
 	MainState.ChangeState(Enum_BossState::Idle);
 	AI_Off = true;
-	// mHitCollision.Off();
+	mHitCollision.Off();
 }
 
 bool Boss_Vordt::GetHit(const HitParameter& _Para /*= HitParameter()*/)
@@ -1050,7 +1048,7 @@ bool Boss_Vordt::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 	}
 
 	// Stat.AddPoise(-Stiffness);
-	Stat.AddPoise(-15);
+	Stat.AddPoise(-20);
 	// Stat.AddHp(-BOSS_HP);
 	Stat.AddHp(-AttackerAtt);
 	Hit.SetHit(true);

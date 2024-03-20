@@ -135,7 +135,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		Player_Object = CreateActor<Player>(0, "Player");
 		// 볼드 위치
-		// Player_Object->SetWorldPosition({ -2800.f, -2500.f, 6700.f });
+		Player_Object->SetWorldPosition({ -2800.f, -2500.f, 6700.f });
 		// 안개 테스트 위치 
 		// Player_Object->SetWorldPosition({ -3417.f, -2552.f, 7606.f });
 
@@ -143,7 +143,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		//Player_Object->SetWorldPosition({ -8011.0f, 907.0f, 3547.0f });
 		// 
 		// 시작 위치
-		Player_Object->SetWorldPosition({ -1400.0f, 4945.0f, -5330.0f });
+		// Player_Object->SetWorldPosition({ -1400.0f, 4945.0f, -5330.0f });
 		Player_Object->SetWorldRotation({ 0.f, 0.f, 0.f });
 		Player_Object->SetTargeting(Boss_Object.get());
 		Boss_Object->SetTargeting(Player_Object.get());
@@ -176,6 +176,21 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	CreateObject();
+
+	if (bool TestMonster = false)
+	{
+		std::vector<float4> Path1
+		{
+			float4(-5443.f,-876.f, 10681.f),
+			float4(-6910.0f,-660.0f,13326.0f),
+		};
+
+		std::shared_ptr<Monster_LothricKn> LothricKn = CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn");
+		LothricKn->SetPatrolPath(Path1, 0);
+		LothricKn->SetIdleType(Enum_Lothric_IdleType::Patrol);
+		LothricKn->SetWPosition(float4(-5443.f, -876.f, 10681.f));
+		LothricKn->WakeUp();
+	}
 
 	// 몬스터 위치 셋팅
 	SetAllMonster();

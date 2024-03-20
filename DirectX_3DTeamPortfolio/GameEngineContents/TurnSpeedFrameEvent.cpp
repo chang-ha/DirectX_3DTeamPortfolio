@@ -18,13 +18,13 @@ std::shared_ptr<TurnSpeedFrameEvent> TurnSpeedFrameEvent::CreateEventObject(int 
 	std::shared_ptr<TurnSpeedFrameEvent> TsEvent = std::make_shared<TurnSpeedFrameEvent>();
 	TsEvent->StartFrame = _SFrame;
 	TsEvent->EndFrame = _EFrame;
-	TsEvent->TurnAngle = _TurnSpeed;
+	TsEvent->TurnSpeed = _TurnSpeed;
 	return TsEvent;
 }
 
 std::shared_ptr<FrameEventObject> TurnSpeedFrameEvent::CreatePlayingEvent()
 {
-	std::shared_ptr<TurnSpeedFrameEvent> NewObject = TurnSpeedFrameEvent::CreateEventObject(StartFrame, EndFrame, TurnAngle);
+	std::shared_ptr<TurnSpeedFrameEvent> NewObject = TurnSpeedFrameEvent::CreateEventObject(StartFrame, EndFrame, TurnSpeed);
 	return NewObject;
 }
 
@@ -56,13 +56,6 @@ void TurnSpeedFrameEvent::Init()
 	}
 
 	pParentActor = pObject.get();
-
-	if (nullptr != ParentManager)
-	{
-		const float Inter = ParentManager->GetAnimationInfo()->Inter;
-		const float EventTime = static_cast<float>(EndFrame - StartFrame) * Inter;
-		TurnSpeed = TurnAngle / EventTime * 0.25f;
-	}
 }
 
 int TurnSpeedFrameEvent::UpdateEvent(float _Delta)
@@ -84,27 +77,20 @@ int TurnSpeedFrameEvent::UpdateEvent(float _Delta)
 		return EVENT_PLAY;
 	}
 
-	if (bFixSpeed)
+	GameEnginePhysXCapsule* pComponent = pParentActor->GetPhysxCapsulePointer();
+	if (nullptr == pComponent)
 	{
-		GameEnginePhysXCapsule* pComponent = pParentActor->GetPhysxCapsulePointer();
-		if (nullptr == pComponent)
-		{
-			MsgBoxAssert("피직스 컴포넌트가 존재하지 않습니다.");
-			return EVENT_ERROR;
-		}
-
-		float RotMinAngle = pParentActor->GetRotMinAngle();
-		float TargetAngle = pParentActor->GetTargetAngle();
-		float RotDir = pParentActor->GetRotDir_f();
-
-		if (std::fabs(RotMinAngle) < std::fabs(TargetAngle))
-		{
-			pComponent->AddWorldRotation(float4(0.0f, TurnSpeed * RotDir * _Delta));
-		}
+		MsgBoxAssert("피직스 컴포넌트가 존재하지 않습니다.");
+		return EVENT_ERROR;
 	}
-	else
+
+	float RotMinAngle = pParentActor->GetRotMinAngle();
+	float TargetAngle = pParentActor->GetTargetAngle();
+	float RotDir = pParentActor->GetRotDir_f();
+
+	if (std::fabs(RotMinAngle) < std::fabs(TargetAngle))
 	{
-		pParentActor->RotToTarget(_Delta, 50.0f, TurnSpeed, 45.0f);
+		pComponent->AddWorldRotation(float4(0.0f, TurnSpeed * RotDir * _Delta));
 	}
 
 	return EVENT_PLAY;

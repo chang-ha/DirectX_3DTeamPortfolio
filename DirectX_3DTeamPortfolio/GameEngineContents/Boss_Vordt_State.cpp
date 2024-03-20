@@ -2,11 +2,11 @@
 #include "Boss_Vordt.h"
 #include "BoneSocketCollision.h"
 
-#define JUMP_COOLDOWN 2.f
+#define JUMP_COOLDOWN 5.f
 #define NORMAL_ATTACK_COOLDOWN 15.f
-#define COMBO_COOLDOWN1 40.f
-#define COMBO_COOLDOWN2 50.f
-#define BOSS_ATT 7
+#define COMBO_COOLDOWN1 20.f
+#define COMBO_COOLDOWN2 40.f
+#define BOSS_ATT 10
 
 void Boss_Vordt::FrameEventInit()
 {
@@ -537,50 +537,50 @@ void Boss_Vordt::StateInit()
 		Hitten_Front.Stay = std::bind(&Boss_Vordt::Hitten_Front_Update, this, std::placeholders::_1);
 		Hitten_Front.End = std::bind(&Boss_Vordt::Hitten_Front_End, this);
 
-		mJumpTableManager.AddJumpTable("Hit_001", 38, 40, std::bind(&Boss_Vordt::AI_Combo, this));
-		mJumpTableManager.AddJumpTable("Hit_001", 38, 40, std::bind(&Boss_Vordt::AI_Attack, this));
-		mJumpTableManager.AddJumpTable("Hit_001", 39, 40, std::bind(&Boss_Vordt::AI_MoveMent, this));
-		mJumpTableManager.AddJumpTable("Hit_001", 38, 40, std::bind(&Boss_Vordt::AI_Dodge, this));
+		mJumpTableManager.AddJumpTable("Hit_001", 35, 40, std::bind(&Boss_Vordt::AI_Combo, this));
+		mJumpTableManager.AddJumpTable("Hit_001", 35, 40, std::bind(&Boss_Vordt::AI_Attack, this));
+		mJumpTableManager.AddJumpTable("Hit_001", 36, 40, std::bind(&Boss_Vordt::AI_MoveMent, this));
+		mJumpTableManager.AddJumpTable("Hit_001", 35, 40, std::bind(&Boss_Vordt::AI_Dodge, this));
 
 		CreateStateParameter Hitten_Back;
 		Hitten_Back.Start = std::bind(&Boss_Vordt::Hitten_Back_Start, this);
 		Hitten_Back.Stay = std::bind(&Boss_Vordt::Hitten_Back_Update, this, std::placeholders::_1);
 		Hitten_Back.End = std::bind(&Boss_Vordt::Hitten_Back_End, this);
 
-		mJumpTableManager.AddJumpTable("Hit_002", 38, 40, std::bind(&Boss_Vordt::AI_Combo, this));
-		mJumpTableManager.AddJumpTable("Hit_002", 38, 40, std::bind(&Boss_Vordt::AI_Attack, this));
-		mJumpTableManager.AddJumpTable("Hit_002", 39, 40, std::bind(&Boss_Vordt::AI_MoveMent, this));
-		mJumpTableManager.AddJumpTable("Hit_002", 38, 40, std::bind(&Boss_Vordt::AI_Dodge, this));
+		mJumpTableManager.AddJumpTable("Hit_002", 35, 40, std::bind(&Boss_Vordt::AI_Combo, this));
+		mJumpTableManager.AddJumpTable("Hit_002", 35, 40, std::bind(&Boss_Vordt::AI_Attack, this));
+		mJumpTableManager.AddJumpTable("Hit_002", 36, 40, std::bind(&Boss_Vordt::AI_MoveMent, this));
+		mJumpTableManager.AddJumpTable("Hit_002", 35, 40, std::bind(&Boss_Vordt::AI_Dodge, this));
 
 		CreateStateParameter Hitten_Right;
 		Hitten_Right.Start = std::bind(&Boss_Vordt::Hitten_Right_Start, this);
 		Hitten_Right.Stay = std::bind(&Boss_Vordt::Hitten_Right_Update, this, std::placeholders::_1);
 		Hitten_Right.End = std::bind(&Boss_Vordt::Hitten_Right_End, this);
 
-		mJumpTableManager.AddJumpTable("Hit_003_Right", 38, 40, std::bind(&Boss_Vordt::AI_Attack, this));
-		mJumpTableManager.AddJumpTable("Hit_003_Right", 39, 40, std::bind(&Boss_Vordt::AI_MoveMent, this));
-		mJumpTableManager.AddJumpTable("Hit_003_Right", 38, 40, std::bind(&Boss_Vordt::AI_Dodge, this));
-		mJumpTableManager.AddJumpTable("Hit_003_Right", 38, 40, std::bind(&Boss_Vordt::AI_Combo, this));
+		mJumpTableManager.AddJumpTable("Hit_003_Right", 35, 40, std::bind(&Boss_Vordt::AI_Attack, this));
+		mJumpTableManager.AddJumpTable("Hit_003_Right", 36, 40, std::bind(&Boss_Vordt::AI_MoveMent, this));
+		mJumpTableManager.AddJumpTable("Hit_003_Right", 35, 40, std::bind(&Boss_Vordt::AI_Dodge, this));
+		mJumpTableManager.AddJumpTable("Hit_003_Right", 35, 40, std::bind(&Boss_Vordt::AI_Combo, this));
 
 		CreateStateParameter Hitten_Left;
 		Hitten_Left.Start = std::bind(&Boss_Vordt::Hitten_Left_Start, this);
 		Hitten_Left.Stay = std::bind(&Boss_Vordt::Hitten_Left_Update, this, std::placeholders::_1);
 		Hitten_Left.End = std::bind(&Boss_Vordt::Hitten_Left_End, this);
 
-		mJumpTableManager.AddJumpTable("Hit_003_Left", 38, 40, std::bind(&Boss_Vordt::AI_Combo, this));
-		mJumpTableManager.AddJumpTable("Hit_003_Left", 38, 40, std::bind(&Boss_Vordt::AI_Attack, this));
-		mJumpTableManager.AddJumpTable("Hit_003_Left", 39, 40, std::bind(&Boss_Vordt::AI_MoveMent, this));
-		mJumpTableManager.AddJumpTable("Hit_003_Left", 38, 40, std::bind(&Boss_Vordt::AI_Dodge, this));
+		mJumpTableManager.AddJumpTable("Hit_003_Left", 35, 40, std::bind(&Boss_Vordt::AI_Combo, this));
+		mJumpTableManager.AddJumpTable("Hit_003_Left", 35, 40, std::bind(&Boss_Vordt::AI_Attack, this));
+		mJumpTableManager.AddJumpTable("Hit_003_Left", 36, 40, std::bind(&Boss_Vordt::AI_MoveMent, this));
+		mJumpTableManager.AddJumpTable("Hit_003_Left", 35, 40, std::bind(&Boss_Vordt::AI_Dodge, this));
 
 		CreateStateParameter Hitten_Groggy;
 		Hitten_Groggy.Start = std::bind(&Boss_Vordt::Hitten_Groggy_Start, this);
 		Hitten_Groggy.Stay = std::bind(&Boss_Vordt::Hitten_Groggy_Update, this, std::placeholders::_1);
 		Hitten_Groggy.End = std::bind(&Boss_Vordt::Hitten_Groggy_End, this);
 
-		mJumpTableManager.AddJumpTable("Hit_004_Groggy", 114, 120, std::bind(&Boss_Vordt::AI_Combo, this));
-		mJumpTableManager.AddJumpTable("Hit_004_Groggy", 114, 120, std::bind(&Boss_Vordt::AI_Attack, this));
-		mJumpTableManager.AddJumpTable("Hit_004_Groggy", 115, 120, std::bind(&Boss_Vordt::AI_MoveMent, this));
-		mJumpTableManager.AddJumpTable("Hit_004_Groggy", 114, 120, std::bind(&Boss_Vordt::AI_Dodge, this));
+		mJumpTableManager.AddJumpTable("Hit_004_Groggy", 112, 120, std::bind(&Boss_Vordt::AI_Combo, this));
+		mJumpTableManager.AddJumpTable("Hit_004_Groggy", 112, 120, std::bind(&Boss_Vordt::AI_Attack, this));
+		mJumpTableManager.AddJumpTable("Hit_004_Groggy", 113, 120, std::bind(&Boss_Vordt::AI_MoveMent, this));
+		mJumpTableManager.AddJumpTable("Hit_004_Groggy", 112, 120, std::bind(&Boss_Vordt::AI_Dodge, this));
 
 		CreateStateParameter Groggy;
 		Groggy.Start = std::bind(&Boss_Vordt::Groggy_Start, this);
@@ -911,7 +911,7 @@ void Boss_Vordt::StateInit()
 		AI_States[Enum_BossState::Sweep_002] = AI_State(NORMAL_ATTACK_COOLDOWN);
 		AI_States[Enum_BossState::Rush_Attack_001] = AI_State(NORMAL_ATTACK_COOLDOWN);
 		AI_States[Enum_BossState::Rush_Attack_002] = AI_State(NORMAL_ATTACK_COOLDOWN);
-		AI_States[Enum_BossState::Rush_Turn] = AI_State(0.f);
+		AI_States[Enum_BossState::Rush_Turn] = AI_State(NORMAL_ATTACK_COOLDOWN);
 		AI_States[Enum_BossState::Rush_Hit_Turn] = AI_State(COMBO_COOLDOWN2);
 		AI_States[Enum_BossState::Rush_Hit_Turn_Rush] = AI_State(COMBO_COOLDOWN2);
 	}
@@ -1288,12 +1288,12 @@ Enum_JumpTableFlag Boss_Vordt::AI_MoveMent()
 	{
 	case Enum_TargetDeg::Deg_Front:
 	{
-		if (tDis == Enum_TargetDis::Dis_Close)
+		if (Enum_TargetDis::Dis_Attach >= tDis)
 		{
 			break;
 		}
 
-		if (tDis >= Enum_TargetDis::Dis_Far && Enum_Boss_Phase::Phase_2 == mBoss_Phase)
+		if (Enum_TargetDis::Dis_Far <= tDis && Enum_Boss_Phase::Phase_2 == mBoss_Phase)
 		{
 			if (true == ChangeAI_State(Enum_BossState::Rush_Front))
 			{
@@ -1301,11 +1301,35 @@ Enum_JumpTableFlag Boss_Vordt::AI_MoveMent()
 			}
 		}
 
-		if (true == ChangeAI_State(Enum_BossState::Walk_Front))
+		float Angle = GetTargetAngle();
+		if (30.f >= fabsf(Angle) && Enum_TargetDis::Dis_Middle >= tDis)
 		{
-			return Enum_JumpTableFlag::StopJumpTable;
+			switch (Dir)
+			{
+			case Left:
+				if (true == ChangeAI_State(Enum_BossState::Walk_Right))
+				{
+					return Enum_JumpTableFlag::StopJumpTable;
+				}
+				break;
+			case Right:
+				if (true == ChangeAI_State(Enum_BossState::Walk_Left))
+				{
+					return Enum_JumpTableFlag::StopJumpTable;
+				}
+				break;
+			case Not_Rot:
+			default:
+				break;
+			}
 		}
-
+		else
+		{
+			if (true == ChangeAI_State(Enum_BossState::Walk_Front))
+			{
+				return Enum_JumpTableFlag::StopJumpTable;
+			}
+		}
 		break;
 	}
 	case Enum_TargetDeg::Deg_Side:
@@ -1314,37 +1338,17 @@ Enum_JumpTableFlag Boss_Vordt::AI_MoveMent()
 		{
 		case Left:
 		{
-			if (tDis < Enum_TargetDis::Dis_Middle)
+			if (true == ChangeAI_State(Enum_BossState::Turn_Left))
 			{
-				if (true == ChangeAI_State(Enum_BossState::Turn_Left))
-				{
-					return Enum_JumpTableFlag::StopJumpTable;
-				}
-			}
-			else
-			{
-				if (true == ChangeAI_State(Enum_BossState::Walk_Left))
-				{
-					return Enum_JumpTableFlag::StopJumpTable;
-				}
+				return Enum_JumpTableFlag::StopJumpTable;
 			}
 			break;
 		}
 		case Right:
 		{
-			if (tDis < Enum_TargetDis::Dis_Middle)
+			if (true == ChangeAI_State(Enum_BossState::Turn_Right))
 			{
-				if (true == ChangeAI_State(Enum_BossState::Turn_Right))
-				{
-					return Enum_JumpTableFlag::StopJumpTable;
-				}
-			}
-			else
-			{
-				if (true == ChangeAI_State(Enum_BossState::Walk_Right))
-				{
-					return Enum_JumpTableFlag::StopJumpTable;
-				}
+				return Enum_JumpTableFlag::StopJumpTable;
 			}
 			break;
 		}
@@ -1408,7 +1412,7 @@ Enum_JumpTableFlag Boss_Vordt::AI_Dodge()
 	int tDis = mTargetState.mTargetDis;
 	int tDeg = mTargetState.mTargetDeg;
 
-	if (Enum_TargetDis::Dis_Middle < tDis)
+	if (Enum_TargetDis::Dis_Close < tDis)
 	{
 		return Enum_JumpTableFlag::Default;
 	}

@@ -42,7 +42,13 @@ public:
 	void GravityOn();
 	void GravityOff();
 
-	void SetPatrolPath(const std::vector<float4>& _Paths, int _Index = 0);
+	/// <summary>
+	/// 해당 인자로 정찰을 수행합니다. 정찰은 vector 컨테이너 순서대로 진행됩니다.
+	/// </summary>
+	/// <param name="_Paths">정찰 포인트</param>
+	/// <param name="_Index">정찰할 첫 지점</param>
+	/// <param name="_IsOneWay">왕복 기능</param>
+	void SetPatrolPath(const std::vector<float4>& _Paths, int _Index = 0, bool _IsOneWay = false);
 
 	// 리스폰 위치
 	void SetResponPos(const float4& _Pos)
@@ -64,6 +70,8 @@ public:
 	{
 		return ResponRot;
 	}
+
+	void DebugOn() { DebugValue = true; }
 
 protected:
 	void Start() override;
@@ -202,11 +210,13 @@ protected:
 	void CreateMonsterUI(int _BoneHeadIndex);
 
 protected:
-	std::unique_ptr<class PatrolPath> PatrolPaths;
+	std::unique_ptr<class PatrolPath> PathObject;
 
 	// 몬스터 리스폰 위치
 	float4 ResponPos = float4::ZERO;
 	float4 ResponRot = float4::ZERO;
+
+	bool DebugValue = false;
 
 private:
 	std::shared_ptr<class MonsterHpBar> MonsterUI;

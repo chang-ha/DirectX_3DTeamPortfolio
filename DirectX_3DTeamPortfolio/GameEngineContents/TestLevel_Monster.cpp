@@ -34,6 +34,22 @@ void TestLevel_Monster::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
 
+	if (true)
+	{
+		std::vector<float4> Path
+		{
+			float4(0.0f),
+			float4(0.0f,0.0f,500.0f),
+			float4(500.0f,0.0f,500.0f),
+			float4(500.0f)
+		};
+
+		for (const float4& Pos : Path)
+		{
+			GameEngineDebug::DrawSphere2D(float4(5.0f, 5.0f, 5.0f), float4::ZERONULL, Pos, float4(1.0f,1.0f));
+		}
+	}
+
 	RayCast({ 100.0f, }, { 0.0f,0.0f, 5.0f }, 1000.0f);
 }
 
@@ -45,10 +61,20 @@ void TestLevel_Monster::LevelStart(GameEngineLevel* _PrevLevel)
 	physx::PxRigidStatic* groundPlane = PxCreatePlane(*Physics, physx::PxPlane(0, 1, 0, 50), *mMaterial);
 	Scene->addActor(*groundPlane);
 
+	std::vector<float4> Path
+	{
+		float4(0.0f),
+		float4(0.0f,0.0f,500.0f),
+		float4(500.0f,0.0f,500.0f),
+		float4(500.0f)
+	};
+
 	std::shared_ptr<Monster_LothricKn> LothricKn = CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn");
-	LothricKn->SetIdleType(Enum_Lothric_IdleType::Sit);
+	LothricKn->SetPatrolPath(Path, 0, true);
+	LothricKn->SetIdleType(Enum_Lothric_IdleType::Patrol);
 	LothricKn->SetWPosition(float4(100.0f, 0.0f, 0.0f));
 	LothricKn->WakeUp();
+	LothricKn->DebugOn();
 
 	//std::shared_ptr<Monster_LothricKn> LothricKn1 = CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn1");
 	//LothricKn1->SetIdleType(Enum_Lothric_IdleType::Standing);

@@ -22,13 +22,13 @@ public:
 	{
 		FrameEventObject::Write(_File);
 		_File << EndFrame;
-		_File << TurnAngle;
+		_File << TurnSpeed;
 	}
 	void Read(class GameEngineSerializer& _File) override
 	{
 		FrameEventObject::Read(_File);
 		_File >> EndFrame;
-		_File >> TurnAngle;
+		_File >> TurnSpeed;
 	}
 
 	inline int GetEndFrame() const
@@ -46,9 +46,7 @@ protected:
 
 private:
 	int EndFrame = -1;
-	float TurnAngle = 0.0f;
 	float TurnSpeed = 0.0f;
-	bool bFixSpeed = true;
 
 	class BaseActor* pParentActor = nullptr;
 
