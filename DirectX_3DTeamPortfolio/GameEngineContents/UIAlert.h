@@ -31,6 +31,12 @@ protected:
 		Disappear, // Update End 
 	};
 
+	//virtual void Start_Appear(GameEngineState* _Parent) {};
+	//virtual void Update_Appear(float _Delta, GameEngineState* _Parent) {};
+
+	//virtual void Update_DisAppear(float _Delta, GameEngineState* _Parent) {};
+	//virtual void End_DisAppear(GameEngineState* _Parent) {};
+
 protected:
 	std::shared_ptr<GameEngineUIRenderer> BackTexture;
 	std::shared_ptr<GameEngineUIRenderer> FontTexture;

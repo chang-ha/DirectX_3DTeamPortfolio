@@ -83,45 +83,51 @@ private:
 	void BossBGMUpdate(float _Delta);
 
 private:
+	void StateInit();
+
 	// Level State
 	enum class Enum_LevelState
 	{
 		LevelStart, // 리소스 로딩 << 멀티쓰레드 로딩
 		ResLoadingDone, // 리소스 로딩 종료, Fade Out
-		PlayStart, // 
+		Play, // 
 		PlayerDeath,
 		ResetLoading, // Reset
-		BossStage,
-		End,
+		StageClear,
 	};
 
 	GameEngineState LevelState;
 
-	// State_Start 
+	// PlayState_Start 
 	void Start_LevelStart(GameEngineState* _Parent);
 	void Start_ResLoadingDone(GameEngineState* _Parent);
-	void Start_PlayStart(GameEngineState* _Parent);
+	void Start_Play(GameEngineState* _Parent);
 	void Start_PlayerDeath(GameEngineState* _Parent);
-	void Start_Loading(GameEngineState* _Parent);
-	void Start_BossStage(GameEngineState* _Parent);
-	void Start_End(GameEngineState* _Parent);
+	void Start_ResetLoading(GameEngineState* _Parent);
+	void Start_StageClear(GameEngineState* _Parent);
 
+	// PlayState_Update
 	void Update_LevelStart(float _Delta, GameEngineState* _Parent);
 	void Update_ResLoadingDone(float _Delta, GameEngineState* _Parent);
-	void Update_PlayStart(float _Delta, GameEngineState* _Parent);
+	void Update_Play(float _Delta, GameEngineState* _Parent);
 	void Update_PlayerDeath(float _Delta, GameEngineState* _Parent);
-	void Update_Loading(float _Delta, GameEngineState* _Parent);
-	void Update_BossStage(float _Delta, GameEngineState* _Parent);
-	void Update_End(float _Delta, GameEngineState* _Parent);
+	void Update_ResetLoading(float _Delta, GameEngineState* _Parent);
+	void Update_StageClear(float _Delta, GameEngineState* _Parent);
 
+	void PlayUpdate(float _Delta);
 
+	// PlayState_End
 	void End_LevelStart(GameEngineState* _Parent);
 	void End_ResLoadingDone(GameEngineState* _Parent);
-	void End_PlayStart(GameEngineState* _Parent);
+	void End_Play(GameEngineState* _Parent);
 	void End_PlayerDeath(GameEngineState* _Parent);
-	void End_Loading(GameEngineState* _Parent);
-	void End_BossStage(GameEngineState* _Parent);
-	void End_End(GameEngineState* _Parent);
+	void End_ResetLoading(GameEngineState* _Parent);
+	void End_StageClear(GameEngineState* _Parent);
+
+	//// Thread Function
+	GameEngineThreadJobQueue LoadingThread;
+	void ResLoading();
+	void ResetLoading();
 
 	static bool ResLoadingDone;
 	static bool ResetLoadingDone;
@@ -129,8 +135,43 @@ private:
 	void LoadingUIOn();
 	void LoadingUIOff();
 
-	//// Thread Function
-	GameEngineThreadJobQueue LoadingThread;
-	void ResLoading();
+	// PlayerDeath State
+	enum class Enum_PlayerDeathState
+	{
+		Ready,
+		YouDie,
+		FadeOut,
+		Done,
+	};
+
+	GameEngineState PlayerDeathState;
+
+	void Start_PlayerDeath_Ready(GameEngineState* _Parent);
+	void Start_PlayerDeath_YouDie(GameEngineState* _Parent);
+	void Start_PlayerDeath_FadeOut(GameEngineState* _Parent);
+
+	void Update_PlayerDeath_Ready(float _Delta, GameEngineState* _Parent);
+	void Update_PlayerDeath_YouDie(float _Delta, GameEngineState* _Parent);
+	void Update_PlayerDeath_FadeOut(float _Delta, GameEngineState* _Parent);
+
+	// Reset State
+	enum class Enum_ResetState
+	{
+		PlayReset, // UI, Actor Reset 및 Respawn
+		Wait,
+		FadeOut,
+		Done,
+	};
+
+	GameEngineState ResetState;
+
+	void Start_Reset_PlayReset(GameEngineState* _Parent);
+	void Start_Reset_FadeOut(GameEngineState* _Parent);
+
+	void Update_Reset_PlayReset(float _Delta, GameEngineState* _Parent);
+	void Update_Reset_Wait(float _Delta, GameEngineState* _Parent);
+	void Update_Reset_FadeOut(float _Delta, GameEngineState* _Parent);
+
+	void End_Reset_FadeOut(GameEngineState* _Parent);
 };
 

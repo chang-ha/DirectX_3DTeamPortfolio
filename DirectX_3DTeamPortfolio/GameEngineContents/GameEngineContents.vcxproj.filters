@@ -416,6 +416,9 @@
     <ClCompile Include="Object_Box.cpp">
       <Filter>Object</Filter>
     </ClCompile>
+    <ClCompile Include="TriggerActor.cpp">
+      <Filter>Actor\UI\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -824,6 +827,9 @@
     <ClInclude Include="Object_Box.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="TriggerActor.h">
+      <Filter>Actor\UI\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -972,6 +978,9 @@
     </Filter>
     <Filter Include="Actor\UI\Alert">
       <UniqueIdentifier>{d4681423-d968-4bb7-8953-b715013a589d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\Component">
+      <UniqueIdentifier>{b664115b-b507-497d-9b86-38d0bbbd27d9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

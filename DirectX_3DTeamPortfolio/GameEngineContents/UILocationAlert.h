@@ -6,9 +6,9 @@ class UILocationAlert : public UIActor
 {
 	enum class eState
 	{
-		Idle,
 		Appear,
 		DisAppear,
+		Done,
 	};
 
 public:
@@ -22,7 +22,7 @@ public:
 	UILocationAlert& operator=(const UILocationAlert& _Other) = delete;
 	UILocationAlert& operator=(UILocationAlert&& _Other) noexcept = delete;
 
-	void SetCollision(const float4& _Scale, float _Rot);
+	void SetCollision(const float4& _Scale, const float4& _Pos);
 
 
 protected:
@@ -33,10 +33,6 @@ protected:
 	void Reset() override;
 
 private:
-	// State_Idle
-	void Start_Idle(GameEngineState* _Parent); // Reset
-	void Update_Idle(float _Delta, GameEngineState* _Parent);
-
 	// State_Appear
 	void Start_Appear(GameEngineState* _Parent);
 	void Update_Appear(float _Delta,GameEngineState* _Parent);
@@ -52,8 +48,8 @@ private:
 	std::shared_ptr<GameEngineUIRenderer> FontTexture;
 	std::shared_ptr<GameEngineUIRenderer> UnderBar;
 
-	std::shared_ptr<GameEngineCollision> Collision;
-
+	std::shared_ptr<class TriggerActor> EventTrigger;
+	
 	GameEngineState MainState;
 
 };

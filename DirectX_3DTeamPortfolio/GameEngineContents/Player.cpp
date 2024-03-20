@@ -11,6 +11,9 @@
 
 #include "ContentsHitRenderer.h"
 #include "Object_BaseLadder.h"
+
+#include "TriggerActor.h"
+
 #define Frame 0.033f
 
 Player* Player::Main_Player;
@@ -973,7 +976,17 @@ void Player::Update(float _Delta)
 	//	StrikeRenderer->ChangeAnimation("Hit", true);
 	//}
 
-
+	Player_Col->Collision(Enum_CollisionOrder::Trigger, [=](std::vector<GameEngineCollision*> _Other)
+	{
+			for (GameEngineCollision* pCollision : _Other)
+			{
+				TriggerActor* pActor = pCollision->GetParent<TriggerActor>();
+				if (nullptr != pActor)
+				{
+					pActor->Trigger();
+				}
+			}
+	});
 
 	tyu = false;
 	Fog_Check = false;
