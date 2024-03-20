@@ -476,13 +476,7 @@ void TestLevel_MapObject::CreateObject()
 		Object->Transform.SetWorldRotation({ 0, -90, 0 });
 		VTorchlight.push_back(Object);
 	}
-	//36
-	{
-		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
-		Object->Transform.SetWorldPosition({ -13833, 3151 , -1856 });
-		Object->Transform.SetWorldRotation({ 0, 60, 0 });
-		VTorchlight.push_back(Object);
-	}
+	
 	//촛불동상
 	{
 		std::shared_ptr<Object_CandleHuman> Object = CreateActor<Object_CandleHuman>(1);
