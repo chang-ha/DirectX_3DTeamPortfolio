@@ -19,7 +19,7 @@ void GameEnginePhysXCapsule::Start()
 
 void GameEnginePhysXCapsule::Update(float _Delta)
 {
-	Positioning(_Delta);
+	GameEnginePhysXComponent::Update(_Delta);
 
 	physx::PxVec3 Vec = CapsuleActor->getLinearVelocity();
 
@@ -84,41 +84,6 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 	Scene->addActor(*ComponentActor);
 	// CapsuleShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
 	// CapsuleShape->release();
-}
-
-void GameEnginePhysXCapsule::Positioning(float _Delta)
-{
-	switch (IsPositioningComponent)
-	{
-	case 0:
-	{
-		// Set MyPos to Reflect ParentPos
-		const TransformData& LocalTransform = GameEngineObject::Transform.GetConstTransformDataRef();
-		SetWorldPosition(LocalTransform.WorldPosition);
-		SetWorldRotation(LocalTransform.WorldRotation);
-		break;
-	}
-	default:
-	{
-		// Set ParentPos to Reflect MyPos
-		// Component's Local Transform
-		physx::PxTransform Transform = ComponentActor->getGlobalPose();
- 		const TransformData& LocalTransform = GameEngineObject::Transform.GetConstTransformDataRef();
-
-		physx::PxVec3 ComponentPos = Transform.p;
-		physx::PxQuat ComponentQuat = Transform.q;
-
-		float4 ParentPos = { ComponentPos.x, ComponentPos.y, ComponentPos.z , 1.0f };
-		float4 Degree = float4(ComponentQuat.x, ComponentQuat.y, ComponentQuat.z, ComponentQuat.w).QuaternionToEulerDeg();
-		// Degree.Z -= 90.0f; // 90도 만큼 회전한 캡슐을 고려
-
-		ParentPos -= LocalTransform.LocalPosition; // Component Local Pos
-
-		ParentActor->Transform.SetWorldRotation(Degree);
-		ParentActor->Transform.SetWorldPosition(ParentPos);
-		break;
-	}
-	}
 }
 
 float4 GameEnginePhysXCapsule::GetLinearVelocity_f()
