@@ -597,6 +597,9 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		MainRenderer->SetRootMotion("Rush&Hit&Turn&Rush", "", Enum_RootMotionMode::RealTimeDir); // 
 
 		MainRenderer->SetAllRootMotionMoveRatio(0.8f, 0.8f, 0.8f);
+		MainRenderer->SetRootMotionMoveRatio("Walk_Front", 0.8f, 2.5f, 0.8f);
+		MainRenderer->SetRootMotionMoveRatio("Walk_Left", 2.5f, 0.8f, 0.8f);
+		MainRenderer->SetRootMotionMoveRatio("Walk_Right", 2.5f, 0.8f, 0.8f);
 
 		//////// Blend
 		MainRenderer->SetBlendTime("Breath", 10);
