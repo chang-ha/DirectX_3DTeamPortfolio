@@ -107,11 +107,14 @@ public:
 	{
 		return Weapon_Actor;
 	}
-	std::shared_ptr<shield> GetShield()
+	/*std::shared_ptr<shield> GetShield()
 	{
 		return Shield_Actor;
+	}*/
+	std::shared_ptr<GameEngineCollision> GetShield()
+	{
+		return Top_Shield_Col;
 	}
-
 
 	std::shared_ptr<GameEngineActor> Actor_test_02;
 
@@ -194,12 +197,13 @@ private:
 	std::shared_ptr<GameEngineCollision> Player_Col;
 	std::shared_ptr<GameEngineCollision> Parring_Attack_Col;
 	std::shared_ptr<BoneSocketCollision> Body_Col;
-	std::shared_ptr<BoneSocketCollision> Shield_Col;
+	std::shared_ptr<GameEngineCollision> Shield_Col;
+	std::shared_ptr<GameEngineCollision> Top_Shield_Col;
 	std::shared_ptr<BoneSocketCollision> Attack_Col;
 
 	std::shared_ptr<GameEngineCollision> Arround_Col;
 
-
+	
 	PlayerState StateValue = PlayerState::Idle;
 	float Mouse_Pos = 0.0f;
 	
@@ -257,7 +261,7 @@ private:
 	float Time = 0.0f;
 	float Rock_on_Time = 0.0f;
 	
-	float Speed = 1000.0f;
+	float Speed = 750.0f;
 	float MoveSpeed = 0.0f;
 	float DeltaTime = 0.0f;
 

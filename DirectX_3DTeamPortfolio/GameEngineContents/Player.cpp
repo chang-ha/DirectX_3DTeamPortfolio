@@ -364,27 +364,32 @@ void Player::Start()
 		Arround_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Arround);
 		Arround_Col->SetCollisionType(ColType::SPHERE3D);
 		Arround_Col->Transform.SetLocalScale({ 2000.f,2000.f, 2000.f});
-		//Arround_Col->Off();
+		Arround_Col->Off();
 	}
 
 	{
-		ColParameter.R = 0.0f;
-		ColParameter.S = { 100.f, 100.f, 100.f };
-		//ColParameter.S = { 300.f, 300.f, 300.f };
-		ColParameter.T = { -0.0f, -0.0f, 0.2f };
-
-		Shield_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Shield, 19, ColParameter);
-		Shield_Col->SetCollisionType(ColType::SPHERE3D);
-		//Shield_Col->Transform.SetLocalScale({ 80.f,80.f, 80.f });
+		Shield_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Shield);
+		Shield_Col->SetCollisionType(ColType::AABBBOX3D);
+		Shield_Col->Transform.SetLocalScale({ 120.f,140.f, 30.f});
+		Shield_Col->Transform.SetLocalPosition({ 0.f,90.f, 50.f });
 		Shield_Col->Off();
 	}
+
+	{
+		Top_Shield_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Shield);
+		Top_Shield_Col->SetCollisionType(ColType::AABBBOX3D);
+		/*Top_Shield_Col->Transform.SetLocalScale({ 79.f,12.f, 79.f });
+		Top_Shield_Col->Transform.SetLocalPosition({ 0.f,155.0f, 15.f });*/
+		Top_Shield_Col->Off();
+	}
+
 
 
 	{
 		Parring_Attack_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Parring_Arround);
 		Parring_Attack_Col->SetCollisionType(ColType::SPHERE3D);
 		Parring_Attack_Col->Transform.SetLocalScale({ 300.f,300.f, 300.f });
-		//Parring_Attack_Col->Off();
+		Parring_Attack_Col->Off();
 	}
 
 	Stat.SetHp(400);
@@ -582,7 +587,7 @@ void Player::Start()
 
 	Shield_Col->Off();
 	Attack_Col->Off(); 
-
+	Top_Shield_Col->Off();
 
 	HitRenderer = CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
 	
@@ -599,6 +604,10 @@ void Player::Update(float _Delta)
 	float4 revolution = float4::VectorRotationToDegY(float4{ 0.0f, 150.0f, 50.0f }, Transform.GetWorldRotationEuler().Y);
 
 	FaceLight->Transform.SetLocalPosition(Transform.GetWorldPosition() + revolution);
+
+	//Shield_Col->On(); 
+	
+	//Top_Shield_Col->On();
 
 	if (GameEngineInput::IsDown(VK_F1, this))
 	{
@@ -1018,7 +1027,10 @@ void Player::CameraRotation(float Delta)
 
 
 	
-
+	if (Rock_On_Check == false)
+	{
+		Actor_test->Transform.SetWorldRotation({ Camera_Pos_Y,Player_Pos.X,0.0f });
+	}
 
 	
 
@@ -1027,14 +1039,14 @@ void Player::CameraRotation(float Delta)
 	{
 		float4 Cur_Camera_Pos = { 0.0f, PrevPos.Y - Mouse_Ro_Y,0.0f };
 
-		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta*10);
+		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta);
 
 
-		Camera_Pos_Y -= Lerp.Y;
+		Camera_Pos_Y -= Lerp.Y *10;
 
 		if (Camera_Pos_Y <= -50)
 		{
-			Camera_Pos_Y += Lerp.Y;
+			Camera_Pos_Y += Lerp.Y * 10;
 		}
 	}
 
@@ -1043,65 +1055,58 @@ void Player::CameraRotation(float Delta)
 		float4 Cur_Camera_Pos = { 0.0f, Mouse_Ro_Y- PrevPos.Y,0.0f };
 
 
-		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta*10);
+		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta);
 
 		//Cur_Camera_Pos.Normalize();
 
-		Camera_Pos_Y += Lerp.Y;
+		Camera_Pos_Y += Lerp.Y * 10;
 
 		
 		if (Camera_Pos_Y >= 60)
 		{
-			Camera_Pos_Y -= Lerp.Y;
+			Camera_Pos_Y -= Lerp.Y * 10;
 		}
 
 	}
+
+	float4 Cur_Camera_Pos = { PrevPos.X - Mouse_Ro_X,0.0f,0.0f };
+
+	float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta);
+
 
 	if (PrevPos.X > Mouse_Ro_X)
 	{
-
-		float4 Cur_Camera_Pos = { PrevPos.X - Mouse_Ro_X,0.0f,0.0f };
-
-		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta*10);
 		//Cur_Camera_Pos.Normalize();
 
+		Player_Pos.X -= Lerp.X * 10;
 
-
-		Camera_Pos_X += Lerp.X;
-		Player_Pos.X -= Lerp.X;
-
-		if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
-		{
-			Capsule->AddWorldRotation({ 0.0f,-Lerp.X,0.0f });
-
-		}
+		
 	}
 	else if (PrevPos.X < Mouse_Ro_X)
 	{
-
-		float4 Cur_Camera_Pos = { Mouse_Ro_X - PrevPos.X,0.0f,0.0f };
-
-		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta*10);
 		//Cur_Camera_Pos.Normalize();
 
-		Camera_Pos_X -= Lerp.X;
-		Player_Pos.X += Lerp.X;
+		Player_Pos.X -= Lerp.X * 10;
 
 
 
-		if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
+		/*if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
 		{
-			Capsule->AddWorldRotation({ 0.0f, Lerp.X, 0.0f });
-		}
+			Capsule->SetWorldRotation({ 0.0f, -Lerp.X * 10, 0.0f });
+		}*/
 	}
 
+
+	if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
+	{
+		Capsule->SetWorldRotation({ 0.0f,Cameracapsule->Capsule_02->GetDir() });
+	}
 
 	float4 sadasd = float4::LerpClamp(Actor_test_02->Transform.GetWorldPosition(),Actor_test->Transform.GetWorldPosition(), Delta*5);
 	float4 sadassd = float4::LerpClamp(Actor_test_02->Transform.GetWorldPosition(), Actor_test->Transform.GetWorldPosition(), -Delta*5);
 
 	
-	//140.0f, -300.0f
-
+	
 
 
 	if (testa == false && testaa == true)
@@ -1130,18 +1135,7 @@ void Player::CameraRotation(float Delta)
 	}
 
 	
-	// 다음 프레임에 콜리전이 충돌한 포지션이면 멈춰 
 
-
-
-	/*if (testa == true)
-	{
-		testaa = true;
-	}
-	else
-	{
-		testaa = false;
-	}*/
 
 
 	testaa = false;
@@ -1154,21 +1148,6 @@ void Player::CameraRotation(float Delta)
 
 
 
-	//if (Camera_Pos_Y <= 0 && testa == false)
-	//{
-
-	//	if (PrevPos.Y < Mouse_Ro_Y)
-	//	{
-	//		Actor_test_02->Transform.AddWorldPosition(A * Delta * 300);
-
-	//	}
-
-	//	/*else if (PrevPos.Y > Mouse_Ro_Y)
-	//	{
-	//		Actor_test_02->Transform.AddWorldPosition(-A * Delta * 300);
-	//	}*/
-	//}
-
 
 	
 	PrevPos.Y = Mouse_Ro_Y;
@@ -1176,10 +1155,7 @@ void Player::CameraRotation(float Delta)
 
 
 
-	if (Rock_On_Check == false)
-	{
-		Actor_test->Transform.SetWorldRotation({ Camera_Pos_Y,Player_Pos.X,0.0f });
-	}
+	
 
 
 	// 마우스 고정하고 싶을떄 
@@ -1209,9 +1185,10 @@ void Player::CameraRotation(float Delta)
 
 
 
-	//Actor_test->Transform.SetLocalPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
+	
 	GetLevel()->GetMainCamera()->Transform.SetWorldRotation(Actor_test_02->Transform.GetWorldRotationEuler());
 	GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Actor_test_02->Transform.GetWorldPosition());
+
 
 	
 
@@ -1470,7 +1447,7 @@ bool Player::GetHitToShield(const HitParameter& _Para)
 
 	HitRenderer->On();
 	HitRenderer->ChangeAnimation("Hit");
-	HitRenderer->Transform.SetWorldPosition({ Shield_Col->Transform.GetWorldPosition().X,Shield_Col->Transform.GetWorldPosition().Y,Shield_Col->Transform.GetWorldPosition().Z });
+	HitRenderer->Transform.SetWorldPosition({ Shield_Col->Transform.GetWorldPosition().X,Shield_Col->Transform.GetWorldPosition().Y+30.0f,Shield_Col->Transform.GetWorldPosition().Z });
 	Attack_Col->Off();
 
 

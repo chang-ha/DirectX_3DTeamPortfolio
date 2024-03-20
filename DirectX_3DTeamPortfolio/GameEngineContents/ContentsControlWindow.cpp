@@ -232,10 +232,10 @@ void TestTabB::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	float4 Pos = Player::Main_Player->GetShield()->Transform.GetLocalPosition();
 	ImGui::DragFloat4("SPos", Pos.Arr1D);
 
-	float4 Rot = Player::Main_Player->GetShield()->Transform.GetLocalRotationEuler();
+	float4 Rot = Player::Main_Player->GetShield()->Transform.GetLocalScale();
 	ImGui::DragFloat4("SRot", Rot.Arr1D);
 
 	Player::Main_Player->GetShield()->Transform.SetLocalPosition(Pos);
-	Player::Main_Player->GetShield()->Transform.SetLocalRotation(Rot);
+	Player::Main_Player->GetShield()->Transform.SetLocalScale(Rot);
 
 }

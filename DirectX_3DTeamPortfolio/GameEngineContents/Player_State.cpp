@@ -17,6 +17,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				Shield_Col->Off();
+				Top_Shield_Col->Off();
 				Attack_Col->Off(); 
 				Body_Col->On();
 				Sword.ResetRecord();
@@ -124,6 +125,7 @@ void Player::Player_State()
 			{
 				StateValue = PlayerState::Move;
 				Rotation_Check_X = false;
+				Top_Shield_Col->Off();
 				Shield_Col->Off();
 				Attack_Col->Off();
 				Body_Col->On(); 
@@ -349,7 +351,7 @@ void Player::Player_State()
 
 					Dir.Normalize();
 
-					Capsule->MoveForce({ Dir * Speed }, Capsule->GetDir());
+					Capsule->MoveForce({ Dir * Speed }, Cameracapsule->Capsule_02->GetDir());
 				}
 				else if (true == GameEngineInput::IsPress('W', this) && true == GameEngineInput::IsPress('D', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
@@ -357,7 +359,7 @@ void Player::Player_State()
 
 					Dir.Normalize();
 
-					Capsule->MoveForce({ Dir * Speed }, Capsule->GetDir());
+					Capsule->MoveForce({ Dir * Speed }, Cameracapsule->Capsule_02->GetDir());
 				}
 				else if (true == GameEngineInput::IsPress('S', this) && true == GameEngineInput::IsPress('A', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
@@ -365,7 +367,7 @@ void Player::Player_State()
 
 					Dir.Normalize();
 
-					Capsule->MoveForce({ Dir * Speed }, Capsule->GetDir());
+					Capsule->MoveForce({ Dir * Speed }, Cameracapsule->Capsule_02->GetDir());
 				}
 				else if (true == GameEngineInput::IsPress('S', this) && true == GameEngineInput::IsPress('D', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
@@ -373,33 +375,33 @@ void Player::Player_State()
 
 					Dir.Normalize();
 
-					Capsule->MoveForce({ Dir * Speed }, Capsule->GetDir());
+					Capsule->MoveForce({ Dir * Speed }, Cameracapsule->Capsule_02->GetDir());
 				}
 
 
 				else if (true == GameEngineInput::IsPress('W', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
 					
-					Capsule->MoveForce({ float4::FORWARD * Speed }, Capsule->GetDir());
+					Capsule->MoveForce({ float4::FORWARD * Speed }, Cameracapsule->Capsule_02->GetDir());
 					
 				}
 
 				else if (true == GameEngineInput::IsPress('S', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
 					
-					Capsule->MoveForce({ float4::BACKWARD * Speed }, Capsule->GetDir());
+					Capsule->MoveForce({ float4::BACKWARD * Speed }, Cameracapsule->Capsule_02->GetDir());
 					
 					}
 				else if (true == GameEngineInput::IsPress('A', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
 				
-					Capsule->MoveForce({ float4::LEFT * Speed }, Capsule->GetDir());
+					Capsule->MoveForce({ float4::LEFT * Speed }, Cameracapsule->Capsule_02->GetDir());
 				
 					}
 				else if (true == GameEngineInput::IsPress('D', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
 					
-					Capsule->MoveForce({ float4::RIGHT * Speed }, Capsule->GetDir());
+					Capsule->MoveForce({ float4::RIGHT * Speed }, Cameracapsule->Capsule_02->GetDir());
 				
 				}
 
@@ -1541,6 +1543,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Top_Shield_Col->On();
 				Shield_Col->On();
 				MainRenderer->ChangeAnimation("Shield_Idle");
 				StateValue = PlayerState::Shield_Idle;
@@ -1561,6 +1564,7 @@ void Player::Player_State()
 
 				if (true == GameEngineInput::IsUp(VK_RBUTTON, this))
 				{
+					Top_Shield_Col->Off();
 					Shield_Col->Off(); 
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
@@ -1627,10 +1631,12 @@ void Player::Player_State()
 
 				if (MainRenderer->GetCurAnimationFrame() < 14)
 				{
+					Top_Shield_Col->On();
 					Shield_Col->On();
 				}
 				if (MainRenderer->GetCurAnimationFrame() > 14)
 				{
+					Top_Shield_Col->Off();
 					Shield_Col->Off();
 				}
 
@@ -1654,6 +1660,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Top_Shield_Col->Off();
 				Shield_Col->Off();
 				Attack_Col->Off();
 
@@ -1968,6 +1975,7 @@ void Player::Player_State()
 			{
 				Attack_Col->Off();
 				MainRenderer->ChangeAnimation("Hit_Forward",true);
+				Top_Shield_Col->Off();
 				Shield_Col->Off(); 
 				StateValue = PlayerState::Forward_Hit;
 				Weapon_Actor->Getweapon()->On();
@@ -2044,6 +2052,7 @@ void Player::Player_State()
 				MainRenderer->ChangeAnimation("Hit_Behind", true);
 				StateValue = PlayerState::Backward_Hit;
 				Weapon_Actor->Getweapon()->On();
+				Top_Shield_Col->Off();
 				Shield_Col->Off();
 				Sword.ResetRecord();
 			};
@@ -2118,6 +2127,7 @@ void Player::Player_State()
 				MainRenderer->ChangeAnimation("Hit_right", true);
 				StateValue = PlayerState::Right_Hit;
 				Weapon_Actor->Getweapon()->On();
+				Top_Shield_Col->Off();
 				Shield_Col->Off();
 				Sword.ResetRecord();
 			};
@@ -2193,6 +2203,7 @@ void Player::Player_State()
 				MainRenderer->ChangeAnimation("Hit_Left", true);
 				StateValue = PlayerState::Left_Hit;
 				Weapon_Actor->Getweapon()->On();
+				Top_Shield_Col->Off();
 				Shield_Col->Off();
 				Sword.ResetRecord();
 			};
@@ -2274,6 +2285,7 @@ void Player::Player_State()
 				MainRenderer->ChangeAnimation("Middle_Hit_Forward", true);
 				StateValue = PlayerState::Forward_Middle_Hit;
 				Weapon_Actor->Getweapon()->On();
+				Top_Shield_Col->Off();
 				Shield_Col->Off();
 				Sword.ResetRecord();
 			};
@@ -2349,6 +2361,7 @@ void Player::Player_State()
 				MainRenderer->ChangeAnimation("Middle_Hit_Behind", true);
 				StateValue = PlayerState::Backward_Middle_Hit;
 				Weapon_Actor->Getweapon()->On();
+				Top_Shield_Col->Off();
 				Shield_Col->Off();
 				Sword.ResetRecord();
 			};
@@ -2423,6 +2436,7 @@ void Player::Player_State()
 				MainRenderer->ChangeAnimation("Middle_Hit_Right", true);
 				StateValue = PlayerState::Right_Middle_Hit;
 				Weapon_Actor->Getweapon()->On();
+				Top_Shield_Col->Off();
 				Shield_Col->Off();
 				Sword.ResetRecord();
 			};
@@ -2496,6 +2510,7 @@ void Player::Player_State()
 				MainRenderer->ChangeAnimation("Middle_Hit_Left", true);
 				StateValue = PlayerState::Left_Middle_Hit;
 				Weapon_Actor->Getweapon()->On();
+				Top_Shield_Col->Off();
 				Shield_Col->Off();
 				Sword.ResetRecord();
 			};
@@ -2570,6 +2585,7 @@ void Player::Player_State()
 				StateValue = PlayerState::HitDown;
 				Weapon_Actor->Getweapon()->On();
 				Body_Col->Off();
+				Top_Shield_Col->Off();
 				Shield_Col->Off();
 				Sword.ResetRecord();
 			};
@@ -2646,6 +2662,7 @@ void Player::Player_State()
 				MainRenderer->ChangeAnimation("String_Hit_Forward");
 				StateValue = PlayerState::Forward_Big_Hit;
 				Weapon_Actor->Getweapon()->On();
+				Top_Shield_Col->Off();
 				Shield_Col->Off();
 				Body_Col->Off(); 
 				Sword.ResetRecord();
@@ -2745,6 +2762,7 @@ void Player::Player_State()
 				MainRenderer->ChangeAnimation("String_Hit_Behind");
 				StateValue = PlayerState::Backward_Big_Hit;
 				Weapon_Actor->Getweapon()->On();
+				Top_Shield_Col->Off();
 				Shield_Col->Off();
 				Body_Col->Off();
 				Sword.ResetRecord(); 
@@ -3178,6 +3196,7 @@ void Player::Player_State()
 				Body_Col->Off();
 				Attack_Col->Off();
 				Shield_Col->Off(); 
+				Top_Shield_Col->Off();
 				GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Monster);
 				
 			};
@@ -3226,6 +3245,7 @@ void Player::Player_State()
 				Stat.AddStamina(-60.0f);
 				Attack_Col->Off(); 
 				Shield_Col->On();
+				Top_Shield_Col->Off();
 			};
 
 
@@ -3242,6 +3262,7 @@ void Player::Player_State()
 				else if (MainRenderer->IsCurAnimationEnd())
 				{
 					Shield_Col->Off();
+					Top_Shield_Col->Off();
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
@@ -3299,6 +3320,7 @@ void Player::Player_State()
 				Stat.AddStamina(-105.0f);
 				Attack_Col->Off();
 				Shield_Col->On();
+				Top_Shield_Col->Off();
 			};
 
 
@@ -3315,6 +3337,7 @@ void Player::Player_State()
 				else if (MainRenderer->IsCurAnimationEnd())
 				{
 					Shield_Col->Off();
+					Top_Shield_Col->Off();
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
@@ -3368,6 +3391,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				Shield_Col->Off();
+				Top_Shield_Col->Off();
 				MainRenderer->ChangeAnimation("Big_Shield_block");
 				StateValue = PlayerState::Shield_Idle;
 				Attack_Col->Off();
@@ -3380,6 +3404,7 @@ void Player::Player_State()
 				if (MainRenderer->IsCurAnimationEnd())
 				{
 					Shield_Col->Off();
+					Top_Shield_Col->Off();
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				};	
