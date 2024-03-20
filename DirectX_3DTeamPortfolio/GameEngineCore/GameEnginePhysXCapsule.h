@@ -34,21 +34,9 @@ public:
 		return CapsuleActor->setMass(_MassValue);
 	}
 
-	inline void SetPositioningComponent()
-	{
-		IsPositioningComponent = true;
-	}
-
 	physx::PxVec3 GetWorldPosition()
 	{
 		return CapsuleActor->getGlobalPose().p;
-	}
-	
-	bool IsGravity()
-	{
-		physx::PxActorFlags Flags = CapsuleActor->getActorFlags();
-		bool Result = Flags & physx::PxActorFlag::eDISABLE_GRAVITY;
-		return !Result;
 	}
 
 protected:
@@ -57,9 +45,6 @@ protected:
 	void Release() override;
 
 private:
-	bool IsPositioningComponent = false;
 	physx::PxRigidDynamic* CapsuleActor = nullptr;
-
-	void Positioning(float _Delta);
 };
 

@@ -125,6 +125,18 @@ public:
 		return true;
 	}
 
+	inline void SetPositioningComponent()
+	{
+		IsPositioningComponent = true;
+	}
+
+	bool IsGravity()
+	{
+		physx::PxActorFlags Flags = ComponentActor->getActorFlags();
+		bool Result = Flags & physx::PxActorFlag::eDISABLE_GRAVITY;
+		return !Result;
+	}
+
 	template <typename EnumType>
 	void SetFiltering(EnumType _CollisionOrder, EnumType _TargetCollisionOrder)
 	{
@@ -173,6 +185,7 @@ protected:
 	physx::PxShape* Shape = nullptr;
 
 private:
+	bool IsPositioningComponent = false;
 
 	inline void SetDir(float _Dir)
 	{
@@ -205,6 +218,7 @@ private:
 	}
 
 	bool JudgeDynamic();
+	void Positioning(float _Delta);
 
 	void SetFiltering(int _MyCollisionOrder, int _Target1CollisionOrder, int _Target2CollisionOrder, int _Target3CollisionOrder);
 };
