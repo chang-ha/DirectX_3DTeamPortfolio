@@ -54,6 +54,7 @@
 #include "AllFadeEffect.h"
 
 bool Stage_Lothric::ResLoadingDone = false;
+bool Stage_Lothric::ResetLoadingDone = false;
 Stage_Lothric::Stage_Lothric()
 {
 
@@ -66,7 +67,6 @@ Stage_Lothric::~Stage_Lothric()
 
 void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	LoadingThread.Work(std::bind(&Stage_Lothric::ResLoading, this));
 
 	{
 		std::shared_ptr<GameEngineActor> Ground = CreateActor<GameEngineActor>(0);
@@ -227,9 +227,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 
-	// Effect
-	FadeObject->FadeIn();
-	FadeObject->On();
+	//StateInit();
 }
 
 void Stage_Lothric::LevelEnd(GameEngineLevel* _NextLevel)
@@ -249,12 +247,13 @@ void Stage_Lothric::Start()
 	{
 		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
 	}
-
 }
 
 void Stage_Lothric::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
+
+	LevelState.Update(_Delta);
 
 	EvColUpdate();
 	BossBGMUpdate(_Delta);
@@ -272,6 +271,13 @@ void Stage_Lothric::Update(float _Delta)
 
 }
 
+void Stage_Lothric::PlayUpdate(float _Delta)
+{
+	if (true == GameEngineInput::IsDown('L', this))
+	{
+		Player_Object->SetFlag(Enum_ActorFlag::Death, true);
+	}
+}
 
 
 //////////////////////////////////////// 몬스터 배치
@@ -1472,4 +1478,11 @@ void Stage_Lothric::BossBGMUpdate(float _Delta)
 void Stage_Lothric::ResLoading()
 {
 	int a = 0;
+
+	ResLoadingDone = true;
+}
+
+void Stage_Lothric::ResetLoading()
+{
+	ResetLoadingDone = true;
 }
