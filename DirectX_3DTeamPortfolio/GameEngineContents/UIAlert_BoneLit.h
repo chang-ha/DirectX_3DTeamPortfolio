@@ -20,8 +20,13 @@ protected:
 	void Update(float _Delta) override;
 	void Release() override;
 
-private:
+	void Start_Appear(GameEngineState* _Parent);
+	void Update_Appear(float _Delta, GameEngineState* _Parent);
 
+	void Update_DisAppear(float _Delta, GameEngineState* _Parent);
+
+private:
+	float ScaleRatio = 0.0f;
 
 };
 
