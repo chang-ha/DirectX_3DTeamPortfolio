@@ -24,10 +24,9 @@ protected:
 	void Update_Appear(float _Delta, GameEngineState* _Parent);
 
 	void Update_DisAppear(float _Delta, GameEngineState* _Parent);
-	void End_DisAppear(GameEngineState* _Parent);
 
 private:
-	float SaveRatio = 0.0f;
+	float ScaleRatio = 0.0f;
 
 };
 

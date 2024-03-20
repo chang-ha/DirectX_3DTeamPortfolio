@@ -34,7 +34,6 @@ void UIAlert_BoneLit::Start()
 
 	CreateStateParameter DisAppearState;
 	DisAppearState.Stay = std::bind(&UIAlert_BoneLit::Update_DisAppear, this, std::placeholders::_1, std::placeholders::_2);
-	DisAppearState.End = std::bind(&UIAlert_BoneLit::End_DisAppear, this, std::placeholders::_1);
 
 	MainState.CreateState(eState::Appear, AppearState);
 	MainState.CreateState(eState::Disappear, DisAppearState);
@@ -51,7 +50,7 @@ void UIAlert_BoneLit::Release()
 }
 
 //State
-static constexpr float FadeTime = 1.0f;
+static constexpr float FadeTime = 2.f;
 static constexpr float StartGamma = 0.3f;
 
 void UIAlert_BoneLit::Start_Appear(GameEngineState* _Parent)
@@ -61,36 +60,37 @@ void UIAlert_BoneLit::Start_Appear(GameEngineState* _Parent)
 	BackTexture->SetAutoScaleRatio(float4(FullRatio, FullRatio));
 	BackTexture->On();
 	FontTexture->On();
-	SaveRatio = 0.0f;
+
+	ScaleRatio = FullRatio;
 }
 void UIAlert_BoneLit::Update_Appear(float _Delta, GameEngineState* _Parent)
 {
 	const float StateTime = _Parent->GetStateTime();
-	//SetBackScale(_Delta * 70.0f);
-	SaveRatio = FullRatio + StateTime;
-	BackTexture->SetAutoScaleRatio(SaveRatio);
+	ScaleRatio += _Delta / FadeTime;
+
+	SetBackScale(float4(ScaleRatio, ScaleRatio));
 	SetGamma(BackTexture.get(), StartGamma + StateTime);
 	SetGamma(FontTexture.get(), StartGamma + StateTime);
+
 	if (StateTime >= FadeTime)
 	{
 		MainState.ChangeState(eState::Disappear);
 		return;
 	}
 }
+
 void UIAlert_BoneLit::Update_DisAppear(float _Delta, GameEngineState* _Parent)
 {
 	const float StateTime = _Parent->GetStateTime();
-	if (FadeTime >= StateTime)
+	if (FadeTime < StateTime)
 	{
-		BackTexture->SetAutoScaleRatio(SaveRatio - StateTime);
-		const float Ratio = (FadeTime - StateTime) / FadeTime;
-		SetGamma(BackTexture.get(), Ratio);
-		SetGamma(FontTexture.get(), Ratio);
 		return;
 	}
-}
-void UIAlert_BoneLit::End_DisAppear(GameEngineState* _Parent)
-{
-	BackTexture->Off();
-	FontTexture->Off();
+
+	ScaleRatio -= _Delta / FadeTime;
+	SetBackScale(float4(ScaleRatio, ScaleRatio));
+
+	const float Ratio = (FadeTime - StateTime) / FadeTime;
+	SetGamma(BackTexture.get(), Ratio);
+	SetGamma(FontTexture.get(), Ratio);
 }
