@@ -20,6 +20,7 @@
 #include "AllFadeEffect.h"
 
 #include "UILocationAlert.h"
+#include "UIAlert_BoneLit.h"
 
 PlayLevel::PlayLevel()
 {
@@ -133,8 +134,13 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 		MainUI->CreateAndCheckEsteUI(PlayerObject.get());
 		MainUI->CreateAndCheckPlayerGaugeBar(PlayerObject.get());
 
+		// NewLocation
 		std::shared_ptr<UILocationAlert> UILot = CreateActor<UILocationAlert>();
 		UILot->SetCollision(float4(300.0f, 0.0f, 0.0f ), float4(200.0f), float(0));
+
+		// LitBoneFire
+		std::shared_ptr<UIAlert_BoneLit> LitBone = CreateActor<UIAlert_BoneLit>();
+		
 	}
 
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 1, 1, 1, 1 });
