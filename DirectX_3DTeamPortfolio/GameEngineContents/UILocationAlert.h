@@ -22,7 +22,7 @@ public:
 	UILocationAlert& operator=(const UILocationAlert& _Other) = delete;
 	UILocationAlert& operator=(UILocationAlert&& _Other) noexcept = delete;
 
-	void SetCollision(const float4& _Pos, const float4& _Scale);
+	void SetCollision(const float4& _Scale, const float4& _Pos);
 
 
 protected:

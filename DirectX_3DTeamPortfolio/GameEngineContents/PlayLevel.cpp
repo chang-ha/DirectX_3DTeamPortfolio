@@ -136,7 +136,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 		// NewLocation
 		std::shared_ptr<UILocationAlert> UILot = CreateActor<UILocationAlert>();
-		UILot->SetCollision(float4(300.0f, 0.0f, 0.0f ), float4(200.0f, 700.0f, 200.0f));
+		UILot->SetCollision(float4(200.0f, 200.0f, 200.0f), float4(300.0f, 0.0f, 0.0f));
 
 		// LitBoneFire
 		std::shared_ptr<UIAlert_BoneLit> LitBone = CreateActor<UIAlert_BoneLit>();

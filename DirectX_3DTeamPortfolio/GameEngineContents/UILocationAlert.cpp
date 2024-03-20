@@ -64,12 +64,12 @@ void UILocationAlert::Reset()
 	}
 }
 
-void UILocationAlert::SetCollision(const float4& _Pos, const float4& _Scale)
+void UILocationAlert::SetCollision(const float4& _Scale, const float4& _Pos)
 {
 	if (EventTrigger)
 	{
-		EventTrigger->Transform.SetWorldPosition(_Pos);
 		EventTrigger->SetWorldScale(_Scale);
+		EventTrigger->Transform.SetWorldPosition(_Pos);
 	}
 }
 
