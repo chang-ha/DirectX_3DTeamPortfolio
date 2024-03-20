@@ -20,6 +20,7 @@ enum class Enum_RenderOrder
 	UI_BackGauge,
 	UI_StatGauge,
 	UI_BackTexture,
+	UI_FrontTexture,
 	UI_FontTexture,
 	UI_Font = 690, 
 	UI_Loading = 699, //UI End

@@ -64,6 +64,7 @@ void MainUIActor::Start()
 	PlayerIcon->Transform.SetLocalPosition({ -HScale.X + 60.0f, 400.0f });
 
 	GetLevel()->CreateActor<AddSouls>();
+	LoadingObject = GetLevel()->CreateActor<UILoading>(Enum_UpdateOrder::UI);
 }
 
 void MainUIActor::Update(float _Delta)

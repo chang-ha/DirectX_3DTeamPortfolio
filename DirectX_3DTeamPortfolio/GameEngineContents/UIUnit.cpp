@@ -16,19 +16,19 @@ UIUnit::~UIUnit()
 
 void UIUnit::Start()
 {
-	L_Bar = CreateComponent<GameEngineUIRenderer>();
+	L_Bar = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_BackBar);
 	L_Bar->SetSprite("Bar_Left.Png");
 	L_Bar->SetPivotType(PivotType::Left);
 
-	C_Bar = CreateComponent<GameEngineUIRenderer>();
+	C_Bar = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_BackBar);
 	C_Bar->SetSprite("Bar_Center.Png");
 	C_Bar->SetPivotType(PivotType::Left);
 
-	R_Bar = CreateComponent<GameEngineUIRenderer>();
+	R_Bar = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_BackBar);
 	R_Bar->SetSprite("Bar_Right.Png");
 	R_Bar->SetPivotType(PivotType::Left);
 
-	GaugeBar = CreateComponent<GameEngineUIRenderer>();
+	GaugeBar = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_BackGauge);
 
 	LBarScale = L_Bar->GetSprite()->GetSpriteData(0).Texture->GetScale();
 }

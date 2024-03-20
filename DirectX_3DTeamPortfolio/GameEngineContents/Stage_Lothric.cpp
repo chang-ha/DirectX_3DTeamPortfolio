@@ -226,8 +226,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		MainUI->CreateAndCheckPlayerGaugeBar(Player_Object.get());
 	}
 
-
-	//StateInit();
+	StateInit();
 }
 
 void Stage_Lothric::LevelEnd(GameEngineLevel* _NextLevel)
@@ -243,6 +242,8 @@ void Stage_Lothric::Start()
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 0, 0, 0, 1 });
 	
 	LoadingThread.Initialize("LoadingThread", 1);
+
+	Stage_Lothric::ResLoadingDone = false;
 
 	{
 		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
@@ -1475,14 +1476,19 @@ void Stage_Lothric::BossBGMUpdate(float _Delta)
 	}
 }
 
+// LevelStart Resources Loading
 void Stage_Lothric::ResLoading()
 {
-	int a = 0;
+	if (false == Stage_Lothric::ResLoadingDone)
+	{
+		
+	}
 
-	ResLoadingDone = true;
+	Stage_Lothric::ResLoadingDone = true;
 }
 
+// Reset Loading
 void Stage_Lothric::ResetLoading()
 {
-	ResetLoadingDone = true;
+	Stage_Lothric::ResetLoadingDone = true;
 }

@@ -17,7 +17,7 @@ void UIEquipFrame::Start()
 	FixPos = { -WindowScale.X + 170.0f , -300.0f };
 
 	{
-		Equip_Frame = CreateComponent<GameEngineUIRenderer>();
+		Equip_Frame = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_BackTexture);
 		Equip_Frame->SetSprite("EquipFrame.Png");
 		Equip_Frame->AutoSpriteSizeOn();
 		Equip_Frame->SetAutoScaleRatio(0.9f);
