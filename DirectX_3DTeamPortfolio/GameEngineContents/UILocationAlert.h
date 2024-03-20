@@ -22,7 +22,7 @@ public:
 	UILocationAlert& operator=(const UILocationAlert& _Other) = delete;
 	UILocationAlert& operator=(UILocationAlert&& _Other) noexcept = delete;
 
-	void SetCollision(const float4& _Scale, float _Rot);
+	void SetCollision(const float4& _Pos, const float4& _Scale, float _Rot);
 
 
 protected:
@@ -52,7 +52,7 @@ private:
 	std::shared_ptr<GameEngineUIRenderer> FontTexture;
 	std::shared_ptr<GameEngineUIRenderer> UnderBar;
 
-	std::shared_ptr<GameEngineCollision> Collision;
+	std::shared_ptr<GameEngineCollision> AlertLoCollision;
 
 	GameEngineState MainState;
 

@@ -19,6 +19,8 @@
 
 #include "AllFadeEffect.h"
 
+#include "UILocationAlert.h"
+
 PlayLevel::PlayLevel()
 {
 }
@@ -72,9 +74,9 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 	
 	{
-		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Lothric");
-		Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
-		Monster->WakeUp();
+		//std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Lothric");
+		//Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
+		//Monster->WakeUp();
 		//std::shared_ptr<Monster_Hollow_RaggedRobes> Monster = CreateActor<Monster_Hollow_RaggedRobes>(0);
 		//GameMap->Transform.SetWorldPosition({ 0.0f,000.0f,-1000.3f });
 
@@ -130,6 +132,9 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 		// MainUI->CreateBossUI(Boss_Object.get());
 		MainUI->CreateAndCheckEsteUI(PlayerObject.get());
 		MainUI->CreateAndCheckPlayerGaugeBar(PlayerObject.get());
+
+		std::shared_ptr<UILocationAlert> UILot = CreateActor<UILocationAlert>();
+		UILot->SetCollision(float4(300.0f, 0.0f, 0.0f ), float4(200.0f), float(0));
 	}
 
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 1, 1, 1, 1 });
