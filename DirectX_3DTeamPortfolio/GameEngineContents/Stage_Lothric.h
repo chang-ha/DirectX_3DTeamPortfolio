@@ -176,5 +176,6 @@ private:
 	void Update_Reset_FadeOut(float _Delta, GameEngineState* _Parent);
 
 	void End_Reset_FadeOut(GameEngineState* _Parent);
+
 };
 

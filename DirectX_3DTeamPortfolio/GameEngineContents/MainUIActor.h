@@ -31,6 +31,8 @@ public:
 
 	void BossUIOn();
 
+	void CallAlert(Enum_AlertType _Type);
+
 	std::shared_ptr<class UILoading> GetUILoading() { return LoadingObject; }
 
 protected:
@@ -40,7 +42,7 @@ protected:
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 	// 액터 생성
-	void CallAlert(Enum_AlertType _Type);
+	
 
 private:
 	std::shared_ptr<class BossHpUI> BossHpObject = nullptr;

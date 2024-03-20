@@ -248,8 +248,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		MainUI->CreateAndCheckPlayerGaugeBar(Player_Object.get());
 	}
 
-
-	//StateInit();
+	StateInit();
 }
 
 void Stage_Lothric::LevelEnd(GameEngineLevel* _NextLevel)
@@ -265,6 +264,8 @@ void Stage_Lothric::Start()
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 0, 0, 0, 1 });
 	
 	LoadingThread.Initialize("LoadingThread", 1);
+
+	Stage_Lothric::ResLoadingDone = false;
 
 	{
 		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
@@ -585,9 +586,8 @@ void Stage_Lothric::SetAllEvCol()
 {
 	{
 		std::shared_ptr<EventCol> EventCollision = CreateActor<EventCol>(Enum_UpdateOrder::Player, "EventCollision");
-		EventCollision->SetWorldPosition({ -1300.0f, 5101.0f, -5000.0f });
+		EventCollision->SetWorldPosition({ -1885.0f, 5015.0f, -3987.0f });
 		EventCollision->SetWorldScale({ 500.0f, 500.0f, 500.0f });
-
 		EventCollision->Event = [=]()
 			{
 				AllMonsterOff();
@@ -705,7 +705,6 @@ void Stage_Lothric::Area0_On()
 	{
 		AllMonster[i]->On();
 	}
-
 	AllMonster[3]->WakeUp();
 }
 
@@ -1626,14 +1625,19 @@ void Stage_Lothric::BossBGMUpdate(float _Delta)
 	}
 }
 
+// LevelStart Resources Loading
 void Stage_Lothric::ResLoading()
 {
-	int a = 0;
+	if (false == Stage_Lothric::ResLoadingDone)
+	{
+		
+	}
 
-	ResLoadingDone = true;
+	Stage_Lothric::ResLoadingDone = true;
 }
 
+// Reset Loading
 void Stage_Lothric::ResetLoading()
 {
-	ResetLoadingDone = true;
+	Stage_Lothric::ResetLoadingDone = true;
 }
