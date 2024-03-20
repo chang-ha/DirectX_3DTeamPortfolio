@@ -3,8 +3,8 @@
 #include "BoneSocketCollision.h"
 
 #define JUMP_COOLDOWN 2.f
-#define NORMAL_ATTACK_COOLDOWN 15.f
-#define COMBO_COOLDOWN1 40.f
+#define NORMAL_ATTACK_COOLDOWN 10.f
+#define COMBO_COOLDOWN1 20.f
 #define COMBO_COOLDOWN2 50.f
 #define BOSS_ATT 7
 
