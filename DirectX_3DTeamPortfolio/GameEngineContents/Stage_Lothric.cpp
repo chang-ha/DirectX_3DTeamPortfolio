@@ -580,9 +580,8 @@ void Stage_Lothric::SetAllEvCol()
 {
 	{
 		std::shared_ptr<EventCol> EventCollision = CreateActor<EventCol>(Enum_UpdateOrder::Player, "EventCollision");
-		EventCollision->SetWorldPosition({ -1300.0f, 5101.0f, -5000.0f });
+		EventCollision->SetWorldPosition({ -1885.0f, 5015.0f, -3987.0f });
 		EventCollision->SetWorldScale({ 500.0f, 500.0f, 500.0f });
-
 		EventCollision->Event = [=]()
 			{
 				AllMonsterOff();
@@ -700,7 +699,6 @@ void Stage_Lothric::Area0_On()
 	{
 		AllMonster[i]->On();
 	}
-
 	AllMonster[3]->WakeUp();
 }
 
