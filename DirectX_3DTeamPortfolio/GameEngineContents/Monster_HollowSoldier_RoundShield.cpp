@@ -45,7 +45,7 @@ void Monster_HollowSoldier_RoundShield::Start()
 
 	ChangeState(Enum_HollowSoldier_RoundShield_State::Idle1);
 
-	CreateMonsterUI(0);
+	CreateMonsterUI(73);
 }
 void Monster_HollowSoldier_RoundShield::Update(float _Delta)
 {
@@ -721,7 +721,7 @@ void Monster_HollowSoldier_RoundShield::State_Scout_Update(float _Delta)
 
 	ScoutTime += _Delta;
 
-	if (ScoutTime >= 15.0f)
+	if (ScoutTime >= 10.0f)
 	{
 		ChangeState(Enum_HollowSoldier_RoundShield_State::Turn_Left_Twice1);
 		return;
@@ -1790,6 +1790,11 @@ void Monster_HollowSoldier_RoundShield::State_HitToDeath_Update(float _Delta)
 	{
 		MeshOff(Enum_Hollow_MeshIndex::Sword);
 		MeshOff(Enum_Hollow_MeshIndex::RoundShield);
+
+		if (DeathValue == false)
+		{
+			DeathFunc();
+		}
 	}
 
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
@@ -1829,6 +1834,9 @@ void Monster_HollowSoldier_RoundShield::State_BackAttackDeath_Update(float _Delt
 {
 	if (MainRenderer->GetCurAnimationFrame() >= 56)
 	{
+		MeshOff(Enum_Hollow_MeshIndex::Sword);
+		MeshOff(Enum_Hollow_MeshIndex::RoundShield);
+
 		if (DeathValue == false)
 		{
 			DeathFunc();
@@ -1866,6 +1874,9 @@ void Monster_HollowSoldier_RoundShield::State_AfterGuardBreakDeath_Update(float 
 {
 	if (MainRenderer->GetCurAnimationFrame() >= 63)
 	{
+		MeshOff(Enum_Hollow_MeshIndex::Sword);
+		MeshOff(Enum_Hollow_MeshIndex::RoundShield);
+
 		if (DeathValue == false)
 		{
 			DeathFunc();
@@ -1875,8 +1886,6 @@ void Monster_HollowSoldier_RoundShield::State_AfterGuardBreakDeath_Update(float 
 
 void Monster_HollowSoldier_RoundShield::State_Death_Start()
 {
-	DeathFunc();
-
 	MainRenderer->ChangeAnimation("c1100_Death");
 }
 void Monster_HollowSoldier_RoundShield::State_Death_Update(float _Delta)

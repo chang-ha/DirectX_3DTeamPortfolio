@@ -5,6 +5,8 @@ class GlobalValue
 public:
 	static constexpr const char* OptimusFont = "OptimusPrincepsSemiBold";
 
+	static float4 GetWinScale();
+
 protected:
 
 private:

@@ -19,7 +19,8 @@ enum class Enum_RenderOrder
 	UI_BackBar,
 	UI_BackGauge,
 	UI_StatGauge,
-	UI_Font = 699, //UI End
+	UI_Font = 690, 
+	UI_Loading = 699, //UI End
 };
 
 enum class Enum_CollisionOrder
@@ -49,4 +50,5 @@ enum class Enum_CollisionOrder
 	EventCol = (1 << 21),
 	Monster_FindLantern = (1 << 22),
 	Bonfire = (1 < 23),
+	Fog_Wall_Out = (1 << 24)
 };

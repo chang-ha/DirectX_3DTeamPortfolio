@@ -98,6 +98,7 @@ public:
 	inline int GetAtt() const { return Att; }
 
 	inline void SetSouls(int _Value) { Souls = _Value; }
+
 	inline int GetSouls() const { return Souls; }
 
 	inline void SetPoise(int _Value) { Poise = _Value; }
@@ -285,7 +286,11 @@ public:
 	void SetWorldRotation(const float4& _Rot);
 
 	// 로직 리셋
-	virtual void Reset() {} 
+	virtual void Reset()
+	{
+		const int MaaxHp = Stat.GetMaxHp();
+		Stat.SetHp(MaaxHp);
+	}
 
 	// Flag
 	// 상대방의 행동을 지정해주려면 Flag 즉, 상대방의 State 변수를 바꿔주는 것이 효율적일 것 같아서 구현했습니다.

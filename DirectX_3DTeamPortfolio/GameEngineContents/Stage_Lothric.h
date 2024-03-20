@@ -23,7 +23,6 @@ protected:
 
 	void Start() override;
 	void Update(float _Delta) override;
-	void Release() override;
 private:
 	// 멤버변수 이름은 각자가 알아서 정하기
 	std::shared_ptr<class Boss_Vordt> Boss_Object;
@@ -83,8 +82,55 @@ private:
 	void CreateObject();
 	void BossBGMUpdate(float _Delta);
 
+private:
+	// Level State
+	enum class Enum_LevelState
+	{
+		LevelStart, // 리소스 로딩 << 멀티쓰레드 로딩
+		ResLoadingDone, // 리소스 로딩 종료, Fade Out
+		PlayStart, // 
+		PlayerDeath,
+		ResetLoading, // Reset
+		BossStage,
+		End,
+	};
+
+	GameEngineState LevelState;
+
+	// State_Start 
+	void Start_LevelStart(GameEngineState* _Parent);
+	void Start_ResLoadingDone(GameEngineState* _Parent);
+	void Start_PlayStart(GameEngineState* _Parent);
+	void Start_PlayerDeath(GameEngineState* _Parent);
+	void Start_Loading(GameEngineState* _Parent);
+	void Start_BossStage(GameEngineState* _Parent);
+	void Start_End(GameEngineState* _Parent);
+
+	void Update_LevelStart(float _Delta, GameEngineState* _Parent);
+	void Update_ResLoadingDone(float _Delta, GameEngineState* _Parent);
+	void Update_PlayStart(float _Delta, GameEngineState* _Parent);
+	void Update_PlayerDeath(float _Delta, GameEngineState* _Parent);
+	void Update_Loading(float _Delta, GameEngineState* _Parent);
+	void Update_BossStage(float _Delta, GameEngineState* _Parent);
+	void Update_End(float _Delta, GameEngineState* _Parent);
+
+
+	void End_LevelStart(GameEngineState* _Parent);
+	void End_ResLoadingDone(GameEngineState* _Parent);
+	void End_PlayStart(GameEngineState* _Parent);
+	void End_PlayerDeath(GameEngineState* _Parent);
+	void End_Loading(GameEngineState* _Parent);
+	void End_BossStage(GameEngineState* _Parent);
+	void End_End(GameEngineState* _Parent);
+
+	static bool ResLoadingDone;
+	static bool ResetLoadingDone;
+
+	void LoadingUIOn();
+	void LoadingUIOff();
+
 	//// Thread Function
 	GameEngineThreadJobQueue LoadingThread;
-	void Loading();
+	void ResLoading();
 };
 

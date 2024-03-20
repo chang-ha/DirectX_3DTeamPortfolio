@@ -45,7 +45,7 @@ void Monster_HollowSoldier_Spear::Start()
 
 	ChangeState(Enum_HollowSoldier_Spear_State::Idle1);
 
-	CreateMonsterUI(0);
+	CreateMonsterUI(73);
 }
 void Monster_HollowSoldier_Spear::Update(float _Delta)
 {
@@ -712,7 +712,7 @@ void Monster_HollowSoldier_Spear::State_Scout_Update(float _Delta)
 
 	ScoutTime += _Delta;
 
-	if (ScoutTime >= 15.0f)
+	if (ScoutTime >= 10.0f)
 	{
 		ChangeState(Enum_HollowSoldier_Spear_State::Turn_Left_Twice1);
 		return;
@@ -1703,6 +1703,11 @@ void Monster_HollowSoldier_Spear::State_HitToDeath_Update(float _Delta)
 	{
 		MeshOff(Enum_Hollow_MeshIndex::Spear);
 		MeshOff(Enum_Hollow_MeshIndex::WoodShield);
+
+		if (DeathValue == false)
+		{
+			DeathFunc();
+		}
 	}
 
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
@@ -1742,6 +1747,9 @@ void Monster_HollowSoldier_Spear::State_BackAttackDeath_Update(float _Delta)
 {
 	if (MainRenderer->GetCurAnimationFrame() >= 56)
 	{
+		MeshOff(Enum_Hollow_MeshIndex::Spear);
+		MeshOff(Enum_Hollow_MeshIndex::WoodShield);
+
 		if (DeathValue == false)
 		{
 			DeathFunc();
@@ -1779,6 +1787,9 @@ void Monster_HollowSoldier_Spear::State_AfterGuardBreakDeath_Update(float _Delta
 {
 	if (MainRenderer->GetCurAnimationFrame() >= 63)
 	{
+		MeshOff(Enum_Hollow_MeshIndex::Spear);
+		MeshOff(Enum_Hollow_MeshIndex::WoodShield);
+
 		if (DeathValue == false)
 		{
 			DeathFunc();
@@ -1788,8 +1799,6 @@ void Monster_HollowSoldier_Spear::State_AfterGuardBreakDeath_Update(float _Delta
 
 void Monster_HollowSoldier_Spear::State_Death_Start()
 {
-	DeathFunc();
-
 	MainRenderer->ChangeAnimation("c1100_Death");
 }
 void Monster_HollowSoldier_Spear::State_Death_Update(float _Delta)

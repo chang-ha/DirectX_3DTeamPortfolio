@@ -55,11 +55,13 @@ void MonsterHpBar::Start()
 	DamageBarRenderer = CreateComponent<GameEngineSpriteRenderer>(Enum_RenderOrder::UI_BackGauge);
 	DamageBarRenderer->SetSprite("MonsterDamageBar.Png");
 	DamageBarRenderer->GetImageTransform().SetLocalScale({ ImageXScale, HpBarYScale });
+	DamageBarRenderer->GetGaugeInfo().GaugeOn = 1;
 	DamageBarRenderer->SetBillboardOn();
 
 	HpBarRenderer = CreateComponent<GameEngineSpriteRenderer>(Enum_RenderOrder::UI_StatGauge);
 	HpBarRenderer->SetSprite("MonsterHp.Png");
 	HpBarRenderer->GetImageTransform().SetLocalScale({ ImageXScale, HpBarYScale });
+	HpBarRenderer->GetGaugeInfo().GaugeOn = 1;
 	HpBarRenderer->SetBillboardOn();
 
 	InitState();
@@ -236,8 +238,7 @@ void MonsterHpBar::SetDamageGauge()
 	{
 		float GaugeRatio = static_cast<float>(DamgeRenderHp) / static_cast<float>(MaxHp);
 		GaugeRatio = std::clamp(GaugeRatio, 0.0f, 1.0f);
-		const float RenderScale = GaugeRatio * ImageXScale;
-		DamageBarRenderer->GetImageTransform().SetLocalScale({ RenderScale , HpBarYScale });
+		DamageBarRenderer->GetGaugeInfo().GaugeRatio = GaugeRatio;
 	}
 }
 
@@ -247,7 +248,6 @@ void MonsterHpBar::SetHPGauge()
 	{
 		float GaugeRatio = static_cast<float>(RenderHp) / static_cast<float>(MaxHp);
 		GaugeRatio = std::clamp(GaugeRatio, 0.0f,1.0f);
-		const float RenderScale = GaugeRatio * ImageXScale;
-		HpBarRenderer->GetImageTransform().SetLocalScale({ RenderScale , HpBarYScale });
+		HpBarRenderer->GetGaugeInfo().GaugeRatio = GaugeRatio;
 	}
 }

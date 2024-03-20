@@ -23,6 +23,7 @@ public:
 	AppearTextures& operator = (const AppearTextures& _Other) = delete;
 	AppearTextures& operator = (AppearTextures&& _Other) noexcept = delete;
 
+	void ReceivePointer(class Player* _pPlayer, class Boss_Vordt* _pBoss);
 
 protected:
 	void Start() override;
@@ -50,5 +51,10 @@ private:
 	float TextureLimitTime = 2.0f;
 
 	TextureActor TextActor = TextureActor::Off;
+
+
+	// 받을 포인터들
+	Player* PlayerObject = nullptr;
+	Boss_Vordt* BossObject = nullptr;
 };
 
