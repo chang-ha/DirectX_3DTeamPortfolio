@@ -29,19 +29,19 @@ void Object_FogWall::Start()
 	if (nullptr == InDetectCollision)
 	{
 		// 해당 콜리전과 충돌 시 플레이어가 상호작용 가능
-		/*InDetectCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Fog_Wall);
+		InDetectCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Fog_Wall);
 		InDetectCollision->SetCollisionType(ColType::AABBBOX3D);
-		InDetectCollision->Transform.SetLocalScale({400.f, 60.f, 60.f});
+		InDetectCollision->Transform.SetLocalScale({500.f, 60.f, 60.f});
 
-		InDetectCollision->Transform.SetLocalPosition({0.f, -350.f, -30.f});*/
+		InDetectCollision->Transform.SetLocalPosition({0.f, -350.f, -60.f});
 	}
 
 	if (nullptr == OutDetectCollision)
 	{
 		OutDetectCollision = CreateComponent<GameEngineCollision> (Enum_CollisionOrder::Fog_Wall);
 		OutDetectCollision->SetCollisionType(ColType::AABBBOX3D);
-		OutDetectCollision->Transform.SetLocalScale({ 400.f, 60.f, 60.f });
-		OutDetectCollision->Transform.SetLocalPosition({ 0.f, -350.f, 30.f });
+		OutDetectCollision->Transform.SetLocalScale({ 500.f, 60.f, 60.f });
+		OutDetectCollision->Transform.SetLocalPosition({ 0.f, -350.f, 130.f });
 	}
 
 	GameEngineInput::AddInputObject(this);
@@ -91,7 +91,7 @@ void Object_FogWall::OutDetect()
 		return;
 	}
 
-	//InDetectCollision->Off();
+	InDetectCollision->Off();
 	OutDetectCollision->Off();
 	Start_OutFunction();
 }
