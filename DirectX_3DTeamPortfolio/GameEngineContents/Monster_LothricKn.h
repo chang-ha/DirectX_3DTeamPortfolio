@@ -19,6 +19,10 @@ enum class Enum_LothricKn_State
 	B_Step, // B == Backward
 	Run,
 	Patrol,
+	Patrol_L_Turn,
+	Patrol_R_Turn,
+	Patrol_L_TurnTwice,
+	Patrol_R_TurnTwice,
 	Combo_Att_11,
 	Combo_Att_12,
 	Combo_Att_13,
@@ -85,6 +89,7 @@ enum class Enum_Lothric_IdleType
 {
 	Standing,
 	Sit,
+	Patrol,
 	None,
 };
 
@@ -160,10 +165,13 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
+	void DeathProcess() override;
+
 	// Mask
 	void MaskReset();
 	void HideWeaponMask();
 	void OnWeaponMask();
+
 
 private:
 	void CreateFSM();
@@ -179,6 +187,10 @@ private:
 	void Start_Idle_Sit(GameEngineState* _State);
 	void Start_Idle_Gaurding(GameEngineState* _State);
 	void Start_Patrol(GameEngineState* _State);
+	void Start_Patrol_L_Turn(GameEngineState* _State);
+	void Start_Patrol_R_Turn(GameEngineState* _State);
+	void Start_Patrol_L_TurnTwice(GameEngineState* _State);
+	void Start_Patrol_R_TurnTwice(GameEngineState* _State);
 	void Start_Combo_Att_11(GameEngineState* _State);
 	void Start_Combo_Att_12(GameEngineState* _State);
 	void Start_Combo_Att_13(GameEngineState* _State);
@@ -253,6 +265,7 @@ private:
 	void Update_Idle_Sit(float _DeltaTime, GameEngineState* _State);
 	void Update_Idle_Gaurding(float _DeltaTime, GameEngineState* _State);
 	void Update_Patrol(float _DeltaTime, GameEngineState* _State);
+	void Update_Patrol_Turn(float _DeltaTime, GameEngineState* _State);
 	void Update_Combo_Att_11(float _DeltaTime, GameEngineState* _State);
 	void Update_Combo_Att_12(float _DeltaTime, GameEngineState* _State);
 	void Update_Combo_Att_13(float _DeltaTime, GameEngineState* _State);
@@ -393,6 +406,8 @@ private:
 
 	void SetCombatMode(eCombatState _Combat);
 
+	void RotToPatrolPath(float _DeltaTime, float _fMinSpeed, float _fMaxSpeed, float DeclinePoint = 45.0f);
+
 	// 자식에서 함수 재정의해서 사용할 것
 	Enum_TargetAngle GetTargetAngle_e() const
 	{
@@ -433,6 +448,8 @@ private:
 	Enum_LothricKn_State GetStateToGDodgeTable(Enum_TargetDist _eTDist, Enum_TargetAngle _eTAngle) const;
 
 	Enum_LothricKn_State GetStateToHitTable();
+
+	Enum_LothricKn_State GetStateToPatrolTable();
 
 	// Collision
 	void SetPatrolCollision(bool _SwitchValue);

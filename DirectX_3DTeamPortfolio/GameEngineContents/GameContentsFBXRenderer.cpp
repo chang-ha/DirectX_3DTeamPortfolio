@@ -1324,7 +1324,7 @@ void GameContentsFBXRenderer::SetRootMotionMode(std::string_view _AniName, Enum_
 	AniInfo->mRootMotionData.RootMotionMode = _Mode;
 }
 
-void GameContentsFBXRenderer::SetRootMotionMoveRatio(std::string_view _AniName, float _Ratio_X /*= -1*/, float _Ratio_Z /*= -1*/, float _Ratio_Y /*= -1*/)
+void GameContentsFBXRenderer::SetRootMotionMoveRatio(std::string_view _AniName, float _Ratio_X /*= -1*/, float _Ratio_Y /*= -1*/, float _Ratio_Z /*= -1*/)
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_AniName.data());
 	if (false == Animations.contains(UpperName))
@@ -1350,7 +1350,7 @@ void GameContentsFBXRenderer::SetRootMotionMoveRatio(std::string_view _AniName, 
 	}
 }
 
-void GameContentsFBXRenderer::SetAllRootMotionMoveRatio(float _Ratio_X /*= -1*/, float _Ratio_Z /*= -1*/, float _Ratio_Y /*= -1*/)
+void GameContentsFBXRenderer::SetAllRootMotionMoveRatio(float _Ratio_X /*= -1*/, float _Ratio_Y /*= -1*/, float _Ratio_Z /*= -1*/)
 {
 	for (std::pair<const std::string, std::shared_ptr<GameContentsFBXAnimationInfo>> _Pair : Animations)
 	{

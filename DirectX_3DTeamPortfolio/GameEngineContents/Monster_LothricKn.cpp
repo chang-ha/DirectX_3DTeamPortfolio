@@ -298,7 +298,7 @@ void Monster_LothricKn::Start()
 	Stat.SetAtt(36);
 
 	// Collision
-	const float PatrolSize = 30.0f * W_SCALE;
+	const float PatrolSize = 25.0f * W_SCALE;
 
 	std::shared_ptr<GameEngineCollision> SwordCol = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, eBoneType::Sword, { float4(22,16,140), float4::ZERONULL, float4(0,0, 0.9f) }, "Sword");
 	std::shared_ptr<GameEngineCollision> ShieldCol = CreateSocketCollision(Enum_CollisionOrder::Monster_Shield, eBoneType::Shield, { float4(16,123,52), float4::ZERONULL, float4(0.04f, 0.24f, -0.2f) }, "Shield");
@@ -360,7 +360,7 @@ void Monster_LothricKn::Update(float _Delta)
 {
 	BaseMonster::Update(_Delta);
 
-	if (bool DebugOn = true)
+	if (DebugValue)
 	{
 		if (MainRenderer->GetCurAnimation())
 		{
@@ -424,6 +424,21 @@ void Monster_LothricKn::Reset()
 
 	SetFlagNull();
 	SetTargeting(nullptr);
+
+	if (nullptr != MonsterCollision)
+	{
+		MonsterCollision->On();
+	}
+}
+
+void Monster_LothricKn::DeathProcess()
+{
+	BaseMonster::DeathProcess();
+
+	if (nullptr != MonsterCollision)
+	{
+		MonsterCollision->Off();
+	}
 }
 
 void Monster_LothricKn::SetIdleType(Enum_Lothric_IdleType _Type)
@@ -432,6 +447,15 @@ void Monster_LothricKn::SetIdleType(Enum_Lothric_IdleType _Type)
 	{
 		MsgBoxAssert("해당 타입으로 세팅할 수 없습니다");
 		return;
+	}
+
+	if (Enum_Lothric_IdleType::Patrol == _Type)
+	{
+		if (nullptr == PathObject)
+		{
+			MsgBoxAssert("정찰할 길이 존재하지 않습니다.");
+			return;
+		}
 	}
 
 	IdleType = _Type;
@@ -446,6 +470,9 @@ void Monster_LothricKn::ChangeIdleState(Enum_Lothric_IdleType _Type)
 		break;
 	case Enum_Lothric_IdleType::Sit:
 		MainState.ChangeState(Enum_LothricKn_State::Idle_Sit);
+		break;
+	case Enum_Lothric_IdleType::Patrol:
+		MainState.ChangeState(Enum_LothricKn_State::Patrol);
 		break;
 	case Enum_Lothric_IdleType::None:
 		break;

@@ -23,22 +23,25 @@ void Object_FogWall::Start()
 		WallCollision = CreateComponent<GameEnginePhysXBox>(Enum_CollisionOrder::Fog_Wall);
 		WallCollision->PhysXComponentInit(600.f, 1000.f, 3.f);
 		WallCollision->SetFiltering(Enum_CollisionOrder::Fog_Wall);
-		WallCollision->CollisionOff();
+		//WallCollision->CollisionOff();
 	}
 
 	if (nullptr == InDetectCollision)
 	{
 		// 해당 콜리전과 충돌 시 플레이어가 상호작용 가능
 		InDetectCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Fog_Wall);
-		InDetectCollision->Transform.SetLocalScale({20.f, 20.f, 20.f});
-		InDetectCollision->Transform.SetLocalPosition({0.f, -350.f, -30.f});
+		InDetectCollision->SetCollisionType(ColType::AABBBOX3D);
+		InDetectCollision->Transform.SetLocalScale({500.f, 60.f, 60.f});
+
+		InDetectCollision->Transform.SetLocalPosition({0.f, -350.f, -60.f});
 	}
 
 	if (nullptr == OutDetectCollision)
 	{
 		OutDetectCollision = CreateComponent<GameEngineCollision> (Enum_CollisionOrder::Fog_Wall);
-		OutDetectCollision->Transform.SetLocalScale({ 20.f, 20.f, 20.f });
-		OutDetectCollision->Transform.SetLocalPosition({ 0.f, -350.f, 30.f });
+		OutDetectCollision->SetCollisionType(ColType::AABBBOX3D);
+		OutDetectCollision->Transform.SetLocalScale({ 500.f, 60.f, 60.f });
+		OutDetectCollision->Transform.SetLocalPosition({ 0.f, -350.f, 130.f });
 	}
 
 	GameEngineInput::AddInputObject(this);

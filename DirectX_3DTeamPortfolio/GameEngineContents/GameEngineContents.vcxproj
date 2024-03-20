@@ -233,6 +233,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Object_BaseLadder.cpp" />
+    <ClCompile Include="Object_Box.cpp" />
     <ClCompile Include="Object_CandleHuman2.cpp" />
     <ClCompile Include="Object_FogWall.cpp">
       <SubType>
@@ -243,6 +244,8 @@
     <ClCompile Include="Object_HumanTree3.cpp" />
     <ClCompile Include="Object_HumanTree4.cpp" />
     <ClCompile Include="Object_HumanTree5.cpp" />
+    <ClCompile Include="Object_OakBarrel.cpp" />
+    <ClCompile Include="Object_Shelf.cpp" />
     <ClCompile Include="Object_Torchlight.cpp" />
     <ClCompile Include="PatrolPath.cpp">
       <SubType>
@@ -616,6 +619,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Object_BaseLadder.h" />
+    <ClInclude Include="Object_Box.h" />
     <ClInclude Include="Object_CandleHuman2.h" />
     <ClInclude Include="Object_FogWall.h">
       <SubType>
@@ -626,6 +630,8 @@
     <ClInclude Include="Object_HumanTree3.h" />
     <ClInclude Include="Object_HumanTree4.h" />
     <ClInclude Include="Object_HumanTree5.h" />
+    <ClInclude Include="Object_OakBarrel.h" />
+    <ClInclude Include="Object_Shelf.h" />
     <ClInclude Include="Object_Torchlight.h" />
     <ClInclude Include="PatrolPath.h">
       <SubType>

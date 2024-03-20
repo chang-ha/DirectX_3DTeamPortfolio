@@ -26,6 +26,9 @@
 #include "Object_CandleHuman.h"
 #include "Object_Torchlight.h"
 #include "Object_CandleHuman2.h"
+#include "Object_Box.h"
+#include "Object_OakBarrel.h"
+#include "Object_Shelf.h"
 
 
 //맵 헤더
@@ -64,6 +67,8 @@ void TestLevel_MapObject::LevelStart(GameEngineLevel* _PrevLevel)
 	
 	CreateObject();
 
+
+	GetMainCamera()->Transform.SetWorldPosition({ -9524,2827,-4081 });
 }
 
 void TestLevel_MapObject::LevelEnd(GameEngineLevel* _NextLevel)
@@ -476,13 +481,7 @@ void TestLevel_MapObject::CreateObject()
 		Object->Transform.SetWorldRotation({ 0, -90, 0 });
 		VTorchlight.push_back(Object);
 	}
-	//36
-	{
-		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
-		Object->Transform.SetWorldPosition({ -13833, 3151 , -1856 });
-		Object->Transform.SetWorldRotation({ 0, 60, 0 });
-		VTorchlight.push_back(Object);
-	}
+	
 	//촛불동상
 	{
 		std::shared_ptr<Object_CandleHuman> Object = CreateActor<Object_CandleHuman>(1);
@@ -891,6 +890,103 @@ void TestLevel_MapObject::CreateObject()
 		Object->Transform.SetWorldRotation({ 0, 90 , 0 });
 		VSkeleton1.push_back(Object);
 	}
+
+	//박스
+	//1
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -8419, 2900 , -5200 });
+		Object->Transform.SetWorldRotation({ 0, 0 , 0 });
+		VBox.push_back(Object);
+	}
+	//2
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -8519, 2900 , -5200 });
+		Object->Transform.SetWorldRotation({ 0, 60 , 0 });
+		VBox.push_back(Object);
+	}
+	//3
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -8469, 2992 , -5200 });
+		Object->Transform.SetWorldRotation({ 0, 60 , 0 });
+		VBox.push_back(Object);
+	}
+	//4
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -9524, 2827 , -4081 });
+		Object->Transform.SetWorldRotation({ 0, 0 , 0 });
+		VBox.push_back(Object);
+	}
+	//5
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -9524, 2827 , -3970 });
+		Object->Transform.SetWorldRotation({ 0, 70 , 0 });
+		VBox.push_back(Object);
+	}
+	//6
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -9574, 2827 , -4170 });
+		Object->Transform.SetWorldRotation({ 0, 10 , 0 });
+		VBox.push_back(Object);
+	}
+	//7
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -9574, 2919 , -4120 });
+		Object->Transform.SetWorldRotation({ 0, -40 , 0 });
+		VBox.push_back(Object);
+	}
+	//8
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -9524, 2919 , -4015 });
+		Object->Transform.SetWorldRotation({ 0, 10 , 0 });
+		VBox.push_back(Object);
+	}
+	//9
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -9524, 3010 , -4065 });
+		Object->Transform.SetWorldRotation({ 0, 10 , 0 });
+		VBox.push_back(Object);
+	}
+	//10
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -9374, 2827 , -3690 });
+		Object->Transform.SetWorldRotation({ 0, 30 , 0 });
+		VBox.push_back(Object);
+	}
+	//오크통
+	//1
+	{
+		std::shared_ptr<Object_OakBarrel> Object = CreateActor<Object_OakBarrel>(1);
+		Object->Transform.SetWorldPosition({ -9578, 2827 , -4278 });
+		Object->Transform.SetWorldRotation({ 0, 0 , 0 });
+		VOakBarrel.push_back(Object);
+	}
+	{
+		std::shared_ptr<Object_OakBarrel> Object = CreateActor<Object_OakBarrel>(1);
+		Object->Transform.SetWorldPosition({ -9428, 2826 , -3800 });
+		Object->Transform.SetWorldRotation({ 0, 0 , 0 });
+		VOakBarrel.push_back(Object);
+	}
+
+	//선반
+	//1
+	{
+		std::shared_ptr<Object_Shelf> Object = CreateActor<Object_Shelf>(1);
+		Object->Transform.SetWorldPosition({ -9132, 2878 , -5503 });
+		Object->Transform.SetWorldRotation({ 0, 90 , 0 });
+		VShelf.push_back(Object);
+	}
+	
+	
 	//
 	//Object_BossDoor
 	//Object_CastleDoor
