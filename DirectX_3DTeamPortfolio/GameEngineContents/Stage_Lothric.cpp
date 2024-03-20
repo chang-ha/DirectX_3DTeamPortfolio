@@ -774,10 +774,12 @@ void Stage_Lothric::CreateObject()
 		Object->SetPlayerRespawnPos({ -3925, 4130 , -1911 });
 		VBonfire.push_back(Object);
 	}
+	//보스방 화톳불
 	{
 		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
 		Object->Transform.SetWorldPosition({ -1125, -2489 , 3232 });
 		Object->SetPlayerRespawnPos({ -1125, -2495 , 3180 });
+		Object->Off();
 		VBonfire.push_back(Object);
 	}
 	{
@@ -948,6 +950,8 @@ void Stage_Lothric::CreateObject()
 		Object->Transform.SetWorldRotation({ 0, 180, 0 });
 		VTorchlight.push_back(Object);
 	}
+
+	//여기부터 보스방 23번까지
 	//16
 	{
 		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
