@@ -46,6 +46,9 @@ private:
 	std::vector<std::shared_ptr<class Object_HumanTree5>> VHumanTree5;
 	std::vector<std::shared_ptr<class Object_CandleHuman>> VCandleHuman;
 	std::vector<std::shared_ptr<class Object_CandleHuman2>> VCandleHuman2;
+	std::vector<std::shared_ptr<class Object_Box>> VBox;
+	std::vector<std::shared_ptr<class Object_OakBarrel>> VOakBarrel;
+	std::vector<std::shared_ptr<class Object_Shelf>> VShelf;
 
 	std::shared_ptr<class Object_BossDoor> BossDoor;
 	std::shared_ptr<class Object_CastleDoor> CastleDoor;
@@ -173,5 +176,6 @@ private:
 	void Update_Reset_FadeOut(float _Delta, GameEngineState* _Parent);
 
 	void End_Reset_FadeOut(GameEngineState* _Parent);
+
 };
 

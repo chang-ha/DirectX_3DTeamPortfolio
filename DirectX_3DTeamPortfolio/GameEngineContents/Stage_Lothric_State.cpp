@@ -56,7 +56,6 @@ void Stage_Lothric::Start_LevelStart(GameEngineState* _Parent)
 
 	LoadingUIOn();
 
-	Stage_Lothric::ResLoadingDone = false;
 	LoadingThread.Work(std::bind(&Stage_Lothric::ResLoading, this));
 }
 
@@ -98,6 +97,7 @@ void Stage_Lothric::End_ResLoadingDone(GameEngineState* _Parent)
 {
 	NUllCheck(FadeObject.get(), "FadeObject가 존재하지 않습니다.");
 	FadeObject->FadeIn();
+	LoadingUIOff();
 }
 
 // Play State
@@ -159,14 +159,13 @@ void Stage_Lothric::Update_ResetLoading(float _Delta, GameEngineState* _Parent)
 	bool StateDone = (Enum_ResetState::Done == static_cast<Enum_ResetState>(ResetState.GetCurState()));
 	if (StateDone)
 	{
-		_Parent->ChangeState(Enum_LevelState::ResetLoading);
+		_Parent->ChangeState(Enum_LevelState::Play);
 		return;
 	}
 }
 
 void Stage_Lothric::End_ResetLoading(GameEngineState* _Parent)
 {
-	LoadingUIOff();
 }
 
 // StageClear State
@@ -190,16 +189,16 @@ void Stage_Lothric::End_StageClear(GameEngineState* _Parent)
 // Func
 void Stage_Lothric::LoadingUIOn()
 {
-	// const std::shared_ptr<UILoading>& UILoadingPointer = MainUI->GetUILoading();
-	// NUllCheck(UILoadingPointer.get());
-	// UILoadingPointer->On();
+	 const std::shared_ptr<UILoading>& UILoadingPointer = MainUI->GetUILoading();
+	 NUllCheck(UILoadingPointer.get());
+	 UILoadingPointer->On();
 }
 
 void Stage_Lothric::LoadingUIOff()
 {
-	// const std::shared_ptr<UILoading>& UILoadingPointer = MainUI->GetUILoading();
-	// NUllCheck(UILoadingPointer.get());
-	// UILoadingPointer->Off();
+	 const std::shared_ptr<UILoading>& UILoadingPointer = MainUI->GetUILoading();
+	 NUllCheck(UILoadingPointer.get());
+	 UILoadingPointer->Off();
 }
 
 #pragma endregion

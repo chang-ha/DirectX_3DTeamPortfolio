@@ -21,7 +21,7 @@ void UIPlayerEquip::Start()
 	{
 		SwordFrame = CreatEquipActor(Enum_EquipType::Sword);
 
-		Sword = CreateComponent<GameEngineUIRenderer>();
+		Sword = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_FrontTexture);
 		Sword->SetSprite("Sword.Png");
 		Sword->AutoSpriteSizeOn();
 		Sword->SetAutoScaleRatio(ImgaeRatio);
@@ -31,7 +31,7 @@ void UIPlayerEquip::Start()
 	{
 		ShieldFrame = CreatEquipActor(Enum_EquipType::Shield);
 
-		Shield = CreateComponent<GameEngineUIRenderer>();
+		Shield = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_FrontTexture);
 		Shield->SetSprite("Shield.Png");
 		Shield->AutoSpriteSizeOn();
 		Shield->SetAutoScaleRatio(ImgaeRatio);
@@ -41,13 +41,13 @@ void UIPlayerEquip::Start()
 	{
 		EsteFrame = CreatEquipActor(Enum_EquipType::Este);
 
-		EsteBack = CreateComponent<GameEngineUIRenderer>();
+		EsteBack = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_BackTexture);
 		EsteBack->SetSprite("Sword.Png");
 		EsteBack->AutoSpriteSizeOn();
 		EsteBack->SetAutoScaleRatio(ImgaeRatio);
 		EsteBack->Transform.SetLocalPosition(EsteFrame->Transform.GetWorldPosition());
 
-		Este = CreateComponent<GameEngineUIRenderer>();
+		Este = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_FrontTexture);
 		Este->SetSprite("EsteBottle_Full.Png");
 		Este->AutoSpriteSizeOn();
 		Este->SetAutoScaleRatio(ImgaeRatio);
@@ -61,7 +61,7 @@ void UIPlayerEquip::Start()
 		EsteFont->Transform.SetLocalPosition({ EsteFrame->Transform.GetWorldPosition().X,
 			EsteFrame->Transform.GetWorldPosition().Y - EstePosY * ImgaeRatio });
 
-		EsteCount = CreateComponent<GameEngineUIRenderer>();
+		EsteCount = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_Font);
 		EsteCount->SetText(GlobalValue::OptimusFont, std::to_string(CurEsteCount), 20.0f, float4{1, 1, 1, 1,}, FW1_CENTER);
 		EsteCount->On();
 		EsteCount->Transform.SetLocalPosition({ EsteFrame->Transform.GetWorldPosition().X + 30.0f,
