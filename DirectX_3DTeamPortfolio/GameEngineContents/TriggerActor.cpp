@@ -13,6 +13,7 @@ void TriggerActor::Start()
 {
 	EventCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Trigger);
 	EventCollision->SetCollisionType(ColType::AABBBOX3D);
+	EventCollision->SetCollisionColor(float4::BLUE);
 }
 
 void TriggerActor::Release()
