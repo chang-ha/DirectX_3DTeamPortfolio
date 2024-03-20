@@ -538,10 +538,6 @@ void Player::Start()
 			{
 				PlayerStates.ChangeState(PlayerState::ladder_Up_Stop_Left);
 			}
-
-
-
-
 		};
 
 
@@ -604,7 +600,19 @@ void Player::Update(float _Delta)
 
 	FaceLight->Transform.SetLocalPosition(Transform.GetWorldPosition() + revolution);
 
+	if (GameEngineInput::IsDown(VK_F1, this))
+	{
+		Cameratest = !Cameratest;
+	}
 
+	if (true == Cameratest)
+	{
+		int a = 0;
+	}
+	else if (false == Cameratest)
+	{
+		CameraRotation(_Delta);
+	}
 
 
 	Parring_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
@@ -676,12 +684,8 @@ void Player::Update(float _Delta)
 
 	
 
-	if (Body_Col->Collision(Enum_CollisionOrder::Fog_Wall))
-	{
-		
-	}
 	
-	if (Fog_Check == true)
+	if (Fog_Check == true && Body_Col->Collision(Enum_CollisionOrder::Fog_Wall))
 	{
 		if (GameEngineInput::IsDown('E', this))
 		{
@@ -945,19 +949,7 @@ void Player::Update(float _Delta)
 
 	
 
-	if (GameEngineInput::IsDown(VK_F1, this))
-	{
-		Cameratest = !Cameratest;
-	}
-
-	if (true == Cameratest)
-	{
-		int a = 0;
-	}
-	else if (false == Cameratest)
-	{
-		CameraRotation(_Delta);
-	}
+	
 	//if (GameEngineInput::IsPress('0', this))
 	//{
 	//	int a = 0;
@@ -1035,14 +1027,14 @@ void Player::CameraRotation(float Delta)
 	{
 		float4 Cur_Camera_Pos = { 0.0f, PrevPos.Y - Mouse_Ro_Y,0.0f };
 
-		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta);
+		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta*10);
 
 
-		Camera_Pos_Y -= Lerp.Y *10;
+		Camera_Pos_Y -= Lerp.Y;
 
 		if (Camera_Pos_Y <= -50)
 		{
-			Camera_Pos_Y += Lerp.Y * 10;
+			Camera_Pos_Y += Lerp.Y;
 		}
 	}
 
@@ -1051,16 +1043,16 @@ void Player::CameraRotation(float Delta)
 		float4 Cur_Camera_Pos = { 0.0f, Mouse_Ro_Y- PrevPos.Y,0.0f };
 
 
-		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta);
+		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta*10);
 
 		//Cur_Camera_Pos.Normalize();
 
-		Camera_Pos_Y += Lerp.Y * 10;
+		Camera_Pos_Y += Lerp.Y;
 
 		
 		if (Camera_Pos_Y >= 60)
 		{
-			Camera_Pos_Y -= Lerp.Y  * 10;
+			Camera_Pos_Y -= Lerp.Y;
 		}
 
 	}
@@ -1070,17 +1062,17 @@ void Player::CameraRotation(float Delta)
 
 		float4 Cur_Camera_Pos = { PrevPos.X - Mouse_Ro_X,0.0f,0.0f };
 
-		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta);
+		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta*10);
 		//Cur_Camera_Pos.Normalize();
 
 
 
-		Camera_Pos_X += Lerp.X * 10;
-		Player_Pos.X -= Lerp.X * 10;
+		Camera_Pos_X += Lerp.X;
+		Player_Pos.X -= Lerp.X;
 
 		if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
 		{
-			Capsule->AddWorldRotation({ 0.0f,-Lerp.X * 10,0.0f });
+			Capsule->AddWorldRotation({ 0.0f,-Lerp.X,0.0f });
 
 		}
 	}
@@ -1089,17 +1081,17 @@ void Player::CameraRotation(float Delta)
 
 		float4 Cur_Camera_Pos = { Mouse_Ro_X - PrevPos.X,0.0f,0.0f };
 
-		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta);
+		float4 Lerp = float4::LerpClamp(0, Cur_Camera_Pos, Delta*10);
 		//Cur_Camera_Pos.Normalize();
 
-		Camera_Pos_X -= Lerp.X * 10;
-		Player_Pos.X += Lerp.X * 10;
+		Camera_Pos_X -= Lerp.X;
+		Player_Pos.X += Lerp.X;
 
 
 
 		if ((StateValue == PlayerState::Run || StateValue == PlayerState::Move) && Rotation_Check_X == true && Rock_On_Check == false)
 		{
-			Capsule->AddWorldRotation({ 0.0f, Lerp.X * 10, 0.0f });
+			Capsule->AddWorldRotation({ 0.0f, Lerp.X, 0.0f });
 		}
 	}
 
@@ -1434,7 +1426,13 @@ void Player::Rock_On(Enum_CollisionOrder _Order)
 
 			for (int i = 0; i < static_cast<int>(MonsterAngles.size()); i++)
 			{
-				float Check = abs(Transform.GetWorldPosition().Z - _Other[MonsterAngles[i]]->Transform.GetWorldPosition().Z);
+
+				const float4 MyPos = Transform.GetWorldPosition();
+				const float4 OtherPos = _Other[MonsterAngles[i]]->Transform.GetWorldPosition();
+				const float Check = ContentsMath::GetVector3Length(OtherPos - MyPos).X;
+				
+
+				//float Check = abs(Transform.GetWorldPosition().Z - _Other[MonsterAngles[i]]->Transform.GetWorldPosition().Z);
 
 				if (i > 0)
 				{

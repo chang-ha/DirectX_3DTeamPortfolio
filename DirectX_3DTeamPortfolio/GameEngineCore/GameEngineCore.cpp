@@ -60,7 +60,7 @@ void GameEngineCore::Update()
 	if (DeltaTime > 1.0f / 30.0f)
 	{
 		DeltaTime = 1.0f / 30.0f;
-	}
+	}	
 	else if (DeltaTime < MAX_FRAME_TIME)
 	{
 		float DiffTime = MAX_FRAME_TIME - DeltaTime;

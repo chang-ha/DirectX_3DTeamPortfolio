@@ -208,20 +208,36 @@ private:
 	bool TimeCheck = false;
 	bool Attack_Check = false;
 
+
+
+	bool Rock_On_Player = false;
+	bool Rotation_Player_Check = false;
+	bool Rotation_Player_Plus = false;
+	bool Rotation_Player_Mus = false;
+
+
+	bool Rock_On_Check_X = false;
 	bool Rotation_Check_X = false;
 	bool Rotation_Check_X_Plus = false;
 	bool Rotation_Check_X_Mus = false;
 
+
+	bool Rock_On_Check_Y = false;
 	bool Rotation_Check_Y = false;
 	bool Rotation_Check_Y_Plus = false;
 	bool Rotation_Check_Y_Mus = false;
+
+
 	bool Parring_Check = false;
+
 	EventParameter Body_Event;
-	//EventParameter Shield_Event;
+
+
 	EventParameter Attack_Event;
 	EventParameter Labber_Event;
 	EventParameter Labber_Middle_Event;
 	EventParameter Labber_Top_Event;
+
 	EventParameter Shield_Event;
 	EventParameter Parring_Event;
 
@@ -230,19 +246,14 @@ private:
 
 	Player_HitInteraction Sword;
 
-
-	bool Rotation_Player_Check = false;
-	bool Rotation_Player_Plus = false;
-	bool Rotation_Player_Mus = false;
-
 	
-
-	float MonsterAngle = 0.0f;
+	
 
 
 	bool Rock_On_Check = false;
 	bool Rabber_Collision_Check = false;
 	bool Rock_on_Time_Check = false;
+
 	float Time = 0.0f;
 	float Rock_on_Time = 0.0f;
 	
@@ -288,7 +299,6 @@ private:
 	float degree_X = 0.0f;
 	float degree_Y = 0.0f;
 	
-	float4 ASS = {};
 
 	float Monster_Degree = 0.0f;
 
