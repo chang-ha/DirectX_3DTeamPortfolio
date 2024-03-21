@@ -37,7 +37,7 @@ void GameEnginePhysXComponent::Start()
 
 void GameEnginePhysXComponent::Update(float _Delta)
 {
-
+	Positioning(_Delta);
 }
 
 void GameEnginePhysXComponent::Release()
@@ -199,6 +199,41 @@ bool GameEnginePhysXComponent::JudgeDynamic()
 	}
 
 	return true;
+}
+
+
+void GameEnginePhysXComponent::Positioning(float _Delta)
+{
+	switch (IsPositioningComponent)
+	{
+	case 0:
+	{
+		// Set MyPos to Reflect ParentPos
+		const TransformData& LocalTransform = GameEngineObject::Transform.GetConstTransformDataRef();
+		SetWorldPosition(LocalTransform.WorldPosition);
+		SetWorldRotation(LocalTransform.WorldRotation);
+		break;
+	}
+	default:
+	{
+		// Set ParentPos to Reflect MyPos
+		// Component's Local Transform
+		physx::PxTransform Transform = ComponentActor->getGlobalPose();
+		const TransformData& LocalTransform = GameEngineObject::Transform.GetConstTransformDataRef();
+
+		physx::PxVec3 ComponentPos = Transform.p;
+		physx::PxQuat ComponentQuat = Transform.q;
+
+		float4 ParentPos = { ComponentPos.x, ComponentPos.y, ComponentPos.z , 1.0f };
+		float4 Degree = float4(ComponentQuat.x, ComponentQuat.y, ComponentQuat.z, ComponentQuat.w).QuaternionToEulerDeg();
+
+		ParentPos -= LocalTransform.LocalPosition; // Component Local Pos
+
+		ParentActor->Transform.SetWorldRotation(Degree);
+		ParentActor->Transform.SetWorldPosition(ParentPos);
+		break;
+	}
+	}
 }
 
 void GameEnginePhysXComponent::SetFiltering(int _MyCollisionOrder, int _Target1CollisionOrder, int _Target2CollisionOrder, int _Target3CollisionOrder)

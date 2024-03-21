@@ -30,7 +30,9 @@ private:
 	std::shared_ptr<class Player> Player_Object;
 	std::shared_ptr<class WorldMap> Map_Lothric;
 
+	// 몬스터
 	std::vector<std::shared_ptr<class BaseMonster>> AllMonster;
+	// 이벤트충돌체
 	std::vector<std::shared_ptr<class EventCol>> AllEvCol;
 
 	//오브젝트
@@ -72,7 +74,7 @@ private:
 	void AllMonsterOff();
 
 	void SetAllEvCol();
-	void EvColUpdate();
+	void AllEvColOn();
 
 	void Area0_On();
 	void Area1_On();

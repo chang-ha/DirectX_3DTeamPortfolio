@@ -19,9 +19,7 @@ void GameEnginePhysXBox::Start()
 
 void GameEnginePhysXBox::Update(float _Delta)
 {
-	const TransformData& LocalTransform = GameEngineObject::Transform.GetConstTransformDataRef();
-	SetWorldPosition(LocalTransform.WorldPosition);
-	SetWorldRotation(LocalTransform.WorldRotation);
+	GameEnginePhysXComponent::Update(_Delta);
 }
 
 void GameEnginePhysXBox::Release()
@@ -33,7 +31,7 @@ void GameEnginePhysXBox::Release()
 	}
 }
 
-void GameEnginePhysXBox::PhysXComponentInit(float _hX, float _hY, float _hZ, const physx::PxMaterial* _Material /*= GameEnginePhysX::GetDefaultMaterial()*/)
+void GameEnginePhysXBox::PhysXComponentInit(float _hX, float _hY, float _hZ, bool _IsMovingBox /*= false*/, const physx::PxMaterial* _Material /*= GameEnginePhysX::GetDefaultMaterial()*/)
 {
 	physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
 
@@ -41,11 +39,24 @@ void GameEnginePhysXBox::PhysXComponentInit(float _hX, float _hY, float _hZ, con
 	float4 WorldQuat = Transform.GetWorldRotationEuler().EulerDegToQuaternion();
 
 	Shape = Physics->createShape(physx::PxBoxGeometry(_hX, _hY, _hZ), *_Material);
+	Shape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
 
 	physx::PxVec3 Pos = { WolrdPos.X, WolrdPos.Y , WolrdPos.Z };
 	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
 	physx::PxTransform Transform(Pos, Quat);
-	ComponentActor = Physics->createRigidStatic(Transform);
+	if (false == _IsMovingBox)
+	{
+		ComponentActor = Physics->createRigidStatic(Transform);
+	}
+	else
+	{
+		physx::PxRigidDynamic* BoxActor = Physics->createRigidDynamic(Transform);
+		BoxActor->setMassSpaceInertiaTensor(physx::PxVec3(0.f));
+
+		ComponentActor = BoxActor;
+	}
+
+
 	ComponentActor->attachShape(*Shape);
 
 	Scene->addActor(*ComponentActor);

@@ -14,7 +14,7 @@ public:
 	GameEnginePhysXBox& operator=(const GameEnginePhysXBox& _Other) = delete;
 	GameEnginePhysXBox& operator=(GameEnginePhysXBox&& _Other) noexcept = delete;
 
-	void PhysXComponentInit(float _hX, float _hY, float _hZ, const physx::PxMaterial* _Material = GameEnginePhysX::GetDefaultMaterial());
+	void PhysXComponentInit(float _hX, float _hY, float _hZ, bool _IsMovingBox = false, const physx::PxMaterial* _Material = GameEnginePhysX::GetDefaultMaterial());
 
 protected:
 	void Start() override;
