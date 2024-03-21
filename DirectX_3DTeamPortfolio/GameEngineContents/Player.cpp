@@ -13,6 +13,7 @@
 #include "Object_BaseLadder.h"
 
 #include "TriggerActor.h"
+#include "ContentLevel.h"
 
 #define Frame 0.033f
 
@@ -613,6 +614,11 @@ void Player::Update(float _Delta)
 	//Shield_Col->On(); 
 	
 	//Top_Shield_Col->On();
+
+	if (GameEngineInput::IsDown('B', this))
+	{
+		GetContentLevel()->StartScreenShake(0.5,8.f,10.f);
+	}
 
 	if (GameEngineInput::IsDown(VK_F1, this))
 	{

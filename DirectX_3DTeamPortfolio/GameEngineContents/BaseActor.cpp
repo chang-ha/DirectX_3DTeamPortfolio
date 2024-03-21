@@ -7,6 +7,7 @@
 #include "ContentsDebug.h"
 
 #include "DS3DummyData.h"
+#include "ContentLevel.h"
 
 
 class ContentsActorInitial
@@ -224,6 +225,13 @@ std::shared_ptr<BoneSocketCollision> BaseActor::GetSocketCollision(int _Index)
 
 	MsgBoxAssert("존재하지 않는 충돌체를 참조하려 했습니다.");
 	return nullptr;
+}
+
+ContentLevel* BaseActor::GetContentLevel()
+{
+	{
+		return GetParent<ContentLevel>();
+	}
 }
 
 int BaseActor::GetSocketIndex(const std::shared_ptr<class BoneSocketCollision>& _pCol)

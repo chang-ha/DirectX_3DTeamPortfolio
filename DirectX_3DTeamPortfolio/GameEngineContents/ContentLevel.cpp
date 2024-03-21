@@ -44,6 +44,8 @@ void ContentLevel::Update(float _Delta)
 	RunSimulation(_Delta);
 	ChaseListener();
 
+	UpdateScreenShake(_Delta);
+
 	if (GameEngineInput::IsDown('N',this))
 	{
 		FadeObject->FadeIn();
@@ -51,6 +53,51 @@ void ContentLevel::Update(float _Delta)
 	if (GameEngineInput::IsDown('M',this))
 	{
 		FadeObject->FadeOut();
+	}
+}
+
+void ContentLevel::UpdateScreenShake(float _deltaTime)
+{
+	if (screenShakeValue.elapsed < screenShakeValue.duration)
+	{
+		// 보다 자연스러운 감쇠를 위해 부드러운 단계 함수를 사용하여 시간이 지남에 따라 흔들림 계수가 1에서 0으로 감소합니다.
+		float swayFactor = 1.0f - static_cast<float>(pow(screenShakeValue.elapsed / screenShakeValue.duration, 2));
+
+		// 부드러운 진동을 위해 사인파를 사용하여 스웨이 오프셋을 계산합니다.
+		// 주파수는 초당 발생하는 전체 진동 횟수를 결정합니다.
+		float phase = screenShakeValue.elapsed * screenShakeValue.frequency * DirectX::XM_2PI;
+
+
+		// 각 축에 대해 사인파의 위상과 진폭을 무작위화합니다.
+		float randomPhaseX = rand() % 1000 * 0.001f * DirectX::XM_2PI; // 0과 2*PI 사이의 랜덤 위상
+		float randomPhaseY = rand() % 1000 * 0.001f * DirectX::XM_2PI;
+		float randomAmplitudeX = (rand() % 1000 * 0.001f) * screenShakeValue.magnitude;
+		float randomAmplitudeY = (rand() % 1000 * 0.001f) * screenShakeValue.magnitude;
+
+
+		// 부드러운 진동을 위해 무작위성을 가진 사인파를 사용하여 흔들림 오프셋을 계산합니다.
+		//float time = screenShakeValue.elapsed * screenShakeValue.frequency;
+		float offsetX = sin(phase + randomPhaseX) * randomAmplitudeX * swayFactor;
+		float offsetY = cos(phase + randomPhaseY) * randomAmplitudeY * swayFactor;
+
+		//float offsetZ = ContentsCore::MainRandom->RandomFloat(-2.0f, 2.0f);
+
+
+		GetMainCamera()->Transform.AddLocalPosition(-PrevShackeMovePos + float4(offsetX, offsetY, 0.0f, 0.0f));
+		PrevShackeMovePos = float4(offsetX, offsetY, 0.0f, 0.0f);
+
+		//GetMainCamera()->Transform.AddLocalRotation(-PrevShackeRotationPos + float4(0.0f, 0.0f, offsetZ,0.0f));
+		//PrevShackeRotationPos = float4(0.0f, 0.0f, offsetZ, 0.0f);
+
+
+		screenShakeValue.elapsed += _deltaTime;
+	}
+	else if (PrevShackeMovePos != float4::ZERO)
+	{
+		GetMainCamera()->Transform.AddLocalPosition(-PrevShackeMovePos);
+		//GetMainCamera()->Transform.AddLocalRotation(-PrevShackeRotationPos);
+		PrevShackeMovePos = float4::ZERO;
+		//PrevShackeRotationPos = float4::ZERO;
 	}
 }
 
