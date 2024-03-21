@@ -201,7 +201,24 @@ protected:
 	bool GetHit(const HitParameter& _Para = HitParameter()) override;
 	bool GetHitToShield(const HitParameter& _Para = HitParameter()) override;
 
-private:
+private: 
+
+	std::shared_ptr<class ContentsLight> FaceLightInit();
+	
+	std::shared_ptr<ContentsLight> FaceLightForward;
+	std::shared_ptr<ContentsLight> FaceLightBack;
+	std::shared_ptr<ContentsLight> FaceLightRight;
+	std::shared_ptr<ContentsLight> FaceLightLeft;
+
+	void FaceLightUpdate();
+	
+	
+
+	
+
+	
+
+
 	// RockOnCollision
 	std::shared_ptr<GameEngineCollision> RockOnCollision = nullptr;
 	// HitCollision

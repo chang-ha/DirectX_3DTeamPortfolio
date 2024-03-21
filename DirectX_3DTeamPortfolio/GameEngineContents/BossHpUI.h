@@ -37,7 +37,7 @@ public:
 	// µð¹ö±ë¿ë
 	void BossDamage(int _Damgae);
 
-	// void Reset() override;
+	void Reset() override;
 
 protected:
 	void Start() override;

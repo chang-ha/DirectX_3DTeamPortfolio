@@ -2,6 +2,7 @@
 #include "Boss_Vordt.h"
 #include "BoneSocketCollision.h"
 #include "DS3DummyData.h"
+#include "ContentsLight.h"
 
 #define BOSS_HP 1328
 #define PHYSX_RADIUS 280.f
@@ -956,6 +957,11 @@ void Boss_Vordt::Start()
 	Stat.SetAtt(0);
 	Stat.SetSouls(3000);
 	Stat.SetPoise(100);
+
+	FaceLightForward = FaceLightInit();
+	FaceLightBack = FaceLightInit();
+	FaceLightLeft = FaceLightInit();
+	FaceLightRight = FaceLightInit();
 }
 
 void Boss_Vordt::Update(float _Delta)
@@ -968,6 +974,7 @@ void Boss_Vordt::Update(float _Delta)
 	CollisionUpdate();
 	PhaseChangeCheck();
 	HitUpdate(_Delta);
+	FaceLightUpdate();
 }
 
 void Boss_Vordt::Release()
@@ -1274,3 +1281,43 @@ void Boss_Vordt::CollisionUpdate()
 		mAttackCollision.mHandHitInteraction.CollisionToBody(Enum_CollisionOrder::Player_Body);
 	}
 }
+
+
+std::shared_ptr< ContentsLight> Boss_Vordt::FaceLightInit()
+{
+	static int num = 0;
+	num++;
+
+	std::shared_ptr< ContentsLight> Light = GetLevel()->CreateActor< ContentsLight>(Enum_UpdateOrder::Light, "BossFaceLight" + std::to_string(num));
+	Light->SetLightType(Enum_LightType::Point);
+
+	LightData Data = Light->GetLightData();
+
+	Data.quadraticAttenuation = 0.00006f;
+	Data.LightPower = 10.f;
+	Data.LightColor = { 0.6f,0.8f,1.0f };
+
+	Light->SetLightData(Data);
+
+	return Light;
+
+}
+
+void Boss_Vordt::FaceLightUpdate()
+{
+	float RotationY = Transform.GetWorldRotationEuler().Y;
+	float4 WorldPostion = Transform.GetWorldPosition();
+
+	float4 revolution = float4::VectorRotationToDegY(float4{ 0.0f, 250.0f, 350.0f }, RotationY);
+	FaceLightForward->Transform.SetLocalPosition(WorldPostion + revolution);
+
+	revolution = float4::VectorRotationToDegY(float4{ 0.0f, 250.0f, -350.0f }, RotationY);
+	FaceLightBack->Transform.SetLocalPosition(WorldPostion + revolution);
+
+	revolution = float4::VectorRotationToDegY(float4{ 350.0f, 250.0f, 0.0f }, RotationY);
+	FaceLightRight->Transform.SetLocalPosition(WorldPostion + revolution);
+
+	revolution = float4::VectorRotationToDegY(float4{ -350.0f, 250.0f, 0.0f }, RotationY);
+	FaceLightLeft->Transform.SetLocalPosition(WorldPostion + revolution);
+}
+

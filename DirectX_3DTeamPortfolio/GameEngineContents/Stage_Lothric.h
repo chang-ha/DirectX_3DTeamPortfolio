@@ -27,6 +27,7 @@ private:
 	// 멤버변수 이름은 각자가 알아서 정하기
 	std::shared_ptr<class Boss_Vordt> Boss_Object;
 	std::shared_ptr<class ContentsLight> Light;
+	std::shared_ptr<class ContentsLight> BossDoorLight;
 	std::shared_ptr<class Player> Player_Object;
 	std::shared_ptr<class WorldMap> Map_Lothric;
 

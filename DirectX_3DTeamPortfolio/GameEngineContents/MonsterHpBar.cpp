@@ -124,6 +124,11 @@ void MonsterHpBar::Release()
 	DamageBarRenderer = nullptr;
 }
 
+void MonsterHpBar::Reset()
+{
+	MainState.ChangeState(eState::Off);
+}
+
 void MonsterHpBar::InitState()
 {
 	// Bar State
