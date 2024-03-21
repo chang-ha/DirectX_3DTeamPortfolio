@@ -1,8 +1,26 @@
 #include "PreCompile.h"
 #include "UILoading.h"
 
+
 UILoading::UILoading() 
 {
+	if (nullptr == GameEngineTexture::Find("AKLogo.png"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources");
+		Dir.MoveChild("UILoadingTexture");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pFile : Files)
+		{
+			GameEngineTexture::Load(pFile.GetStringPath());
+		}
+
+		GameEngineSprite::CreateSingle("AKLogo.png");
+		GameEngineSprite::CreateSingle("UIComments.png");
+		GameEngineSprite::CreateSingle("LoadingTemp.png");
+		GameEngineSprite::CreateCut("ToiletBowl.dds", 8, 4);
+	}
 }
 
 UILoading::~UILoading() 
@@ -15,7 +33,7 @@ UILoading::~UILoading()
 void UILoading::Start()
 {
 	///// 배경
-	BackDarkRenderer = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_Loading);
+	BackDarkRenderer = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_LoadingBack);
 	BackDarkRenderer->SetSprite("Dark.png");
 	BackDarkRenderer->SetImageScale(GlobalValue::GetWinScale());
 	
@@ -40,6 +58,17 @@ void UILoading::Start()
 	ProductionAndField->Transform.SetLocalPosition(float4(-CommentHalfScale.X + 240.0f, CommentHalfScale.Y - 195.0f));
 	/////
 
+	std::shared_ptr<GameEngineUIRenderer> Toilet = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_Loading);
+	Toilet->SetSprite("ToiletBowl.dds");
+	Toilet->CreateAnimation("1", "ToiletBowl.dds", 0.1f);
+	Toilet->ChangeAnimation("1");
+	Toilet->Transform.SetWorldPosition(float4(-778.0f,-337.0f));
+
+
+	std::shared_ptr<GameEngineUIRenderer> ToiletFont = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_Loading);
+	ToiletFont->SetText(GlobalValue::OptimusFont, "DARK SOULS III", 17.0f, float4(0.9f, 0.9f, 0.9f, 1.0f));
+	ToiletFont->Transform.SetLocalPosition(float4(-832.f, -390.f));
+
 	///// 제작자들
 	MadesCreateSetName();
 	
@@ -51,7 +80,6 @@ void UILoading::Start()
 
 void UILoading::Update(float _Delta)
 {
-
 }
 
 void UILoading::Release()

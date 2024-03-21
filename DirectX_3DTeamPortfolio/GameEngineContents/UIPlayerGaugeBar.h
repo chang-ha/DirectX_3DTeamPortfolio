@@ -30,6 +30,8 @@ public:
 
 	void FindAndSetGauge(Enum_BarType _Type, float _Value);
 
+	void Emeber();
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

@@ -33,6 +33,7 @@ public:
 	void CallAlert(Enum_AlertType _Type);
 
 	std::shared_ptr<class UILoading> GetUILoading() { return LoadingObject; }
+	std::shared_ptr<class UIPlayerGaugeBar> GetPlayerUI() { return PlayerGaugeBar; }
 
 protected:
 	void Start() override;

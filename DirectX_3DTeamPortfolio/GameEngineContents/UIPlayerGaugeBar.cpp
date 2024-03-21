@@ -50,6 +50,10 @@ void UIPlayerGaugeBar::Init(Player* _PlayerObject)
 
 void UIPlayerGaugeBar::Update(float _Delta)
 {
+	if (false)
+	{
+
+	}
 	//if (GameEngineInput::IsDown('0', this))
 	//{
 	//	PlayerValue::GetValue()->SetMaxHp(700.0f);
@@ -116,4 +120,17 @@ void UIPlayerGaugeBar::FindAndSetGauge(Enum_BarType _Type, float _Value)
 	}
 
 	BarSet->SetGauge(_Value);
+}
+
+void UIPlayerGaugeBar::Emeber()
+{
+	// PlayerIcon->SetSprite();
+
+	if (pPlayer)
+	{
+		const int MaxHpValue = pPlayer->Get_Max_Hp();
+		HpBar->SetTotalGauge(static_cast<float>(MaxHpValue));
+		HpBar->SetGauge(1.0f);
+	}
+
 }

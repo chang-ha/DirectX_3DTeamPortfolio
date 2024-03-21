@@ -425,6 +425,9 @@
     <ClCompile Include="UIActor.cpp">
       <Filter>Actor\UI\ActorMain</Filter>
     </ClCompile>
+    <ClCompile Include="UI_Utils.cpp">
+      <Filter>Actor\UI\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -842,6 +845,9 @@
     <ClInclude Include="UIActor.h">
       <Filter>Actor\UI\ActorMain</Filter>
     </ClInclude>
+    <ClInclude Include="UI_Utils.h">
+      <Filter>Actor\UI\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -996,6 +1002,9 @@
     </Filter>
     <Filter Include="Actor\UI\ActorMain">
       <UniqueIdentifier>{6ee044c1-1ae8-4631-8952-c8d7a98b6bd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\Utils">
+      <UniqueIdentifier>{3845ada8-bc91-4c95-88c2-00c08867be01}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
