@@ -310,10 +310,17 @@ private:
 	std::shared_ptr<class ContentsHitRenderer> StrikeRenderer;
 	std::shared_ptr<class ContentsLight> FaceLight;
 
-	float Rock_on_X = 0.0f;
+	float Rock_on_X = 20.0f;
 	float Cur_degree_X = 0.0f;
 	float Lerp_degree_X = 0.0f;
 	bool AttackCheck = false;
+
+	bool Hp_infinite = false;
+	bool Damage_infinite = false;
+	bool Debug_Death = false;
+
+
+
 };
 
 

@@ -37,10 +37,8 @@ void CameraCapsule::LevelStart(GameEngineLevel* _PrevLevel)
 	Capsule->SetPositioningComponent();
 	Capsule->SetFiltering(Enum_CollisionOrder::Camera, Enum_CollisionOrder::Player);
 
-
-	//Capsule_02 = CreateComponent<GameEnginePhysXBox>(Enum_CollisionOrder::Big_Camera);
 	Capsule_02->PhysXComponentInit(60.f, 60.f, 60.f);
-	//Capsule_02->SetPositioningComponent();
+	Capsule_02->SetPositioningComponent();
 	Capsule_02->SetFiltering(Enum_CollisionOrder::Big_Camera, Enum_CollisionOrder::Player);
 
 

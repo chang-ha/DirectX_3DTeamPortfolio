@@ -159,15 +159,15 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		// 볼드 위치
 		//Player_Object->SetWorldPosition({ -2800.f, -2500.f, 6700.f });
 		// 안개 테스트 위치 
-		Player_Object->SetWorldPosition({ -3417.f, -2552.f, 7606.f });
+		//Player_Object->SetWorldPosition({ -3417.f, -2552.f, 7606.f });
 
 		// 테스트 위치
 		//Player_Object->SetWorldPosition({ -8011.0f, 907.0f, 3547.0f });
 		// 
 		//시작 위치
-		//Player_Object->SetWorldPosition({ -1400.0f, 4945.0f, -5330.0f });
+		Player_Object->SetWorldPosition({ -1400.0f, 4945.0f, -5330.0f });
 		Player_Object->SetWorldRotation({ 0.f, 0.f, 0.f });
-		Player_Object->SetTargeting(Boss_Object.get());
+		//Player_Object->SetTargeting(Boss_Object.get());
 		Boss_Object->SetTargeting(Player_Object.get());
 	}
 

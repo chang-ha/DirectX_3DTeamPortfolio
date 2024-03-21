@@ -587,7 +587,46 @@ void Player::Start()
 		};
 
 
-	
+	Parring_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+
+		};
+
+	Parring_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+
+
+			if (GameEngineInput::IsDown(VK_LBUTTON, this))
+			{
+
+				const std::shared_ptr<BaseActor>& pActor = col->GetActor()->GetDynamic_Cast_This<BaseActor>();
+				const float4 WRot = Transform.GetWorldRotationEuler();
+				const float4 WPos = Actor_test->Transform.GetWorldPosition();
+				bool CheckFrontStab = pActor->FrontStabCheck(WPos, WRot.Y);
+
+				//pActor->DebugFlag();
+
+				if (pActor->IsFlag(Enum_ActorFlag::Groggy) == true && CheckFrontStab == true)
+				{
+					const float4 StabPos = pActor->GetFrontStabPosition();
+					Capsule->SetWorldPosition(StabPos);
+					Capsule->SetWorldRotation(WRot);
+					PlayerStates.ChangeState(PlayerState::Parring_Attack);
+
+					/*Transform.SetWorldPosition(StabPos + float4::UP * 150.0f);
+					Transform.SetWorldRotation(WRot);*/
+					pActor->Damage(3000);
+					pActor->SetHit(true);
+					pActor->SetFlag(Enum_ActorFlag::FrontStab, true);
+				}
+			}
+
+		};
+
+	Parring_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+
+		};
 
 	SoundFrameEvent();
 
@@ -611,9 +650,7 @@ void Player::Update(float _Delta)
 
 	FaceLight->Transform.SetLocalPosition(Transform.GetWorldPosition() + revolution);
 
-	//Shield_Col->On(); 
-	
-	//Top_Shield_Col->On();
+	// 디버그 용도 
 
 	if (GameEngineInput::IsDown('B', this))
 	{
@@ -635,49 +672,31 @@ void Player::Update(float _Delta)
 	}
 
 
-	Parring_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
-		{
-			
-		};
+	if (GameEngineInput::IsDown('1', this))
+	{
+		Hp_infinite = !Hp_infinite;
+	}
 
-	Parring_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
-		{
+	if (GameEngineInput::IsDown('2', this))
+	{
+		Damage_infinite = !Damage_infinite;
+	}
 
-			
-				if (GameEngineInput::IsDown(VK_LBUTTON, this))
-				{
-					
-					const std::shared_ptr<BaseActor>& pActor = col->GetActor()->GetDynamic_Cast_This<BaseActor>();
-					const float4 WRot = Actor_test->Transform.GetWorldRotationEuler();
-					const float4 WPos = Actor_test->Transform.GetWorldPosition();
-					bool CheckFrontStab = pActor->FrontStabCheck(WPos, WRot.Y);
+	if (Damage_infinite == false)
+	{
+		Stat.SetAtt(60);
+	}
+	else if (Damage_infinite == true)
+	{
+		Stat.SetAtt(3000);
+	}
 
-					//pActor->DebugFlag();
+	if (GameEngineInput::IsDown('3', this))
+	{
+		Stat.SetHp(-400);
+	}
 
-					if (pActor->IsFlag(Enum_ActorFlag::Groggy) == true && CheckFrontStab ==true)
-					{
-						const float4 StabPos = pActor->GetFrontStabPosition();
-						Capsule->SetWorldPosition(StabPos);
-						Capsule->SetWorldRotation(WRot);
-						PlayerStates.ChangeState(PlayerState::Parring_Attack);
-						
-						/*Transform.SetWorldPosition(StabPos + float4::UP * 150.0f);
-						Transform.SetWorldRotation(WRot);*/
-						pActor->Damage(3000);
-						pActor->SetHit(true);
-						pActor->SetFlag(Enum_ActorFlag::FrontStab, true);
-					}
-				}
-			
-		};
-
-	Parring_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
-		{
-			
-		};
-
-
-
+	
 	BaseActor::Update(_Delta);
 
 	// 시간 
@@ -723,39 +742,9 @@ void Player::Update(float _Delta)
 		Fog_Run_Check = false;
 	}
 	
+	Sword.CollisionToBody(Enum_CollisionOrder::Monster_Body, 0);
+	Sword.CollisionToShield(Enum_CollisionOrder::Monster_Shield, 0);
 	
-	
-	
-
-
-
-	//Attack_Col->CollisionEvent(Enum_CollisionOrder::Monster_Body, Attack_Event);
-	//Attack_Col->CollisionEvent(Enum_CollisionOrder::Monster_Shield, Attack_Event);
-	//Body_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack, Body_Event);
-	//Shield_Col->CollisionEvent(Enum_CollisionOrder::MonsterAttack, Shield_Event);
-
-
-	
-		Sword.CollisionToBody(Enum_CollisionOrder::Monster_Body, 0);
-		Sword.CollisionToShield(Enum_CollisionOrder::Monster_Shield, 0);
-	
-
-	
-
-
-	/*if (Attack_Col->Collision(Enum_CollisionOrder::Monster_Body))
-	{
-		HitRenderer->On();
-		HitRenderer->ChangeAnimation("Hit");
-		HitRenderer->Transform.SetWorldPosition({ Weapon_Actor->Transform.GetWorldPosition()});
-
-	}*/
-
-
-	//
-
-	
-
 
 	Arround_Col->CollisionEvent(Enum_CollisionOrder::Monster, Arround_Event);
 	Body_Col->CollisionEvent(Enum_CollisionOrder::LadderBot, Labber_Event);
@@ -764,8 +753,8 @@ void Player::Update(float _Delta)
 
 
 	
+	// 플래그 처리 
 
-	
 	if (true == IsFlag(Enum_ActorFlag::Block_Shield))
 	{
 		PlayerStates.ChangeState(PlayerState::Attack_Block);
@@ -774,7 +763,6 @@ void Player::Update(float _Delta)
 	if (Stat.GetHp() <= 0)
 	{
 		PlayerStates.ChangeState(PlayerState::Death);
-
 	}
 
 	
@@ -1247,8 +1235,17 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 	const int AttackerAtt = pAttacker->GetAtt();
 	const int Stiffness = _Para.iStiffness;
 
-	Stat.AddPoise(-Stiffness);
-	Stat.AddHp(-AttackerAtt);
+
+	if (Hp_infinite == true)
+	{
+
+	}
+	if (Hp_infinite == false)
+	{
+		Stat.AddPoise(-Stiffness);
+		Stat.AddHp(-AttackerAtt);
+	}
+	
 
 
 
@@ -1509,7 +1506,11 @@ bool Player::GetHitToShield(const HitParameter& _Para)
 
 		//Stat.AddStamina();
 
-		if (pAttacker->Get_Hit_Type() == Enum_Player_Hit::weak)
+	    if (0 >= Stat.GetStamina())
+	    {
+		    PlayerStates.ChangeState(PlayerState::Big_Shield_block);
+	    }
+		else if (pAttacker->Get_Hit_Type() == Enum_Player_Hit::weak)
 		{
 			PlayerStates.ChangeState(PlayerState::Weak_Shield_block);
 		}
@@ -1525,10 +1526,7 @@ bool Player::GetHitToShield(const HitParameter& _Para)
 		{
 			PlayerStates.ChangeState(PlayerState::Big_Shield_block);
 		}
-		else if (0 >= Stat.GetStamina())
-		{
-			PlayerStates.ChangeState(PlayerState::Big_Shield_block);
-		}
+		
 
 
 		
