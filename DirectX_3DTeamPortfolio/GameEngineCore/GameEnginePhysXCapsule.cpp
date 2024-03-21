@@ -36,11 +36,6 @@ void GameEnginePhysXCapsule::Update(float _Delta)
 
 void GameEnginePhysXCapsule::Release()
 {
-	if (nullptr != CapsuleActor)
-	{
-		CapsuleActor->release();
-		CapsuleActor = nullptr;
-	}
 	GameEnginePhysXComponent::Release();
 }
 

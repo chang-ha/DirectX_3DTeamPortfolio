@@ -284,6 +284,26 @@ public:
 
 	void SetWorldPosition(const float4& _Pos);
 	void SetWorldRotation(const float4& _Rot);
+	// 리스폰 위치
+	inline void SetResponPos(const float4& _Pos)
+	{
+		ResponPos = _Pos;
+	}
+
+	inline void SetResponRotation(const float4& _Rot)
+	{
+		ResponPos = _Rot;
+	}
+
+	float4 GetResponPos()
+	{
+		return ResponPos;
+	}
+
+	float4 GetResponRot()
+	{
+		return ResponRot;
+	}
 
 	// 로직 리셋
 	virtual void Reset()
@@ -417,6 +437,10 @@ protected:
 	int CenterBodyIndex = -1; // FrameEvent에서 사용할 DummyPoly Center Body를 등록해주세요
 	
 	float Reduce_Stamina = 0;
+
+	// 몬스터 리스폰 위치
+	float4 ResponPos = float4::ZERO;
+	float4 ResponRot = float4::ZERO;
 
 private:
 	static std::unordered_map<Enum_ActorFlag, Enum_ActorFlagBit> FlagIndex; // 플레그를 매핑해놓은 구조체입니다. 에디터와 연계 가능합니다.
