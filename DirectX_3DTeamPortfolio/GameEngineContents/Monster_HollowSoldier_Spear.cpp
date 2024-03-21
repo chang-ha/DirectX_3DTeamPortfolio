@@ -33,11 +33,11 @@ void Monster_HollowSoldier_Spear::Start()
 	
 	
 
-	ShieldCollision = CreateSocketCollision(Enum_CollisionOrder::Monster_Shield, Enum_Hollow_BoneType::WoodShield, { float4(14.0f, 56.0f ,126.0f), float4::ZERONULL, float4(0.12f,0.02f, -0.08f)}, "WoodShield");
+	ShieldCollision = CreateSocketCollision(Enum_CollisionOrder::Monster_Shield, Enum_Hollow_BoneType::WoodShield, { float4(40.0f, 80.0f ,150.0f), float4::ZERONULL, float4(0.0f, 0.02f, -0.08f)}, "WoodShield");
 	ShieldCollision->SetCollisionType(ColType::OBBBOX3D);
 	ShieldCollision->On();
 
-	SpearCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_Hollow_BoneType::Sword, { float4(313.0f, 12.0f, 12.0f), float4::ZERONULL, float4(0.38f, -0.002f, 0.008f) }, "Spear");
+	SpearCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_Hollow_BoneType::Spear, { float4(313.0f, 12.0f, 12.0f), float4::ZERONULL, float4(0.38f, -0.002f, 0.008f) }, "Spear");
 	SpearCollision->SetCollisionType(ColType::OBBBOX3D);
 
 	Spear.Init(this, SpearCollision.get());
@@ -454,6 +454,12 @@ void Monster_HollowSoldier_Spear::ChangeHitState()
 			return;
 		}
 
+		if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+		{
+			ChangeState(Enum_HollowSoldier_Spear_State::Parrying);
+			return;
+		}
+
 		Enum_DirectionXZ_Quat HitDir = Hit.GetHitDir();
 		//BodyCollision->Off();
 
@@ -712,7 +718,7 @@ void Monster_HollowSoldier_Spear::State_Scout_Update(float _Delta)
 
 	ScoutTime += _Delta;
 
-	if (ScoutTime >= 10.0f)
+	if (ScoutTime >= 8.0f)
 	{
 		ChangeState(Enum_HollowSoldier_Spear_State::Turn_Left_Twice1);
 		return;
@@ -1693,6 +1699,11 @@ void Monster_HollowSoldier_Spear::State_Hit_Right_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_HitToDeath_Start()
 {
+	if (DeathValue == false)
+	{
+		DeathFunc();
+	}
+
 	Spear.Off();
 	Spear.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_HitToDeath");
@@ -1703,11 +1714,6 @@ void Monster_HollowSoldier_Spear::State_HitToDeath_Update(float _Delta)
 	{
 		MeshOff(Enum_Hollow_MeshIndex::Spear);
 		MeshOff(Enum_Hollow_MeshIndex::WoodShield);
-
-		if (DeathValue == false)
-		{
-			DeathFunc();
-		}
 	}
 
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
@@ -1741,6 +1747,11 @@ void Monster_HollowSoldier_Spear::State_BackAttackHit_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_BackAttackDeath_Start()
 {
+	if (DeathValue == false)
+	{
+		DeathFunc();
+	}
+
 	MainRenderer->ChangeAnimation("c1100_BackAttackDeath");
 }
 void Monster_HollowSoldier_Spear::State_BackAttackDeath_Update(float _Delta)
@@ -1749,11 +1760,6 @@ void Monster_HollowSoldier_Spear::State_BackAttackDeath_Update(float _Delta)
 	{
 		MeshOff(Enum_Hollow_MeshIndex::Spear);
 		MeshOff(Enum_Hollow_MeshIndex::WoodShield);
-
-		if (DeathValue == false)
-		{
-			DeathFunc();
-		}
 	}
 }
 
@@ -1781,6 +1787,11 @@ void Monster_HollowSoldier_Spear::State_AfterGuardBreakHit_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_AfterGuardBreakDeath_Start()
 {
+	if (DeathValue == false)
+	{
+		DeathFunc();
+	}
+
 	MainRenderer->ChangeAnimation("c1100_AfterGuardBreakDeath");
 }
 void Monster_HollowSoldier_Spear::State_AfterGuardBreakDeath_Update(float _Delta)
@@ -1789,11 +1800,6 @@ void Monster_HollowSoldier_Spear::State_AfterGuardBreakDeath_Update(float _Delta
 	{
 		MeshOff(Enum_Hollow_MeshIndex::Spear);
 		MeshOff(Enum_Hollow_MeshIndex::WoodShield);
-
-		if (DeathValue == false)
-		{
-			DeathFunc();
-		}
 	}
 }
 
