@@ -103,6 +103,9 @@ public:
 	float4 BoneWorldPos(int _BoneIndex);
 	void CameraRotation(float Delta);
 	void Rock_On(Enum_CollisionOrder Order);
+	void Reset();
+
+
 	std::shared_ptr<Weapon> GetWeapon()
 	{
 		return Weapon_Actor;
@@ -244,14 +247,14 @@ private:
 
 	EventParameter Shield_Event;
 	EventParameter Parring_Event;
-
+	EventParameter BonFire_Event;
 
 	EventParameter Arround_Event;
 
 	Player_HitInteraction Sword;
 
 	
-	
+	float4 PlayerRespawnPos = {}; 
 
 
 	bool Rock_On_Check = false;
@@ -310,10 +313,17 @@ private:
 	std::shared_ptr<class ContentsHitRenderer> StrikeRenderer;
 	std::shared_ptr<class ContentsLight> FaceLight;
 
-	float Rock_on_X = 0.0f;
+	float Rock_on_X = 20.0f;
 	float Cur_degree_X = 0.0f;
 	float Lerp_degree_X = 0.0f;
 	bool AttackCheck = false;
+
+	bool Hp_infinite = false;
+	bool Damage_infinite = false;
+	bool Debug_Death = false;
+
+
+
 };
 
 

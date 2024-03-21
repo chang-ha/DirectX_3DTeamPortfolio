@@ -83,7 +83,7 @@ void ContentLevel::UpdateScreenShake(float _deltaTime)
 		//float offsetZ = ContentsCore::MainRandom->RandomFloat(-2.0f, 2.0f);
 
 
-		GetMainCamera()->Transform.AddLocalPosition(-PrevShackeMovePos + float4(offsetX, offsetY, 0.0f, 0.0f));
+		Player::Main_Player->Actor_test_02->Transform.AddLocalPosition(-PrevShackeMovePos + float4(offsetX, offsetY, 0.0f, 0.0f));
 		PrevShackeMovePos = float4(offsetX, offsetY, 0.0f, 0.0f);
 
 		//GetMainCamera()->Transform.AddLocalRotation(-PrevShackeRotationPos + float4(0.0f, 0.0f, offsetZ,0.0f));
@@ -94,7 +94,7 @@ void ContentLevel::UpdateScreenShake(float _deltaTime)
 	}
 	else if (PrevShackeMovePos != float4::ZERO)
 	{
-		GetMainCamera()->Transform.AddLocalPosition(-PrevShackeMovePos);
+		Player::Main_Player->Actor_test_02->Transform.AddLocalPosition(-PrevShackeMovePos);
 		//GetMainCamera()->Transform.AddLocalRotation(-PrevShackeRotationPos);
 		PrevShackeMovePos = float4::ZERO;
 		//PrevShackeRotationPos = float4::ZERO;

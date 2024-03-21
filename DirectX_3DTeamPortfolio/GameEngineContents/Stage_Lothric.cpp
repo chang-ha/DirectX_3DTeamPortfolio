@@ -167,7 +167,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		//시작 위치
 		Player_Object->SetWorldPosition({ -1400.0f, 4945.0f, -5330.0f });
 		Player_Object->SetWorldRotation({ 0.f, 0.f, 0.f });
-		Player_Object->SetTargeting(Boss_Object.get());
+		//Player_Object->SetTargeting(Boss_Object.get());
 		Boss_Object->SetTargeting(Player_Object.get());
 	}
 
@@ -769,21 +769,21 @@ void Stage_Lothric::CreateObject()
 	{
 		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
 		Object->Transform.SetWorldPosition({ -3925, 4120 , -1961 });
-		Object->SetPlayerRespawnPos({ -3925, 4130 , -1911 });
+		Object->SetPlayerRespawnPos({ -3925, 4130 , -2050 });
 		VBonfire.push_back(Object);
 	}
 	//보스방 화톳불
 	{
 		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
 		Object->Transform.SetWorldPosition({ -1125, -2489 , 3232 });
-		Object->SetPlayerRespawnPos({ -1125, -2495 , 3180 });
-		Object->Off();
+		Object->SetPlayerRespawnPos({ -1125, -2495 , 3150 });
+		//Object->Off();
 		VBonfire.push_back(Object);
 	}
 	{
 		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
 		Object->Transform.SetWorldPosition({ -16547, 3372 , 2144 });
-		Object->SetPlayerRespawnPos({ -16547, 3380 , 2100 });
+		Object->SetPlayerRespawnPos({ -16547, 3380 , 2050 });
 		VBonfire.push_back(Object);
 	}
 

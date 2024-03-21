@@ -20,7 +20,7 @@ protected:
 private:
 	//std::shared_ptr<class GameEnginePhysXCapsule> Capsule_02;
 
-
+	std::shared_ptr<class GameEnginePhysXBox> Capsule_01;
 
 };
 

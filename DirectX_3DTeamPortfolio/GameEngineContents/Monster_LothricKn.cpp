@@ -305,8 +305,8 @@ void Monster_LothricKn::Start()
 	// Collision
 	const float PatrolSize = 25.0f * W_SCALE;
 
-	std::shared_ptr<GameEngineCollision> SwordCol = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, eBoneType::Sword, { float4(22,16,140), float4::ZERONULL, float4(0,0, 0.9f) }, "Sword");
-	std::shared_ptr<GameEngineCollision> ShieldCol = CreateSocketCollision(Enum_CollisionOrder::Monster_Shield, eBoneType::Shield, { float4(16,180,100), float4::ZERONULL, float4(0.04f, 0.24f, -0.2f) }, "Shield");
+	std::shared_ptr<GameEngineCollision> SwordCol = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, eBoneType::Sword, { float4(22,16,220), float4::ZERONULL, float4(0,0, 0.8f) }, "Sword");
+	std::shared_ptr<GameEngineCollision> ShieldCol = CreateSocketCollision(Enum_CollisionOrder::Monster_Shield, eBoneType::Shield, { float4(16,220,120), float4::ZERONULL, float4(0.04f, 0.24f, -0.2f) }, "Shield");
 	CreateSocketCollision(Enum_CollisionOrder::Monster_Body, eBoneType::Spine2, { float4(65,65,25) }, "Spine2");
 	CreateSocketCollision(Enum_CollisionOrder::Monster_Body, eBoneType::Pelvis, { float4(26,41,13) }, "Pelvis");
 	CreateSocketCollision(Enum_CollisionOrder::Monster_Body, eBoneType::R_Thight_Twist, { float4(41,20,10), float4::ZERONULL, float4(0.2f)}, "R_Thight_Twist");
