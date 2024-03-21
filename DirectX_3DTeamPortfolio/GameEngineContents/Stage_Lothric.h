@@ -17,6 +17,12 @@ public:
 	Stage_Lothric& operator=(const Stage_Lothric& _Other) = delete;
 	Stage_Lothric& operator=(Stage_Lothric&& _Other) noexcept = delete;
 
+	void ResLoading();
+	void ResetLoading();
+
+	static bool ResLoadingDone;
+	static bool ResetLoadingDone;
+
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
@@ -94,52 +100,29 @@ private:
 	// Level State
 	enum class Enum_LevelState
 	{
-		LevelStart, // 리소스 로딩 << 멀티쓰레드 로딩
-		ResLoadingDone, // 리소스 로딩 종료, Fade Out
 		Play, // 
 		PlayerDeath,
-		ResetLoading, // Reset
 		StageClear,
 	};
 
 	GameEngineState LevelState;
 
 	// PlayState_Start 
-	void Start_LevelStart(GameEngineState* _Parent);
-	void Start_ResLoadingDone(GameEngineState* _Parent);
 	void Start_Play(GameEngineState* _Parent);
 	void Start_PlayerDeath(GameEngineState* _Parent);
-	void Start_ResetLoading(GameEngineState* _Parent);
 	void Start_StageClear(GameEngineState* _Parent);
 
 	// PlayState_Update
-	void Update_LevelStart(float _Delta, GameEngineState* _Parent);
-	void Update_ResLoadingDone(float _Delta, GameEngineState* _Parent);
 	void Update_Play(float _Delta, GameEngineState* _Parent);
 	void Update_PlayerDeath(float _Delta, GameEngineState* _Parent);
-	void Update_ResetLoading(float _Delta, GameEngineState* _Parent);
 	void Update_StageClear(float _Delta, GameEngineState* _Parent);
 
 	void PlayUpdate(float _Delta);
 
 	// PlayState_End
-	void End_LevelStart(GameEngineState* _Parent);
-	void End_ResLoadingDone(GameEngineState* _Parent);
 	void End_Play(GameEngineState* _Parent);
 	void End_PlayerDeath(GameEngineState* _Parent);
-	void End_ResetLoading(GameEngineState* _Parent);
 	void End_StageClear(GameEngineState* _Parent);
-
-	//// Thread Function
-	GameEngineThreadJobQueue LoadingThread;
-	void ResLoading();
-	void ResetLoading();
-
-	static bool ResLoadingDone;
-	static bool ResetLoadingDone;
-
-	void LoadingUIOn();
-	void LoadingUIOff();
 
 	// PlayerDeath State
 	enum class Enum_PlayerDeathState
@@ -159,26 +142,6 @@ private:
 	void Update_PlayerDeath_Ready(float _Delta, GameEngineState* _Parent);
 	void Update_PlayerDeath_YouDie(float _Delta, GameEngineState* _Parent);
 	void Update_PlayerDeath_FadeOut(float _Delta, GameEngineState* _Parent);
-
-	// Reset State
-	enum class Enum_ResetState
-	{
-		PlayReset, // UI, Actor Reset 및 Respawn
-		Wait,
-		FadeOut,
-		Done,
-	};
-
-	GameEngineState ResetState;
-
-	void Start_Reset_PlayReset(GameEngineState* _Parent);
-	void Start_Reset_FadeOut(GameEngineState* _Parent);
-
-	void Update_Reset_PlayReset(float _Delta, GameEngineState* _Parent);
-	void Update_Reset_Wait(float _Delta, GameEngineState* _Parent);
-	void Update_Reset_FadeOut(float _Delta, GameEngineState* _Parent);
-
-	void End_Reset_FadeOut(GameEngineState* _Parent);
 
 };
 

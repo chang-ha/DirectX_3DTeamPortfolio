@@ -5,6 +5,8 @@
 
 #include "AllFadeEffect.h"
 
+#include "LoadingLevel.h"
+
 TitleLevel::TitleLevel()
 {
 

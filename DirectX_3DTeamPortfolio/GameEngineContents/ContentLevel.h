@@ -18,6 +18,14 @@ struct ScreenShake {
 	float frequency = 2.0f; // Èçµé¸²ÀÇ ºóµµ
 };
 
+enum class Enum_LevelFlag
+{
+	None,
+	Loading_Resouce,
+	Loading_Reset,
+	Play,
+};
+
 class ContentLevel : public GameEngineLevel, public GameEnginePhysXLevel
 {
 public:
@@ -38,7 +46,6 @@ public:
 		screenShakeValue.elapsed = 0.0f;
 	}
 
-	
 
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
@@ -74,7 +81,5 @@ private:
 	ScreenShake screenShakeValue;
 	float4 PrevShackeMovePos = float4::ZERO;
 	float4 PrevShackeRotationPos = float4::ZERO;
-
-
 	
 };

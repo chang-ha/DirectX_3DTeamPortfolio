@@ -11,6 +11,7 @@
 #include "ContentResources.h"
 #include "PlayLevel.h"
 #include "Stage_Lothric.h"
+#include "LoadingLevel.h"
 #include "TestLevel_Boss.h"
 #include "TestLevel_Monster.h"
 #include "TestLevel_Shader.h"
@@ -50,7 +51,9 @@ void ContentsCore::Start()
 	//GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
 	//GameEngineCore::CreateLevel<TestLevel_MapObject>("TestLevel_MapObject");
 	//GameEngineCore::CreateLevel<TestLevel_ObjectTest>("TestLevel_ObjectTest");
-	GameEngineCore::ChangeLevel("TitleLevel");
+	GameEngineCore::CreateLevel<LoadingLevel>("LoadingLevel");
+	
+	GameEngineCore::ChangeLevel("LoadingLevel");
 	
 
 	GameEnginePhysX::PushSkipCollisionPair(3, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Big_Camera, Enum_CollisionOrder::Camera);

@@ -59,11 +59,12 @@
 // Effect
 #include "AllFadeEffect.h"
 
+
 bool Stage_Lothric::ResLoadingDone = false;
 bool Stage_Lothric::ResetLoadingDone = false;
 Stage_Lothric::Stage_Lothric()
 {
-
+	ResLoadingDone = false;
 }
 
 Stage_Lothric::~Stage_Lothric()
@@ -73,7 +74,6 @@ Stage_Lothric::~Stage_Lothric()
 
 void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 {
-
 	{
 		std::shared_ptr<GameEngineActor> Ground = CreateActor<GameEngineActor>(0);
 		std::shared_ptr<GameEngineRenderer> NewRenderer = Ground->CreateComponent<GameEngineRenderer>();
@@ -246,7 +246,8 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		UILot->SetCollision(float4(400.0f, 400.0f, 400.0f), float4(-1885.0f, 5015.0f, -3987.0f));
 	}
 
-	StateInit();
+	ResLoading();
+	LevelState.ChangeState(Enum_LevelState::Play);
 }
 
 void Stage_Lothric::LevelEnd(GameEngineLevel* _NextLevel)
@@ -261,13 +262,12 @@ void Stage_Lothric::Start()
 	GameEngineInput::AddInputObject(this);
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 0, 0, 0, 1 });
 	
-	LoadingThread.Initialize("LoadingThread", 1);
-
-	Stage_Lothric::ResLoadingDone = false;
 
 	{
 		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
 	}
+
+	StateInit();
 }
 
 void Stage_Lothric::Update(float _Delta)

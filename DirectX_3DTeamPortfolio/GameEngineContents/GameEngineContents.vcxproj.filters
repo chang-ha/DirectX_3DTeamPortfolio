@@ -428,6 +428,9 @@
     <ClCompile Include="UI_Utils.cpp">
       <Filter>Actor\UI\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="LoadingLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -847,6 +850,9 @@
     </ClInclude>
     <ClInclude Include="UI_Utils.h">
       <Filter>Actor\UI\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingLevel.h">
+      <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
