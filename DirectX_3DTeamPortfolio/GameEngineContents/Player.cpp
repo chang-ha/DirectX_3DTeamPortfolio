@@ -764,7 +764,10 @@ void Player::Update(float _Delta)
 	{
 		PlayerStates.ChangeState(PlayerState::Death);
 	}
-
+	if (true == IsFlag(Enum_ActorFlag::Death))
+	{
+		PlayerStates.ChangeState(PlayerState::Death);
+	}
 	
 
 
@@ -952,25 +955,13 @@ void Player::Update(float _Delta)
 	// 애니메이션 업데이트 
 
 	
-		PlayerStates.Update(_Delta);
+	PlayerStates.Update(_Delta);
 	
 
 	
 
 	
-	//if (GameEngineInput::IsPress('0', this))
-	//{
-	//	int a = 0;
-	//	//HitRenderer->On();
-	//	MainRenderer->ChangeAnimation("Death", true);
-	//}
-	//
-	//
-	//if (GameEngineInput::IsPress(VK_LBUTTON, this))
-	//{
-	//	HitRenderer->On();
-	//	StrikeRenderer->ChangeAnimation("Hit", true);
-	//}
+	
 
 	Player_Col->Collision(Enum_CollisionOrder::Trigger, [=](std::vector<GameEngineCollision*> _Other)
 	{
@@ -1459,6 +1450,25 @@ void Player::Rock_On(Enum_CollisionOrder _Order)
 
 
 	Arround_Col->Collision(_Order, ColEvent);
+}
+
+void Player::Reset()
+{
+	Capsule->SetWorldPosition({ -3925, 4130 , -1911 });
+	Capsule->SetWorldRotation({ 0.f, 0.f, 0.f });
+
+	Stat.SetHp(400);
+	Stat.SetStamina(300.0f);
+
+	Body_Col->On();
+
+	//-16547, 3380, 2100
+	SetFlag(Enum_ActorFlag::Death, false); 
+	Rock_On_Check = false;
+
+	PlayerStates.ChangeState(PlayerState::Sit_Down);
+
+	GameEnginePhysX::PopSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Monster);
 }
 
 bool Player::GetHitToShield(const HitParameter& _Para)

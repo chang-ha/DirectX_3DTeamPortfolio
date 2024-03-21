@@ -103,6 +103,9 @@ public:
 	float4 BoneWorldPos(int _BoneIndex);
 	void CameraRotation(float Delta);
 	void Rock_On(Enum_CollisionOrder Order);
+	void Reset();
+
+
 	std::shared_ptr<Weapon> GetWeapon()
 	{
 		return Weapon_Actor;

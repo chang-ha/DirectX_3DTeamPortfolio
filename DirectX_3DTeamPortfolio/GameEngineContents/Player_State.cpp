@@ -3210,22 +3210,10 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-
+					SetFlag(Enum_ActorFlag::Death, true);
 					
 					
-						Capsule->SetWorldPosition({ -3925, 4130 , -1911 });
-						Capsule->SetWorldRotation({ 0.f, 0.f, 0.f });
-
-						Stat.SetHp(400);
-						Stat.SetStamina(300.0f);
-
-						Body_Col->On();
-						
-						//-16547, 3380, 2100
-						
-						Rock_On_Check = false;
-						GameEnginePhysX::PopSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Monster);
-						PlayerStates.ChangeState(PlayerState::Sit_Down);
+				
 						return; 
 			
 					
