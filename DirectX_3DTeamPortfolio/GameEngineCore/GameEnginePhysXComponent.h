@@ -51,7 +51,7 @@ public:
 		{
 			physx::PxRigidDynamic* DynamicActor = ComponentActor->is<physx::PxRigidDynamic>();
 			ResetMove(Enum_Axies::All);
-			DynamicActor->putToSleep();
+			DynamicActor->wakeUp();
 		}
 	}
 	void Off() override
@@ -63,7 +63,7 @@ public:
 		{
 			physx::PxRigidDynamic* DynamicActor = ComponentActor->is<physx::PxRigidDynamic>();
 			ResetMove(Enum_Axies::All);
-			DynamicActor->wakeUp();
+			DynamicActor->putToSleep();
 		}
 	}
 
