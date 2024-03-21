@@ -42,7 +42,11 @@ void Stage_Lothric::StateInit()
 // Play State
 void Stage_Lothric::Start_Play(GameEngineState* _Parent)
 {
-	int a = 0;
+	if (FadeObject)
+	{
+		FadeObject->FadeIn();
+		FadeObject->SetFadeSpeed(2.0f);
+	}
 }
 
 void Stage_Lothric::Update_Play(float _Delta, GameEngineState* _Parent)
