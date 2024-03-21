@@ -46,7 +46,7 @@ void UILoading::Start()
 	///// 조작설명
 	ExplainKey();
 
-	Off();
+	//Off();
 }
 
 void UILoading::Update(float _Delta)
@@ -83,7 +83,7 @@ void UILoading::MadesCreateSetName()
 	TeamMember[1]->SetText(GlobalValue::OptimusFont, "김태훈 : 몬스터 / 툴 에디터", FontSacle, float4::WHITE);
 	TeamMember[2]->SetText(GlobalValue::OptimusFont, "김성원 : 몬스터", FontSacle, float4::WHITE);
 	TeamMember[3]->SetText(GlobalValue::OptimusFont, "김성균 : 맵 오브젝트", FontSacle, float4::WHITE);
-	TeamMember[4]->SetText(GlobalValue::OptimusFont, "김준영 : 맵 / 배치", FontSacle, float4::WHITE);
+	TeamMember[4]->SetText(GlobalValue::OptimusFont, "김준영 : 맵 / 레벨디자인", FontSacle, float4::WHITE);
 	TeamMember[5]->SetText(GlobalValue::OptimusFont, "신원석 : 플레이어", FontSacle, float4::WHITE);
 	TeamMember[6]->SetText(GlobalValue::OptimusFont, "유준상 : 쉐이더 / 엔진렌더링", FontSacle, float4::WHITE);
 	TeamMember[7]->SetText(GlobalValue::OptimusFont, "홍영현 : UI", FontSacle, float4::WHITE);
@@ -104,6 +104,6 @@ void UILoading::ExplainKey()
 	Explain_1->Transform.SetLocalPosition(float4(ExplainStartPos.X, ExplainStartPos.Y - Yspace));
 
 	Explain_2 = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_Loading);
-	Explain_2->SetText(GlobalValue::OptimusFont, "mLBUTTON : 공격   mRBUTTON : 방어", FontSacle, float4::WHITE);
+	Explain_2->SetText(GlobalValue::OptimusFont, "mLBUTTON : 공격     mRBUTTON : 방어     SPACE BAR : 구르기", FontSacle, float4::WHITE);
 	Explain_2->Transform.SetLocalPosition(float4(ExplainStartPos.X, ExplainStartPos.Y - Yspace * 2));
 }
