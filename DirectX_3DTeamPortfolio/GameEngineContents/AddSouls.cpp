@@ -68,13 +68,15 @@ void AddSouls::Start()
 
 void AddSouls::Update(float _Delta)
 {
+	DetectSouls();
+
 	AddState.Update(_Delta);
 	ScoreState.Update(_Delta);
 
 	if (GameEngineInput::IsDown('2', this))
 	{
 		TotalScore += ContentsRandom::RandomInt(1, 5) * 100;
-		ScoreState.ChangeState(eScoreState::AddScore);
+		ScoreState.ChangeState(eScoreState::UpScale);
 	}
 
 	if (nullptr != DebugRenderer)
@@ -92,13 +94,16 @@ void AddSouls::DetectSouls()
 	if (AddSouls::TotalScore != CurUISouls)
 	{
 		const int Souls = AddSouls::TotalScore - CurUISouls;
-		TotalScore += Souls;
+		CurUISouls = AddSouls::TotalScore;
+
+		ScoreState.ChangeState(eScoreState::AddScore);//test
 
 		bool IsReady = (eAddState::Ready == static_cast<eAddState>(AddState.GetCurState()));
 		if (IsReady)
 		{
 			AddSoul->ChangeText(std::to_string(Souls));
 			AddState.ChangeState(eAddState::FadeIn);
+			
 		}
 	}
 }
@@ -141,7 +146,9 @@ void AddSouls::Start_ScoreState_UpScale(GameEngineState* _Parent)
 
 void AddSouls::Start_ScoreState_AddScore(GameEngineState* _Parent)
 {
-
+	const int Score = AddSouls::TotalScore - RenderScore;
+	TargetScore = AddSouls::TotalScore;
+	PlusScore = Score;
 }
 
 static constexpr float AddScore_StateTime = 0.5f;
