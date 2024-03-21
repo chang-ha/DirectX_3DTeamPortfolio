@@ -21,6 +21,11 @@ void GameEnginePhysXLevel::PhysXLevelInit()
 
 void GameEnginePhysXLevel::RunSimulation(float _Delta)
 {
+	if (nullptr == Scene)
+	{
+		return;
+	}
+
 	if (0.0f >= _Delta)
 	{
 		return;
