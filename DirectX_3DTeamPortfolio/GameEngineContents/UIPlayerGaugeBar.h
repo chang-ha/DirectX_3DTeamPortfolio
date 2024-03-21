@@ -44,4 +44,7 @@ private:
 	UIUnit* MpBar = nullptr;
 	UIUnit* StaminaBar = nullptr;
 
+	//// PlayerIcon
+	std::shared_ptr<GameEngineUIRenderer> PlayerIcon;
+
 };

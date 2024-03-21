@@ -19,7 +19,11 @@ UIPlayerGaugeBar::~UIPlayerGaugeBar()
 
 void UIPlayerGaugeBar::Start()
 {
-
+	const float4 HScale = GlobalValue::GetWinScale().Half();
+	PlayerIcon = CreateComponent<GameEngineUIRenderer>();
+	PlayerIcon->SetSprite("PlayerIcon.Png");
+	PlayerIcon->AutoSpriteSizeOn();
+	PlayerIcon->Transform.SetLocalPosition({ -HScale.X + 60.0f, 400.0f });
 }
 
 void UIPlayerGaugeBar::Init(Player* _PlayerObject)
