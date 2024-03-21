@@ -331,8 +331,8 @@ void Player::Start()
 	{
 
 		ColParameter.R = 0.0f;
-		ColParameter.S = { 20.f, 120.f, 20.f };
-		ColParameter.T = { 0.f, 0.5f, 0.f };
+		ColParameter.S = { 20.f, 200.f, 20.f };
+		ColParameter.T = { 0.f, 0.2f, 0.f };
 
 		Attack_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Attack, Bone_index_01, ColParameter,"Player_Weapon");
 		Attack_Col->SetCollisionType(ColType::AABBBOX3D);
@@ -628,6 +628,29 @@ void Player::Start()
 
 		};
 
+
+	BonFire_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+
+		};
+
+	BonFire_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+			if (GameEngineInput::IsDown('E', this))
+			{
+				col->
+				
+			}
+		};
+
+	BonFire_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+
+		};
+
+
+
+
 	SoundFrameEvent();
 
 	Shield_Col->Off();
@@ -697,6 +720,9 @@ void Player::Update(float _Delta)
 	}
 
 	
+
+
+
 	BaseActor::Update(_Delta);
 
 	// ½Ã°£ 

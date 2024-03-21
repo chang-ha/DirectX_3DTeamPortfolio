@@ -247,7 +247,7 @@ private:
 
 	EventParameter Shield_Event;
 	EventParameter Parring_Event;
-
+	EventParameter BonFire_Event;
 
 	EventParameter Arround_Event;
 

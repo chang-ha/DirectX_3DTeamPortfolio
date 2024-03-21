@@ -78,6 +78,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Lothric");
 		Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
 		Monster->WakeUp();
+
 		//std::shared_ptr<Monster_Hollow_RaggedRobes> Monster = CreateActor<Monster_Hollow_RaggedRobes>(0);
 		//GameMap->Transform.SetWorldPosition({ 0.0f,000.0f,-1000.3f });
 
