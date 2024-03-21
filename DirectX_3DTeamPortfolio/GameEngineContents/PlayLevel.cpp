@@ -6,7 +6,6 @@
 #include "GameEngineNetWindow.h"
 #include "ContentsControlWindow.h"
 
-#include "MainUIActor.h"
 #include "MonsterHpBar.h"
 
 #include "WorldMap.h"
@@ -19,6 +18,8 @@
 
 #include "AllFadeEffect.h"
 
+
+#include "MainUIActor.h"
 #include "UILocationAlert.h"
 #include "UIAlert_BoneLit.h"
 

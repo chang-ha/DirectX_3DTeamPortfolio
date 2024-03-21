@@ -11,7 +11,7 @@ UILocationAlert::~UILocationAlert()
 {
 }
 
-void UILocationAlert::Start() 
+void UILocationAlert::Start()
 {
 	// 폰트 텍스처
 	FontTexture = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_Font);
@@ -22,10 +22,10 @@ void UILocationAlert::Start()
 
 	// 언더바 : 알파값
 	UnderBar = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_Font);
-	UnderBar->SetSprite("WhitePixel.Png");
-	UnderBar->SetImageScale(float4(800.0f, 5.0f));
-	UnderBar->Transform.SetLocalPosition(float4(0, 11.0f));
-	UnderBar->GetColorData().MulColor.A = 0.9f;
+	UnderBar->SetSprite("WhiteBar.png");
+	UnderBar->AutoSpriteSizeOff();
+	UnderBar->GetImageTransform().SetLocalScale(float4(900.0f, 4.0f));
+	UnderBar->Transform.SetLocalPosition(float4(0, 10.0f));
 
 	EventTrigger = GetLevel()->CreateActor<TriggerActor>(Enum_UpdateOrder::Component);
 	EventTrigger->On();
@@ -76,7 +76,7 @@ void UILocationAlert::SetCollision(const float4& _Scale, const float4& _Pos)
 }
 
 //State
-static constexpr float FadeTime = 2.0f;
+static constexpr float FadeTime = 1.0f;
 static constexpr float AppearTime = 4.0f;
 
 
@@ -125,5 +125,5 @@ void UILocationAlert::SetGamma(float _Ratio)
 {
 	const float Ratio = std::clamp(_Ratio, 0.0f, 1.0f);
 	FontTexture->GetColorData().MulColor.A = Ratio;
-	UnderBar->GetColorData().PlusColor.A = Ratio * 0.1f;
+	UnderBar->GetColorData().MulColor.A = Ratio;
 }
