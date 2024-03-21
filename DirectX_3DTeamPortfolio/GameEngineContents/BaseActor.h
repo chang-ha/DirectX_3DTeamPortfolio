@@ -292,6 +292,9 @@ public:
 		Stat.SetHp(MaaxHp);
 	}
 
+	// 플레이어는 호출하지 마세요
+	virtual void DeathProcess();
+
 	// Flag
 	// 상대방의 행동을 지정해주려면 Flag 즉, 상대방의 State 변수를 바꿔주는 것이 효율적일 것 같아서 구현했습니다.
 	// 상대방의 State에 관련된 Flag Bit를 바꿔 그 Flag에 맞는 상태를 구현하는게 직접 State를 변경하는 것보다 더 낫다고 생각합니다. 

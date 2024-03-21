@@ -9,6 +9,8 @@
 #include "DS3DummyData.h"
 #include "ContentLevel.h"
 
+#include "AddSouls.h"
+
 
 class ContentsActorInitial
 {
@@ -122,6 +124,22 @@ void BaseActor::SetWPosition(const float4& _wPos)
 	{
 		Capsule->SetWorldPosition(_wPos);
 	}
+}
+
+// 플레이어는 호출하지 마세요
+void BaseActor::DeathProcess()
+{
+	if (nullptr != Capsule)
+	{
+		Capsule->Off();
+	}
+
+	SetFlagNull();
+	SetFlag(Enum_ActorFlag::Death, true);
+	OffAllCollision();
+
+	const int Souls = Stat.GetSouls();
+	AddSouls::AddUISoul(Souls);
 }
 
 int BaseActor::FindFlag(Enum_ActorFlag _Status) const
