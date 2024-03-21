@@ -14,7 +14,7 @@
 
 #include "TriggerActor.h"
 #include "ContentLevel.h"
-
+#include "Object_bonfire.h"
 #define Frame 0.033f
 
 Player* Player::Main_Player;
@@ -601,10 +601,10 @@ void Player::Start()
 
 				const std::shared_ptr<BaseActor>& pActor = col->GetActor()->GetDynamic_Cast_This<BaseActor>();
 				const float4 WRot = Transform.GetWorldRotationEuler();
-				const float4 WPos = Actor_test->Transform.GetWorldPosition();
+				const float4 WPos = Transform.GetWorldPosition();
 				bool CheckFrontStab = pActor->FrontStabCheck(WPos, WRot.Y);
 
-				//pActor->DebugFlag();
+				pActor->DebugFlag();
 
 				if (pActor->IsFlag(Enum_ActorFlag::Groggy) == true && CheckFrontStab == true)
 				{
@@ -638,8 +638,12 @@ void Player::Start()
 		{
 			if (GameEngineInput::IsDown('E', this))
 			{
-				col->
-				
+				std::shared_ptr<Object_bonfire> pActor = col->GetActor()->GetDynamic_Cast_This<Object_bonfire>();
+
+				PlayerRespawnPos = pActor->GetPlayerRespawnPos();
+
+				PlayerStates.ChangeState(PlayerState::Sit_Down);
+
 			}
 		};
 
@@ -775,6 +779,7 @@ void Player::Update(float _Delta)
 	Arround_Col->CollisionEvent(Enum_CollisionOrder::Monster, Arround_Event);
 	Body_Col->CollisionEvent(Enum_CollisionOrder::LadderBot, Labber_Event);
 	Body_Col->CollisionEvent(Enum_CollisionOrder::LadderTop, Labber_Top_Event);
+	Body_Col->CollisionEvent(Enum_CollisionOrder::Bonfire, BonFire_Event);
 	Parring_Attack_Col->CollisionEvent(Enum_CollisionOrder::Monster_Body, Parring_Event);
 
 
@@ -861,7 +866,7 @@ void Player::Update(float _Delta)
 	{
 		AnimationBoneData Data = MainRenderer->GetBoneData(Bone_index_01);
 		Weapon_Actor->Transform.SetLocalRotation(Data.RotQuaternion.QuaternionToEulerDeg());
-		Weapon_Actor->Transform.SetWorldPosition(Data.Pos + float4{ Capsule->GetWorldPosition().x, Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z });
+		Weapon_Actor->Transform.SetWorldPosition(Data.Pos + float4{ Capsule->GetWorldPosition().x, Capsule->GetWorldPosition().y, Capsule->GetWorldPosition().z});
 	}
 
 	{
@@ -1142,11 +1147,14 @@ void Player::CameraRotation(float Delta)
 	{ 
 
 
-		//if (abs(Actor_test->Transform.GetWorldPosition().Z - Actor_test_02->Transform.GetWorldPosition().Z) >= 50)
+		if (abs(Actor_test->Transform.GetWorldPosition().Z - Actor_test_02->Transform.GetWorldPosition().Z) >= 30)
+		{
+			Actor_test_02->Transform.SetWorldPosition(sadasd);
+		}
 
 		
 			//float4 sadasd = float4::LerpClamp(Actor_test_02->Transform.GetWorldPosition(),Actor_test->Transform.GetWorldPosition(), Delta);
-			Actor_test_02->Transform.SetWorldPosition(sadasd);
+			//Actor_test_02->Transform.SetWorldPosition(sadasd);
 	}
 	
 	else if (testa == false && testaa == true)
@@ -1480,7 +1488,7 @@ void Player::Rock_On(Enum_CollisionOrder _Order)
 
 void Player::Reset()
 {
-	Capsule->SetWorldPosition({ -3925, 4130 , -2050 });
+	Capsule->SetWorldPosition({ PlayerRespawnPos });
 	Capsule->SetWorldRotation({ 0.f, 0.f, 0.f });
 
 	Stat.SetHp(400);

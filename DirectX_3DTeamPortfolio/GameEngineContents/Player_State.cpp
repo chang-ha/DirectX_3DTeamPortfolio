@@ -2908,7 +2908,7 @@ void Player::Player_State()
 			{
 				MainRenderer->ChangeAnimation("ladder_Up_Start");
 				Capsule->GravityOff();
-
+				Rock_On_Check = true;
 			};
 
 
@@ -2916,7 +2916,9 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-					
+					Rock_On_Check = false;
+					Camera_Pos_Y = Actor_test->Transform.GetWorldRotationEuler().X;
+					Player_Pos.X = Actor_test->Transform.GetWorldRotationEuler().Y;
 					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
 
 					if (GameEngineInput::IsPress('W', this))
@@ -3059,6 +3061,7 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					
 					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
 
 					Capsule->GravityOn();
@@ -3080,6 +3083,7 @@ void Player::Player_State()
 			{
 				MainRenderer->ChangeAnimation("ladder_Down_Start");
 				Capsule->GravityOff();
+				Rock_On_Check = true;
 			};
 
 
@@ -3087,6 +3091,10 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					Camera_Pos_Y = Actor_test->Transform.GetWorldRotationEuler().X;
+					Player_Pos.X = Actor_test->Transform.GetWorldRotationEuler().Y;
+					Rock_On_Check = false;
+
 					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
 
 					PlayerStates.ChangeState(PlayerState::ladder_Down_Left);

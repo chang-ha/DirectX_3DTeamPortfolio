@@ -254,7 +254,7 @@ private:
 	Player_HitInteraction Sword;
 
 	
-	
+	float4 PlayerRespawnPos = {}; 
 
 
 	bool Rock_On_Check = false;
