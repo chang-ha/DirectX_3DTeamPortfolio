@@ -30,7 +30,7 @@ protected:
 	void Update(float _Delta) override;
 	void Release() override;
 
-	void Reset() override {}
+	void Reset() override;
 
 	// Location 
 	void PositionUpdate();
