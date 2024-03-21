@@ -22,11 +22,6 @@ void Monster_LothricKn::Start()
 {
 	BaseMonster::Start();
 
-	if (nullptr != Capsule)
-	{
-		Capsule->PhysXComponentInit(100.0f, 100.0f);
-	}
-
 	// Outer Res
 	LoadRes3DSound("c128001001.wav");
 	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E1001, "c128001001.wav");
