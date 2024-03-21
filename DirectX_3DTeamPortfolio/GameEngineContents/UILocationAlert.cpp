@@ -11,19 +11,21 @@ UILocationAlert::~UILocationAlert()
 {
 }
 
-void UILocationAlert::Start() 
+void UILocationAlert::Start()
 {
-	// 언더바 : 알파값
-	UnderBar = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_Font);
-	UnderBar->GetColorData().PlusColor = float4(0.9f, 0.9f, 0.9f, 0.9f);
-	UnderBar->GetImageTransform().SetLocalScale(float4(800.0f, 10.0f));
-
 	// 폰트 텍스처
 	FontTexture = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_Font);
 	FontTexture->SetSprite("Lothric_Wall.png");
-	FontTexture->Transform.SetLocalPosition(float4(0, 50.0f));
 	FontTexture->AutoSpriteSizeOn();
 	FontTexture->SetAutoScaleRatio(2.0f);
+	FontTexture->Transform.SetLocalPosition(float4(0, 50.0f));
+
+	// 언더바 : 알파값
+	UnderBar = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_Font);
+	UnderBar->SetSprite("WhiteBar.png");
+	UnderBar->AutoSpriteSizeOff();
+	UnderBar->GetImageTransform().SetLocalScale(float4(900.0f, 4.0f));
+	UnderBar->Transform.SetLocalPosition(float4(0, 10.0f));
 
 	EventTrigger = GetLevel()->CreateActor<TriggerActor>(Enum_UpdateOrder::Component);
 	EventTrigger->On();
@@ -74,7 +76,7 @@ void UILocationAlert::SetCollision(const float4& _Scale, const float4& _Pos)
 }
 
 //State
-static constexpr float FadeTime = 2.0f;
+static constexpr float FadeTime = 1.0f;
 static constexpr float AppearTime = 4.0f;
 
 
@@ -82,7 +84,8 @@ void UILocationAlert::Start_Appear(GameEngineState* _Parent)
 {
 	On();
 	SetGamma(0.0f);
-	GameEngineSound::SoundPlay("New_Location_Sound_Effect.wav");
+	GameEngineSoundPlayer LocationSound = GameEngineSound::SoundPlay("New_Location_Sound_Effect.wav");
+	LocationSound.SetVolume(0.7f);
 }
 
 void UILocationAlert::Update_Appear(float _Delta, GameEngineState* _Parent)

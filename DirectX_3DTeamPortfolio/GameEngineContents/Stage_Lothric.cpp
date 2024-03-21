@@ -210,7 +210,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	{
-		if (nullptr == GameEngineSprite::Find("Dark.png"))
+		if (nullptr == GameEngineSprite::Find("Lothric_Wall.png"))
 		{
 			GameEngineDirectory Dir;
 			Dir.MoveParentToExistsChild("ContentsResources");

@@ -38,7 +38,6 @@ public:
 	// 외부에서 캐릭터를 깨우는 인터페이스
 	// 상태 정의
 	virtual void WakeUp() {}
-	virtual void DeathProcess();
 	void GravityOn();
 	void GravityOff();
 

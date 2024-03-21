@@ -169,9 +169,6 @@
     <ClCompile Include="LUTGUI.cpp">
       <Filter>ImGui\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="MainUIActor.cpp">
-      <Filter>Actor\UI</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerValue.cpp">
       <Filter>Core\Global</Filter>
     </ClCompile>
@@ -379,9 +376,6 @@
     <ClCompile Include="BossHpUI.cpp">
       <Filter>Actor\UI\Monster\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="UIActor.cpp">
-      <Filter>Actor\UI</Filter>
-    </ClCompile>
     <ClCompile Include="Object_bonfire.cpp">
       <Filter>Object</Filter>
     </ClCompile>
@@ -424,6 +418,15 @@
     </ClCompile>
     <ClCompile Include="Object_Shelf.cpp">
       <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="MainUIActor.cpp">
+      <Filter>Actor\UI\ActorMain</Filter>
+    </ClCompile>
+    <ClCompile Include="UIActor.cpp">
+      <Filter>Actor\UI\ActorMain</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Utils.cpp">
+      <Filter>Actor\UI\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -591,9 +594,6 @@
     </ClInclude>
     <ClInclude Include="LUTGUI.h">
       <Filter>ImGui\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="MainUIActor.h">
-      <Filter>Actor\UI</Filter>
     </ClInclude>
     <ClInclude Include="PlayerValue.h">
       <Filter>Core\Global</Filter>
@@ -802,9 +802,6 @@
     <ClInclude Include="BossHpUI.h">
       <Filter>Actor\UI\Monster\Boss</Filter>
     </ClInclude>
-    <ClInclude Include="UIActor.h">
-      <Filter>Actor\UI</Filter>
-    </ClInclude>
     <ClInclude Include="EventCol.h">
       <Filter>Actor</Filter>
     </ClInclude>
@@ -841,6 +838,15 @@
     </ClInclude>
     <ClInclude Include="Object_Shelf.h">
       <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="MainUIActor.h">
+      <Filter>Actor\UI\ActorMain</Filter>
+    </ClInclude>
+    <ClInclude Include="UIActor.h">
+      <Filter>Actor\UI\ActorMain</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Utils.h">
+      <Filter>Actor\UI\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -993,6 +999,12 @@
     </Filter>
     <Filter Include="Actor\UI\Component">
       <UniqueIdentifier>{b664115b-b507-497d-9b86-38d0bbbd27d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\ActorMain">
+      <UniqueIdentifier>{6ee044c1-1ae8-4631-8952-c8d7a98b6bd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\Utils">
+      <UniqueIdentifier>{3845ada8-bc91-4c95-88c2-00c08867be01}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

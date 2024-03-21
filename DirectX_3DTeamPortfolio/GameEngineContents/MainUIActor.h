@@ -25,7 +25,6 @@ public:
 	void CreateBossUI(class Boss_Vordt* _pBoss);
 	void CreateAndCheckEsteUI(class Player* _pPlayer);
 	void CreateAndCheckPlayerGaugeBar(class Player* _pPlayer);
-	void CreateTextureAndThrowObjectPointer(class Player* _pPlayer, class Boss_Vordt* _pBoss);
 
 	void AllUIActorReset();
 
@@ -34,6 +33,7 @@ public:
 	void CallAlert(Enum_AlertType _Type);
 
 	std::shared_ptr<class UILoading> GetUILoading() { return LoadingObject; }
+	std::shared_ptr<class UIPlayerGaugeBar> GetPlayerUI() { return PlayerGaugeBar; }
 
 protected:
 	void Start() override;
@@ -52,9 +52,6 @@ private:
 
 	std::shared_ptr<class AppearTextures> Textures = nullptr;
 
-
-	//// PlayerIcon
-	std::shared_ptr<GameEngineUIRenderer> PlayerIcon;
 
 
 };

@@ -550,6 +550,10 @@
     </ClCompile>
     <ClCompile Include="UIPlayerGaugeBar.cpp" />
     <ClCompile Include="UIUnit.cpp" />
+    <ClCompile Include="UI_Utils.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WorldMap.cpp" />
   </ItemGroup>
@@ -935,6 +939,10 @@
     </ClInclude>
     <ClInclude Include="UIPlayerGaugeBar.h" />
     <ClInclude Include="UIUnit.h" />
+    <ClInclude Include="UI_Utils.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="WorldMap.h" />
   </ItemGroup>
