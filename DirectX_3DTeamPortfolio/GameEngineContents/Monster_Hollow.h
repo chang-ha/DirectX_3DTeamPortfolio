@@ -48,6 +48,7 @@ enum class Enum_Hollow_BoneType
 	RoundShield = 15,
 	WoodShield = 16,
 	Sword = 44,
+	Spear = 46,
 };
 
 // Ό³Έν : 
