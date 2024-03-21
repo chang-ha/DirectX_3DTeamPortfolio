@@ -483,6 +483,34 @@ void TestLevel_MapObject::CreateObject()
 		Object->Transform.SetWorldRotation({ 0, -90, 0 });
 		VTorchlight.push_back(Object);
 	}
+	//37
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -2139, 4979 , -2306 });
+		Object->Transform.SetWorldRotation({ 0, -110, 0 });
+		VTorchlight.push_back(Object);
+	}
+	//38
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -1651, 5255 , -4073 });
+		Object->Transform.SetWorldRotation({ 0, -20, 0 });
+		VTorchlight.push_back(Object);
+	}
+	//39
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -1970, 5255 , -4183 });
+		Object->Transform.SetWorldRotation({ 0, -20, 0 });
+		VTorchlight.push_back(Object);
+	}
+	//40
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -4196, 4229 , -932 });
+		Object->Transform.SetWorldRotation({ 0, 140, 0 });
+		VTorchlight.push_back(Object);
+	}
 	
 	//촛불동상
 	{
