@@ -58,7 +58,6 @@ void MainUIActor::Start()
 	}
 
 	GetLevel()->CreateActor<AddSouls>();
-	LoadingObject = GetLevel()->CreateActor<UILoading>(Enum_UpdateOrder::UI);
 }
 
 void MainUIActor::Update(float _Delta)

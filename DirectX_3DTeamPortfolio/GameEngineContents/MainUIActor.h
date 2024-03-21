@@ -32,7 +32,6 @@ public:
 
 	void CallAlert(Enum_AlertType _Type);
 
-	std::shared_ptr<class UILoading> GetUILoading() { return LoadingObject; }
 	std::shared_ptr<class UIPlayerGaugeBar> GetPlayerUI() { return PlayerGaugeBar; }
 
 protected:
@@ -48,7 +47,6 @@ private:
 	std::shared_ptr<class BossHpUI> BossHpObject = nullptr;
 	std::shared_ptr<class UIPlayerEquip> EsteUI = nullptr;
 	std::shared_ptr<class UIPlayerGaugeBar> PlayerGaugeBar = nullptr;
-	std::shared_ptr<class UILoading> LoadingObject = nullptr;
 
 	std::shared_ptr<class AppearTextures> Textures = nullptr;
 

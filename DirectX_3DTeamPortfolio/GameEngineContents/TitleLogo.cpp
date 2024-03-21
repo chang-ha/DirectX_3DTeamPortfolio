@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "TitleLogo.h"
 
+#include "LoadingLevel.h"
+
 TitleLogo::TitleLogo()
 {
 
@@ -117,7 +119,8 @@ void TitleLogo::Update(float _Delta)
 
 	if (FontScale >= 25.0f)
 	{
-		GameEngineCore::ChangeLevel("Stage_Lothric");
+		LoadingLevel::LoadingFlag = Enum_LevelFlag::Loading_Resouce;
+		GameEngineCore::ChangeLevel("LoadingLevel");
 	}
 }
 

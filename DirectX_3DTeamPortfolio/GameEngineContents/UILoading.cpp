@@ -16,6 +16,7 @@ UILoading::UILoading()
 			GameEngineTexture::Load(pFile.GetStringPath());
 		}
 
+		GameEngineSprite::CreateSingle("Dark.png");
 		GameEngineSprite::CreateSingle("AKLogo.png");
 		GameEngineSprite::CreateSingle("UIComments.png");
 		GameEngineSprite::CreateSingle("LoadingTemp.png");
@@ -75,7 +76,7 @@ void UILoading::Start()
 	///// 조작설명
 	ExplainKey();
 
-	Off();
+	On();
 }
 
 void UILoading::Update(float _Delta)

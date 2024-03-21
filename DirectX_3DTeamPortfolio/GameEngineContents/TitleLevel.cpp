@@ -34,7 +34,7 @@ void TitleLevel::Update(float _Delta)
 
 void TitleLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	if (nullptr == GameEngineSprite::Find("Dark.png"))
+	if (nullptr == GameEngineSprite::Find("BanDaiNaco_Logo.png"))
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExistsChild("ContentsResources");
