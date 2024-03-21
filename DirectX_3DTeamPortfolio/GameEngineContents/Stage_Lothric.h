@@ -27,10 +27,13 @@ private:
 	// 멤버변수 이름은 각자가 알아서 정하기
 	std::shared_ptr<class Boss_Vordt> Boss_Object;
 	std::shared_ptr<class ContentsLight> Light;
+	std::shared_ptr<class ContentsLight> BossDoorLight;
 	std::shared_ptr<class Player> Player_Object;
 	std::shared_ptr<class WorldMap> Map_Lothric;
 
+	// 몬스터
 	std::vector<std::shared_ptr<class BaseMonster>> AllMonster;
+	// 이벤트충돌체
 	std::vector<std::shared_ptr<class EventCol>> AllEvCol;
 
 	//오브젝트
@@ -46,6 +49,9 @@ private:
 	std::vector<std::shared_ptr<class Object_HumanTree5>> VHumanTree5;
 	std::vector<std::shared_ptr<class Object_CandleHuman>> VCandleHuman;
 	std::vector<std::shared_ptr<class Object_CandleHuman2>> VCandleHuman2;
+	std::vector<std::shared_ptr<class Object_Box>> VBox;
+	std::vector<std::shared_ptr<class Object_OakBarrel>> VOakBarrel;
+	std::vector<std::shared_ptr<class Object_Shelf>> VShelf;
 
 	std::shared_ptr<class Object_BossDoor> BossDoor;
 	std::shared_ptr<class Object_CastleDoor> CastleDoor;
@@ -69,7 +75,7 @@ private:
 	void AllMonsterOff();
 
 	void SetAllEvCol();
-	void EvColUpdate();
+	void AllEvColOn();
 
 	void Area0_On();
 	void Area1_On();
@@ -173,5 +179,6 @@ private:
 	void Update_Reset_FadeOut(float _Delta, GameEngineState* _Parent);
 
 	void End_Reset_FadeOut(GameEngineState* _Parent);
+
 };
 

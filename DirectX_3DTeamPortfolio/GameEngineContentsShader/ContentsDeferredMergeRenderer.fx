@@ -88,8 +88,14 @@ PSOutput ContentsDeferredMergeRender_PS(PixelOutPut _Input)
     // 적용안받는 포인트
     Result.Light.xyz += (DifColor.xyz * PointDifLight.xyz) + PointSpcLight.xyz;
     
+    //if (0.0f < Shadow.x)
+    //{
+    //    Result.Light.xyz *= 0.5f + ((1.0f - Shadow.x) *0.5f);
+    //    //Result.xyz *= 0.1f;
+    //}
+    
     //앰비언트
-    Result.Light.xyz += DifColor.xyz * float3(0.15f, 0.15f, 0.1f) * 1.5f;
+    Result.Light.xyz += DifColor.xyz * float3(0.15f, 0.15f, 0.1f) * 1.f;
     
     
     

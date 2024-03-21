@@ -244,6 +244,8 @@
     <ClCompile Include="Object_HumanTree3.cpp" />
     <ClCompile Include="Object_HumanTree4.cpp" />
     <ClCompile Include="Object_HumanTree5.cpp" />
+    <ClCompile Include="Object_OakBarrel.cpp" />
+    <ClCompile Include="Object_Shelf.cpp" />
     <ClCompile Include="Object_Torchlight.cpp" />
     <ClCompile Include="PatrolPath.cpp">
       <SubType>
@@ -628,6 +630,8 @@
     <ClInclude Include="Object_HumanTree3.h" />
     <ClInclude Include="Object_HumanTree4.h" />
     <ClInclude Include="Object_HumanTree5.h" />
+    <ClInclude Include="Object_OakBarrel.h" />
+    <ClInclude Include="Object_Shelf.h" />
     <ClInclude Include="Object_Torchlight.h" />
     <ClInclude Include="PatrolPath.h">
       <SubType>

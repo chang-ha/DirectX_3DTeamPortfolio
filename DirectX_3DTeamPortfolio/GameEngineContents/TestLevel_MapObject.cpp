@@ -27,6 +27,8 @@
 #include "Object_Torchlight.h"
 #include "Object_CandleHuman2.h"
 #include "Object_Box.h"
+#include "Object_OakBarrel.h"
+#include "Object_Shelf.h"
 
 
 //맵 헤더
@@ -65,6 +67,8 @@ void TestLevel_MapObject::LevelStart(GameEngineLevel* _PrevLevel)
 	
 	CreateObject();
 
+
+	GetMainCamera()->Transform.SetWorldPosition({ -9524,2827,-4081 });
 }
 
 void TestLevel_MapObject::LevelEnd(GameEngineLevel* _NextLevel)
@@ -119,8 +123,8 @@ void TestLevel_MapObject::Start()
 
 	Light->SetLightData(Data);
 
-	/*PlayerA = CreateActor<Player>(0, "Player");
-	PlayerA->SetWorldPosition({ -8930, 2030 , -4427 });*/
+	PlayerA = CreateActor<Player>(0, "Player");
+	PlayerA->SetWorldPosition({ -8930, 2030 , -4427 });
 }
 
 void TestLevel_MapObject::Update(float _Delta)
@@ -159,10 +163,12 @@ void TestLevel_MapObject::CreateObject()
 		Object->SetPlayerRespawnPos({ -3925, 4130 , -1911 });
 		VBonfire.push_back(Object);
 	}
+	//보스방화톳불
 	{
 		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
 		Object->Transform.SetWorldPosition({ -1125, -2489 , 3232 });
 		Object->SetPlayerRespawnPos({ -1125, -2495 , 3180 });
+		Object->Off();
 		VBonfire.push_back(Object);
 	}
 	{
@@ -909,6 +915,80 @@ void TestLevel_MapObject::CreateObject()
 		Object->Transform.SetWorldRotation({ 0, 60 , 0 });
 		VBox.push_back(Object);
 	}
+	//4
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -9524, 2827 , -4081 });
+		Object->Transform.SetWorldRotation({ 0, 0 , 0 });
+		VBox.push_back(Object);
+	}
+	//5
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -9524, 2827 , -3970 });
+		Object->Transform.SetWorldRotation({ 0, 70 , 0 });
+		VBox.push_back(Object);
+	}
+	//6
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -9574, 2827 , -4170 });
+		Object->Transform.SetWorldRotation({ 0, 10 , 0 });
+		VBox.push_back(Object);
+	}
+	//7
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -9574, 2919 , -4120 });
+		Object->Transform.SetWorldRotation({ 0, -40 , 0 });
+		VBox.push_back(Object);
+	}
+	//8
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -9524, 2919 , -4015 });
+		Object->Transform.SetWorldRotation({ 0, 10 , 0 });
+		VBox.push_back(Object);
+	}
+	//9
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -9524, 3010 , -4065 });
+		Object->Transform.SetWorldRotation({ 0, 10 , 0 });
+		VBox.push_back(Object);
+	}
+	//10
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -9374, 2827 , -3690 });
+		Object->Transform.SetWorldRotation({ 0, 30 , 0 });
+		VBox.push_back(Object);
+	}
+	//오크통
+	//1
+	{
+		std::shared_ptr<Object_OakBarrel> Object = CreateActor<Object_OakBarrel>(1);
+		Object->Transform.SetWorldPosition({ -9578, 2827 , -4278 });
+		Object->Transform.SetWorldRotation({ 0, 0 , 0 });
+		VOakBarrel.push_back(Object);
+	}
+	{
+		std::shared_ptr<Object_OakBarrel> Object = CreateActor<Object_OakBarrel>(1);
+		Object->Transform.SetWorldPosition({ -9428, 2826 , -3800 });
+		Object->Transform.SetWorldRotation({ 0, 0 , 0 });
+		VOakBarrel.push_back(Object);
+	}
+
+	//선반
+	//1
+	{
+		std::shared_ptr<Object_Shelf> Object = CreateActor<Object_Shelf>(1);
+		Object->Transform.SetWorldPosition({ -9132, 2878 , -5503 });
+		Object->Transform.SetWorldRotation({ 0, 90 , 0 });
+		VShelf.push_back(Object);
+	}
+	
+	
 	//
 	//Object_BossDoor
 	//Object_CastleDoor

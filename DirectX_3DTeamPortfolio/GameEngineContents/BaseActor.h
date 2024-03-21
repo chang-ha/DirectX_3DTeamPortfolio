@@ -350,6 +350,9 @@ public:
 
 	void SetPause(bool _SwitchValue) { _SwitchValue ? MainRenderer->SetPause(true) : MainRenderer->SetPause(false); }
 
+	class ContentLevel* GetContentLevel();
+	
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

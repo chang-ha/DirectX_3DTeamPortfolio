@@ -38,6 +38,10 @@
 #include "Object_CandleHuman.h"
 #include "Object_Torchlight.h"
 #include "Object_CandleHuman2.h"
+#include "Object_Box.h"
+#include "Object_OakBarrel.h"
+#include "Object_Shelf.h"
+
 #include "Monster_LothricKn.h"
 #include "Monster_Hollow_RaggedRobes.h"
 #include "Monster_HollowSoldier_Lantern.h"
@@ -45,10 +49,12 @@
 #include "Monster_HollowSoldier_RoundShield.h"
 #include "Monster_HollowSoldier_Spear.h"
 #include "Monster_HollowSoldier_Sword.h"
+
 #include "EventCol.h"
 
 //UI
 #include "MainUIActor.h"
+#include "UILocationAlert.h"
 
 // Effect
 #include "AllFadeEffect.h"
@@ -94,7 +100,6 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		LightData Data = Light->GetLightData();
 		Light->CreateShadowMap();
 
-		//Data.DifLightPower = 0.1f;
 		Data.AmbientLight = float4(0.05f, 0.05f, 0.025f, 1.0f);
 		Data.LightColor = float4(1.0f, 1.0f, 0.7f);
 		Data.LightPower = 2.0f;
@@ -105,6 +110,23 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 		Light->SetLightData(Data);
+		//Light->IsDebugValue = true;
+	}
+
+	if (nullptr == BossDoorLight)
+	{
+		BossDoorLight = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "BossDoorLight");
+		BossDoorLight->SetLightType(Enum_LightType::Point);
+
+		LightData Data = BossDoorLight->GetLightData();
+		Data.quadraticAttenuation = 0.00006f;
+		Data.LightPower = 30.f;
+		Data.LightColor = { 2.0f,0.2f,0.2f };
+		Data.linearAttenuation = 0.006f;
+		Data.quadraticAttenuation = 0.0002f;
+
+		BossDoorLight->SetLightData(Data);
+		BossDoorLight->Transform.SetLocalPosition({ -808.f, -1970.0f, 2330.0f });
 		//Light->IsDebugValue = true;
 	}
 
@@ -177,25 +199,8 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 
 	CreateObject();
 
-	if (bool TestMonster = false)
-	{
-		std::vector<float4> Path1
-		{
-			float4(-5443.f,-876.f, 10681.f),
-			float4(-6910.0f,-660.0f,13326.0f),
-		};
-
-		std::shared_ptr<Monster_LothricKn> LothricKn = CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn");
-		LothricKn->SetPatrolPath(Path1, 0);
-		LothricKn->SetIdleType(Enum_Lothric_IdleType::Patrol);
-		LothricKn->SetWPosition(float4(-5443.f, -876.f, 10681.f));
-		LothricKn->WakeUp();
-	}
-
-	// 몬스터 위치 셋팅
+	// 몬스터 셋팅
 	SetAllMonster();
-
-	SetAllEvCol();
 
 	std::shared_ptr<GameEngineCoreWindow> CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 
@@ -241,10 +246,12 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		MainUI->CreateBossUI(Boss_Object.get());
 		MainUI->CreateAndCheckEsteUI(Player_Object.get());
 		MainUI->CreateAndCheckPlayerGaugeBar(Player_Object.get());
+
+		std::shared_ptr<UILocationAlert> UILot = CreateActor<UILocationAlert>();
+		UILot->SetCollision(float4(400.0f, 400.0f, 400.0f), float4(-1885.0f, 5015.0f, -3987.0f));
 	}
 
-
-	//StateInit();
+	StateInit();
 }
 
 void Stage_Lothric::LevelEnd(GameEngineLevel* _NextLevel)
@@ -261,6 +268,8 @@ void Stage_Lothric::Start()
 	
 	LoadingThread.Initialize("LoadingThread", 1);
 
+	Stage_Lothric::ResLoadingDone = false;
+
 	{
 		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
 	}
@@ -272,7 +281,6 @@ void Stage_Lothric::Update(float _Delta)
 
 	LevelState.Update(_Delta);
 
-	EvColUpdate();
 	BossBGMUpdate(_Delta);
 
 	float4 PPos = Player_Object->Transform.GetWorldPosition();
@@ -571,6 +579,7 @@ void Stage_Lothric::AllMonsterOff()
 	for (size_t i = 0; i < AllMonster.size(); i++)
 	{
 		//AllMonster[i]->Transform.SetWorldRotation(AllMonster[i]->GetResponRot());
+		AllMonster[i]->Reset();
 		AllMonster[i]->SetWorldPosition(AllMonster[i]->GetResponPos());
 		AllMonster[i]->Off();
 	}
@@ -580,9 +589,8 @@ void Stage_Lothric::SetAllEvCol()
 {
 	{
 		std::shared_ptr<EventCol> EventCollision = CreateActor<EventCol>(Enum_UpdateOrder::Player, "EventCollision");
-		EventCollision->SetWorldPosition({ -1300.0f, 5101.0f, -5000.0f });
+		EventCollision->SetWorldPosition({ -1885.0f, 5015.0f, -3987.0f });
 		EventCollision->SetWorldScale({ 500.0f, 500.0f, 500.0f });
-
 		EventCollision->Event = [=]()
 			{
 				AllMonsterOff();
@@ -682,15 +690,11 @@ void Stage_Lothric::SetAllEvCol()
 	}
 }
 
-void Stage_Lothric::EvColUpdate()
+void Stage_Lothric::AllEvColOn()
 {
 	for (size_t i = 0; i < AllEvCol.size(); i++)
 	{
-		if (true == AllEvCol[i]->Collision(Enum_CollisionOrder::Player_Body))
-		{
-			AllEvCol[i]->Event();
-			AllEvCol[i]->Off();
-		}
+		AllEvCol[i]->On();
 	}
 }
 
@@ -700,7 +704,6 @@ void Stage_Lothric::Area0_On()
 	{
 		AllMonster[i]->On();
 	}
-
 	AllMonster[3]->WakeUp();
 }
 
@@ -769,10 +772,12 @@ void Stage_Lothric::CreateObject()
 		Object->SetPlayerRespawnPos({ -3925, 4130 , -1911 });
 		VBonfire.push_back(Object);
 	}
+	//보스방 화톳불
 	{
 		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
 		Object->Transform.SetWorldPosition({ -1125, -2489 , 3232 });
 		Object->SetPlayerRespawnPos({ -1125, -2495 , 3180 });
+		Object->Off();
 		VBonfire.push_back(Object);
 	}
 	{
@@ -943,6 +948,8 @@ void Stage_Lothric::CreateObject()
 		Object->Transform.SetWorldRotation({ 0, 180, 0 });
 		VTorchlight.push_back(Object);
 	}
+
+	//여기부터 보스방 23번까지
 	//16
 	{
 		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
@@ -1493,6 +1500,101 @@ void Stage_Lothric::CreateObject()
 		Object->Transform.SetWorldRotation({ 0, 90 , 0 });
 		VSkeleton1.push_back(Object);
 	}
+
+	//박스
+	//1
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -8419, 2900 , -5200 });
+		Object->Transform.SetWorldRotation({ 0, 0 , 0 });
+		VBox.push_back(Object);
+	}
+	//2
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -8519, 2900 , -5200 });
+		Object->Transform.SetWorldRotation({ 0, 60 , 0 });
+		VBox.push_back(Object);
+	}
+	//3
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -8469, 2992 , -5200 });
+		Object->Transform.SetWorldRotation({ 0, 60 , 0 });
+		VBox.push_back(Object);
+	}
+	//4
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -9524, 2827 , -4081 });
+		Object->Transform.SetWorldRotation({ 0, 0 , 0 });
+		VBox.push_back(Object);
+	}
+	//5
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -9524, 2827 , -3970 });
+		Object->Transform.SetWorldRotation({ 0, 70 , 0 });
+		VBox.push_back(Object);
+	}
+	//6
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -9574, 2827 , -4170 });
+		Object->Transform.SetWorldRotation({ 0, 10 , 0 });
+		VBox.push_back(Object);
+	}
+	//7
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -9574, 2919 , -4120 });
+		Object->Transform.SetWorldRotation({ 0, -40 , 0 });
+		VBox.push_back(Object);
+	}
+	//8
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -9524, 2919 , -4015 });
+		Object->Transform.SetWorldRotation({ 0, 10 , 0 });
+		VBox.push_back(Object);
+	}
+	//9
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -9524, 3010 , -4065 });
+		Object->Transform.SetWorldRotation({ 0, 10 , 0 });
+		VBox.push_back(Object);
+	}
+	//10
+	{
+		std::shared_ptr<Object_Box> Object = CreateActor<Object_Box>(1);
+		Object->Transform.SetWorldPosition({ -9374, 2827 , -3690 });
+		Object->Transform.SetWorldRotation({ 0, 30 , 0 });
+		VBox.push_back(Object);
+	}
+	//오크통
+	//1
+	{
+		std::shared_ptr<Object_OakBarrel> Object = CreateActor<Object_OakBarrel>(1);
+		Object->Transform.SetWorldPosition({ -9578, 2827 , -4278 });
+		Object->Transform.SetWorldRotation({ 0, 0 , 0 });
+		VOakBarrel.push_back(Object);
+	}
+	{
+		std::shared_ptr<Object_OakBarrel> Object = CreateActor<Object_OakBarrel>(1);
+		Object->Transform.SetWorldPosition({ -9428, 2826 , -3800 });
+		Object->Transform.SetWorldRotation({ 0, 0 , 0 });
+		VOakBarrel.push_back(Object);
+	}
+
+	//선반
+	//1
+	{
+		std::shared_ptr<Object_Shelf> Object = CreateActor<Object_Shelf>(1);
+		Object->Transform.SetWorldPosition({ -9132, 2878 , -5503 });
+		Object->Transform.SetWorldRotation({ 0, 90 , 0 });
+		VShelf.push_back(Object);
+	}
 }
 
 void Stage_Lothric::BossBGMUpdate(float _Delta)
@@ -1522,14 +1624,25 @@ void Stage_Lothric::BossBGMUpdate(float _Delta)
 	}
 }
 
+// LevelStart Resources Loading
 void Stage_Lothric::ResLoading()
 {
-	int a = 0;
+	if (false == Stage_Lothric::ResLoadingDone)
+	{
+		// 이벤트 충돌체 셋팅
+		SetAllEvCol();
 
-	ResLoadingDone = true;
+	}
+
+	Stage_Lothric::ResLoadingDone = true;
 }
 
+// Reset Loading
 void Stage_Lothric::ResetLoading()
 {
-	ResetLoadingDone = true;
+	// 몬스터 끄고 이벤트 충돌체 켜고
+	AllMonsterOff();
+	AllEvColOn();
+
+	Stage_Lothric::ResetLoadingDone = true;
 }

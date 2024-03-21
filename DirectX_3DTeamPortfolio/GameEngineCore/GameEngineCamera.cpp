@@ -14,6 +14,7 @@
 float GameEngineCamera::FreeRotSpeed = 360.0f;
 float GameEngineCamera::FreeSpeed = 100.0f;
 float GameEngineCamera::DynamicShadowDistance = 0.013f;
+bool GameEngineCamera::AllPointLightOnOff = true;
 
 GameEngineCamera::GameEngineCamera() 
 {
@@ -568,7 +569,13 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 			for (std::shared_ptr<GameEngineLight> Light : Lights)
 			{
-				if (Light->LightDataValue.LightType != static_cast<int>(Enum_LightType::Directional) and InCamera(Light->Transform, Light->LightDataValue.PointLightRange) == false)
+
+				if (AllPointLightOnOff == false and Light->LightDataValue.LightType != static_cast<int>(Enum_LightType::Directional))
+				{
+					continue;
+				}
+
+				if (Light->LightDataValue.LightType != static_cast<int>(Enum_LightType::Directional) and  InCamera(Light->Transform, Light->LightDataValue.PointLightRange) == false)
 				{
 					continue;
 				}

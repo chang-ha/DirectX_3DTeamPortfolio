@@ -9,6 +9,7 @@
 #include "BloomGUI.h"
 #include "FogGUI.h"
 #include "FireGUI.h"
+#include <GameEngineCore/GameEngineCamera.h>
 
 
 void TreeWindow::Start()
@@ -73,6 +74,11 @@ void TreeWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	std::string Frame2 = "Average Frame: " + std::to_string(FrameResult);
 
 	ImGui::Text(Frame2.c_str());
+
+	if (ImGui::Button("AllPointLightOnOff"))
+	{
+		GameEngineCamera::AllPointLightOnOff = !GameEngineCamera::AllPointLightOnOff;
+	}
 }
 
 void TreeObject::Init(std::shared_ptr<TreeObject> _Object)

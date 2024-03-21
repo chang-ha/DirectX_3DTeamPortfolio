@@ -20,6 +20,7 @@ void ContentsHitRenderer::Start()
 
 	ChangeAnimation("Hit", true);
 
+
 	SetEndEvent("Hit", [](GameEngineSpriteRenderer* _Render) {
 		_Render->Off();
 		});

@@ -13,6 +13,7 @@
 #include "Object_BaseLadder.h"
 
 #include "TriggerActor.h"
+#include "ContentLevel.h"
 
 #define Frame 0.033f
 
@@ -53,6 +54,8 @@ void Player::Start()
 
 	Data.quadraticAttenuation = 0.0001f;
 	Data.LightPower = 5.f;
+
+	FaceLight->SetLightData(Data);
 
 
 	MainRenderer = CreateComponent<GameContentsFBXRenderer>(0);
@@ -612,6 +615,11 @@ void Player::Update(float _Delta)
 	
 	//Top_Shield_Col->On();
 
+	if (GameEngineInput::IsDown('B', this))
+	{
+		GetContentLevel()->StartScreenShake(0.5,8.f,10.f);
+	}
+
 	if (GameEngineInput::IsDown(VK_F1, this))
 	{
 		Cameratest = !Cameratest;
@@ -1022,6 +1030,7 @@ void Player::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 }
+
 
 void Player::CameraRotation(float Delta)
 {

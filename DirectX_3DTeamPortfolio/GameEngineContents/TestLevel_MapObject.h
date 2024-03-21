@@ -36,6 +36,9 @@ private:
 	std::vector<std::shared_ptr<class Object_CandleHuman>> VCandleHuman;
 	std::vector<std::shared_ptr<class Object_CandleHuman2>> VCandleHuman2;
 	std::vector<std::shared_ptr<class Object_Box>> VBox;
+	std::vector<std::shared_ptr<class Object_OakBarrel>> VOakBarrel;
+	std::vector<std::shared_ptr<class Object_Shelf>> VShelf;
+	
 
 	std::shared_ptr<class Object_BossDoor> BossDoor;
 	std::shared_ptr<class Object_CastleDoor> CastleDoor;

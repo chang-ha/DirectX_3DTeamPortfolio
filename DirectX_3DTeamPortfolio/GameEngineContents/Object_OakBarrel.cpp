@@ -1,24 +1,24 @@
 #include "PreCompile.h"
-#include "Object_Box.h"
+#include "Object_OakBarrel.h"
 #include "GameContentsFBXRenderer.h"
 
 
-Object_Box::Object_Box()
+Object_OakBarrel::Object_OakBarrel()
 {	
 }
 
-Object_Box::~Object_Box()
+Object_OakBarrel::~Object_OakBarrel()
 {
 }
 
-void Object_Box::Start()
+void Object_OakBarrel::Start()
 {
 
 	//11
 
 	{
 		FBXRenderer = CreateComponent<GameContentsFBXRenderer>(0);
-		FBXRenderer->SetFBXMesh("o001080.FBX", "FBX_Static");
+		FBXRenderer->SetFBXMesh("o001090.FBX", "FBX_Static");
 		FBXRenderer->SetStatic();
 		
 	}
@@ -31,7 +31,7 @@ void Object_Box::Start()
 	
 }
 
-void Object_Box::Update(float _Delta)
+void Object_OakBarrel::Update(float _Delta)
 {
 
 }
