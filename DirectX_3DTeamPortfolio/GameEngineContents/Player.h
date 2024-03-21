@@ -247,14 +247,14 @@ private:
 
 	EventParameter Shield_Event;
 	EventParameter Parring_Event;
-
+	EventParameter BonFire_Event;
 
 	EventParameter Arround_Event;
 
 	Player_HitInteraction Sword;
 
 	
-	
+	float4 PlayerRespawnPos = {}; 
 
 
 	bool Rock_On_Check = false;

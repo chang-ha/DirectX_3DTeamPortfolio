@@ -129,6 +129,7 @@ void Player::Player_State()
 				Shield_Col->Off();
 				Attack_Col->Off();
 				Body_Col->On(); 
+				Weapon_Actor->Getweapon()->On();
 				//Player_Pos.X = Camera_Pos_X;
 			};
 
@@ -1209,7 +1210,7 @@ void Player::Player_State()
 			{
 				MainRenderer->ChangeAnimation("Portion_Drink_01");
 				Potion -=1; 
-				Stat.AddHp(100);
+				Stat.AddHp(400);
 				Weapon_Actor->Getweapon()->Off(); 
 			};
 
@@ -1237,6 +1238,49 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+
+				if (MainRenderer->GetCurAnimationFrame() > 10)
+				{
+					if (true == GameEngineInput::IsPress('W', this))
+					{
+
+
+						MainRenderer->ChangeAnimation("Walk_Forward");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('S', this))
+					{
+
+
+						MainRenderer->ChangeAnimation("Walk_Behind");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('A', this))
+					{
+
+
+						MainRenderer->ChangeAnimation("Walk_Left");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+
+					if (true == GameEngineInput::IsPress('D', this))
+					{
+
+
+						MainRenderer->ChangeAnimation("Walk_Right");
+						PlayerStates.ChangeState(PlayerState::Move);
+						return;
+					}
+				}
+
+
+
+
 				if (MainRenderer->IsCurAnimationEnd())
 				{
 					PlayerStates.ChangeState(PlayerState::Portion_03);
@@ -2603,18 +2647,21 @@ void Player::Player_State()
 					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
 				}
 
+				
+
+				if (MainRenderer->GetCurAnimationFrame() > 40)
+				{
+					Body_Col->On();
+				}
+
 				if (MainRenderer->IsCurAnimationEnd())
 				{
 					Body_Col->On();
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
-				if (MainRenderer->GetCurAnimationFrame() > 50)
-				{
-					Body_Col->On();
-				}
 
-				else if (MainRenderer->GetCurAnimationFrame() > 70)
+				else if (MainRenderer->GetCurAnimationFrame() > 50)
 				{
 					if (true == GameEngineInput::IsPress('W', this))
 					{
@@ -2711,7 +2758,7 @@ void Player::Player_State()
 				}
 
 
-				else if (MainRenderer->GetCurAnimationFrame() > 110)
+				else if (MainRenderer->GetCurAnimationFrame() > 80)
 				{
 					if (true == GameEngineInput::IsPress('W', this))
 					{
@@ -2808,7 +2855,7 @@ void Player::Player_State()
 					Body_Col->On();
 				}
 
-				else if (MainRenderer->GetCurAnimationFrame() > 110)
+				else if (MainRenderer->GetCurAnimationFrame() > 80)
 				{
 					if (true == GameEngineInput::IsPress('W', this))
 					{
@@ -2861,7 +2908,7 @@ void Player::Player_State()
 			{
 				MainRenderer->ChangeAnimation("ladder_Up_Start");
 				Capsule->GravityOff();
-
+				Rock_On_Check = true;
 			};
 
 
@@ -2869,7 +2916,9 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-					
+					Rock_On_Check = false;
+					Camera_Pos_Y = Actor_test->Transform.GetWorldRotationEuler().X;
+					Player_Pos.X = Actor_test->Transform.GetWorldRotationEuler().Y;
 					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
 
 					if (GameEngineInput::IsPress('W', this))
@@ -3012,6 +3061,7 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					
 					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
 
 					Capsule->GravityOn();
@@ -3033,6 +3083,7 @@ void Player::Player_State()
 			{
 				MainRenderer->ChangeAnimation("ladder_Down_Start");
 				Capsule->GravityOff();
+				Rock_On_Check = true;
 			};
 
 
@@ -3040,6 +3091,10 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					Camera_Pos_Y = Actor_test->Transform.GetWorldRotationEuler().X;
+					Player_Pos.X = Actor_test->Transform.GetWorldRotationEuler().Y;
+					Rock_On_Check = false;
+
 					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
 
 					PlayerStates.ChangeState(PlayerState::ladder_Down_Left);
@@ -3849,7 +3904,10 @@ void Player::SoundFrameEvent()
 		{
 			GameEngineSound::Sound3DPlay("shield-iron2.wav", BoneWorldPos(0), 0.8f);
 		});
-
+	MainRenderer->SetFrameEvent("Attack_Block", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("shield-iron2.wav", BoneWorldPos(0), 0.8f);
+		});
 
 	// down 
 

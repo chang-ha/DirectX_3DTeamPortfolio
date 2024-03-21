@@ -21,6 +21,7 @@ void Monster_Hollow_NonFirstAttack::Start()
 	Stat.SetHp(68);
 	//Stat.SetHp(500);
 	Stat.SetAtt(10);
+	Stat.SetSouls(30);
 
 	CheckLanternCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster_FindLantern);
 	CheckLanternCollision->SetCollisionType(ColType::SPHERE3D);
@@ -353,6 +354,12 @@ void Monster_Hollow_NonFirstAttack::ChangeHitState()
 		if (Stat.GetHp() <= 0)
 		{
 			ChangeState(Enum_Hollow_State::HitToDeath);
+			return;
+		}
+
+		if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+		{
+			ChangeState(Enum_Hollow_State::Parrying);
 			return;
 		}
 
@@ -927,7 +934,7 @@ void Monster_Hollow_NonFirstAttack::State_Walk_Right_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_Run_Start()
 {
-	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.8f, 1.6f);
 	MainRenderer->ChangeAnimation("c1100_Run");
 }
 void Monster_Hollow_NonFirstAttack::State_Run_Update(float _Delta)
@@ -941,6 +948,12 @@ void Monster_Hollow_NonFirstAttack::State_Run_Update(float _Delta)
 		RotToTarget(_Delta);
 	}
 
+	if (GetTargetDistance_e() == Enum_TargetDist::Close)
+	{
+		ChangeState(Enum_Hollow_State::Idle);
+		return;
+	}
+
 	if (WalkTime >= WalkToChangeTime)
 	{
 		WalkTime = 0.0f;
@@ -949,11 +962,11 @@ void Monster_Hollow_NonFirstAttack::State_Run_Update(float _Delta)
 			ChangeState(Enum_Hollow_State::RH_RunToSlash);
 			return;
 		}
-		else if (GetTargetDistance_e() == Enum_TargetDist::Close)
+		/*else if (GetTargetDistance_e() == Enum_TargetDist::Close)
 		{
 			ChangeState(Enum_Hollow_State::Idle);
 			return;
-		}
+		}*/
 	}
 }
 
@@ -1470,6 +1483,11 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Right_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_HitToDeath_Start()
 {
+	if (DeathValue == false)
+	{
+		DeathFunc();
+	}
+
 	Sword.Off();
 	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_HitToDeath");
@@ -1480,11 +1498,6 @@ void Monster_Hollow_NonFirstAttack::State_HitToDeath_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 58)
 	{
 		MeshOff(Enum_Hollow_MeshIndex::BrokenSword);
-
-		if (DeathValue == false)
-		{
-			DeathFunc();
-		}
 	}
 
 	if (MainRenderer->GetCurAnimationFrame() >= static_cast<int>(MainRenderer->GetCurAnimation()->End))
@@ -1518,6 +1531,11 @@ void Monster_Hollow_NonFirstAttack::State_BackAttackHit_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_BackAttackDeath_Start()
 {
+	if (DeathValue == false)
+	{
+		DeathFunc();
+	}
+
 	MainRenderer->ChangeAnimation("c1100_BackAttackDeath");
 }
 void Monster_Hollow_NonFirstAttack::State_BackAttackDeath_Update(float _Delta)
@@ -1525,11 +1543,6 @@ void Monster_Hollow_NonFirstAttack::State_BackAttackDeath_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 56)
 	{
 		MeshOff(Enum_Hollow_MeshIndex::BrokenSword);
-
-		if (DeathValue == false)
-		{
-			DeathFunc();
-		}
 	}
 }
 
@@ -1558,16 +1571,18 @@ void Monster_Hollow_NonFirstAttack::State_AfterGuardBreakHit_Update(float _Delta
 
 void Monster_Hollow_NonFirstAttack::State_AfterGuardBreakDeath_Start()
 {
+	if (DeathValue == false)
+	{
+		DeathFunc();
+	}
+
 	MainRenderer->ChangeAnimation("c1100_AfterGuardBreakDeath");
 }
 void Monster_Hollow_NonFirstAttack::State_AfterGuardBreakDeath_Update(float _Delta)
 {
 	if (MainRenderer->GetCurAnimationFrame() >= 63)
 	{
-		if (DeathValue == false)
-		{
-			DeathFunc();
-		}
+		MeshOff(Enum_Hollow_MeshIndex::BrokenSword);
 	}
 }
 
