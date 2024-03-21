@@ -171,11 +171,6 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		Boss_Object->SetTargeting(Player_Object.get());
 	}
 
-	{
-		std::shared_ptr<Monster_HollowSoldier> GameMap = CreateActor<Monster_HollowSoldier>(0 );
-		GameMap->Transform.SetWorldPosition({ -2900.f,-2500.f,6800.f });
-	}
-
 	BossBGM = GameEngineSound::SoundPlay("1-06 Vordt Of The Boreal Valley.mp3", 100);
 	BossBGMVolume = BEGIN_BOSS_BGM_VOLUME;
 	BossBGM.SetVolume(BossBGMVolume);
