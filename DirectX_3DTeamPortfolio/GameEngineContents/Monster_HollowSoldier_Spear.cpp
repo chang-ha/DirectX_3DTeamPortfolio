@@ -30,6 +30,7 @@ void Monster_HollowSoldier_Spear::Start()
 	Stat.SetHp(190);
 	Stat.SetAtt(20);
 	Stat.SetPoise(100);
+	Stat.SetSouls(30);
 	
 	
 

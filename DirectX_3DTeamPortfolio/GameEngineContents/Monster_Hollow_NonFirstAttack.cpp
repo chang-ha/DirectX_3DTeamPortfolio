@@ -21,6 +21,7 @@ void Monster_Hollow_NonFirstAttack::Start()
 	Stat.SetHp(68);
 	//Stat.SetHp(500);
 	Stat.SetAtt(10);
+	Stat.SetSouls(30);
 
 	CheckLanternCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster_FindLantern);
 	CheckLanternCollision->SetCollisionType(ColType::SPHERE3D);
