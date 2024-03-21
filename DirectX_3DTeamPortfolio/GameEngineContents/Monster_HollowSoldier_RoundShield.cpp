@@ -727,7 +727,7 @@ void Monster_HollowSoldier_RoundShield::State_Scout_Update(float _Delta)
 
 	ScoutTime += _Delta;
 
-	if (ScoutTime >= 10.0f)
+	if (ScoutTime >= 8.0f)
 	{
 		ChangeState(Enum_HollowSoldier_RoundShield_State::Turn_Left_Twice1);
 		return;
