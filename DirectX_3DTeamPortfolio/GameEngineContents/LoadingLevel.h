@@ -29,6 +29,7 @@ private:
 	enum class eLoadingState
 	{
 		Loading,
+		Wait,
 		FadeOut,
 	};
 
@@ -37,12 +38,15 @@ private:
 	void Start_Loading(GameEngineState* _Parent);
 	void Update_Loading(float _Delta, GameEngineState* _Parent);
 
+	void Update_Wait(float _Delta, GameEngineState* _Parent);
+
 	void Start_FadeOut(GameEngineState* _Parent);
 	void Update_FadeOut(float _Delta, GameEngineState* _Parent);
 
 	//// Thread Function
 	GameEngineThreadJobQueue LoadingThread;
 
+	std::shared_ptr<class UILoading> LoadingObject;
 
 };
 

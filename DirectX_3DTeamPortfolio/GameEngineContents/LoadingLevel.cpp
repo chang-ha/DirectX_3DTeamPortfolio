@@ -30,14 +30,18 @@ void LoadingLevel::Start()
 	LoadingState.Start = std::bind(&LoadingLevel::Start_Loading, this, std::placeholders::_1);
 	LoadingState.Stay = std::bind(&LoadingLevel::Update_Loading, this, std::placeholders::_1, std::placeholders::_2);
 
+	CreateStateParameter WaitState;
+	WaitState.Stay = std::bind(&LoadingLevel::Update_Wait, this, std::placeholders::_1, std::placeholders::_2);
+
 	CreateStateParameter FadeOutState;
 	FadeOutState.Start = std::bind(&LoadingLevel::Start_FadeOut, this, std::placeholders::_1);
 	FadeOutState.Stay = std::bind(&LoadingLevel::Update_FadeOut, this, std::placeholders::_1, std::placeholders::_2);
 
 	LevelState.CreateState(eLoadingState::Loading, LoadingState);
+	LevelState.CreateState(eLoadingState::Wait, WaitState);
 	LevelState.CreateState(eLoadingState::FadeOut, FadeOutState);
 
-	CreateActor<UILoading>(Enum_UpdateOrder::UI);
+	LoadingObject = CreateActor<UILoading>(Enum_UpdateOrder::UI);
 
 	LoadingThread.Initialize("LoadingThread", 1);
 }
@@ -64,6 +68,17 @@ void LoadingLevel::LevelEnd(GameEngineLevel* _NextLevel)
 
 void LoadingLevel::Start_Loading(GameEngineState* _Parent)
 {
+	if (LoadingObject)
+	{
+		LoadingObject->On();
+	}
+	
+	if (nullptr != FadeObject)
+	{
+		FadeObject->FadeIn();
+		FadeObject->SetFadeSpeed(2.0f);
+	}
+
 	std::map<std::string, std::shared_ptr<GameEngineLevel>>& AllLevel = GameEngineCore::GetAllLevel();
 	for (const std::pair<std::string, std::shared_ptr<GameEngineLevel>>& Level : AllLevel)
 	{
@@ -117,7 +132,7 @@ void LoadingLevel::Update_Loading(float _Delta, GameEngineState* _Parent)
 			{
 				if (true == Stage_Lothric::ResLoadingDone)
 				{
-					LevelState.ChangeState(eLoadingState::FadeOut);
+					LevelState.ChangeState(eLoadingState::Wait);
 					return;
 				}
 			}
@@ -126,7 +141,7 @@ void LoadingLevel::Update_Loading(float _Delta, GameEngineState* _Parent)
 			{
 				if (true == Stage_Lothric::ResetLoadingDone)
 				{
-					LevelState.ChangeState(eLoadingState::FadeOut);
+					LevelState.ChangeState(eLoadingState::Wait);
 					return;
 				}
 			}
@@ -135,6 +150,15 @@ void LoadingLevel::Update_Loading(float _Delta, GameEngineState* _Parent)
 				break;
 			}
 		}
+	}
+}
+
+void LoadingLevel::Update_Wait(float _Delta, GameEngineState* _Parent)
+{
+	if (_Parent->GetStateTime() > 2.0f)
+	{
+		LevelState.ChangeState(eLoadingState::FadeOut);
+		return;
 	}
 }
 
@@ -153,6 +177,7 @@ void LoadingLevel::Update_FadeOut(float _Delta, GameEngineState* _Parent)
 		bool FadeDone = (false == FadeObject->IsUpdate());
 		if (FadeDone)
 		{
+			LoadingObject->Off();
 			GameEngineCore::ChangeLevel(PlayLevelName);
 			return;
 		}
