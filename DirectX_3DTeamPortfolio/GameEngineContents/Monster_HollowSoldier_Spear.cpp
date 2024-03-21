@@ -33,11 +33,11 @@ void Monster_HollowSoldier_Spear::Start()
 	
 	
 
-	ShieldCollision = CreateSocketCollision(Enum_CollisionOrder::Monster_Shield, Enum_Hollow_BoneType::WoodShield, { float4(14.0f, 56.0f ,126.0f), float4::ZERONULL, float4(0.12f,0.02f, -0.08f)}, "WoodShield");
+	ShieldCollision = CreateSocketCollision(Enum_CollisionOrder::Monster_Shield, Enum_Hollow_BoneType::WoodShield, { float4(40.0f, 80.0f ,150.0f), float4::ZERONULL, float4(0.0f, 0.02f, -0.08f)}, "WoodShield");
 	ShieldCollision->SetCollisionType(ColType::OBBBOX3D);
 	ShieldCollision->On();
 
-	SpearCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_Hollow_BoneType::Sword, { float4(313.0f, 12.0f, 12.0f), float4::ZERONULL, float4(0.38f, -0.002f, 0.008f) }, "Spear");
+	SpearCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_Hollow_BoneType::Spear, { float4(313.0f, 12.0f, 12.0f), float4::ZERONULL, float4(0.38f, -0.002f, 0.008f) }, "Spear");
 	SpearCollision->SetCollisionType(ColType::OBBBOX3D);
 
 	Spear.Init(this, SpearCollision.get());

@@ -32,7 +32,7 @@ void Monster_HollowSoldier_RoundShield::Start()
 	Stat.SetAtt(1);
 	Stat.SetPoise(100);
 
-	ShieldCollision = CreateSocketCollision(Enum_CollisionOrder::Monster_Shield, Enum_Hollow_BoneType::RoundShield, { float4(13.0f, 55.0f, 55.0f), float4::ZERONULL, float4(0.08f, 0.0f, -0.12f)}, "RoundShield");
+	ShieldCollision = CreateSocketCollision(Enum_CollisionOrder::Monster_Shield, Enum_Hollow_BoneType::RoundShield, { float4(35.0f, 80.0f, 80.0f), float4::ZERONULL, float4(0.0f, 0.0f, -0.12f)}, "RoundShield");
 	ShieldCollision->SetCollisionType(ColType::OBBBOX3D);
 	ShieldCollision->On();
 

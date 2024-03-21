@@ -52,7 +52,7 @@ void Monster_Hollow::Start()
 	AttackRangeCollision->Transform.SetLocalPosition(float4(0, 100, 0));
 	AttackRangeCollision->Transform.SetWorldScale(float4(300, 300, 300));*/
 
-	BodyCollision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, Enum_Hollow_BoneType::Spine, { float4(150.0f, 150.0f, 150.0f), float4::ZERONULL, float4::ZERO }, "Spine");
+	BodyCollision = CreateSocketCollision(Enum_CollisionOrder::Monster_Body, Enum_Hollow_BoneType::Spine, { float4(130.0f, 130.0f, 130.0f), float4::ZERONULL, float4::ZERO }, "Spine");
 	
 	BodyCollision->On();
 
