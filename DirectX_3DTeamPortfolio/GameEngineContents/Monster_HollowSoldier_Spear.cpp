@@ -454,6 +454,12 @@ void Monster_HollowSoldier_Spear::ChangeHitState()
 			return;
 		}
 
+		if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+		{
+			ChangeState(Enum_HollowSoldier_Spear_State::Parrying);
+			return;
+		}
+
 		Enum_DirectionXZ_Quat HitDir = Hit.GetHitDir();
 		//BodyCollision->Off();
 
