@@ -35,7 +35,9 @@ private:
 
 	float4 ExplainStartPos = 0.0f;
 	std::shared_ptr<GameEngineUIRenderer> ExplainText;
-	std::shared_ptr<GameEngineUIRenderer> Explain_1;
+
+	std::shared_ptr<GameEngineUIRenderer> Explain;
+	std::vector<std::shared_ptr<GameEngineUIRenderer>> ExplainMember;
 	std::shared_ptr<GameEngineUIRenderer> Explain_2;
 };
 

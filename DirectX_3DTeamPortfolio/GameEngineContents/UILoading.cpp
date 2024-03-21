@@ -46,7 +46,7 @@ void UILoading::Start()
 	///// 조작설명
 	ExplainKey();
 
-	//Off();
+	Off();
 }
 
 void UILoading::Update(float _Delta)
@@ -99,11 +99,18 @@ void UILoading::ExplainKey()
 	ExplainText->SetText(GlobalValue::OptimusFont, "조작 설명", 24.0f, float4::WHITE);
 	ExplainText->Transform.SetLocalPosition(float4(ExplainStartPos.X, ExplainStartPos.Y));
 
-	Explain_1 = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_Loading);
-	Explain_1->SetText(GlobalValue::OptimusFont, "W/A/S/D : 이동     Q : 시점고정     E : 상호작용     R : 에스트     LSHIFT : 달리기", FontSacle, float4::WHITE);
-	Explain_1->Transform.SetLocalPosition(float4(ExplainStartPos.X, ExplainStartPos.Y - Yspace));
+	ExplainMember.reserve(2);
+	for (int i = 0; i < ExplainMember.capacity(); i++)
+	{
+		Explain = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_Loading);
+		Explain->SetText(GlobalValue::OptimusFont, "키 : 설명", FontSacle, float4::WHITE);
+		Explain->Transform.SetLocalPosition(float4(ExplainStartPos.X, ExplainStartPos.Y - (Yspace * (i + 1))));
 
-	Explain_2 = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_Loading);
-	Explain_2->SetText(GlobalValue::OptimusFont, "mLBUTTON : 공격     mRBUTTON : 방어     SPACE BAR : 구르기", FontSacle, float4::WHITE);
-	Explain_2->Transform.SetLocalPosition(float4(ExplainStartPos.X, ExplainStartPos.Y - Yspace * 2));
+		ExplainMember.push_back(Explain);
+	}
+
+	ExplainMember[0]->SetText(GlobalValue::OptimusFont, "W/A/S/D : 이동     Q : 시점고정     E : 상호작용     R : 에스트     LSHIFT : 달리기", FontSacle, float4::WHITE);
+
+	ExplainMember[1]->SetText(GlobalValue::OptimusFont, "mLBUTTON : 공격     mRBUTTON : 방어     SPACE BAR : 구르기     L_CTRL : 패링", FontSacle, float4::WHITE);
+
 }
