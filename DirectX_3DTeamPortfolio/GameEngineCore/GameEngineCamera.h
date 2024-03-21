@@ -40,6 +40,7 @@ public:
 	static float FreeRotSpeed;
 	static float FreeSpeed;
 	static float DynamicShadowDistance;
+	static bool AllPointLightOnOff;
 
 
 	// constrcuter destructer

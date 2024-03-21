@@ -18,7 +18,11 @@ void EventCol::Start()
 
 void EventCol::Update(float _Delta)
 {
-
+	if (true == Ev_Col->Collision(Enum_CollisionOrder::Player_Body))
+	{
+		Event();
+		Off();
+	}
 }
 
 void EventCol::SetWorldPosition(const float4& _Pos)
