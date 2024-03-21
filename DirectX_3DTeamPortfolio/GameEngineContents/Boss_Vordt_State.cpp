@@ -917,6 +917,11 @@ void Boss_Vordt::StateInit()
 	}
 }
 
+
+
+
+
+
 Enum_JumpTableFlag Boss_Vordt::AI_Combo()
 {
 	// Combo Attack

@@ -88,7 +88,7 @@ class StatusStruct
 {
 public:
 	inline void SetMaxHp(int _Value) { MaxHp = _Value; }
-	inline int GetMaxHp() { return MaxHp; }
+	inline int GetMaxHp() const { return MaxHp; }
 	inline void SetHp(int _Value) { Hp = _Value; }
 	inline int GetHp() const { return Hp; }
 	inline void AddHp(int _Value) { Hp += _Value; }
@@ -309,6 +309,7 @@ public:
 	std::shared_ptr<BoneSocketCollision> GetSocketCollision(int _Index);
 	inline int* GetFlagPointer() { return &Flags; }
 	inline class GameEnginePhysXCapsule* GetPhysxCapsulePointer() { return Capsule.get(); }
+	inline int GetMaxHp() const { return Stat.GetMaxHp(); }
 	inline int GetHp() const { return Stat.GetHp(); }
 	inline float GetStamina() const { return Stat.GetStamina(); }
 	inline int GetAtt() const { return Stat.GetAtt(); }
@@ -349,6 +350,9 @@ public:
 	}
 
 	void SetPause(bool _SwitchValue) { _SwitchValue ? MainRenderer->SetPause(true) : MainRenderer->SetPause(false); }
+
+	class ContentLevel* GetContentLevel();
+	
 
 protected:
 	void Start() override;

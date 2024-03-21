@@ -11,6 +11,13 @@ class ContentsCollisionCallBack : public physx::PxSimulationEventCallback
 	void onAdvance(const physx::PxRigidBody* const* bodyBuffer, const physx::PxTransform* poseBuffer, const physx::PxU32 count) override {}
 };
 
+struct ScreenShake {
+	float duration; // 흔들림이 지속되는 시간
+	float magnitude; // 흔들림의 세기
+	float elapsed; // 흔들림이 지속되는 시간 타이머
+	float frequency = 2.0f; // 흔들림의 빈도
+};
+
 class ContentLevel : public GameEngineLevel, public GameEnginePhysXLevel
 {
 public:
@@ -24,12 +31,22 @@ public:
 	ContentLevel& operator=(const ContentLevel& _Other) = delete;
 	ContentLevel& operator=(ContentLevel&& _Other) noexcept = delete;
 
+	void StartScreenShake(float duration = 0.5f, float magnitude = 8.0f, float frequency = 10.0f) {
+		screenShakeValue.duration = duration;
+		screenShakeValue.magnitude = magnitude;
+		screenShakeValue.frequency = frequency;
+		screenShakeValue.elapsed = 0.0f;
+	}
+
+	
+
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 	void Start() override;
 	void Update(float _Delta) override;
+	void UpdateScreenShake(float _deltaTime);
 	void Release() override;
 
 	template<typename ObjectType, typename OrderType>
@@ -53,6 +70,11 @@ private:
 	void ChaseListener();
 	void DebugInput();
 	static ContentsCollisionCallBack  CollisionCallBack;
+
+	ScreenShake screenShakeValue;
+	float4 PrevShackeMovePos = float4::ZERO;
+	float4 PrevShackeRotationPos = float4::ZERO;
+
 
 	
 };

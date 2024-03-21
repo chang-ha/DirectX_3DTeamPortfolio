@@ -74,6 +74,15 @@ void BossHpUI::Release()
 	BossDamageFont = nullptr;
 }
 
+void BossHpUI::Reset()
+{
+	ValidityCheck();
+	const int MaxHP = pBoss->GetMaxHp();
+	SetHPGauge(MaxHP);
+	SetDamageGauge(MaxHP);
+	Off();
+}
+
 void BossHpUI::ValidityCheck()
 {
 	if (nullptr == pBoss)

@@ -100,7 +100,6 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		LightData Data = Light->GetLightData();
 		Light->CreateShadowMap();
 
-		//Data.DifLightPower = 0.1f;
 		Data.AmbientLight = float4(0.05f, 0.05f, 0.025f, 1.0f);
 		Data.LightColor = float4(1.0f, 1.0f, 0.7f);
 		Data.LightPower = 2.0f;
@@ -111,6 +110,23 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 		Light->SetLightData(Data);
+		//Light->IsDebugValue = true;
+	}
+
+	if (nullptr == BossDoorLight)
+	{
+		BossDoorLight = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "BossDoorLight");
+		BossDoorLight->SetLightType(Enum_LightType::Point);
+
+		LightData Data = BossDoorLight->GetLightData();
+		Data.quadraticAttenuation = 0.00006f;
+		Data.LightPower = 30.f;
+		Data.LightColor = { 2.0f,0.2f,0.2f };
+		Data.linearAttenuation = 0.006f;
+		Data.quadraticAttenuation = 0.0002f;
+
+		BossDoorLight->SetLightData(Data);
+		BossDoorLight->Transform.SetLocalPosition({ -808.f, -1970.0f, 2330.0f });
 		//Light->IsDebugValue = true;
 	}
 
