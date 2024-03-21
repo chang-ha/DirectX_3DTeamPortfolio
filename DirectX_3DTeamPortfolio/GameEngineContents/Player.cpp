@@ -1454,7 +1454,7 @@ void Player::Rock_On(Enum_CollisionOrder _Order)
 
 void Player::Reset()
 {
-	Capsule->SetWorldPosition({ -3925, 4130 , -1911 });
+	Capsule->SetWorldPosition({ -3925, 4130 , -2050 });
 	Capsule->SetWorldRotation({ 0.f, 0.f, 0.f });
 
 	Stat.SetHp(400);
