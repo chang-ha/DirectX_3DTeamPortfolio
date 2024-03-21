@@ -22,6 +22,7 @@
 #include "MainUIActor.h"
 #include "UILocationAlert.h"
 #include "UIAlert_BoneLit.h"
+#include "UILoading.h"
 
 PlayLevel::PlayLevel()
 {
@@ -141,6 +142,9 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 		// LitBoneFire
 		std::shared_ptr<UIAlert_BoneLit> LitBone = CreateActor<UIAlert_BoneLit>();
+
+		// 로딩테스트
+		std::shared_ptr<UILoading> Loading = CreateActor<UILoading>(Enum_UpdateOrder::UI);
 	}
 
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 1, 1, 1, 1 });

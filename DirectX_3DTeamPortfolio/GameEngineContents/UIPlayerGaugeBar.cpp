@@ -50,15 +50,15 @@ void UIPlayerGaugeBar::Init(Player* _PlayerObject)
 
 void UIPlayerGaugeBar::Update(float _Delta)
 {
-	if (GameEngineInput::IsDown('0', this))
-	{
-		PlayerValue::GetValue()->SetMaxHp(700.0f);
-		PlayerValue::GetValue()->SetHp(700.0f);
-		HpBar->SetTotalGauge(700.0f);
+	//if (GameEngineInput::IsDown('0', this))
+	//{
+	//	PlayerValue::GetValue()->SetMaxHp(700.0f);
+	//	PlayerValue::GetValue()->SetHp(700.0f);
+	//	HpBar->SetTotalGauge(700.0f);
 
-		PlayerValue::GetValue()->SetMaxMp(500.0f);
-		MpBar->SetTotalGauge(500.0f);
-	}
+	//	PlayerValue::GetValue()->SetMaxMp(500.0f);
+	//	MpBar->SetTotalGauge(500.0f);
+	//}
 }
 
 void UIPlayerGaugeBar::Release()
