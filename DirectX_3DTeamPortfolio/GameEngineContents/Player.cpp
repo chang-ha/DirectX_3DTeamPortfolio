@@ -374,15 +374,15 @@ void Player::Start()
 		Shield_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Shield);
 		Shield_Col->SetCollisionType(ColType::AABBBOX3D);
 		Shield_Col->Transform.SetLocalScale({ 120.f,140.f, 30.f});
-		Shield_Col->Transform.SetLocalPosition({ 0.f,90.f, 50.f });
+		Shield_Col->Transform.SetLocalPosition({ 0.f,90.f, 30.f });
 		Shield_Col->Off();
 	}
 
 	{
 		Top_Shield_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Shield);
 		Top_Shield_Col->SetCollisionType(ColType::AABBBOX3D);
-		/*Top_Shield_Col->Transform.SetLocalScale({ 79.f,12.f, 79.f });
-		Top_Shield_Col->Transform.SetLocalPosition({ 0.f,155.0f, 15.f });*/
+		Top_Shield_Col->Transform.SetLocalScale({ 79.f,12.f, 79.f });
+		Top_Shield_Col->Transform.SetLocalPosition({ 0.f,155.0f, 15.f });
 		Top_Shield_Col->Off();
 	}
 
@@ -1122,11 +1122,9 @@ void Player::CameraRotation(float Delta)
 	
 
 
-	if (testa == false && testaa == true)
-	{
-		int a = 0;
-	}
-	else if (testa ==true && testaa == true)
+	
+	
+	if (testa ==true && testaa == true)
 	{ 
 
 
@@ -1136,6 +1134,12 @@ void Player::CameraRotation(float Delta)
 			//float4 sadasd = float4::LerpClamp(Actor_test_02->Transform.GetWorldPosition(),Actor_test->Transform.GetWorldPosition(), Delta);
 			Actor_test_02->Transform.SetWorldPosition(sadasd);
 	}
+	
+	else if (testa == false && testaa == true)
+	{
+		int a = 0;
+	}
+
 	else if (testaa == false && testa == false)
 	{
 
@@ -1144,10 +1148,8 @@ void Player::CameraRotation(float Delta)
 			//float4 sadasd = float4::LerpClamp(Actor_test->Transform.GetWorldPosition(), Actor_test_02->Transform.GetWorldPosition(), Delta);
 			//sadasd.Normalize();
 			Actor_test_02->Transform.SetWorldPosition(sadassd);
-		}		
+		}
 	}
-
-	
 
 
 
