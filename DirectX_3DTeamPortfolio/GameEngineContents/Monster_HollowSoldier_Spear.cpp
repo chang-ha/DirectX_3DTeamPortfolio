@@ -906,7 +906,7 @@ void Monster_HollowSoldier_Spear::State_Run_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Run3_Start()
 {
-	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.8f, 1.6f);
 	MainRenderer->ChangeAnimation("c1100_Spear_Run3");
 }
 void Monster_HollowSoldier_Spear::State_Run3_Update(float _Delta)
@@ -922,6 +922,12 @@ void Monster_HollowSoldier_Spear::State_Run3_Update(float _Delta)
 		RotToTarget(_Delta);
 	}
 
+	if (GetTargetDistance_e() == Enum_TargetDist::Close)
+	{
+		ChangeState(Enum_HollowSoldier_Spear_State::Idle3);
+		return;
+	}
+
 	if (WalkTime >= WalkToChangeTime)
 	{
 		WalkTime = 0.0f;
@@ -930,11 +936,11 @@ void Monster_HollowSoldier_Spear::State_Run3_Update(float _Delta)
 			ChangeState(Enum_HollowSoldier_Spear_State::RunToPike);
 			return;
 		}
-		else if (GetTargetDistance_e() == Enum_TargetDist::Close)
+		/*else if (GetTargetDistance_e() == Enum_TargetDist::Close)
 		{
 			ChangeState(Enum_HollowSoldier_Spear_State::Idle3);
 			return;
-		}
+		}*/
 	}
 }
 

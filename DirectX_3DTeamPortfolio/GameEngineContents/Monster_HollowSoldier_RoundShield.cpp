@@ -910,14 +910,14 @@ void Monster_HollowSoldier_RoundShield::State_Run_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Run3_Start()
 {
-	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
+	//WalkToChangeTime = ContentsRandom::Randomfloat(0.8f, 1.6f);
 	MainRenderer->ChangeAnimation("c1100_Run3");
 }
 void Monster_HollowSoldier_RoundShield::State_Run3_Update(float _Delta)
 {
 	SetFlag(Enum_ActorFlag::Guarding, true);
 
-	WalkTime += _Delta;
+	//WalkTime += _Delta;
 
 	ChangeHitState();
 
@@ -926,16 +926,22 @@ void Monster_HollowSoldier_RoundShield::State_Run3_Update(float _Delta)
 		RotToTarget(_Delta);
 	}
 
-	if(WalkTime >= WalkToChangeTime)
+	if (GetTargetDistance_e() == Enum_TargetDist::Close)
 	{
-		WalkTime = 0.0f;
-		if (GetTargetDistance_e() == Enum_TargetDist::Close)
-		{
-			// RunToSting 없나? 조사해야함.
-			ChangeState(Enum_HollowSoldier_RoundShield_State::Idle3);
-			return;
-		}
+		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle3);
+		return;
 	}
+
+	//if(WalkTime >= WalkToChangeTime)
+	//{
+	//	WalkTime = 0.0f;
+	//	if (GetTargetDistance_e() == Enum_TargetDist::Close)
+	//	{
+	//		// RunToSting 없나? 조사해야함.
+	//		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle3);
+	//		return;
+	//	}
+	//}
 }
 
 void Monster_HollowSoldier_RoundShield::State_RH_VerticalSlash_Start()

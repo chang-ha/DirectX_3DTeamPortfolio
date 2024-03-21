@@ -933,7 +933,7 @@ void Monster_Hollow_NonFirstAttack::State_Walk_Right_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_Run_Start()
 {
-	WalkToChangeTime = ContentsRandom::Randomfloat(0.5f, 2.5f);
+	WalkToChangeTime = ContentsRandom::Randomfloat(0.8f, 1.6f);
 	MainRenderer->ChangeAnimation("c1100_Run");
 }
 void Monster_Hollow_NonFirstAttack::State_Run_Update(float _Delta)
@@ -947,6 +947,12 @@ void Monster_Hollow_NonFirstAttack::State_Run_Update(float _Delta)
 		RotToTarget(_Delta);
 	}
 
+	if (GetTargetDistance_e() == Enum_TargetDist::Close)
+	{
+		ChangeState(Enum_Hollow_State::Idle);
+		return;
+	}
+
 	if (WalkTime >= WalkToChangeTime)
 	{
 		WalkTime = 0.0f;
@@ -955,11 +961,11 @@ void Monster_Hollow_NonFirstAttack::State_Run_Update(float _Delta)
 			ChangeState(Enum_Hollow_State::RH_RunToSlash);
 			return;
 		}
-		else if (GetTargetDistance_e() == Enum_TargetDist::Close)
+		/*else if (GetTargetDistance_e() == Enum_TargetDist::Close)
 		{
 			ChangeState(Enum_Hollow_State::Idle);
 			return;
-		}
+		}*/
 	}
 }
 
