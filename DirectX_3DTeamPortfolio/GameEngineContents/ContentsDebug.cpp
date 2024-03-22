@@ -24,3 +24,24 @@ void ContentsDebug::OutputString(std::string_view _Title, std::string_view _Subj
 	OutputStr += std::string(_Subject.data()) + "\n";
 	OutputDebugStringA(OutputStr.c_str());
 }
+
+
+
+void ContentsDebug::NUllCheck(void* _Pointer, std::string_view _MsgBox /*= ""*/)
+{
+#ifdef _DEBUG
+
+	if (nullptr == _Pointer)
+	{
+		if (_MsgBox.empty())
+		{
+			MsgBoxAssert("포인터가 존재하지 않습니다.");
+		}
+		else
+		{
+			MsgBoxAssert(_MsgBox.data());
+		}
+	}
+#endif // _DEBUG
+
+}

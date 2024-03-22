@@ -19,4 +19,7 @@ namespace ContentsDebug
 	}
 
 	void OutputString(std::string_view _Title, std::string_view _Subject);
+
+
+	void NUllCheck(void* _Pointer, std::string_view _MsgBox = "");
 }
