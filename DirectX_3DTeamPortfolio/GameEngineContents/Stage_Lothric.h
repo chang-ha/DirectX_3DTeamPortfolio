@@ -102,6 +102,7 @@ private:
 	{
 		Play, // 
 		PlayerDeath,
+		BossDeath,
 		StageClear,
 	};
 
@@ -110,11 +111,13 @@ private:
 	// PlayState_Start 
 	void Start_Play(GameEngineState* _Parent);
 	void Start_PlayerDeath(GameEngineState* _Parent);
+	void Start_BossDeath(GameEngineState* _Parent);
 	void Start_StageClear(GameEngineState* _Parent);
 
 	// PlayState_Update
 	void Update_Play(float _Delta, GameEngineState* _Parent);
 	void Update_PlayerDeath(float _Delta, GameEngineState* _Parent);
+	void Update_BossDeath(float _Delta, GameEngineState* _Parent);
 	void Update_StageClear(float _Delta, GameEngineState* _Parent);
 
 	void PlayUpdate(float _Delta);
@@ -122,6 +125,7 @@ private:
 	// PlayState_End
 	void End_Play(GameEngineState* _Parent);
 	void End_PlayerDeath(GameEngineState* _Parent);
+	void End_BossDeath(GameEngineState* _Parent);
 	void End_StageClear(GameEngineState* _Parent);
 
 	// PlayerDeath State
@@ -151,6 +155,7 @@ private:
 	};
 
 	GameEngineState BossDeathState;
+	bool IsAlert = false;
 
 	void Start_BossDeath_Ready(GameEngineState* _Parent);
 	void Start_BossDeath_Alert(GameEngineState* _Parent);

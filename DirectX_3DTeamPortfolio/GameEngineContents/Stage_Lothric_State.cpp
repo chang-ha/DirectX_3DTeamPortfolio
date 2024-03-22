@@ -4,6 +4,7 @@
 #include "AllFadeEffect.h"
 
 #include "Player.h"
+#include "Boss_Vordt.h"
 
 #include "MainUIActor.h"
 #include "UIAlertMaanger.h"
@@ -30,6 +31,7 @@ void Stage_Lothric::StateInit()
 {
 	LevelState.CreateState(Enum_LevelState::Play, {                .Start = std::bind(&Stage_Lothric::Start_Play,this, std::placeholders::_1),                .Stay = std::bind(&Stage_Lothric::Update_Play,this, std::placeholders::_1,std::placeholders::_2),           .End = std::bind(&Stage_Lothric::End_Play, this, std::placeholders::_1)           });
 	LevelState.CreateState(Enum_LevelState::PlayerDeath, {         .Start = std::bind(&Stage_Lothric::Start_PlayerDeath,this, std::placeholders::_1),         .Stay = std::bind(&Stage_Lothric::Update_PlayerDeath,this, std::placeholders::_1,std::placeholders::_2),    .End = std::bind(&Stage_Lothric::End_PlayerDeath, this, std::placeholders::_1)    });
+	LevelState.CreateState(Enum_LevelState::BossDeath, {         .Start = std::bind(&Stage_Lothric::Start_BossDeath,this, std::placeholders::_1),         .Stay = std::bind(&Stage_Lothric::Update_BossDeath,this, std::placeholders::_1,std::placeholders::_2),    .End = std::bind(&Stage_Lothric::End_BossDeath, this, std::placeholders::_1)    });
 	LevelState.CreateState(Enum_LevelState::StageClear, {          .Start = std::bind(&Stage_Lothric::Start_StageClear,this, std::placeholders::_1),          .Stay = std::bind(&Stage_Lothric::Update_StageClear,this, std::placeholders::_1,std::placeholders::_2),     .End = std::bind(&Stage_Lothric::End_StageClear, this, std::placeholders::_1)     });
 
 	PlayerDeathState.CreateState(Enum_PlayerDeathState::Ready, {   .Start = std::bind(&Stage_Lothric::Start_PlayerDeath_Ready,this, std::placeholders::_1),   .Stay = std::bind(&Stage_Lothric::Update_PlayerDeath_Ready,this, std::placeholders::_1,std::placeholders::_2)                                                                                 });
@@ -64,6 +66,13 @@ void Stage_Lothric::Update_Play(float _Delta, GameEngineState* _Parent)
 		_Parent->ChangeState(Enum_LevelState::PlayerDeath);
 		return;
 	}
+
+	NUllCheck(Boss_Object.get(), "보스가 존재하지 않습니다. 값을 확인해주세요.");
+	if (true == Boss_Object->IsFlag(Enum_ActorFlag::Death))
+	{
+		_Parent->ChangeState(Enum_LevelState::BossDeath);
+		return;
+	}
 }
 
 void Stage_Lothric::End_Play(GameEngineState* _Parent)
@@ -82,7 +91,6 @@ void Stage_Lothric::Start_PlayerDeath(GameEngineState* _Parent)
 void Stage_Lothric::Update_PlayerDeath(float _Delta, GameEngineState* _Parent)
 {
 	PlayerDeathState.Update(_Delta);
-	BossDeathState.Update(_Delta);
 
 	bool PlayerDeathStateDone = (Enum_PlayerDeathState::Done == static_cast<Enum_PlayerDeathState>(PlayerDeathState.GetCurState()));
 	if (PlayerDeathStateDone)
@@ -91,6 +99,22 @@ void Stage_Lothric::Update_PlayerDeath(float _Delta, GameEngineState* _Parent)
 		GameEngineCore::ChangeLevel("LoadingLevel");
 		return;
 	}
+}
+
+void Stage_Lothric::End_PlayerDeath(GameEngineState* _Parent)
+{
+
+}
+
+// BossDeath State
+void Stage_Lothric::Start_BossDeath(GameEngineState* _Parent)
+{
+	BossDeathState.ChangeState(Enum_PlayerDeathState::Ready);
+}
+
+void Stage_Lothric::Update_BossDeath(float _Delta, GameEngineState* _Parent)
+{
+	BossDeathState.Update(_Delta);
 
 	bool BossDeathStateDone = (Enum_BossDeathState::Done == static_cast<Enum_BossDeathState>(BossDeathState.GetCurState()));
 	if (BossDeathStateDone)
@@ -100,7 +124,7 @@ void Stage_Lothric::Update_PlayerDeath(float _Delta, GameEngineState* _Parent)
 	}
 }
 
-void Stage_Lothric::End_PlayerDeath(GameEngineState* _Parent)
+void Stage_Lothric::End_BossDeath(GameEngineState* _Parent)
 {
 
 }
@@ -144,7 +168,7 @@ void Stage_Lothric::Update_PlayerDeath_Ready(float _Delta, GameEngineState* _Par
 void Stage_Lothric::Start_PlayerDeath_YouDie(GameEngineState* _Parent)
 {
 	NUllCheck(MainUI.get());
-	// MainUI->Call
+	UIAlertMaanger::CallAlert(Enum_AlertType::YouDie);
 }
 
 void Stage_Lothric::Update_PlayerDeath_YouDie(float _Delta, GameEngineState* _Parent)
@@ -198,15 +222,19 @@ void Stage_Lothric::Start_BossDeath_Alert(GameEngineState* _Parent)
 {
 	UIAlertMaanger::CallAlert(Enum_AlertType::Destroy);
 	UIAlertMaanger::CallAlert(Enum_AlertType::BoneFire);
+
+	IsAlert = false;
 }
 
 void Stage_Lothric::Update_BossDeath_Alert(float _Delta, GameEngineState* _Parent)
 {
-	if (false == UIAlertMaanger::Alerting)
+	if (false == UIAlertMaanger::Alerting && true == IsAlert)
 	{
 		_Parent->ChangeState(Enum_BossDeathState::Done);
 		return;
 	}
+
+	IsAlert = true;
 }
 
 #pragma endregion
