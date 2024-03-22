@@ -600,7 +600,7 @@ void Player::Start()
 			{
 
 				const std::shared_ptr<BaseActor>& pActor = col->GetActor()->GetDynamic_Cast_This<BaseActor>();
-				const float4 WRot = Transform.GetWorldRotationEuler();
+				const float4 WRot = Actor_test->Transform.GetWorldRotationEuler();
 				const float4 WPos = Transform.GetWorldPosition();
 				bool CheckFrontStab = pActor->FrontStabCheck(WPos, WRot.Y);
 
@@ -610,7 +610,7 @@ void Player::Start()
 				{
 					const float4 StabPos = pActor->GetFrontStabPosition();
 					Capsule->SetWorldPosition(StabPos);
-					Capsule->SetWorldRotation(WRot);
+					Capsule->SetWorldRotation({ 0.0f,WRot.Y,0.0f });
 					PlayerStates.ChangeState(PlayerState::Parring_Attack);
 
 					/*Transform.SetWorldPosition(StabPos + float4::UP * 150.0f);
@@ -765,15 +765,15 @@ void Player::Update(float _Delta)
 
 		}
 	}
-	Shield_Col->Transform.SetLocalPosition({ 0,90,5 });
-	Shield_Col->Transform.SetLocalScale({ 300,300,300 });
+	
 
 	if (Fog_Check == false && Fog_Run_Check ==true)
 	{
 		PlayerStates.ChangeState(PlayerState::Idle);
 		GameEnginePhysX::PopSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Fog_Wall);
 		
-
+		Shield_Col->Transform.SetLocalPosition({ 0,90,5 });
+		Shield_Col->Transform.SetLocalScale({ 300,300,300 });
 		Fog_Run_Check = false;
 	}
 	
@@ -1508,6 +1508,9 @@ void Player::Reset()
 	//-16547, 3380, 2100
 	SetFlag(Enum_ActorFlag::Death, false); 
 	Rock_On_Check = false;
+
+	Top_Shield_Col->Transform.SetLocalScale({ 79.f,12.f, 79.f });
+	Top_Shield_Col->Transform.SetLocalPosition({ 0.f,155.0f, 15.f });
 
 	PlayerStates.ChangeState(PlayerState::Sit_Down);
 

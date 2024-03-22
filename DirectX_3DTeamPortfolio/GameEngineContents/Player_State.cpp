@@ -774,6 +774,13 @@ void Player::Player_State()
 			 Stat.AddStamina(-Stamina);
 
 
+			 if (Stat.GetStamina() <= 0)
+			 {
+				 PlayerStates.ChangeState(PlayerState::Idle);
+				 return; 
+			 }
+
+
 			if (GameEngineInput::IsPress('W', this) && GameEngineInput::IsPress(VK_SHIFT, this))
 			{
 				Capsule->MoveForce({ float4::FORWARD * Speed * 1.5 }, Capsule->GetDir());
@@ -1631,6 +1638,11 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+				if (Stat.GetStamina() <= 0)
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return; 
+				}
 				
 				if (Rock_On_Check == true)
 				{
@@ -3443,7 +3455,7 @@ void Player::Player_State()
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
 					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
 				}
-				го
+				
 				if (MainRenderer->IsCurAnimationEnd())
 				{
 					Shield_Col->Off();
@@ -3507,6 +3519,13 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+
+				if (Rock_On_Check == true)
+				{
+					Capsule->SetWorldRotation({ 0.0f,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
+				}
+
 				if (MainRenderer->IsCurAnimationEnd())
 				{
 					PlayerStates.ChangeState(PlayerState::Idle);
