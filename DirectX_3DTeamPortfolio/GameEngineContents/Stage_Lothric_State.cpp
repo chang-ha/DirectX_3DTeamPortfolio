@@ -77,8 +77,6 @@ void Stage_Lothric::Update_Play(float _Delta, GameEngineState* _Parent)
 
 void Stage_Lothric::End_Play(GameEngineState* _Parent)
 {
-	//Player_Object->SetFlag(Enum_ActorFlag::Wake, true);
-	Player_Object->Reset();
 
 }
 
