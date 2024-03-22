@@ -11,7 +11,7 @@ FogEffect::~FogEffect()
 }
 
 FogInfo* FogEffect::MainFogInfo = nullptr;
- float FogEffect::FogTimeScale = 0.5f;
+ float FogEffect::FogTimeScale = 0.1f;
 
 void FogEffect::Init(std::shared_ptr<GameEngineCamera> _Camera)
 {
@@ -43,7 +43,7 @@ void FogEffect::Update(float _DeltaTime, std::shared_ptr<GameEngineCamera> _Came
 {
 	FogInfoValue.CameraViewInverseMatrix = _Camera->Transform.GetConstTransformDataRef().ViewMatrix.InverseReturn();
 
-	//FogInfoValue.NoiseOffset += _DeltaTime * FogTimeScale;
+	FogInfoValue.NoiseOffset += _DeltaTime * FogTimeScale;
 }
 
 void FogEffect::Start()
@@ -54,10 +54,10 @@ void FogEffect::Start()
 	std::shared_ptr<GameEngineTexture> Texutre = GameEngineTexture::Find("FogNoise2.png");
 
 	EffectUnit.ShaderResHelper.SetTexture("SceneTex", EffectTarget->GetTexture(0));
-	//EffectUnit.ShaderResHelper.SetTexture("NoiseTex", Texutre);
+	EffectUnit.ShaderResHelper.SetTexture("NoiseTex", Texutre);
 	EffectUnit.ShaderResHelper.SetSampler("SceneTexSampler", "EngineBaseSampler");
 	EffectUnit.ShaderResHelper.SetSampler("PosTexSampler", "EngineBaseSampler");
-	//EffectUnit.ShaderResHelper.SetSampler("NoiseTexSampler", "EngineBaseWRAPSampler");
+	EffectUnit.ShaderResHelper.SetSampler("NoiseTexSampler", "EngineBaseWRAPSampler");
 	EffectUnit.ShaderResHelper.SetConstantBufferLink("FogInfo", FogInfoValue);
 
 	float4 WindowScale = GameEngineCore::MainWindow.GetScale();

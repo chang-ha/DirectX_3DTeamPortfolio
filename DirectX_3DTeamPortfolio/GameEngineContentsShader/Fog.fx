@@ -40,8 +40,8 @@ Texture2D SceneTex : register(t0);
 SamplerState SceneTexSampler : register(s0);
 Texture2D PosTex : register(t1);  // view 포지션
 SamplerState PosTexSampler : register(s1);
-//Texture2D NoiseTex : register(t2);  // view 포지션
-//SamplerState NoiseTexSampler : register(s2);
+Texture2D NoiseTex : register(t2);  // view 포지션
+SamplerState NoiseTexSampler : register(s2);
 
 
 float4 Fog_PS(PixelOutPut _Input) : SV_Target0
@@ -77,20 +77,20 @@ float4 Fog_PS(PixelOutPut _Input) : SV_Target0
     
     
     //노이즈 텍스쳐 관련
-    //float3 worldSpaceTexCoords = WorldPos.xyz / WorldScale;
+    float3 worldSpaceTexCoords = WorldPos.xyz / WorldScale;
     
     
-    //if (heightFactor <= 0.0f)
-    //{
-    //    return SceneColor;
-    //}
+    if (heightFactor <= 0.0f)
+    {
+        return SceneColor;
+    }
     
-    //float2 noiseTexCoord = float2(worldSpaceTexCoords.x, worldSpaceTexCoords.y) * NoiseScale + float2(NoiseOffset, NoiseOffset);
-    //float noiseValue = NoiseTex.Sample(NoiseTexSampler, noiseTexCoord).r;
+    float2 noiseTexCoord = float2(worldSpaceTexCoords.x, worldSpaceTexCoords.z) * NoiseScale + float2(NoiseOffset, NoiseOffset);
+    float noiseValue = NoiseTex.Sample(NoiseTexSampler, noiseTexCoord).r;
     
     
     
-    //heightFactor *= lerp(1.0f, noiseValue, NoiseIntensity);
+    heightFactor *= lerp(1.0f, noiseValue, NoiseIntensity);
     
     
     
