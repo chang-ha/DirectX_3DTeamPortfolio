@@ -6,6 +6,7 @@
 #include "Player.h"
 
 #include "MainUIActor.h"
+#include "UIAlertMaanger.h"
 
 #include "LoadingLevel.h"
 
@@ -35,6 +36,10 @@ void Stage_Lothric::StateInit()
 	PlayerDeathState.CreateState(Enum_PlayerDeathState::YouDie, {  .Start = std::bind(&Stage_Lothric::Start_PlayerDeath_YouDie,this, std::placeholders::_1),  .Stay = std::bind(&Stage_Lothric::Update_PlayerDeath_YouDie,this, std::placeholders::_1,std::placeholders::_2)                                                                                });
 	PlayerDeathState.CreateState(Enum_PlayerDeathState::FadeOut, { .Start = std::bind(&Stage_Lothric::Start_PlayerDeath_FadeOut,this, std::placeholders::_1), .Stay = std::bind(&Stage_Lothric::Update_PlayerDeath_FadeOut,this, std::placeholders::_1,std::placeholders::_2)                                                                               });
 	PlayerDeathState.CreateState(Enum_PlayerDeathState::Done, {                                                                                                                                                                                                                                                                                             });
+
+	BossDeathState.CreateState(Enum_BossDeathState::Ready, {   .Start = std::bind(&Stage_Lothric::Start_BossDeath_Ready,this, std::placeholders::_1),   .Stay = std::bind(&Stage_Lothric::Update_BossDeath_Ready,this, std::placeholders::_1,std::placeholders::_2)                                                                                 });
+	BossDeathState.CreateState(Enum_BossDeathState::Alert, { .Start = std::bind(&Stage_Lothric::Start_BossDeath_Alert,this, std::placeholders::_1),  .Stay = std::bind(&Stage_Lothric::Update_BossDeath_Alert,this, std::placeholders::_1,std::placeholders::_2) });
+	BossDeathState.CreateState(Enum_BossDeathState::Done, {                                                                                                                                                                                                                                                                                             });
 }
 
 #pragma region PlayLevel State
@@ -77,12 +82,20 @@ void Stage_Lothric::Start_PlayerDeath(GameEngineState* _Parent)
 void Stage_Lothric::Update_PlayerDeath(float _Delta, GameEngineState* _Parent)
 {
 	PlayerDeathState.Update(_Delta);
+	BossDeathState.Update(_Delta);
 
-	bool StateDone = (Enum_PlayerDeathState::Done == static_cast<Enum_PlayerDeathState>(PlayerDeathState.GetCurState()));
-	if (StateDone)
+	bool PlayerDeathStateDone = (Enum_PlayerDeathState::Done == static_cast<Enum_PlayerDeathState>(PlayerDeathState.GetCurState()));
+	if (PlayerDeathStateDone)
 	{
 		LoadingLevel::LoadingFlag = Enum_LevelFlag::Loading_Reset;
 		GameEngineCore::ChangeLevel("LoadingLevel");
+		return;
+	}
+
+	bool BossDeathStateDone = (Enum_BossDeathState::Done == static_cast<Enum_BossDeathState>(BossDeathState.GetCurState()));
+	if (BossDeathStateDone)
+	{
+		_Parent->ChangeState(Enum_LevelState::StageClear);
 		return;
 	}
 }
@@ -157,6 +170,41 @@ void Stage_Lothric::Update_PlayerDeath_FadeOut(float _Delta, GameEngineState* _P
 	if (FadeDone)
 	{
 		_Parent->ChangeState(Enum_PlayerDeathState::Done);
+		return;
+	}
+}
+
+#pragma endregion
+
+#pragma region Boss Death State
+
+void Stage_Lothric::Start_BossDeath_Ready(GameEngineState* _Parent)
+{
+	GameEngineSoundPlayer SPlayer = GameEngineSound::SoundPlay("Destroyed_Sound_Effect.wav");
+	SPlayer.SetVolume(0.7f);
+}
+
+void Stage_Lothric::Update_BossDeath_Ready(float _Delta, GameEngineState* _Parent)
+{
+	if (_Parent->GetStateTime() > 5.0f)
+	{
+		_Parent->ChangeState(Enum_BossDeathState::Alert);
+		return;
+	}
+}
+
+
+void Stage_Lothric::Start_BossDeath_Alert(GameEngineState* _Parent)
+{
+	UIAlertMaanger::CallAlert(Enum_AlertType::Destroy);
+	UIAlertMaanger::CallAlert(Enum_AlertType::BoneFire);
+}
+
+void Stage_Lothric::Update_BossDeath_Alert(float _Delta, GameEngineState* _Parent)
+{
+	if (false == UIAlertMaanger::Alerting)
+	{
+		_Parent->ChangeState(Enum_BossDeathState::Done);
 		return;
 	}
 }

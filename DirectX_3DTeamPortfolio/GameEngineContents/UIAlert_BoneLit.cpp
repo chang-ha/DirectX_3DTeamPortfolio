@@ -35,13 +35,17 @@ void UIAlert_BoneLit::Start()
 	CreateStateParameter DisAppearState;
 	DisAppearState.Stay = std::bind(&UIAlert_BoneLit::Update_DisAppear, this, std::placeholders::_1, std::placeholders::_2);
 
-	MainState.CreateState(eState::Appear, AppearState);
-	MainState.CreateState(eState::Disappear, DisAppearState);
+	mState.CreateState(eState::Appear, AppearState);
+	mState.CreateState(eState::Disappear, DisAppearState);
+
+	mState.ChangeState(eState::Appear);
 }
 
 void UIAlert_BoneLit::Update(float _Delta)
 {
 	UIAlert::Update(_Delta);
+
+	mState.Update(_Delta);
 }
 
 void UIAlert_BoneLit::Release()
@@ -78,7 +82,7 @@ void UIAlert_BoneLit::Update_Appear(float _Delta, GameEngineState* _Parent)
 
 	if (StateTime >= FadeTime)
 	{
-		MainState.ChangeState(eState::Disappear);
+		mState.ChangeState(eState::Disappear);
 		return;
 	}
 }
@@ -88,6 +92,7 @@ void UIAlert_BoneLit::Update_DisAppear(float _Delta, GameEngineState* _Parent)
 	const float StateTime = _Parent->GetStateTime();
 	if (FadeTime < StateTime)
 	{
+		UIAlert::Done();
 		return;
 	}
 

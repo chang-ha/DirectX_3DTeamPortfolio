@@ -143,5 +143,20 @@ private:
 	void Update_PlayerDeath_YouDie(float _Delta, GameEngineState* _Parent);
 	void Update_PlayerDeath_FadeOut(float _Delta, GameEngineState* _Parent);
 
+	enum class Enum_BossDeathState
+	{
+		Ready,
+		Alert,
+		Done,
+	};
+
+	GameEngineState BossDeathState;
+
+	void Start_BossDeath_Ready(GameEngineState* _Parent);
+	void Start_BossDeath_Alert(GameEngineState* _Parent);
+
+	void Update_BossDeath_Ready(float _Delta, GameEngineState* _Parent);
+	void Update_BossDeath_Alert(float _Delta, GameEngineState* _Parent);
+
 };
 

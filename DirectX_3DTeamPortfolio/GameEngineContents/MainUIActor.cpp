@@ -5,8 +5,8 @@
 #include "UIEquipFrame.h"
 #include "UIPlayerEquip.h"
 #include "BossHpUI.h"
+#include "UIAlertMaanger.h"
 #include "UILoading.h"
-#include "UIAlert.h"
 
 #include "PlayerValue.h"
 #include "AddSouls.h"
@@ -65,13 +65,20 @@ void MainUIActor::Update(float _Delta)
 
 }
 
-void MainUIActor::LevelEnd(GameEngineLevel* _NextLevel)
+void MainUIActor::Release()
 {
-	std::vector<std::shared_ptr<UIAlert>> Alerts = GetLevel()->GetObjectGroupConvert<UIAlert>(Enum_UpdateOrder::UI);
-	for (std::shared_ptr<UIAlert>& AlertUnit : Alerts)
+	AlertMaanger = nullptr;
+}
+
+void MainUIActor::CreateAlertManger()
+{
+	if (nullptr != AlertMaanger)
 	{
-		AlertUnit->Death();
+		MsgBoxAssert("2번 생성하게 하지 마세요");
+		return;
 	}
+
+	AlertMaanger = GetLevel()->CreateActor<UIAlertMaanger>(Enum_UpdateOrder::UI);
 }
 
 void MainUIActor::CreateBossUI(Boss_Vordt* _pBoss)
@@ -125,23 +132,5 @@ void MainUIActor::BossUIOn()
 	if (BossHpObject)
 	{
 		BossHpObject->Awake();
-	}
-}
-
-void MainUIActor::CallAlert(Enum_AlertType _Type)
-{
-	switch (_Type)
-	{
-	case Enum_AlertType::BoneLit:
-		GetLevel()->CreateActor<UIAlert>(Enum_UpdateOrder::UI);
-		break;
-	case Enum_AlertType::TargetDistory:
-		GetLevel()->CreateActor<UIAlert>(Enum_UpdateOrder::UI);
-		break;
-	case Enum_AlertType::YouDie:
-		GetLevel()->CreateActor<UIAlert>(Enum_UpdateOrder::UI);
-		break;
-	default:
-		break;
 	}
 }
