@@ -63,9 +63,6 @@ void UIAlert_BoneLit::Start_Appear(GameEngineState* _Parent)
 	SetGamma(FontTexture.get(), StartGamma);
 	BackTexture->SetAutoScaleRatio(float4(FullRatio, FullRatio));
 
-	BackTexture->On();
-	FontTexture->On();
-
 	ScaleRatio = FullRatio;
 
 	GameEngineSoundPlayer BonFire = GameEngineSound::SoundPlay("Bonfire_Sound_Effect_.wav");

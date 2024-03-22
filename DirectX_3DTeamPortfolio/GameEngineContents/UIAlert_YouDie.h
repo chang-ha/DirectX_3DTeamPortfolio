@@ -4,6 +4,13 @@
 // Ό³Έν :
 class UIAlert_YouDie : public UIAlert
 {
+	enum class eState
+	{
+		Appear,
+		Stay,
+		Disappear,
+	};
+
 public:
 	// constrcuter destructer
 	UIAlert_YouDie();
@@ -20,8 +27,15 @@ protected:
 	void Update(float _Delta) override;
 	void Release() override;
 
+	void Start_Appear(GameEngineState* _Parent);
+
+	void Update_Stay(float _Delta, GameEngineState* _Parent);
+
+
 private:
+	GameEngineState mState;
 
-
+	float ScaleRatio = 0.0f;
+	
 };
 
