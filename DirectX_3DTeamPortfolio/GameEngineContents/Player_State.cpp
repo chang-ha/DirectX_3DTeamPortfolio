@@ -381,7 +381,38 @@ void Player::Player_State()
 
 					Capsule->MoveForce({ Dir * Speed }, Cameracapsule->Capsule_02->GetDir());
 				}
+				else if (true == GameEngineInput::IsPress('W', this) && true == GameEngineInput::IsPress('A', this) && Rock_On_Check == true)
+				{
+					float4 Dir = { -1.0f, 0.0f,1.0f };
 
+					Dir.Normalize();
+
+					Capsule->MoveForce({ Dir * Speed }, Cameracapsule->Capsule_02->GetDir());
+				}
+				else if (true == GameEngineInput::IsPress('W', this) && true == GameEngineInput::IsPress('D', this) && Rock_On_Check == true)
+				{
+					float4 Dir = { 1.0f, 0.0f,1.0f };
+
+					Dir.Normalize();
+
+					Capsule->MoveForce({ Dir * Speed }, Cameracapsule->Capsule_02->GetDir());
+				}
+				else if (true == GameEngineInput::IsPress('S', this) && true == GameEngineInput::IsPress('A', this)  && Rock_On_Check == true)
+				{
+					float4 Dir = { -1.0f, 0.0f,-1.0f };
+
+					Dir.Normalize();
+
+					Capsule->MoveForce({ Dir * Speed }, Cameracapsule->Capsule_02->GetDir());
+				}
+				else if (true == GameEngineInput::IsPress('S', this) && true == GameEngineInput::IsPress('D', this) && Rock_On_Check == true)
+				{
+					float4 Dir = { 1.0f, 0.0f,-1.0f };
+
+					Dir.Normalize();
+
+					Capsule->MoveForce({ Dir * Speed }, Cameracapsule->Capsule_02->GetDir());
+				}
 
 				else if (true == GameEngineInput::IsPress('W', this) && Rotation_Check_X == true && Rock_On_Check == false)
 				{
@@ -3246,6 +3277,12 @@ void Player::Player_State()
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
 				
+				if (Rock_On_Check == true)
+				{
+					Capsule->SetWorldRotation({ 0.0f,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
+				}
+
 				if (MainRenderer->IsCurAnimationEnd() && GameEngineInput::IsPress(VK_RBUTTON, this))
 				{
 					
@@ -3320,6 +3357,12 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+				if (Rock_On_Check == true)
+				{
+					Capsule->SetWorldRotation({ 0.0f,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
+				}
+
 				
 				if (MainRenderer->IsCurAnimationEnd() && GameEngineInput::IsPress(VK_RBUTTON, this))
 				{
@@ -3395,6 +3438,12 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+				if (Rock_On_Check == true)
+				{
+					Capsule->SetWorldRotation({ 0.0f,degree_X });
+					Actor_test->Transform.SetLocalRotation({ Rock_on_X,degree_X });
+				}
+				го
 				if (MainRenderer->IsCurAnimationEnd())
 				{
 					Shield_Col->Off();

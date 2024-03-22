@@ -331,7 +331,7 @@ void Player::Start()
 	{
 
 		ColParameter.R = 0.0f;
-		ColParameter.S = { 20.f, 200.f, 20.f };
+		ColParameter.S = { 20.f, 220.f, 20.f };
 		ColParameter.T = { 0.f, 0.2f, 0.f };
 
 		Attack_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Attack, Bone_index_01, ColParameter,"Player_Weapon");
@@ -673,6 +673,7 @@ void Player::Start()
 
 void Player::Update(float _Delta)
 {
+	//Shield_Col->On();
 	float4 revolution = float4::VectorRotationToDegY(float4{ 0.0f, 150.0f, 50.0f }, Transform.GetWorldRotationEuler().Y);
 
 	FaceLight->Transform.SetLocalPosition(Transform.GetWorldPosition() + revolution);
@@ -764,16 +765,23 @@ void Player::Update(float _Delta)
 
 		}
 	}
+	Shield_Col->Transform.SetLocalPosition({ 0,90,5 });
+	Shield_Col->Transform.SetLocalScale({ 300,300,300 });
 
 	if (Fog_Check == false && Fog_Run_Check ==true)
 	{
 		PlayerStates.ChangeState(PlayerState::Idle);
 		GameEnginePhysX::PopSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Fog_Wall);
+		
+
 		Fog_Run_Check = false;
 	}
 	
+
+
+	Sword.CollisionToShield(Enum_CollisionOrder::Monster_Shield,-100);
 	Sword.CollisionToBody(Enum_CollisionOrder::Monster_Body, 0);
-	Sword.CollisionToShield(Enum_CollisionOrder::Monster_Shield, 0);
+	
 	
 
 	Arround_Col->CollisionEvent(Enum_CollisionOrder::Monster, Arround_Event);

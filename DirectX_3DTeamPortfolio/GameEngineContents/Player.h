@@ -116,7 +116,7 @@ public:
 	}*/
 	std::shared_ptr<GameEngineCollision> GetShield()
 	{
-		return Top_Shield_Col;
+		return Shield_Col;
 	}
 
 	std::shared_ptr<GameEngineActor> Actor_test_02;
