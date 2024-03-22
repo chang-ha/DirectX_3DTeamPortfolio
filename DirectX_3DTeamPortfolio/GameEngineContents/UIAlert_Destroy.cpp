@@ -60,8 +60,6 @@ void UIAlert_Destroy::Update(float _Delta)
 	UIAlert::Update(_Delta);
 
 	mState.Update(_Delta);
-
-	UIHandler::ScaleUpdate(_Delta, BackTexture.get(), this);
 }
 
 void UIAlert_Destroy::Release()
