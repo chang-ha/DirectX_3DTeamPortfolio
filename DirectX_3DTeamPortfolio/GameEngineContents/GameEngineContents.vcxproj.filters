@@ -388,7 +388,6 @@
     <ClCompile Include="AllFadeEffect.cpp">
       <Filter>Resource\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="Object_BaseLadder.cpp" />
     <ClCompile Include="Stage_Lothric_State.cpp">
       <Filter>Level</Filter>
     </ClCompile>
@@ -430,6 +429,9 @@
     </ClCompile>
     <ClCompile Include="LoadingLevel.cpp">
       <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_BaseLadder.cpp">
+      <Filter>Object\Ladder</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -814,7 +816,6 @@
     <ClInclude Include="AllFadeEffect.h">
       <Filter>Resource\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="Object_BaseLadder.h" />
     <ClInclude Include="UILoading.h">
       <Filter>Actor\UI\Loading</Filter>
     </ClInclude>
@@ -853,6 +854,9 @@
     </ClInclude>
     <ClInclude Include="LoadingLevel.h">
       <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_BaseLadder.h">
+      <Filter>Object\Ladder</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
