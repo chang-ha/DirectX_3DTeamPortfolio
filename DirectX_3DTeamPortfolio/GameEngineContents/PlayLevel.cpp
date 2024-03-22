@@ -90,16 +90,16 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 	
 	{
-		std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Lothric");
+		/*std::shared_ptr<Monster_LothricKn> Monster = CreateActor<Monster_LothricKn>(Enum_UpdateOrder::Monster, "Lothric");
 		Monster->SetIdleType(Enum_Lothric_IdleType::Sit);
-		Monster->WakeUp(); 
+		Monster->WakeUp(); */
 
-		std::shared_ptr<Monster_Hollow_RaggedRobes> Monster2 = CreateActor<Monster_Hollow_RaggedRobes>(0);
+		//std::shared_ptr<Monster_Hollow_RaggedRobes> Monster2 = CreateActor<Monster_Hollow_RaggedRobes>(0);
 		// GameMap->Transform.SetWorldPosition({ 0.0f,000.0f,-1000.3f });
 
-		std::shared_ptr<Monster_HollowSoldier_Spear> GameMap2 = CreateActor<Monster_HollowSoldier_Spear>(0, "WorldMap");
+		//std::shared_ptr<Monster_HollowSoldier_Spear> GameMap2 = CreateActor<Monster_HollowSoldier_Spear>(0, "WorldMap");
 
-		GameMap2->Transform.SetWorldPosition({ 0.0f,000.0f,-2000.3f });
+		//GameMap2->Transform.SetWorldPosition({ 0.0f,000.0f,-2000.3f });
 		
 		PlayerObject = CreateActor<Player>(0, "Player");
 		// Monster->SetTargeting(PlayerObject.get());
@@ -111,10 +111,10 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 		//PlayerObject->Transform.SetLocalPosition({ -1400.0f, 5101.0f, -5331.0f });
 		
 
-		std::shared_ptr<Monster_LothricKn> LothricKn = CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn");
+		/*std::shared_ptr<Monster_LothricKn> LothricKn = CreateActor<Monster_LothricKn>(static_cast<int>(Enum_UpdateOrder::Monster), "LothricKn");
 		LothricKn->SetIdleType(Enum_Lothric_IdleType::Standing);
 		LothricKn->SetWPosition(float4(100.0f, 0.0f, 0.0f));
-		LothricKn->WakeUp();
+		LothricKn->WakeUp();*/
 	}
 	
 	// Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");

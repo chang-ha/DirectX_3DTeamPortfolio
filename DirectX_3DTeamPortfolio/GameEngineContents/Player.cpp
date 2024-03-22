@@ -331,7 +331,7 @@ void Player::Start()
 	{
 
 		ColParameter.R = 0.0f;
-		ColParameter.S = { 20.f, 200.f, 20.f };
+		ColParameter.S = { 20.f, 220.f, 20.f };
 		ColParameter.T = { 0.f, 0.2f, 0.f };
 
 		Attack_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Attack, Bone_index_01, ColParameter,"Player_Weapon");
@@ -600,7 +600,7 @@ void Player::Start()
 			{
 
 				const std::shared_ptr<BaseActor>& pActor = col->GetActor()->GetDynamic_Cast_This<BaseActor>();
-				const float4 WRot = Transform.GetWorldRotationEuler();
+				const float4 WRot = Actor_test->Transform.GetWorldRotationEuler();
 				const float4 WPos = Transform.GetWorldPosition();
 				bool CheckFrontStab = pActor->FrontStabCheck(WPos, WRot.Y);
 
@@ -610,7 +610,7 @@ void Player::Start()
 				{
 					const float4 StabPos = pActor->GetFrontStabPosition();
 					Capsule->SetWorldPosition(StabPos);
-					Capsule->SetWorldRotation(WRot);
+					Capsule->SetWorldRotation({ 0.0f,WRot.Y,0.0f });
 					PlayerStates.ChangeState(PlayerState::Parring_Attack);
 
 					/*Transform.SetWorldPosition(StabPos + float4::UP * 150.0f);
@@ -673,6 +673,7 @@ void Player::Start()
 
 void Player::Update(float _Delta)
 {
+	//Shield_Col->On();
 	float4 revolution = float4::VectorRotationToDegY(float4{ 0.0f, 150.0f, 50.0f }, Transform.GetWorldRotationEuler().Y);
 
 	FaceLight->Transform.SetLocalPosition(Transform.GetWorldPosition() + revolution);
@@ -764,16 +765,23 @@ void Player::Update(float _Delta)
 
 		}
 	}
+	
 
 	if (Fog_Check == false && Fog_Run_Check ==true)
 	{
 		PlayerStates.ChangeState(PlayerState::Idle);
 		GameEnginePhysX::PopSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Fog_Wall);
+		
+		Shield_Col->Transform.SetLocalPosition({ 0,90,5 });
+		Shield_Col->Transform.SetLocalScale({ 300,300,300 });
 		Fog_Run_Check = false;
 	}
 	
+
+
+	Sword.CollisionToShield(Enum_CollisionOrder::Monster_Shield,-100);
 	Sword.CollisionToBody(Enum_CollisionOrder::Monster_Body, 0);
-	Sword.CollisionToShield(Enum_CollisionOrder::Monster_Shield, 0);
+	
 	
 
 	Arround_Col->CollisionEvent(Enum_CollisionOrder::Monster, Arround_Event);
@@ -960,19 +968,20 @@ void Player::Update(float _Delta)
 
 	if (GetTargetPointer() != nullptr)
 	{
-		float4 Dir = GetTargetPos() - GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
+		float4 Dir = GetTargetPointer()->Transform.GetWorldPosition() - float4{Cameracapsule->Capsule_02->Transform.GetWorldPosition()};
 		float4 Monster = { 0,0,0,-1.0f };
 		float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
 		float radian = atan2(Dir.X, Dir.Z) - atan2(Monster.X, Monster.Z);
 		degree_X = float(radian * (180.0 / 3.141592));
-		
+		degree_X += error_Number_X;
+
 	}
 
 	
 
 	if (GetTargetPointer() != nullptr)
 	{
-		float4 Dir = GetTargetPos() - Actor_test_02->Transform.GetWorldPosition();
+		float4 Dir = GetTargetPointer()->Transform.GetWorldPosition() - float4{ Cameracapsule->Capsule_02->Transform.GetWorldPosition() };
 		float4 Monster = { 0,0,0,-1.0f };
 		float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
 		float radian = atan2(Dir.Y, Dir.Z) - atan2(Monster.Y, Monster.Z);
@@ -1429,7 +1438,7 @@ void Player::Rock_On(Enum_CollisionOrder _Order)
 
 
 
-				if (MonsterAngle >= 135)
+				if (MonsterAngle >= 150)
 				{
 					if (MonsterAngle <= 180)
 					{
@@ -1439,7 +1448,7 @@ void Player::Rock_On(Enum_CollisionOrder _Order)
 				}
 				if (MonsterAngle >= -180)
 				{
-					if (MonsterAngle < -135)
+					if (MonsterAngle < -150)
 					{
 						MonsterAngles.push_back(static_cast<int>(i));
 					}
@@ -1499,6 +1508,9 @@ void Player::Reset()
 	//-16547, 3380, 2100
 	SetFlag(Enum_ActorFlag::Death, false); 
 	Rock_On_Check = false;
+
+	Top_Shield_Col->Transform.SetLocalScale({ 79.f,12.f, 79.f });
+	Top_Shield_Col->Transform.SetLocalPosition({ 0.f,155.0f, 15.f });
 
 	PlayerStates.ChangeState(PlayerState::Sit_Down);
 

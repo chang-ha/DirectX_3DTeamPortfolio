@@ -116,7 +116,7 @@ public:
 	}*/
 	std::shared_ptr<GameEngineCollision> GetShield()
 	{
-		return Top_Shield_Col;
+		return Shield_Col;
 	}
 
 	std::shared_ptr<GameEngineActor> Actor_test_02;
@@ -254,7 +254,7 @@ private:
 	Player_HitInteraction Sword;
 
 	
-	float4 PlayerRespawnPos = {}; 
+	float4 PlayerRespawnPos = { -3925, 4130 , -2050 };
 
 
 	bool Rock_On_Check = false;
@@ -269,7 +269,9 @@ private:
 	float DeltaTime = 0.0f;
 
 	
-
+	float test_X = 0.0; 
+	float test_Y = 0.0;
+	float test_XZY = 0.0;
 	
 	float4 Player_Pos = {};
 
@@ -322,7 +324,8 @@ private:
 	bool Damage_infinite = false;
 	bool Debug_Death = false;
 
-
+	float error_Number_X = 0.0f;
+	float error_Number_Y = 0.0f;
 
 };
 

@@ -443,12 +443,6 @@ void Monster_HollowSoldier_Sword::ChangeHitState()
 			ChangeState(Enum_HollowSoldier_Sword_State::HitToDeath);
 			return;
 		}
-
-		if (true == IsFlag(Enum_ActorFlag::Break_Posture))
-		{
-			ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
-			return;
-		}
 		
 		Enum_DirectionXZ_Quat HitDir = Hit.GetHitDir();
 		//BodyCollision->Off();
@@ -910,8 +904,16 @@ void Monster_HollowSoldier_Sword::State_RH_RunToSting_Update(float _Delta)
 		Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 		if (true == Sword.GetBlock())
 		{
-			ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-			return;
+			if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+			{
+				ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+				return;
+			}
+			else
+			{
+				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+				return;
+			}
 		}
 		else
 		{
@@ -953,8 +955,16 @@ void Monster_HollowSoldier_Sword::State_Attack1_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -994,8 +1004,16 @@ void Monster_HollowSoldier_Sword::State_Attack2_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1035,8 +1053,16 @@ void Monster_HollowSoldier_Sword::State_Attack2_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1076,8 +1102,16 @@ void Monster_HollowSoldier_Sword::State_Attack3_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1117,8 +1151,16 @@ void Monster_HollowSoldier_Sword::State_Attack3_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1159,8 +1201,16 @@ void Monster_HollowSoldier_Sword::State_Attack3_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1246,8 +1296,16 @@ void Monster_HollowSoldier_Sword::State_Attack5_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1286,8 +1344,16 @@ void Monster_HollowSoldier_Sword::State_Attack5_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1328,8 +1394,16 @@ void Monster_HollowSoldier_Sword::State_Attack5_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1369,8 +1443,16 @@ void Monster_HollowSoldier_Sword::State_Attack6_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1411,8 +1493,16 @@ void Monster_HollowSoldier_Sword::State_Attack6_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1439,8 +1529,16 @@ void Monster_HollowSoldier_Sword::State_Attack6_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1480,8 +1578,16 @@ void Monster_HollowSoldier_Sword::State_Attack7_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1522,8 +1628,16 @@ void Monster_HollowSoldier_Sword::State_Attack7_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1550,8 +1664,16 @@ void Monster_HollowSoldier_Sword::State_Attack7_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1592,8 +1714,16 @@ void Monster_HollowSoldier_Sword::State_Attack7_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1634,8 +1764,16 @@ void Monster_HollowSoldier_Sword::State_Attack8_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1676,8 +1814,16 @@ void Monster_HollowSoldier_Sword::State_Attack8_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1717,8 +1863,16 @@ void Monster_HollowSoldier_Sword::State_Attack9_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1745,8 +1899,16 @@ void Monster_HollowSoldier_Sword::State_Attack9_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1786,8 +1948,16 @@ void Monster_HollowSoldier_Sword::State_Attack10_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1814,8 +1984,16 @@ void Monster_HollowSoldier_Sword::State_Attack10_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1855,8 +2033,16 @@ void Monster_HollowSoldier_Sword::State_Attack10_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1896,8 +2082,16 @@ void Monster_HollowSoldier_Sword::State_Attack11_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1982,8 +2176,16 @@ void Monster_HollowSoldier_Sword::State_Attack13_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_Sword_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -2151,6 +2353,8 @@ void Monster_HollowSoldier_Sword::State_Parrying_Start()
 	Hit.SetHit(false);
 	Sword.Off();
 	Sword.ResetRecord();
+	SetFlag(Enum_ActorFlag::Break_Posture, false);
+	SetFlag(Enum_ActorFlag::Groggy, true);
 	MainRenderer->ChangeAnimation("c1100_Parrying");
 }
 void Monster_HollowSoldier_Sword::State_Parrying_Update(float _Delta)
@@ -2309,6 +2513,7 @@ void Monster_HollowSoldier_Sword::State_BackAttackDeath_Update(float _Delta)
 void Monster_HollowSoldier_Sword::State_AfterGuardBreakHit_Start()
 {
 	Hit.SetHit(false);
+	SetFlag(Enum_ActorFlag::Groggy, false);
 	MainRenderer->ChangeAnimation("c1100_AfterGuardBreakHit");
 }
 void Monster_HollowSoldier_Sword::State_AfterGuardBreakHit_Update(float _Delta)
