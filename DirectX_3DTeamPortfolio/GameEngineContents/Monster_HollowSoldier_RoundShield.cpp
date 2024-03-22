@@ -475,13 +475,6 @@ void Monster_HollowSoldier_RoundShield::ChangeHitState()
 			return;
 		}
 
-		if (true == IsFlag(Enum_ActorFlag::Break_Posture))
-		{
-			ChangeState(Enum_HollowSoldier_RoundShield_State::Parrying);
-			return;
-		}
-
-
 		Enum_DirectionXZ_Quat HitDir = Hit.GetHitDir();
 		//BodyCollision->Off();
 
@@ -1000,8 +993,16 @@ void Monster_HollowSoldier_RoundShield::State_Attack1_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_RoundShield_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1043,8 +1044,16 @@ void Monster_HollowSoldier_RoundShield::State_Attack2_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_RoundShield_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1083,8 +1092,16 @@ void Monster_HollowSoldier_RoundShield::State_Attack2_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_RoundShield_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1126,8 +1143,16 @@ void Monster_HollowSoldier_RoundShield::State_Attack3_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_RoundShield_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1167,8 +1192,16 @@ void Monster_HollowSoldier_RoundShield::State_Attack3_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_RoundShield_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1209,8 +1242,16 @@ void Monster_HollowSoldier_RoundShield::State_Attack3_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_RoundShield_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1252,8 +1293,16 @@ void Monster_HollowSoldier_RoundShield::State_Attack4_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_RoundShield_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1295,8 +1344,16 @@ void Monster_HollowSoldier_RoundShield::State_Attack5_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_RoundShield_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1322,8 +1379,16 @@ void Monster_HollowSoldier_RoundShield::State_Attack5_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_RoundShield_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1364,8 +1429,16 @@ void Monster_HollowSoldier_RoundShield::State_Attack6_Update(float _Delta)
 			Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 			if (true == Sword.GetBlock())
 			{
-				ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
-				return;
+				if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+				{
+					ChangeState(Enum_HollowSoldier_RoundShield_State::Parrying);
+					return;
+				}
+				else
+				{
+					ChangeState(Enum_HollowSoldier_RoundShield_State::AttackFail);
+					return;
+				}
 			}
 			else
 			{
@@ -1700,6 +1773,8 @@ void Monster_HollowSoldier_RoundShield::State_Parrying_Start()
 	Hit.SetHit(false);
 	Sword.Off();
 	Sword.ResetRecord();
+	SetFlag(Enum_ActorFlag::Break_Posture, false);
+	SetFlag(Enum_ActorFlag::Groggy, true);
 	MainRenderer->ChangeAnimation("c1100_Parrying");
 }
 void Monster_HollowSoldier_RoundShield::State_Parrying_Update(float _Delta)
