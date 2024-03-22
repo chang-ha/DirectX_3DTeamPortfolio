@@ -21,6 +21,11 @@ void GameEnginePhysXLevel::PhysXLevelInit()
 
 void GameEnginePhysXLevel::RunSimulation(float _Delta)
 {
+	if (nullptr == Scene)
+	{
+		MsgBoxAssert("PhysX Scene 지우지 마세요.");
+	}
+
 	if (0.0f >= _Delta)
 	{
 		return;
@@ -43,13 +48,11 @@ bool GameEnginePhysXLevel::RayCast(const float4& _Pos, const float4& _DirVector,
 {
 	float4 DirVector = _DirVector;
 	DirVector.Normalize();
-	physx::PxVec3 origin = physx::PxVec3(_Pos.X, _Pos.Y, _Pos.Z);		 // [in] Ray origin
-	physx::PxVec3 unitDir = physx::PxVec3({ DirVector.X, DirVector.Y, DirVector.Z });                // [in] Normalized ray direction
-	physx::PxReal maxDistance = _MaxDisTance;            // [in] Raycast max distance
-	physx::PxRaycastBuffer hitResult;                 // [out] Raycast results
+	physx::PxVec3 origin = physx::PxVec3(_Pos.X, _Pos.Y, _Pos.Z);	// Raycast Pos
+	physx::PxVec3 unitDir = physx::PxVec3({ DirVector.X, DirVector.Y, DirVector.Z });	// Normalized ray direction
+	physx::PxReal maxDistance = _MaxDisTance;            // Raycast max distance
+	physx::PxRaycastBuffer hitResult;                 // Raycast results
 
-	// Raycast against all static & dynamic objects (no filtering)
-	// The main result from this call is the closest hit, stored in the 'hit.block' structure
 	bool status = Scene->raycast(origin, unitDir, maxDistance, hitResult);
 	return status;
 }

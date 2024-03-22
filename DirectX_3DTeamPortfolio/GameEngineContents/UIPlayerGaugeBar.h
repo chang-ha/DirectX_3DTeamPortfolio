@@ -30,6 +30,8 @@ public:
 
 	void FindAndSetGauge(Enum_BarType _Type, float _Value);
 
+	void Emeber();
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -43,5 +45,8 @@ private:
 	UIUnit* HpBar = nullptr;
 	UIUnit* MpBar = nullptr;
 	UIUnit* StaminaBar = nullptr;
+
+	//// PlayerIcon
+	std::shared_ptr<GameEngineUIRenderer> PlayerIcon;
 
 };

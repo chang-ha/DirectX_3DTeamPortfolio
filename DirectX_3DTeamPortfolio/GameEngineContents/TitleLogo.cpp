@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "TitleLogo.h"
 
+#include "LoadingLevel.h"
+
 TitleLogo::TitleLogo()
 {
 
@@ -44,12 +46,12 @@ void TitleLogo::Start()
 	AnyButtonBack->SetSprite("AnyButtonBack.Png");
 	AnyButtonBack->AutoSpriteSizeOn();
 	AnyButtonBack->SetAutoScaleRatio(0.4f);
-	AnyButtonBack->Transform.SetLocalPosition({ 0.0f, -130.0f, 505.0f });
+	AnyButtonBack->Transform.SetLocalPosition({ 0.0f, -125.0f, 505.0f });
 	AnyButtonBack->GetColorData().MulColor.A = 0.0f;
 
 	FontRender = CreateComponent<GameEngineUIRenderer>();
 	FontRender->SetText(GlobalValue::OptimusFont, "PRESS ANY BUTTON", FontScale, float4{ 1, 1, 1, 1 }, FW1_CENTER);
-	FontRender->Transform.SetLocalPosition({ 0.0f, -117.0f, 500.0f });
+	FontRender->Transform.SetLocalPosition({ 0.0f, -111.0f, 500.0f });
 	FontRender->Off();
 
 	GameEngineInput::AddInputObject(this);
@@ -103,7 +105,8 @@ void TitleLogo::Update(float _Delta)
 	if (DarkSouls_Logo->GetColorData().MulColor.A >= 1.0f && FontEnter == false &&
 		GameEngineInput::IsDownAnyKey() == true)
 	{
-		GameEngineSound::SoundPlay("GAMESTART.wav");
+		GameEngineSoundPlayer StartButton = GameEngineSound::SoundPlay("GAMESTART.wav");
+		StartButton.SetVolume(0.6f);
 		FontEnter = true;
 	}
 	if (FontEnter == true)
@@ -116,7 +119,8 @@ void TitleLogo::Update(float _Delta)
 
 	if (FontScale >= 25.0f)
 	{
-		GameEngineCore::ChangeLevel("Stage_Lothric");
+		LoadingLevel::LoadingFlag = Enum_LevelFlag::Loading_Resouce;
+		GameEngineCore::ChangeLevel("LoadingLevel");
 	}
 }
 

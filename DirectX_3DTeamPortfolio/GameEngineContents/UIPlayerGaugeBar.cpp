@@ -19,7 +19,11 @@ UIPlayerGaugeBar::~UIPlayerGaugeBar()
 
 void UIPlayerGaugeBar::Start()
 {
-
+	const float4 HScale = GlobalValue::GetWinScale().Half();
+	PlayerIcon = CreateComponent<GameEngineUIRenderer>();
+	PlayerIcon->SetSprite("PlayerIcon.Png");
+	PlayerIcon->AutoSpriteSizeOn();
+	PlayerIcon->Transform.SetLocalPosition({ -HScale.X + 60.0f, 400.0f });
 }
 
 void UIPlayerGaugeBar::Init(Player* _PlayerObject)
@@ -46,15 +50,19 @@ void UIPlayerGaugeBar::Init(Player* _PlayerObject)
 
 void UIPlayerGaugeBar::Update(float _Delta)
 {
-	if (GameEngineInput::IsDown('0', this))
+	if (false)
 	{
-		PlayerValue::GetValue()->SetMaxHp(700.0f);
-		PlayerValue::GetValue()->SetHp(700.0f);
-		HpBar->SetTotalGauge(700.0f);
 
-		PlayerValue::GetValue()->SetMaxMp(500.0f);
-		MpBar->SetTotalGauge(500.0f);
 	}
+	//if (GameEngineInput::IsDown('0', this))
+	//{
+	//	PlayerValue::GetValue()->SetMaxHp(700.0f);
+	//	PlayerValue::GetValue()->SetHp(700.0f);
+	//	HpBar->SetTotalGauge(700.0f);
+
+	//	PlayerValue::GetValue()->SetMaxMp(500.0f);
+	//	MpBar->SetTotalGauge(500.0f);
+	//}
 }
 
 void UIPlayerGaugeBar::Release()
@@ -112,4 +120,17 @@ void UIPlayerGaugeBar::FindAndSetGauge(Enum_BarType _Type, float _Value)
 	}
 
 	BarSet->SetGauge(_Value);
+}
+
+void UIPlayerGaugeBar::Emeber()
+{
+	// PlayerIcon->SetSprite();
+
+	if (pPlayer)
+	{
+		const int MaxHpValue = pPlayer->Get_Max_Hp();
+		HpBar->SetTotalGauge(static_cast<float>(MaxHpValue));
+		HpBar->SetGauge(1.0f);
+	}
+
 }

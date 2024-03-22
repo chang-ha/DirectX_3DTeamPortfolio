@@ -173,6 +173,16 @@ class Vordt_AttackCollision
 	void Release();
 };
 
+class Vordt_FaceLight
+{
+	friend class Boss_Vordt;
+	int FaceLightNumber = 0;
+	std::shared_ptr<class ContentsLight> FaceLightForward = nullptr;
+	std::shared_ptr<class ContentsLight> FaceLightBack = nullptr;
+	std::shared_ptr<class ContentsLight> FaceLightRight = nullptr;
+	std::shared_ptr<class ContentsLight> FaceLightLeft = nullptr;
+};
+
 class Boss_Vordt : public BaseActor
 {
 	friend Boss_State_GUI;
@@ -201,24 +211,8 @@ protected:
 	bool GetHit(const HitParameter& _Para = HitParameter()) override;
 	bool GetHitToShield(const HitParameter& _Para = HitParameter()) override;
 
+	void Reset() override;
 private: 
-
-	std::shared_ptr<class ContentsLight> FaceLightInit();
-	
-	std::shared_ptr<ContentsLight> FaceLightForward;
-	std::shared_ptr<ContentsLight> FaceLightBack;
-	std::shared_ptr<ContentsLight> FaceLightRight;
-	std::shared_ptr<ContentsLight> FaceLightLeft;
-
-	void FaceLightUpdate();
-	
-	
-
-	
-
-	
-
-
 	// RockOnCollision
 	std::shared_ptr<GameEngineCollision> RockOnCollision = nullptr;
 	// HitCollision
@@ -232,6 +226,7 @@ private:
 
 	void FrameEventInit();
 	void StateInit();
+	void StatInit();
 
 	static constexpr float Distance_Standard = 500.f;
 	static constexpr float Degree_Standard = 60.f;
@@ -256,12 +251,19 @@ private:
 	Enum_JumpTableFlag AI_Combo();
 	Enum_JumpTableFlag AI_Dodge();
 	std::map<Enum_BossState, AI_State> AI_States;
+
 	bool ChangeAI_State(Enum_BossState _State);
 	void AIUpdate(float _Delta);
 
 	void MostPrioritzedUpdate();
 	void DeathCheck();
 	void GroggyCheck();
+
+	// Light
+	std::shared_ptr<class ContentsLight> FaceLightInit();
+	Vordt_FaceLight mFaceLight;
+
+	void FaceLightUpdate();
 
 	// State
 	////////////////////////// Move & Others

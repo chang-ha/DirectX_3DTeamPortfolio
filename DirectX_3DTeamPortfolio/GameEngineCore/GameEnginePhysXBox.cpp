@@ -24,11 +24,7 @@ void GameEnginePhysXBox::Update(float _Delta)
 
 void GameEnginePhysXBox::Release()
 {
-	if (nullptr != ComponentActor)
-	{
-		ComponentActor->release();
-		ComponentActor = nullptr;
-	}
+	GameEnginePhysXComponent::Release();
 }
 
 void GameEnginePhysXBox::PhysXComponentInit(float _hX, float _hY, float _hZ, bool _IsMovingBox /*= false*/, const physx::PxMaterial* _Material /*= GameEnginePhysX::GetDefaultMaterial()*/)

@@ -11,6 +11,7 @@
 #include "ContentResources.h"
 #include "PlayLevel.h"
 #include "Stage_Lothric.h"
+#include "LoadingLevel.h"
 #include "TestLevel_Boss.h"
 #include "TestLevel_Monster.h"
 #include "TestLevel_Shader.h"
@@ -50,6 +51,8 @@ void ContentsCore::Start()
 	//GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
 	//GameEngineCore::CreateLevel<TestLevel_MapObject>("TestLevel_MapObject");
 	//GameEngineCore::CreateLevel<TestLevel_ObjectTest>("TestLevel_ObjectTest");
+	GameEngineCore::CreateLevel<LoadingLevel>("LoadingLevel");
+	
 	GameEngineCore::ChangeLevel("TitleLevel");
 	
 

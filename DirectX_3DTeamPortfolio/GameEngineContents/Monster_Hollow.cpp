@@ -3,6 +3,8 @@
 #include "BasePlayer.h"
 #include "BoneSocketCollision.h"
 
+#include "AddSouls.h"
+
 Monster_Hollow::Monster_Hollow()
 {
 }
@@ -97,6 +99,9 @@ void Monster_Hollow::DeathFunc()
 	SetFlag(Enum_ActorFlag::Death, true);
 	OffAllCollision();
 	MonsterCollision->Off();
+
+	const int Souls = Stat.GetSouls();
+	AddSouls::AddUISoul(Souls);
 }
 
 void Monster_Hollow::CreateAnimation()

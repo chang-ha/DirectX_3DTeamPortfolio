@@ -38,7 +38,6 @@ public:
 	// 외부에서 캐릭터를 깨우는 인터페이스
 	// 상태 정의
 	virtual void WakeUp() {}
-	virtual void DeathProcess();
 	void GravityOn();
 	void GravityOff();
 
@@ -49,27 +48,6 @@ public:
 	/// <param name="_Index">정찰할 첫 지점</param>
 	/// <param name="_IsOneWay">왕복 기능</param>
 	void SetPatrolPath(const std::vector<float4>& _Paths, int _Index = 0, bool _IsOneWay = false);
-
-	// 리스폰 위치
-	void SetResponPos(const float4& _Pos)
-	{
-		ResponPos = _Pos;
-	}
-
-	void SetResponRotation(const float4& _Rot)
-	{
-		ResponPos = _Rot;
-	}
-
-	float4 GetResponPos()
-	{
-		return ResponPos;
-	}
-
-	float4 GetResponRot()
-	{
-		return ResponRot;
-	}
 
 	void DebugOn() { DebugValue = true; }
 
@@ -211,10 +189,6 @@ protected:
 
 protected:
 	std::unique_ptr<class PatrolPath> PathObject;
-
-	// 몬스터 리스폰 위치
-	float4 ResponPos = float4::ZERO;
-	float4 ResponRot = float4::ZERO;
 
 	bool DebugValue = false;
 

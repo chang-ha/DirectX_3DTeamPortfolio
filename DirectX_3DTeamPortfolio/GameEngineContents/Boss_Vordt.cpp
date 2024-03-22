@@ -953,15 +953,12 @@ void Boss_Vordt::Start()
 		Capsule->SetFiltering(Enum_CollisionOrder::Monster);
 	}
 
-	Stat.SetHp(BOSS_HP);
-	Stat.SetAtt(0);
-	Stat.SetSouls(3000);
-	Stat.SetPoise(100);
+	StatInit();
 
-	FaceLightForward = FaceLightInit();
-	FaceLightBack = FaceLightInit();
-	FaceLightLeft = FaceLightInit();
-	FaceLightRight = FaceLightInit();
+	mFaceLight.FaceLightForward = FaceLightInit();
+	mFaceLight.FaceLightBack = FaceLightInit();
+	mFaceLight.FaceLightLeft = FaceLightInit();
+	mFaceLight.FaceLightRight = FaceLightInit();
 }
 
 void Boss_Vordt::Update(float _Delta)
@@ -1004,6 +1001,14 @@ void Boss_Vordt::Release()
 	AI_States.clear();
 
 	BaseActor::Release();
+}
+
+void Boss_Vordt::StatInit()
+{
+	Stat.SetHp(BOSS_HP);
+	Stat.SetAtt(0);
+	Stat.SetSouls(3000);
+	Stat.SetPoise(100);
 }
 
 void Boss_Vordt::AI_Start()
@@ -1066,6 +1071,14 @@ bool Boss_Vordt::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 bool Boss_Vordt::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 {
 	return false;
+}
+
+void Boss_Vordt::Reset()
+{
+	StatInit();
+	AI_Stop();
+	BaseActor::SetWorldPosition(ResponPos);
+	BaseActor::SetWorldRotation(ResponRot);
 }
 
 void Boss_Vordt::TargetStateUpdate()
@@ -1285,10 +1298,9 @@ void Boss_Vordt::CollisionUpdate()
 
 std::shared_ptr< ContentsLight> Boss_Vordt::FaceLightInit()
 {
-	static int num = 0;
-	num++;
+	++mFaceLight.FaceLightNumber;
 
-	std::shared_ptr< ContentsLight> Light = GetLevel()->CreateActor< ContentsLight>(Enum_UpdateOrder::Light, "BossFaceLight" + std::to_string(num));
+	std::shared_ptr< ContentsLight> Light = GetLevel()->CreateActor< ContentsLight>(Enum_UpdateOrder::Light, "BossFaceLight" + std::to_string(mFaceLight.FaceLightNumber));
 	Light->SetLightType(Enum_LightType::Point);
 
 	LightData Data = Light->GetLightData();
@@ -1309,15 +1321,15 @@ void Boss_Vordt::FaceLightUpdate()
 	float4 WorldPostion = Transform.GetWorldPosition();
 
 	float4 revolution = float4::VectorRotationToDegY(float4{ 0.0f, 250.0f, 350.0f }, RotationY);
-	FaceLightForward->Transform.SetLocalPosition(WorldPostion + revolution);
+	mFaceLight.FaceLightForward->Transform.SetLocalPosition(WorldPostion + revolution);
 
 	revolution = float4::VectorRotationToDegY(float4{ 0.0f, 250.0f, -350.0f }, RotationY);
-	FaceLightBack->Transform.SetLocalPosition(WorldPostion + revolution);
+	mFaceLight.FaceLightBack->Transform.SetLocalPosition(WorldPostion + revolution);
 
 	revolution = float4::VectorRotationToDegY(float4{ 350.0f, 250.0f, 0.0f }, RotationY);
-	FaceLightRight->Transform.SetLocalPosition(WorldPostion + revolution);
+	mFaceLight.FaceLightRight->Transform.SetLocalPosition(WorldPostion + revolution);
 
 	revolution = float4::VectorRotationToDegY(float4{ -350.0f, 250.0f, 0.0f }, RotationY);
-	FaceLightLeft->Transform.SetLocalPosition(WorldPostion + revolution);
+	mFaceLight.FaceLightLeft->Transform.SetLocalPosition(WorldPostion + revolution);
 }
 

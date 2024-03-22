@@ -1,17 +1,25 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
-
-enum struct SoulsActor
-{
-	None,
-	Appear,
-	Add,
-	Sum,
-};
+#include "UIActor.h"
 
 // 설명 :
-class AddSouls : public GameEngineActor
+class AddSouls : public UIActor
 {
+	enum class eAddState
+	{
+		Ready,
+		FadeIn,
+		Wait,
+		FadeOut,
+	};
+
+	enum class eScoreState
+	{
+		Ready,
+		UpScale,
+		DownScale,
+		AddScore,
+	};
+
 public:
 	// constructer destructer
 	AddSouls();
@@ -23,37 +31,64 @@ public:
 	AddSouls& operator = (const AddSouls& _Other) = delete;
 	AddSouls& operator = (AddSouls&& _Other) noexcept = delete;
 
-	void ChangeState(SoulsActor _State);
-	void StateUpdate(float _Delta);
+	static void AddUISoul(int _Souls);
 
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
-	void LevelEnd(GameEngineLevel* _NextLevel) override;
+	void Release() override {}
 
-	void AppearStart();
-	void AddStart();
-	void SumStart();
+	void Reset() override {}
 
-	void AppearUpdate(float _Delta);
-	void AddUpdate(float _Delta);
-	void SumUpdate(float _Delta);
+	void DetectSouls();
 
-	void FontUpdate();
 
+	// AddState
+	void Start_AddState_Ready(GameEngineState* _Parent);
+	void Start_AddState_FadeIn(GameEngineState* _Parent); // Fade
+	void Start_AddState_Wait(GameEngineState* _Parent); // Fade 1.0f
+	void Start_AddState_FadeOut(GameEngineState* _Parent);
+
+	void Update_AddState_Ready(float _Delta, GameEngineState* _Parent);
+	void Update_AddState_FadeIn(float _Delta, GameEngineState* _Parent);
+	void Update_AddState_Wait(float _Delta, GameEngineState* _Parent); //
+	void Update_AddState_FadeOut(float _Delta,GameEngineState* _Parent) ; // Ready, ScoreState.change(UpScale)
+
+	void End_AddState_FadeOut(GameEngineState* _Parent); 
+
+	// ScoreState
+	void Start_ScoreState_Ready(GameEngineState* _Parent);
+	void Start_ScoreState_UpScale(GameEngineState* _Parent); // 
+	void Start_ScoreState_DownScale(GameEngineState* _Parent); // 
+	void Start_ScoreState_AddScore(GameEngineState* _Parent); // Font 최소 사이즈?
+
+	void Update_ScoreState_UpScale(float _Delta, GameEngineState* _Parent);
+	void Update_ScoreState_DownScale(float _Delta, GameEngineState* _Parent); 
+	void Update_ScoreState_AddScore(float _Delta, GameEngineState* _Parent); 
+
+	void End_ScoreState_AddScore(GameEngineState* _Parent); 
+
+	void SetFontFade(const float _Gamma);
+	void SetFontScale(const std::shared_ptr<GameEngineUIRenderer>& _Renderer, const float _FontSize);
+	void AddScore(int _Score);
+
+	
 private:
-	float4 WindowScale = float4::ZERO;
 	std::shared_ptr<GameEngineUIRenderer> SoulsBack;
 	std::shared_ptr<GameEngineUIRenderer> AddSoul;
 	std::shared_ptr<GameEngineUIRenderer> SumSouls;
 
-	int Souls = 0;
-	int SoulAdd = 0;
+	GameEngineUIRenderer* DebugRenderer = nullptr;
 
-	float FontTime = 0.0f;
-	float FontSizeTime = 0.3f;
-	float FontSize = 14.0f;
+	GameEngineState AddState;
+	GameEngineState ScoreState;
 
-	SoulsActor SoulState = SoulsActor::None;
+	static int TotalScore;
+	int CurUISouls = 0;
+	int PlusScore = 0;
+	int RenderScore = 0;
+	int TargetScore = 0;
+
+
 };
 

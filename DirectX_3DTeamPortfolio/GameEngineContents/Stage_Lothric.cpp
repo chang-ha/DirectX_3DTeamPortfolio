@@ -59,11 +59,12 @@
 // Effect
 #include "AllFadeEffect.h"
 
+
 bool Stage_Lothric::ResLoadingDone = false;
 bool Stage_Lothric::ResetLoadingDone = false;
 Stage_Lothric::Stage_Lothric()
 {
-
+	ResLoadingDone = false;
 }
 
 Stage_Lothric::~Stage_Lothric()
@@ -73,7 +74,6 @@ Stage_Lothric::~Stage_Lothric()
 
 void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 {
-
 	{
 		std::shared_ptr<GameEngineActor> Ground = CreateActor<GameEngineActor>(0);
 		std::shared_ptr<GameEngineRenderer> NewRenderer = Ground->CreateComponent<GameEngineRenderer>();
@@ -171,11 +171,6 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		Boss_Object->SetTargeting(Player_Object.get());
 	}
 
-	{
-		std::shared_ptr<Monster_HollowSoldier> GameMap = CreateActor<Monster_HollowSoldier>(0 );
-		GameMap->Transform.SetWorldPosition({ -2900.f,-2500.f,6800.f });
-	}
-
 	BossBGM = GameEngineSound::SoundPlay("1-06 Vordt Of The Boreal Valley.mp3", 100);
 	BossBGMVolume = BEGIN_BOSS_BGM_VOLUME;
 	BossBGM.SetVolume(BossBGMVolume);
@@ -215,7 +210,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	{
-		if (nullptr == GameEngineSprite::Find("Dark.png"))
+		if (nullptr == GameEngineSprite::Find("Lothric_Wall.png"))
 		{
 			GameEngineDirectory Dir;
 			Dir.MoveParentToExistsChild("ContentsResources");
@@ -251,7 +246,8 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		UILot->SetCollision(float4(400.0f, 400.0f, 400.0f), float4(-1885.0f, 5015.0f, -3987.0f));
 	}
 
-	StateInit();
+	ResLoading();
+	LevelState.ChangeState(Enum_LevelState::Play);
 }
 
 void Stage_Lothric::LevelEnd(GameEngineLevel* _NextLevel)
@@ -266,13 +262,12 @@ void Stage_Lothric::Start()
 	GameEngineInput::AddInputObject(this);
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 0, 0, 0, 1 });
 	
-	LoadingThread.Initialize("LoadingThread", 1);
-
-	Stage_Lothric::ResLoadingDone = false;
 
 	{
 		Map_Lothric = CreateActor<WorldMap>(0, "WorldMap");
 	}
+
+	StateInit();
 }
 
 void Stage_Lothric::Update(float _Delta)
@@ -1089,6 +1084,35 @@ void Stage_Lothric::CreateObject()
 		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
 		Object->Transform.SetWorldPosition({ -12234, 2217 , -3290 });
 		Object->Transform.SetWorldRotation({ 0, -90, 0 });
+		VTorchlight.push_back(Object);
+	}
+
+	//37
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -2139, 4979 , -2306 });
+		Object->Transform.SetWorldRotation({ 0, -110, 0 });
+		VTorchlight.push_back(Object);
+	}
+	//38
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -1651, 5255 , -4073 });
+		Object->Transform.SetWorldRotation({ 0, -20, 0 });
+		VTorchlight.push_back(Object);
+	}
+	//39
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -1970, 5255 , -4183 });
+		Object->Transform.SetWorldRotation({ 0, -20, 0 });
+		VTorchlight.push_back(Object);
+	}
+	//40
+	{
+		std::shared_ptr<Object_Torchlight> Object = CreateActor<Object_Torchlight>(1);
+		Object->Transform.SetWorldPosition({ -4196, 4229 , -932 });
+		Object->Transform.SetWorldRotation({ 0, 140, 0 });
 		VTorchlight.push_back(Object);
 	}
 	

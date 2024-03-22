@@ -224,6 +224,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="EventCol.cpp" />
+    <ClCompile Include="LoadingLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="LothricKn_Debug.cpp">
       <SubType>
       </SubType>
@@ -550,6 +554,10 @@
     </ClCompile>
     <ClCompile Include="UIPlayerGaugeBar.cpp" />
     <ClCompile Include="UIUnit.cpp" />
+    <ClCompile Include="UI_Utils.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WorldMap.cpp" />
   </ItemGroup>
@@ -610,6 +618,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="EventCol.h" />
+    <ClInclude Include="LoadingLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="LothricKn_Debug.h">
       <SubType>
       </SubType>
@@ -935,6 +947,10 @@
     </ClInclude>
     <ClInclude Include="UIPlayerGaugeBar.h" />
     <ClInclude Include="UIUnit.h" />
+    <ClInclude Include="UI_Utils.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="WorldMap.h" />
   </ItemGroup>

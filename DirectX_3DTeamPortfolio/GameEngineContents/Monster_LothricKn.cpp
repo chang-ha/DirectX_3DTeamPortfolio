@@ -22,11 +22,6 @@ void Monster_LothricKn::Start()
 {
 	BaseMonster::Start();
 
-	if (nullptr != Capsule)
-	{
-		Capsule->PhysXComponentInit(100.0f, 100.0f);
-	}
-
 	// Outer Res
 	LoadRes3DSound("c128001001.wav");
 	BaseActor::PushMaterialSound(Enum_DS3MaterialSound::E1001, "c128001001.wav");
@@ -301,6 +296,7 @@ void Monster_LothricKn::Start()
 	// Stat
 	Stat.SetHp(LOTHRIC_KNIGHT_HP); // Official Hp
 	Stat.SetAtt(80);
+	Stat.SetSouls(ContentsRandom::RandomInt(220, 1000));
 
 	// Collision
 	const float PatrolSize = 25.0f * W_SCALE;
@@ -438,7 +434,7 @@ void Monster_LothricKn::Reset()
 
 void Monster_LothricKn::DeathProcess()
 {
-	BaseMonster::DeathProcess();
+	BaseActor::DeathProcess();
 
 	if (nullptr != MonsterCollision)
 	{

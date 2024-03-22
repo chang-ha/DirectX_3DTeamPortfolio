@@ -1762,6 +1762,7 @@ void Boss_Vordt::Death_Start()
 	SetFlag(Enum_ActorFlag::Death, true);
 	RockOnCollision->Off();
 	mAttackCollision.Off();
+	BaseActor::DeathProcess();
 }
 
 void Boss_Vordt::Death_Update(float _Delta)
@@ -1781,6 +1782,7 @@ void Boss_Vordt::Death_Groggy_Start()
 	mHitCollision.Off();
 	RockOnCollision->Off();
 	mAttackCollision.Off();
+	BaseActor::DeathProcess();
 }
 
 void Boss_Vordt::Death_Groggy_Update(float _Delta)
