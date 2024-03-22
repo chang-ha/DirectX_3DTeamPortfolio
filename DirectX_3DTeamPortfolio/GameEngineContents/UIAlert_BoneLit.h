@@ -4,6 +4,12 @@
 // Ό³Έν :
 class UIAlert_BoneLit : public UIAlert
 {
+	enum class eState
+	{
+		Appear,
+		Disappear,
+	};
+
 public:
 	// constrcuter destructer
 	UIAlert_BoneLit();
@@ -26,6 +32,8 @@ protected:
 	void Update_DisAppear(float _Delta, GameEngineState* _Parent);
 
 private:
+	GameEngineState mState;
+
 	float ScaleRatio = 0.0f;
 
 };

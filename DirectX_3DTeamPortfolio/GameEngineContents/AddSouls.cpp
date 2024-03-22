@@ -104,7 +104,7 @@ void AddSouls::DetectSouls()
 		bool IsReady = (eAddState::Ready == static_cast<eAddState>(AddState.GetCurState()));
 		if (IsReady)
 		{
-			AddSoul->ChangeText(std::to_string(Souls));
+			AddSoul->ChangeText("+ " + std::to_string(Souls));
 			AddState.ChangeState(eAddState::FadeIn);
 		}
 	}

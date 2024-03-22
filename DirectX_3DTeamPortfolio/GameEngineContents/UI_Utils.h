@@ -4,6 +4,7 @@ class UIHandler
 {
 public:
 	static void Update(float _Delta, GameEngineObject* _pObject, void* _Pointer);
+	static void ScaleUpdate(float _Delta, GameEngineSpriteRenderer* _pRenderer, void* _Pointer);
 
 private:
 

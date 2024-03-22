@@ -14,34 +14,30 @@ UIAlert::~UIAlert()
 void UIAlert::Start()
 {
 	// Renderer Create
+	DarkRenderer = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_BlackTexture);
 	BackTexture = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_BackTexture);
 	FontTexture = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_FontTexture);
 	BackTexture->AutoSpriteSizeOn();
 	FontTexture->AutoSpriteSizeOn();
 
-	BackTexture->Off();
-	FontTexture->Off();
-
-	GameEngineInput::AddInputObject(this);
-}
-
-void UIAlert::Update(float _Delta)
-{
-	MainState.Update(_Delta);
-	if (GameEngineInput::IsDown('I', this))
-	{
-		MainState.ChangeState(eState::Appear);
-	}
+	DarkRenderer->Off();
 }
 
 void UIAlert::Release()
 {
-	// Renderer Release
+	BackTexture = nullptr;
+	FontTexture = nullptr;
 }
 
 void UIAlert::SetBackScale(const float4& _Scale)
 {
 	BackTexture->SetAutoScaleRatio(_Scale);
+}
+
+void UIAlert::AddBackScale(const float4& _AddScale)
+{
+	const float4 BackScale = _AddScale + BackTexture->GetAutoScaleRatio();
+	BackTexture->SetAutoScaleRatio(BackScale);
 }
 
 void UIAlert::SetGamma(GameEngineUIRenderer* _Renderer, float _Ratio)

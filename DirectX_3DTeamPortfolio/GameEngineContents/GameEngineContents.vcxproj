@@ -525,7 +525,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UIAlertMaanger.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UIAlert_BoneLit.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UIAlert_Destroy.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -919,7 +927,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="UIAlertMaanger.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="UIAlert_BoneLit.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UIAlert_Destroy.h">
       <SubType>
       </SubType>
     </ClInclude>

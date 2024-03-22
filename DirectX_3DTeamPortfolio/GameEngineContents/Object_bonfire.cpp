@@ -66,6 +66,7 @@ void Object_bonfire::Start()
 
 	Light->SetLightData(Data);
 
+	//test
 }
 
 void Object_bonfire::Update(float _Delta)

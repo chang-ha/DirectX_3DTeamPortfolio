@@ -19,6 +19,7 @@ enum class Enum_RenderOrder
 	UI_BackBar,
 	UI_BackGauge,
 	UI_StatGauge,
+	UI_BlackTexture,
 	UI_BackTexture,
 	UI_FrontTexture,
 	UI_FontTexture,
