@@ -30,6 +30,9 @@ void Monster_Hollow_NonFirstAttack::Start()
 	CheckLanternCollision->Transform.SetWorldScale(float4(300, 300, 300));
 
 	//AttackRangeCollision->Off();
+
+	//RecognizeCollision->Transform.SetWorldScale(float4(3000.0f, 3000.0f, 3000.0f));
+	RecognizeCollision->Transform.SetWorldScale(float4(5000.0f, 5000.0f, 5000.0f));
 	
 	SwordCollision = CreateSocketCollision(Enum_CollisionOrder::MonsterAttack, Enum_Hollow_BoneType::Sword, { float4(62.0f, 4.0f, 7.0f), float4::ZERONULL, float4(0.16f, 0.0f, 0.015f) });
 	SwordCollision->SetCollisionType(ColType::OBBBOX3D);
@@ -418,7 +421,7 @@ void Monster_Hollow_NonFirstAttack::NonFindTarget(float _Delta)
 	{
 		if (RecognizeCollision->IsUpdate() == true)
 		{
-			RecognizeCollision->Transform.AddWorldScale(float4(2000.0f * _Delta, 2000.0f * _Delta, 2000.0f * _Delta));
+			RecognizeCollision->Transform.AddWorldScale(float4(5000.0f * _Delta, 5000.0f * _Delta, 5000.0f * _Delta));
 		}
 	}
 }
