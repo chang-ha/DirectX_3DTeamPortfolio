@@ -15,6 +15,10 @@
 #include "TriggerActor.h"
 #include "ContentLevel.h"
 #include "Object_bonfire.h"
+
+// UI
+#include "UISystemManager.h"
+
 #define Frame 0.033f
 
 Player* Player::Main_Player;

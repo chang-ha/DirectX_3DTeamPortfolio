@@ -1665,5 +1665,8 @@ void Stage_Lothric::ResetLoading()
 	AllMonsterOff();
 	AllEvColOn();
 
+	ContentsDebug::NUllCheck(MainUI.get());
+	MainUI->AllUIActorReset();
+
 	Stage_Lothric::ResetLoadingDone = true;
 }
