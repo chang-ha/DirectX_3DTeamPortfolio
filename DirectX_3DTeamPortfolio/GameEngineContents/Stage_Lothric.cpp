@@ -189,6 +189,9 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 				BossBGMVolume = BEGIN_BOSS_BGM_VOLUME;
 				BossBGM.SetVolume(BossBGMVolume);
 				BossBGM.Resume();
+
+				GameEngineSoundPlayer FogSound = GameEngineSound::SoundPlay("gate_point.wav");
+				FogSound.SetVolume(0.7f);
 			});
 	}
 

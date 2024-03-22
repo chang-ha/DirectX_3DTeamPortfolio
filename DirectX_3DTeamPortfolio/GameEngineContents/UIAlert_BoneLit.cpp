@@ -50,7 +50,7 @@ void UIAlert_BoneLit::Release()
 }
 
 //State
-static constexpr float FadeTime = 2.f;
+static constexpr float FadeTime = 2.0f;
 static constexpr float StartGamma = 0.3f;
 
 void UIAlert_BoneLit::Start_Appear(GameEngineState* _Parent)
@@ -58,10 +58,14 @@ void UIAlert_BoneLit::Start_Appear(GameEngineState* _Parent)
 	SetGamma(BackTexture.get(), StartGamma);
 	SetGamma(FontTexture.get(), StartGamma);
 	BackTexture->SetAutoScaleRatio(float4(FullRatio, FullRatio));
+
 	BackTexture->On();
 	FontTexture->On();
 
 	ScaleRatio = FullRatio;
+
+	GameEngineSoundPlayer BonFire = GameEngineSound::SoundPlay("Bonfire_Sound_Effect_.wav");
+	BonFire.SetVolume(0.7f);
 }
 void UIAlert_BoneLit::Update_Appear(float _Delta, GameEngineState* _Parent)
 {
