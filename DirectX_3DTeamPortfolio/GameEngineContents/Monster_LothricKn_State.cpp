@@ -3241,8 +3241,19 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToNormalAttackTable(Enum_TargetD
 			}
 		}
 
-		enum eAttackType
+		const int ModeChance = ContentsRandom::RandomInt(0, 6);
+		enum class eModeChance
 		{
+			TwoHand = 6,
+		};
+
+		if (static_cast<int>(eModeChance::TwoHand) == ModeChance)
+		{
+			return Enum_LothricKn_State::DH_Hold;
+		}
+
+		enum eAttackType
+		{0
 			Combo1 = 0,
 			Combo2,
 			None,
@@ -3258,11 +3269,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToNormalAttackTable(Enum_TargetD
 			break;
 		case eAttackType::Combo2:
 			AttackState = Enum_LothricKn_State::Combo_Att_21;
-			++AttackRecord;
-			break;
-		case eAttackType::None:
-			AttackState = Enum_LothricKn_State::Combo_Att_11;
-			AttackRecord = Combo1;
+			AttackRecord = eAttackType::Combo1;
 			break;
 		default:
 			break;
