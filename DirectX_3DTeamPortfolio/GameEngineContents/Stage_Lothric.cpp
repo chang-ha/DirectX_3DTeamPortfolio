@@ -183,7 +183,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 			});
 	}
 
-	CreateObject();
+	
 
 	// 몬스터 셋팅
 	SetAllMonster();
@@ -1644,6 +1644,7 @@ void Stage_Lothric::ResLoading()
 {
 	if (false == Stage_Lothric::ResLoadingDone)
 	{
+		CreateObject();
 		// 이벤트 충돌체 셋팅
 		SetAllEvCol();
 
