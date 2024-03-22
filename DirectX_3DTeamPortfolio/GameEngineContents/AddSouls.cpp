@@ -240,7 +240,7 @@ void AddSouls::Update_ScoreState_ChangeScale(float _Delta, GameEngineState* _Par
 
 	const float ChangeFontSize = 10.f;
 	float AddSize = ChangeFontSize * _Delta / StateTime;
-	if (_Parent->GetStateTime() < StateTime * 0.5f)
+	if (_Parent->GetStateTime() > StateTime * 0.5f)
 	{
 		AddSize *= -1.0f;
 	}
