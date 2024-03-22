@@ -295,12 +295,13 @@ void Monster_Hollow_NonFirstAttack::ChangeAttackState()
 {
 	if (GetTargetDistance_e() == Enum_TargetDist::Melee)
 	{
-		AttackPattern = ContentsRandom::RandomInt(5, 10);
+		//AttackPattern = ContentsRandom::RandomInt(5, 10);
 	}
 	else
 	{
-		AttackPattern = ContentsRandom::RandomInt(1, 4);
+		//AttackPattern = ContentsRandom::RandomInt(1, 4);
 	}
+	AttackPattern = 2;
 	
 	switch (AttackPattern)  
 	{
@@ -354,12 +355,6 @@ void Monster_Hollow_NonFirstAttack::ChangeHitState()
 		if (Stat.GetHp() <= 0)
 		{
 			ChangeState(Enum_Hollow_State::HitToDeath);
-			return;
-		}
-
-		if (true == IsFlag(Enum_ActorFlag::Break_Posture))
-		{
-			ChangeState(Enum_Hollow_State::Parrying);
 			return;
 		}
 
@@ -982,6 +977,12 @@ void Monster_Hollow_NonFirstAttack::State_RH_VerticalSlash_Update(float _Delta)
 	{
 		Sword.On();
 
+		if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+		{
+			ChangeState(Enum_Hollow_State::Parrying);
+			return;
+		}
+
 		Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 		if (true == Sword.GetBlock())
 		{
@@ -1016,6 +1017,8 @@ void Monster_Hollow_NonFirstAttack::State_RH_HorizontalSlash_Update(float _Delta
 {
 	ChangeHitState();
 
+	
+
 	if (MainRenderer->GetCurAnimationFrame() >= 21 && MainRenderer->GetCurAnimationFrame() <= 24)
 	{
 		Sword.On();
@@ -1023,8 +1026,17 @@ void Monster_Hollow_NonFirstAttack::State_RH_HorizontalSlash_Update(float _Delta
 		Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 		if (true == Sword.GetBlock())
 		{
-			ChangeState(Enum_Hollow_State::AttackFail);
-			return;
+			if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+			{
+				ChangeState(Enum_Hollow_State::Parrying);
+				return;
+			}
+			else
+			{
+				ChangeState(Enum_Hollow_State::AttackFail);
+				return;
+			}
+			
 		}
 		else
 		{
@@ -1057,6 +1069,12 @@ void Monster_Hollow_NonFirstAttack::State_TH_VerticalSlash_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 28 && MainRenderer->GetCurAnimationFrame() <= 31)
 	{
 		Sword.On();
+
+		if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+		{
+			ChangeState(Enum_Hollow_State::Parrying);
+			return;
+		}
 
 		Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 		if (true == Sword.GetBlock())
@@ -1096,6 +1114,12 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 	if (MainRenderer->GetCurAnimationFrame() >= 32 && MainRenderer->GetCurAnimationFrame() <= 36)
 	{
 		Sword.On();
+
+		if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+		{
+			ChangeState(Enum_Hollow_State::Parrying);
+			return;
+		}
 
 		Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 		if (true == Sword.GetBlock())
@@ -1384,7 +1408,10 @@ void Monster_Hollow_NonFirstAttack::State_Parrying_Start()
 	Hit.SetHit(false);
 	Sword.Off();
 	Sword.ResetRecord();
+	SetFlag(Enum_ActorFlag::Break_Posture, false);
+	SetFlag(Enum_ActorFlag::Groggy, true);
 	MainRenderer->ChangeAnimation("c1100_Parrying");
+
 }
 void Monster_Hollow_NonFirstAttack::State_Parrying_Update(float _Delta)
 {
@@ -1548,7 +1575,7 @@ void Monster_Hollow_NonFirstAttack::State_BackAttackDeath_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_AfterGuardBreakHit_Start()
 {
-	MainRenderer->ChangeAnimation("c1100_AftefGuardBreakHit");
+	MainRenderer->ChangeAnimation("c1100_AfterGuardBreakHit");
 }
 void Monster_Hollow_NonFirstAttack::State_AfterGuardBreakHit_Update(float _Delta)
 {
