@@ -69,7 +69,7 @@ void Monster_HollowSoldier_RoundShield::WakeUp()
 
 void Monster_HollowSoldier_RoundShield::Reset()
 {
-	DeathValue = true;
+	DeathValue = false;
 
 	Sword.ResetRecord();
 
