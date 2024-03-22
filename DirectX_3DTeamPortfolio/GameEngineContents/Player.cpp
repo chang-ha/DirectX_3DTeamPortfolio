@@ -960,19 +960,20 @@ void Player::Update(float _Delta)
 
 	if (GetTargetPointer() != nullptr)
 	{
-		float4 Dir = GetTargetPos() - GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
+		float4 Dir = GetTargetPointer()->Transform.GetWorldPosition() - float4{Cameracapsule->Capsule_02->Transform.GetWorldPosition()};
 		float4 Monster = { 0,0,0,-1.0f };
 		float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
 		float radian = atan2(Dir.X, Dir.Z) - atan2(Monster.X, Monster.Z);
 		degree_X = float(radian * (180.0 / 3.141592));
-		
+		degree_X += error_Number_X;
+
 	}
 
 	
 
 	if (GetTargetPointer() != nullptr)
 	{
-		float4 Dir = GetTargetPos() - Actor_test_02->Transform.GetWorldPosition();
+		float4 Dir = GetTargetPointer()->Transform.GetWorldPosition() - float4{ Cameracapsule->Capsule_02->Transform.GetWorldPosition() };
 		float4 Monster = { 0,0,0,-1.0f };
 		float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
 		float radian = atan2(Dir.Y, Dir.Z) - atan2(Monster.Y, Monster.Z);
@@ -1429,7 +1430,7 @@ void Player::Rock_On(Enum_CollisionOrder _Order)
 
 
 
-				if (MonsterAngle >= 135)
+				if (MonsterAngle >= 150)
 				{
 					if (MonsterAngle <= 180)
 					{
@@ -1439,7 +1440,7 @@ void Player::Rock_On(Enum_CollisionOrder _Order)
 				}
 				if (MonsterAngle >= -180)
 				{
-					if (MonsterAngle < -135)
+					if (MonsterAngle < -150)
 					{
 						MonsterAngles.push_back(static_cast<int>(i));
 					}
