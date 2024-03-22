@@ -295,13 +295,13 @@ void Monster_Hollow_NonFirstAttack::ChangeAttackState()
 {
 	if (GetTargetDistance_e() == Enum_TargetDist::Melee)
 	{
-		//AttackPattern = ContentsRandom::RandomInt(5, 10);
+		AttackPattern = ContentsRandom::RandomInt(5, 10);
 	}
 	else
 	{
-		//AttackPattern = ContentsRandom::RandomInt(1, 4);
+		AttackPattern = ContentsRandom::RandomInt(1, 4);
 	}
-	AttackPattern = 2;
+	//AttackPattern = 2;
 	
 	switch (AttackPattern)  
 	{
@@ -977,17 +977,19 @@ void Monster_Hollow_NonFirstAttack::State_RH_VerticalSlash_Update(float _Delta)
 	{
 		Sword.On();
 
-		if (true == IsFlag(Enum_ActorFlag::Break_Posture))
-		{
-			ChangeState(Enum_Hollow_State::Parrying);
-			return;
-		}
-
 		Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 		if (true == Sword.GetBlock())
 		{
-			ChangeState(Enum_Hollow_State::AttackFail);
-			return;
+			if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+			{
+				ChangeState(Enum_Hollow_State::Parrying);
+				return;
+			}
+			else
+			{
+				ChangeState(Enum_Hollow_State::AttackFail);
+				return;
+			}
 		}
 		else
 		{
@@ -1016,8 +1018,6 @@ void Monster_Hollow_NonFirstAttack::State_RH_HorizontalSlash_Start()
 void Monster_Hollow_NonFirstAttack::State_RH_HorizontalSlash_Update(float _Delta)
 {
 	ChangeHitState();
-
-	
 
 	if (MainRenderer->GetCurAnimationFrame() >= 21 && MainRenderer->GetCurAnimationFrame() <= 24)
 	{
@@ -1070,17 +1070,19 @@ void Monster_Hollow_NonFirstAttack::State_TH_VerticalSlash_Update(float _Delta)
 	{
 		Sword.On();
 
-		if (true == IsFlag(Enum_ActorFlag::Break_Posture))
-		{
-			ChangeState(Enum_Hollow_State::Parrying);
-			return;
-		}
-
 		Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 		if (true == Sword.GetBlock())
 		{
-			ChangeState(Enum_Hollow_State::AttackFail);
-			return;
+			if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+			{
+				ChangeState(Enum_Hollow_State::Parrying);
+				return;
+			}
+			else
+			{
+				ChangeState(Enum_Hollow_State::AttackFail);
+				return;
+			}
 		}
 		else
 		{
@@ -1115,17 +1117,19 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 	{
 		Sword.On();
 
-		if (true == IsFlag(Enum_ActorFlag::Break_Posture))
-		{
-			ChangeState(Enum_Hollow_State::Parrying);
-			return;
-		}
-
 		Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 		if (true == Sword.GetBlock())
 		{
-			ChangeState(Enum_Hollow_State::AttackFail);
-			return;
+			if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+			{
+				ChangeState(Enum_Hollow_State::Parrying);
+				return;
+			}
+			else
+			{
+				ChangeState(Enum_Hollow_State::AttackFail);
+				return;
+			}
 		}
 		else
 		{
@@ -1152,8 +1156,16 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 		Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 		if (true == Sword.GetBlock())
 		{
-			ChangeState(Enum_Hollow_State::AttackFail);
-			return;
+			if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+			{
+				ChangeState(Enum_Hollow_State::Parrying);
+				return;
+			}
+			else
+			{
+				ChangeState(Enum_Hollow_State::AttackFail);
+				return;
+			}
 		}
 		else
 		{
@@ -1180,8 +1192,16 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 		Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 		if (true == Sword.GetBlock())
 		{
-			ChangeState(Enum_Hollow_State::AttackFail);
-			return;
+			if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+			{
+				ChangeState(Enum_Hollow_State::Parrying);
+				return;
+			}
+			else
+			{
+				ChangeState(Enum_Hollow_State::AttackFail);
+				return;
+			}
 		}
 		else
 		{
@@ -1208,8 +1228,16 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 		Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 		if (true == Sword.GetBlock())
 		{
-			ChangeState(Enum_Hollow_State::AttackFail);
-			return;
+			if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+			{
+				ChangeState(Enum_Hollow_State::Parrying);
+				return;
+			}
+			else
+			{
+				ChangeState(Enum_Hollow_State::AttackFail);
+				return;
+			}
 		}
 		else
 		{
@@ -1236,8 +1264,16 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 		Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 		if (true == Sword.GetBlock())
 		{
-			ChangeState(Enum_Hollow_State::AttackFail);
-			return;
+			if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+			{
+				ChangeState(Enum_Hollow_State::Parrying);
+				return;
+			}
+			else
+			{
+				ChangeState(Enum_Hollow_State::AttackFail);
+				return;
+			}
 		}
 		else
 		{
@@ -1264,8 +1300,16 @@ void Monster_Hollow_NonFirstAttack::State_RH_ComboAttack_Update(float _Delta)
 		Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 		if (true == Sword.GetBlock())
 		{
-			ChangeState(Enum_Hollow_State::AttackFail);
-			return;
+			if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+			{
+				ChangeState(Enum_Hollow_State::Parrying);
+				return;
+			}
+			else
+			{
+				ChangeState(Enum_Hollow_State::AttackFail);
+				return;
+			}
 		}
 		else
 		{
@@ -1302,8 +1346,16 @@ void Monster_Hollow_NonFirstAttack::State_RH_RunToSlash_Update(float _Delta)
 		Sword.CollisionToShield(Enum_CollisionOrder::Player_Shield);
 		if (true == Sword.GetBlock())
 		{
-			ChangeState(Enum_Hollow_State::AttackFail);
-			return;
+			if (true == IsFlag(Enum_ActorFlag::Break_Posture))
+			{
+				ChangeState(Enum_Hollow_State::Parrying);
+				return;
+			}
+			else
+			{
+				ChangeState(Enum_Hollow_State::AttackFail);
+				return;
+			}
 		}
 		else
 		{
