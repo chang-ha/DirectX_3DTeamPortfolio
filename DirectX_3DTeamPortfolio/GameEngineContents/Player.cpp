@@ -509,24 +509,30 @@ void Player::Start()
 
 	Labber_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
-			
+			UISystem->OnSystem(Enum_SystemType::Object_Ladder);
 		};
 
 	Labber_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
 			std::shared_ptr<Object_BaseLadder> pActor = col->GetActor()->GetDynamic_Cast_This<Object_BaseLadder>();
-			
-			pActor->GetRotation(); 
 
-			
-				if (GameEngineInput::IsDown('E', this))
-				{
-					float4 Dir = { 0,180,0 };
-					Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
-					Capsule->SetWorldRotation( pActor->GetRotation() + Dir);
-					Capsule->GravityOff(); 
-					PlayerStates.ChangeState(PlayerState::ladder_Up_Start);						
-				}
+			pActor->GetRotation();
+
+
+			if (GameEngineInput::IsDown('E', this))
+			{
+				float4 Dir = { 0,180,0 };
+				Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
+				Capsule->SetWorldRotation(pActor->GetRotation() + Dir);
+				Capsule->GravityOff();
+				PlayerStates.ChangeState(PlayerState::ladder_Up_Start);
+				//UI
+				UISystem->OffSystem();
+			}
+		};
+	Labber_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
+		{
+			UISystem->OffSystem();
 		};
 
 
@@ -560,7 +566,7 @@ void Player::Start()
 
 	Labber_Top_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
-
+			UISystem->OnSystem(Enum_SystemType::Object_Ladder);
 		};
 
 	Labber_Top_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
@@ -580,14 +586,17 @@ void Player::Start()
 					
 					Capsule->GravityOff();
 					PlayerStates.ChangeState(PlayerState::ladder_Down_Start);
+
+					//UI
+					UISystem->OffSystem();
 				}
 			
 		};
 
 	Labber_Top_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
-
-
+			//UI
+			UISystem->OffSystem();
 		};
 
 
@@ -635,7 +644,7 @@ void Player::Start()
 
 	BonFire_Event.Enter = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
-
+			UISystem->OnSystem(Enum_SystemType::Object_bonfire);
 		};
 
 	BonFire_Event.Stay = [this](GameEngineCollision* Col, GameEngineCollision* col)
@@ -648,12 +657,15 @@ void Player::Start()
 
 				PlayerStates.ChangeState(PlayerState::Sit_Down);
 
+				//UI
+				UISystem->OffSystem();
+
 			}
 		};
 
 	BonFire_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
 		{
-
+			UISystem->OffSystem();
 		};
 
 
@@ -672,6 +684,10 @@ void Player::Start()
 	StrikeRenderer =CreateComponent<ContentsHitRenderer>(Enum_RenderOrder::Effect);
 	//HitRenderer->Transform.AddLocalPosition({ 0.0f,20.0f,20.f});
 
+
+
+	// UI
+	UISystem = GetLevel()->CreateActor<UISystemManager>(Enum_UpdateOrder::UI);
 
 }
 
@@ -758,16 +774,29 @@ void Player::Update(float _Delta)
 
 	
 
-	
 	if (Fog_Check == true && Body_Col->Collision(Enum_CollisionOrder::Fog_Wall))
 	{
+		UISystem->OnSystem(Enum_SystemType::Object_FogWall);
+		Fog_PrevCheck = true;
+		Fog_UIOnCheck = true;
 		if (GameEngineInput::IsDown('E', this))
 		{
 			Fog_Run_Check = true;
 			GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Fog_Wall);
 			PlayerStates.ChangeState(PlayerState::Slow_Walk);
-
+			UISystem->OffSystem();
 		}
+	}
+	
+	if (Fog_PrevCheck == false && Fog_UIOnCheck == true)
+	{
+		Fog_UIOnCheck = false;
+		UISystem->OffSystem();
+	}
+
+	if (Fog_Check == false)
+	{
+		Fog_PrevCheck = false;
 	}
 	
 
@@ -779,6 +808,7 @@ void Player::Update(float _Delta)
 		Shield_Col->Transform.SetLocalPosition({ 0,90,5 });
 		Shield_Col->Transform.SetLocalScale({ 300,300,300 });
 		Fog_Run_Check = false;
+		UISystem->OffSystem();
 	}
 	
 

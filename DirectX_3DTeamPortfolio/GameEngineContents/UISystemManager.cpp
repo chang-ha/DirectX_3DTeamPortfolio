@@ -14,8 +14,18 @@ UISystemManager::~UISystemManager()
 
 void UISystemManager::Start()
 {
+	if (nullptr == GameEngineTexture::Find("Interaction.png"))
+	{
+		GameEngineFile File;
+		File.MoveParentToExistsChild("ContentsResources");
+		File.MoveChild("ContentsResources\\UITexture\\UISystemObject\\Interaction.png");
+
+		GameEngineTexture::Load(File.GetStringPath());
+		GameEngineSprite::CreateSingle(File.GetFileName());
+	}
+
 	Window = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_BackTexture);
-	Window->SetSprite("Interaction3.png");
+	Window->SetSprite("Interaction.png");
 	Window->Transform.SetLocalPosition(float4(-2.0f, -279.0f));
 
 	Font = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_Font);
@@ -44,6 +54,7 @@ void UISystemManager::Update(float _Delta)
 
 void UISystemManager::LevelEnd(GameEngineLevel* _NextLevel)
 {
+	MainState.ChangeState(eState::None);
 	Off();
 }
 
@@ -65,8 +76,10 @@ void UISystemManager::OnSystem(Enum_SystemType _Type)
 		break;
 	}
 
-
-	MainState.ChangeState(eState::FadeIn);
+	if (static_cast<int>(eState::FadeIn) != MainState.GetCurState())
+	{
+		MainState.ChangeState(eState::FadeIn);
+	}
 
 	Font->ChangeText(Text);
 }
@@ -93,6 +106,7 @@ void UISystemManager::FdaeOut_Update(float _Delta, GameEngineState* _Parent)
 {
 	if (Window->GetColorData().MulColor.A <= 0.0f)
 	{
+		MainState.ChangeState(eState::None);
 		Off();
 		return;
 	}
