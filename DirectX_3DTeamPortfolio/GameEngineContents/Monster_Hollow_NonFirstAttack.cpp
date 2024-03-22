@@ -1588,6 +1588,7 @@ void Monster_Hollow_NonFirstAttack::State_HitToDeath_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_BackAttackHit_Start()
 {
+	Hit.SetHit(false);
 	MainRenderer->ChangeAnimation("c1100_BackAttackHit");
 }
 void Monster_Hollow_NonFirstAttack::State_BackAttackHit_Update(float _Delta)
@@ -1627,6 +1628,8 @@ void Monster_Hollow_NonFirstAttack::State_BackAttackDeath_Update(float _Delta)
 
 void Monster_Hollow_NonFirstAttack::State_AfterGuardBreakHit_Start()
 {
+	Hit.SetHit(false);
+	SetFlag(Enum_ActorFlag::Groggy, false);
 	MainRenderer->ChangeAnimation("c1100_AfterGuardBreakHit");
 }
 void Monster_Hollow_NonFirstAttack::State_AfterGuardBreakHit_Update(float _Delta)
