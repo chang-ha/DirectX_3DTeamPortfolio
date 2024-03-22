@@ -43,6 +43,7 @@ protected:
 	void DetectSouls();
 
 
+	// AddState
 	void Start_AddState_Ready(GameEngineState* _Parent);
 	void Start_AddState_FadeIn(GameEngineState* _Parent); // Fade
 	void Start_AddState_Wait(GameEngineState* _Parent); // Fade 1.0f

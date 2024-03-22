@@ -31,7 +31,7 @@ void Monster_HollowSoldier_RoundShield::Start()
 	Stat.SetHp(167);
 	Stat.SetAtt(15);
 	Stat.SetPoise(100);
-	Stat.SetSouls(30);
+	Stat.SetSouls(ContentsRandom::RandomInt(30, 50));
 
 	ShieldCollision = CreateSocketCollision(Enum_CollisionOrder::Monster_Shield, Enum_Hollow_BoneType::RoundShield, { float4(35.0f, 80.0f, 80.0f), float4::ZERONULL, float4(0.0f, 0.0f, -0.12f)}, "RoundShield");
 	ShieldCollision->SetCollisionType(ColType::OBBBOX3D);

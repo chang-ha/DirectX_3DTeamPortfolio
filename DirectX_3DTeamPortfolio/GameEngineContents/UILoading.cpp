@@ -76,7 +76,7 @@ void UILoading::Start()
 	///// 조작설명
 	ExplainKey();
 
-	On();
+	Off();
 }
 
 void UILoading::Update(float _Delta)

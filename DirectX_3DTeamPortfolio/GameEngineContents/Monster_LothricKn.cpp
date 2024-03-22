@@ -296,7 +296,7 @@ void Monster_LothricKn::Start()
 	// Stat
 	Stat.SetHp(LOTHRIC_KNIGHT_HP); // Official Hp
 	Stat.SetAtt(80);
-	Stat.SetSouls(ContentsRandom::RandomInt(60, 90));
+	Stat.SetSouls(ContentsRandom::RandomInt(220, 1000));
 
 	// Collision
 	const float PatrolSize = 25.0f * W_SCALE;
