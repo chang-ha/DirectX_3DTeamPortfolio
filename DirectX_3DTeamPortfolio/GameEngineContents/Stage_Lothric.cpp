@@ -240,7 +240,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		std::shared_ptr<UILocationAlert> UILot = CreateActor<UILocationAlert>();
 		UILot->SetCollision(float4(400.0f, 400.0f, 400.0f), float4(-1885.0f, 5015.0f, -3987.0f));
 	}
-
+	
 	ResLoading();
 	LevelState.ChangeState(Enum_LevelState::Play);
 }
@@ -1658,6 +1658,7 @@ void Stage_Lothric::ResLoading()
 }
 
 // Reset Loading
+// 리셋 함수들 넣어주세요
 void Stage_Lothric::ResetLoading()
 {
 	// 몬스터 끄고 이벤트 충돌체 켜고
