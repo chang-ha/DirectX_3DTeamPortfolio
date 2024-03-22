@@ -388,7 +388,6 @@
     <ClCompile Include="AllFadeEffect.cpp">
       <Filter>Resource\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="Object_BaseLadder.cpp" />
     <ClCompile Include="Stage_Lothric_State.cpp">
       <Filter>Level</Filter>
     </ClCompile>
@@ -413,9 +412,6 @@
     <ClCompile Include="TriggerActor.cpp">
       <Filter>Actor\UI\Component</Filter>
     </ClCompile>
-    <ClCompile Include="Object_OakBarrel.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
     <ClCompile Include="Object_Shelf.cpp">
       <Filter>Object</Filter>
     </ClCompile>
@@ -430,6 +426,15 @@
     </ClCompile>
     <ClCompile Include="LoadingLevel.cpp">
       <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_BaseLadder.cpp">
+      <Filter>Object\Ladder</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_OakBarrel.cpp">
+      <Filter>Object\OrcBarrel</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_OakBarrel2.cpp">
+      <Filter>Object\OrcBarrel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -814,7 +819,6 @@
     <ClInclude Include="AllFadeEffect.h">
       <Filter>Resource\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="Object_BaseLadder.h" />
     <ClInclude Include="UILoading.h">
       <Filter>Actor\UI\Loading</Filter>
     </ClInclude>
@@ -836,9 +840,6 @@
     <ClInclude Include="TriggerActor.h">
       <Filter>Actor\UI\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Object_OakBarrel.h">
-      <Filter>Object</Filter>
-    </ClInclude>
     <ClInclude Include="Object_Shelf.h">
       <Filter>Object</Filter>
     </ClInclude>
@@ -853,6 +854,15 @@
     </ClInclude>
     <ClInclude Include="LoadingLevel.h">
       <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_BaseLadder.h">
+      <Filter>Object\Ladder</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_OakBarrel.h">
+      <Filter>Object\OrcBarrel</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_OakBarrel2.h">
+      <Filter>Object\OrcBarrel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1011,6 +1021,9 @@
     </Filter>
     <Filter Include="Actor\UI\Utils">
       <UniqueIdentifier>{3845ada8-bc91-4c95-88c2-00c08867be01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\OrcBarrel">
+      <UniqueIdentifier>{e8a0178a-6753-47b8-bc9d-223833f0584a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
