@@ -203,6 +203,8 @@ void Monster_LothricKn::Start_Debug(GameEngineState* _State)
 
 void Monster_LothricKn::Start_Idle_Standing(GameEngineState* _State)
 {
+	ContentsDebug::NUllCheck(PatrolCollision.get());
+	PatrolCollision->On();
 	Sword.Off();
 	Shield.Off();
 	OnWeaponMask();
@@ -216,6 +218,8 @@ void Monster_LothricKn::Start_Idle_Standing1(GameEngineState* _State)
 
 void Monster_LothricKn::Start_Idle_Sit(GameEngineState* _State)
 {
+	ContentsDebug::NUllCheck(PatrolCollision.get());
+	PatrolCollision->On();
 	Sword.Off();
 	Shield.Off();
 	MaskReset();
@@ -230,6 +234,8 @@ void Monster_LothricKn::Start_Idle_Gaurding(GameEngineState* _State)
 
 void Monster_LothricKn::Start_Patrol(GameEngineState* _State)
 {
+	ContentsDebug::NUllCheck(PatrolCollision.get());
+	PatrolCollision->On();
 	Sword.Off();
 	Shield.Off();
 	OnWeaponMask();
@@ -1553,11 +1559,14 @@ void Monster_LothricKn::Update_SitUp(float _DeltaTime, GameEngineState* _State)
 
 	if (IsFrameOnce(29))
 	{
-		Enum_LothricKn_State FindState = GetStateToAttackTable();
-		if (Enum_LothricKn_State::None != FindState)
+		if (CanAttack(W_SCALE * MELEE_RANGE, FRONT_ANGLE))
 		{
-			_State->ChangeState(FindState);
-			return;
+			Enum_LothricKn_State FindState = GetStateToAttackTable();
+			if (Enum_LothricKn_State::None != FindState)
+			{
+				_State->ChangeState(FindState);
+				return;
+			}
 		}
 	}
 
