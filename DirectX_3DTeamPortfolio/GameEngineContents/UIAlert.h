@@ -18,32 +18,21 @@ public:
 
 protected:
 	void Start() override;
-	void Update(float _Delta) override;
+	void Update(float _Delta) override {}
 	void Release() override;
+
+	void Done() { Off(); }
 
 	// State Func
 	void SetBackScale(const float4& _Scale);
+	void AddBackScale(const float4& _AddScale);
 	void SetGamma(GameEngineUIRenderer* _Renderer, float _Ratio);
 
-	enum class eState
-	{
-		Appear, // Start Update
-		Disappear, // Update End 
-	};
-
-	//virtual void Start_Appear(GameEngineState* _Parent) {};
-	//virtual void Update_Appear(float _Delta, GameEngineState* _Parent) {};
-
-	//virtual void Update_DisAppear(float _Delta, GameEngineState* _Parent) {};
-	//virtual void End_DisAppear(GameEngineState* _Parent) {};
-
 protected:
+	std::shared_ptr<GameEngineUIRenderer> DarkRenderer;
 	std::shared_ptr<GameEngineUIRenderer> BackTexture;
 	std::shared_ptr<GameEngineUIRenderer> FontTexture;
 
 	float FullRatio = 0.0f;
-
-	GameEngineState MainState;
-
 
 };

@@ -19,6 +19,7 @@ enum class Enum_RenderOrder
 	UI_BackBar,
 	UI_BackGauge,
 	UI_StatGauge,
+	UI_BlackTexture,
 	UI_BackTexture,
 	UI_FrontTexture,
 	UI_FontTexture,
@@ -53,7 +54,7 @@ enum class Enum_CollisionOrder
 	Fog_Wall = (1 << 20),
 	EventCol = (1 << 21),
 	Monster_FindLantern = (1 << 22),
-	Bonfire = (1 < 23),
+	Bonfire = (1 << 23),
 	Fog_Wall_Out = (1 << 24),
-	Trigger = (1 < 25),
+	Trigger = (1 << 25),
 };

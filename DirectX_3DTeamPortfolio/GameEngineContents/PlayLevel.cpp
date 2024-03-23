@@ -20,9 +20,12 @@
 
 
 #include "MainUIActor.h"
+#include "UIAlertMaanger.h"
 #include "UILocationAlert.h"
-#include "UIAlert_BoneLit.h"
 #include "UILoading.h"
+#include "UISystemManager.h"
+
+#include "Object_bonfire.h"
 
 PlayLevel::PlayLevel()
 {
@@ -50,6 +53,22 @@ void PlayLevel::Start()
 void PlayLevel::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
+
+	if (GameEngineInput::IsDown('6',this))
+	{
+		UISystem->OnSystem(Enum_SystemType::Object_bonfire);
+		//UIAlertMaanger::CallAlert(Enum_AlertType::BoneFire);
+	}
+	if (GameEngineInput::IsDown('7',this))
+	{
+		UISystem->OnSystem(Enum_SystemType::Object_FogWall);
+		//UIAlertMaanger::CallAlert(Enum_AlertType::Destroy);
+	}
+	if (GameEngineInput::IsDown('8',this))
+	{
+		UISystem->OffSystem();
+		//UIAlertMaanger::CallAlert(Enum_AlertType::YouDie);
+	}
 
 }
 
@@ -138,6 +157,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 		MainUI = CreateActor<MainUIActor>(Enum_UpdateOrder::UI);
 		// MainUI->CreateBossUI(Boss_Object.get());
+		MainUI->CreateAlertManger();
 		MainUI->CreateAndCheckEsteUI(PlayerObject.get());
 		MainUI->CreateAndCheckPlayerGaugeBar(PlayerObject.get());
 
@@ -146,10 +166,16 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 		UILot->SetCollision(float4(200.0f, 200.0f, 200.0f), float4(300.0f, 0.0f, 0.0f));
 
 		// LitBoneFire
-		std::shared_ptr<UIAlert_BoneLit> LitBone = CreateActor<UIAlert_BoneLit>();
+		// std::shared_ptr<UIAlert_BoneLit> LitBone = CreateActor<UIAlert_BoneLit>();
 
 		// 로딩테스트
 		std::shared_ptr<UILoading> Loading = CreateActor<UILoading>(Enum_UpdateOrder::UI);
+
+		std::shared_ptr<UISystemManager> Sys = CreateActor<UISystemManager>();
+
+
+		UISystem = CreateActor<UISystemManager>(1);
+		
 	}
 
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 1, 1, 1, 1 });

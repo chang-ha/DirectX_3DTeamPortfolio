@@ -61,7 +61,8 @@ float4 Fog_PS(PixelOutPut _Input) : SV_Target0
     {
         //SceneColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
         //heightFactor = 1.0f;
-        return FogColor;
+        //return FogColor;
+        return float4(0.02f, 0.01f, 0.01f, 1.0f);
 
     }
     else
@@ -71,6 +72,18 @@ float4 Fog_PS(PixelOutPut _Input) : SV_Target0
     //낮을 수록 포그 적용 안받음
         heightFactor = 1.f - saturate((WorldPos.y - FogMinHeight) / (FogMaxHeight - FogMinHeight));
     }
+    
+    if (viewPos.z >= 1.500e+05)
+    {
+        return SceneColor;
+
+    }
+    
+    //if (viewPos.z >= 1.500e+05)
+    //{
+    //    return float4(0.02f, 0.01f, 0.01f, 1.0f);
+
+    //}
     
    
     

@@ -427,6 +427,12 @@
     <ClCompile Include="LoadingLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
+    <ClCompile Include="UIAlertMaanger.cpp">
+      <Filter>Actor\UI\Alert</Filter>
+    </ClCompile>
+    <ClCompile Include="UIAlert_Destroy.cpp">
+      <Filter>Actor\UI\Alert</Filter>
+    </ClCompile>
     <ClCompile Include="Object_BaseLadder.cpp">
       <Filter>Object\Ladder</Filter>
     </ClCompile>
@@ -435,6 +441,9 @@
     </ClCompile>
     <ClCompile Include="Object_OakBarrel2.cpp">
       <Filter>Object\OrcBarrel</Filter>
+    </ClCompile>
+    <ClCompile Include="UISystemManager.cpp">
+      <Filter>Actor\UI\Player\SystemObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -855,6 +864,12 @@
     <ClInclude Include="LoadingLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
+    <ClInclude Include="UIAlertMaanger.h">
+      <Filter>Actor\UI\Alert</Filter>
+    </ClInclude>
+    <ClInclude Include="UIAlert_Destroy.h">
+      <Filter>Actor\UI\Alert</Filter>
+    </ClInclude>
     <ClInclude Include="Object_BaseLadder.h">
       <Filter>Object\Ladder</Filter>
     </ClInclude>
@@ -863,6 +878,9 @@
     </ClInclude>
     <ClInclude Include="Object_OakBarrel2.h">
       <Filter>Object\OrcBarrel</Filter>
+    </ClInclude>
+    <ClInclude Include="UISystemManager.h">
+      <Filter>Actor\UI\Player\SystemObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1024,6 +1042,9 @@
     </Filter>
     <Filter Include="Object\OrcBarrel">
       <UniqueIdentifier>{e8a0178a-6753-47b8-bc9d-223833f0584a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\Player\SystemObject">
+      <UniqueIdentifier>{2b520a6e-b641-4fdf-b10c-56d4ae13bc86}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

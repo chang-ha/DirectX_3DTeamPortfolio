@@ -148,7 +148,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		Player_Object = CreateActor<Player>(200, "Player");
 		// 볼드 위치
-		//Player_Object->SetWorldPosition({ -2800.f, -2500.f, 6700.f });
+		Player_Object->SetWorldPosition({ -2800.f, -2500.f, 6700.f });
 		// 안개 테스트 위치 
 		Player_Object->SetWorldPosition({ -3417.f, -2552.f, 7606.f });
 
@@ -180,6 +180,9 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 				BossBGMVolume = BEGIN_BOSS_BGM_VOLUME;
 				BossBGM.SetVolume(BossBGMVolume);
 				BossBGM.Resume();
+
+				GameEngineSoundPlayer FogSound = GameEngineSound::SoundPlay("gate_point.wav");
+				FogSound.SetVolume(0.7f);
 			});
 	}
 
@@ -229,6 +232,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		}
 
 		MainUI = CreateActor<MainUIActor>(Enum_UpdateOrder::UI);
+		MainUI->CreateAlertManger();
 		MainUI->CreateBossUI(Boss_Object.get());
 		MainUI->CreateAndCheckEsteUI(Player_Object.get());
 		MainUI->CreateAndCheckPlayerGaugeBar(Player_Object.get());
@@ -236,7 +240,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 		std::shared_ptr<UILocationAlert> UILot = CreateActor<UILocationAlert>();
 		UILot->SetCollision(float4(400.0f, 400.0f, 400.0f), float4(-1885.0f, 5015.0f, -3987.0f));
 	}
-
+	
 	ResLoading();
 	LevelState.ChangeState(Enum_LevelState::Play);
 }
@@ -1654,11 +1658,15 @@ void Stage_Lothric::ResLoading()
 }
 
 // Reset Loading
+// 리셋 함수들 넣어주세요
 void Stage_Lothric::ResetLoading()
 {
 	// 몬스터 끄고 이벤트 충돌체 켜고
 	AllMonsterOff();
 	AllEvColOn();
+
+	ContentsDebug::NUllCheck(MainUI.get());
+	MainUI->AllUIActorReset();
 
 	Stage_Lothric::ResetLoadingDone = true;
 }

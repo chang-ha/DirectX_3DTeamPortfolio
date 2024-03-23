@@ -327,6 +327,11 @@ private:
 	float error_Number_X = 0.0f;
 	float error_Number_Y = 0.0f;
 
+
+	// UI
+	std::shared_ptr<class UISystemManager> UISystem;
+	bool Fog_PrevCheck = false;
+	bool Fog_UIOnCheck = false;
 };
 
 
