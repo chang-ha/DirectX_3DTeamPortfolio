@@ -247,7 +247,11 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 
 void Stage_Lothric::LevelEnd(GameEngineLevel* _NextLevel)
 {
-
+	if (nullptr != BlackScreen)
+	{
+		BlackScreen->Death();
+		BlackScreen = nullptr;
+	}
 }
 
 void Stage_Lothric::Start()

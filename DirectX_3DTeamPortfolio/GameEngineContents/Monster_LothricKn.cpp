@@ -408,6 +408,7 @@ void Monster_LothricKn::LevelStart(class GameEngineLevel* _NextLevel)
 	BaseMonster::LevelStart(_NextLevel);
 }
 
+
 void Monster_LothricKn::WakeUp()
 {
 	On();

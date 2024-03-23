@@ -72,6 +72,7 @@ private:
 	std::shared_ptr<class Object_FogWall> FogWall = nullptr;
 
 	std::shared_ptr<class MainUIActor> MainUI;
+	std::shared_ptr<class GameEngineActor> BlackScreen;
 
 	float BossBGMVolume = BEGIN_BOSS_BGM_VOLUME;
 	GameEngineSoundPlayer BossBGM;
