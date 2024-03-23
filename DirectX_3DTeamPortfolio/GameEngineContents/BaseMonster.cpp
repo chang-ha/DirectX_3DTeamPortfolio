@@ -89,6 +89,12 @@ void BaseMonster::SetPatrolPath(const std::vector<float4>& _Paths, int _Index /*
 	PathObject->Init(_Paths, _Index, _IsOneWay);
 }
 
+void BaseMonster::DebugOn()
+{
+	GameEngineInput::AddInputObject(this);
+	DebugValue = true;
+}
+
 float BaseMonster::ConvertDistance_eTof(Enum_TargetDist _eTDist) const
 {
 	MsgBoxAssert("자식에서 재정의해야하는 함수입니다.");

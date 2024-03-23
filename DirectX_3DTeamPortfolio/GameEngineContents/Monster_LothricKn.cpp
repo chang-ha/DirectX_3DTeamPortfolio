@@ -372,6 +372,10 @@ void Monster_LothricKn::Update(float _Delta)
 			}
 		}
 
+		if (GameEngineInput::IsDown('5', this))
+		{
+			Monster_LothricKn::Reset();
+		}
 
 		static bool s_bDrawValue = false;
 		if (GameEngineInput::IsDown('N', this))
@@ -426,10 +430,12 @@ void Monster_LothricKn::Reset()
 	SetFlagNull();
 	SetTargeting(nullptr);
 
-	if (nullptr != MonsterCollision)
-	{
-		MonsterCollision->On();
-	}
+	ChangeIdleState(IdleType);
+
+	ContentsDebug::NUllCheck(MonsterCollision.get());
+	ContentsDebug::NUllCheck(PatrolCollision.get());
+	MonsterCollision->On();
+	PatrolCollision->On();
 }
 
 void Monster_LothricKn::DeathProcess()

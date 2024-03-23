@@ -203,6 +203,8 @@ void Monster_LothricKn::Start_Debug(GameEngineState* _State)
 
 void Monster_LothricKn::Start_Idle_Standing(GameEngineState* _State)
 {
+	Sword.Off();
+	Shield.Off();
 	OnWeaponMask();
 	MainRenderer->ChangeAnimation("Idle_Standing");
 }
@@ -214,6 +216,8 @@ void Monster_LothricKn::Start_Idle_Standing1(GameEngineState* _State)
 
 void Monster_LothricKn::Start_Idle_Sit(GameEngineState* _State)
 {
+	Sword.Off();
+	Shield.Off();
 	MaskReset();
 	MainRenderer->ChangeAnimation("Idle_Sit");
 }
@@ -226,6 +230,8 @@ void Monster_LothricKn::Start_Idle_Gaurding(GameEngineState* _State)
 
 void Monster_LothricKn::Start_Patrol(GameEngineState* _State)
 {
+	Sword.Off();
+	Shield.Off();
 	OnWeaponMask();
 	SetPatrolCollision(true);
 	SetCombatMode(eCombatState::Normal);
@@ -759,6 +765,11 @@ void Monster_LothricKn::Update_Idle_Gaurding(float _DeltaTime, GameEngineState* 
 
 void Monster_LothricKn::Update_Patrol(float _DeltaTime, GameEngineState* _State)
 {
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	bool IsFindTarget = FindAndSetTarget(TARGET_ORDER);
 	if (IsFindTarget)
 	{
@@ -800,6 +811,11 @@ void Monster_LothricKn::Update_Patrol(float _DeltaTime, GameEngineState* _State)
 
 void Monster_LothricKn::Update_Patrol_Turn(float _DeltaTime, GameEngineState* _State)
 {
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (IsFrameEnd())
 	{
 		bool IsFindTarget = FindAndSetTarget(TARGET_ORDER);
@@ -3241,19 +3257,24 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToNormalAttackTable(Enum_TargetD
 			}
 		}
 
-		const int ModeChance = ContentsRandom::RandomInt(0, 6);
+		const int ModeChance = ContentsRandom::RandomInt(0, 8);
 		enum class eModeChance
 		{
-			TwoHand = 6,
+			TwoHand = 0,
+			Shield = 1,
 		};
 
 		if (static_cast<int>(eModeChance::TwoHand) == ModeChance)
 		{
 			return Enum_LothricKn_State::DH_Hold;
 		}
+		if (static_cast<int>(eModeChance::Shield) == ModeChance)
+		{
+			return Enum_LothricKn_State::G_Up;
+		}
 
 		enum eAttackType
-		{0
+		{
 			Combo1 = 0,
 			Combo2,
 			None,
