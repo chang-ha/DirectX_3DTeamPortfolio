@@ -89,6 +89,12 @@ void BaseMonster::SetPatrolPath(const std::vector<float4>& _Paths, int _Index /*
 	PathObject->Init(_Paths, _Index, _IsOneWay);
 }
 
+void BaseMonster::DebugOn()
+{
+	GameEngineInput::AddInputObject(this);
+	DebugValue = true;
+}
+
 float BaseMonster::ConvertDistance_eTof(Enum_TargetDist _eTDist) const
 {
 	MsgBoxAssert("자식에서 재정의해야하는 함수입니다.");
@@ -187,6 +193,12 @@ bool BaseMonster::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 	// 패링상태
 	if (true == IsFlag(Enum_ActorFlag::Parrying))
 	{
+		bool DHMode = pAttacker->IsFlag(Enum_ActorFlag::TwoHand);
+		if (DHMode)
+		{
+			return false;
+		}
+
 		pAttacker->SetHit(true);
 		pAttacker->SetFlag(Enum_ActorFlag::Break_Posture, true);
 		return true;

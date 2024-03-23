@@ -124,13 +124,13 @@ void UIPlayerGaugeBar::FindAndSetGauge(Enum_BarType _Type, float _Value)
 
 void UIPlayerGaugeBar::Emeber()
 {
-	// PlayerIcon->SetSprite();
-
 	if (pPlayer)
 	{
-		const int MaxHpValue = pPlayer->Get_Max_Hp();
+		pPlayer->SetMaxHp(700);
+		pPlayer->SetHp(700);
+		const int MaxHpValue = pPlayer->GetMaxHp();
 		HpBar->SetTotalGauge(static_cast<float>(MaxHpValue));
 		HpBar->SetGauge(1.0f);
+		PlayerIcon->SetSprite("BossClear.png");
 	}
-
 }

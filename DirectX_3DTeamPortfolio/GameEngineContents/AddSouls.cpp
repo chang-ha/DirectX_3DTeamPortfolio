@@ -94,6 +94,11 @@ void AddSouls::Update(float _Delta)
 	ScoreState.Update(_Delta);
 }
 
+void AddSouls::Reset()
+{
+	TotalScore = 0;
+}
+
 void AddSouls::DetectSouls()
 {
 	if (AddSouls::TotalScore != CurUISouls)

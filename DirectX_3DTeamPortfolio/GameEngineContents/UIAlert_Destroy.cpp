@@ -20,8 +20,11 @@ void UIAlert_Destroy::Start()
 	const float4 WinScale = GlobalValue::GetWinScale();
 	float4 TexScale = float4::ZERO;
 
+	BossSoulImg = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI);
+	BossSoulImg->SetSprite("BoldSoul.png");
+	BossSoulImg->Transform.SetLocalPosition(float4(0.0f, -235.0f));
+
 	DarkRenderer->SetSprite("Dark.Png");
-	DarkRenderer->On();
 
 	BackTexture->SetSprite("TargetDestroyedBack.Png");
 	FontTexture->SetSprite("TargetDestroyed.Png");
@@ -60,6 +63,11 @@ void UIAlert_Destroy::Update(float _Delta)
 	UIAlert::Update(_Delta);
 
 	mState.Update(_Delta);
+
+	if (GameEngineInput::IsDown('E', this))
+	{
+		BossSoulImg->Off();
+	}
 }
 
 void UIAlert_Destroy::Release()
@@ -105,6 +113,7 @@ void UIAlert_Destroy::Update_Appear(float _Delta, GameEngineState* _Parent)
 	SetGamma(DarkRenderer.get(), GammaValue);
 	SetGamma(BackTexture.get(), GammaValue);
 	SetGamma(FontTexture.get(), GammaValue);
+	SetGamma(BossSoulImg.get(), GammaValue);
 
 	const float MulDelta = _Delta / StateTime;
 	const float4 AddScale = ChangeScale * MulDelta;
@@ -137,6 +146,7 @@ void UIAlert_Destroy::Update_Disappear(float _Delta, GameEngineState* _Parent)
 	const float GammaValue = (1.0f - _Parent->GetStateTime() / StateTime);
 	SetGamma(BackTexture.get(), GammaValue);
 	SetGamma(FontTexture.get(), GammaValue);
+	SetGamma(BossSoulImg.get(), GammaValue);
 
 	const float MulDelta = _Delta / StateTime;
 	const float4 AddScale = ChangeScale * MulDelta;

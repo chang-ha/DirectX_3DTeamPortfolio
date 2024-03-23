@@ -49,7 +49,7 @@ public:
 	/// <param name="_IsOneWay">¿Õº¹ ±â´É</param>
 	void SetPatrolPath(const std::vector<float4>& _Paths, int _Index = 0, bool _IsOneWay = false);
 
-	void DebugOn() { DebugValue = true; }
+	void DebugOn();
 
 protected:
 	void Start() override;

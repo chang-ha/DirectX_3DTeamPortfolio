@@ -3247,7 +3247,7 @@ void Player::Player_State()
 				Shield_Col->Off(); 
 				Top_Shield_Col->Off();
 				GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Monster);
-				
+				SetFlag(Enum_ActorFlag::Death, true);
 			};
 
 
@@ -3255,7 +3255,6 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-					SetFlag(Enum_ActorFlag::Death, true);
 					
 					
 				
