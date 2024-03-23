@@ -212,7 +212,7 @@ void Stage_Lothric::Start_BossDeath_Ready(GameEngineState* _Parent)
 
 void Stage_Lothric::Update_BossDeath_Ready(float _Delta, GameEngineState* _Parent)
 {
-	if (_Parent->GetStateTime() > 5.0f)
+	if (_Parent->GetStateTime() > 3.0f)
 	{
 		_Parent->ChangeState(Enum_BossDeathState::Alert);
 		return;
