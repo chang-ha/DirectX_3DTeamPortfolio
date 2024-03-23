@@ -193,6 +193,12 @@ bool BaseMonster::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 	// 패링상태
 	if (true == IsFlag(Enum_ActorFlag::Parrying))
 	{
+		bool DHMode = pAttacker->IsFlag(Enum_ActorFlag::TwoHand);
+		if (DHMode)
+		{
+			return false;
+		}
+
 		pAttacker->SetHit(true);
 		pAttacker->SetFlag(Enum_ActorFlag::Break_Posture, true);
 		return true;
