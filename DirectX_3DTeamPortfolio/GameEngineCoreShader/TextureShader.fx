@@ -161,6 +161,11 @@ PixelOut TextureShader_PS(PixelOutPut _Input) : SV_Target0
         ScreenPos.y += MaskPivot.y;
     }
     
+    if (BlackAlpha >= 1.0f)
+    {
+        Color.a = (Color.x + Color.y + Color.z / 3.f);
+    }
+    
     if (IsMask == 1 && MaskTex[ScreenPos].r <= 0.0f)
     {
         clip(-1);
@@ -180,10 +185,7 @@ PixelOut TextureShader_PS(PixelOutPut _Input) : SV_Target0
     Color += PlusColor;
     Color *= MulColor;
     
-    if (BlackAlpha >= 1.0f)
-    {
-        Color.a = (Color.x + Color.y + Color.z / 3.f);
-    }
+   
     
     if (0 < GaugeOn)
     {

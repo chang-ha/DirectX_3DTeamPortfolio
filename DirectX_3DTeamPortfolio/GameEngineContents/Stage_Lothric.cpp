@@ -129,10 +129,10 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 	//
 	// Fog
-	{
+	/*{
 		std::shared_ptr<FogEffect> Effect = GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FogEffect>();
 		Effect->Init(GetMainCamera());
-	}
+	}*/
 
 
 	////FXAA
