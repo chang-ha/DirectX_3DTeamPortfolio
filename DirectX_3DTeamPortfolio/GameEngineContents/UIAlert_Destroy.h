@@ -41,5 +41,7 @@ private:
 
 	float4 ChangeScale = float4::ZERO;
 
+	std::shared_ptr<GameEngineUIRenderer> BossSoulImg;
+	std::shared_ptr<GameEngineUIRenderer> Utils;
 };
 
