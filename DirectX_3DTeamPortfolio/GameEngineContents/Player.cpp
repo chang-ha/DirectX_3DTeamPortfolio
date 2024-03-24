@@ -18,6 +18,7 @@
 
 // UI
 #include "UISystemManager.h"
+#include "UIAlertMaanger.h"
 
 #define Frame 0.033f
 
@@ -402,8 +403,9 @@ void Player::Start()
 		//Parring_Attack_Col->Off();
 	}
 
-	Stat.SetHp(400);
-	Stat.SetAtt(60);
+	Stat.SetMaxHp(Max_Hp);
+	Stat.SetHp(Max_Hp);
+	Stat.SetAtt(ContentsRandom::RandomInt(50, 80));
 	Stat.SetPoise(100);
 	Stat.SetStamina(300.0f); 
 	Sword.Init(this, Attack_Col.get());
@@ -659,7 +661,7 @@ void Player::Start()
 
 				//UI
 				UISystem->OffSystem();
-
+				UIAlertMaanger::CallAlert(Enum_AlertType::BoneFire);
 			}
 		};
 
@@ -732,7 +734,7 @@ void Player::Update(float _Delta)
 
 	if (Damage_infinite == false)
 	{
-		Stat.SetAtt(60);
+		Stat.SetAtt(ContentsRandom::RandomInt(50, 80));
 	}
 	else if (Damage_infinite == true)
 	{
@@ -876,9 +878,9 @@ void Player::Update(float _Delta)
 		Stat.SetHp(0);
 	}
 	
-	if (Stat.GetHp() > 400)
+	if (Stat.GetHp() > Stat.GetMaxHp())
 	{
-		Stat.SetHp(400);
+		Stat.SetHp(Stat.GetMaxHp());
 	}
 
 
@@ -1565,6 +1567,8 @@ void Player::Reset()
 	GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Actor_test_02->Transform.GetWorldPosition());
 
 	Stat.SetHp(400);
+	Stat.SetMaxHp(Max_Hp);
+	Stat.SetHp(Max_Hp);
 	Stat.SetStamina(300.0f);
 
 	Body_Col->On();

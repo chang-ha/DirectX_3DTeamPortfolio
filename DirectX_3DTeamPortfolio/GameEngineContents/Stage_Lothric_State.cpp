@@ -93,6 +93,10 @@ void Stage_Lothric::Update_PlayerDeath(float _Delta, GameEngineState* _Parent)
 	bool PlayerDeathStateDone = (Enum_PlayerDeathState::Done == static_cast<Enum_PlayerDeathState>(PlayerDeathState.GetCurState()));
 	if (PlayerDeathStateDone)
 	{
+		BlackScreen = CreateActor<GameEngineActor>(Enum_UpdateOrder::UI);
+		std::shared_ptr<GameEngineUIRenderer> Renderer = BlackScreen->CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_Loading);;
+		Renderer->GetColorData().MulColor = float4::ZERO;
+		Renderer->SetImageScale(GlobalValue::GetWinScale());
 		LoadingLevel::LoadingFlag = Enum_LevelFlag::Loading_Reset;
 		GameEngineCore::ChangeLevel("LoadingLevel");
 		return;
@@ -208,7 +212,7 @@ void Stage_Lothric::Start_BossDeath_Ready(GameEngineState* _Parent)
 
 void Stage_Lothric::Update_BossDeath_Ready(float _Delta, GameEngineState* _Parent)
 {
-	if (_Parent->GetStateTime() > 5.0f)
+	if (_Parent->GetStateTime() > 3.0f)
 	{
 		_Parent->ChangeState(Enum_BossDeathState::Alert);
 		return;

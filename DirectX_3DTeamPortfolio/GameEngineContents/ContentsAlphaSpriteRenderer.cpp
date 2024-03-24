@@ -56,5 +56,7 @@ void ContentsAlphaSpriteRenderer::Start()
 	SpriteRendererInfoValue.BlackAlpha = 1.0f;
 
 	GameEngineSpriteRenderer::Start();
+
+	//GameEngineRenderer::SetMaterial("2DTextureOnlyDepthCompare");
 }
 

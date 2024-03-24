@@ -66,6 +66,8 @@ void UIAlert_YouDie::Start_Appear(GameEngineState* _Parent)
 	GameEngineSoundPlayer Died = GameEngineSound::SoundPlay("YOU_DIED_Sound_Effect.wav");
 	Died.SetVolume(0.7f);
 
+	GameEngineSoundPlayer MDied = GameEngineSound::SoundPlay("Voice_M_Dead.wav");
+	MDied.SetVolume(0.7f);
 
 	mState.ChangeState(eState::Stay);
 }

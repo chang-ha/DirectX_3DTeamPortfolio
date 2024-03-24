@@ -15,6 +15,7 @@
 #include "Boss_Vordt.h"
 
 
+
 MainUIActor::MainUIActor()
 {
 	GameEngineInput::AddInputObject(this);
@@ -62,7 +63,12 @@ void MainUIActor::Start()
 
 void MainUIActor::Update(float _Delta)
 {
-
+	if (true == Boss_Object->IsFlag(Enum_ActorFlag::Death) && !BossDeath)
+	{
+		PlayerGaugeBar->Emeber();
+		BossDeath = true;
+		return;
+	}
 }
 
 void MainUIActor::Release()
@@ -92,6 +98,8 @@ void MainUIActor::CreateBossUI(Boss_Vordt* _pBoss)
 	BossHpObject = GetLevel()->CreateActor<BossHpUI>(Enum_UpdateOrder::UI);
 	BossHpObject->SetParent(_pBoss);
 	BossHpObject->Off();
+
+	Boss_Object = _pBoss;
 }
 
 void MainUIActor::CreateAndCheckEsteUI(Player* _pPlayer)
