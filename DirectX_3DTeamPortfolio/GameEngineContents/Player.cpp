@@ -1404,7 +1404,7 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 			PlayerStates.ChangeState(PlayerState::HitDown);
 		}
 		if (_Para.eDir == Enum_DirectionXZ_Quat::L)
-		{
+		{	
 			PlayerStates.ChangeState(PlayerState::HitDown);
 		}
 		if (_Para.eDir == Enum_DirectionXZ_Quat::R)
@@ -1533,6 +1533,36 @@ void Player::Reset()
 {
 	Capsule->SetWorldPosition({ PlayerRespawnPos });
 	Capsule->SetWorldRotation({ 0.f, 0.f, 0.f });
+
+	Actor_test->Death();
+	Actor_test_02->Death();
+
+
+	GetLevel()->GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
+
+	{
+		Actor_test = GetLevel()->CreateActor<GameEngineActor>();
+	}
+
+	{
+		Actor_test_02 = GetLevel()->CreateActor<GameEngineActor>();
+		Actor_test_02->SetParent(Actor_test);
+
+
+		Actor_test_02->Transform.SetLocalPosition({ 0.0f,0.0f,-250.0f });
+
+	}
+
+
+	Actor_test->Transform.SetWorldPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y + 140.0f, Capsule->GetWorldPosition().z });
+
+	
+
+
+	Actor_test_02->Transform.SetLocalPosition({ 0.0f,0.0f,-250.0f });
+
+	GetLevel()->GetMainCamera()->Transform.SetWorldRotation(Actor_test_02->Transform.GetWorldRotationEuler());
+	GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Actor_test_02->Transform.GetWorldPosition());
 
 	Stat.SetHp(400);
 	Stat.SetStamina(300.0f);
