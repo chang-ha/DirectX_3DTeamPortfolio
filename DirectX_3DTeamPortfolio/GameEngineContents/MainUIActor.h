@@ -43,6 +43,7 @@ private:
 	std::shared_ptr<class UIPlayerGaugeBar> PlayerGaugeBar = nullptr;
 
 	class Boss_Vordt* Boss_Object;
+	float EmberTime = 6.0f;
 	bool BossDeath = false;
 
 };
