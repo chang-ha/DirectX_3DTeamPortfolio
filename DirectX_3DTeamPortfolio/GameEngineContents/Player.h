@@ -76,7 +76,7 @@ enum class PlayerState
 	landing,
 	StaminaCheck,
 	HitDown,
-
+	Fire,
 };
 
 // Ό³Έν :
@@ -322,6 +322,7 @@ private:
 
 	bool Hp_infinite = false;
 	bool Damage_infinite = false;
+	bool Damage_Zero = false;
 	bool Debug_Death = false;
 
 	float error_Number_X = 0.0f;
