@@ -152,7 +152,7 @@ void Player::Start()
 	MainRenderer->CreateFBXAnimation("Forward_Stop", "022200.FBX", { Frame, false }); // ¾Õ ¸ØÃã 
 	MainRenderer->CreateFBXAnimation("Shield_Move", "023100.FBX", { Frame, true }); // ½¯µå ¿òÁ÷ÀÓ ¾ÈµÊ 
 
-
+	
 
 	MainRenderer->CreateFBXAnimation("Death", "017140.FBX", { Frame, false }); // Á×À½
 
@@ -325,7 +325,7 @@ void Player::Start()
 	}
 
 
-
+	//MainRenderer->RenderBaseInfoValue.AlphaValue -= 0.01;
 	
 
 
@@ -340,7 +340,7 @@ void Player::Start()
 		ColParameter.T = { 0.f, 0.2f, 0.f };
 
 		Attack_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Attack, Bone_index_01, ColParameter,"Player_Weapon");
-		Attack_Col->SetCollisionType(ColType::AABBBOX3D);
+		Attack_Col->SetCollisionType(ColType::OBBBOX3D);
 		//Attack_Col->Transform.SetLocalScale({ 20.f,60.f, 20.f });
 
 		Attack_Col->On();
@@ -380,7 +380,7 @@ void Player::Start()
 
 	{
 		Shield_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Shield);
-		Shield_Col->SetCollisionType(ColType::AABBBOX3D);
+		Shield_Col->SetCollisionType(ColType::OBBBOX3D);
 		Shield_Col->Transform.SetLocalScale({ 120.f,140.f, 30.f});
 		Shield_Col->Transform.SetLocalPosition({ 0.f,90.f, 30.f });
 		Shield_Col->Off();
@@ -388,7 +388,7 @@ void Player::Start()
 
 	{
 		Top_Shield_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Shield);
-		Top_Shield_Col->SetCollisionType(ColType::AABBBOX3D);
+		Top_Shield_Col->SetCollisionType(ColType::OBBBOX3D);
 		Top_Shield_Col->Transform.SetLocalScale({ 79.f,12.f, 79.f });
 		Top_Shield_Col->Transform.SetLocalPosition({ 0.f,155.0f, 15.f });
 		Top_Shield_Col->Off();
@@ -700,6 +700,7 @@ void Player::Update(float _Delta)
 
 	FaceLight->Transform.SetLocalPosition(Transform.GetWorldPosition() + revolution);
 
+
 	// µð¹ö±× ¿ëµµ 
 
 	if (GameEngineInput::IsDown('B', this))
@@ -814,9 +815,11 @@ void Player::Update(float _Delta)
 	}
 	
 
-
-	Sword.CollisionToShield(Enum_CollisionOrder::Monster_Shield,-100);
+	
+	Sword.CollisionToShield(Enum_CollisionOrder::Monster_Shield, 0);
+	
 	Sword.CollisionToBody(Enum_CollisionOrder::Monster_Body, 0);
+	
 	
 	
 
@@ -1533,8 +1536,10 @@ void Player::Rock_On(Enum_CollisionOrder _Order)
 
 void Player::Reset()
 {
-	Capsule->SetWorldPosition({ PlayerRespawnPos });
-	Capsule->SetWorldRotation({ 0.f, 0.f, 0.f });
+
+
+	SetWorldPosition({ PlayerRespawnPos });
+	SetWorldRotation({ 0.f, 0.f, 0.f });
 
 	Actor_test->Death();
 	Actor_test_02->Death();

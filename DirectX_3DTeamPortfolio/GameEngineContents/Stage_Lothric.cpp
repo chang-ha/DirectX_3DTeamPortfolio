@@ -76,170 +76,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	
 
-	if (nullptr == Boss_Object)
-	{
-		Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
-		Boss_Object->SetWorldPosition({ -1100.f, -2500.f, 3000.f });
-		Boss_Object->SetWorldRotation({ 0.f, -30.f, 0.f });
-	}
-
-
-	// Light
-	if (nullptr == Light)
-	{
-		Light = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "mainDirect");
-		LightData Data = Light->GetLightData();
-		Light->CreateShadowMap();
-
-		Data.AmbientLight = float4(0.05f, 0.05f, 0.025f, 1.0f);
-		Data.LightColor = float4(1.0f, 1.0f, 0.7f);
-		Data.LightPower = 2.0f;
-		Data.ForceLightPower = 0.25f;
-
-		Light->Transform.SetLocalPosition({ -12000.0f, 16200.0f, -4260.0f });
-		Light->Transform.SetLocalRotation({ 40.0f, 0.0f, 0.0f });
-
-
-		Light->SetLightData(Data);
-		//Light->IsDebugValue = true;
-	}
-
-	if (nullptr == BossDoorLight)
-	{
-		BossDoorLight = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "BossDoorLight");
-		BossDoorLight->SetLightType(Enum_LightType::Point);
-
-		LightData Data = BossDoorLight->GetLightData();
-		Data.quadraticAttenuation = 0.00006f;
-		Data.LightPower = 30.f;
-		Data.LightColor = { 2.0f,0.2f,0.2f };
-		Data.linearAttenuation = 0.006f;
-		Data.quadraticAttenuation = 0.0002f;
-
-		BossDoorLight->SetLightData(Data);
-		BossDoorLight->Transform.SetLocalPosition({ -808.f, -1970.0f, 2330.0f });
-		//Light->IsDebugValue = true;
-	}
-
-
-	// DepthOfField
-	{
-		std::shared_ptr<DepthOfField> Effect = GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<DepthOfField>();
-		Effect->Init(GetMainCamera());
-	}
-	//
-	// Fog
-	/*{
-		std::shared_ptr<FogEffect> Effect = GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FogEffect>();
-		Effect->Init(GetMainCamera());
-	}*/
-
-
-	////FXAA
-
-	GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FXAAEffect>();
-	GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<LUTEffect>();
-
-	// Building
-
-	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 0, 0, 0, 1 });
-
-	// Player
-	{
-		Player_Object = CreateActor<Player>(200, "Player");
-		// 볼드 위치
-		//Player_Object->SetWorldPosition({ -2800.f, -2500.f, 6700.f });
-		// 안개 테스트 위치 
-		//Player_Object->SetWorldPosition({ -3417.f, -2552.f, 7606.f });
-
-		// 테스트 위치
-		//Player_Object->SetWorldPosition({ -8011.0f, 907.0f, 3547.0f });
-		// 
-		//시작 위치
-		Player_Object->SetWorldPosition({ -1400.0f, 4945.0f, -5330.0f });
-		Player_Object->SetWorldRotation({ 0.f, 0.f, 0.f });
-		//Player_Object->SetTargeting(Boss_Object.get());
-		Boss_Object->SetTargeting(Player_Object.get());
-	}
-
-	BossBGM = GameEngineSound::SoundPlay("1-06 Vordt Of The Boreal Valley.mp3", 100);
-	BossBGMVolume = BEGIN_BOSS_BGM_VOLUME;
-	BossBGM.SetVolume(BossBGMVolume);
-	BossBGM.Pause();
-
-	{
-		FogWall = CreateActor<Object_FogWall>();
-		FogWall->Transform.SetWorldPosition({ -3125, -2100.f, 7070.f });
-		FogWall->Transform.SetWorldRotation({ 0.f,152.f });
-
-		FogWall->SetOutFunction([&]()
-			{
-				Boss_Object->AI_Start();
-				Boss_Object->DummyPolySoundOn();
-				MainUI->BossUIOn();
-				BossBGMVolume = BEGIN_BOSS_BGM_VOLUME;
-				BossBGM.SetVolume(BossBGMVolume);
-				BossBGM.Resume();
-
-				GameEngineSoundPlayer FogSound = GameEngineSound::SoundPlay("gate_point.wav");
-				FogSound.SetVolume(0.7f);
-			});
-	}
-
 	
-
-	// 몬스터 셋팅
-	SetAllMonster();
-
-	std::shared_ptr<GameEngineCoreWindow> CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
-
-	if (nullptr != CoreWindow)
-	{
-		CoreWindow->AddDebugRenderTarget(1, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
-		CoreWindow->AddDebugRenderTarget(2, "ForwardTarget", GetMainCamera()->GetCameraForwardTarget());
-		CoreWindow->AddDebugRenderTarget(3, "DeferredLightTarget", GetMainCamera()->GetCameraDeferredLightTarget());
-		CoreWindow->AddDebugRenderTarget(4, "DeferredTarget", GetMainCamera()->GetCameraDeferredTarget());
-		//CoreWindow->AddDebugRenderTarget(5, "LightTarget", Light->GetShadowTarget());
-		//CoreWindow->AddDebugRenderTarget(3, "HBAO", GetMainCamera()->GetCameraHBAOTarget());
-	}
-
-	{
-		if (nullptr == GameEngineSprite::Find("Lothric_Wall.png"))
-		{
-			GameEngineDirectory Dir;
-			Dir.MoveParentToExistsChild("ContentsResources");
-			Dir.MoveChild("ContentsResources");
-			Dir.MoveChild("UITexture");
-			std::vector<GameEngineFile> Files = Dir.GetAllFile();
-			for (GameEngineFile& pFiles : Files)
-			{
-				GameEngineTexture::Load(pFiles.GetStringPath());
-				GameEngineSprite::CreateSingle(pFiles.GetFileName());
-			}
-		}
-
-		if (nullptr == GameEngineSprite::Find("DarkSoulsIII_Main_Menu_Theme.wav"))
-		{
-			GameEngineDirectory Dir;
-			Dir.MoveParentToExistsChild("ContentsResources");
-			Dir.MoveChild("ContentsResources\\Sound\\UI");
-
-			std::vector<GameEngineFile> Files = Dir.GetAllFile();
-			for (GameEngineFile& pFiles : Files)
-			{
-				GameEngineSound::SoundLoad(pFiles.GetStringPath());
-			}
-		}
-
-		MainUI = CreateActor<MainUIActor>(Enum_UpdateOrder::UI);
-		MainUI->CreateAlertManger();
-		MainUI->CreateBossUI(Boss_Object.get());
-		MainUI->CreateAndCheckEsteUI(Player_Object.get());
-		MainUI->CreateAndCheckPlayerGaugeBar(Player_Object.get());
-
-		std::shared_ptr<UILocationAlert> UILot = CreateActor<UILocationAlert>();
-		UILot->SetCollision(float4(400.0f, 400.0f, 400.0f), float4(-1885.0f, 5015.0f, -3987.0f));
-	}
 	
 	ResLoading();
 	LevelState.ChangeState(Enum_LevelState::Play);
@@ -1652,6 +1489,170 @@ void Stage_Lothric::ResLoading()
 {
 	if (false == Stage_Lothric::ResLoadingDone)
 	{
+		{
+			Boss_Object = CreateActor<Boss_Vordt>(Enum_UpdateOrder::Monster, "Boss_Vordt");
+			Boss_Object->SetWorldPosition({ -1100.f, -2500.f, 3000.f });
+			Boss_Object->SetWorldRotation({ 0.f, -30.f, 0.f });
+		}
+
+
+		// Light
+		if (nullptr == Light)
+		{
+			Light = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "mainDirect");
+			LightData Data = Light->GetLightData();
+			Light->CreateShadowMap();
+
+			Data.AmbientLight = float4(0.05f, 0.05f, 0.025f, 1.0f);
+			Data.LightColor = float4(1.0f, 1.0f, 0.7f);
+			Data.LightPower = 2.0f;
+			Data.ForceLightPower = 0.25f;
+
+			Light->Transform.SetLocalPosition({ -12000.0f, 16200.0f, -4260.0f });
+			Light->Transform.SetLocalRotation({ 40.0f, 0.0f, 0.0f });
+
+
+			Light->SetLightData(Data);
+			//Light->IsDebugValue = true;
+		}
+
+		if (nullptr == BossDoorLight)
+		{
+			BossDoorLight = CreateActor<ContentsLight>(Enum_UpdateOrder::Light, "BossDoorLight");
+			BossDoorLight->SetLightType(Enum_LightType::Point);
+
+			LightData Data = BossDoorLight->GetLightData();
+			Data.quadraticAttenuation = 0.00006f;
+			Data.LightPower = 30.f;
+			Data.LightColor = { 2.0f,0.2f,0.2f };
+			Data.linearAttenuation = 0.006f;
+			Data.quadraticAttenuation = 0.0002f;
+
+			BossDoorLight->SetLightData(Data);
+			BossDoorLight->Transform.SetLocalPosition({ -808.f, -1970.0f, 2330.0f });
+			//Light->IsDebugValue = true;
+		}
+
+
+		// DepthOfField
+		{
+			std::shared_ptr<DepthOfField> Effect = GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<DepthOfField>();
+			Effect->Init(GetMainCamera());
+		}
+		//
+		// Fog
+		/*{
+			std::shared_ptr<FogEffect> Effect = GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FogEffect>();
+			Effect->Init(GetMainCamera());
+		}*/
+
+
+		////FXAA
+
+		GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FXAAEffect>();
+		GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<LUTEffect>();
+
+		// Building
+
+		GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 0, 0, 0, 1 });
+
+		// Player
+		{
+			Player_Object = CreateActor<Player>(200, "Player");
+			// 볼드 위치
+			//Player_Object->SetWorldPosition({ -2800.f, -2500.f, 6700.f });
+			// 안개 테스트 위치 
+			Player_Object->SetWorldPosition({ -3417.f, -2552.f, 7606.f });
+
+			// 테스트 위치
+			//Player_Object->SetWorldPosition({ -8011.0f, 907.0f, 3547.0f });
+			// 
+			//시작 위치
+			//Player_Object->SetWorldPosition({ -1400.0f, 4945.0f, -5330.0f });
+			Player_Object->SetWorldRotation({ 0.f, 0.f, 0.f });
+			//Player_Object->SetTargeting(Boss_Object.get());
+			Boss_Object->SetTargeting(Player_Object.get());
+		}
+
+		BossBGM = GameEngineSound::SoundPlay("1-06 Vordt Of The Boreal Valley.mp3", 100);
+		BossBGMVolume = BEGIN_BOSS_BGM_VOLUME;
+		BossBGM.SetVolume(BossBGMVolume);
+		BossBGM.Pause();
+
+		{
+			FogWall = CreateActor<Object_FogWall>();
+			FogWall->Transform.SetWorldPosition({ -3125, -2100.f, 7070.f });
+			FogWall->Transform.SetWorldRotation({ 0.f,152.f });
+
+			FogWall->SetOutFunction([&]()
+				{
+					Boss_Object->AI_Start();
+					Boss_Object->DummyPolySoundOn();
+					MainUI->BossUIOn();
+					BossBGMVolume = BEGIN_BOSS_BGM_VOLUME;
+					BossBGM.SetVolume(BossBGMVolume);
+					BossBGM.Resume();
+
+					GameEngineSoundPlayer FogSound = GameEngineSound::SoundPlay("gate_point.wav");
+					FogSound.SetVolume(0.7f);
+				});
+		}
+
+
+
+		// 몬스터 셋팅
+		SetAllMonster();
+
+		std::shared_ptr<GameEngineCoreWindow> CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+
+		if (nullptr != CoreWindow)
+		{
+			CoreWindow->AddDebugRenderTarget(1, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
+			CoreWindow->AddDebugRenderTarget(2, "ForwardTarget", GetMainCamera()->GetCameraForwardTarget());
+			CoreWindow->AddDebugRenderTarget(3, "DeferredLightTarget", GetMainCamera()->GetCameraDeferredLightTarget());
+			CoreWindow->AddDebugRenderTarget(4, "DeferredTarget", GetMainCamera()->GetCameraDeferredTarget());
+			//CoreWindow->AddDebugRenderTarget(5, "LightTarget", Light->GetShadowTarget());
+			//CoreWindow->AddDebugRenderTarget(3, "HBAO", GetMainCamera()->GetCameraHBAOTarget());
+		}
+
+		{
+			if (nullptr == GameEngineSprite::Find("Lothric_Wall.png"))
+			{
+				GameEngineDirectory Dir;
+				Dir.MoveParentToExistsChild("ContentsResources");
+				Dir.MoveChild("ContentsResources");
+				Dir.MoveChild("UITexture");
+				std::vector<GameEngineFile> Files = Dir.GetAllFile();
+				for (GameEngineFile& pFiles : Files)
+				{
+					GameEngineTexture::Load(pFiles.GetStringPath());
+					GameEngineSprite::CreateSingle(pFiles.GetFileName());
+				}
+			}
+
+			if (nullptr == GameEngineSprite::Find("DarkSoulsIII_Main_Menu_Theme.wav"))
+			{
+				GameEngineDirectory Dir;
+				Dir.MoveParentToExistsChild("ContentsResources");
+				Dir.MoveChild("ContentsResources\\Sound\\UI");
+
+				std::vector<GameEngineFile> Files = Dir.GetAllFile();
+				for (GameEngineFile& pFiles : Files)
+				{
+					GameEngineSound::SoundLoad(pFiles.GetStringPath());
+				}
+			}
+
+			MainUI = CreateActor<MainUIActor>(Enum_UpdateOrder::UI);
+			MainUI->CreateAlertManger();
+			MainUI->CreateBossUI(Boss_Object.get());
+			MainUI->CreateAndCheckEsteUI(Player_Object.get());
+			MainUI->CreateAndCheckPlayerGaugeBar(Player_Object.get());
+
+			std::shared_ptr<UILocationAlert> UILot = CreateActor<UILocationAlert>();
+			UILot->SetCollision(float4(400.0f, 400.0f, 400.0f), float4(-1885.0f, 5015.0f, -3987.0f));
+		}
+
 		CreateObject();
 		// 이벤트 충돌체 셋팅
 		SetAllEvCol();
@@ -1668,7 +1669,7 @@ void Stage_Lothric::ResetLoading()
 	// 몬스터 끄고 이벤트 충돌체 켜고
 	AllMonsterOff();
 	AllEvColOn();
-
+	Player_Object->Reset(); 
 	ContentsDebug::NUllCheck(MainUI.get());
 	MainUI->AllUIActorReset();
 
