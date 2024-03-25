@@ -1593,8 +1593,7 @@ void Stage_Lothric::ResLoading()
 					BossBGM.SetVolume(BossBGMVolume);
 					BossBGM.Resume();
 
-					GameEngineSoundPlayer FogSound = GameEngineSound::SoundPlay("gate_point.wav");
-					FogSound.SetVolume(0.7f);
+					
 				});
 		}
 
