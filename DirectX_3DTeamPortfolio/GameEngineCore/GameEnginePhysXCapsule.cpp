@@ -76,7 +76,9 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 	// 	physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z
 	// );
 
+	Scene->lockWrite();
 	Scene->addActor(*ComponentActor);
+	Scene->unlockWrite();
 	// CapsuleShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
 	// CapsuleShape->release();
 }

@@ -199,6 +199,7 @@ public:
 
 	void AI_Start();
 	void AI_Stop();
+	void Reset() override;
 
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
@@ -211,7 +212,6 @@ protected:
 	bool GetHit(const HitParameter& _Para = HitParameter()) override;
 	bool GetHitToShield(const HitParameter& _Para = HitParameter()) override;
 
-	void Reset() override;
 private: 
 	// RockOnCollision
 	std::shared_ptr<GameEngineCollision> RockOnCollision = nullptr;
