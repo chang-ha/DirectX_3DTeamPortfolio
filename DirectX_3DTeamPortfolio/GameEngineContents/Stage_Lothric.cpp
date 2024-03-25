@@ -641,11 +641,11 @@ void Stage_Lothric::CreateObject()
 	}
 	//보스방 화톳불
 	{
-		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);
-		Object->Transform.SetWorldPosition({ -1125, -2489 , 3232 });
-		Object->SetPlayerRespawnPos({ -1125, -2495 , 3150 });
-		//Object->Off();
-		VBonfire.push_back(Object);
+		BossRoom_bonfire = CreateActor<Object_bonfire>(1);
+		BossRoom_bonfire->Transform.SetWorldPosition({ -1125, -2489 , 3232 });
+		BossRoom_bonfire->SetPlayerRespawnPos({ -1125, -2495 , 3150 });
+		BossRoom_bonfire->Off();
+		VBonfire.push_back(BossRoom_bonfire);
 	}
 	{
 		std::shared_ptr<Object_bonfire> Object = CreateActor<Object_bonfire>(1);

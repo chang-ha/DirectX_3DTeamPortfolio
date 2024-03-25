@@ -13,6 +13,7 @@
 
 // Object
 #include "Object_FogWall.h"
+#include "Object_bonfire.h"
 
 void NUllCheck(void* _Pointer, std::string_view _MsgBox = "")
 {
@@ -114,6 +115,11 @@ void Stage_Lothric::End_PlayerDeath(GameEngineState* _Parent)
 void Stage_Lothric::Start_BossDeath(GameEngineState* _Parent)
 {
 	BossDeathState.ChangeState(Enum_PlayerDeathState::Ready);
+	if (nullptr != BossRoom_bonfire && false == BossRoom_bonfire->IsUpdate())
+	{
+		BossRoom_bonfire->On();
+	}
+	
 	if (nullptr != FogWall)
 	{
 		FogWall->Death();
