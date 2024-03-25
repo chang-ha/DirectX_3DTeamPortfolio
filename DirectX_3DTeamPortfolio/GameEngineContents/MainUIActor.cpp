@@ -10,10 +10,15 @@
 
 #include "PlayerValue.h"
 #include "AddSouls.h"
-#include "AppearTextures.h"
 
 #include "Boss_Vordt.h"
 
+GameEngineSoundPlayer MainUIActor::UISoundActor;
+void MainUIActor::SoundPlay(std::string _Name, int _Loop, float _VolumeValue)
+{
+	UISoundActor = GameEngineSound::SoundPlay(_Name, _Loop);
+	UISoundActor.SetVolume(_VolumeValue);
+}
 
 
 MainUIActor::MainUIActor()
@@ -63,11 +68,16 @@ void MainUIActor::Start()
 
 void MainUIActor::Update(float _Delta)
 {
-	if (true == Boss_Object->IsFlag(Enum_ActorFlag::Death) && !BossDeath)
+	if (true == Boss_Object->IsFlag(Enum_ActorFlag::Death))
 	{
-		PlayerGaugeBar->Emeber();
-		BossDeath = true;
-		return;
+		EmberTime -= _Delta;
+		if (!BossDeath && EmberTime <= 0.0f)
+		{
+			PlayerGaugeBar->Emeber();
+			BossDeath = true;
+			EmberTime = 0.0f;
+			return;
+		}
 	}
 }
 

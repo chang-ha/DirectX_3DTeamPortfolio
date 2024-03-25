@@ -11,6 +11,9 @@
 
 #include "LoadingLevel.h"
 
+// Object
+#include "Object_FogWall.h"
+#include "Object_bonfire.h"
 
 void NUllCheck(void* _Pointer, std::string_view _MsgBox = "")
 {
@@ -112,6 +115,16 @@ void Stage_Lothric::End_PlayerDeath(GameEngineState* _Parent)
 void Stage_Lothric::Start_BossDeath(GameEngineState* _Parent)
 {
 	BossDeathState.ChangeState(Enum_PlayerDeathState::Ready);
+	if (nullptr != BossRoom_bonfire && false == BossRoom_bonfire->IsUpdate())
+	{
+		BossRoom_bonfire->On();
+	}
+	
+	if (nullptr != FogWall)
+	{
+		FogWall->Death();
+		FogWall = nullptr;
+	}
 }
 
 void Stage_Lothric::Update_BossDeath(float _Delta, GameEngineState* _Parent)
@@ -206,8 +219,7 @@ void Stage_Lothric::Update_PlayerDeath_FadeOut(float _Delta, GameEngineState* _P
 
 void Stage_Lothric::Start_BossDeath_Ready(GameEngineState* _Parent)
 {
-	GameEngineSoundPlayer SPlayer = GameEngineSound::SoundPlay("Destroyed_Sound_Effect.wav");
-	SPlayer.SetVolume(0.7f);
+	MainUIActor::SoundPlay("Destroyed_Sound_Effect.wav");
 }
 
 void Stage_Lothric::Update_BossDeath_Ready(float _Delta, GameEngineState* _Parent)

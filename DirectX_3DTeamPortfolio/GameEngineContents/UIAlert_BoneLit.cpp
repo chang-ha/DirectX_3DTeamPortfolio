@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "UIAlert_BoneLit.h"
+#include "MainUIActor.h"
 
 UIAlert_BoneLit::UIAlert_BoneLit() 
 {
@@ -65,8 +66,7 @@ void UIAlert_BoneLit::Start_Appear(GameEngineState* _Parent)
 
 	ScaleRatio = FullRatio;
 
-	GameEngineSoundPlayer BonFire = GameEngineSound::SoundPlay("Bonfire_Sound_Effect_.wav");
-	BonFire.SetVolume(0.7f);
+	MainUIActor::SoundPlay("Bonfire_Sound_Effect_.wav");
 }
 void UIAlert_BoneLit::Update_Appear(float _Delta, GameEngineState* _Parent)
 {

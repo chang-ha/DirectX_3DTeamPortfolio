@@ -1,7 +1,7 @@
 #pragma once
 #include "ContentLevel.h"
 
-#define BEGIN_BOSS_BGM_VOLUME 0.15f
+#define BEGIN_BOSS_BGM_VOLUME 0.3f
 
 // Ό³Έν :
 class Stage_Lothric : public ContentLevel
@@ -69,6 +69,7 @@ private:
 	std::shared_ptr<class Object_Ladder6> Ladder6;
 	std::shared_ptr<class Object_Desk> Desk;
 
+	std::shared_ptr<class Object_bonfire> BossRoom_bonfire = nullptr;
 	std::shared_ptr<class Object_FogWall> FogWall = nullptr;
 
 	std::shared_ptr<class MainUIActor> MainUI;
@@ -76,6 +77,9 @@ private:
 
 	float BossBGMVolume = BEGIN_BOSS_BGM_VOLUME;
 	GameEngineSoundPlayer BossBGM;
+	void BossBGMStart();
+	void BossBGMUpdate(float _Delta);
+	void BossBGMEnd();
 
 	void SetAllMonster();
 	void AllMonsterOn();
@@ -93,7 +97,6 @@ private:
 	void Area6_On();
 
 	void CreateObject();
-	void BossBGMUpdate(float _Delta);
 
 private:
 	void StateInit();
