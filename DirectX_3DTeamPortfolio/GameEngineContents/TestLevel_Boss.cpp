@@ -141,7 +141,9 @@ void TestLevel_Boss::Start()
 	 physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
 	 physx::PxMaterial* mMaterial = GameEnginePhysX::GetDefaultMaterial();
 	 physx::PxRigidStatic* groundPlane = PxCreatePlane(*Physics, physx::PxPlane(0, 1, 0, 50), *mMaterial);
+	 Scene->lockWrite();
 	 Scene->addActor(*groundPlane);
+	 Scene->unlockWrite();
 }
 
 void TestLevel_Boss::Update(float _Delta)

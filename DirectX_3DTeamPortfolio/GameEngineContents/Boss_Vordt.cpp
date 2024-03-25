@@ -31,7 +31,18 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 	ImGui::NewLine();
 
-	ImGui::Checkbox("AI_OFF", &Linked_Boss->AI_Off);
+	if (ImGui::Checkbox("AI_OFF", &Linked_Boss->AI_Off))
+	{
+		switch (Linked_Boss->AI_Off)
+		{
+		case 0:
+			Linked_Boss->AI_Start();
+			break;
+		case 1:
+			Linked_Boss->AI_Stop();
+			break;
+		}
+	}
 
 	ImGui::NewLine();
 
@@ -253,6 +264,9 @@ void Boss_State_GUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			break;
 		case Enum_TargetDis::Dis_Far:
 			eDistance += "Far";
+			break;
+		case Enum_TargetDis::Dis_OutOfRange:
+			eDistance += "OutOfRange";
 			break;
 		default:
 			break;
@@ -478,7 +492,6 @@ Boss_Vordt::~Boss_Vordt()
 void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	AI_Stop();
-	DummyPolySoundOff();
 	Off();
 }
 
@@ -1017,6 +1030,7 @@ void Boss_Vordt::StatInit()
 void Boss_Vordt::AI_Start()
 {
 	MainState.ChangeState(Enum_BossState::Howling);
+	DummyPolySoundOn();
 	AI_Off = false;
 	mHitCollision.On();
 }
@@ -1024,6 +1038,7 @@ void Boss_Vordt::AI_Start()
 void Boss_Vordt::AI_Stop()
 {
 	MainState.ChangeState(Enum_BossState::Idle);
+	DummyPolySoundOff();
 	AI_Off = true;
 	mHitCollision.Off();
 }
@@ -1063,7 +1078,6 @@ bool Boss_Vordt::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 	}
 
 	Stat.AddPoise(-20);
-	Stat.AddHp(-BOSS_HP);
 	Stat.AddHp(-AttackerAtt);
 	Hit.SetHit(true);
 	Hit.SetHitDir(_Para.eDir);

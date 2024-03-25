@@ -1625,7 +1625,6 @@ void Stage_Lothric::ResLoading()
 		FogWall->SetOutFunction([&]()
 			{
 				Boss_Object->AI_Start();
-				Boss_Object->DummyPolySoundOn();
 				Boss_Object->On();
 				MainUI->BossUIOn();
 				BossBGMStart();
