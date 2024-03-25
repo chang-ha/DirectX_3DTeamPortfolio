@@ -152,7 +152,7 @@ void Player::Start()
 	MainRenderer->CreateFBXAnimation("Forward_Stop", "022200.FBX", { Frame, false }); // ¾Õ ¸ØÃã 
 	MainRenderer->CreateFBXAnimation("Shield_Move", "023100.FBX", { Frame, true }); // ½¯µå ¿òÁ÷ÀÓ ¾ÈµÊ 
 
-
+	
 
 	MainRenderer->CreateFBXAnimation("Death", "017140.FBX", { Frame, false }); // Á×À½
 
@@ -186,6 +186,11 @@ void Player::Start()
 	MainRenderer->CreateFBXAnimation("ladder_Fast_Down", "028001.FBX", { Frame, false });
 
 	MainRenderer->CreateFBXAnimation("Hit_Down", "005900.FBX", { Frame, false }); //70
+
+	MainRenderer->CreateFBXAnimation("Fire", "068000.FBX", { Frame, false }); //70
+
+	
+
 
 	MainRenderer->ChangeAnimation("Shield_Idle");
 	
@@ -325,7 +330,7 @@ void Player::Start()
 	}
 
 
-
+	//MainRenderer->RenderBaseInfoValue.AlphaValue -= 0.01;
 	
 
 
@@ -340,7 +345,7 @@ void Player::Start()
 		ColParameter.T = { 0.f, 0.2f, 0.f };
 
 		Attack_Col = CreateSocketCollision(Enum_CollisionOrder::Player_Attack, Bone_index_01, ColParameter,"Player_Weapon");
-		Attack_Col->SetCollisionType(ColType::AABBBOX3D);
+		Attack_Col->SetCollisionType(ColType::OBBBOX3D);
 		//Attack_Col->Transform.SetLocalScale({ 20.f,60.f, 20.f });
 
 		Attack_Col->On();
@@ -380,7 +385,7 @@ void Player::Start()
 
 	{
 		Shield_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Shield);
-		Shield_Col->SetCollisionType(ColType::AABBBOX3D);
+		Shield_Col->SetCollisionType(ColType::OBBBOX3D);
 		Shield_Col->Transform.SetLocalScale({ 120.f,140.f, 30.f});
 		Shield_Col->Transform.SetLocalPosition({ 0.f,90.f, 30.f });
 		Shield_Col->Off();
@@ -388,7 +393,7 @@ void Player::Start()
 
 	{
 		Top_Shield_Col = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Player_Shield);
-		Top_Shield_Col->SetCollisionType(ColType::AABBBOX3D);
+		Top_Shield_Col->SetCollisionType(ColType::OBBBOX3D);
 		Top_Shield_Col->Transform.SetLocalScale({ 79.f,12.f, 79.f });
 		Top_Shield_Col->Transform.SetLocalPosition({ 0.f,155.0f, 15.f });
 		Top_Shield_Col->Off();
@@ -700,6 +705,7 @@ void Player::Update(float _Delta)
 
 	FaceLight->Transform.SetLocalPosition(Transform.GetWorldPosition() + revolution);
 
+
 	// µð¹ö±× ¿ëµµ 
 
 	if (GameEngineInput::IsDown('B', this))
@@ -736,6 +742,7 @@ void Player::Update(float _Delta)
 	{
 		Stat.SetAtt(ContentsRandom::RandomInt(50, 80));
 	}
+
 	else if (Damage_infinite == true)
 	{
 		Stat.SetAtt(3000);
@@ -744,6 +751,21 @@ void Player::Update(float _Delta)
 	if (GameEngineInput::IsDown('3', this))
 	{
 		Stat.SetHp(-400);
+	}
+
+		
+	if (GameEngineInput::IsDown('4', this))
+	{
+		Damage_Zero = !Damage_Zero;
+	}
+
+	if (Damage_Zero == false)
+	{
+		Stat.SetAtt(ContentsRandom::RandomInt(50, 80));
+	}
+	else if (Damage_Zero == true)
+	{
+		Stat.SetAtt(0);
 	}
 
 	
@@ -781,6 +803,7 @@ void Player::Update(float _Delta)
 		UISystem->OnSystem(Enum_SystemType::Object_FogWall);
 		Fog_PrevCheck = true;
 		Fog_UIOnCheck = true;
+
 		if (GameEngineInput::IsDown('E', this))
 		{
 			Fog_Run_Check = true;
@@ -814,9 +837,11 @@ void Player::Update(float _Delta)
 	}
 	
 
-
-	Sword.CollisionToShield(Enum_CollisionOrder::Monster_Shield,-100);
+	
+	Sword.CollisionToShield(Enum_CollisionOrder::Monster_Shield, 0);
+	
 	Sword.CollisionToBody(Enum_CollisionOrder::Monster_Body, 0);
+	
 	
 	
 
@@ -1051,7 +1076,6 @@ void Player::Update(float _Delta)
 			}
 	});
 
-	tyu = false;
 	Fog_Check = false;
 }
 
@@ -1280,11 +1304,7 @@ void Player::CameraRotation(float Delta)
 bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 {
 
-	HitRenderer->On();
-	HitRenderer->ChangeAnimation("Hit");
-	HitRenderer->Transform.SetWorldPosition({ Body_Col->Transform.GetWorldPosition().X,Body_Col->Transform.GetWorldPosition().Y + 50.0f,Body_Col->Transform.GetWorldPosition().Z });
-
-	Attack_Col->Off(); 
+	
 	tyu = true;
 
 	Poise_Time = 0;
@@ -1295,10 +1315,18 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 		return false;
 	}
 
-	/*if (true == Hit.IsHit())
+	if (true == Hit.IsHit())
 	{
 		return false;
-	}*/
+	}
+
+
+	HitRenderer->On();
+	HitRenderer->ChangeAnimation("Hit");
+	HitRenderer->Transform.SetWorldPosition({ Body_Col->Transform.GetWorldPosition().X,Body_Col->Transform.GetWorldPosition().Y + 50.0f,Body_Col->Transform.GetWorldPosition().Z });
+
+	Attack_Col->Off();
+
 	BaseActor* pAttacker = _Para.pAttacker;
 
 
@@ -1406,7 +1434,7 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 			PlayerStates.ChangeState(PlayerState::HitDown);
 		}
 		if (_Para.eDir == Enum_DirectionXZ_Quat::L)
-		{
+		{	
 			PlayerStates.ChangeState(PlayerState::HitDown);
 		}
 		if (_Para.eDir == Enum_DirectionXZ_Quat::R)
@@ -1533,9 +1561,42 @@ void Player::Rock_On(Enum_CollisionOrder _Order)
 
 void Player::Reset()
 {
-	Capsule->SetWorldPosition({ PlayerRespawnPos });
-	Capsule->SetWorldRotation({ 0.f, 0.f, 0.f });
 
+
+	SetWorldPosition({ PlayerRespawnPos });
+	SetWorldRotation({ 0.f, 0.f, 0.f });
+
+	Actor_test->Death();
+	Actor_test_02->Death();
+
+
+	GetLevel()->GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
+
+	{
+		Actor_test = GetLevel()->CreateActor<GameEngineActor>();
+	}
+
+	{
+		Actor_test_02 = GetLevel()->CreateActor<GameEngineActor>();
+		Actor_test_02->SetParent(Actor_test);
+
+
+		Actor_test_02->Transform.SetLocalPosition({ 0.0f,0.0f,-250.0f });
+
+	}
+
+
+	Actor_test->Transform.SetWorldPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y + 140.0f, Capsule->GetWorldPosition().z });
+
+	
+
+
+	Actor_test_02->Transform.SetLocalPosition({ 0.0f,0.0f,-250.0f });
+
+	GetLevel()->GetMainCamera()->Transform.SetWorldRotation(Actor_test_02->Transform.GetWorldRotationEuler());
+	GetLevel()->GetMainCamera()->Transform.SetWorldPosition(Actor_test_02->Transform.GetWorldPosition());
+
+	Stat.SetHp(400);
 	Stat.SetMaxHp(Max_Hp);
 	Stat.SetHp(Max_Hp);
 	Stat.SetStamina(300.0f);
@@ -1556,14 +1617,7 @@ void Player::Reset()
 
 bool Player::GetHitToShield(const HitParameter& _Para)
 {
-	tyu = true;
-	Poise_Time = 0;
-
-	HitRenderer->On();
-	HitRenderer->ChangeAnimation("Hit");
-	HitRenderer->Transform.SetWorldPosition({ Shield_Col->Transform.GetWorldPosition().X,Shield_Col->Transform.GetWorldPosition().Y+30.0f,Shield_Col->Transform.GetWorldPosition().Z });
-	Attack_Col->Off();
-
+	
 
 
 	if (nullptr == _Para.pAttacker)
@@ -1572,11 +1626,21 @@ bool Player::GetHitToShield(const HitParameter& _Para)
 		return false;
 	}
 
-
-	/*if (true == Hit.IsHit())
+	//Hit.SetHit(false)
+	if (true == Hit.IsHit())
 	{
 		return false;
-	}*/
+	}
+
+	tyu = true;
+	Poise_Time = 0;
+
+	HitRenderer->On();
+	HitRenderer->ChangeAnimation("Hit");
+	HitRenderer->Transform.SetWorldPosition({ Shield_Col->Transform.GetWorldPosition().X,Shield_Col->Transform.GetWorldPosition().Y + 30.0f,Shield_Col->Transform.GetWorldPosition().Z });
+	Attack_Col->Off();
+
+
 
 	BaseActor* pAttacker = _Para.pAttacker;
 

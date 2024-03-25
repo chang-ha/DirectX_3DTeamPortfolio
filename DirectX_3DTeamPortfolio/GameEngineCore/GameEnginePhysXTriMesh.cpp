@@ -191,7 +191,9 @@ void GameEnginePhysXTriMesh::PhysXDeserialization()
 
 	ComponentActor->setGlobalPose(PxTransform);
 
+	Scene->lockWrite();
 	Scene->addActor(*ComponentActor);
+	Scene->unlockWrite();
 	Collection->release();
 	Registry->release();
 }

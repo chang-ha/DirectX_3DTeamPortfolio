@@ -176,7 +176,7 @@ protected:
 	bool GetHit(const HitParameter& _Para = HitParameter()) override;
 	bool GetHitToShield(const HitParameter& _Para = HitParameter()) override;
 	virtual int HitFormula(int _Att) { return -_Att; }
-	virtual int GuardHitFormula(int _Att) { return -_Att / 10; }
+	virtual int GuardHitFormula(int _Att) { return -_Att; }
 
 	// 앞잡, 뒤잡
 	bool FrontStabCheck(const float4& _WPos, float _RotY) const override;

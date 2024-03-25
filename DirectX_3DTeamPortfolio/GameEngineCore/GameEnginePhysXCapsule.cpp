@@ -21,7 +21,9 @@ void GameEnginePhysXCapsule::Update(float _Delta)
 {
 	GameEnginePhysXComponent::Update(_Delta);
 
+	Scene->lockRead();
 	physx::PxVec3 Vec = CapsuleActor->getLinearVelocity();
+	Scene->unlockRead();
 
 	float VecScale = Vec.magnitude();
 	if (0.5f < VecScale && -0.5f < Vec.y)
@@ -76,7 +78,9 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 	// 	physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z
 	// );
 
+	Scene->lockWrite();
 	Scene->addActor(*ComponentActor);
+	Scene->unlockWrite();
 	// CapsuleShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
 	// CapsuleShape->release();
 }

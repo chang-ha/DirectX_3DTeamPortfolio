@@ -75,14 +75,18 @@ void GameEnginePhysXComponent::MoveForce(const physx::PxVec3 _Force, bool _Ignor
 	physx::PxVec3 CurLV = physx::PxVec3({ 0.0f });
 	if (false == _IgnoreGravity)
 	{
+		Scene->lockRead();
 		CurLV = DynamicActor->getLinearVelocity();
+		Scene->unlockRead();
 		if (0.f < CurLV.y)
 		{
 			CurLV.y = 0.f;
 		}
 	}
 
+	Scene->lockWrite();
 	DynamicActor->setLinearVelocity({ _Force.x, _Force.y + CurLV.y, _Force.z }); // 현재 중력을 받아오기 위해
+	Scene->unlockWrite();
 }
 
 void GameEnginePhysXComponent::AddForce(const physx::PxVec3 _Force)
@@ -93,7 +97,9 @@ void GameEnginePhysXComponent::AddForce(const physx::PxVec3 _Force)
 	}
 	physx::PxRigidDynamic* DynamicActor = ComponentActor->is<physx::PxRigidDynamic>();
 
+	Scene->lockWrite();
 	DynamicActor->addForce(_Force, physx::PxForceMode::eVELOCITY_CHANGE);
+	Scene->unlockWrite();
 }
 
 void GameEnginePhysXComponent::SetWorldPosition(const float4& _Pos)
@@ -105,7 +111,9 @@ void GameEnginePhysXComponent::SetWorldPosition(const float4& _Pos)
 	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
 
 	physx::PxTransform Transform(Pos, Quat);
+	Scene->lockWrite();
 	ComponentActor->setGlobalPose(Transform);
+	Scene->unlockWrite();
 }
 
 void GameEnginePhysXComponent::SetWorldRotation(const float4& _Degree)
@@ -114,17 +122,23 @@ void GameEnginePhysXComponent::SetWorldRotation(const float4& _Degree)
 
 	SetDir(WorldDeg.Y);
 
+	Scene->lockRead();
 	physx::PxTransform Transform = ComponentActor->getGlobalPose();
+	Scene->unlockRead();
 	float4 WorldQuat = WorldDeg.EulerDegToQuaternion();
 	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);
 
 	Transform.q = Quat;
+	Scene->lockWrite();
 	ComponentActor->setGlobalPose(Transform);
+	Scene->unlockWrite();
 }
 
 void GameEnginePhysXComponent::AddWorldRotation(const float4& _Degree)
 {
+	Scene->lockRead();
 	physx::PxTransform Transform = ComponentActor->getGlobalPose();
+	Scene->unlockRead();
 	physx::PxQuat Quat = Transform.q;
 	float4 WorldDeg = { Quat.x, Quat.y, Quat.z, Quat.w };
 	WorldDeg = WorldDeg.QuaternionToEulerDeg();
@@ -148,7 +162,9 @@ void GameEnginePhysXComponent::AddWorldRotation(const float4& _Degree)
 
 	Quat = physx::PxQuat(WorldDeg.X, WorldDeg.Y, WorldDeg.Z, WorldDeg.W);
 	Transform.q = Quat;
+	Scene->lockWrite();
 	ComponentActor->setGlobalPose(Transform);
+	Scene->unlockWrite();
 }
 
 void GameEnginePhysXComponent::ResetMove(int _Axies)
@@ -159,7 +175,9 @@ void GameEnginePhysXComponent::ResetMove(int _Axies)
 	}
 	physx::PxRigidDynamic* DynamicActor = ComponentActor->is<physx::PxRigidDynamic>();
 
+	Scene->lockRead();
 	physx::PxVec3 CurLV = DynamicActor->getLinearVelocity();
+	Scene->unlockRead();
 
 	if (Enum_Axies::X & _Axies)
 	{
@@ -176,7 +194,9 @@ void GameEnginePhysXComponent::ResetMove(int _Axies)
 		CurLV.z = 0.0f;
 	}
 
+	Scene->lockWrite();
 	DynamicActor->setLinearVelocity({ CurLV.x, CurLV.y, CurLV.z });
+	Scene->unlockWrite();
 }
 
 void GameEnginePhysXComponent::SetFiltering(int _CollisionOrder, int _TargetCollisionOrder)
@@ -191,7 +211,9 @@ void GameEnginePhysXComponent::SetFiltering(FilterData& _FilterData)
 
 bool GameEnginePhysXComponent::JudgeDynamic()
 {
+	Scene->lockRead();
 	physx::PxType Type = ComponentActor->getConcreteType();
+	Scene->unlockRead();
 
 	if (physx::PxConcreteType::eRIGID_DYNAMIC != Type)
 	{
@@ -218,7 +240,9 @@ void GameEnginePhysXComponent::Positioning(float _Delta)
 	{
 		// Set ParentPos to Reflect MyPos
 		// Component's Local Transform
+		Scene->lockRead();
 		physx::PxTransform Transform = ComponentActor->getGlobalPose();
+		Scene->unlockRead();
 		const TransformData& LocalTransform = GameEngineObject::Transform.GetConstTransformDataRef();
 
 		physx::PxVec3 ComponentPos = Transform.p;
@@ -249,6 +273,7 @@ void GameEnginePhysXComponent::SetFiltering(int _MyCollisionOrder, int _Target1C
 	FilterData.word2 = _Target2CollisionOrder;
 	FilterData.word3 = _Target3CollisionOrder;
 
+	Scene->lockRead();
 	physx::PxU32 ShapeCount = ComponentActor->getNbShapes();
 
 	if (0 >= ShapeCount)
@@ -259,7 +284,9 @@ void GameEnginePhysXComponent::SetFiltering(int _MyCollisionOrder, int _Target1C
 	physx::PxShape** Shapes = (physx::PxShape**)malloc(sizeof(physx::PxShape*) * ShapeCount);
 
 	ComponentActor->getShapes(Shapes, ShapeCount);
+	Scene->unlockRead();
 
+	Scene->lockWrite();
 	for (physx::PxU32 i = 0; i < ShapeCount; i++)
 	{
 		physx::PxShape* CurShape = Shapes[i];
@@ -267,6 +294,7 @@ void GameEnginePhysXComponent::SetFiltering(int _MyCollisionOrder, int _Target1C
 		CurShape->setSimulationFilterData(FilterData);
 		ComponentActor->attachShape(*CurShape);
 	}
+	Scene->unlockWrite();
 
 	free(Shapes);
 }
@@ -275,33 +303,43 @@ void GameEnginePhysXComponent::SetFiltering(int _MyCollisionOrder, int _Target1C
 
 void GameEnginePhysXComponent::GravityOn()
 {
+	Scene->lockWrite();
 	ComponentActor->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, false);
+	Scene->unlockWrite();
 }
 
 void GameEnginePhysXComponent::GravityOff()
 {
+	Scene->lockWrite();
 	ComponentActor->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, true);
+	Scene->unlockWrite();
 }
 
 void GameEnginePhysXComponent::RayCastTargetOn()
-{
+{ 
+	Scene->lockWrite();
 	ComponentActor->detachShape(*Shape);
 	Shape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
 	ComponentActor->attachShape(*Shape);
+	Scene->unlockWrite();
 }
 
 void GameEnginePhysXComponent::RayCastTargetOff()
 {
+	Scene->lockWrite();
 	ComponentActor->detachShape(*Shape);
 	Shape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
 	ComponentActor->attachShape(*Shape);
+	Scene->unlockWrite();
 }
 
 void GameEnginePhysXComponent::CollisionOn(bool _GravityOn /*= true*/)
 {
+	Scene->lockWrite();
 	ComponentActor->detachShape(*Shape);
 	Shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, true);
 	ComponentActor->attachShape(*Shape);
+	Scene->unlockWrite();
 
 	if (true == _GravityOn)
 	{
@@ -311,9 +349,11 @@ void GameEnginePhysXComponent::CollisionOn(bool _GravityOn /*= true*/)
 
 void GameEnginePhysXComponent::CollisionOff(bool _GravityOff /*= true*/)
 {
+	Scene->lockWrite();
 	ComponentActor->detachShape(*Shape);
 	Shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
 	ComponentActor->attachShape(*Shape);
+	Scene->unlockWrite();
 
 	if (true == _GravityOff)
 	{
@@ -323,7 +363,9 @@ void GameEnginePhysXComponent::CollisionOff(bool _GravityOff /*= true*/)
 
 void GameEnginePhysXComponent::ChangeMaterial(physx::PxMaterial* const* _Material)
 {
+	Scene->lockWrite();
 	ComponentActor->detachShape(*Shape);
 	Shape->setMaterials(_Material, 1);
 	ComponentActor->attachShape(*Shape);
+	Scene->unlockWrite();
 }

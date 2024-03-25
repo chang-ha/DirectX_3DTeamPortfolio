@@ -55,5 +55,7 @@ void GameEnginePhysXBox::PhysXComponentInit(float _hX, float _hY, float _hZ, boo
 
 	ComponentActor->attachShape(*Shape);
 
+	Scene->lockWrite();
 	Scene->addActor(*ComponentActor);
+	Scene->unlockWrite();
 }

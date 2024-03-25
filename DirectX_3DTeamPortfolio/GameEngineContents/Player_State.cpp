@@ -2899,6 +2899,7 @@ void Player::Player_State()
 				MainRenderer->ChangeAnimation("ladder_Up_Start");
 				Capsule->GravityOff();
 				Rock_On_Check = true;
+				Body_Col->Off();
 			};
 
 
@@ -2933,6 +2934,7 @@ void Player::Player_State()
 				StateValue = PlayerState::ladder_Up_Left;
 				MainRenderer->ChangeAnimation("ladder_Up_Left");
 				Capsule->GravityOff();
+				Body_Col->Off();
 			};
 
 
@@ -2977,6 +2979,7 @@ void Player::Player_State()
 				StateValue = PlayerState::ladder_Up_Right;
 				MainRenderer->ChangeAnimation("ladder_Up_Right");
 				Capsule->GravityOff();
+				Body_Col->Off();
 			};
 
 
@@ -3023,6 +3026,7 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{		
+					Body_Col->On();
 					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
 
 					Capsule->GravityOn();
@@ -3051,7 +3055,7 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
-					
+					Body_Col->On();
 					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
 
 					Capsule->GravityOn();
@@ -3073,6 +3077,7 @@ void Player::Player_State()
 			{
 				MainRenderer->ChangeAnimation("ladder_Down_Start");
 				Capsule->GravityOff();
+				Body_Col->Off();
 				Rock_On_Check = true;
 			};
 
@@ -3103,7 +3108,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("ladder_Down_Left");
-
+				Body_Col->Off();
 			};
 
 
@@ -3146,6 +3151,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("ladder_Down_Right");
+				Body_Col->Off();
 			};
 
 
@@ -3162,6 +3168,7 @@ void Player::Player_State()
 
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+
 					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
 
 					if (GameEngineInput::IsPress('W', this))
@@ -3194,6 +3201,7 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					Body_Col->On();
 					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
 
 					Capsule->GravityOn();
@@ -3222,8 +3230,8 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					Body_Col->On();
 					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
-
 					Capsule->GravityOn();
 					Rabber_Collision_Check = false; 
 					PlayerStates.ChangeState(PlayerState::Idle);
@@ -3246,6 +3254,7 @@ void Player::Player_State()
 				Attack_Col->Off();
 				Shield_Col->Off(); 
 				Top_Shield_Col->Off();
+				SetFlag(Enum_ActorFlag::Death, true);
 				GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Monster);
 				SetFlag(Enum_ActorFlag::Death, true);
 			};
@@ -3255,6 +3264,7 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					
 					
 					
 				
@@ -3685,6 +3695,27 @@ void Player::Player_State()
 
 
 	
+	{
+
+		CreateStateParameter NewPara;
+
+		NewPara.Start = [=](class GameEngineState* _Parent)
+			{
+				MainRenderer->ChangeAnimation("Fire");
+			};
+
+		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
+			{
+				if (MainRenderer->IsCurAnimationEnd())
+				{
+					PlayerStates.ChangeState(PlayerState::Idle);
+					return;
+				}
+			};
+
+		PlayerStates.CreateState(PlayerState::Fire, NewPara);
+	}
+
 
 
 
@@ -3929,6 +3960,17 @@ void Player::SoundFrameEvent()
 		{
 			GameEngineSound::Sound3DPlay("foot-stone-l.wav", BoneWorldPos(0));
 		});
+
+
+	// 
+	MainRenderer->SetFrameEvent("Slow_Walk_Forward", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("gate_point.wav", BoneWorldPos(0),0.7f);
+		});
+
+
+
+
 }
 
 float4 Player::BoneWorldPos(int _BoneIndex)
