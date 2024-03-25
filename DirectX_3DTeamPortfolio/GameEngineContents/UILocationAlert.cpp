@@ -3,6 +3,8 @@
 
 #include "TriggerActor.h"
 
+#include "MainUIActor.h"
+
 UILocationAlert::UILocationAlert() 
 {
 }
@@ -84,8 +86,8 @@ void UILocationAlert::Start_Appear(GameEngineState* _Parent)
 {
 	On();
 	SetGamma(0.0f);
-	GameEngineSoundPlayer LocationSound = GameEngineSound::SoundPlay("New_Location_Sound_Effect.wav");
-	LocationSound.SetVolume(0.7f);
+
+	MainUIActor::SoundPlay("New_Location_Sound_Effect.wav");
 }
 
 void UILocationAlert::Update_Appear(float _Delta, GameEngineState* _Parent)

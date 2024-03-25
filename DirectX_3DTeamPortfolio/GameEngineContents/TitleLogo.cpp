@@ -3,6 +3,8 @@
 
 #include "LoadingLevel.h"
 
+#include "MainUIActor.h"
+
 TitleLogo::TitleLogo()
 {
 
@@ -105,8 +107,7 @@ void TitleLogo::Update(float _Delta)
 	if (DarkSouls_Logo->GetColorData().MulColor.A >= 1.0f && FontEnter == false &&
 		GameEngineInput::IsDownAnyKey() == true)
 	{
-		GameEngineSoundPlayer StartButton = GameEngineSound::SoundPlay("GAMESTART.wav");
-		StartButton.SetVolume(0.6f);
+		MainUIActor::SoundPlay("GAMESTART.wav");
 		FontEnter = true;
 	}
 	if (FontEnter == true)

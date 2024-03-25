@@ -1,8 +1,13 @@
 #pragma once
 
+#define UIVolume 0.6f
+
 // 설명 :
 class MainUIActor : public GameEngineActor
 {
+private:
+	static GameEngineSoundPlayer UISoundActor;
+
 public:
 	// constructer destructer
 	MainUIActor();
@@ -25,6 +30,8 @@ public:
 
 	std::shared_ptr<class UIPlayerGaugeBar> GetPlayerUI() { return PlayerGaugeBar; }
 
+	static void SoundPlay(std::string _Name, int _Loop = 0, float _VolumeValue = UIVolume);
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -34,7 +41,6 @@ protected:
 	void LevelEnd(GameEngineLevel* _NextLevel) override {}
 
 	// 액터 생성
-	
 
 private:
 	std::shared_ptr<class UIAlertMaanger> AlertMaanger = nullptr;

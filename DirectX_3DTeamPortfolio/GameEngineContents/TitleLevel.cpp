@@ -69,7 +69,7 @@ void TitleLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 	// Sound
 	BGMPlayer = GameEngineSound::SoundPlay("DarkSoulsIII_Main_Menu_Theme.wav", 2);
-	BGMPlayer.SetVolume(0.8f);
+	BGMPlayer.SetVolume(0.7f);
 }
 
 void TitleLevel::LevelEnd(GameEngineLevel* _NextLevle)

@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "UIAlert_YouDie.h"
 
+#include "MainUIActor.h"
+
 UIAlert_YouDie::UIAlert_YouDie() 
 {
 }
@@ -63,11 +65,10 @@ void UIAlert_YouDie::Start_Appear(GameEngineState* _Parent)
 	SetGamma(BackTexture.get(), StartGamma);
 	ScaleRatio = FullRatio;
 
-	GameEngineSoundPlayer Died = GameEngineSound::SoundPlay("YOU_DIED_Sound_Effect.wav");
-	Died.SetVolume(0.7f);
+	MainUIActor::SoundPlay("YOU_DIED_Sound_Effect.wav");
 
 	GameEngineSoundPlayer MDied = GameEngineSound::SoundPlay("Voice_M_Dead.wav");
-	MDied.SetVolume(0.7f);
+	MDied.SetVolume(0.6f);
 
 	mState.ChangeState(eState::Stay);
 }

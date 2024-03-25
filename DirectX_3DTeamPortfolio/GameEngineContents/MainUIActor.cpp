@@ -10,10 +10,15 @@
 
 #include "PlayerValue.h"
 #include "AddSouls.h"
-#include "AppearTextures.h"
 
 #include "Boss_Vordt.h"
 
+GameEngineSoundPlayer MainUIActor::UISoundActor;
+void MainUIActor::SoundPlay(std::string _Name, int _Loop, float _VolumeValue)
+{
+	UISoundActor = GameEngineSound::SoundPlay(_Name, _Loop);
+	UISoundActor.SetVolume(_VolumeValue);
+}
 
 
 MainUIActor::MainUIActor()
