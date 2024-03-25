@@ -23,7 +23,6 @@ void Object_FogWall::Start()
 		WallCollision = CreateComponent<GameEnginePhysXBox>(Enum_CollisionOrder::Fog_Wall);
 		WallCollision->PhysXComponentInit(600.f, 1000.f, 3.f);
 		WallCollision->SetFiltering(Enum_CollisionOrder::Fog_Wall);
-		//WallCollision->CollisionOff();
 	}
 
 	if (nullptr == InDetectCollision)
@@ -95,3 +94,27 @@ void Object_FogWall::OutDetect()
 	OutDetectCollision->Off();
 	Start_OutFunction();
 }
+
+void Object_FogWall::Reset()
+{
+	if (nullptr == this)
+	{
+		return;
+	}
+
+	FogWallRenderer->On();
+	WallCollision->On();
+	InDetectCollision->On();
+	OutDetectCollision->On();
+}
+
+void Object_FogWall::End()
+{
+	if (nullptr == this)
+	{
+		return;
+	}
+
+	Off();
+}
+

@@ -479,6 +479,7 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	AI_Stop();
 	DummyPolySoundOff();
+	Off();
 }
 
 void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
@@ -1059,9 +1060,8 @@ bool Boss_Vordt::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 		HitSoune_Count = 1;
 	}
 
-	// Stat.AddPoise(-Stiffness);
 	Stat.AddPoise(-20);
-	// Stat.AddHp(-BOSS_HP);
+	Stat.AddHp(-BOSS_HP);
 	Stat.AddHp(-AttackerAtt);
 	Hit.SetHit(true);
 	Hit.SetHitDir(_Para.eDir);
@@ -1075,6 +1075,11 @@ bool Boss_Vordt::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 
 void Boss_Vordt::Reset()
 {
+	if (nullptr == this)
+	{
+		return;
+	}
+
 	StatInit();
 	AI_Stop();
 	BaseActor::SetWorldPosition(ResponPos);

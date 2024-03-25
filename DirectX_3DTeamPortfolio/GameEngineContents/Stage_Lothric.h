@@ -1,7 +1,7 @@
 #pragma once
 #include "ContentLevel.h"
 
-#define BEGIN_BOSS_BGM_VOLUME 0.15f
+#define BEGIN_BOSS_BGM_VOLUME 0.3f
 
 // Ό³Έν :
 class Stage_Lothric : public ContentLevel
@@ -76,6 +76,9 @@ private:
 
 	float BossBGMVolume = BEGIN_BOSS_BGM_VOLUME;
 	GameEngineSoundPlayer BossBGM;
+	void BossBGMStart();
+	void BossBGMUpdate(float _Delta);
+	void BossBGMEnd();
 
 	void SetAllMonster();
 	void AllMonsterOn();
@@ -93,7 +96,6 @@ private:
 	void Area6_On();
 
 	void CreateObject();
-	void BossBGMUpdate(float _Delta);
 
 private:
 	void StateInit();

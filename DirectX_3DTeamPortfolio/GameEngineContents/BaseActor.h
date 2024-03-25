@@ -292,7 +292,7 @@ public:
 
 	inline void SetResponRotation(const float4& _Rot)
 	{
-		ResponPos = _Rot;
+		ResponRot = _Rot;
 	}
 
 	float4 GetResponPos()

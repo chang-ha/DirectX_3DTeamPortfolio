@@ -11,6 +11,8 @@
 
 #include "LoadingLevel.h"
 
+// Object
+#include "Object_FogWall.h"
 
 void NUllCheck(void* _Pointer, std::string_view _MsgBox = "")
 {
@@ -112,6 +114,11 @@ void Stage_Lothric::End_PlayerDeath(GameEngineState* _Parent)
 void Stage_Lothric::Start_BossDeath(GameEngineState* _Parent)
 {
 	BossDeathState.ChangeState(Enum_PlayerDeathState::Ready);
+	if (nullptr != FogWall)
+	{
+		FogWall->Death();
+		FogWall = nullptr;
+	}
 }
 
 void Stage_Lothric::Update_BossDeath(float _Delta, GameEngineState* _Parent)

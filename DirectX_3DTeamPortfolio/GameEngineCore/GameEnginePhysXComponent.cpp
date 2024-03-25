@@ -50,8 +50,10 @@ void GameEnginePhysXComponent::Release()
 
 	if (nullptr != ComponentActor)
 	{
+		Scene->lockWrite();
 		ComponentActor->release();
 		ComponentActor = nullptr;
+		Scene->unlockWrite();
 	}
 }
 
