@@ -809,7 +809,7 @@ void Player::Update(float _Delta)
 
 		if (GameEngineInput::IsDown('E', this))
 		{
-			GameEngineSound::Sound3DPlay("Ladder.wav", BoneWorldPos(0), 0.8f);
+			GameEngineSound::Sound3DPlay("gate_point.wav", BoneWorldPos(0), 1.0f);
 
 			Fog_Run_Check = true;
 			GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Fog_Wall);
@@ -1607,9 +1607,13 @@ void Player::Reset()
 	Stat.SetStamina(300.0f);
 
 	Body_Col->On();
+	Fog_Check = false;
+
+
 
 	//-16547, 3380, 2100
 	SetFlag(Enum_ActorFlag::Death, false); 
+
 	Rock_On_Check = false;
 
 	Top_Shield_Col->Transform.SetLocalScale({ 79.f,12.f, 79.f });
@@ -1617,6 +1621,7 @@ void Player::Reset()
 
 	PlayerStates.ChangeState(PlayerState::Sit_Down);
 
+	
 	GameEnginePhysX::PopSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Monster);
 }
 
