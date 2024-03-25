@@ -32,7 +32,9 @@ void ContentLevel::Start()
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
 	
 	PhysXLevelInit();
+	Scene->lockWrite();
 	Scene->setSimulationEventCallback(&CollisionCallBack);
+	Scene->unlockWrite();
 
 	FadeObject = GetLevelRenderTarget()->CreateEffect<AllFadeEffect>();
 	FadeObject->Off();

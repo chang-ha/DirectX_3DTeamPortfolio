@@ -3,6 +3,7 @@
 #include "BoneSocketCollision.h"
 #include "DS3DummyData.h"
 #include "ContentsLight.h"
+#include "LoadingLevel.h"
 
 #define BOSS_HP 1328
 #define PHYSX_RADIUS 280.f
@@ -476,6 +477,46 @@ Boss_Vordt::~Boss_Vordt()
 
 void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 {
+	AI_Stop();
+	DummyPolySoundOff();
+}
+
+void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
+{
+	GUI->Linked_Boss = nullptr;
+	GUI->Off();
+	// Death();
+}
+
+void Boss_Vordt::Start()
+{
+	// BaseActor::Start();
+	SetID(Enum_ActorType::Boss_Vordt);
+	GameEngineInput::AddInputObject(this);
+
+	if (nullptr == MainRenderer)
+	{
+		MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
+	}
+
+	MainRenderer->Transform.SetLocalScale({ W_SCALE, W_SCALE, W_SCALE });
+	MainRenderer->Transform.SetLocalPosition({ 0.f, 0.f, -130.0f });
+
+	if (nullptr == Capsule)
+	{
+		Capsule = CreateComponent<GameEnginePhysXCapsule>();
+		Capsule->PhysXComponentInit(PHYSX_RADIUS, PHYSX_HALFHEIGHT);
+		Capsule->SetPositioningComponent();
+		Capsule->SetFiltering(Enum_CollisionOrder::Monster);
+	}
+
+	StatInit();
+
+	mFaceLight.FaceLightForward = FaceLightInit();
+	mFaceLight.FaceLightBack = FaceLightInit();
+	mFaceLight.FaceLightLeft = FaceLightInit();
+	mFaceLight.FaceLightRight = FaceLightInit();
+
 	// Boss Mesh
 	{
 		if (nullptr == GameEngineFBXMesh::Find("c2240.fbx"))
@@ -654,6 +695,8 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		GameEngineGUI::CreateGUIWindow<Boss_State_GUI>("Boss_State");
 	}
 
+	StateInit();
+
 	GUI = GameEngineGUI::FindGUIWindow<Boss_State_GUI>("Boss_State");
 	GUI->Linked_Boss = this;
 	GUI->On();
@@ -672,14 +715,12 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 		}
 	}
 
-	StateInit();
-
 	// RockOnCollision
 	if (nullptr == RockOnCollision)
 	{
 		RockOnCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster);
 		// RockOnCollision->Transform.SetLocalPosition({ 0.f, PHYSX_RADIUS / 2.f + PHYSX_HALFHEIGHT, 0.f });
-		RockOnCollision->Transform.SetWorldScale({1.f, 1.f, 1.f});
+		RockOnCollision->Transform.SetWorldScale({ 1.f, 1.f, 1.f });
 	}
 
 	//////// Socket Collision
@@ -918,47 +959,6 @@ void Boss_Vordt::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::Boss_Vordt));
-
-	mHitCollision.Off();
-	AI_Stop();
-	DummyPolySoundOff();
-}
-
-void Boss_Vordt::LevelEnd(GameEngineLevel* _NextLevel)
-{
-	GUI->Linked_Boss = nullptr;
-	GUI->Off();
-	Death();
-}
-
-void Boss_Vordt::Start()
-{
-	// BaseActor::Start();
-	SetID(Enum_ActorType::Boss_Vordt);
-	GameEngineInput::AddInputObject(this);
-
-	if (nullptr == MainRenderer)
-	{
-		MainRenderer = CreateComponent<GameContentsFBXRenderer>(Enum_RenderOrder::Monster);
-	}
-
-	MainRenderer->Transform.SetLocalScale({ W_SCALE, W_SCALE, W_SCALE });
-	MainRenderer->Transform.SetLocalPosition({ 0.f, 0.f, -130.0f });
-
-	if (nullptr == Capsule)
-	{
-		Capsule = CreateComponent<GameEnginePhysXCapsule>();
-		Capsule->PhysXComponentInit(PHYSX_RADIUS, PHYSX_HALFHEIGHT);
-		Capsule->SetPositioningComponent();
-		Capsule->SetFiltering(Enum_CollisionOrder::Monster);
-	}
-
-	StatInit();
-
-	mFaceLight.FaceLightForward = FaceLightInit();
-	mFaceLight.FaceLightBack = FaceLightInit();
-	mFaceLight.FaceLightLeft = FaceLightInit();
-	mFaceLight.FaceLightRight = FaceLightInit();
 }
 
 void Boss_Vordt::Update(float _Delta)

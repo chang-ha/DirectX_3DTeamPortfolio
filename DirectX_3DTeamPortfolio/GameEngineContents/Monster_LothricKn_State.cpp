@@ -8,6 +8,11 @@ static constexpr float MIN_TIME_STEPSTATE = 0.5f;
 static constexpr float MAX_TIME_STEPSTATE = 2.0f;
 static constexpr float MAX_AGGRO_TIME = 8.0f;
 
+static constexpr int SWING_ATTACK_STIFFNESS = 12;
+static constexpr int SHOT_ATTACK_STIFFNESS = 20;
+static constexpr int SHIELD_ATTACK_STIFFNESS = 18;
+static constexpr int DH_ATTACK_STIFFNESS_RATIO = 2;
+
 #define SELECT_ENEMY_TO_PLAYER
 #ifdef SELECT_ENEMY_TO_PLAYER
 #define TARGET_ORDER Enum_CollisionOrder::Player
@@ -895,7 +900,7 @@ void Monster_LothricKn::Update_Combo_Att_11(float _DeltaTime, GameEngineState* _
 
 	if (IsFrame(17, 19))
 	{
-		AttackToPlayer(eAttackType::Sword);
+		AttackToPlayer(eAttackType::Sword, SWING_ATTACK_STIFFNESS);
 	}
 
 	if (IsFrameOnce(20))
@@ -955,7 +960,7 @@ void Monster_LothricKn::Update_Combo_Att_12(float _DeltaTime, GameEngineState* _
 
 	if (IsFrame(19, 21))
 	{
-		AttackToPlayer(eAttackType::Sword);
+		AttackToPlayer(eAttackType::Sword, SWING_ATTACK_STIFFNESS);
 	}
 	if (IsFrameOnce(22))
 	{
@@ -1005,7 +1010,7 @@ void Monster_LothricKn::Update_Combo_Att_13(float _DeltaTime, GameEngineState* _
 
 	if (IsFrame(20, 22))
 	{
-		AttackToPlayer(eAttackType::Sword);
+		AttackToPlayer(eAttackType::Sword, SHOT_ATTACK_STIFFNESS);
 	}
 	if (IsFrameOnce(23))
 	{
@@ -1064,7 +1069,7 @@ void Monster_LothricKn::Update_Combo_Att_21(float _DeltaTime, GameEngineState* _
 
 	if (IsFrame(21, 23))
 	{
-		AttackToPlayer(eAttackType::Sword);
+		AttackToPlayer(eAttackType::Sword, SWING_ATTACK_STIFFNESS);
 	}
 	if (IsFrameOnce(24))
 	{
@@ -1123,7 +1128,7 @@ void Monster_LothricKn::Update_Combo_Att_22(float _DeltaTime, GameEngineState* _
 
 	if (IsFrame(22, 24))
 	{
-		AttackToPlayer(eAttackType::Sword);
+		AttackToPlayer(eAttackType::Sword, SWING_ATTACK_STIFFNESS);
 	}
 	if (IsFrameOnce(25))
 	{
@@ -1173,7 +1178,7 @@ void Monster_LothricKn::Update_Combo_Att_23(float _DeltaTime, GameEngineState* _
 
 	if (IsFrame(17, 19))
 	{
-		AttackToPlayer(eAttackType::Sword);
+		AttackToPlayer(eAttackType::Sword, SHOT_ATTACK_STIFFNESS);
 	}
 	if (IsFrameOnce(20))
 	{
@@ -1218,7 +1223,7 @@ void Monster_LothricKn::Update_RH_Att_HitDown(float _DeltaTime, GameEngineState*
 
 	if (IsFrame(24, 26))
 	{
-		AttackToPlayer(eAttackType::Sword);
+		AttackToPlayer(eAttackType::Sword, 20);
 	}
 	if (IsFrameOnce(27))
 	{
@@ -1262,7 +1267,7 @@ void Monster_LothricKn::Update_LH_ShieldAttack(float _DeltaTime, GameEngineState
 
 	if (IsFrame(17, 19))
 	{
-		AttackToPlayer(eAttackType::Shield);
+		AttackToPlayer(eAttackType::Shield, SHIELD_ATTACK_STIFFNESS);
 	}
 	if (IsFrameOnce(20))
 	{
@@ -1312,7 +1317,7 @@ void Monster_LothricKn::Update_RH_Rear_Att(float _DeltaTime, GameEngineState* _S
 
 	if (IsFrame(17, 21))
 	{
-		AttackToPlayer(eAttackType::Sword);
+		AttackToPlayer(eAttackType::Sword, SHOT_ATTACK_STIFFNESS);
 	}
 	if (IsFrameOnce(22))
 	{
@@ -1687,7 +1692,7 @@ void Monster_LothricKn::Update_DH_Stab_Att(float _DeltaTime, GameEngineState* _S
 
 	if (IsFrame(16, 20))
 	{
-		AttackToPlayer(eAttackType::Sword);
+		AttackToPlayer(eAttackType::Sword, SHOT_ATTACK_STIFFNESS * DH_ATTACK_STIFFNESS_RATIO);
 	}
 	if (IsFrameOnce(21))
 	{
@@ -1728,7 +1733,7 @@ void Monster_LothricKn::Update_DH_Swing_Att(float _DeltaTime, GameEngineState* _
 
 	if (IsFrame(15, 18))
 	{
-		AttackToPlayer(eAttackType::Sword);
+		AttackToPlayer(eAttackType::Sword, SWING_ATTACK_STIFFNESS * DH_ATTACK_STIFFNESS_RATIO);
 	}
 	if (IsFrameOnce(19))
 	{
@@ -2008,7 +2013,7 @@ void Monster_LothricKn::Update_G_Att_Bash(float _DeltaTime, GameEngineState* _St
 
 	if (IsFrame(26, 31))
 	{
-		AttackToPlayer(eAttackType::Shield);
+		AttackToPlayer(eAttackType::Shield, SHIELD_ATTACK_STIFFNESS);
 	}
 	if (IsFrameOnce(32))
 	{
