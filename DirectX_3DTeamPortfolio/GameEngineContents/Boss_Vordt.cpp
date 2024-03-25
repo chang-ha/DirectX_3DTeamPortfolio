@@ -1272,8 +1272,8 @@ void Boss_Vordt::CollisionUpdate()
 {
 	if (true == mAttackCollision.WeaponCollision->IsUpdate())
 	{
-		mAttackCollision.mWeaponHitInteraction.CollisionToBody(Enum_CollisionOrder::Player_Body);
 		mAttackCollision.mWeaponHitInteraction.CollisionToShield(Enum_CollisionOrder::Player_Shield);
+		mAttackCollision.mWeaponHitInteraction.CollisionToBody(Enum_CollisionOrder::Player_Body);
 	}
 
 	if (true == mAttackCollision.BodyCollision->IsUpdate())
