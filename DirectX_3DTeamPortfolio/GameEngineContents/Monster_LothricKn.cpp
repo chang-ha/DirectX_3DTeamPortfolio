@@ -295,7 +295,7 @@ void Monster_LothricKn::Start()
 
 	// Stat
 	Stat.SetHp(LOTHRIC_KNIGHT_HP); // Official Hp
-	Stat.SetAtt(80);
+	Stat.SetAtt(40);
 	Stat.SetSouls(ContentsRandom::RandomInt(220, 1000));
 
 	// Collision
