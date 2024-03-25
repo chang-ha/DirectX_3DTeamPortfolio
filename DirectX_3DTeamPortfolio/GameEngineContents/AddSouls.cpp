@@ -161,7 +161,6 @@ void AddSouls::Start_AddState_FadeIn(GameEngineState* _Parent)
 	AddFontSize = FontSize;
 	SetFontFade(0.1f);
 	AddSoul->On();
-	MainUIActor::SoundPlay("soul.wav");
 }
 void AddSouls::Start_AddState_Wait(GameEngineState* _Parent)
 {
