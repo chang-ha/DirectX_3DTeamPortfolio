@@ -206,8 +206,7 @@ void Stage_Lothric::Update_PlayerDeath_FadeOut(float _Delta, GameEngineState* _P
 
 void Stage_Lothric::Start_BossDeath_Ready(GameEngineState* _Parent)
 {
-	GameEngineSoundPlayer SPlayer = GameEngineSound::SoundPlay("Destroyed_Sound_Effect.wav");
-	SPlayer.SetVolume(0.7f);
+	MainUIActor::SoundPlay("Destroyed_Sound_Effect.wav");
 }
 
 void Stage_Lothric::Update_BossDeath_Ready(float _Delta, GameEngineState* _Parent)
