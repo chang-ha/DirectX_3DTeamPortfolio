@@ -960,6 +960,8 @@ void Boss_Vordt::Start()
 	}
 
 	DS3DummyData::LoadDummyData(static_cast<int>(Enum_ActorType::Boss_Vordt));
+	DummyPolyMinVolume = 200.f;
+	DummyPolyMaxVolume = 8000.f;
 }
 
 void Boss_Vordt::Update(float _Delta)

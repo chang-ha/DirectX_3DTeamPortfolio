@@ -1,7 +1,7 @@
 #pragma once
 #include "ContentLevel.h"
 
-#define BEGIN_BOSS_BGM_VOLUME 0.3f
+#define BEGIN_BOSS_BGM_VOLUME 0.4f
 
 // Ό³Έν :
 class Stage_Lothric : public ContentLevel
