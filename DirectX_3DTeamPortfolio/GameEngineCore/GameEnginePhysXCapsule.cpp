@@ -21,7 +21,9 @@ void GameEnginePhysXCapsule::Update(float _Delta)
 {
 	GameEnginePhysXComponent::Update(_Delta);
 
+	Scene->lockRead();
 	physx::PxVec3 Vec = CapsuleActor->getLinearVelocity();
+	Scene->unlockRead();
 
 	float VecScale = Vec.magnitude();
 	if (0.5f < VecScale && -0.5f < Vec.y)

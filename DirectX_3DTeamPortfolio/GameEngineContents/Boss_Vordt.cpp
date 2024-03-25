@@ -695,6 +695,8 @@ void Boss_Vordt::Start()
 		GameEngineGUI::CreateGUIWindow<Boss_State_GUI>("Boss_State");
 	}
 
+	StateInit();
+
 	GUI = GameEngineGUI::FindGUIWindow<Boss_State_GUI>("Boss_State");
 	GUI->Linked_Boss = this;
 	GUI->On();
@@ -712,8 +714,6 @@ void Boss_Vordt::Start()
 			GameEngineSound::Sound3DLoad(AllFile[i].GetStringPath());
 		}
 	}
-
-	StateInit();
 
 	// RockOnCollision
 	if (nullptr == RockOnCollision)

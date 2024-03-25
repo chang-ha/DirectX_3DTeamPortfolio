@@ -136,7 +136,7 @@ physx::PxScene* GameEnginePhysX::CreateLevelScene()
 
 	// FilterShader
 	SceneDesc.filterShader = PhysXFilterShader; // 충돌 필터링을 위한 FilterShader
-	
+	SceneDesc.flags = physx::PxSceneFlag::eREQUIRE_RW_LOCK;
 	// Set Scenes Limit Datas
 	physx::PxSceneLimits SceneLimitsData = physx::PxSceneLimits();
 	SceneLimitsData.maxNbActors = SCENE_MAX_ACTOR/*UINT32_MAX - 1*/;
@@ -153,6 +153,7 @@ physx::PxScene* GameEnginePhysX::CreateLevelScene()
 	SceneDesc.cpuDispatcher = CpuDispatcher;
 
 	physx::PxScene* Scene = Physics->createScene(SceneDesc);
+	Scene->lockWrite();
 
 #ifdef _DEBUG
 	physx::PxPvdSceneClient* PvdClient = Scene->getScenePvdClient();
@@ -169,6 +170,7 @@ physx::PxScene* GameEnginePhysX::CreateLevelScene()
 #endif
 	
 	AllLevelScene[UpperName] = Scene;
+	Scene->unlockWrite();
 	return Scene;
 }
 

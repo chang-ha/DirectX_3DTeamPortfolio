@@ -18,7 +18,10 @@ public:
 
 	physx::PxVec3 GetLinearVelocity()
 	{
-		return CapsuleActor->getLinearVelocity();
+		Scene->lockRead();
+		physx::PxVec3 Result = CapsuleActor->getLinearVelocity();
+		Scene->unlockRead();
+		return Result;
 	}
 
 	float4 GetLinearVelocity_f();
@@ -36,7 +39,10 @@ public:
 
 	physx::PxVec3 GetWorldPosition()
 	{
-		return CapsuleActor->getGlobalPose().p;
+		Scene->lockRead();
+		physx::PxVec3 Result = CapsuleActor->getGlobalPose().p;
+		Scene->unlockRead();
+		return Result;
 	}
 
 protected:
