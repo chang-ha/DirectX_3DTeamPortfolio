@@ -660,13 +660,16 @@ void Player::Start()
 			{
 				std::shared_ptr<Object_bonfire> pActor = col->GetActor()->GetDynamic_Cast_This<Object_bonfire>();
 
+				
+
 				PlayerRespawnPos = pActor->GetPlayerRespawnPos();
 
-				PlayerStates.ChangeState(PlayerState::Sit_Down);
+				PlayerStates.ChangeState(PlayerState::Fire);
 
 				//UI
 				UISystem->OffSystem();
 				UIAlertMaanger::CallAlert(Enum_AlertType::BoneFire);
+				col->Off();
 			}
 		};
 
@@ -806,6 +809,8 @@ void Player::Update(float _Delta)
 
 		if (GameEngineInput::IsDown('E', this))
 		{
+			GameEngineSound::Sound3DPlay("Ladder.wav", BoneWorldPos(0), 0.8f);
+
 			Fog_Run_Check = true;
 			GameEnginePhysX::PushSkipCollisionPair(2, Enum_CollisionOrder::Player, Enum_CollisionOrder::Fog_Wall);
 			PlayerStates.ChangeState(PlayerState::Slow_Walk);
@@ -1454,7 +1459,7 @@ bool Player::GetHit(const HitParameter& _Para /*= HitParameter()*/)
 
 
 
-	//Hit.SetHit(true);
+	Hit.SetHit(true);
 	
 
 
@@ -1618,7 +1623,9 @@ void Player::Reset()
 bool Player::GetHitToShield(const HitParameter& _Para)
 {
 	
-
+	HitRenderer->On();
+	HitRenderer->ChangeAnimation("Hit");
+	HitRenderer->Transform.SetWorldPosition({ Shield_Col->Transform.GetWorldPosition().X,Shield_Col->Transform.GetWorldPosition().Y + 30.0f,Shield_Col->Transform.GetWorldPosition().Z });
 
 	if (nullptr == _Para.pAttacker)
 	{
@@ -1627,6 +1634,9 @@ bool Player::GetHitToShield(const HitParameter& _Para)
 	}
 
 	//Hit.SetHit(false)
+
+
+
 	if (true == Hit.IsHit())
 	{
 		return false;
@@ -1635,9 +1645,7 @@ bool Player::GetHitToShield(const HitParameter& _Para)
 	tyu = true;
 	Poise_Time = 0;
 
-	HitRenderer->On();
-	HitRenderer->ChangeAnimation("Hit");
-	HitRenderer->Transform.SetWorldPosition({ Shield_Col->Transform.GetWorldPosition().X,Shield_Col->Transform.GetWorldPosition().Y + 30.0f,Shield_Col->Transform.GetWorldPosition().Z });
+	
 	Attack_Col->Off();
 
 
@@ -1700,7 +1708,7 @@ bool Player::GetHitToShield(const HitParameter& _Para)
 
 		//const int FinalDamage = -10;
 		//Stat.AddHp(FinalDamage);
-		//Hit.SetHit(true);
+		Hit.SetHit(true);
 
 		return true;
 	}

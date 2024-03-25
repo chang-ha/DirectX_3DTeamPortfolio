@@ -20,13 +20,17 @@ void Player::Player_State()
 				Top_Shield_Col->Off();
 				Attack_Col->Off(); 
 				Body_Col->On();
+				Weapon_Actor->Getweapon()->On();
 				Sword.ResetRecord();
+				Hit.SetHit(false);
 				MainRenderer->ChangeAnimation("Idle");
 				StateValue = PlayerState::Idle;
 			};
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+				Hit.SetHit(false);
+
 				if (Rock_On_Check == true)
 				{
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
@@ -1630,6 +1634,7 @@ void Player::Player_State()
 			{
 				Top_Shield_Col->On();
 				Shield_Col->On();
+				Hit.SetHit(false);
 				MainRenderer->ChangeAnimation("Shield_Idle");
 				StateValue = PlayerState::Shield_Idle;
 				
@@ -1638,6 +1643,8 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+				Hit.SetHit(false);
+
 				if (Stat.GetStamina() <= 0)
 				{
 					PlayerStates.ChangeState(PlayerState::Idle);
@@ -1705,14 +1712,14 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Parrying");
-
+				Hit.SetHit(false);
 				StateValue = PlayerState::Parrying;
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-
+				Hit.SetHit(false);
 				if (Rock_On_Check == true)
 				{
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
@@ -1808,7 +1815,7 @@ void Player::Player_State()
 
 					if (Rotation_Player_Plus == true)
 					{
-						float4 Lerp = float4::LerpClamp({ 0.0f,0.0f }, { 300.0f,0.0f },_DeltaTime);
+						float4 Lerp = float4::LerpClamp({ 0.0f,0.0f }, { 200.0f,0.0f },_DeltaTime);
 
 
 						Capsule->AddWorldRotation({ 0.0f,Lerp.X });
@@ -1829,7 +1836,7 @@ void Player::Player_State()
 					else if (Rotation_Player_Mus == true)
 					{
 
-						float4 Lerp = float4::LerpClamp({ 0.0f,0.0f }, { 300.0f,0.0f },-_DeltaTime);
+						float4 Lerp = float4::LerpClamp({ 0.0f,0.0f }, { 200.0f,0.0f },-_DeltaTime);
 
 
 						Capsule->AddWorldRotation({ 0.0f,Lerp.X });
@@ -1868,7 +1875,7 @@ void Player::Player_State()
 					if (Rotation_Check_X_Plus == true)
 					{
 
-						float4 Lerp = float4::LerpClamp({ 0.0f,0.0f }, { 300.0f,0.0f }, _DeltaTime);
+						float4 Lerp = float4::LerpClamp({ 0.0f,0.0f }, { 200.0f,0.0f }, _DeltaTime);
 
 
 						Actor_test->Transform.AddWorldRotation({0.0f,Lerp.X });
@@ -1886,7 +1893,7 @@ void Player::Player_State()
 					else if (Rotation_Check_X_Mus == true)
 					{
 
-						float4 Lerp = float4::LerpClamp({ 0.0f,0.0f }, { 300.0f,0.0f }, -_DeltaTime);
+						float4 Lerp = float4::LerpClamp({ 0.0f,0.0f }, { 200.0f,0.0f }, -_DeltaTime);
 
 
 						Actor_test->Transform.AddWorldRotation({ 0.0f,Lerp.X });
@@ -1936,7 +1943,7 @@ void Player::Player_State()
 
 					if (Rotation_Check_Y_Plus == true)
 					{
-						float4 Lerp = float4::LerpClamp({ 0.0f,0.0f }, { 200.0f,0.0f }, _DeltaTime);
+						float4 Lerp = float4::LerpClamp({ 0.0f,0.0f }, { 150.0f,0.0f }, _DeltaTime);
 
 
 						Actor_test->Transform.AddWorldRotation({ Lerp.X,0.0f });
@@ -1955,7 +1962,7 @@ void Player::Player_State()
 
 					else if (Rotation_Check_Y_Mus == true)
 					{
-						float4 Lerp = float4::LerpClamp({ 0.0f,0.0f }, { 200.0f,0.0f }, -_DeltaTime);
+						float4 Lerp = float4::LerpClamp({ 0.0f,0.0f }, { 150.0f,0.0f }, -_DeltaTime);
 
 
 						Actor_test->Transform.AddWorldRotation({ Lerp.X,0.0f });
@@ -2015,6 +2022,7 @@ void Player::Player_State()
 				MainRenderer->ChangeAnimation("Hit_Forward",true);
 				Top_Shield_Col->Off();
 				Shield_Col->Off(); 
+				Hit.SetHit(false);
 				StateValue = PlayerState::Forward_Hit;
 				Weapon_Actor->Getweapon()->On();
 				Sword.ResetRecord();
@@ -2024,6 +2032,8 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+				Hit.SetHit(false);
+
 				if (Rock_On_Check == true)
 				{
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
@@ -2088,6 +2098,7 @@ void Player::Player_State()
 			{
 				Attack_Col->Off();
 				MainRenderer->ChangeAnimation("Hit_Behind", true);
+				Hit.SetHit(false);
 				StateValue = PlayerState::Backward_Hit;
 				Weapon_Actor->Getweapon()->On();
 				Top_Shield_Col->Off();
@@ -2098,6 +2109,7 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+				Hit.SetHit(false);
 
 				if (Rock_On_Check == true)
 				{
@@ -2161,8 +2173,11 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Hit.SetHit(false);
+
 				Attack_Col->Off();
 				MainRenderer->ChangeAnimation("Hit_right", true);
+				Hit.SetHit(false);
 				StateValue = PlayerState::Right_Hit;
 				Weapon_Actor->Getweapon()->On();
 				Top_Shield_Col->Off();
@@ -2237,9 +2252,12 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Hit.SetHit(false);
+
 				Attack_Col->Off();
 				MainRenderer->ChangeAnimation("Hit_Left", true);
 				StateValue = PlayerState::Left_Hit;
+				Hit.SetHit(false);
 				Weapon_Actor->Getweapon()->On();
 				Top_Shield_Col->Off();
 				Shield_Col->Off();
@@ -2319,8 +2337,11 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Hit.SetHit(false);
+
 				Attack_Col->Off();
 				MainRenderer->ChangeAnimation("Middle_Hit_Forward", true);
+				Hit.SetHit(false);
 				StateValue = PlayerState::Forward_Middle_Hit;
 				Weapon_Actor->Getweapon()->On();
 				Top_Shield_Col->Off();
@@ -2395,8 +2416,11 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
+				Hit.SetHit(false);
+
 				Attack_Col->Off();
 				MainRenderer->ChangeAnimation("Middle_Hit_Behind", true);
+				Hit.SetHit(false);
 				StateValue = PlayerState::Backward_Middle_Hit;
 				Weapon_Actor->Getweapon()->On();
 				Top_Shield_Col->Off();
@@ -2472,6 +2496,7 @@ void Player::Player_State()
 			{
 				Attack_Col->Off();
 				MainRenderer->ChangeAnimation("Middle_Hit_Right", true);
+				Hit.SetHit(false);
 				StateValue = PlayerState::Right_Middle_Hit;
 				Weapon_Actor->Getweapon()->On();
 				Top_Shield_Col->Off();
@@ -2482,6 +2507,7 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+				Hit.SetHit(false);
 
 				if (Rock_On_Check == true)
 				{
@@ -2547,6 +2573,7 @@ void Player::Player_State()
 				Attack_Col->Off();
 				MainRenderer->ChangeAnimation("Middle_Hit_Left", true);
 				StateValue = PlayerState::Left_Middle_Hit;
+				Hit.SetHit(false);
 				Weapon_Actor->Getweapon()->On();
 				Top_Shield_Col->Off();
 				Shield_Col->Off();
@@ -2556,6 +2583,8 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+				Hit.SetHit(false);
+
 				if (Rock_On_Check == true)
 				{
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
@@ -2622,6 +2651,7 @@ void Player::Player_State()
 				MainRenderer->ChangeAnimation("Hit_Down");
 				StateValue = PlayerState::HitDown;
 				Weapon_Actor->Getweapon()->On();
+				Hit.SetHit(false);
 				Body_Col->Off();
 				Top_Shield_Col->Off();
 				Shield_Col->Off();
@@ -2630,6 +2660,7 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+				Hit.SetHit(false);
 
 				if (Rock_On_Check == true)
 				{
@@ -2701,6 +2732,7 @@ void Player::Player_State()
 			{
 				Attack_Col->Off();
 				MainRenderer->ChangeAnimation("String_Hit_Forward");
+				Hit.SetHit(false);
 				StateValue = PlayerState::Forward_Big_Hit;
 				Weapon_Actor->Getweapon()->On();
 				Top_Shield_Col->Off();
@@ -2712,7 +2744,7 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				
+				Hit.SetHit(false);
 				
 				
 
@@ -2802,6 +2834,7 @@ void Player::Player_State()
 				Attack_Col->Off();
 				MainRenderer->ChangeAnimation("String_Hit_Behind");
 				StateValue = PlayerState::Backward_Big_Hit;
+				Hit.SetHit(false);
 				Weapon_Actor->Getweapon()->On();
 				Top_Shield_Col->Off();
 				Shield_Col->Off();
@@ -2812,7 +2845,7 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				
+				Hit.SetHit(false);
 
 				if (Rock_On_Check == true)
 				{
@@ -2899,7 +2932,7 @@ void Player::Player_State()
 				MainRenderer->ChangeAnimation("ladder_Up_Start");
 				Capsule->GravityOff();
 				Rock_On_Check = true;
-				Body_Col->Off();
+				//Body_Col->Off();
 			};
 
 
@@ -2934,7 +2967,7 @@ void Player::Player_State()
 				StateValue = PlayerState::ladder_Up_Left;
 				MainRenderer->ChangeAnimation("ladder_Up_Left");
 				Capsule->GravityOff();
-				Body_Col->Off();
+				//Body_Col->Off();
 			};
 
 
@@ -2979,7 +3012,7 @@ void Player::Player_State()
 				StateValue = PlayerState::ladder_Up_Right;
 				MainRenderer->ChangeAnimation("ladder_Up_Right");
 				Capsule->GravityOff();
-				Body_Col->Off();
+				//Body_Col->Off();
 			};
 
 
@@ -3077,7 +3110,7 @@ void Player::Player_State()
 			{
 				MainRenderer->ChangeAnimation("ladder_Down_Start");
 				Capsule->GravityOff();
-				Body_Col->Off();
+				//Body_Col->Off();
 				Rock_On_Check = true;
 			};
 
@@ -3108,7 +3141,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("ladder_Down_Left");
-				Body_Col->Off();
+				//Body_Col->Off();
 			};
 
 
@@ -3151,7 +3184,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("ladder_Down_Right");
-				Body_Col->Off();
+				//Body_Col->Off();
 			};
 
 
@@ -3291,13 +3324,15 @@ void Player::Player_State()
 				Stat.AddStamina(-60.0f);
 				Attack_Col->Off(); 
 				Shield_Col->On();
+				Hit.SetHit(false);
 				Top_Shield_Col->On();
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-				
+				Hit.SetHit(false);
+
 				if (Rock_On_Check == true)
 				{
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
@@ -3368,6 +3403,7 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Middle_Shield_block");
+				Hit.SetHit(false);
 				StateValue = PlayerState::Shield_Idle;
 				Stat.AddStamina(-105.0f);
 				Attack_Col->Off();
@@ -3378,6 +3414,8 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+
+				Hit.SetHit(false);
 				if (Rock_On_Check == true)
 				{
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
@@ -3451,6 +3489,7 @@ void Player::Player_State()
 				Shield_Col->Off();
 				Top_Shield_Col->Off();
 				MainRenderer->ChangeAnimation("Big_Shield_block");
+				Hit.SetHit(false);
 				StateValue = PlayerState::Shield_Idle;
 				Attack_Col->Off();
 				Stat.SetStamina(0.0f); 
@@ -3459,6 +3498,8 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
+
+				Hit.SetHit(false);
 				if (Rock_On_Check == true)
 				{
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
@@ -3520,7 +3561,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				
+				Hit.SetHit(false);
 				MainRenderer->ChangeAnimation("Parry_Attack");
 				StateValue = PlayerState::Parring_Attack;
 			};
@@ -3551,7 +3592,7 @@ void Player::Player_State()
 
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
-				
+				Hit.SetHit(false);
 				MainRenderer->ChangeAnimation("Attack_Block");
 				Attack_Col->Off();
 			};
@@ -3702,12 +3743,14 @@ void Player::Player_State()
 		NewPara.Start = [=](class GameEngineState* _Parent)
 			{
 				MainRenderer->ChangeAnimation("Fire");
+				Weapon_Actor->Getweapon()->Off();
 			};
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					Weapon_Actor->Getweapon()->On();
 					PlayerStates.ChangeState(PlayerState::Idle);
 					return;
 				}
@@ -3962,11 +4005,31 @@ void Player::SoundFrameEvent()
 		});
 
 
-	// 
+	// 안개 
 	MainRenderer->SetFrameEvent("Slow_Walk_Forward", 1, [&](GameContentsFBXRenderer* _Renderer)
 		{
-			GameEngineSound::Sound3DPlay("gate_point.wav", BoneWorldPos(0),0.7f);
+			GameEngineSound::Sound3DPlay("Ladder.wav", BoneWorldPos(0), 0.8f);
 		});
+
+	// 사다리 
+
+	MainRenderer->SetFrameEvent("ladder_Down_Left", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("Ladder.wav", BoneWorldPos(0), 0.7f);
+		});
+	MainRenderer->SetFrameEvent("ladder_Down_Right", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("Ladder.wav", BoneWorldPos(0), 0.7f);
+		});
+	MainRenderer->SetFrameEvent("ladder_Up_Right", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("Ladder.wav", BoneWorldPos(0), 0.7f);
+		});
+	MainRenderer->SetFrameEvent("ladder_Up_Left", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("Ladder.wav", BoneWorldPos(0), 0.7f);
+		});
+
 
 
 
