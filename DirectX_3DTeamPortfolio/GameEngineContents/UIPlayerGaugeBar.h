@@ -9,9 +9,9 @@
 //};
 
 
-#include <GameEngineCore/GameEngineActor.h>
+#include "UIActor.h"
 // Ό³Έν :
-class UIPlayerGaugeBar : public GameEngineActor
+class UIPlayerGaugeBar : public UIActor
 {
 public:
 	// constructer destructer
@@ -37,6 +37,8 @@ protected:
 	void Update(float _Delta) override;
 
 	void Release() override;
+
+	void Reset() override;
 
 private:
 	Player* pPlayer = nullptr;

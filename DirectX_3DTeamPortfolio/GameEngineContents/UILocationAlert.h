@@ -41,6 +41,9 @@ private:
 	void Update_DisAppear(float _Delta,GameEngineState* _Parent);
 	void End_DisAppear(GameEngineState* _Parent); // Off
 
+	// State_End
+	void Start_Done(GameEngineState* _Parent); // Reset½Ã Off
+
 	// Func
 	void SetGamma(float _Ratio);
 
@@ -51,6 +54,7 @@ private:
 	std::shared_ptr<class TriggerActor> EventTrigger;
 	
 	GameEngineState MainState;
-
+	
+	bool ResetAlert = false;
 };
 

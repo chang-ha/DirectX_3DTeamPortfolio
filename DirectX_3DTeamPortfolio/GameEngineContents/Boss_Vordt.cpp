@@ -712,8 +712,7 @@ void Boss_Vordt::Start()
 	StateInit();
 
 	GUI = GameEngineGUI::FindGUIWindow<Boss_State_GUI>("Boss_State");
-	GUI->Linked_Boss = this;
-	GUI->On();
+	GUI->Off();
 
 	//// Sound
 	{
@@ -733,7 +732,7 @@ void Boss_Vordt::Start()
 	if (nullptr == RockOnCollision)
 	{
 		RockOnCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster);
-		// RockOnCollision->Transform.SetLocalPosition({ 0.f, PHYSX_RADIUS / 2.f + PHYSX_HALFHEIGHT, 0.f });
+		RockOnCollision->Transform.SetLocalPosition({ 0.f, PHYSX_RADIUS / 2.f + PHYSX_HALFHEIGHT, 0.f });
 		RockOnCollision->Transform.SetWorldScale({ 1.f, 1.f, 1.f });
 	}
 
@@ -1033,6 +1032,8 @@ void Boss_Vordt::AI_Start()
 	DummyPolySoundOn();
 	AI_Off = false;
 	mHitCollision.On();
+	GUI->On();
+	GUI->Linked_Boss = this;
 }
 
 void Boss_Vordt::AI_Stop()

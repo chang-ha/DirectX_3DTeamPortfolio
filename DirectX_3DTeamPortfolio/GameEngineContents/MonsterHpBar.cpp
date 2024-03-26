@@ -126,6 +126,7 @@ void MonsterHpBar::Release()
 
 void MonsterHpBar::Reset()
 {
+	RenderHp = pOwner->GetHp();
 	MainState.ChangeState(eState::Off);
 }
 

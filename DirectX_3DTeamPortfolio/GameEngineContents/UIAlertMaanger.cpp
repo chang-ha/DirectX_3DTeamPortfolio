@@ -64,6 +64,8 @@ void UIAlertMaanger::LevelEnd(GameEngineLevel* _NextLeve)
 		UIAlertPointer = nullptr;
 	}
 
+	CallMSG.clear();
+
 	Alerting = false;
 }
 

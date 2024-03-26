@@ -74,10 +74,6 @@ Stage_Lothric::~Stage_Lothric()
 
 void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 {
-
-
-
-
 	ResLoading();
 	LevelState.ChangeState(Enum_LevelState::Play);
 }
@@ -89,6 +85,8 @@ void Stage_Lothric::LevelEnd(GameEngineLevel* _NextLevel)
 		BlackScreen->Death();
 		BlackScreen = nullptr;
 	}
+
+	BossStageState.ChangeState(Enum_BossStageState::Ready);
 }
 
 void Stage_Lothric::Start()
@@ -111,6 +109,7 @@ void Stage_Lothric::Update(float _Delta)
 	ContentLevel::Update(_Delta);
 
 	LevelState.Update(_Delta);
+	BossStageState.Update(_Delta);
 
 	BossBGMUpdate(_Delta);
 
@@ -124,7 +123,6 @@ void Stage_Lothric::Update(float _Delta)
 	{
 		Player_Object->Off();
 	}
-
 }
 
 void Stage_Lothric::PlayUpdate(float _Delta)
@@ -1603,15 +1601,15 @@ void Stage_Lothric::ResLoading()
 	{
 		Player_Object = CreateActor<Player>(200, "Player");
 		// 볼드 위치
-		//Player_Object->SetWorldPosition({ -2800.f, -2500.f, 6700.f });
+		Player_Object->SetWorldPosition({ -2800.f, -2500.f, 6700.f });
 		// 안개 테스트 위치 
 		// Player_Object->SetWorldPosition({ -3417.f, -2552.f, 7606.f });
-
+		
 		// 테스트 위치
 		//Player_Object->SetWorldPosition({ -8011.0f, 907.0f, 3547.0f });
 		// 
 		//시작 위치
-		Player_Object->SetWorldPosition({ -1400.0f, 4945.0f, -5330.0f });
+		//Player_Object->SetWorldPosition({ -1400.0f, 4945.0f, -5330.0f });
 		Player_Object->SetWorldRotation({ 0.f, 0.f, 0.f });
 		//Player_Object->SetTargeting(Boss_Object.get());
 		Boss_Object->SetTargeting(Player_Object.get());
@@ -1629,6 +1627,7 @@ void Stage_Lothric::ResLoading()
 				MainUI->BossUIOn();
 				BossBGMStart();
 				AllMonsterOff();
+				BossStageState.ChangeState(Enum_BossStageState::Fight);
 			});
 	}
 
@@ -1681,7 +1680,7 @@ void Stage_Lothric::ResLoading()
 		MainUI->CreateAndCheckEsteUI(Player_Object.get());
 		MainUI->CreateAndCheckPlayerGaugeBar(Player_Object.get());
 
-		std::shared_ptr<UILocationAlert> UILot = CreateActor<UILocationAlert>();
+		UILot = CreateActor<UILocationAlert>(Enum_UpdateOrder::UI);
 		UILot->SetCollision(float4(400.0f, 400.0f, 400.0f), float4(-1885.0f, 5015.0f, -3987.0f));
 	}
 
@@ -1700,11 +1699,14 @@ void Stage_Lothric::ResetLoading()
 	AllMonsterOff();
 	AllEvColOn();
 	Player_Object->Reset();
+
+	Boss_Object->Reset();
+	BossBGMEnd();
+
+	FogWall->Reset();
+
 	ContentsDebug::NUllCheck(MainUI.get());
 	MainUI->AllUIActorReset();
-	Boss_Object->Reset();
-	FogWall->Reset();
-	BossBGMEnd();
 	Stage_Lothric::ResetLoadingDone = true;
 }
 

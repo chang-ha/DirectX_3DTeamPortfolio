@@ -63,7 +63,7 @@ void MainUIActor::Start()
 		}
 	}
 
-	GetLevel()->CreateActor<AddSouls>();
+	GetLevel()->CreateActor<AddSouls>(Enum_UpdateOrder::UI);
 }
 
 void MainUIActor::Update(float _Delta)

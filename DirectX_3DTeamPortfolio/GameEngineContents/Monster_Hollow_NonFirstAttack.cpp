@@ -1474,6 +1474,7 @@ void Monster_Hollow_NonFirstAttack::State_Parrying_Update(float _Delta)
 
 	if (MainRenderer->GetCurAnimationFrame() >= 64)
 	{
+		SetFlag(Enum_ActorFlag::Groggy, false);
 		ChangeState(Enum_Hollow_State::Idle);
 		return;
 	}
