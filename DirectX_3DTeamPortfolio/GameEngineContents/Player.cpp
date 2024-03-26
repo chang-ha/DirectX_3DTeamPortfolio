@@ -927,16 +927,18 @@ void Player::Update(float _Delta)
 	}
 	
 	//float4 WorldMousePos = { };
-	float4 WorldMousePos2 = { degree_X };
+	float4 WorldMousePos2 = { Cameracapsule->Capsule_02->GetDir() };
 
-//	OutputDebugStringA(WorldMousePos2.ToString("\n").c_str());
+	//float sd = Cameracapsule->Capsule_02->GetDir();
+
+	OutputDebugStringA(WorldMousePos2.ToString("\n").c_str());
 //	OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
 
 	
 
 
 	// 무기 방패 트랜스폼 
-
+		
 	{
 		AnimationBoneData Data = MainRenderer->GetBoneData(Bone_index_01);
 		Weapon_Actor->Transform.SetLocalRotation(Data.RotQuaternion.QuaternionToEulerDeg());
@@ -1031,19 +1033,59 @@ void Player::Update(float _Delta)
 	}
 
 	
+	
+
 
 	if (GetTargetPointer() != nullptr)
 	{
-		float4 Dir = GetTargetPointer()->Transform.GetWorldPosition() - float4{Cameracapsule->Capsule_02->Transform.GetWorldPosition()};
-		float4 Monster = { 0,0,0,-1.0f };
+
+		float MonsterAngle;
+		float4 TargetPos = GetTargetPointer()->Transform.GetWorldPosition();
+		float4 MyPos = Actor_test->Transform.GetWorldPosition();
+
+		// Y축 고려 X
+		TargetPos.Y = MyPos.Y = 0.f;
+
+		float4 FrontVector = float4(0.f, 0.f, Cameracapsule->Capsule_02->GetDir(), 0.f).NormalizeReturn();
+		
+
+		float4 LocationVector = (TargetPos - MyPos).NormalizeReturn();
+
+		float4 Angle_ = DirectX::XMVector3AngleBetweenNormals(FrontVector.DirectXVector, LocationVector.DirectXVector);
+
+		float4 RotationDir = DirectX::XMVector3Cross(FrontVector.DirectXVector, LocationVector.DirectXVector);
+
+		degree_X = Angle_.X * GameEngineMath::R2D;
+
+		if (0.0f <= RotationDir.Y)
+		{
+
+		}
+		else
+		{
+			degree_X *= -1.f;
+		}
+
+
+
+		/*float4 Dir = GetTargetPointer()->Transform.GetWorldPosition() - Actor_test->Transform.GetWorldPosition();
+		float4 Monster = { 0,0,-1 };
 		float Dot = float4::DotProduct3D(Dir.NormalizeReturn(), Monster);
 		float radian = atan2(Dir.X, Dir.Z) - atan2(Monster.X, Monster.Z);
-		degree_X = float(radian * (180.0 / 3.141592));
-		degree_X += error_Number_X;
+		degree_X = float(radian * (180.0 / 3.141592));*/
+		//degree_X += error_Number_X;
 
 	}
 
-	
+	if (GameEngineInput::IsPress('K', this))
+	{
+		Actor_test->Transform.AddWorldRotation({ 0.0f,1.0f });
+	}
+	if (GameEngineInput::IsPress('L', this))
+	{
+		Actor_test->Transform.AddWorldRotation({ 0.0f,-1.0f });
+	}
+
 
 	if (GetTargetPointer() != nullptr)
 	{
@@ -1509,13 +1551,13 @@ void Player::Rock_On(Enum_CollisionOrder _Order)
 
 				if (MonsterAngle >= 150)
 				{
-					if (MonsterAngle <= 180)
+					if (MonsterAngle <= 177)
 					{
 						MonsterAngles.push_back(static_cast<int>(i));
 
 					}
 				}
-				if (MonsterAngle >= -180)
+				if (MonsterAngle >= -177)
 				{
 					if (MonsterAngle < -150)
 					{
@@ -1554,6 +1596,7 @@ void Player::Rock_On(Enum_CollisionOrder _Order)
 			{
 				//std::shared_ptr<GameEngineActor> pActor = _Other[MonsterAngles[Number]]->GetActor(); 
 				SetTargeting(_Other[MonsterAngles[Number]]->GetActor());
+
 				PlayerStates.ChangeState(PlayerState::RockOn);
 
 				MonsterAngles.clear();

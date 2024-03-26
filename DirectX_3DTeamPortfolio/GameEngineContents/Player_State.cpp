@@ -832,6 +832,8 @@ void Player::Player_State()
 
 	NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 		{
+			Hit.SetHit(false);
+
 			if (MainRenderer->GetCurAnimationFrame() >= 13)
 			{
 				if (MainRenderer->GetCurAnimationFrame() <= 16)
@@ -938,7 +940,7 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-
+				Hit.SetHit(false);
 				if (MainRenderer->GetCurAnimationFrame() >= 14)
 				{
 					if (MainRenderer->GetCurAnimationFrame() <= 18)
@@ -1046,7 +1048,7 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-
+				Hit.SetHit(false);
 				if (MainRenderer->GetCurAnimationFrame() >= 13)
 				{
 					if (MainRenderer->GetCurAnimationFrame() <= 15)
@@ -1153,7 +1155,7 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-
+				Hit.SetHit(false);
 				if (MainRenderer->GetCurAnimationFrame() >= 16)
 				{
 					if (MainRenderer->GetCurAnimationFrame() <= 19)
@@ -1372,7 +1374,7 @@ void Player::Player_State()
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
-			
+				Hit.SetHit(false);
 				if (Rock_On_Check == true)
 				{
 					Capsule->SetWorldRotation({ 0.0f,degree_X });
@@ -1784,16 +1786,55 @@ void Player::Player_State()
 				Rotation_Player_Mus = false;
 
 				Rock_On_Check = true;
+
+				error_Number_X = 0;
 			};
 
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 		{
 
+
+			
+
 				if (GetTargetPointer() != nullptr)
 				{
+					
+
+
 					if (Rock_On_Player == false)
 					{
+						Actor_test->Transform.SetWorldRotation({ 20.0f,Capsule->GetDir() });
+
+						float MonsterAngle;
+						float4 TargetPos = GetTargetPointer()->Transform.GetWorldPosition();
+						float4 MyPos = GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
+
+						// YÃà °í·Á X
+						TargetPos.Y = MyPos.Y = 0.f;
+
+						float4 FrontVector = float4(0.f, 0.f, -1.f, 0.f);
+						FrontVector.VectorRotationToDegY(Cameracapsule->Capsule_02->GetDir());
+
+						float4 LocationVector = (TargetPos - MyPos).NormalizeReturn();
+
+						float4 Angle_ = DirectX::XMVector3AngleBetweenNormals(FrontVector.DirectXVector, LocationVector.DirectXVector);
+
+						float4 RotationDir = DirectX::XMVector3Cross(FrontVector.DirectXVector, LocationVector.DirectXVector);
+
+						MonsterAngle = Angle_.X * GameEngineMath::R2D;
+
+						if (0.0f <= RotationDir.Y)
+						{
+							adad = true;
+						}
+						else
+						{
+							adad = false;
+						}
+
+
+
 						if (GetTargetAngle() == 0)
 						{
 							Rotation_Player_Check = true;
@@ -1819,7 +1860,7 @@ void Player::Player_State()
 
 
 						Capsule->AddWorldRotation({ 0.0f,Lerp.X });
-
+						Actor_test->Transform.AddLocalRotation({ 0.0f,Lerp.X });
 					
 
 
@@ -1840,6 +1881,7 @@ void Player::Player_State()
 
 
 						Capsule->AddWorldRotation({ 0.0f,Lerp.X });
+						Actor_test->Transform.AddLocalRotation({ 0.0f,Lerp.X });
 
 						if (GetTargetAngle() >= 0)
 						{
@@ -1855,7 +1897,7 @@ void Player::Player_State()
 
 					if (Rock_On_Check_X == false)
 					{
-						if (degree_X == Actor_test->Transform.GetWorldRotationEuler().Y)
+						/*if (degree_X == Actor_test->Transform.GetWorldRotationEuler().Y)
 						{
 							Rotation_Check_X = true;
 						}
@@ -1865,6 +1907,18 @@ void Player::Player_State()
 							Rotation_Check_X_Plus = true;
 						}
 						else if (degree_X < Actor_test->Transform.GetWorldRotationEuler().Y)
+						{
+							Rotation_Check_X_Mus = true;
+						}*/
+
+
+
+
+						if (adad == true)
+						{
+							Rotation_Check_X_Plus = true;
+						}
+						else if (adad == false)
 						{
 							Rotation_Check_X_Mus = true;
 						}
@@ -1878,16 +1932,17 @@ void Player::Player_State()
 						float4 Lerp = float4::LerpClamp({ 0.0f,0.0f }, { 200.0f,0.0f }, _DeltaTime);
 
 
-						Actor_test->Transform.AddWorldRotation({0.0f,Lerp.X });
-
-
-
-						if (degree_X < Actor_test->Transform.GetWorldRotationEuler().Y)
+						/*if (degree_X > Actor_test->Transform.GetWorldRotationEuler().Y)
+						{
+							Actor_test->Transform.AddWorldRotation({ 0.0f,Lerp.X });
+						}
+					
+						else if (degree_X < Actor_test->Transform.GetWorldRotationEuler().Y)
 						{
 							Rotation_Check_X_Plus = false;
 							Rotation_Check_X_Mus = false;
 							Rotation_Check_X = true;
-						}
+						}*/
 
 					}
 					else if (Rotation_Check_X_Mus == true)
@@ -1896,20 +1951,24 @@ void Player::Player_State()
 						float4 Lerp = float4::LerpClamp({ 0.0f,0.0f }, { 200.0f,0.0f }, -_DeltaTime);
 
 
-						Actor_test->Transform.AddWorldRotation({ 0.0f,Lerp.X });
+						/*Actor_test->Transform.AddWorldRotation({ 0.0f,Lerp.X });
 						
 					
-						
+						if (degree_X < Actor_test->Transform.GetWorldRotationEuler().Y)
+						{
+							Actor_test->Transform.AddWorldRotation({ 0.0f,Lerp.X });
+						}*/
 
 
-						if (degree_X > Actor_test->Transform.GetWorldRotationEuler().Y)
+
+						/*else if (degree_X > Actor_test->Transform.GetWorldRotationEuler().Y)
 						{
 
 							Rotation_Check_X_Mus = false;
 							Rotation_Check_X_Plus = false;
 							Rotation_Check_X = true;
 
-						}
+						}*/
 
 					}
 
@@ -1941,9 +2000,9 @@ void Player::Player_State()
 					}
 
 
-					if (Rotation_Check_Y_Plus == true)
+					/*if (Rotation_Check_Y_Plus == true)
 					{
-						float4 Lerp = float4::LerpClamp({ 0.0f,0.0f }, { 150.0f,0.0f }, _DeltaTime);
+						float4 Lerp = float4::LerpClamp({ 0.0f,0.0f }, { 200.0f,0.0f }, _DeltaTime);
 
 
 						Actor_test->Transform.AddWorldRotation({ Lerp.X,0.0f });
@@ -1962,7 +2021,7 @@ void Player::Player_State()
 
 					else if (Rotation_Check_Y_Mus == true)
 					{
-						float4 Lerp = float4::LerpClamp({ 0.0f,0.0f }, { 150.0f,0.0f }, -_DeltaTime);
+						float4 Lerp = float4::LerpClamp({ 0.0f,0.0f }, { 200.0f,0.0f }, -_DeltaTime);
 
 
 						Actor_test->Transform.AddWorldRotation({ Lerp.X,0.0f });
@@ -1978,7 +2037,7 @@ void Player::Player_State()
 
 						}
 
-					}
+					}*/
 
 				}
 				/*else
@@ -1990,10 +2049,46 @@ void Player::Player_State()
 			
 
 
-				if (Rotation_Check_X == true && Rotation_Check_Y == true && Rotation_Player_Check == true)
+				if (Rotation_Player_Check == true)
 				{
-					
-					error_Number_X = Actor_test->Transform.GetWorldRotationEuler().Y - degree_X;
+					/*if (degree_X < 0 && Actor_test->Transform.GetWorldRotationEuler().Y < 0)
+					{
+						if (Actor_test->Transform.GetWorldRotationEuler().Y > degree_X)
+						{
+							error_Number_X = abs(Actor_test->Transform.GetWorldRotationEuler().Y) - abs(degree_X);
+						}
+
+						else if (Actor_test->Transform.GetWorldRotationEuler().Y < degree_X)
+						{
+							error_Number_X = abs(degree_X) - abs(Actor_test->Transform.GetWorldRotationEuler().Y);
+						}
+					}
+
+					else if(degree_X > 0 && Actor_test->Transform.GetWorldRotationEuler().Y > 0)
+					{
+
+						if (Actor_test->Transform.GetWorldRotationEuler().Y > degree_X)
+						{
+							error_Number_X = Actor_test->Transform.GetWorldRotationEuler().Y - degree_X;
+						}
+
+						else if (Actor_test->Transform.GetWorldRotationEuler().Y < degree_X)
+						{
+							error_Number_X = degree_X - Actor_test->Transform.GetWorldRotationEuler().Y;
+						}
+					}
+
+					else if (degree_X > 0 && Actor_test->Transform.GetWorldRotationEuler().Y < 0)
+					{
+						error_Number_X = degree_X + Actor_test->Transform.GetWorldRotationEuler().Y;
+					}
+					else if (degree_X < 0 && Actor_test->Transform.GetWorldRotationEuler().Y > 0)
+					{
+						error_Number_X = Actor_test->Transform.GetWorldRotationEuler().Y + degree_X;
+					}*/
+
+
+				
 					
 					Rock_on_X = Actor_test->Transform.GetWorldRotationEuler().X;
 
