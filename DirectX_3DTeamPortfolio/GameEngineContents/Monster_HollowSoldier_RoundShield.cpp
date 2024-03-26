@@ -1786,6 +1786,7 @@ void Monster_HollowSoldier_RoundShield::State_Parrying_Update(float _Delta)
 
 	if (MainRenderer->GetCurAnimationFrame() >= 64)
 	{
+		SetFlag(Enum_ActorFlag::Groggy, false);
 		ChangeState(Enum_HollowSoldier_RoundShield_State::Idle2);
 		return;
 	}
