@@ -90,7 +90,7 @@ void LevelChangeTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		}
 	}
 
-	std::string Frame = std::to_string(1.0f / GameEngineCore::MainTime.GetDeltaTime());
+	std::string Frame = std::to_string(1.0f / _DeltaTime);
 
 	ImGui::Text(Frame.c_str());
 
@@ -100,7 +100,7 @@ void LevelChangeTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	static int FrameResult = 0;
 
 
-	FrameSecond += GameEngineCore::MainTime.GetDeltaTime();
+	FrameSecond += _DeltaTime;
 	FrameCount++;
 
 	

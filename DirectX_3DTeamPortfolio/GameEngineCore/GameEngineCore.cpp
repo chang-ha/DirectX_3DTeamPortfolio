@@ -67,7 +67,7 @@ void GameEngineCore::Update()
 		float DiffTime = MAX_FRAME_TIME - DeltaTime;
 		DWORD SleepTime = static_cast<unsigned long>(DiffTime * 1000);
 		Sleep(SleepTime); // 1000 = 1s
-		DeltaTime += (static_cast<float>(SleepTime) / 1000.f);
+		// DeltaTime += (static_cast<float>(SleepTime) / 1000.f);
 	}
 
 	GameEngineSound::Update();
