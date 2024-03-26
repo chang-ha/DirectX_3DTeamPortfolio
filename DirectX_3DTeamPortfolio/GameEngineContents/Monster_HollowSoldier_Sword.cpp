@@ -2363,6 +2363,7 @@ void Monster_HollowSoldier_Sword::State_Parrying_Update(float _Delta)
 
 	if (MainRenderer->GetCurAnimationFrame() >= 64)
 	{
+		SetFlag(Enum_ActorFlag::Groggy, false);
 		ChangeState(Enum_HollowSoldier_Sword_State::Idle2);
 		return;
 	}
