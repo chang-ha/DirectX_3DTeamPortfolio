@@ -98,6 +98,9 @@ void AddSouls::Update(float _Delta)
 void AddSouls::Reset()
 {
 	TotalScore = 0;
+	RenderScore = TotalScore;
+	CurUISouls = TotalScore;
+	SumSouls->ChangeText(std::to_string(TotalScore));
 }
 
 void AddSouls::DetectSouls()

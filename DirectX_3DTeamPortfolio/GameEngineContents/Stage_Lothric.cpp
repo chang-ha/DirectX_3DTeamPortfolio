@@ -1681,7 +1681,7 @@ void Stage_Lothric::ResLoading()
 		MainUI->CreateAndCheckEsteUI(Player_Object.get());
 		MainUI->CreateAndCheckPlayerGaugeBar(Player_Object.get());
 
-		std::shared_ptr<UILocationAlert> UILot = CreateActor<UILocationAlert>();
+		UILot = CreateActor<UILocationAlert>(Enum_UpdateOrder::UI);
 		UILot->SetCollision(float4(400.0f, 400.0f, 400.0f), float4(-1885.0f, 5015.0f, -3987.0f));
 	}
 
