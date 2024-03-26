@@ -732,7 +732,7 @@ void Boss_Vordt::Start()
 	if (nullptr == RockOnCollision)
 	{
 		RockOnCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster);
-		// RockOnCollision->Transform.SetLocalPosition({ 0.f, PHYSX_RADIUS / 2.f + PHYSX_HALFHEIGHT, 0.f });
+		RockOnCollision->Transform.SetLocalPosition({ 0.f, PHYSX_RADIUS / 2.f + PHYSX_HALFHEIGHT, 0.f });
 		RockOnCollision->Transform.SetWorldScale({ 1.f, 1.f, 1.f });
 	}
 
