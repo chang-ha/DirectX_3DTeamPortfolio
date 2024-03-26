@@ -712,8 +712,7 @@ void Boss_Vordt::Start()
 	StateInit();
 
 	GUI = GameEngineGUI::FindGUIWindow<Boss_State_GUI>("Boss_State");
-	GUI->Linked_Boss = this;
-	GUI->On();
+	GUI->Off();
 
 	//// Sound
 	{
@@ -1033,6 +1032,8 @@ void Boss_Vordt::AI_Start()
 	DummyPolySoundOn();
 	AI_Off = false;
 	mHitCollision.On();
+	GUI->On();
+	GUI->Linked_Boss = this;
 }
 
 void Boss_Vordt::AI_Stop()
