@@ -473,6 +473,20 @@ public:
 		mDummyPolySoundSwitch = !mDummyPolySoundSwitch;
 	}
 
+	inline const float* DummyPolyMinSoundPtr()
+	{
+		return &DummyPolyMinVolume;
+	}
+
+	inline const float* DummyPolyMaxSoundPtr()
+	{
+		return &DummyPolyMaxVolume;
+	}
+
+protected:
+	float DummyPolyMinVolume = 50.f;
+	float DummyPolyMaxVolume = 8000.f;
+
 private:
 	bool mDummyPolySoundSwitch = true;
 	

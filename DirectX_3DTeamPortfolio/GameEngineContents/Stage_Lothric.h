@@ -1,7 +1,7 @@
 #pragma once
 #include "ContentLevel.h"
 
-#define BEGIN_BOSS_BGM_VOLUME 0.3f
+#define BEGIN_BOSS_BGM_VOLUME 0.4f
 
 // Ό³Έν :
 class Stage_Lothric : public ContentLevel
@@ -107,8 +107,6 @@ private:
 	{
 		Play, // 
 		PlayerDeath,
-		BossDeath,
-		StageClear,
 	};
 
 	GameEngineState LevelState;
@@ -116,22 +114,16 @@ private:
 	// PlayState_Start 
 	void Start_Play(GameEngineState* _Parent);
 	void Start_PlayerDeath(GameEngineState* _Parent);
-	void Start_BossDeath(GameEngineState* _Parent);
-	void Start_StageClear(GameEngineState* _Parent);
 
 	// PlayState_Update
 	void Update_Play(float _Delta, GameEngineState* _Parent);
 	void Update_PlayerDeath(float _Delta, GameEngineState* _Parent);
-	void Update_BossDeath(float _Delta, GameEngineState* _Parent);
-	void Update_StageClear(float _Delta, GameEngineState* _Parent);
 
 	void PlayUpdate(float _Delta);
 
 	// PlayState_End
 	void End_Play(GameEngineState* _Parent);
 	void End_PlayerDeath(GameEngineState* _Parent);
-	void End_BossDeath(GameEngineState* _Parent);
-	void End_StageClear(GameEngineState* _Parent);
 
 	// PlayerDeath State
 	enum class Enum_PlayerDeathState
@@ -152,21 +144,22 @@ private:
 	void Update_PlayerDeath_YouDie(float _Delta, GameEngineState* _Parent);
 	void Update_PlayerDeath_FadeOut(float _Delta, GameEngineState* _Parent);
 
-	enum class Enum_BossDeathState
+	enum class Enum_BossStageState
 	{
 		Ready,
-		Alert,
-		Done,
+		Fight,
+		Clear,
 	};
 
-	GameEngineState BossDeathState;
-	bool IsAlert = false;
+	GameEngineState BossStageState;
+	
+	void Start_BossStage_Ready(GameEngineState* _Parent);
+	void Start_BossStage_Fight(GameEngineState* _Parent);
+	void Start_BossStage_Clear(GameEngineState* _Parent);
 
-	void Start_BossDeath_Ready(GameEngineState* _Parent);
-	void Start_BossDeath_Alert(GameEngineState* _Parent);
-
-	void Update_BossDeath_Ready(float _Delta, GameEngineState* _Parent);
-	void Update_BossDeath_Alert(float _Delta, GameEngineState* _Parent);
+	void Update_BossStage_Ready(float _Delta, GameEngineState* _Parent);
+	void Update_BossStage_Fight(float _Delta, GameEngineState* _Parent);
+	void Update_BossStage_Clear(float _Delta, GameEngineState* _Parent);
 
 };
 

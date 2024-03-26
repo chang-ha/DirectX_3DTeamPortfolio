@@ -44,7 +44,7 @@ int DummyPolySoundFrameEvent::PlayEvent()
 	float4 WDPPOS = DPT * (*pBoneMatrix) * WorldMatrix;
 	if (true == *SoundPlaySwitch)
 	{
-		GameEngineSound::Sound3DPlay(SoundName, WDPPOS, 1.f, 0, 50.f, 8000.f);
+		GameEngineSound::Sound3DPlay(SoundName, WDPPOS, 1.f, 0, *MinVolume, *MaxVolume);
 	}
 	return EVENT_DONE;
 }
@@ -66,6 +66,8 @@ void DummyPolySoundFrameEvent::Init()
 	}
 
 	SoundPlaySwitch = pActor->GetDummyPolySoundPtr();
+	MinVolume = pActor->DummyPolyMinSoundPtr();
+	MaxVolume = pActor->DummyPolyMaxSoundPtr();
 
 	std::string IDName = pActor->GetIDName();
 	const std::shared_ptr<DS3DummyData>& pRes = DS3DummyData::Find(IDName);

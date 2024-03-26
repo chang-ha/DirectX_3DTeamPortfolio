@@ -50,4 +50,6 @@ private:
 	float4 DPT = float4::ZERO; // DummyPoly Transition
 	float4x4* pBoneMatrix = nullptr;
 	const bool* SoundPlaySwitch = nullptr;
+	const float* MinVolume = nullptr;
+	const float* MaxVolume = nullptr;
 };
