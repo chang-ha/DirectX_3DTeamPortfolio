@@ -1,12 +1,21 @@
 #include "PreCompile.h"
 #include "Boss_Vordt.h"
 #include "BoneSocketCollision.h"
+#include "ContentLevel.h"
 
+// CoolDown
 #define JUMP_COOLDOWN 5.f
 #define NORMAL_ATTACK_COOLDOWN 15.f
 #define COMBO_COOLDOWN1 20.f
 #define COMBO_COOLDOWN2 40.f
+
+// Att
 #define BOSS_ATT 10
+
+// Camera Shake
+#define CAMERA_MAGNITUDE 0.3f
+#define CAMERA_SHAKE_TIME 0.05f
+#define CAMERA_SHAKE_DURATION 1.f
 
 void Boss_Vordt::FrameEventInit()
 {
@@ -379,7 +388,7 @@ void Boss_Vordt::FrameEventInit()
 
 		MainRenderer->SetFrameEvent("Hit_Down_001_Front", 46, [&](GameContentsFBXRenderer* _Renderer)
 			{
-				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME / 1.5f);
+				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME * 0.7f);
 			});
 
 		MainRenderer->SetFrameEvent("Hit_Down_001_Front", 67, [&](GameContentsFBXRenderer* _Renderer)
@@ -389,7 +398,7 @@ void Boss_Vordt::FrameEventInit()
 
 		MainRenderer->SetFrameEvent("Hit_Down_001_Front", 74, [&](GameContentsFBXRenderer* _Renderer)
 			{
-				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME * 1.5f);
+				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME * 2.1f);
 			});
 
 		MainRenderer->SetFrameEvent("Hit_Down_001_Front", 81, [&](GameContentsFBXRenderer* _Renderer)
@@ -402,6 +411,222 @@ void Boss_Vordt::FrameEventInit()
 				MainRenderer->ChangeCurAnimationSpeed(ONE_FRAME_DTIME);
 			});
 	}
+
+	//////// Camera Shake
+	//// Howling
+	MainRenderer->SetFrameEvent("Howling", 29, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(2.f * CAMERA_SHAKE_TIME, 20.f * CAMERA_MAGNITUDE, 2.f * CAMERA_SHAKE_DURATION);
+		});
+
+	//// Rush_Front
+	MainRenderer->SetFrameEvent("Rush_Front", 3, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 30.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	MainRenderer->SetFrameEvent("Rush_Front", 10, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 30.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	MainRenderer->SetFrameEvent("Rush_Front", 15, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 30.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	MainRenderer->SetFrameEvent("Rush_Front", 21, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 30.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	//// Combo1_Step1
+	MainRenderer->SetFrameEvent("Combo1_Step1", 32, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 40.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	//// Combo1_Step2
+	MainRenderer->SetFrameEvent("Combo1_Step2", 32, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 40.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	//// Combo1_Step3
+	MainRenderer->SetFrameEvent("Combo1_Step2", 53, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 20.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	//// Combo2_Step1
+	MainRenderer->SetFrameEvent("Combo2_Step1", 35, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 15.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	//// Combo2_Step2
+	MainRenderer->SetFrameEvent("Combo2_Step2", 27, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 20.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	//// Rush_Attack
+	MainRenderer->SetFrameEvent("Rush_Attack", 27, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 20.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	MainRenderer->SetFrameEvent("Rush_Attack", 64, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 20.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	MainRenderer->SetFrameEvent("Rush_Attack", 90, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 20.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	MainRenderer->SetFrameEvent("Rush_Attack", 117, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 20.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	//// Hit_Down_001_Front
+	MainRenderer->SetFrameEvent("Hit_Down_001_Front", 87, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(6.f * CAMERA_SHAKE_TIME, 40.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	//// Hit_Down_001_Right
+	MainRenderer->SetFrameEvent("Hit_Down_001_Right", 36, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 40.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	//// Hit_Down_001_Right
+	MainRenderer->SetFrameEvent("Hit_Down_001_Left", 38, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 40.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	//// Hit_Down_004
+	MainRenderer->SetFrameEvent("Hit_Down_004", 25, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 20.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	//// Hit_Down_005
+	MainRenderer->SetFrameEvent("Hit_Down_005", 31, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 40.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	//// Hit_Down_006
+	MainRenderer->SetFrameEvent("Hit_Down_006", 33, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 40.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	//// Sweep_001
+	MainRenderer->SetFrameEvent("Sweep_001", 17, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 20.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	MainRenderer->SetFrameEvent("Sweep_001", 56, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(7.f * CAMERA_SHAKE_TIME, 20.f * CAMERA_MAGNITUDE, 7.f * CAMERA_SHAKE_DURATION);
+		});
+
+	//// Sweep_002
+	MainRenderer->SetFrameEvent("Sweep_002", 35, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 20.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	// Sweep&Sweep_Right
+	MainRenderer->SetFrameEvent("Sweep&Sweep_Right", 32, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 40.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	MainRenderer->SetFrameEvent("Sweep&Sweep_Right", 82, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 20.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	// Sweep&Sweep_Left
+	MainRenderer->SetFrameEvent("Sweep&Sweep_Left", 32, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 20.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	MainRenderer->SetFrameEvent("Sweep&Sweep_Left", 82, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 20.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	//// Rush_Hit_Turn
+	MainRenderer->SetFrameEvent("Rush&Hit&Turn", 11, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 40.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	MainRenderer->SetFrameEvent("Rush&Hit&Turn", 30, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 40.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	////// Rush_Hit_Turn_Rush
+	MainRenderer->SetFrameEvent("Rush&Hit&Turn&Rush", 27, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 40.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	MainRenderer->SetFrameEvent("Rush&Hit&Turn&Rush", 67, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 40.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	MainRenderer->SetFrameEvent("Rush&Hit&Turn&Rush", 85, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 10.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	MainRenderer->SetFrameEvent("Rush&Hit&Turn&Rush", 108, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 30.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	MainRenderer->SetFrameEvent("Rush&Hit&Turn&Rush", 157, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 40.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	////// Rush&Turn
+	MainRenderer->SetFrameEvent("Rush&Turn", 16, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 20.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	//// Jump_Back
+	MainRenderer->SetFrameEvent("Jump_Back", 30, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 40.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	//// Jump_Left
+	MainRenderer->SetFrameEvent("Jump_Left", 31, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 40.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
+	//// Jump_Right
+	MainRenderer->SetFrameEvent("Jump_Right", 28, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GetContentLevel()->StartScreenShake(3.f * CAMERA_SHAKE_TIME, 40.f * CAMERA_MAGNITUDE, 3.f * CAMERA_SHAKE_DURATION);
+		});
+
 }
 
 void Boss_Vordt::StateInit()

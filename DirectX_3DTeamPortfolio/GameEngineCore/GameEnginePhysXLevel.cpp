@@ -32,7 +32,8 @@ void GameEnginePhysXLevel::RunSimulation(float _Delta)
 	}
 
 	Scene->lockWrite();
-	Scene->simulate(1.f/60.f);
+	Scene->simulate(1.f / 60.f);
+	// Scene->simulate(_Delta);
 	Scene->fetchResults(true);
 	Scene->unlockWrite();
 }
