@@ -160,7 +160,7 @@ void Stage_Lothric::Update_BossStage_Ready(float _Delta, GameEngineState* _Paren
 // Fight State
 void Stage_Lothric::Start_BossStage_Fight(GameEngineState* _Parent)
 {
-	MainUIActor::SoundPlay("Destroyed_Sound_Effect.wav");
+
 }
 
 void Stage_Lothric::Update_BossStage_Fight(float _Delta, GameEngineState* _Parent)
@@ -176,6 +176,8 @@ void Stage_Lothric::Update_BossStage_Fight(float _Delta, GameEngineState* _Paren
 // Clear State
 void Stage_Lothric::Start_BossStage_Clear(GameEngineState* _Parent)
 {
+	MainUIActor::SoundPlay("Destroyed_Sound_Effect.wav");
+
 	if (nullptr != BossRoom_bonfire && false == BossRoom_bonfire->IsUpdate())
 	{
 		BossRoom_bonfire->On();
