@@ -1629,6 +1629,7 @@ void Stage_Lothric::ResLoading()
 				Boss_Object->On();
 				MainUI->BossUIOn();
 				BossBGMStart();
+				AllMonsterOff();
 			});
 	}
 
