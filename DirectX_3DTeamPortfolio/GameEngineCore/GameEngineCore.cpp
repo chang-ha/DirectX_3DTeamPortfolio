@@ -31,7 +31,6 @@ void GameEngineCore::Start()
 {
 	GameEngineGUI::Start();
 	CoreObject->Start();
-	SetLimitFrame(120);
 }
 
 void GameEngineCore::Update() 
@@ -61,10 +60,10 @@ void GameEngineCore::Update()
 	float DeltaTime = MainTime.GetDeltaTime();
 	FrameLimit(DeltaTime);
 
-	//if (DeltaTime > 1.0f / 30.0f)
-	//{
-	//	DeltaTime = 1.0f / 30.0f;
-	//}
+	if (DeltaTime > 1.0f / 31.0f)
+	{
+		DeltaTime = 1.0f / 31.0f;
+	}
 
 	GameEngineSound::Update();
 	CoreObject->Update(DeltaTime);

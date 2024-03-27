@@ -53,7 +53,6 @@ void LoadingLevel::Update(float _Delta)
 
 void LoadingLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	GameEngineCore::SetLimitFrame(120);
 	if (Enum_LevelFlag::Loading_Resouce == LoadingFlag
 		|| Enum_LevelFlag::Loading_Reset == LoadingFlag)
 	{

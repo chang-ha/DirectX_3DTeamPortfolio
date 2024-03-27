@@ -102,6 +102,7 @@ public:
 	static void SetLimitFrame(int _Frame)
 	{
 		LimitFrame = _Frame;
+		PrevSleepTime = 0.f;
 	}
 
 protected:

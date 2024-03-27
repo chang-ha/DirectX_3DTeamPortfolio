@@ -76,11 +76,12 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	ResLoading();
 	LevelState.ChangeState(Enum_LevelState::Play);
-	// GameEngineCore::SetLimitFrame(30);
+	GameEngineCore::SetLimitFrame(31);
 }
 
 void Stage_Lothric::LevelEnd(GameEngineLevel* _NextLevel)
 {
+	GameEngineCore::SetLimitFrame(0);
 	if (nullptr != BlackScreen)
 	{
 		BlackScreen->Death();
