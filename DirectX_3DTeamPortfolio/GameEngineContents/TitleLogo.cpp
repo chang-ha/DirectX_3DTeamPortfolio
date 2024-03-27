@@ -113,6 +113,7 @@ void TitleLogo::Update(float _Delta)
 	if (FontEnter == true)
 	{
 		FontScale += 4.0f * _Delta;
+		FontRender->Transform.AddLocalPosition(float4(0.0f, 2.0f * _Delta));
 		FontRender->SetText(GlobalValue::OptimusFont, "PRESS ANY BUTTON", FontScale, float4{ 1, 1, 1, 1 }, FW1_CENTER);
 		AnyButtonBack->GetColorData().MulColor.A += _Delta * 0.5f;
 	}
