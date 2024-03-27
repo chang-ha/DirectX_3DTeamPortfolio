@@ -3,6 +3,10 @@
 
 #include "TriggerActor.h"
 
+#include "MainUIActor.h"
+
+#include "LoadingLevel.h"
+
 UILocationAlert::UILocationAlert() 
 {
 }
@@ -19,6 +23,7 @@ void UILocationAlert::Start()
 	FontTexture->AutoSpriteSizeOn();
 	FontTexture->SetAutoScaleRatio(2.0f);
 	FontTexture->Transform.SetLocalPosition(float4(0, 50.0f));
+	FontTexture->Off();
 
 	// 언더바 : 알파값
 	UnderBar = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_Font);
@@ -26,6 +31,7 @@ void UILocationAlert::Start()
 	UnderBar->AutoSpriteSizeOff();
 	UnderBar->GetImageTransform().SetLocalScale(float4(900.0f, 4.0f));
 	UnderBar->Transform.SetLocalPosition(float4(0, 10.0f));
+	UnderBar->Off();
 
 	EventTrigger = GetLevel()->CreateActor<TriggerActor>(Enum_UpdateOrder::Component);
 	EventTrigger->On();
@@ -40,16 +46,28 @@ void UILocationAlert::Start()
 	DisAppearState.Stay = std::bind(&UILocationAlert::Update_DisAppear, this, std::placeholders::_1, std::placeholders::_2);
 	DisAppearState.End = std::bind(&UILocationAlert::End_DisAppear, this, std::placeholders::_1);
 
+	CreateStateParameter DoneState;
+	DoneState.Start = std::bind(&UILocationAlert::Start_Done, this, std::placeholders::_1);
+
 	MainState.CreateState(eState::Appear, AppearState);
 	MainState.CreateState(eState::DisAppear, DisAppearState);
-	MainState.CreateState(eState::Done, {});
+	MainState.CreateState(eState::Done, DoneState);
 
-	Off();
+	//Off();
 }
 
 void UILocationAlert::Update(float _Delta) 
 {
 	MainState.Update(_Delta);
+
+	if (ResetAlert == true)
+	{
+		if(LoadingLevel::LoadingFlag == Enum_LevelFlag::Play)
+		{
+			ResetAlert = false;
+			MainState.ChangeState(eState::Appear);
+		}
+	}
 }
 
 void UILocationAlert::Release() 
@@ -60,6 +78,9 @@ void UILocationAlert::Release()
 
 void UILocationAlert::Reset() 
 {
+	ResetAlert = true;
+	MainState.ChangeState(eState::Done);
+	On();
 	if (EventTrigger)
 	{
 		EventTrigger->On();
@@ -82,10 +103,13 @@ static constexpr float AppearTime = 4.0f;
 
 void UILocationAlert::Start_Appear(GameEngineState* _Parent)
 {
-	On();
+	//On();
+	FontTexture->On();
+	UnderBar->On();
+
 	SetGamma(0.0f);
-	GameEngineSoundPlayer LocationSound = GameEngineSound::SoundPlay("New_Location_Sound_Effect.wav");
-	LocationSound.SetVolume(0.7f);
+
+	MainUIActor::SoundPlay("New_Location_Sound_Effect.wav");
 }
 
 void UILocationAlert::Update_Appear(float _Delta, GameEngineState* _Parent)
@@ -117,6 +141,11 @@ void UILocationAlert::Update_DisAppear(float _Delta, GameEngineState* _Parent)
 }
 
 void UILocationAlert::End_DisAppear(GameEngineState* _Parent)
+{
+	Off();
+}
+
+void UILocationAlert::Start_Done(GameEngineState* _Parent)
 {
 	Off();
 }

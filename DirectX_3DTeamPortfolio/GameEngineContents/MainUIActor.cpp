@@ -10,9 +10,15 @@
 
 #include "PlayerValue.h"
 #include "AddSouls.h"
-#include "AppearTextures.h"
 
 #include "Boss_Vordt.h"
+
+GameEngineSoundPlayer MainUIActor::UISoundActor;
+void MainUIActor::SoundPlay(std::string _Name, int _Loop, float _VolumeValue)
+{
+	UISoundActor = GameEngineSound::SoundPlay(_Name, _Loop);
+	UISoundActor.SetVolume(_VolumeValue);
+}
 
 
 MainUIActor::MainUIActor()
@@ -57,12 +63,22 @@ void MainUIActor::Start()
 		}
 	}
 
-	GetLevel()->CreateActor<AddSouls>();
+	GetLevel()->CreateActor<AddSouls>(Enum_UpdateOrder::UI);
 }
 
 void MainUIActor::Update(float _Delta)
 {
-
+	if (true == Boss_Object->IsFlag(Enum_ActorFlag::Death))
+	{
+		EmberTime -= _Delta;
+		if (!BossDeath && EmberTime <= 0.0f)
+		{
+			PlayerGaugeBar->Emeber();
+			BossDeath = true;
+			EmberTime = 0.0f;
+			return;
+		}
+	}
 }
 
 void MainUIActor::Release()
@@ -92,6 +108,8 @@ void MainUIActor::CreateBossUI(Boss_Vordt* _pBoss)
 	BossHpObject = GetLevel()->CreateActor<BossHpUI>(Enum_UpdateOrder::UI);
 	BossHpObject->SetParent(_pBoss);
 	BossHpObject->Off();
+
+	Boss_Object = _pBoss;
 }
 
 void MainUIActor::CreateAndCheckEsteUI(Player* _pPlayer)

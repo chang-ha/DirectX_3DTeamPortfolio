@@ -34,6 +34,9 @@ public:
 		InFunction();
 	}
 
+	void Reset();
+	void End();
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

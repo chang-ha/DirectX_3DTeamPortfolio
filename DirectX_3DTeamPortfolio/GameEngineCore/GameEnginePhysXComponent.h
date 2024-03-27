@@ -51,7 +51,9 @@ public:
 		{
 			physx::PxRigidDynamic* DynamicActor = ComponentActor->is<physx::PxRigidDynamic>();
 			ResetMove(Enum_Axies::All);
-			DynamicActor->putToSleep();
+			Scene->lockWrite();
+			DynamicActor->wakeUp();
+			Scene->unlockWrite();
 		}
 	}
 	void Off() override
@@ -63,7 +65,9 @@ public:
 		{
 			physx::PxRigidDynamic* DynamicActor = ComponentActor->is<physx::PxRigidDynamic>();
 			ResetMove(Enum_Axies::All);
-			DynamicActor->wakeUp();
+			Scene->lockWrite();
+			DynamicActor->putToSleep();
+			Scene->unlockWrite();
 		}
 	}
 
@@ -132,7 +136,9 @@ public:
 
 	bool IsGravity()
 	{
+		Scene->lockRead();
 		physx::PxActorFlags Flags = ComponentActor->getActorFlags();
+		Scene->unlockRead();
 		bool Result = Flags & physx::PxActorFlag::eDISABLE_GRAVITY;
 		return !Result;
 	}

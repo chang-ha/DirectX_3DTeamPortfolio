@@ -3,6 +3,8 @@
 
 #include "LoadingLevel.h"
 
+#include "MainUIActor.h"
+
 TitleLogo::TitleLogo()
 {
 
@@ -45,8 +47,9 @@ void TitleLogo::Start()
 	AnyButtonBack = CreateComponent<GameEngineSpriteRenderer>();
 	AnyButtonBack->SetSprite("AnyButtonBack.Png");
 	AnyButtonBack->AutoSpriteSizeOn();
-	AnyButtonBack->SetAutoScaleRatio(0.4f);
-	AnyButtonBack->Transform.SetLocalPosition({ 0.0f, -125.0f, 505.0f });
+	AnyButtonBack->SetAutoScaleRatio(0.45f);
+	//AnyButtonBack->Transform.SetLocalPosition({ 0.0f, -119.95f, 505.0f });
+	AnyButtonBack->Transform.SetLocalPosition({ 0.0f, -120.0f, 505.0f });
 	AnyButtonBack->GetColorData().MulColor.A = 0.0f;
 
 	FontRender = CreateComponent<GameEngineUIRenderer>();
@@ -101,20 +104,17 @@ void TitleLogo::Update(float _Delta)
 		AnyBackColor = false;
 	}
 
-
 	if (DarkSouls_Logo->GetColorData().MulColor.A >= 1.0f && FontEnter == false &&
 		GameEngineInput::IsDownAnyKey() == true)
 	{
-		GameEngineSoundPlayer StartButton = GameEngineSound::SoundPlay("GAMESTART.wav");
-		StartButton.SetVolume(0.6f);
+		MainUIActor::SoundPlay("GAMESTART.wav");
 		FontEnter = true;
 	}
 	if (FontEnter == true)
 	{
-		FontScale += 5.0f * _Delta;
+		FontScale += 4.0f * _Delta;
 		FontRender->SetText(GlobalValue::OptimusFont, "PRESS ANY BUTTON", FontScale, float4{ 1, 1, 1, 1 }, FW1_CENTER);
 		AnyButtonBack->GetColorData().MulColor.A += _Delta * 0.5f;
-		AnyButtonBack->Transform.AddLocalScale(0.1f * _Delta);
 	}
 
 	if (FontScale >= 25.0f)

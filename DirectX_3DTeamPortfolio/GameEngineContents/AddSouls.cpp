@@ -3,6 +3,7 @@
 
 #include "BaseMonster.h"
 
+#include "MainUIActor.h"
 
 int AddSouls::TotalScore = 0;
 void AddSouls::AddUISoul(int _Souls)
@@ -92,6 +93,14 @@ void AddSouls::Update(float _Delta)
 
 	AddState.Update(_Delta);
 	ScoreState.Update(_Delta);
+}
+
+void AddSouls::Reset()
+{
+	TotalScore = 0;
+	RenderScore = TotalScore;
+	CurUISouls = TotalScore;
+	SumSouls->ChangeText(std::to_string(TotalScore));
 }
 
 void AddSouls::DetectSouls()
@@ -253,6 +262,7 @@ void AddSouls::Start_ScoreState_AddScore(GameEngineState* _Parent)
 {
 	ScoreFontSize = FontSize;
 	SetFontScale(SumSouls, FontSize);
+	MainUIActor::SoundPlay("soul.wav");
 }
 
 static constexpr float AddScore_StateTime = 0.5f;

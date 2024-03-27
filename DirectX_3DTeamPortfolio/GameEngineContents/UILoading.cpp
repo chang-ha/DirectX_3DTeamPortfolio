@@ -4,7 +4,7 @@
 
 UILoading::UILoading() 
 {
-	if (nullptr == GameEngineTexture::Find("AKLogo.png"))
+	if (nullptr == GameEngineTexture::Find("UIComments.png"))
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExistsChild("ContentsResources");
@@ -20,6 +20,7 @@ UILoading::UILoading()
 		GameEngineSprite::CreateSingle("AKLogo.png");
 		GameEngineSprite::CreateSingle("UIComments.png");
 		GameEngineSprite::CreateSingle("LoadingTemp.png");
+		GameEngineSprite::CreateSingle("DarkLogo.png");
 		GameEngineSprite::CreateCut("ToiletBowl.dds", 8, 4);
 	}
 }
@@ -46,7 +47,7 @@ void UILoading::Start()
 	///// 로고, 팀명, 제작팀원 및 담당분야.
 	const float4 CommentHalfScale = UICommentRenderer->GetCurSprite().Texture->GetScale().Half();
 	AKLogo = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_Loading);
-	AKLogo->SetSprite("AKLogo.png");
+	AKLogo->SetSprite("DarkLogo.png");
 	AKLogo->Transform.SetLocalPosition(float4(-CommentHalfScale.X + 180, CommentHalfScale.Y - 130.0f));
 	AKLogo->GetImageTransform().SetLocalScale({ 100.0f, 80.0f });
 

@@ -106,7 +106,7 @@ void LoadingLevel::Start_Loading(GameEngineState* _Parent)
 		case Enum_LevelFlag::Loading_Reset:
 		{
 			Stage_Lothric::ResetLoadingDone = false;
-			LoadingThread.Work(std::bind(&Stage_Lothric::ResetLoading, TargetLevel));
+			TargetLevel->ResetLoading();
 		}
 			break;
 		case Enum_LevelFlag::Play:

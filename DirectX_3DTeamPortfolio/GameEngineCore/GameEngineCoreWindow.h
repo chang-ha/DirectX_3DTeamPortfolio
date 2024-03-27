@@ -49,6 +49,5 @@ protected:
 
 private:
 	static std::map<int, NameRenderTarget> DebugRenderTarget;
-	GameEngineThreadJobQueue Queue;
 };
 

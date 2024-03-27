@@ -292,7 +292,7 @@ public:
 
 	inline void SetResponRotation(const float4& _Rot)
 	{
-		ResponPos = _Rot;
+		ResponRot = _Rot;
 	}
 
 	float4 GetResponPos()
@@ -333,6 +333,8 @@ public:
 	inline int* GetFlagPointer() { return &Flags; }
 	inline class GameEnginePhysXCapsule* GetPhysxCapsulePointer() { return Capsule.get(); }
 	inline int GetMaxHp() const { return Stat.GetMaxHp(); }
+	inline void SetHp(int _Value) { Stat.SetHp(_Value); }
+	inline void SetMaxHp(int _Value) { Stat.SetMaxHp(_Value); }
 	inline int GetHp() const { return Stat.GetHp(); }
 	inline float GetStamina() const { return Stat.GetStamina(); }
 	inline int GetAtt() const { return Stat.GetAtt(); }
@@ -470,6 +472,20 @@ public:
 	{
 		mDummyPolySoundSwitch = !mDummyPolySoundSwitch;
 	}
+
+	inline const float* DummyPolyMinSoundPtr()
+	{
+		return &DummyPolyMinVolume;
+	}
+
+	inline const float* DummyPolyMaxSoundPtr()
+	{
+		return &DummyPolyMaxVolume;
+	}
+
+protected:
+	float DummyPolyMinVolume = 50.f;
+	float DummyPolyMaxVolume = 8000.f;
 
 private:
 	bool mDummyPolySoundSwitch = true;

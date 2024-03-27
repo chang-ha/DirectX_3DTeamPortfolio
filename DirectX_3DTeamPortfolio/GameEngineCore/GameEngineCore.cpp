@@ -16,7 +16,7 @@ std::shared_ptr<GameEngineLevel> GameEngineCore::CurLevel;
 std::shared_ptr<GameEngineLevel> GameEngineCore::NextLevel;
 std::map<std::string, std::shared_ptr<GameEngineLevel>> GameEngineCore::AllLevel;
 
-#define MAX_FRAME_TIME 1.f/60.f
+#define MAX_FRAME_TIME 1.f/30.f
 
 GameEngineCore::GameEngineCore() 
 {
@@ -54,6 +54,7 @@ void GameEngineCore::Update()
 		MainTime.Reset();
 	}
 
+
 	MainTime.Update();
 	float DeltaTime = MainTime.GetDeltaTime();
 
@@ -66,7 +67,7 @@ void GameEngineCore::Update()
 		float DiffTime = MAX_FRAME_TIME - DeltaTime;
 		DWORD SleepTime = static_cast<unsigned long>(DiffTime * 1000);
 		Sleep(SleepTime); // 1000 = 1s
-		DeltaTime -= static_cast<float>(SleepTime / 1000);
+		// DeltaTime += (static_cast<float>(SleepTime) / 1000.f);
 	}
 
 	GameEngineSound::Update();

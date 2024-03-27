@@ -23,6 +23,9 @@
 #include "UIAlertMaanger.h"
 #include "UILocationAlert.h"
 #include "UILoading.h"
+#include "UISystemManager.h"
+
+#include "Object_bonfire.h"
 
 PlayLevel::PlayLevel()
 {
@@ -53,15 +56,18 @@ void PlayLevel::Update(float _Delta)
 
 	if (GameEngineInput::IsDown('6',this))
 	{
-		UIAlertMaanger::CallAlert(Enum_AlertType::BoneFire);
+		UISystem->OnSystem(Enum_SystemType::Object_bonfire);
+		//UIAlertMaanger::CallAlert(Enum_AlertType::BoneFire);
 	}
 	if (GameEngineInput::IsDown('7',this))
 	{
-		UIAlertMaanger::CallAlert(Enum_AlertType::Destroy);
+		UISystem->OnSystem(Enum_SystemType::Object_FogWall);
+		//UIAlertMaanger::CallAlert(Enum_AlertType::Destroy);
 	}
 	if (GameEngineInput::IsDown('8',this))
 	{
-		UIAlertMaanger::CallAlert(Enum_AlertType::YouDie);
+		UISystem->OffSystem();
+		//UIAlertMaanger::CallAlert(Enum_AlertType::YouDie);
 	}
 
 }
@@ -164,6 +170,12 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 		// 로딩테스트
 		std::shared_ptr<UILoading> Loading = CreateActor<UILoading>(Enum_UpdateOrder::UI);
+
+		std::shared_ptr<UISystemManager> Sys = CreateActor<UISystemManager>();
+
+
+		UISystem = CreateActor<UISystemManager>(1);
+		
 	}
 
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor({ 1, 1, 1, 1 });

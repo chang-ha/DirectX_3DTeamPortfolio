@@ -295,7 +295,7 @@ void Monster_LothricKn::Start()
 
 	// Stat
 	Stat.SetHp(LOTHRIC_KNIGHT_HP); // Official Hp
-	Stat.SetAtt(80);
+	Stat.SetAtt(40);
 	Stat.SetSouls(ContentsRandom::RandomInt(220, 1000));
 
 	// Collision
@@ -372,6 +372,10 @@ void Monster_LothricKn::Update(float _Delta)
 			}
 		}
 
+		if (GameEngineInput::IsDown('5', this))
+		{
+			Monster_LothricKn::Reset();
+		}
 
 		static bool s_bDrawValue = false;
 		if (GameEngineInput::IsDown('N', this))
@@ -404,6 +408,7 @@ void Monster_LothricKn::LevelStart(class GameEngineLevel* _NextLevel)
 	BaseMonster::LevelStart(_NextLevel);
 }
 
+
 void Monster_LothricKn::WakeUp()
 {
 	On();
@@ -426,10 +431,12 @@ void Monster_LothricKn::Reset()
 	SetFlagNull();
 	SetTargeting(nullptr);
 
-	if (nullptr != MonsterCollision)
-	{
-		MonsterCollision->On();
-	}
+	ChangeIdleState(IdleType);
+
+	ContentsDebug::NUllCheck(MonsterCollision.get());
+	ContentsDebug::NUllCheck(PatrolCollision.get());
+	MonsterCollision->On();
+	PatrolCollision->On();
 }
 
 void Monster_LothricKn::DeathProcess()
@@ -593,7 +600,7 @@ float Monster_LothricKn::ConvertDistance_eTof(Enum_TargetDist _eTDist) const
 	return 0.0f;
 }
 
-void Monster_LothricKn::AttackToPlayer(eAttackType _eBoneType)
+void Monster_LothricKn::AttackToPlayer(eAttackType _eBoneType, int _iStiffness)
 {
 	switch (_eBoneType)
 	{
@@ -607,19 +614,19 @@ void Monster_LothricKn::AttackToPlayer(eAttackType _eBoneType)
 		break;
 	}
 
-	AttackToShield(_eBoneType, Enum_CollisionOrder::Player_Shield);
-	AttackToBody(_eBoneType, Enum_CollisionOrder::Player_Body);
+	AttackToShield(_eBoneType, Enum_CollisionOrder::Player_Shield, _iStiffness);
+	AttackToBody(_eBoneType, Enum_CollisionOrder::Player_Body, _iStiffness);
 }
 
-void Monster_LothricKn::AttackToBody(eAttackType _eBoneType, Enum_CollisionOrder _Order)
+void Monster_LothricKn::AttackToBody(eAttackType _eBoneType, Enum_CollisionOrder _Order, int _iStiffness)
 {
 	switch (_eBoneType)
 	{
 	case Monster_LothricKn::eAttackType::Sword:
-		Sword.CollisionToBody(_Order);
+		Sword.CollisionToBody(_Order, _iStiffness);
 		break;
 	case Monster_LothricKn::eAttackType::Shield:
-		Shield.CollisionToBody(_Order);
+		Shield.CollisionToBody(_Order, _iStiffness / 2);
 		break;
 	case Monster_LothricKn::eAttackType::CrossBow:
 		break;
@@ -628,15 +635,15 @@ void Monster_LothricKn::AttackToBody(eAttackType _eBoneType, Enum_CollisionOrder
 	}
 }
 
-void Monster_LothricKn::AttackToShield(eAttackType _eBoneType, Enum_CollisionOrder _Order)
+void Monster_LothricKn::AttackToShield(eAttackType _eBoneType, Enum_CollisionOrder _Order, int _iStiffness)
 {
 	switch (_eBoneType)
 	{
 	case Monster_LothricKn::eAttackType::Sword:
-		Sword.CollisionToShield(_Order);
+		Sword.CollisionToShield(_Order, _iStiffness);
 		break;
 	case Monster_LothricKn::eAttackType::Shield:
-		Shield.CollisionToShield(_Order);
+		Shield.CollisionToShield(_Order, _iStiffness * 4);
 		break;
 	case Monster_LothricKn::eAttackType::CrossBow:
 		break;

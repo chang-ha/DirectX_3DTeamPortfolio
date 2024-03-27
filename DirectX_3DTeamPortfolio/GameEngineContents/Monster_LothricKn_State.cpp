@@ -8,6 +8,11 @@ static constexpr float MIN_TIME_STEPSTATE = 0.5f;
 static constexpr float MAX_TIME_STEPSTATE = 2.0f;
 static constexpr float MAX_AGGRO_TIME = 8.0f;
 
+static constexpr int SWING_ATTACK_STIFFNESS = 12;
+static constexpr int SHOT_ATTACK_STIFFNESS = 20;
+static constexpr int SHIELD_ATTACK_STIFFNESS = 18;
+static constexpr int DH_ATTACK_STIFFNESS_RATIO = 2;
+
 #define SELECT_ENEMY_TO_PLAYER
 #ifdef SELECT_ENEMY_TO_PLAYER
 #define TARGET_ORDER Enum_CollisionOrder::Player
@@ -203,6 +208,10 @@ void Monster_LothricKn::Start_Debug(GameEngineState* _State)
 
 void Monster_LothricKn::Start_Idle_Standing(GameEngineState* _State)
 {
+	ContentsDebug::NUllCheck(PatrolCollision.get());
+	PatrolCollision->On();
+	Sword.Off();
+	Shield.Off();
 	OnWeaponMask();
 	MainRenderer->ChangeAnimation("Idle_Standing");
 }
@@ -214,6 +223,10 @@ void Monster_LothricKn::Start_Idle_Standing1(GameEngineState* _State)
 
 void Monster_LothricKn::Start_Idle_Sit(GameEngineState* _State)
 {
+	ContentsDebug::NUllCheck(PatrolCollision.get());
+	PatrolCollision->On();
+	Sword.Off();
+	Shield.Off();
 	MaskReset();
 	MainRenderer->ChangeAnimation("Idle_Sit");
 }
@@ -226,6 +239,10 @@ void Monster_LothricKn::Start_Idle_Gaurding(GameEngineState* _State)
 
 void Monster_LothricKn::Start_Patrol(GameEngineState* _State)
 {
+	ContentsDebug::NUllCheck(PatrolCollision.get());
+	PatrolCollision->On();
+	Sword.Off();
+	Shield.Off();
 	OnWeaponMask();
 	SetPatrolCollision(true);
 	SetCombatMode(eCombatState::Normal);
@@ -759,6 +776,11 @@ void Monster_LothricKn::Update_Idle_Gaurding(float _DeltaTime, GameEngineState* 
 
 void Monster_LothricKn::Update_Patrol(float _DeltaTime, GameEngineState* _State)
 {
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	bool IsFindTarget = FindAndSetTarget(TARGET_ORDER);
 	if (IsFindTarget)
 	{
@@ -800,6 +822,11 @@ void Monster_LothricKn::Update_Patrol(float _DeltaTime, GameEngineState* _State)
 
 void Monster_LothricKn::Update_Patrol_Turn(float _DeltaTime, GameEngineState* _State)
 {
+	if (true == CheckAndSetHitState())
+	{
+		return;
+	}
+
 	if (IsFrameEnd())
 	{
 		bool IsFindTarget = FindAndSetTarget(TARGET_ORDER);
@@ -873,7 +900,7 @@ void Monster_LothricKn::Update_Combo_Att_11(float _DeltaTime, GameEngineState* _
 
 	if (IsFrame(17, 19))
 	{
-		AttackToPlayer(eAttackType::Sword);
+		AttackToPlayer(eAttackType::Sword, SWING_ATTACK_STIFFNESS);
 	}
 
 	if (IsFrameOnce(20))
@@ -933,7 +960,7 @@ void Monster_LothricKn::Update_Combo_Att_12(float _DeltaTime, GameEngineState* _
 
 	if (IsFrame(19, 21))
 	{
-		AttackToPlayer(eAttackType::Sword);
+		AttackToPlayer(eAttackType::Sword, SWING_ATTACK_STIFFNESS);
 	}
 	if (IsFrameOnce(22))
 	{
@@ -983,7 +1010,7 @@ void Monster_LothricKn::Update_Combo_Att_13(float _DeltaTime, GameEngineState* _
 
 	if (IsFrame(20, 22))
 	{
-		AttackToPlayer(eAttackType::Sword);
+		AttackToPlayer(eAttackType::Sword, SHOT_ATTACK_STIFFNESS);
 	}
 	if (IsFrameOnce(23))
 	{
@@ -1042,7 +1069,7 @@ void Monster_LothricKn::Update_Combo_Att_21(float _DeltaTime, GameEngineState* _
 
 	if (IsFrame(21, 23))
 	{
-		AttackToPlayer(eAttackType::Sword);
+		AttackToPlayer(eAttackType::Sword, SWING_ATTACK_STIFFNESS);
 	}
 	if (IsFrameOnce(24))
 	{
@@ -1101,7 +1128,7 @@ void Monster_LothricKn::Update_Combo_Att_22(float _DeltaTime, GameEngineState* _
 
 	if (IsFrame(22, 24))
 	{
-		AttackToPlayer(eAttackType::Sword);
+		AttackToPlayer(eAttackType::Sword, SWING_ATTACK_STIFFNESS);
 	}
 	if (IsFrameOnce(25))
 	{
@@ -1151,7 +1178,7 @@ void Monster_LothricKn::Update_Combo_Att_23(float _DeltaTime, GameEngineState* _
 
 	if (IsFrame(17, 19))
 	{
-		AttackToPlayer(eAttackType::Sword);
+		AttackToPlayer(eAttackType::Sword, SHOT_ATTACK_STIFFNESS);
 	}
 	if (IsFrameOnce(20))
 	{
@@ -1196,7 +1223,7 @@ void Monster_LothricKn::Update_RH_Att_HitDown(float _DeltaTime, GameEngineState*
 
 	if (IsFrame(24, 26))
 	{
-		AttackToPlayer(eAttackType::Sword);
+		AttackToPlayer(eAttackType::Sword, 20);
 	}
 	if (IsFrameOnce(27))
 	{
@@ -1240,7 +1267,7 @@ void Monster_LothricKn::Update_LH_ShieldAttack(float _DeltaTime, GameEngineState
 
 	if (IsFrame(17, 19))
 	{
-		AttackToPlayer(eAttackType::Shield);
+		AttackToPlayer(eAttackType::Shield, SHIELD_ATTACK_STIFFNESS);
 	}
 	if (IsFrameOnce(20))
 	{
@@ -1290,7 +1317,7 @@ void Monster_LothricKn::Update_RH_Rear_Att(float _DeltaTime, GameEngineState* _S
 
 	if (IsFrame(17, 21))
 	{
-		AttackToPlayer(eAttackType::Sword);
+		AttackToPlayer(eAttackType::Sword, SHOT_ATTACK_STIFFNESS);
 	}
 	if (IsFrameOnce(22))
 	{
@@ -1537,11 +1564,14 @@ void Monster_LothricKn::Update_SitUp(float _DeltaTime, GameEngineState* _State)
 
 	if (IsFrameOnce(29))
 	{
-		Enum_LothricKn_State FindState = GetStateToAttackTable();
-		if (Enum_LothricKn_State::None != FindState)
+		if (CanAttack(W_SCALE * MELEE_RANGE, FRONT_ANGLE))
 		{
-			_State->ChangeState(FindState);
-			return;
+			Enum_LothricKn_State FindState = GetStateToAttackTable();
+			if (Enum_LothricKn_State::None != FindState)
+			{
+				_State->ChangeState(FindState);
+				return;
+			}
 		}
 	}
 
@@ -1662,7 +1692,7 @@ void Monster_LothricKn::Update_DH_Stab_Att(float _DeltaTime, GameEngineState* _S
 
 	if (IsFrame(16, 20))
 	{
-		AttackToPlayer(eAttackType::Sword);
+		AttackToPlayer(eAttackType::Sword, SHOT_ATTACK_STIFFNESS * DH_ATTACK_STIFFNESS_RATIO);
 	}
 	if (IsFrameOnce(21))
 	{
@@ -1703,7 +1733,7 @@ void Monster_LothricKn::Update_DH_Swing_Att(float _DeltaTime, GameEngineState* _
 
 	if (IsFrame(15, 18))
 	{
-		AttackToPlayer(eAttackType::Sword);
+		AttackToPlayer(eAttackType::Sword, SWING_ATTACK_STIFFNESS * DH_ATTACK_STIFFNESS_RATIO);
 	}
 	if (IsFrameOnce(19))
 	{
@@ -1983,7 +2013,7 @@ void Monster_LothricKn::Update_G_Att_Bash(float _DeltaTime, GameEngineState* _St
 
 	if (IsFrame(26, 31))
 	{
-		AttackToPlayer(eAttackType::Shield);
+		AttackToPlayer(eAttackType::Shield, SHIELD_ATTACK_STIFFNESS);
 	}
 	if (IsFrameOnce(32))
 	{
@@ -3241,6 +3271,22 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToNormalAttackTable(Enum_TargetD
 			}
 		}
 
+		const int ModeChance = ContentsRandom::RandomInt(0, 8);
+		enum class eModeChance
+		{
+			TwoHand = 0,
+			Shield = 1,
+		};
+
+		if (static_cast<int>(eModeChance::TwoHand) == ModeChance)
+		{
+			return Enum_LothricKn_State::DH_Hold;
+		}
+		if (static_cast<int>(eModeChance::Shield) == ModeChance)
+		{
+			return Enum_LothricKn_State::G_Up;
+		}
+
 		enum eAttackType
 		{
 			Combo1 = 0,
@@ -3258,11 +3304,7 @@ Enum_LothricKn_State Monster_LothricKn::GetStateToNormalAttackTable(Enum_TargetD
 			break;
 		case eAttackType::Combo2:
 			AttackState = Enum_LothricKn_State::Combo_Att_21;
-			++AttackRecord;
-			break;
-		case eAttackType::None:
-			AttackState = Enum_LothricKn_State::Combo_Att_11;
-			AttackRecord = Combo1;
+			AttackRecord = eAttackType::Combo1;
 			break;
 		default:
 			break;

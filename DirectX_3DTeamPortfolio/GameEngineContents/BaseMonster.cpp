@@ -89,6 +89,12 @@ void BaseMonster::SetPatrolPath(const std::vector<float4>& _Paths, int _Index /*
 	PathObject->Init(_Paths, _Index, _IsOneWay);
 }
 
+void BaseMonster::DebugOn()
+{
+	GameEngineInput::AddInputObject(this);
+	DebugValue = true;
+}
+
 float BaseMonster::ConvertDistance_eTof(Enum_TargetDist _eTDist) const
 {
 	MsgBoxAssert("자식에서 재정의해야하는 함수입니다.");
@@ -184,6 +190,32 @@ bool BaseMonster::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 
 	BaseActor* pAttacker = _Para.pAttacker;
 
+	bool DHMode = pAttacker->IsFlag(Enum_ActorFlag::TwoHand);
+	if (DHMode)
+	{
+		if (true == IsFlag(Enum_ActorFlag::Guarding))
+		{
+			const int AttackerAtt = pAttacker->GetAtt();
+			const int Stiffness = _Para.iStiffness * 2;
+			Stat.AddPoise(-Stiffness);
+			if (0 >= Stat.GetPoise())
+			{
+				SetFlag(Enum_ActorFlag::Guard_Break, true);
+				Stat.SetPoise(0);
+			}
+			else
+			{
+				Hit.SetGuardSuccesss(true);
+			}
+
+			const int FinalDamage = GuardHitFormula(AttackerAtt / 2);
+			Stat.AddHp(FinalDamage);
+			Hit.SetHit(true);
+		}
+
+		return false;
+	}
+
 	// 패링상태
 	if (true == IsFlag(Enum_ActorFlag::Parrying))
 	{
@@ -200,8 +232,7 @@ bool BaseMonster::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 		if (0 >= Stat.GetPoise())
 		{
 			SetFlag(Enum_ActorFlag::Guard_Break, true);
-			Stat.SetPoise(0);
-
+			Stat.AddPoise(0);
 		}
 		else
 		{
@@ -215,7 +246,7 @@ bool BaseMonster::GetHitToShield(const HitParameter& _Para /*= HitParameter()*/)
 			Hit.SetGuardSuccesss(true);
 		}
 
-		const int FinalDamage = GuardHitFormula(AttackerAtt);
+		const int FinalDamage = GuardHitFormula(AttackerAtt / 10);
 		Stat.AddHp(FinalDamage);
 		Hit.SetHit(true);
 

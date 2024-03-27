@@ -76,7 +76,7 @@ enum class PlayerState
 	landing,
 	StaminaCheck,
 	HitDown,
-
+	Fire,
 };
 
 // Ό³Έν :
@@ -130,6 +130,9 @@ public:
 	bool Fog_Check = false;
 	bool Fog_Run_Check = false;
 	
+
+	bool adad = false;
+
 	float Camera_Pos_Y = 0.0f;
 	
 
@@ -322,11 +325,17 @@ private:
 
 	bool Hp_infinite = false;
 	bool Damage_infinite = false;
+	bool Damage_Zero = false;
 	bool Debug_Death = false;
 
 	float error_Number_X = 0.0f;
 	float error_Number_Y = 0.0f;
 
+
+	// UI
+	std::shared_ptr<class UISystemManager> UISystem;
+	bool Fog_PrevCheck = false;
+	bool Fog_UIOnCheck = false;
 };
 
 
