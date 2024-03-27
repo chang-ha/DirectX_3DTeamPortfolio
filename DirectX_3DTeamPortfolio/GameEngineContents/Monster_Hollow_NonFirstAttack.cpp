@@ -1488,6 +1488,7 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Front_Start()
 	Sword.Off();
 	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Hit_Front");
+	MainRenderer->ChangeCurFrame(0);
 
 	// 이 전에 있던 State가 Pray 또는 BeScared일때
 	// 타게팅은 여기서 이루어짐.
@@ -1511,6 +1512,7 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Back_Start()
 	Sword.Off();
 	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Hit_Back");
+	MainRenderer->ChangeCurFrame(0);
 }
 void Monster_Hollow_NonFirstAttack::State_Hit_Back_Update(float _Delta)
 {
@@ -1531,6 +1533,7 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Left_Start()
 	Sword.Off();
 	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Hit_Left");
+	MainRenderer->ChangeCurFrame(0);
 }
 void Monster_Hollow_NonFirstAttack::State_Hit_Left_Update(float _Delta)
 {
@@ -1551,6 +1554,7 @@ void Monster_Hollow_NonFirstAttack::State_Hit_Right_Start()
 	Sword.Off();
 	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Hit_Right");
+	MainRenderer->ChangeCurFrame(0);
 }
 void Monster_Hollow_NonFirstAttack::State_Hit_Right_Update(float _Delta)
 {

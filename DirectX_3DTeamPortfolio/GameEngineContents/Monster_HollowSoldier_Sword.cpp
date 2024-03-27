@@ -2375,6 +2375,7 @@ void Monster_HollowSoldier_Sword::State_Hit_Front_Start()
 	Sword.Off();
 	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Hit_Front");
+	MainRenderer->ChangeCurFrame(0);
 }
 void Monster_HollowSoldier_Sword::State_Hit_Front_Update(float _Delta)
 {
@@ -2394,6 +2395,7 @@ void Monster_HollowSoldier_Sword::State_Hit_Back_Start()
 	Sword.Off();
 	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Hit_Back");
+	MainRenderer->ChangeCurFrame(0);
 }
 void Monster_HollowSoldier_Sword::State_Hit_Back_Update(float _Delta)
 {
@@ -2413,6 +2415,7 @@ void Monster_HollowSoldier_Sword::State_Hit_Left_Start()
 	Sword.Off();
 	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Hit_Left");
+	MainRenderer->ChangeCurFrame(0);
 }
 void Monster_HollowSoldier_Sword::State_Hit_Left_Update(float _Delta)
 {
@@ -2432,6 +2435,7 @@ void Monster_HollowSoldier_Sword::State_Hit_Right_Start()
 	Sword.Off();
 	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("C1100_Hit_Right");
+	MainRenderer->ChangeCurFrame(0);
 }
 void Monster_HollowSoldier_Sword::State_Hit_Right_Update(float _Delta)
 {
