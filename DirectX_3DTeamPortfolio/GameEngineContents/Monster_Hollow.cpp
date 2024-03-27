@@ -1899,12 +1899,17 @@ void Monster_Hollow::SettingSoundFrameEvent()
 			GameEngineSound::Sound3DPlay("c110004101.wav", Transform.GetWorldPosition());
 		});
 
+	MainRenderer->SetFrameEvent("c1100_AfterGuardBreakHit", 26, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("kill-chance.wav", Transform.GetWorldPosition());
+		});
+
 	MainRenderer->SetFrameEvent("c1100_AfterGuardBreakHit", 27, [&](GameContentsFBXRenderer* _Renderer)
 		{
 			//999999999
 			//damage1
-			//GameEngineSound::Sound3DPlay("damage1.wav", Transform.GetWorldPosition());
-			GameEngineSound::Sound3DPlay("kill1.wav", Transform.GetWorldPosition());
+			GameEngineSound::Sound3DPlay("damage1.wav", Transform.GetWorldPosition());
+			//GameEngineSound::Sound3DPlay("kill1.wav", Transform.GetWorldPosition());
 		});
 
 	MainRenderer->SetFrameEvent("c1100_AfterGuardBreakHit", 34, [&](GameContentsFBXRenderer* _Renderer)
