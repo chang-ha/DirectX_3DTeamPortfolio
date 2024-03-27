@@ -142,6 +142,8 @@ void Stage_Lothric::Update(float _Delta)
 
 void Stage_Lothric::PlayUpdate(float _Delta)
 {
+	EndingState.Update(_Delta);
+
 	if (true == GameEngineInput::IsDown('L', this))
 	{
 		Player_Object->SetFlag(Enum_ActorFlag::Death, true);
@@ -1747,7 +1749,7 @@ void Stage_Lothric::EndingCheck()
 	if (true == Boss_Object->IsFlag(Enum_ActorFlag::Death))
 	{
 		Ending = true;
-		GameEngineCore::ChangeLevel("TitleLevel");
+		EndingState.ChangeState(Enum_EndingState::FadeOut);
 	}
 }
 
