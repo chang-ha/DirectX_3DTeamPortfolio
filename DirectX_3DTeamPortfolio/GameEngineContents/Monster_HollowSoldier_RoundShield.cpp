@@ -544,11 +544,7 @@ void Monster_HollowSoldier_RoundShield::State_Idle2_Update(float _Delat)
 
 void Monster_HollowSoldier_RoundShield::State_Idle3_Start()
 {
-	//Debug
-	{
-		AttackPattern++;
-	}
-
+	ShieldCollision->On();
 	// GuardOn
 	MainRenderer->ChangeAnimation("c1100_Idle3");
 }
@@ -678,6 +674,7 @@ void Monster_HollowSoldier_RoundShield::State_Idle1ToIdle2_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Idle2ToIdle3_Start()
 {
+	ShieldCollision->On();
 	MainRenderer->ChangeAnimation("c1100_Idle2ToIdle3");
 }
 void Monster_HollowSoldier_RoundShield::State_Idle2ToIdle3_Update(float _Delta)
@@ -695,6 +692,7 @@ void Monster_HollowSoldier_RoundShield::State_Idle2ToIdle3_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Idle3ToIdle2_Start()
 {
+	ShieldCollision->Off();
 	MainRenderer->ChangeAnimation("c1100_Idle3ToIdle2");
 }
 void Monster_HollowSoldier_RoundShield::State_Idle3ToIdle2_Update(float _Delta)
@@ -779,6 +777,7 @@ void Monster_HollowSoldier_RoundShield::State_Walk_Right_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Walk_Front3_Start()
 {
+	ShieldCollision->On();
 	MainRenderer->ChangeAnimation("c1100_Walk_Front3");
 }
 void Monster_HollowSoldier_RoundShield::State_Walk_Front3_Update(float _Delta)
@@ -817,6 +816,7 @@ void Monster_HollowSoldier_RoundShield::State_Walk_Front3_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Walk_Back3_Start()
 {
+	ShieldCollision->On();
 	WalkToChangeTime = ContentsRandom::Randomfloat(0.7f, 2.8f);
 	MainRenderer->ChangeAnimation("c1100_Walk_Back3");
 }
@@ -843,6 +843,7 @@ void Monster_HollowSoldier_RoundShield::State_Walk_Back3_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Walk_Left3_Start()
 {
+	ShieldCollision->On();
 	WalkToChangeTime = ContentsRandom::Randomfloat(0.65f, 2.6f);
 	MainRenderer->ChangeAnimation("c1100_Walk_Left3");
 }
@@ -869,6 +870,7 @@ void Monster_HollowSoldier_RoundShield::State_Walk_Left3_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Walk_Right3_Start()
 {
+	ShieldCollision->On();
 	WalkToChangeTime = ContentsRandom::Randomfloat(0.65f, 2.6f);
 	MainRenderer->ChangeAnimation("c1100_Walk_Right3");
 }
@@ -904,6 +906,7 @@ void Monster_HollowSoldier_RoundShield::State_Run_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Run3_Start()
 {
+	ShieldCollision->On();
 	//WalkToChangeTime = ContentsRandom::Randomfloat(0.8f, 1.6f);
 	MainRenderer->ChangeAnimation("c1100_Run3");
 }
@@ -976,6 +979,7 @@ void Monster_HollowSoldier_RoundShield::State_RH_TwinSlash_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Attack1_Start()
 {
+	ShieldCollision->Off();
 	MainRenderer->ChangeAnimation("c1100_RH_VerticalSlash");
 }
 void Monster_HollowSoldier_RoundShield::State_Attack1_Update(float _Delta)
@@ -1027,6 +1031,7 @@ void Monster_HollowSoldier_RoundShield::State_Attack1_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Attack2_Start()
 {
+	ShieldCollision->Off();
 	MainRenderer->ChangeAnimation("c1100_RH_VerticalSlash");
 }
 void Monster_HollowSoldier_RoundShield::State_Attack2_Update(float _Delta)
@@ -1126,6 +1131,7 @@ void Monster_HollowSoldier_RoundShield::State_Attack2_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Attack3_Start()
 {
+	ShieldCollision->Off();
 	MainRenderer->ChangeAnimation("c1100_RH_VerticalSlash");
 }
 void Monster_HollowSoldier_RoundShield::State_Attack3_Update(float _Delta)
@@ -1276,6 +1282,7 @@ void Monster_HollowSoldier_RoundShield::State_Attack3_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Attack4_Start()
 {
+	ShieldCollision->Off();
 	MainRenderer->ChangeAnimation("c1100_TH_VerticalSlash");
 }
 void Monster_HollowSoldier_RoundShield::State_Attack4_Update(float _Delta)
@@ -1327,6 +1334,7 @@ void Monster_HollowSoldier_RoundShield::State_Attack4_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Attack5_Start()
 {
+	ShieldCollision->Off();
 	MainRenderer->ChangeAnimation("c1100_RH_TwinSlash");
 }
 void Monster_HollowSoldier_RoundShield::State_Attack5_Update(float _Delta)
@@ -1412,6 +1420,7 @@ void Monster_HollowSoldier_RoundShield::State_Attack5_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Attack6_Start()
 {
+	ShieldCollision->Off();
 	MainRenderer->ChangeAnimation("c1100_RH_Sting");
 }
 void Monster_HollowSoldier_RoundShield::State_Attack6_Update(float _Delta)
@@ -1646,6 +1655,7 @@ void Monster_HollowSoldier_RoundShield::State_Turn_Right_Twice1_Update(float _De
 
 void Monster_HollowSoldier_RoundShield::State_Turn_Left3_Start()
 {
+	ShieldCollision->On();
 	MainRenderer->ChangeAnimation("c1100_Turn_Left3");
 }
 void Monster_HollowSoldier_RoundShield::State_Turn_Left3_Update(float _Delta)
@@ -1663,6 +1673,7 @@ void Monster_HollowSoldier_RoundShield::State_Turn_Left3_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Turn_Right3_Start()
 {
+	ShieldCollision->On();
 	MainRenderer->ChangeAnimation("c1100_Turn_Right3");
 }
 void Monster_HollowSoldier_RoundShield::State_Turn_Right3_Update(float _Delta)
@@ -1680,6 +1691,7 @@ void Monster_HollowSoldier_RoundShield::State_Turn_Right3_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Turn_Left_Twice3_Start()
 {
+	ShieldCollision->On();
 	MainRenderer->ChangeAnimation("c1100_Turn_Left_Twice3");
 }
 void Monster_HollowSoldier_RoundShield::State_Turn_Left_Twice3_Update(float _Delta)
@@ -1697,6 +1709,7 @@ void Monster_HollowSoldier_RoundShield::State_Turn_Left_Twice3_Update(float _Del
 
 void Monster_HollowSoldier_RoundShield::State_Turn_Right_Twice3_Start()
 {
+	ShieldCollision->On();
 	MainRenderer->ChangeAnimation("c1100_Turn_Right_Twice3");
 }
 void Monster_HollowSoldier_RoundShield::State_Turn_Right_Twice3_Update(float _Delta)
@@ -1733,6 +1746,7 @@ void Monster_HollowSoldier_RoundShield::State_Guard_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_GuardBreak_Start()
 {
+	ShieldCollision->Off();
 	Hit.SetHit(false);
 	Hit.SetGuardSuccesss(false);
 	SetFlag(Enum_ActorFlag::Guarding, false);
@@ -1753,6 +1767,7 @@ void Monster_HollowSoldier_RoundShield::State_GuardBreak_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_AttackFail_Start()
 {
+	ShieldCollision->Off();
 	Hit.SetHit(false);
 	Sword.Off();
 	Sword.ResetRecord();
@@ -1772,6 +1787,7 @@ void Monster_HollowSoldier_RoundShield::State_AttackFail_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Parrying_Start()
 {
+	ShieldCollision->Off();
 	Hit.SetHit(false);
 	Sword.Off();
 	Sword.ResetRecord();
@@ -1794,10 +1810,12 @@ void Monster_HollowSoldier_RoundShield::State_Parrying_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Hit_Front_Start()
 {
+	ShieldCollision->Off();
 	Hit.SetHit(false);
 	Sword.Off();
 	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Hit_Front");
+	MainRenderer->ChangeCurFrame(0);
 }
 void Monster_HollowSoldier_RoundShield::State_Hit_Front_Update(float _Delta)
 {
@@ -1813,10 +1831,12 @@ void Monster_HollowSoldier_RoundShield::State_Hit_Front_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Hit_Back_Start()
 {
+	ShieldCollision->Off();
 	Hit.SetHit(false);
 	Sword.Off();
 	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Hit_Back");
+	MainRenderer->ChangeCurFrame(0);
 }
 void Monster_HollowSoldier_RoundShield::State_Hit_Back_Update(float _Delta)
 {
@@ -1832,10 +1852,12 @@ void Monster_HollowSoldier_RoundShield::State_Hit_Back_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Hit_Left_Start()
 {
+	ShieldCollision->Off();
 	Hit.SetHit(false);
 	Sword.Off();
 	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Hit_Left");
+	MainRenderer->ChangeCurFrame(0);
 }
 void Monster_HollowSoldier_RoundShield::State_Hit_Left_Update(float _Delta)
 {
@@ -1851,10 +1873,12 @@ void Monster_HollowSoldier_RoundShield::State_Hit_Left_Update(float _Delta)
 
 void Monster_HollowSoldier_RoundShield::State_Hit_Right_Start()
 {
+	ShieldCollision->Off();
 	Hit.SetHit(false);
 	Sword.Off();
 	Sword.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Hit_Right");
+	MainRenderer->ChangeCurFrame(0);
 }
 void Monster_HollowSoldier_RoundShield::State_Hit_Right_Update(float _Delta)
 {

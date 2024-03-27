@@ -546,6 +546,7 @@ void Monster_HollowSoldier_Spear::State_Idle2_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Idle3_Start()
 {
+	ShieldCollision->On();
 	MainRenderer->ChangeAnimation("c1100_Spear_Idle3");
 }
 void Monster_HollowSoldier_Spear::State_Idle3_Update(float _Delta)
@@ -670,6 +671,7 @@ void Monster_HollowSoldier_Spear::State_Idle1ToIdle2_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Idle2ToIdle3_Start()
 {
+	ShieldCollision->On();
 	MainRenderer->ChangeAnimation("c1100_Spear_Idle2ToIdle3");
 }
 void Monster_HollowSoldier_Spear::State_Idle2ToIdle3_Update(float _Delta)
@@ -687,6 +689,7 @@ void Monster_HollowSoldier_Spear::State_Idle2ToIdle3_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Idle3ToIdle2_Start()
 {
+	ShieldCollision->Off();
 	MainRenderer->ChangeAnimation("c1100_Spear_Idle3ToIdle2");
 }
 void Monster_HollowSoldier_Spear::State_Idle3ToIdle2_Update(float _Delta)
@@ -770,6 +773,7 @@ void Monster_HollowSoldier_Spear::State_Walk_Right2_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Walk_Front3_Start()
 {
+	ShieldCollision->On();
 	MainRenderer->ChangeAnimation("c1100_Spear_Walk_Front3");
 }
 void Monster_HollowSoldier_Spear::State_Walk_Front3_Update(float _Delta)
@@ -808,6 +812,7 @@ void Monster_HollowSoldier_Spear::State_Walk_Front3_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Walk_Back3_Start()
 {
+	ShieldCollision->On();
 	WalkToChangeTime = ContentsRandom::Randomfloat(1.05f, 3.15f);
 	MainRenderer->ChangeAnimation("c1100_Spear_Walk_Back3");
 }
@@ -834,6 +839,7 @@ void Monster_HollowSoldier_Spear::State_Walk_Back3_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Walk_Left3_Start()
 {
+	ShieldCollision->On();
 	WalkToChangeTime = ContentsRandom::Randomfloat(1.05f, 3.15f);
 	MainRenderer->ChangeAnimation("c1100_Spear_Walk_Left3");
 }
@@ -866,6 +872,7 @@ void Monster_HollowSoldier_Spear::State_Walk_Left3_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Walk_Right3_Start()
 {
+	ShieldCollision->On();
 	WalkToChangeTime = ContentsRandom::Randomfloat(1.05f, 3.15f);
 	MainRenderer->ChangeAnimation("c1100_Spear_Walk_Right3");
 }
@@ -901,6 +908,7 @@ void Monster_HollowSoldier_Spear::State_Run_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Run3_Start()
 {
+	ShieldCollision->On();
 	WalkToChangeTime = ContentsRandom::Randomfloat(0.8f, 1.6f);
 	MainRenderer->ChangeAnimation("c1100_Spear_Run3");
 }
@@ -941,6 +949,7 @@ void Monster_HollowSoldier_Spear::State_Run3_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Attack1_Start()
 {
+	ShieldCollision->Off();
 	// Pike1
 	MainRenderer->ChangeAnimation("c1100_Spear_Pike1");
 }
@@ -993,6 +1002,7 @@ void Monster_HollowSoldier_Spear::State_Attack1_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Attack2_Start()
 {
+	ShieldCollision->Off();
 	// Pike1 - Pike2
 	MainRenderer->ChangeAnimation("c1100_Spear_Pike1");
 }
@@ -1089,6 +1099,7 @@ void Monster_HollowSoldier_Spear::State_Attack2_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Attack3_Start()
 {
+	ShieldCollision->Off();
 	// Pike1 - Swing	
 	MainRenderer->ChangeAnimation("c1100_Spear_Pike1");
 }
@@ -1189,6 +1200,7 @@ void Monster_HollowSoldier_Spear::State_Attack3_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Attack4_Start()
 {
+	ShieldCollision->Off();
 	// StepAndPike
 	MainRenderer->ChangeAnimation("c1100_Spear_StepAndPike");
 }
@@ -1241,6 +1253,7 @@ void Monster_HollowSoldier_Spear::State_Attack4_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Attack5_Start()
 {
+	ShieldCollision->Off();
 	// Swing
 	MainRenderer->ChangeAnimation("c1100_Spear_Swing");
 }
@@ -1293,6 +1306,7 @@ void Monster_HollowSoldier_Spear::State_Attack5_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Attack6_Start()
 {
+	ShieldCollision->Off();
 	// Swing - Pike1
 	MainRenderer->ChangeAnimation("c1100_Spear_Swing");
 }
@@ -1393,6 +1407,7 @@ void Monster_HollowSoldier_Spear::State_Attack6_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_RunToPike_Start()
 {
+	ShieldCollision->Off();
 	MainRenderer->ChangeAnimation("c1100_Spear_RunToPike");
 }
 void Monster_HollowSoldier_Spear::State_RunToPike_Update(float _Delta)
@@ -1562,6 +1577,7 @@ void Monster_HollowSoldier_Spear::State_Turn_Right_Twice1_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Turn_Left3_Start()
 {
+	ShieldCollision->On();
 	MainRenderer->ChangeAnimation("c1100_Spear_Turn_Left3");
 }
 void Monster_HollowSoldier_Spear::State_Turn_Left3_Update(float _Delta)
@@ -1579,6 +1595,7 @@ void Monster_HollowSoldier_Spear::State_Turn_Left3_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Turn_Right3_Start()
 {
+	ShieldCollision->On();
 	MainRenderer->ChangeAnimation("c1100_Spear_Turn_Right3");
 }
 void Monster_HollowSoldier_Spear::State_Turn_Right3_Update(float _Delta)
@@ -1596,6 +1613,7 @@ void Monster_HollowSoldier_Spear::State_Turn_Right3_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Turn_Left_Twice3_Start()
 {
+	ShieldCollision->On();
 	MainRenderer->ChangeAnimation("c1100_Spear_Turn_Left_Twice3");
 }
 void Monster_HollowSoldier_Spear::State_Turn_Left_Twice3_Update(float _Delta)
@@ -1613,6 +1631,7 @@ void Monster_HollowSoldier_Spear::State_Turn_Left_Twice3_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Turn_Right_Twice3_Start()
 {
+	ShieldCollision->On();
 	MainRenderer->ChangeAnimation("c1100_Spear_Turn_Right_Twice3");
 }
 void Monster_HollowSoldier_Spear::State_Turn_Right_Twice3_Update(float _Delta)
@@ -1648,6 +1667,7 @@ void Monster_HollowSoldier_Spear::State_Guard_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_GuardBreak_Start()
 {
+	ShieldCollision->Off();
 	Hit.SetHit(false);
 	Hit.SetGuardSuccesss(false);
 	SetFlag(Enum_ActorFlag::Guarding, false);
@@ -1668,6 +1688,7 @@ void Monster_HollowSoldier_Spear::State_GuardBreak_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_AttackFail_Start()
 {
+	ShieldCollision->Off();
 	Hit.SetHit(false);
 	Spear.Off();
 	Spear.ResetRecord();
@@ -1687,6 +1708,7 @@ void Monster_HollowSoldier_Spear::State_AttackFail_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Parrying_Start()
 {
+	ShieldCollision->Off();
 	Hit.SetHit(false);
 	Spear.Off();
 	Spear.ResetRecord();
@@ -1709,10 +1731,12 @@ void Monster_HollowSoldier_Spear::State_Parrying_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Hit_Front_Start()
 {
+	ShieldCollision->Off();
 	Hit.SetHit(false);
 	Spear.Off();
 	Spear.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Spear_Hit_Front");
+	MainRenderer->ChangeCurFrame(0);
 }
 void Monster_HollowSoldier_Spear::State_Hit_Front_Update(float _Delta)
 {
@@ -1728,10 +1752,12 @@ void Monster_HollowSoldier_Spear::State_Hit_Front_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Hit_Back_Start()
 {
+	ShieldCollision->Off();
 	Hit.SetHit(false);
 	Spear.Off();
 	Spear.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Spear_Hit_Back");
+	MainRenderer->ChangeCurFrame(0);
 }
 void Monster_HollowSoldier_Spear::State_Hit_Back_Update(float _Delta)
 {
@@ -1747,10 +1773,12 @@ void Monster_HollowSoldier_Spear::State_Hit_Back_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Hit_Left_Start()
 {
+	ShieldCollision->Off();
 	Hit.SetHit(false);
 	Spear.Off();
 	Spear.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Spear_Hit_Left");
+	MainRenderer->ChangeCurFrame(0);
 }
 void Monster_HollowSoldier_Spear::State_Hit_Left_Update(float _Delta)
 {
@@ -1766,10 +1794,12 @@ void Monster_HollowSoldier_Spear::State_Hit_Left_Update(float _Delta)
 
 void Monster_HollowSoldier_Spear::State_Hit_Right_Start()
 {
+	ShieldCollision->Off();
 	Hit.SetHit(false);
 	Spear.Off();
 	Spear.ResetRecord();
 	MainRenderer->ChangeAnimation("c1100_Spear_Hit_Right");
+	MainRenderer->ChangeCurFrame(0);
 }
 void Monster_HollowSoldier_Spear::State_Hit_Right_Update(float _Delta)
 {
