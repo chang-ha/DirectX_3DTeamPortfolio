@@ -13,8 +13,8 @@
 #define BOSS_ATT 10
 
 // Camera Shake
-#define CAMERA_MAGNITUDE 0.3f
-#define CAMERA_SHAKE_TIME 0.05f
+#define CAMERA_MAGNITUDE 0.5f
+#define CAMERA_SHAKE_TIME 0.08f
 #define CAMERA_SHAKE_DURATION 1.f
 
 void Boss_Vordt::FrameEventInit()

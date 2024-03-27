@@ -16,7 +16,8 @@ std::shared_ptr<GameEngineLevel> GameEngineCore::CurLevel;
 std::shared_ptr<GameEngineLevel> GameEngineCore::NextLevel;
 std::map<std::string, std::shared_ptr<GameEngineLevel>> GameEngineCore::AllLevel;
 
-#define MAX_FRAME_TIME 1.f/30.f
+float GameEngineCore::PrevSleepTime = 0.0f;
+int GameEngineCore::LimitFrame = 0;
 
 GameEngineCore::GameEngineCore() 
 {
@@ -30,6 +31,7 @@ void GameEngineCore::Start()
 {
 	GameEngineGUI::Start();
 	CoreObject->Start();
+	SetLimitFrame(120);
 }
 
 void GameEngineCore::Update() 
@@ -57,18 +59,12 @@ void GameEngineCore::Update()
 
 	MainTime.Update();
 	float DeltaTime = MainTime.GetDeltaTime();
+	FrameLimit(DeltaTime);
 
-	if (DeltaTime > 1.0f / 30.0f)
-	{
-		DeltaTime = 1.0f / 30.0f;
-	}	
-	else if (DeltaTime < MAX_FRAME_TIME)
-	{
-		float DiffTime = MAX_FRAME_TIME - DeltaTime;
-		DWORD SleepTime = static_cast<unsigned long>(DiffTime * 1000);
-		Sleep(SleepTime); // 1000 = 1s
-		// DeltaTime += (static_cast<float>(SleepTime) / 1000.f);
-	}
+	//if (DeltaTime > 1.0f / 30.0f)
+	//{
+	//	DeltaTime = 1.0f / 30.0f;
+	//}
 
 	GameEngineSound::Update();
 	CoreObject->Update(DeltaTime);
@@ -144,8 +140,29 @@ void GameEngineCore::EngineProcess(HINSTANCE _Inst, const std::string& _WindowNa
 void GameEngineCore::LevelInit(std::shared_ptr<GameEngineLevel> _Level, std::string_view _Name)
 {
 	_Level->SetName(_Name);
-
-
-
 	_Level->Start();
+}
+
+void GameEngineCore::FrameLimit(float& _Delta)
+{
+	if (0 == LimitFrame)
+	{
+		return;
+	}
+
+	_Delta -= PrevSleepTime;
+
+	DWORD SleepTime = 0;
+	float fSleepTime = 0.f;
+	float Max_Frame = 1.0f / LimitFrame;
+	if (_Delta < Max_Frame)
+	{
+		float DiffTime = Max_Frame - _Delta;
+		SleepTime = static_cast<unsigned long>(DiffTime * 1000);
+		Sleep(SleepTime); // 1000 = 1s
+		fSleepTime = (static_cast<float>(SleepTime) / 1000.f);
+		_Delta += fSleepTime;
+	}
+
+	PrevSleepTime = fSleepTime;
 }

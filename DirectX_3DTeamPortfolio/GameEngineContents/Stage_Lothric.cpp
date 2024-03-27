@@ -76,6 +76,7 @@ void Stage_Lothric::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	ResLoading();
 	LevelState.ChangeState(Enum_LevelState::Play);
+	GameEngineCore::SetLimitFrame(30);
 }
 
 void Stage_Lothric::LevelEnd(GameEngineLevel* _NextLevel)

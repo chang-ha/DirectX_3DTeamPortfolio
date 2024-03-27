@@ -653,9 +653,9 @@ void Boss_Vordt::Start()
 		MainRenderer->SetRootMotion("Rush&Hit&Turn&Rush", "", Enum_RootMotionMode::RealTimeDir); // 
 
 		MainRenderer->SetAllRootMotionMoveRatio(0.8f, 0.8f, 0.8f);
-		MainRenderer->SetRootMotionMoveRatio("Walk_Front", 0.8f, 0.8f, 2.5f);
-		MainRenderer->SetRootMotionMoveRatio("Walk_Left", 2.5f, 0.8f, 0.8f);
-		MainRenderer->SetRootMotionMoveRatio("Walk_Right", 2.5f, 0.8f, 0.8f);
+		MainRenderer->SetRootMotionMoveRatio("Walk_Front", 0.6f, 0.6f, 1.5f);
+		MainRenderer->SetRootMotionMoveRatio("Walk_Left", 1.5f, 0.6f, 0.6f);
+		MainRenderer->SetRootMotionMoveRatio("Walk_Right", 1.5f, 0.6f, 0.6f);
 
 		//////// Blend
 		MainRenderer->SetBlendTime("Breath", 10);

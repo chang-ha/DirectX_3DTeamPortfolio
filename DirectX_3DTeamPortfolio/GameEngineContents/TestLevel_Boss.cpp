@@ -25,6 +25,7 @@ void TestLevel_Boss::LevelStart(GameEngineLevel* _PrevLevel)
 		// Boss_Object->Transform.SetWorldPosition({ -1000.f, -2450.f, 3000.f });
 		Boss_Object->Transform.SetWorldPosition({ 0.f, 0.f, 0.f});
 		Boss_Object->Transform.SetWorldRotation({0.f, 180.f, 0.f});
+		Boss_Object->AI_Start();
 	}
 
 	// Light

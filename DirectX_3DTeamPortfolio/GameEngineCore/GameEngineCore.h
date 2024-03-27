@@ -99,6 +99,11 @@ public:
 		Net = _Net;
 	}
 
+	static void SetLimitFrame(int _Frame)
+	{
+		LimitFrame = _Frame;
+	}
+
 protected:
 
 private:
@@ -120,7 +125,10 @@ private:
 	static void Release();
 
 	static void Resources_Release();
-	
+
+	static int LimitFrame;
+	static float PrevSleepTime;
+	static void FrameLimit(float& _Delta);
 
 
 };
