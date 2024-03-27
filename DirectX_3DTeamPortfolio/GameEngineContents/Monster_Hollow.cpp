@@ -1741,8 +1741,8 @@ void Monster_Hollow::SettingSoundFrameEvent()
 		{
 			//999999991
 			// kill_successx2
-			//GameEngineSound::Sound3DPlay("kill-successx2.wav", Transform.GetWorldPosition());
-			GameEngineSound::Sound3DPlay("kill-chance.wav", Transform.GetWorldPosition());
+			GameEngineSound::Sound3DPlay("kill-successx2.wav", Transform.GetWorldPosition());
+			//GameEngineSound::Sound3DPlay("kill-chance.wav", Transform.GetWorldPosition());
 		});
 
 	MainRenderer->SetFrameEvent("c1100_Parrying", 10, [&](GameContentsFBXRenderer* _Renderer)
@@ -3141,8 +3141,8 @@ void Monster_Hollow::SettingSoundFrameEvent()
 		{
 			//999999991
 			// kill_successx2
-			//GameEngineSound::Sound3DPlay("kill-successx2.wav", Transform.GetWorldPosition());
-			GameEngineSound::Sound3DPlay("kill-chance.wav", Transform.GetWorldPosition());
+			GameEngineSound::Sound3DPlay("kill-successx2.wav", Transform.GetWorldPosition());
+			//GameEngineSound::Sound3DPlay("kill-chance.wav", Transform.GetWorldPosition());
 		});
 
 	MainRenderer->SetFrameEvent("c1100_Spear_Parrying", 10, [&](GameContentsFBXRenderer* _Renderer)
