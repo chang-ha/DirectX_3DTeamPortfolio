@@ -19,6 +19,7 @@ public:
 
 	void ResLoading();
 	void ResetLoading();
+	void EndingCheck();
 
 	static bool ResLoadingDone;
 	static bool ResetLoadingDone;
@@ -75,6 +76,7 @@ private:
 	std::shared_ptr<class MainUIActor> MainUI;
 	std::shared_ptr<class UILocationAlert> UILot;
 	std::shared_ptr<class GameEngineActor> BlackScreen;
+	bool Ending = false;
 
 	float BossBGMVolume = BEGIN_BOSS_BGM_VOLUME;
 	GameEngineSoundPlayer BossBGM;
@@ -160,6 +162,19 @@ private:
 	void Update_BossStage_Ready(float _Delta, GameEngineState* _Parent);
 	void Update_BossStage_Fight(float _Delta, GameEngineState* _Parent);
 	void Update_BossStage_Clear(float _Delta, GameEngineState* _Parent);
+
+	enum class Enum_EndingState
+	{
+		FadeOut,
+		Ending,
+	};
+
+	GameEngineState EndState;
+
+	void Start_EndingState_EndingStart(GameEngineState* _Parent);
+	void Start_EndingState_EndingEnd(GameEngineState* _Parent);
+
+	void Update_EndingState_EndingStart(float _Delta, GameEngineState* _Parent);
 
 };
 

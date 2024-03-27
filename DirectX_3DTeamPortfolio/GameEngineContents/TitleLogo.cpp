@@ -25,6 +25,33 @@ TitleLogo::~TitleLogo()
 
 void TitleLogo::Start()
 {
+	if (nullptr == GameEngineSprite::Find("BanDaiNaco_Logo.png"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources");
+		Dir.MoveChild("UITexture");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pFiles : Files)
+		{
+			GameEngineTexture::Load(pFiles.GetStringPath());
+			GameEngineSprite::CreateSingle(pFiles.GetFileName());
+		}
+	}
+
+	if (nullptr == GameEngineSprite::Find("DarkSoulsIII_Main_Menu_Theme.wav"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources\\Sound\\UI");
+
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pFiles : Files)
+		{
+			GameEngineSound::SoundLoad(pFiles.GetStringPath());
+		}
+	}
+
 	float4 WindowScale = GameEngineCore::MainWindow.GetScale();
 
 	BanDaiNamco_Logo = CreateComponent<GameEngineSpriteRenderer>(Enum_RenderOrder::UI);
@@ -82,6 +109,9 @@ void TitleLogo::Start()
 	AnyButtonState.Stay = std::bind(&TitleLogo::Update_AnyButton, this, std::placeholders::_1, std::placeholders::_2);
 	AnyButtonState.End = std::bind(&TitleLogo::End_AnyButton, this, std::placeholders::_1);
 
+	CreateStateParameter EndLogoState;
+	EndLogoState.Stay = std::bind(&TitleLogo::Update_EndLogo, this, std::placeholders::_1, std::placeholders::_2);
+	EndLogoState.End = std::bind(&TitleLogo::End_EndLogo, this, std::placeholders::_1);
 
 	CreateStateParameter DoneState;
 	DoneState.Start = std::bind(&TitleLogo::Start_Done, this, std::placeholders::_1);
@@ -91,6 +121,7 @@ void TitleLogo::Start()
 	Logostate.CreateState(eLogoState::FromSoft, FromSoftState);
 	Logostate.CreateState(eLogoState::DarkSoul, DarkSoulState);
 	Logostate.CreateState(eLogoState::AnyButton, AnyButtonState);
+	Logostate.CreateState(eLogoState::EndLogo, EndLogoState);
 	Logostate.CreateState(eLogoState::Done, DoneState);
 
 
@@ -132,11 +163,13 @@ void TitleLogo::ButtonCreate()
 	ButtonFont.reserve(2);
 	for (int i = 0; i < ButtonFont.capacity(); i++)
 	{
+		std::shared_ptr<GameEngineActor> ButtonActor = GetLevel()->CreateActor<GameEngineActor>(Enum_UpdateOrder::UI);
+
 		std::shared_ptr<GameEngineUIRenderer> Button = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_Font);
 		Button->SetText(GlobalValue::OptimusFont, "버튼 이름", FontScale, float4::WHITE, FW1_CENTER);
 		Button->Transform.SetLocalPosition(float4(0.0f, ButtonFontStartYPos - (i * ButtonYDistance)));
 		Button->Off();
-		ButtonFont.push_back(Button);
+		ButtonFont.push_back(ButtonActor, Button);
 	}
 
 	ButtonFont[GameStart]->ChangeText("START BUTTON");
@@ -220,12 +253,22 @@ void TitleLogo::Update_AnyButton(float _Delta, GameEngineState* _State)
 
 	if (FontScale >= 25.0f)
 	{
+		GameEngineCore::ChangeLevel("Stage_Lothric");
 		_State->ChangeState(eLogoState::Done);
 		ButtonState.ChangeState(eButtonState::BStart);
 		return;
 	}
 }
 
+void TitleLogo::Update_EndLogo(float _Delta, GameEngineState* _State)
+{
+	DarkSouls_Logo->GetColorData().MulColor.A += _Delta * 0.5f;
+	if (_State->GetStateTime() >= LogoChangeTime)
+	{
+		_State->ChangeState(eLogoState::AnyButton);
+		return;
+	}
+}
 
 
 
@@ -248,6 +291,12 @@ void TitleLogo::End_DarkSoul(GameEngineState* _State)
 void TitleLogo::End_AnyButton(GameEngineState* _State)
 {
 	AnyButtonFont->Off();
+	FontScale = 20.0f;
+	AnyButtonFont->ChangeFontScale(FontScale);
+}
+void TitleLogo::End_EndLogo(GameEngineState* _State)
+{
+	
 }
 
 void TitleLogo::Start_Done(GameEngineState* _State)
@@ -255,10 +304,29 @@ void TitleLogo::Start_Done(GameEngineState* _State)
 
 }
 
-void Update_BanDai(float _Delta, GameEngineState* _State);
-void Update_BanDai(float _Delta, GameEngineState* _State);
-void End_BanDai(GameEngineState* _State);
-void End_FromSoft(GameEngineState* _State);
+
+
+
+
+
+// 버튼 State
+void TitleLogo::Update_BStart(float _Delta, GameEngineState* _State)
+{
+	ButtonFont[GameStart]->On();
+	ButtonFont[GameExit]->On();
+}
+void TitleLogo::Update_BExit(float _Delta, GameEngineState* _State)
+{
+
+}
+void TitleLogo::End_BStart(GameEngineState* _State)
+{
+
+}
+void TitleLogo::End_BExit(GameEngineState* _State)
+{
+
+}
 
 //AnyButtonBack->Transform.SetLocalPosition(float4(0.0f, -92.5f));
 //ButtonFont[0]->On();
@@ -270,13 +338,7 @@ void End_FromSoft(GameEngineState* _State);
 void TitleLogo::Ending()
 {
 	Logostate.ChangeState(eLogoState::EndLogo);
-
 }
-
-
-
-
-
 
 void TitleLogo::SkipButton(GameEngineState* _State, eLogoState _StateName)
 {

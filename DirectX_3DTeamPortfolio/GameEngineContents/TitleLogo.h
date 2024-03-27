@@ -52,20 +52,22 @@ protected:
 	void Update_FromSoft(float _Delta, GameEngineState* _State);
 	void Update_DarkSoul(float _Delta, GameEngineState* _State);
 	void Update_AnyButton(float _Delta, GameEngineState* _State);
+	void Update_EndLogo(float _Delta, GameEngineState* _State);
 
 	void End_BanDai(GameEngineState* _State);
 	void End_FromSoft(GameEngineState* _State);
 	void End_DarkSoul(GameEngineState* _State);
 	void End_AnyButton(GameEngineState* _State);
+	void End_EndLogo(GameEngineState* _State);
 
 	void Start_Done(GameEngineState* _State);
 
 	// ¹öÆ° State
-	void Update_BanDai(float _Delta, GameEngineState* _State);
-	void Update_BanDai(float _Delta, GameEngineState* _State);
+	void Update_BStart(float _Delta, GameEngineState* _State);
+	void Update_BExit(float _Delta, GameEngineState* _State);
 
-	void End_BanDai(GameEngineState* _State);
-	void End_FromSoft(GameEngineState* _State);
+	void End_BStart(GameEngineState* _State);
+	void End_BExit(GameEngineState* _State);
 
 private:
 	std::shared_ptr<class GameEngineSpriteRenderer> DarkBack = nullptr;
@@ -79,7 +81,7 @@ private:
 
 	void SkipButton(GameEngineState* _State, eLogoState _StateName); // E
 	void ButtonCreate();
-	std::vector<std::shared_ptr<class GameEngineUIRenderer>> ButtonFont;
+	std::vector<std::shared_ptr<GameEngineActor>, std::shared_ptr<class GameEngineUIRenderer>> ButtonFont;
 	std::shared_ptr<GameEngineUIRenderer> UtilRender;
 
 	float FontScale = 20.0f;

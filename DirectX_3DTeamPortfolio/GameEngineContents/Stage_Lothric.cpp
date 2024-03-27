@@ -56,6 +56,8 @@
 #include "MainUIActor.h"
 #include "UILocationAlert.h"
 
+#include "TitleLevel.h"
+
 // Effect
 #include "AllFadeEffect.h"
 
@@ -87,6 +89,19 @@ void Stage_Lothric::LevelEnd(GameEngineLevel* _NextLevel)
 	}
 
 	BossStageState.ChangeState(Enum_BossStageState::Ready);
+
+	BossBGMEnd();
+
+	if (Ending == true)
+	{
+		Ending = false;
+		std::shared_ptr<TitleLevel> EndingLevel = _NextLevel->GetDynamic_Cast_This<TitleLevel>();
+		if (EndingLevel == nullptr)
+		{
+			return;
+		}
+		EndingLevel->LevelEnding();
+	}
 }
 
 void Stage_Lothric::Start()
@@ -1726,3 +1741,13 @@ void Stage_Lothric::BossBGMEnd()
 
 	BossBGM.Stop();
 }
+
+void Stage_Lothric::EndingCheck()
+{
+	if (true == Boss_Object->IsFlag(Enum_ActorFlag::Death))
+	{
+		Ending = true;
+		GameEngineCore::ChangeLevel("TitleLevel");
+	}
+}
+
