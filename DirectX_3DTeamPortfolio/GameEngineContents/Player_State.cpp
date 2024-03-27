@@ -2842,6 +2842,7 @@ void Player::Player_State()
 				Hit.SetHit(false);
 				
 				
+				Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
 
 				if (Rock_On_Check == true)
 				{
@@ -2941,6 +2942,9 @@ void Player::Player_State()
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
 			{
 				Hit.SetHit(false);
+				Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
+
+				
 
 				if (Rock_On_Check == true)
 				{
@@ -4068,6 +4072,11 @@ void Player::SoundFrameEvent()
 		{
 			GameEngineSound::Sound3DPlay("p_damage2.wav", BoneWorldPos(0), 0.8f);
 		});
+	MainRenderer->SetFrameEvent("String_Hit_Behind", 1, [&](GameContentsFBXRenderer* _Renderer)
+		{
+			GameEngineSound::Sound3DPlay("p_damage2.wav", BoneWorldPos(0), 0.8f);
+		});
+
 	MainRenderer->SetFrameEvent("Hit_Down", 1, [&](GameContentsFBXRenderer* _Renderer)
 		{
 			GameEngineSound::Sound3DPlay("p_damage2.wav", BoneWorldPos(0), 0.8f);

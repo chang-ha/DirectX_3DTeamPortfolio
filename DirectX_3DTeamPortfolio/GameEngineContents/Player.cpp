@@ -703,6 +703,15 @@ void Player::Start()
 
 void Player::Update(float _Delta)
 {
+	if (GameEngineInput::IsDown('M',this))
+	{
+		PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);
+	}
+	if (GameEngineInput::IsDown('B', this))
+	{
+		PlayerStates.ChangeState(PlayerState::Backward_Big_Hit);
+	}
+
 	//Shield_Col->On();
 	float4 revolution = float4::VectorRotationToDegY(float4{ 0.0f, 150.0f, 50.0f }, Transform.GetWorldRotationEuler().Y);
 
