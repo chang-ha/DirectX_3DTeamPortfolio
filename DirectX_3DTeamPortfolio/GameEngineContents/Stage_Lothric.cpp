@@ -102,6 +102,8 @@ void Stage_Lothric::LevelEnd(GameEngineLevel* _NextLevel)
 		}
 		EndingLevel->LevelEnding();
 	}
+
+	BossStageState.ChangeState(Enum_EndingState::Ready);
 }
 
 void Stage_Lothric::Start()
