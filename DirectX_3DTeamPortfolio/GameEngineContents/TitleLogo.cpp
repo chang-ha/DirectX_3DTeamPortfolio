@@ -3,6 +3,7 @@
 
 #include "MainUIActor.h"
 #include "TitleButton.h"
+#include "LoadingLevel.h"
 
 TitleLogo::TitleLogo()
 {
@@ -174,7 +175,8 @@ void TitleLogo::ButtonCreate()
 	ButtonActor->ChangeButtonText(GameStart, "GAME START");
 	ButtonActor->ChangeButtonText(GameExit, "GAME EXIT");
 
-	Buttons[GameStart]->SetButtonFunction([=]() { GameEngineCore::ChangeLevel("Stage_Lothric"); });
+	Buttons[GameStart]->SetButtonFunction([=]() { LoadingLevel::LoadingFlag = Enum_LevelFlag::Loading_Resouce;
+	GameEngineCore::ChangeLevel("LoadingLevel"); });
 	Buttons[GameExit]->SetButtonFunction([=]() {GameEngineCore::MainWindow.WindowLoopOff(); });
 }
 
