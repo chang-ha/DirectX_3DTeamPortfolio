@@ -156,6 +156,10 @@ void Stage_Lothric::PlayUpdate(float _Delta)
 //////////////////////////////////////// 몬스터 배치
 void Stage_Lothric::SetAllMonster()
 {
+	if (false == AllMonster.empty())
+	{
+		return;
+	}
 	////// Area0
 	// 0
 	{
@@ -434,6 +438,11 @@ void Stage_Lothric::AllMonsterOff()
 
 void Stage_Lothric::SetAllEvCol()
 {
+	if (false == AllEvCol.empty())
+	{
+		return;
+	}
+
 	{
 		std::shared_ptr<EventCol> EventCollision = CreateActor<EventCol>(Enum_UpdateOrder::Player, "EventCollision");
 		EventCollision->SetWorldPosition({ -1885.0f, 5015.0f, -3987.0f });
@@ -1623,7 +1632,7 @@ void Stage_Lothric::ResLoading()
 		Player_Object->SetWorldPosition({ -2800.f, -2500.f, 6700.f });
 		// 안개 테스트 위치 
 		// Player_Object->SetWorldPosition({ -3417.f, -2552.f, 7606.f });
-		
+
 		// 테스트 위치
 		//Player_Object->SetWorldPosition({ -8011.0f, 907.0f, 3547.0f });
 		// 

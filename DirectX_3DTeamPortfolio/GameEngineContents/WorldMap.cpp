@@ -79,25 +79,25 @@ void WorldMap::Start()
 	{
 		// WindSound 0备开
 		//(float4{ -6715.0f, 4840.0f, 572.0f }, float4{ 50.0f,7000.0f });
-		WindSound0 = GameEngineSound::Sound3DPlay("fdp_m30#145 (s300220000).wav", { -6715.0f, 4840.0f, 572.0f }, 1.0f, 100, 50.0f, 25000.0f);
+		WindSound0 = GameEngineSound::Sound3DPlay("fdp_m30#145 (s300220000).wav", { -6715.0f, 4840.0f, 572.0f }, 1.0f, 500, 50.0f, 25000.0f);
 	}
 
 	{
 		// WindSound 1备开
 		//SetSoundCol(float4{ -11643.0f, 5000.0f, 505.0f }, float4{ 50.0f,7000.0f });
-		WindSound1 = GameEngineSound::Sound3DPlay("fdp_m30#146 (s300220000b).wav", { -11643.0f, 5000.0f, 505.0f }, 1.0f, 100, 50.0f, 25000.0f);
+		WindSound1 = GameEngineSound::Sound3DPlay("fdp_m30#146 (s300220000b).wav", { -11643.0f, 5000.0f, 505.0f }, 1.0f, 500, 50.0f, 25000.0f);
 	}
 
 	{
 		// WindSound 2备开
 		//SetSoundCol(float4{ -8460.0f, 500.0f, 1639.0f }, float4{ 50.0f,5000.0f });
-		WindSound2 = GameEngineSound::Sound3DPlay("fdp_m30#146 (s300220000b).wav", { -8460.0f, 500.0f, 1639.0f }, 1.0f, 100, 50.0f, 20000.0f);
+		WindSound2 = GameEngineSound::Sound3DPlay("fdp_m30#146 (s300220000b).wav", { -8460.0f, 500.0f, 1639.0f }, 1.0f, 500, 50.0f, 20000.0f);
 	}
 
 	{
 		// WindSound 3备开
 		//SetSoundCol(float4{ -7272.0f, 3610.0f, 8713.0f }, float4{ 50.0f,7000.0f });
-		WindSound3 = GameEngineSound::Sound3DPlay("fdp_m30#145 (s300220000).wav", { -7272.0f, 3610.0f, 8713.0f }, 1.0f, 100, 50.0f, 25000.0f);
+		WindSound3 = GameEngineSound::Sound3DPlay("fdp_m30#145 (s300220000).wav", { -7272.0f, 3610.0f, 8713.0f }, 1.0f, 500, 50.0f, 25000.0f);
 	}
 
 	//GameEngineSound::Sound3DPlay("1-06 Vordt Of The Boreal Valley.mp3", float4::ZERO, 1.0f, 10);
