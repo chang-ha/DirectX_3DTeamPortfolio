@@ -43,6 +43,11 @@ void GameEnginePhysXCapsule::Release()
 
 void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight, const physx::PxMaterial* _Material /*= GameEnginePhysX::GetDefaultMaterial()*/)
 {
+	if (nullptr != ComponentActor)
+	{
+		return;
+	}
+
 	// Before Init Set Transform
 	physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
 
