@@ -18,8 +18,7 @@ class TitleLogo : public GameEngineActor
 	enum class eButtonState
 	{
 		None,
-		BStart,
-		BExit,
+		ButtonActor,
 	};
 
 	enum ButtonType
@@ -46,8 +45,9 @@ protected:
 	void Update(float _Delta) override;
 	void Release() override;
 
-
 	// 로고 State
+	void Start_EndLogo(GameEngineState* _State);
+
 	void Update_BanDai(float _Delta, GameEngineState* _State);
 	void Update_FromSoft(float _Delta, GameEngineState* _State);
 	void Update_DarkSoul(float _Delta, GameEngineState* _State);
@@ -63,11 +63,12 @@ protected:
 	void Start_Done(GameEngineState* _State);
 
 	// 버튼 State
-	void Update_BStart(float _Delta, GameEngineState* _State);
-	void Update_BExit(float _Delta, GameEngineState* _State);
+	void Start_ButtonActor(GameEngineState* _State);
 
-	void End_BStart(GameEngineState* _State);
-	void End_BExit(GameEngineState* _State);
+	void Update_ButtonActor(float _Delta, GameEngineState* _State);
+
+	void End_ButtonActor(GameEngineState* _State);
+
 
 private:
 	std::shared_ptr<class GameEngineSpriteRenderer> DarkBack = nullptr;
@@ -79,10 +80,12 @@ private:
 	std::shared_ptr<class GameEngineSpriteRenderer> AnyButtonBack = nullptr;
 	std::shared_ptr<class GameEngineUIRenderer> AnyButtonFont;
 
-	void SkipButton(GameEngineState* _State, eLogoState _StateName); // E
 	void ButtonCreate();
-	std::vector<std::shared_ptr<GameEngineActor>, std::shared_ptr<class GameEngineUIRenderer>> ButtonFont;
-	std::shared_ptr<GameEngineUIRenderer> UtilRender;
+	void ButtonFlash(float _Delta, GameEngineState* _State);
+	void ButtonOperation();
+	void SkipButton(GameEngineState* _State, eLogoState _StateName); // E
+	std::vector<std::shared_ptr<class TitleButton>> Buttons;
+	std::shared_ptr<TitleButton> ButtonActor;
 
 	float FontScale = 20.0f;
 	bool AnyBack = false;

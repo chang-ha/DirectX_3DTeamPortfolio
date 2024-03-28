@@ -1,11 +1,8 @@
 #include "PreCompile.h"
 #include "TitleLogo.h"
 
-#include "LoadingLevel.h"
-
 #include "MainUIActor.h"
-
-#include "UI_Utils.h"
+#include "TitleButton.h"
 
 TitleLogo::TitleLogo()
 {
@@ -16,12 +13,6 @@ TitleLogo::~TitleLogo()
 {
 
 }
-
-#define ButtonFontStartYPos -84.0f
-#define ButtonYDistance 32.0f
-
-#define ButtonBackStartYPos -92.5f
-#define ButtonBackYDistance -32
 
 void TitleLogo::Start()
 {
@@ -131,10 +122,11 @@ void TitleLogo::Start()
 	ButtonCreate();
 
 	CreateStateParameter BStartButton;
+	BStartButton.Start = std::bind(&TitleLogo::Start_ButtonActor, this, std::placeholders::_1);
+	BStartButton.Stay = std::bind(&TitleLogo::Update_ButtonActor, this, std::placeholders::_1, std::placeholders::_2);
+	BStartButton.End = std::bind(&TitleLogo::End_ButtonActor, this, std::placeholders::_1);
 
-
-	/*UtilRender = AnyButtonBack;
-	UIHandler::Update(_Delta, UtilRender.get(), this);*/
+	ButtonState.CreateState(eButtonState::ButtonActor, BStartButton);
 }
 
 void TitleLogo::Update(float _Delta)
@@ -157,25 +149,34 @@ void TitleLogo::Release()
 
 }
 
+#define ButtonFontStartYPos -84.0f
+#define ButtonYDistance 32.0f
 // 버튼 만들기
+#include <stdlib.h>
 void TitleLogo::ButtonCreate()
 {
-	ButtonFont.reserve(2);
-	for (int i = 0; i < ButtonFont.capacity(); i++)
-	{
-		std::shared_ptr<GameEngineActor> ButtonActor = GetLevel()->CreateActor<GameEngineActor>(Enum_UpdateOrder::UI);
+	Buttons.reserve(2);
+	ButtonActor = CreateComponent<TitleButton>(Enum_UpdateOrder::UI);
+	ButtonActor->CreateButton(2);
 
-		std::shared_ptr<GameEngineUIRenderer> Button = CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_Font);
-		Button->SetText(GlobalValue::OptimusFont, "버튼 이름", FontScale, float4::WHITE, FW1_CENTER);
-		Button->Transform.SetLocalPosition(float4(0.0f, ButtonFontStartYPos - (i * ButtonYDistance)));
-		Button->Off();
-		ButtonFont.push_back(ButtonActor, Button);
+	for (int i = 0; i < Buttons.capacity(); i++)
+	{
+		//std::shared_ptr<TitleButton> TButton = CreateComponent<TitleButton>(Enum_UpdateOrder::UI);
+		
+		/*std::shared_ptr<GameEngineUIRenderer> Button = CreateComponent<GameEngineUIRenderer>(Enum_UpdateOrder::UI);
+		Button->SetText(GlobalValue::OptimusFont, "GAME START", FontScale, float4::WHITE, FW1_CENTER);
+		Button->Transform.SetLocalPosition(float4(0.0f, ButtonFontStartYPos - (ButtonYDistance * i)));*/
+		
+		//Buttons.push_back(TButton);
+		Buttons.push_back(ButtonActor);
 	}
 
-	ButtonFont[GameStart]->ChangeText("START BUTTON");
-	ButtonFont[GameExit]->ChangeText("EXIT BUTTON");
-}
+	ButtonActor->ChangeButtonText(GameStart, "GAME START");
+	ButtonActor->ChangeButtonText(GameExit, "GAME EXIT");
 
+	Buttons[GameStart]->SetButtonFunction([=]() { GameEngineCore::ChangeLevel("Stage_Lothric"); });
+	Buttons[GameExit]->SetButtonFunction([=]() {GameEngineCore::MainWindow.WindowLoopOff(); });
+}
 
 // State
 constexpr float LogoChangeTime = 4.0f;
@@ -220,6 +221,123 @@ void TitleLogo::Update_DarkSoul(float _Delta, GameEngineState* _State)
 }
 void TitleLogo::Update_AnyButton(float _Delta, GameEngineState* _State)
 {
+	ButtonFlash(_Delta, _State);
+}
+
+// 엔딩시 오는 곳
+void TitleLogo::Start_EndLogo(GameEngineState* _State)
+{
+	Inc_Logo->On();
+	AnyButtonFont->On();
+	AnyBack = true;
+
+	DarkSouls_Logo->GetColorData().MulColor.A = 0.0f;
+}
+
+void TitleLogo::Update_EndLogo(float _Delta, GameEngineState* _State)
+{
+	DarkSouls_Logo->GetColorData().MulColor.A += _Delta * 0.5f;
+
+	if (_State->GetStateTime() >= LogoChangeTime)
+	{
+		_State->ChangeState(eLogoState::AnyButton);
+		return;
+	}
+}
+void TitleLogo::End_EndLogo(GameEngineState* _State)
+{
+
+}
+
+
+
+void TitleLogo::End_BanDai(GameEngineState* _State)
+{
+	BanDaiNamco_Logo->Off();
+}
+void TitleLogo::End_FromSoft(GameEngineState* _State)
+{
+	FromSoft_Logo->Off();
+}
+void TitleLogo::End_DarkSoul(GameEngineState* _State)
+{
+	Inc_Logo->On();
+	AnyButtonFont->On();
+	AnyBack = true;
+
+	DarkSouls_Logo->GetColorData().MulColor.A = 1.0f;
+}
+void TitleLogo::End_AnyButton(GameEngineState* _State)
+{
+	AnyButtonFont->Off();
+	FontScale = 20.0f;
+	AnyButtonFont->ChangeFontScale(FontScale);
+}
+
+void TitleLogo::Start_Done(GameEngineState* _State)
+{
+
+}
+
+
+
+
+#define ButtonBackStartYPos -92.5f
+#define ButtonBackYDistance 32.0f
+
+// 버튼 State
+void TitleLogo::Start_ButtonActor(GameEngineState* _State)
+{
+	Buttons[GameStart]->On();
+	Buttons[GameExit]->On();
+
+	ButtonActor->On();
+
+	AnyButtonBack->Transform.SetLocalPosition(float4(0.0f, ButtonBackStartYPos));
+}
+
+void TitleLogo::Update_ButtonActor(float _Delta, GameEngineState* _State)
+{
+	ButtonOperation();
+
+	if (GameEngineInput::IsDown('E', this))
+	{
+		//GameEngineCore::ChangeLevel("Stage_Lothric");
+		return;
+	}
+}
+void TitleLogo::End_ButtonActor(GameEngineState* _State)
+{
+	Buttons[GameStart]->Off();
+	Buttons[GameExit]->Off();
+}
+
+void TitleLogo::ButtonOperation()
+{
+	if (GameEngineInput::IsDown('E', this))
+	{
+		Buttons[GameExit]->ButtonTrigger();
+	}
+
+	if (GameEngineInput::IsDown(VK_UP, this))
+	{
+		AnyButtonBack->Transform.SetWorldPosition(float4(0.0f, ButtonBackStartYPos));
+	}
+
+	if (GameEngineInput::IsDown(VK_DOWN, this))
+	{
+		AnyButtonBack->Transform.SetWorldPosition(float4(0.0f, ButtonBackStartYPos - ButtonBackYDistance));
+	}
+
+
+
+}
+
+
+
+
+void TitleLogo::ButtonFlash(float _Delta, GameEngineState* _State)
+{
 	if (AnyBack == true && AnyBackColor == false)
 	{
 		AnyButtonBack->GetColorData().MulColor.A += _Delta * 0.5f;
@@ -253,86 +371,11 @@ void TitleLogo::Update_AnyButton(float _Delta, GameEngineState* _State)
 
 	if (FontScale >= 25.0f)
 	{
-		GameEngineCore::ChangeLevel("Stage_Lothric");
+		ButtonState.ChangeState(eButtonState::ButtonActor);
 		_State->ChangeState(eLogoState::Done);
-		ButtonState.ChangeState(eButtonState::BStart);
 		return;
 	}
 }
-
-void TitleLogo::Update_EndLogo(float _Delta, GameEngineState* _State)
-{
-	DarkSouls_Logo->GetColorData().MulColor.A += _Delta * 0.5f;
-	if (_State->GetStateTime() >= LogoChangeTime)
-	{
-		_State->ChangeState(eLogoState::AnyButton);
-		return;
-	}
-}
-
-
-
-void TitleLogo::End_BanDai(GameEngineState* _State)
-{
-	BanDaiNamco_Logo->Off();
-}
-void TitleLogo::End_FromSoft(GameEngineState* _State)
-{
-	FromSoft_Logo->Off();
-}
-void TitleLogo::End_DarkSoul(GameEngineState* _State)
-{
-	Inc_Logo->On();
-	AnyButtonFont->On();
-	AnyBack = true;
-
-	DarkSouls_Logo->GetColorData().MulColor.A = 1.0f;
-}
-void TitleLogo::End_AnyButton(GameEngineState* _State)
-{
-	AnyButtonFont->Off();
-	FontScale = 20.0f;
-	AnyButtonFont->ChangeFontScale(FontScale);
-}
-void TitleLogo::End_EndLogo(GameEngineState* _State)
-{
-	
-}
-
-void TitleLogo::Start_Done(GameEngineState* _State)
-{
-
-}
-
-
-
-
-
-
-// 버튼 State
-void TitleLogo::Update_BStart(float _Delta, GameEngineState* _State)
-{
-	ButtonFont[GameStart]->On();
-	ButtonFont[GameExit]->On();
-}
-void TitleLogo::Update_BExit(float _Delta, GameEngineState* _State)
-{
-
-}
-void TitleLogo::End_BStart(GameEngineState* _State)
-{
-
-}
-void TitleLogo::End_BExit(GameEngineState* _State)
-{
-
-}
-
-//AnyButtonBack->Transform.SetLocalPosition(float4(0.0f, -92.5f));
-//ButtonFont[0]->On();
-//ButtonFont[1]->On();
-
-
 
 
 void TitleLogo::Ending()
