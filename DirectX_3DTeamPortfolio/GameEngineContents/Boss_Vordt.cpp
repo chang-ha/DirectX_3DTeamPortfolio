@@ -1097,6 +1097,7 @@ void Boss_Vordt::Reset()
 		return;
 	}
 
+	mBoss_Phase = Enum_Boss_Phase::Phase_1;
 	SetFlagNull();
 	StatInit();
 	AI_Stop();
