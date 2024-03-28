@@ -219,6 +219,7 @@ void Stage_Lothric::Update_EndingState_FadeOut(float _Delta, GameEngineState* _P
 	if (FadeDone)
 	{
 		CreateBlackScreen();
+		_Parent->ChangeState(Enum_EndingState::Ready);
 		GameEngineCore::ChangeLevel("TitleLevel");
 		return;
 	}
@@ -226,7 +227,6 @@ void Stage_Lothric::Update_EndingState_FadeOut(float _Delta, GameEngineState* _P
 
 void Stage_Lothric::End_EndingState_FadeOut(GameEngineState* _Parent)
 {
-	EndingState.ChangeState(Enum_EndingState::Ready);
 }
 
 #pragma endregion
