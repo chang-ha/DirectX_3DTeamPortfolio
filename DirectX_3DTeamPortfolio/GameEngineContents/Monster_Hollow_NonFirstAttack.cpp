@@ -79,6 +79,8 @@ void Monster_Hollow_NonFirstAttack::Reset()
 	BodyCollision->On();
 	MonsterCollision->On();
 
+	AwakeValue = false;
+
 	ChangeState(Enum_Hollow_State::Pray1);
 }
 
