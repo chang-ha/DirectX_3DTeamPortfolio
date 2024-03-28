@@ -260,8 +260,11 @@ void TitleLogo::Update_EndLogo(float _Delta, GameEngineState* _State)
 void TitleLogo::End_EndLogo(GameEngineState* _State)
 {
 	Inc_Logo->On();
+
+	AnyButtonFont->Transform.SetLocalPosition({ 0.0f, -111.0f, 500.0f });
 	AnyButtonFont->ChangeFontScale(FontScale);
 	AnyButtonFont->On();
+
 	AnyButtonBack->Transform.SetLocalPosition({ 0.0f, -120.0f, 505.0f });
 	AnyButtonBack->On();
 
@@ -317,8 +320,6 @@ void TitleLogo::Update_ButtonActor(float _Delta, GameEngineState* _State)
 }
 void TitleLogo::End_ButtonActor(GameEngineState* _State)
 {
-	/*Buttons[GameStart]->Off();
-	Buttons[GameExit]->Off();*/
 }
 
 void TitleLogo::ButtonOperation()
@@ -334,6 +335,7 @@ void TitleLogo::ButtonOperation()
 
 	if (GameEngineInput::IsDown(VK_RETURN, this) || GameEngineInput::IsDown('E', this) || GameEngineInput::IsDown(VK_SPACE, this))
 	{
+		MainUIActor::SoundPlay("GAMESTART.wav");
 		ButtonState.ChangeState(eButtonState::Done);
 		Buttons[ButtonCheckNum]->ButtonTrigger();
 	}
