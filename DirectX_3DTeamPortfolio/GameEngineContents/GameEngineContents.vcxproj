@@ -497,6 +497,10 @@
     <ClCompile Include="TestMap.cpp" />
     <ClCompile Include="TestMapObject.cpp" />
     <ClCompile Include="TestObject_Shader.cpp" />
+    <ClCompile Include="TitleButton.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TitleLevel.cpp">
       <SubType>
       </SubType>
@@ -903,6 +907,10 @@
     <ClInclude Include="TestMap.h" />
     <ClInclude Include="TestMapObjcet.h" />
     <ClInclude Include="TestObject_Shader.h" />
+    <ClInclude Include="TitleButton.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TitleLevel.h">
       <SubType>
       </SubType>

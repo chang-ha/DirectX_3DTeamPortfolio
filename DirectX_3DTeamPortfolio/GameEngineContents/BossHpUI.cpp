@@ -19,7 +19,7 @@ BossHpUI::~BossHpUI()
 #define BackBarYScale 18.0f
 #define HpBarYScale 11.0f
 
-#define DamageFontScale 18.0f
+#define DamageFontScale 20.0f
 
 void BossHpUI::Start()
 {

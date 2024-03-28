@@ -20,6 +20,8 @@
 #include "UISystemManager.h"
 #include "UIAlertMaanger.h"
 
+#include "Stage_Lothric.h"
+
 #define Frame 0.033f
 
 Player* Player::Main_Player;
@@ -662,7 +664,10 @@ void Player::Start()
 			{
 				std::shared_ptr<Object_bonfire> pActor = col->GetActor()->GetDynamic_Cast_This<Object_bonfire>();
 
+				GameEngineLevel* CurLevel = GetLevel();
+				Stage_Lothric* LothricLevel = dynamic_cast<Stage_Lothric*>(CurLevel);
 				
+				LothricLevel->EndingCheck();
 
 				PlayerRespawnPos = pActor->GetPlayerRespawnPos();
 
