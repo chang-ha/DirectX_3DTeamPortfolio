@@ -90,8 +90,6 @@ void Stage_Lothric::LevelEnd(GameEngineLevel* _NextLevel)
 		BlackScreen = nullptr;
 	}
 
-	BossStageState.ChangeState(Enum_BossStageState::Ready);
-
 	BossBGMEnd();
 
 	if (Ending == true)

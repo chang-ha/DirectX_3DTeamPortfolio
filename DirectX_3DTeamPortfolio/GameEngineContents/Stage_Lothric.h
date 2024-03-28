@@ -165,14 +165,15 @@ private:
 
 	enum class Enum_EndingState
 	{
+		Ready,
 		FadeOut,
 	};
 
 	GameEngineState EndingState;
 
 	void Start_EndingState_FadeOut(GameEngineState* _Parent);
-
 	void Update_EndingState_FadeOut(float _Delta, GameEngineState* _Parent);
+	void End_EndingState_FadeOut(GameEngineState* _Parent);
 
 	void CreateBlackScreen();
 

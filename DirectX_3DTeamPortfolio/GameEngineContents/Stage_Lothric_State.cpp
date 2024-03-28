@@ -30,7 +30,8 @@ void Stage_Lothric::StateInit()
 	BossStageState.CreateState(Enum_BossStageState::Fight, { .Start = std::bind(&Stage_Lothric::Start_BossStage_Fight,this, std::placeholders::_1),   .Stay = std::bind(&Stage_Lothric::Update_BossStage_Fight,this, std::placeholders::_1,std::placeholders::_2) });
 	BossStageState.CreateState(Enum_BossStageState::Clear, { .Start = std::bind(&Stage_Lothric::Start_BossStage_Clear,this, std::placeholders::_1),   .Stay = std::bind(&Stage_Lothric::Update_BossStage_Clear,this, std::placeholders::_1,std::placeholders::_2) });
 
-	EndingState.CreateState(Enum_EndingState::FadeOut, { .Start = std::bind(&Stage_Lothric::Start_EndingState_FadeOut,this, std::placeholders::_1),   .Stay = std::bind(&Stage_Lothric::Update_EndingState_FadeOut,this, std::placeholders::_1,std::placeholders::_2) });
+	EndingState.CreateState(Enum_EndingState::Ready, {  });
+	EndingState.CreateState(Enum_EndingState::FadeOut, { .Start = std::bind(&Stage_Lothric::Start_EndingState_FadeOut,this, std::placeholders::_1),   .Stay = std::bind(&Stage_Lothric::Update_EndingState_FadeOut,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Stage_Lothric::Start_EndingState_FadeOut,this, std::placeholders::_1) });
 }
 
 #pragma region PlayLevel State
@@ -221,6 +222,11 @@ void Stage_Lothric::Update_EndingState_FadeOut(float _Delta, GameEngineState* _P
 		GameEngineCore::ChangeLevel("TitleLevel");
 		return;
 	}
+}
+
+void Stage_Lothric::End_EndingState_FadeOut(GameEngineState* _Parent)
+{
+	BossStageState.ChangeState(Enum_EndingState::Ready);
 }
 
 #pragma endregion
