@@ -99,6 +99,8 @@ private:
 	void Area5_On();
 	void Area6_On();
 
+	void ObjectReset();
+	
 	void CreateObject();
 
 private:

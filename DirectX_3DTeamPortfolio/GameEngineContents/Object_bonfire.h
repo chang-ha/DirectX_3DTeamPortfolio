@@ -16,6 +16,7 @@ public:
 
 	float4 GetPlayerRespawnPos() { return PlayerRespawnPos; };
 	void SetPlayerRespawnPos(float4 _Pos) { PlayerRespawnPos = _Pos; };
+	void CollisionOn() { Col->On(); };
 
 protected:
 	void Start() override;

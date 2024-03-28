@@ -669,7 +669,7 @@ void Stage_Lothric::CreateObject()
 	{
 		BossRoom_bonfire = CreateActor<Object_bonfire>(1);
 		BossRoom_bonfire->Transform.SetWorldPosition({ -1125, -2489 , 3232 });
-		BossRoom_bonfire->SetPlayerRespawnPos({ -1125, -2495 , 3150 });
+		BossRoom_bonfire->SetPlayerRespawnPos({ -1400.0f, 4945.0f, -5330.0f });
 		BossRoom_bonfire->Off();
 		VBonfire.push_back(BossRoom_bonfire);
 	}
@@ -1732,6 +1732,7 @@ void Stage_Lothric::ResetLoading()
 	BossBGMEnd();
 
 	FogWall->Reset();
+	ObjectReset();
 
 	ContentsDebug::NUllCheck(MainUI.get());
 	MainUI->AllUIActorReset();
@@ -1764,3 +1765,10 @@ void Stage_Lothric::EndingCheck()
 	}
 }
 
+void Stage_Lothric::ObjectReset()
+{	
+	for (size_t i = 0; i < VBonfire.size(); i++)
+	{
+		VBonfire[i]->CollisionOn();
+	}
+}
