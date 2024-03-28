@@ -1097,6 +1097,7 @@ void Boss_Vordt::Reset()
 		return;
 	}
 
+	SetFlagNull();
 	StatInit();
 	AI_Stop();
 	BaseActor::SetWorldPosition(ResponPos);
