@@ -103,6 +103,8 @@ void GameEngineWindow::InitInstance()
 	ShowWindow(hWnd, SW_SHOW);
 	UpdateWindow(hWnd);
 
+	// ¸¶¿ì½º
+	ShowCursor(false);
 }
 
 LRESULT CALLBACK GameEngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
