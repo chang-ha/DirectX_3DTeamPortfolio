@@ -300,6 +300,11 @@ void AI_State::Update(float _Delta)
 	CurCoolDown -= _Delta;
 }
 
+void AI_State::Reset()
+{
+	CurCoolDown = 0.f;
+}
+
 void Vordt_HitCollision::Off()
 {
 	BodyCollision->Off();
@@ -1097,6 +1102,15 @@ void Boss_Vordt::Reset()
 		return;
 	}
 
+	for (std::pair<Enum_BossState, AI_State> _Pair : AI_States)
+	{
+		_Pair.second.Reset();
+	}
+
+	Hit_CoolDown = 0.f;
+	HitSoune_Count = 1;
+	Rush_Combo_Count = 0;
+	Groggy_Count = 0;
 	mBoss_Phase = Enum_Boss_Phase::Phase_1;
 	SetFlagNull();
 	StatInit();

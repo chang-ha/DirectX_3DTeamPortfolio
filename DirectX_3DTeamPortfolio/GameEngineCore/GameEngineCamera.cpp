@@ -912,7 +912,7 @@ float4 GameEngineCamera::GetScreenPos(GameEngineTransform& _TargetTransform)
 
 void GameEngineCamera::LevelEnd(GameEngineLevel* _NextLevel)
 {
-	if (false == IsFreeCameraValue)
+	if (true == IsFreeCameraValue)
 	{
 		IsFreeCameraValue = false;
 		GameEngineInput::IsObjectAllInputOn();
