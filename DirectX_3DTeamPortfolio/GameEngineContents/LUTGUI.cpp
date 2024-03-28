@@ -41,6 +41,11 @@ void LUTGUI::LUTEditor(GameEngineLevel* _Level)
 
 	static int SelectLUTIndex = 0;
 
+	if (ImGui::Button("Reset"))
+	{
+		LUTEffect::SetCurLUTNameValue("");
+	}
+
 	if (ImGui::ListBox("LUTList", &SelectLUTIndex, &CObjectNames[0], static_cast<int>(CObjectNames.size())))
 	{
 		std::string LUTName = CObjectNames[SelectLUTIndex];
@@ -52,5 +57,10 @@ void LUTGUI::LUTEditor(GameEngineLevel* _Level)
 		LUTEffect::SetCurLUTNameValue(LUTName);
 	}
 
+	
+
+	ImGui::SliderFloat("Lutweight", &LUTEffect::MainLutInfoValue.Lutweight, 0.0f, 1.f);
+
+	
 	
 }

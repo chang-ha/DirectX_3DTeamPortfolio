@@ -13,6 +13,7 @@ LUTEffect::~LUTEffect()
 std::vector<std::string> LUTEffect::LUTNames;
 
 std::string LUTEffect::CurLUTNameValue;
+LutInfo LUTEffect::MainLutInfoValue;
 
 void LUTEffect::Load()
 {
@@ -38,7 +39,9 @@ void LUTEffect::Load()
 
 void LUTEffect::Start()
 {
-
+	MainLutInfoValue.Lutweight = 0.666f;
+	CurLUTNameValue = "16.Hughes.png";
+	
 	EffectUnit.SetMesh("fullrect");
 	EffectUnit.SetMaterial("LUT");
 
@@ -47,6 +50,7 @@ void LUTEffect::Start()
 	EffectUnit.ShaderResHelper.SetTexture("DiffuseTex", EffectTarget->GetTexture(0));
 	EffectUnit.ShaderResHelper.SetSampler("DiffuseTexSampler", "EngineBaseSampler");
 	EffectUnit.ShaderResHelper.SetSampler("LUTTexSampler", "Linear");
+	EffectUnit.ShaderResHelper.SetConstantBufferLink("LutInfo", MainLutInfoValue);
 
 
 	float4 WindowScale = GameEngineCore::MainWindow.GetScale();

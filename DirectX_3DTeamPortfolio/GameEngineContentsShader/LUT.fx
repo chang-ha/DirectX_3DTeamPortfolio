@@ -1,3 +1,12 @@
+cbuffer LutInfo : register(b12)
+{
+    float Lutweight; 
+    float Def1;
+    float Def2;
+    float Def3;
+};
+
+
 struct GameEngineVertex2D
 {
     float4 POSITION : POSITION;
@@ -85,7 +94,10 @@ float4 LUT_PS(PixelOutPut _Input) : SV_Target0
     
     float4 Color = DiffuseTex.Sample(DiffuseTexSampler, _Input.TEXCOORD.xy);
     
+    float4 LutColor = float4(ApplyLut(Color.rgb), 1.0f);
  
+    float4 Result = float4(lerp(Color.xyz, LutColor.xyz, Lutweight), 1.0f);
     
-    return float4(ApplyLut(Color.rgb),1.0f);
+    return Result;
+
 }

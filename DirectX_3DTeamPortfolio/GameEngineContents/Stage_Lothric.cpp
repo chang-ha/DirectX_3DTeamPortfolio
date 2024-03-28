@@ -140,6 +140,11 @@ void Stage_Lothric::Update(float _Delta)
 	{
 		Player_Object->Off();
 	}
+
+	if (true == GameEngineInput::IsDown('H', this))
+	{
+		GameEngineWindow::ShowCursorOnOff();
+	}
 }
 
 void Stage_Lothric::PlayUpdate(float _Delta)
@@ -1610,10 +1615,10 @@ void Stage_Lothric::ResLoading()
 	}
 	//
 	// Fog
-	/*{
+	{
 		std::shared_ptr<FogEffect> Effect = GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FogEffect>();
 		Effect->Init(GetMainCamera());
-	}*/
+	}
 
 
 	////FXAA
