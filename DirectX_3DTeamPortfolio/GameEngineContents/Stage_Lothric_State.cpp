@@ -31,7 +31,7 @@ void Stage_Lothric::StateInit()
 	BossStageState.CreateState(Enum_BossStageState::Clear, { .Start = std::bind(&Stage_Lothric::Start_BossStage_Clear,this, std::placeholders::_1),   .Stay = std::bind(&Stage_Lothric::Update_BossStage_Clear,this, std::placeholders::_1,std::placeholders::_2) });
 
 	EndingState.CreateState(Enum_EndingState::Ready, {  });
-	EndingState.CreateState(Enum_EndingState::FadeOut, { .Start = std::bind(&Stage_Lothric::Start_EndingState_FadeOut,this, std::placeholders::_1),   .Stay = std::bind(&Stage_Lothric::Update_EndingState_FadeOut,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Stage_Lothric::Start_EndingState_FadeOut,this, std::placeholders::_1) });
+	EndingState.CreateState(Enum_EndingState::FadeOut, { .Start = std::bind(&Stage_Lothric::Start_EndingState_FadeOut,this, std::placeholders::_1),   .Stay = std::bind(&Stage_Lothric::Update_EndingState_FadeOut,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Stage_Lothric::End_EndingState_FadeOut,this, std::placeholders::_1) });
 }
 
 #pragma region PlayLevel State
