@@ -19,6 +19,7 @@ class TitleLogo : public GameEngineActor
 	{
 		None,
 		ButtonActor,
+		Done,
 	};
 
 	enum ButtonType
@@ -64,12 +65,11 @@ protected:
 
 	// 버튼 State
 	void Start_ButtonActor(GameEngineState* _State);
-
 	void Update_ButtonActor(float _Delta, GameEngineState* _State);
-
 	void End_ButtonActor(GameEngineState* _State);
 
-
+	// 다크소울로고 이미지 크기변경
+	void DarkLogoAddScale(const float4& _Value);
 private:
 	std::shared_ptr<class GameEngineSpriteRenderer> DarkBack = nullptr;
 	std::shared_ptr<class GameEngineSpriteRenderer> BanDaiNamco_Logo = nullptr;
@@ -78,14 +78,15 @@ private:
 	std::shared_ptr<class GameEngineSpriteRenderer> Inc_Logo = nullptr;
 
 	std::shared_ptr<class GameEngineSpriteRenderer> AnyButtonBack = nullptr;
-	std::shared_ptr<class GameEngineUIRenderer> AnyButtonFont;
+	std::shared_ptr<class GameEngineUIRenderer> AnyButtonFont = nullptr;
 
 	void ButtonCreate();
-	void ButtonFlash(float _Delta, GameEngineState* _State);
 	void ButtonOperation();
+	void ButtonFlash(float _Delta, GameEngineState* _State); // 깜빡이는
 	void SkipButton(GameEngineState* _State, eLogoState _StateName); // E
 	std::vector<std::shared_ptr<class TitleButton>> Buttons;
 	std::shared_ptr<TitleButton> ButtonActor;
+	int ButtonCheckNum = 0;
 
 	float FontScale = 20.0f;
 	bool AnyBack = false;
@@ -93,7 +94,6 @@ private:
 	bool FontEnter = false;
 
 	GameEngineState Logostate;
-
 	GameEngineState ButtonState;
 
 };

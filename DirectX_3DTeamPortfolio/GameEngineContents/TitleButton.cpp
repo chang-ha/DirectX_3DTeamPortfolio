@@ -34,7 +34,6 @@ void TitleButton::CreateButton(int _Value)
 		std::shared_ptr<GameEngineUIRenderer> ButtonFont = CreateComponent<GameEngineUIRenderer>(Enum_UpdateOrder::UI);
 		ButtonFont->SetText(GlobalValue::OptimusFont, "GAME START", FontScale, float4::WHITE, FW1_CENTER);
 		ButtonFont->Transform.SetLocalPosition(float4(0.0f, ButtonFontStartYPos - (ButtonYDistance * i)));
-		//ButtonFont->Off();
 		
 		Buttons.push_back(ButtonFont);
 	}
@@ -59,7 +58,6 @@ void TitleButton::ButtonTrigger()
 void TitleButton::Release()
 {
 	Buttons.clear();
-
 }
 
 //GameEngineCore::ChangeLevel("Stage_Lothric");
