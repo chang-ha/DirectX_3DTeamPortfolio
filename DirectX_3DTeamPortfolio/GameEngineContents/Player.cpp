@@ -44,7 +44,7 @@ void Player::Start()
 
 	GameEngineInput::AddInputObject(this);
 	
-
+	
 	
 	Capsule = CreateComponent<GameEnginePhysXCapsule>(Enum_CollisionOrder::Player);
 	Capsule->PhysXComponentInit(50.0f, 50.0f);
@@ -526,7 +526,7 @@ void Player::Start()
 			pActor->GetRotation();
 
 
-			if (GameEngineInput::IsDown('E', this))
+			if (GameEngineInput::IsDown('E', this)&& Ladder_Check == false)
 			{
 				float4 Dir = { 0,180,0 };
 				Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
@@ -535,6 +535,8 @@ void Player::Start()
 				PlayerStates.ChangeState(PlayerState::ladder_Up_Start);
 				//UI
 				UISystem->OffSystem();
+
+				Ladder_Check = true;
 			}
 		};
 	Labber_Event.Exit = [this](GameEngineCollision* Col, GameEngineCollision* col)
@@ -586,14 +588,14 @@ void Player::Start()
 		
 
 			
-				if (GameEngineInput::IsDown('E', this))
+				if (GameEngineInput::IsDown('E', this) && Ladder_Check == false)
 				{
 					Capsule->SetWorldPosition(col->Transform.GetWorldPosition());
 					Capsule->SetWorldRotation({ pActor->GetRotation()});
 					
 					Capsule->GravityOff();
 					PlayerStates.ChangeState(PlayerState::ladder_Down_Start);
-
+					Ladder_Check = true;
 					//UI
 					UISystem->OffSystem();
 				}
@@ -703,6 +705,8 @@ void Player::Start()
 
 void Player::Update(float _Delta)
 {
+	//ShowCursor(false);
+
 	if (GameEngineInput::IsDown('M',this))
 	{
 		PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);
@@ -936,11 +940,11 @@ void Player::Update(float _Delta)
 	}
 	
 	//float4 WorldMousePos = { };
-	float4 WorldMousePos2 = { Cameracapsule->Capsule_02->GetDir() };
+//	float4 WorldMousePos2 = { Cameracapsule->Capsule_02->GetDir() };
 
 	//float sd = Cameracapsule->Capsule_02->GetDir();
 
-	OutputDebugStringA(WorldMousePos2.ToString("\n").c_str());
+//	OutputDebugStringA(WorldMousePos2.ToString("\n").c_str());
 //	OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
 
 	
@@ -1048,7 +1052,7 @@ void Player::Update(float _Delta)
 	if (GetTargetPointer() != nullptr)
 	{
 
-		float MonsterAngle;
+		
 		float4 TargetPos = GetTargetPointer()->Transform.GetWorldPosition();
 		float4 MyPos = Actor_test->Transform.GetWorldPosition();
 
@@ -1328,6 +1332,13 @@ void Player::CameraRotation(float Delta)
 
 	if (true == IsFreeCameraValue)
 	{
+		
+
+	}
+	
+
+	else
+	{
 		if (Time > 0.01)
 		{
 			Time = 0;
@@ -1336,13 +1347,6 @@ void Player::CameraRotation(float Delta)
 			PrevPos.X = 960;
 			GameEngineCore::MainWindow.SetMousePos(960, 540);
 		}
-
-	}
-	
-
-	else
-	{
-
 	}
 
 

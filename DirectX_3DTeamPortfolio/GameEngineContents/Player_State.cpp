@@ -25,6 +25,7 @@ void Player::Player_State()
 				Hit.SetHit(false);
 				MainRenderer->ChangeAnimation("Idle");
 				StateValue = PlayerState::Idle;
+				Ladder_Check = false;
 			};
 
 		NewPara.Stay = [=](float _DeltaTime, class GameEngineState* _Parent)
@@ -3158,6 +3159,7 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{		
+					Ladder_Check = false;
 					Body_Col->On();
 					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
 
@@ -3187,6 +3189,7 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					Ladder_Check = false;
 					Body_Col->On();
 					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
 
@@ -3333,6 +3336,7 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					Ladder_Check = false;
 					Body_Col->On();
 					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
 
@@ -3362,6 +3366,7 @@ void Player::Player_State()
 			{
 				if (MainRenderer->IsCurAnimationEnd())
 				{
+					Ladder_Check = false;
 					Body_Col->On();
 					Capsule->ResetMove(Enum_Axies::X | Enum_Axies::Z | Enum_Axies::Y);
 					Capsule->GravityOn();

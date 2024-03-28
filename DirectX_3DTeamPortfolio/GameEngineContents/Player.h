@@ -130,7 +130,7 @@ public:
 	bool Fog_Check = false;
 	bool Fog_Run_Check = false;
 	
-
+	bool Ladder_Check = false;
 	bool adad = false;
 
 	float Camera_Pos_Y = 0.0f;
