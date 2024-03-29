@@ -24,7 +24,7 @@ void TitleLevel::Start()
 	GetMainCamera()->GetCameraAllRenderTarget()->SetClearColor(float4::BLACK);
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
-	CoreWindow = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+	Title_Logo = CreateActor<TitleLogo>();
 }
 
 void TitleLevel::Update(float _Delta)
@@ -32,37 +32,13 @@ void TitleLevel::Update(float _Delta)
 	ContentLevel::Update(_Delta);
 }
 
+void TitleLevel::LevelEnding()
+{
+	Title_Logo->Ending();
+}
+
 void TitleLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	if (nullptr == GameEngineSprite::Find("BanDaiNaco_Logo.png"))
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("ContentsResources");
-		Dir.MoveChild("ContentsResources");
-		Dir.MoveChild("UITexture");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (GameEngineFile& pFiles : Files)
-		{
-			GameEngineTexture::Load(pFiles.GetStringPath());
-			GameEngineSprite::CreateSingle(pFiles.GetFileName());
-		}
-	}
-
-	if (nullptr == GameEngineSprite::Find("DarkSoulsIII_Main_Menu_Theme.wav"))
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("ContentsResources");
-		Dir.MoveChild("ContentsResources\\Sound\\UI");
-
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (GameEngineFile& pFiles : Files)
-		{
-			GameEngineSound::SoundLoad(pFiles.GetStringPath());
-		}
-	}
-
-	Title_Logo = CreateActor<TitleLogo>();
-
 	// Effect
 	FadeObject->FadeIn();
 	FadeObject->On();
@@ -74,30 +50,5 @@ void TitleLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 void TitleLevel::LevelEnd(GameEngineLevel* _NextLevle)
 {
-	TestClear();
-}
-
-void TitleLevel::TestClear()
-{
-	if (nullptr != GameEngineSprite::Find("Dark.Png"))
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("ContentsResources");
-		Dir.MoveChild("ContentsResources");
-		Dir.MoveChild("UITexture");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (GameEngineFile& pFiles : Files)
-		{
-			GameEngineSprite::Release(pFiles.GetFileName());
-			GameEngineTexture::Release(pFiles.GetFileName());
-		}
-	}
-	
 	BGMPlayer.Stop();
-
-	if (nullptr != Title_Logo)
-	{
-		Title_Logo->Death();
-		Title_Logo = nullptr;
-	}
 }

@@ -29,6 +29,9 @@ void Stage_Lothric::StateInit()
 	BossStageState.CreateState(Enum_BossStageState::Ready, { .Start = std::bind(&Stage_Lothric::Start_BossStage_Ready,this, std::placeholders::_1),   .Stay = std::bind(&Stage_Lothric::Update_BossStage_Ready,this, std::placeholders::_1,std::placeholders::_2) });
 	BossStageState.CreateState(Enum_BossStageState::Fight, { .Start = std::bind(&Stage_Lothric::Start_BossStage_Fight,this, std::placeholders::_1),   .Stay = std::bind(&Stage_Lothric::Update_BossStage_Fight,this, std::placeholders::_1,std::placeholders::_2) });
 	BossStageState.CreateState(Enum_BossStageState::Clear, { .Start = std::bind(&Stage_Lothric::Start_BossStage_Clear,this, std::placeholders::_1),   .Stay = std::bind(&Stage_Lothric::Update_BossStage_Clear,this, std::placeholders::_1,std::placeholders::_2) });
+
+	EndingState.CreateState(Enum_EndingState::Ready, {  });
+	EndingState.CreateState(Enum_EndingState::FadeOut, { .Start = std::bind(&Stage_Lothric::Start_EndingState_FadeOut,this, std::placeholders::_1),   .Stay = std::bind(&Stage_Lothric::Update_EndingState_FadeOut,this, std::placeholders::_1,std::placeholders::_2), .End = std::bind(&Stage_Lothric::End_EndingState_FadeOut,this, std::placeholders::_1) });
 }
 
 #pragma region PlayLevel State
@@ -73,10 +76,7 @@ void Stage_Lothric::Update_PlayerDeath(float _Delta, GameEngineState* _Parent)
 	bool PlayerDeathStateDone = (Enum_PlayerDeathState::Done == static_cast<Enum_PlayerDeathState>(PlayerDeathState.GetCurState()));
 	if (PlayerDeathStateDone)
 	{
-		BlackScreen = CreateActor<GameEngineActor>(Enum_UpdateOrder::UI);
-		std::shared_ptr<GameEngineUIRenderer> Renderer = BlackScreen->CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_Loading);;
-		Renderer->GetColorData().MulColor = float4::ZERO;
-		Renderer->SetImageScale(GlobalValue::GetWinScale());
+		CreateBlackScreen();
 		LoadingLevel::LoadingFlag = Enum_LevelFlag::Loading_Reset;
 		GameEngineCore::ChangeLevel("LoadingLevel");
 		return;
@@ -203,3 +203,46 @@ void Stage_Lothric::Update_BossStage_Clear(float _Delta, GameEngineState* _Paren
 
 
 #pragma endregion
+
+#pragma region Ending State
+
+void Stage_Lothric::Start_EndingState_FadeOut(GameEngineState* _Parent)
+{
+	ContentsDebug::NUllCheck(FadeObject.get());
+	FadeObject->FadeOut();
+}
+
+void Stage_Lothric::Update_EndingState_FadeOut(float _Delta, GameEngineState* _Parent)
+{
+	ContentsDebug::NUllCheck(FadeObject.get());
+	bool FadeDone = (false == FadeObject->IsUpdate());
+	if (FadeDone)
+	{
+		CreateBlackScreen();
+		_Parent->ChangeState(Enum_EndingState::Ready);
+		GameEngineCore::ChangeLevel("TitleLevel");
+		return;
+	}
+}
+
+void Stage_Lothric::End_EndingState_FadeOut(GameEngineState* _Parent)
+{
+}
+
+#pragma endregion
+
+
+
+
+void Stage_Lothric::CreateBlackScreen()
+{
+	if (nullptr != BlackScreen)
+	{
+		BlackScreen->Death();
+	}
+
+	BlackScreen = CreateActor<GameEngineActor>(Enum_UpdateOrder::UI);
+	std::shared_ptr<GameEngineUIRenderer> Renderer = BlackScreen->CreateComponent<GameEngineUIRenderer>(Enum_RenderOrder::UI_Loading);;
+	Renderer->GetColorData().MulColor = float4::ZERO;
+	Renderer->SetImageScale(GlobalValue::GetWinScale());
+}

@@ -669,6 +669,10 @@ void Monster_LothricKn::Start_B_Stab(GameEngineState * _State)
 
 void Monster_LothricKn::Start_B_Stab_Death(GameEngineState * _State)
 {
+	if (Capsule)
+	{
+		Capsule->Off();
+	}
 	OffAllCollision();
 	MainRenderer->ChangeAnimation("B_Stab_Death");
 }

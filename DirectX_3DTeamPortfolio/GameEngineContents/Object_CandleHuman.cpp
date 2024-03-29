@@ -27,7 +27,7 @@ void Object_CandleHuman::Start()
 		FBXRenderer->SetStatic();
 
 		FBXRenderer->RenderBaseInfoValue.IsNormal = -1;
-		FBXRenderer->RenderBaseInfoValue.ForceSpecularColor = { 0.45f,0.35f,0.0f,1.0f };
+		//FBXRenderer->RenderBaseInfoValue.ForceSpecularColor = { 0.45f,0.35f,0.0f,1.0f };
 
 	}
 	{

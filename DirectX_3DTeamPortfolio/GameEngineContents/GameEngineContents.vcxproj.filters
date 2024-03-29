@@ -142,9 +142,6 @@
     <ClCompile Include="TitleLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="TitleLogo.cpp">
-      <Filter>Actor\UI</Filter>
-    </ClCompile>
     <ClCompile Include="Monster_HollowSoldier_RoundShield.cpp">
       <Filter>Actor\Monster\Hollow</Filter>
     </ClCompile>
@@ -445,6 +442,12 @@
     <ClCompile Include="UISystemManager.cpp">
       <Filter>Actor\UI\Player\SystemObject</Filter>
     </ClCompile>
+    <ClCompile Include="TitleLogo.cpp">
+      <Filter>Actor\UI\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleButton.cpp">
+      <Filter>Actor\UI\Title</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -584,9 +587,6 @@
     </ClInclude>
     <ClInclude Include="TitleLevel.h">
       <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleLogo.h">
-      <Filter>Actor\UI</Filter>
     </ClInclude>
     <ClInclude Include="Monster_HollowSoldier_RoundShield.h">
       <Filter>Actor\Monster\Hollow</Filter>
@@ -882,6 +882,12 @@
     <ClInclude Include="UISystemManager.h">
       <Filter>Actor\UI\Player\SystemObject</Filter>
     </ClInclude>
+    <ClInclude Include="TitleLogo.h">
+      <Filter>Actor\UI\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleButton.h">
+      <Filter>Actor\UI\Title</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -1045,6 +1051,9 @@
     </Filter>
     <Filter Include="Actor\UI\Player\SystemObject">
       <UniqueIdentifier>{2b520a6e-b641-4fdf-b10c-56d4ae13bc86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\Title">
+      <UniqueIdentifier>{ee389eae-4b5c-44bf-888b-f5cc0ec8df8e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -125,6 +125,7 @@ struct AI_State
 	}
 
 	void Update(float _Delta);
+	void Reset();
 
 	float StateCoolDown = 0.f;
 	float CurCoolDown = 0.f;

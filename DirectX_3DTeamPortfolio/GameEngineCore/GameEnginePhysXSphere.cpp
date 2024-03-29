@@ -52,6 +52,11 @@ void GameEnginePhysXSphere::Release()
 
 void GameEnginePhysXSphere::PhysXComponentInit(float _Radius, const physx::PxMaterial* _Material /*= GameEnginePhysX::GetDefaultMaterial()*/)
 {
+	if (nullptr != ComponentActor)
+	{
+		return;
+	}
+
 	physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
 
 	float4 WolrdPos = Transform.GetWorldPosition();

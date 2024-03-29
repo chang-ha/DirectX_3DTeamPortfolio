@@ -1972,7 +1972,7 @@ void Monster_HollowSoldier_RoundShield::State_AfterGuardBreakHit_Update(float _D
 	{
 		if (MainRenderer->GetCurAnimationFrame() >= 140)
 		{
-			ChangeState(Enum_HollowSoldier_RoundShield_State::BackAttackDeath);
+			ChangeState(Enum_HollowSoldier_RoundShield_State::AfterGuardBreakDeath);
 			return;
 		}
 	}

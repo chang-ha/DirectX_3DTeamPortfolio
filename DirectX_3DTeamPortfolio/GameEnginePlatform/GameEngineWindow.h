@@ -98,7 +98,12 @@ public:
 		return { static_cast<float>(iScreenCx) , static_cast<float>(iScreenCy) };
 	}
 
-	
+	static void ShowCursorOnOff()
+	{
+		static bool CursorValue = false;
+		CursorValue = !CursorValue;
+		ShowCursor(CursorValue);
+	}
 
 protected:
 

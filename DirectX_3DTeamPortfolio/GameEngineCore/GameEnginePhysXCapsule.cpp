@@ -43,6 +43,11 @@ void GameEnginePhysXCapsule::Release()
 
 void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight, const physx::PxMaterial* _Material /*= GameEnginePhysX::GetDefaultMaterial()*/)
 {
+	if (nullptr != ComponentActor)
+	{
+		return;
+	}
+
 	// Before Init Set Transform
 	physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
 
@@ -66,17 +71,17 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 	CapsuleActor = Physics->createRigidDynamic(Transform);
 	CapsuleActor->attachShape(*Shape);
 	physx::PxRigidBodyExt::updateMassAndInertia(*CapsuleActor, 0.01f);
-	// CapsuleActor->setMassSpaceInertiaTensor(physx::PxVec3(0.f));
+	CapsuleActor->setMassSpaceInertiaTensor(physx::PxVec3(0.f));
 
 	ComponentActor = CapsuleActor;
 
 	// 축 고정 기능 (추후 필요시 사용)
-	CapsuleActor->setRigidDynamicLockFlags
-	 (
-	 	physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X |
-	 	physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y |
-	 	physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z
-	 );
+	//CapsuleActor->setRigidDynamicLockFlags
+	// (
+	// 	physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X |
+	// 	physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y |
+	// 	physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z
+	// );
 
 	Scene->lockWrite();
 	Scene->addActor(*ComponentActor);

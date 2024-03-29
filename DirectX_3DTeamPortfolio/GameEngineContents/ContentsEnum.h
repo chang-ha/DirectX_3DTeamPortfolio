@@ -57,4 +57,5 @@ enum class Enum_CollisionOrder
 	Bonfire = (1 << 23),
 	Fog_Wall_Out = (1 << 24),
 	Trigger = (1 << 25),
+	UI = (1 << 26),
 };

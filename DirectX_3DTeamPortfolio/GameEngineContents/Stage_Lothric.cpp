@@ -56,6 +56,8 @@
 #include "MainUIActor.h"
 #include "UILocationAlert.h"
 
+#include "TitleLevel.h"
+
 // Effect
 #include "AllFadeEffect.h"
 
@@ -88,7 +90,20 @@ void Stage_Lothric::LevelEnd(GameEngineLevel* _NextLevel)
 		BlackScreen = nullptr;
 	}
 
-	BossStageState.ChangeState(Enum_BossStageState::Ready);
+	BossBGMEnd();
+
+	if (Ending == true)
+	{
+		Ending = false;
+		std::shared_ptr<TitleLevel> EndingLevel = _NextLevel->GetDynamic_Cast_This<TitleLevel>();
+		if (EndingLevel == nullptr)
+		{
+			return;
+		}
+		EndingLevel->LevelEnding();
+	}
+
+	BossStageState.ChangeState(Enum_EndingState::Ready);
 }
 
 void Stage_Lothric::Start()
@@ -125,10 +140,17 @@ void Stage_Lothric::Update(float _Delta)
 	{
 		Player_Object->Off();
 	}
+
+	if (true == GameEngineInput::IsDown('H', this))
+	{
+		GameEngineWindow::ShowCursorOnOff();
+	}
 }
 
 void Stage_Lothric::PlayUpdate(float _Delta)
 {
+	EndingState.Update(_Delta);
+
 	if (true == GameEngineInput::IsDown('L', this))
 	{
 		Player_Object->SetFlag(Enum_ActorFlag::Death, true);
@@ -139,6 +161,10 @@ void Stage_Lothric::PlayUpdate(float _Delta)
 //////////////////////////////////////// 몬스터 배치
 void Stage_Lothric::SetAllMonster()
 {
+	if (false == AllMonster.empty())
+	{
+		return;
+	}
 	////// Area0
 	// 0
 	{
@@ -417,6 +443,11 @@ void Stage_Lothric::AllMonsterOff()
 
 void Stage_Lothric::SetAllEvCol()
 {
+	if (false == AllEvCol.empty())
+	{
+		return;
+	}
+
 	{
 		std::shared_ptr<EventCol> EventCollision = CreateActor<EventCol>(Enum_UpdateOrder::Player, "EventCollision");
 		EventCollision->SetWorldPosition({ -1885.0f, 5015.0f, -3987.0f });
@@ -643,7 +674,7 @@ void Stage_Lothric::CreateObject()
 	{
 		BossRoom_bonfire = CreateActor<Object_bonfire>(1);
 		BossRoom_bonfire->Transform.SetWorldPosition({ -1125, -2489 , 3232 });
-		BossRoom_bonfire->SetPlayerRespawnPos({ -1125, -2495 , 3150 });
+		BossRoom_bonfire->SetPlayerRespawnPos({ -1400.0f, 4945.0f, -5330.0f });
 		BossRoom_bonfire->Off();
 		VBonfire.push_back(BossRoom_bonfire);
 	}
@@ -1584,10 +1615,10 @@ void Stage_Lothric::ResLoading()
 	}
 	//
 	// Fog
-	/*{
+	{
 		std::shared_ptr<FogEffect> Effect = GetMainCamera()->GetCameraDeferredTarget()->CreateEffect<FogEffect>();
 		Effect->Init(GetMainCamera());
-	}*/
+	}
 
 
 	////FXAA
@@ -1603,15 +1634,15 @@ void Stage_Lothric::ResLoading()
 	{
 		Player_Object = CreateActor<Player>(200, "Player");
 		// 볼드 위치
-		//Player_Object->SetWorldPosition({ -2800.f, -2500.f, 6700.f });
+		Player_Object->SetWorldPosition({ -2800.f, -2500.f, 6700.f });
 		// 안개 테스트 위치 
 		// Player_Object->SetWorldPosition({ -3417.f, -2552.f, 7606.f });
-		
+
 		// 테스트 위치
 		//Player_Object->SetWorldPosition({ -8011.0f, 907.0f, 3547.0f });
 		// 
 		//시작 위치
-		Player_Object->SetWorldPosition({ -1400.0f, 4945.0f, -5330.0f });
+		//Player_Object->SetWorldPosition({ -1400.0f, 4945.0f, -5330.0f });
 		Player_Object->SetWorldRotation({ 0.f, 0.f, 0.f });
 		//Player_Object->SetTargeting(Boss_Object.get());
 		Boss_Object->SetTargeting(Player_Object.get());
@@ -1706,6 +1737,7 @@ void Stage_Lothric::ResetLoading()
 	BossBGMEnd();
 
 	FogWall->Reset();
+	ObjectReset();
 
 	ContentsDebug::NUllCheck(MainUI.get());
 	MainUI->AllUIActorReset();
@@ -1727,4 +1759,21 @@ void Stage_Lothric::BossBGMEnd()
 	}
 
 	BossBGM.Stop();
+}
+
+void Stage_Lothric::EndingCheck()
+{
+	if (true == Boss_Object->IsFlag(Enum_ActorFlag::Death))
+	{
+		Ending = true;
+		EndingState.ChangeState(Enum_EndingState::FadeOut);
+	}
+}
+
+void Stage_Lothric::ObjectReset()
+{	
+	for (size_t i = 0; i < VBonfire.size(); i++)
+	{
+		VBonfire[i]->CollisionOn();
+	}
 }

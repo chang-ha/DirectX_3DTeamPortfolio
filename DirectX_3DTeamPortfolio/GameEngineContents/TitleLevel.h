@@ -15,6 +15,8 @@ public:
 	TitleLevel& operator = (const TitleLevel& _Other) = delete;
 	TitleLevel& operator = (TitleLevel&& _Other) noexcept = delete;
 
+	void LevelEnding();
+
 protected:
 	void Start() override;
 
@@ -22,8 +24,6 @@ protected:
 
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NetxLevel) override;
-
-	void TestClear();
 
 private:
 	std::shared_ptr<class GameEngineCoreWindow> CoreWindow;

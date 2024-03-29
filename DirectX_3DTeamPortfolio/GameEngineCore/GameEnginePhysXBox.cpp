@@ -29,6 +29,11 @@ void GameEnginePhysXBox::Release()
 
 void GameEnginePhysXBox::PhysXComponentInit(float _hX, float _hY, float _hZ, bool _IsMovingBox /*= false*/, const physx::PxMaterial* _Material /*= GameEnginePhysX::GetDefaultMaterial()*/)
 {
+	if (nullptr != ComponentActor)
+	{
+		return;
+	}
+
 	physx::PxPhysics* Physics = GameEnginePhysX::GetPhysics();
 
 	float4 WolrdPos = Transform.GetWorldPosition();
