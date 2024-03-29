@@ -707,14 +707,6 @@ void Player::Update(float _Delta)
 {
 	//ShowCursor(false);
 
-	if (GameEngineInput::IsDown('M',this))
-	{
-		PlayerStates.ChangeState(PlayerState::Forward_Big_Hit);
-	}
-	if (GameEngineInput::IsDown('B', this))
-	{
-		PlayerStates.ChangeState(PlayerState::Backward_Big_Hit);
-	}
 
 	//Shield_Col->On();
 	float4 revolution = float4::VectorRotationToDegY(float4{ 0.0f, 150.0f, 50.0f }, Transform.GetWorldRotationEuler().Y);
@@ -724,24 +716,11 @@ void Player::Update(float _Delta)
 
 	// 디버그 용도 
 
-	if (GameEngineInput::IsDown('B', this))
-	{
-		GetContentLevel()->StartScreenShake(0.5,8.f,10.f);
-	}
+	
 
-	if (GameEngineInput::IsDown(VK_F1, this))
-	{
-		Cameratest = !Cameratest;
-	}
-
-	if (true == Cameratest)
-	{
-		int a = 0;
-	}
-	else if (false == Cameratest)
-	{
-		CameraRotation(_Delta);
-	}
+	
+	CameraRotation(_Delta);
+	
 
 
 	if (GameEngineInput::IsDown('1', this))
@@ -1304,8 +1283,7 @@ void Player::CameraRotation(float Delta)
 
 
 
-	testaa = false;
-	testa = false;
+	
 
 	
 
@@ -1357,7 +1335,8 @@ void Player::CameraRotation(float Delta)
 
 
 	
-
+	testaa = false;
+	testa = false;
 
 }
 
@@ -1627,30 +1606,13 @@ void Player::Reset()
 	SetWorldPosition({ PlayerRespawnPos });
 	SetWorldRotation({ 0.f, 0.f, 0.f });
 
-	Actor_test->Death();
-	Actor_test_02->Death();
 
 
 	GetLevel()->GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
 
-	{
-		Actor_test = GetLevel()->CreateActor<GameEngineActor>();
-	}
-
-	{
-		Actor_test_02 = GetLevel()->CreateActor<GameEngineActor>();
-		Actor_test_02->SetParent(Actor_test);
-
-
-		Actor_test_02->Transform.SetLocalPosition({ 0.0f,0.0f,-250.0f });
-
-	}
 
 
 	Actor_test->Transform.SetWorldPosition({ Capsule->GetWorldPosition().x,Capsule->GetWorldPosition().y + 140.0f, Capsule->GetWorldPosition().z });
-
-	
-
 
 	Actor_test_02->Transform.SetLocalPosition({ 0.0f,0.0f,-250.0f });
 
@@ -1665,7 +1627,7 @@ void Player::Reset()
 	Body_Col->On();
 	Fog_Check = false;
 
-
+	Potion = 5;
 
 	//-16547, 3380, 2100
 	SetFlag(Enum_ActorFlag::Death, false); 
