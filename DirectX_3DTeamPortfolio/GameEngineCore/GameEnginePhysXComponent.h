@@ -189,7 +189,7 @@ protected:
 	GameEngineActor* ParentActor = nullptr;
 	physx::PxRigidActor* ComponentActor = nullptr;
 	physx::PxShape* Shape = nullptr;
-
+	physx::PxMaterial* const* Material = nullptr;
 private:
 	bool IsPositioningComponent = false;
 

@@ -41,6 +41,7 @@ void GameEnginePhysXBox::PhysXComponentInit(float _hX, float _hY, float _hZ, boo
 
 	Shape = Physics->createShape(physx::PxBoxGeometry(_hX, _hY, _hZ), *_Material);
 	Shape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
+	Material = (physx::PxMaterial* const*)_Material;
 
 	physx::PxVec3 Pos = { WolrdPos.X, WolrdPos.Y , WolrdPos.Z };
 	physx::PxQuat Quat = physx::PxQuat(WorldQuat.X, WorldQuat.Y, WorldQuat.Z, WorldQuat.W);

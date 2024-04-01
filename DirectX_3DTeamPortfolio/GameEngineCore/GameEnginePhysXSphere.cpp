@@ -69,6 +69,7 @@ void GameEnginePhysXSphere::PhysXComponentInit(float _Radius, const physx::PxMat
 	physx::PxShape* Sphereshape = Physics->createShape(physx::PxSphereGeometry(_Radius), *_Material);
 	ComponentActor = Physics->createRigidDynamic(Transform);
 	ComponentActor->attachShape(*Sphereshape);
+	Material = (physx::PxMaterial* const*)_Material;
 
 	Scene->addActor(*ComponentActor);
 

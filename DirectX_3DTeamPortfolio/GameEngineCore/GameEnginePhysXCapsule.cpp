@@ -55,6 +55,7 @@ void GameEnginePhysXCapsule::PhysXComponentInit(float _Radius, float _HalfHeight
 	float4 WorldDeg = Transform.GetWorldRotationEuler();
 	
 	Shape = Physics->createShape(physx::PxCapsuleGeometry(_Radius, _HalfHeight), *_Material); // 캡슐이 똑바로 서있는 모양은 1/4Pi 만큼 회전 필요
+	Material = (physx::PxMaterial* const*)_Material;
 
 	physx::PxVec3 Pos = { WolrdPos.X, WolrdPos.Y , WolrdPos.Z };
 	// WorldDeg.Z += physx::PxHalfPi * GameEngineMath::R2D;

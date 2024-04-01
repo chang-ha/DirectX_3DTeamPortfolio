@@ -365,8 +365,14 @@ void GameEnginePhysXComponent::CollisionOff(bool _GravityOff /*= true*/)
 
 void GameEnginePhysXComponent::ChangeMaterial(physx::PxMaterial* const* _Material)
 {
+	if (_Material == Material)
+	{
+		return;
+	}
+
 	Scene->lockWrite();
 	ComponentActor->detachShape(*Shape);
+	Material = _Material;
 	Shape->setMaterials(_Material, 1);
 	ComponentActor->attachShape(*Shape);
 	Scene->unlockWrite();
