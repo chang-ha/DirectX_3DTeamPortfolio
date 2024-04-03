@@ -104,9 +104,4 @@
       <UniqueIdentifier>{26f2cbbe-e859-4d44-bfa9-720a1fc93b86}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="47기 쉐이더 규칙.txt">
-      <Filter>Header</Filter>
-    </Text>
-  </ItemGroup>
 </Project>
