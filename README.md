@@ -27,7 +27,8 @@
 ### Thrid Party
 * [FMOD Core API 2.02][FMOD]
 * [NVIDIA PhysX SDK 4.1][NVIDIA]
-* [FBX SDK 2020.3.2][FBX]
+* [FBX SDK 2020.3.4][FBX]
+* [ImGui v1.90 WIP][imgui]
 * [FW1FontWrapper][FW1Font]
 ***
 #### 참고 링크
@@ -39,4 +40,5 @@
 [FMOD]: https://www.fmod.com/docs/2.02/api/core-guide.html "FMOD 사이트 링크"
 [NVIDIA]: https://gameworksdocs.nvidia.com/PhysX/4.1/documentation/physxguide/Index.html "PhysX 4.1 유저 가이드링크"
 [FBX]: https://www.autodesk.com/developer-network/platform-technologies/fbx-sdk-2020-3 "FBX SDK 링크"
+[imgui]: https://github.com/ocornut/imgui/releases "ImGui 깃허브 링크"
 [FW1Font]: https://github.com/gamelaster/FW1FontWrapper "FW1FontWrapper 깃허브 링크"
