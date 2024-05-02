@@ -56,6 +56,11 @@ void ContentLevel::Update(float _Delta)
 	{
 		FadeObject->FadeOut();
 	}
+
+	if (true == GameEngineInput::IsDown('H', this))
+	{
+		GameEngineWindow::ShowCursorOnOff();
+	}
 }
 
 void ContentLevel::UpdateScreenShake(float _deltaTime)

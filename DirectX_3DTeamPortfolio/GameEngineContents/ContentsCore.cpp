@@ -53,7 +53,7 @@ void ContentsCore::Start()
 	//GameEngineCore::CreateLevel<TestLevel_ObjectTest>("TestLevel_ObjectTest");
 	GameEngineCore::CreateLevel<LoadingLevel>("LoadingLevel");
 	
-	GameEngineCore::ChangeLevel("TitleLevel");
+	GameEngineCore::ChangeLevel("Stage_Lothric");
 	
 
 	GameEnginePhysX::PushSkipCollisionPair(3, Enum_CollisionOrder::Monster, Enum_CollisionOrder::Big_Camera, Enum_CollisionOrder::Camera);

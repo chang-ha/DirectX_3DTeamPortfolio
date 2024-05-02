@@ -76,6 +76,11 @@ class SoundSystemCreator
 public:
 	SoundSystemCreator()
 	{
+		if (S_OK != CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED))
+		{
+			MsgBoxAssert("COM Init Fail");
+		}
+
 		// 이런 외부 함수는 내부에서 new를 하고 있습니다.
 		if (FMOD_RESULT::FMOD_OK != FMOD::System_Create(&SoundSystem))
 		{
@@ -86,7 +91,7 @@ public:
 		{
 			MsgBoxAssert("사운드 시스템 이니셜라이즈에 실패했습니다.");
 		}
-		
+
 		// 3D Setting
 		// dopplerscale -> 가까워지거나 멀어지면 피치가 올라가고 내려감
 		// distancefactor -> 도플러값에만 영향을 미침

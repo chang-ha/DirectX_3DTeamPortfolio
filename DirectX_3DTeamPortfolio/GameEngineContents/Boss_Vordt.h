@@ -5,23 +5,6 @@
 #define STAT_COOLDOWN 1.f
 #define HIT_COOLDOWN 0.5f
 
-// 설명 :
-class Boss_State_GUI : public GameEngineGUIWindow
-{
-	friend class Boss_Vordt;
-public:
-	void Start() override;
-	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
-	
-protected:
-
-private:
-	std::vector<const char*> StateNames;
-	std::vector<int> StateIndex;
-	Boss_Vordt* Linked_Boss = nullptr;
-	void Reset();
-};
-
 enum Enum_BossState
 {
 	// Move & Others
@@ -103,6 +86,23 @@ enum Enum_Boss_Phase
 	Phase_Null = 0,
 	Phase_1 = 1,
 	Phase_2 = 2,
+};
+
+// 설명 :
+class Boss_State_GUI : public GameEngineGUIWindow
+{
+	friend class Boss_Vordt;
+public:
+	void Start() override;
+	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
+	
+protected:
+
+private:
+	std::vector<const char*> StateNames;
+	std::vector<int> StateIndex;
+	Boss_Vordt* Linked_Boss = nullptr;
+	void Reset();
 };
 
 struct AI_State
@@ -212,6 +212,8 @@ protected:
 
 	bool GetHit(const HitParameter& _Para = HitParameter()) override;
 	bool GetHitToShield(const HitParameter& _Para = HitParameter()) override;
+	void LightOn();
+	void LightOff();
 
 private: 
 	// RockOnCollision

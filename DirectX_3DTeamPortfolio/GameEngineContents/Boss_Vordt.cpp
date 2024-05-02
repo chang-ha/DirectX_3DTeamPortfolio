@@ -524,7 +524,7 @@ void Boss_Vordt::Start()
 	if (nullptr == Capsule)
 	{
 		Capsule = CreateComponent<GameEnginePhysXCapsule>();
-		Capsule->PhysXComponentInit(PHYSX_RADIUS, PHYSX_HALFHEIGHT);
+		Capsule->PhysXComponentInit(PHYSX_RADIUS, PHYSX_HALFHEIGHT, nullptr);
 		Capsule->SetPositioningComponent();
 		Capsule->SetFiltering(Enum_CollisionOrder::Monster);
 	}
@@ -737,7 +737,7 @@ void Boss_Vordt::Start()
 	if (nullptr == RockOnCollision)
 	{
 		RockOnCollision = CreateComponent<GameEngineCollision>(Enum_CollisionOrder::Monster);
-		RockOnCollision->Transform.SetLocalPosition({ 0.f, PHYSX_RADIUS / 2.f + PHYSX_HALFHEIGHT, 0.f });
+		RockOnCollision->Transform.SetLocalPosition({ 0.f, PHYSX_RADIUS + PHYSX_HALFHEIGHT, 0.f });
 		RockOnCollision->Transform.SetWorldScale({ 1.f, 1.f, 1.f });
 	}
 
@@ -992,6 +992,20 @@ void Boss_Vordt::Update(float _Delta)
 	PhaseChangeCheck();
 	HitUpdate(_Delta);
 	FaceLightUpdate();
+
+	if (true == GameEngineInput::IsDown('P', this))
+	{
+		OnOffSwitch();
+	}
+
+	if (true == GameEngineInput::IsDown('K', this))
+	{
+		AI_Start();
+	}
+	if (true == GameEngineInput::IsDown('L', this))
+	{
+		AI_Stop();
+	}
 }
 
 void Boss_Vordt::Release()
@@ -1044,7 +1058,7 @@ void Boss_Vordt::AI_Start()
 void Boss_Vordt::AI_Stop()
 {
 	MainState.ChangeState(Enum_BossState::Idle);
-	DummyPolySoundOff();
+	// DummyPolySoundOff();
 	AI_Off = true;
 	mHitCollision.Off();
 }
@@ -1350,6 +1364,7 @@ std::shared_ptr< ContentsLight> Boss_Vordt::FaceLightInit()
 	Light->SetLightData(Data);
 
 	return Light;
+	// return nullptr;
 
 }
 
@@ -1361,13 +1376,28 @@ void Boss_Vordt::FaceLightUpdate()
 	float4 revolution = float4::VectorRotationToDegY(float4{ 0.0f, 250.0f, 350.0f }, RotationY);
 	mFaceLight.FaceLightForward->Transform.SetLocalPosition(WorldPostion + revolution);
 
-	revolution = float4::VectorRotationToDegY(float4{ 0.0f, 250.0f, -350.0f }, RotationY);
-	mFaceLight.FaceLightBack->Transform.SetLocalPosition(WorldPostion + revolution);
+	//revolution = float4::VectorRotationToDegY(float4{ 0.0f, 250.0f, -350.0f }, RotationY);
+	//mFaceLight.FaceLightBack->Transform.SetLocalPosition(WorldPostion + revolution);
 
-	revolution = float4::VectorRotationToDegY(float4{ 350.0f, 250.0f, 0.0f }, RotationY);
-	mFaceLight.FaceLightRight->Transform.SetLocalPosition(WorldPostion + revolution);
+	//revolution = float4::VectorRotationToDegY(float4{ 350.0f, 250.0f, 0.0f }, RotationY);
+	//mFaceLight.FaceLightRight->Transform.SetLocalPosition(WorldPostion + revolution);
 
-	revolution = float4::VectorRotationToDegY(float4{ -350.0f, 250.0f, 0.0f }, RotationY);
-	mFaceLight.FaceLightLeft->Transform.SetLocalPosition(WorldPostion + revolution);
+	//revolution = float4::VectorRotationToDegY(float4{ -350.0f, 250.0f, 0.0f }, RotationY);
+	//mFaceLight.FaceLightLeft->Transform.SetLocalPosition(WorldPostion + revolution);
 }
 
+void Boss_Vordt::LightOn()
+{
+	mFaceLight.FaceLightForward->On();
+	mFaceLight.FaceLightBack->On();
+	mFaceLight.FaceLightRight->On();
+	mFaceLight.FaceLightLeft->On();
+}
+
+void Boss_Vordt::LightOff()
+{
+	mFaceLight.FaceLightForward->Off();
+	mFaceLight.FaceLightBack->Off();
+	mFaceLight.FaceLightRight->Off();
+	mFaceLight.FaceLightLeft->Off();
+}

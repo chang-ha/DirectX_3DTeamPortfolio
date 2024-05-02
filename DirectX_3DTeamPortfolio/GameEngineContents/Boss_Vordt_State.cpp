@@ -6,8 +6,8 @@
 // CoolDown
 #define JUMP_COOLDOWN 5.f
 #define NORMAL_ATTACK_COOLDOWN 15.f
-#define COMBO_COOLDOWN1 20.f
-#define COMBO_COOLDOWN2 40.f
+#define COMBO_COOLDOWN1 30.f
+#define COMBO_COOLDOWN2 60.f
 
 // Att
 #define BOSS_ATT 10

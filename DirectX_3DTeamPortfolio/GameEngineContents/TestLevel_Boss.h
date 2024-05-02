@@ -24,7 +24,7 @@ protected:
 	
 private:
 	std::shared_ptr<class Boss_Vordt> Boss_Object = nullptr;
-	std::shared_ptr<class ContentsLight> Test_Light = nullptr;
+	std::shared_ptr<class ContentsLight> Test_Light1 = nullptr;
 	std::shared_ptr<class Player> TestPlayer = nullptr;
 	std::shared_ptr<class WorldMap> MapObject = nullptr;
 };
