@@ -32,11 +32,11 @@
 * [FW1FontWrapper][FW1Font]
 ***
 #### 참고 링크
-* ###### 프로젝트 플레이 영상 : [프로젝트 유브트 링크][YouTube]
+* ###### 프로젝트 플레이 영상 : [프로젝트 유튜브 링크][YouTube]
 * ###### 프로젝트 계획서 : [프로젝트 계획서 링크][GoogleSheet]
 
 [GoogleSheet]: https://docs.google.com/spreadsheets/d/1dXpYrz47kX-MZUgCUIkiazt9lNqZZAvJnZAshiVaFQE/edit?usp=sharing "프로젝트 계획서 링크"
-[YouTube]: https://www.youtube.com/ "프로젝트 유트브 링크"
+[YouTube]: https://www.youtube.com/watch?v=iqox7R0WdYM "프로젝트 유트브 링크"
 [FMOD]: https://www.fmod.com/docs/2.02/api/core-guide.html "FMOD 사이트 링크"
 [NVIDIA]: https://gameworksdocs.nvidia.com/PhysX/4.1/documentation/physxguide/Index.html "PhysX 4.1 유저 가이드링크"
 [FBX]: https://www.autodesk.com/developer-network/platform-technologies/fbx-sdk-2020-3 "FBX SDK 링크"
