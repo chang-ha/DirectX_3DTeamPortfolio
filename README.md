@@ -1,4 +1,4 @@
-# DirectX_3D DARK SOULS™ III 모작
+# DARK SOULS™ III 모작
 해당 팀프로젝트는 DirectX_3D 공부 목적으로 만든 프로젝트입니다.  
 
     모작 게임 : DARK SOULS™ III
