@@ -24,6 +24,21 @@
 |8|김성균| 맵 오브젝트|
 ***
 
+### 조작키
+
+|가상키|역할|
+|:---:|:---:|
+|W,A,S,D|상,하,좌,우 이동키|
+|C + 이동키|느린 이동|
+|Shift + 이동키|빠른 이동|
+|L_Button|Player 공격|
+|R_Button|Player 막기|
+|Space|Player 구르기|
+|R|Player 물약 마시기|
+|Ctrl|Player 패링 키|
+
+***
+
 ### Thrid Party
 * [FMOD Core API 2.02][FMOD]
 * [NVIDIA PhysX SDK 4.1][NVIDIA]
